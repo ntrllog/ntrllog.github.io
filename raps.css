@@ -1,0 +1,18 @@
+body, html {
+  background-image: url('pexels-photo-302655.jpeg');
+  background-size: cover;
+}
+
+.container h3 {
+  margin-top: 3%;
+  color: white;
+}
+
+.col-md-3 {
+  font-size: 12px;
+}
+
+.col-md-3 p {
+  border: 1px solid purple;
+  color: grey;
+}

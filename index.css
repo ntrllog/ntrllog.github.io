@@ -1,0 +1,55 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  background-color: rgb(31,26,22);
+}
+
+.jumbotron {
+  background-image: url('beach.jpg');
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.jumbotron h1,
+.jumbotron h3 {
+  color: white;
+  text-align: center;
+  font-family: "Helvetica";
+}
+
+#profile {
+  height: 30%;
+  width: 15%;
+  border-radius: 100%;
+  border: 1px black solid;
+  display: block;
+  margin: 0 auto;
+}
+
+.about {
+  color: grey;
+  font-size: 17px;
+}
+
+#self_full {
+  height: 80%;
+  width: 70%;
+  margin-top: 5%;
+  display: block;
+}
+
+#pc {
+  font-size: 10px;
+}
+
+.about_text {
+  margin-top: 20%;
+}
+
+.footer {
+  background-color: black;
+}

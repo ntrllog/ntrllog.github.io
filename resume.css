@@ -1,0 +1,87 @@
+html, body {
+  font-family: "Trebuchet MS";
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 1%;
+}
+
+.info {
+  display: flex;
+}
+
+.info h1 {
+  font-size: 40px;
+}
+
+.info ul {
+  width: 70%;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  margin-top: 1%;
+}
+
+.info li {
+  margin-left: 5%;
+  margin-right; 5%;
+}
+
+.school {
+  margin-top: 2%;
+}
+
+.coursework ul {
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+}
+
+.coursework li {
+  margin-right: 5%;
+}
+
+.experience {
+  margin-top: 2%;
+}
+
+.experience .col-md-2 {
+  text-align: center;
+}
+
+.experience .col-md-2 p {
+  margin: 0 auto;
+}
+
+.experience .col-md-10 p {
+  margin: 0 auto;
+}
+
+.skills {
+  margin-top: 2%;
+  display: flex;
+}
+
+.skills ul {
+  height: 100%;
+  width: 100%;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+}
+
+.skills li {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.projects {
+  margin-top: 2%;
+}
+
+.extras {
+  margin-top: 2%;
+}
+
+.extras p {
+  margin: 0 auto;
+}
