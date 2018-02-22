@@ -3,8 +3,12 @@ body, html {
   background-size: cover;
 }
 
-.container h3 {
+.container h2 {
   margin-top: 3%;
+  color: white;
+}
+
+.container h5 {
   color: white;
 }
 

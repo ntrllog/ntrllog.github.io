@@ -35,21 +35,6 @@ body, html {
   font-size: 17px;
 }
 
-#self_full {
-  height: 80%;
-  width: 70%;
-  margin-top: 5%;
-  display: block;
-}
-
-#pc {
-  font-size: 10px;
-}
-
-.about_text {
-  margin-top: 20%;
-}
-
 .footer {
   background-color: black;
 }
