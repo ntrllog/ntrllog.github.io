@@ -4,6 +4,10 @@ body, html {
   background-color: rgb(31,26,22);
 }
 
+.navbar {
+  position: fixed;
+}
+
 .jumbotron {
   background-image: url('beach.jpg');
   height: 100%;
