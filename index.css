@@ -14,13 +14,6 @@ body, html {
   justify-content: center;
 }
 
-.jumbotron h1,
-.jumbotron h3 {
-  color: white;
-  text-align: center;
-  font-family: "Helvetica";
-}
-
 #profile {
   height: 30%;
   width: 15%;
@@ -30,9 +23,20 @@ body, html {
   margin: 0 auto;
 }
 
+.jumbotron h1,
+.jumbotron h3 {
+  color: white;
+  text-align: center;
+  font-family: "Helvetica";
+}
+
 .about {
   color: grey;
   font-size: 17px;
+}
+
+#tab {
+  padding-left: 3%;
 }
 
 .footer {
