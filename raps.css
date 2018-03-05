@@ -1,23 +1,16 @@
 body, html {
+  background-size: contain;
+  background-color: black;
   background-image: url('pexels-photo-302655.jpeg');
-  background-size: cover;
+  background-position: center;
 }
 
-.navbar {
-  position: fixed;
-}
-
-.jumbotron {
-  background-image: url('pexels-photo-302655.jpeg');
-  background-size: cover;
-}
-
-.jumbotron h2 {
+h2 {
   margin-top: 3%;
   color: white;
 }
 
-.jumbotron h5 {
+h5 {
   color: white;
 }
 
@@ -27,5 +20,5 @@ body, html {
 
 .col-md-3 p {
   border: 1px solid purple;
-  color: grey;
+  color: white;
 }

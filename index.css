@@ -4,10 +4,6 @@ body, html {
   background-color: rgb(31,26,22);
 }
 
-.navbar {
-  position: fixed;
-}
-
 .jumbotron {
   background-image: url('beach.jpg');
   height: 100%;
@@ -16,6 +12,7 @@ body, html {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 0;
 }
 
 #profile {
