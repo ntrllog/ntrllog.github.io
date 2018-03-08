@@ -1,0 +1,44 @@
+body {
+    background-color: aquamarine;
+}
+
+h2 {
+    margin-top: 3%;
+}
+
+.jumbotron {
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+.bagels_section {
+    background: url('tara-evans-558138-unsplash.jpg') no-repeat center center fixed;
+    background-size: cover;
+    text-align: center;
+}
+
+.text_box {
+    background-color: #ffffff;
+    opacity: 0.5;
+    margin-bottom: 3%;
+}
+
+#bagels_header {
+    margin-left: 1%;
+    text-align: left;
+    font-weight: bold;
+    color: #512DA8;
+}
+
+#bagels_description {
+    text-align: left;
+    margin-left: 2%;
+    font-weight: bold;
+    color: #673AB7;
+}
+
+#bagels_start,
+#bagels_win {
+    width: 60%;
+    height: auto;
+}
