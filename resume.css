@@ -6,25 +6,12 @@ html, body {
   margin-bottom: 5%;
 }
 
-.info {
-  display: flex;
-}
-
 .info h1 {
   font-size: 40px;
 }
 
-.info ul {
-  width: 70%;
-  list-style-type: none;
-  display: flex;
-  align-items: center;
-  margin-top: 1%;
-}
-
-.info li {
-  margin-left: 5%;
-  margin-right: 5%;
+.info p {
+  margin: 5% 0;
 }
 
 .school {
