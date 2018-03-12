@@ -4,7 +4,7 @@ body, html {
   background-color: rgb(31,26,22);
 }
 
-.jumbotron {
+.front {
   background-image: url('beach.jpg');
   height: 100%;
   background-position: center;
@@ -12,20 +12,10 @@ body, html {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 0;
 }
 
-#profile {
-  height: 30%;
-  width: 15%;
-  border-radius: 100%;
-  border: 1px black solid;
-  display: block;
-  margin: 0 auto;
-}
-
-.jumbotron h1,
-.jumbotron h3 {
+.front h1,
+.front h3 {
   color: white;
   text-align: center;
   font-family: "Helvetica";
@@ -33,7 +23,40 @@ body, html {
 
 .about {
   color: grey;
-  font-size: 17px;
+  background-color: black;
+  text-align: center;
+}
+
+.about h1 {
+  margin-bottom: 3%;
+}
+
+.about p {
+  margin-top: 3%;
+}
+
+#profile {
+  height: 15%;
+  width: 15%;
+  border-radius: 100%;
+  border: 1px black solid;
+  display: block;
+  margin: 0 auto;
+}
+
+.random {
+  background-color: black;
+  color: gray;
+}
+
+#text-carousel {
+  padding: 10%;
+}
+
+.carousel-content {
+  padding-left: 5%;
+  padding-right: 5%;
+  min-height: 200px;
 }
 
 #tab {
