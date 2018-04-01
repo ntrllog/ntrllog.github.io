@@ -1,19 +1,19 @@
 @media print {
     html {
-        padding-left: 0;
-        padding-top: 3%;
+      padding-left: 0;
+      padding-top: 3%;
     }
     
     body {
-        color: #000;
-        background: #fff;
-        font: 12pt Georgia;
+      color: #000;
+      background: #fff;
+      font: 12pt Georgia;
     }
 
     @page {
-        size: 8.5in 11in;
-        margin: 0;
-        padding: 0;
+      size: 8.5in 11in;
+      margin: 0;
+      padding: 0;
     }
 
     .col-print-1 {width:8%; float:left;}
