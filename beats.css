@@ -1,5 +1,5 @@
 body, html {
-  background-image: url('corey-blaz-5003-unsplash.jpg');
+  background-image: url('./pictures/corey-blaz-5003-unsplash.jpg');
   background-size: 100%;
   background-repeat: repeat-y;
 }
