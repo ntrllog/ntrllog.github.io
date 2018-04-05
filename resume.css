@@ -18,6 +18,10 @@ html, body {
   margin-top: 2%;
 }
 
+#tab {
+  padding-left: 3%;
+}
+
 .coursework ul {
   list-style-type: none;
   display: flex;
