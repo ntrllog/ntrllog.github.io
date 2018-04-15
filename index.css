@@ -63,6 +63,10 @@ body, html {
   padding-left: 3%;
 }
 
+#letter {
+  max-width: 100%;
+}
+
 .footer {
   background-color: black;
 }
