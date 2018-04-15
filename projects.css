@@ -12,7 +12,7 @@ h2 {
 }
 
 .bagels_section {
-    background: url('./pictures/tara-evans-558138-unsplash.jpg') no-repeat center center fixed;
+    background: url('./pictures/bagels/tara-evans-558138-unsplash.jpg') no-repeat center center fixed;
     background-size: cover;
     text-align: center;
 }
@@ -37,8 +37,7 @@ h2 {
     color: #673AB7;
 }
 
-#bagels_start,
-#bagels_win {
-    width: 60%;
+.bagels {
+    width: 100%;
     height: auto;
 }

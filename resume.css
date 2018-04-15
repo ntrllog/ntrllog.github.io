@@ -48,6 +48,10 @@ html, body {
   margin: 0 auto;
 }
 
+.second_row_exp {
+  margin-top: 2%;
+}
+
 .skills {
   margin-top: 2%;
   display: flex;
