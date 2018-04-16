@@ -9,10 +9,11 @@ h2 {
   color: white;
 }
 
-h5 {
+h5, h6 {
   color: silver;
 }
 
-.audio-box {
-  margin-top: 2%;
+.text-box {
+  background-color: #ffffff;
+  opacity: 0.5;
 }
