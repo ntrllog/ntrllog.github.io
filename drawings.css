@@ -1,3 +1,12 @@
+body {
+  background-color: #581845;
+}
+
 h2 {
   margin-top: 3%;
+  color: #FF5733;
+}
+
+h5 {
+  color: #FF5733;
 }
