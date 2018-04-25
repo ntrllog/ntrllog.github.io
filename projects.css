@@ -3,6 +3,7 @@ body {
 }
 
 h2 {
+  color: #0D3895;
   margin-top: 3%;
 }
 
@@ -18,7 +19,7 @@ h2 {
 
 .text_box {
   background-color: #ffffff;
-  opacity: 0.5;
+  opacity: 0.7;
   margin-bottom: 3%;
 }
 
@@ -26,14 +27,14 @@ h2 {
   margin-left: 1%;
   text-align: left;
   font-weight: bold;
-  color: #512DA8;
+  color: #7B1FA2;
 }
 
 #bagels_description {
   text-align: left;
   margin-left: 2%;
   font-weight: bold;
-  color: #673AB7;
+  color: #7B1FA2;
 }
 
 .bagels {
