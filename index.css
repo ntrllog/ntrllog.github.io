@@ -5,20 +5,27 @@ body, html {
 }
 
 .front {
-  background-image: url('./pictures/beach.jpg');
+  background-image: url('./pictures/tracks.jpg');
   height: 100%;
   background-position: center;
   background-size: cover;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
+  margin-bottom: 0;
 }
 
-.front h1,
-.front h3 {
+.front h1 {
   color: white;
   text-align: center;
   font-family: "Helvetica";
+}
+
+.caption {
+  color: white;
+  text-align: right;
+  margin-bottom: 2%;
+  margin-right: 2%;
 }
 
 .about {
