@@ -1,0 +1,15 @@
+.banner {
+  font-family: 'Trebuchet MS';
+  text-align: center;
+}
+
+.post {
+  font-family: 'Times New Roman';
+  margin-left: 13%;
+  margin-right: 40%;
+}
+
+.title {
+  text-align: left;
+  font-family: 'Trebuchet MS';
+}
