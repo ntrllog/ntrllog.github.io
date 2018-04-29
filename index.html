@@ -80,10 +80,10 @@
           <div class="carousel-item">
             <div class="carousel-content">
               <p>A string of digits:</p>
-              <button onclick="myFunction()">Take a Guess</button>
-              <p id="demo"></p>
+              <button onclick="displayAnswer()">Take a Guess</button>
+              <p id="answer"></p>
               <script>
-              function myFunction() {
+              function displayAnswer() {
                 var text;
                 var guess = prompt("There's likely a better way to ask for a guess");
                 if (guess == "112114") {
@@ -92,7 +92,7 @@
                 else {
                   text = "Nope";
                 }
-                document.getElementById("demo").innerHTML = text;
+                document.getElementById("answer").innerHTML = text;
               }
               </script>
               <p id="tab">Hint: Two twins make a double, repeat again to get a square.</p>
