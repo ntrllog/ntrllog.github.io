@@ -15,3 +15,7 @@
   text-align: left;
   font-family: 'Trebuchet MS';
 }
+
+#more_beginning, #more_function {
+  display: none;
+}

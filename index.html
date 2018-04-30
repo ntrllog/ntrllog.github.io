@@ -82,19 +82,6 @@
               <p>A string of digits:</p>
               <button onclick="displayAnswer()">Take a Guess</button>
               <p id="answer"></p>
-              <script>
-              function displayAnswer() {
-                var text;
-                var guess = prompt("There's likely a better way to ask for a guess");
-                if (guess == "112114") {
-                  text = "Yep";
-                }
-                else {
-                  text = "Nope";
-                }
-                document.getElementById("answer").innerHTML = text;
-              }
-              </script>
               <p id="tab">Hint: Two twins make a double, repeat again to get a square.</p>
             </div>
           </div>
@@ -126,7 +113,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md">
-            <p>April 28, 2018<p>
+            <p>April 30, 2018<p>
           </div>
           <div class="col-md">
             <p class="right"><a href="#top">Back to top</a></p>
@@ -137,5 +124,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
   </body>
 </html>
