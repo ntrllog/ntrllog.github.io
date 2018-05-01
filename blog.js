@@ -23,3 +23,16 @@ function functions() {
         b.style.display = "inline";
     }
 }
+
+function hsCulture() {
+    var x = document.getElementById("more_hs_culture");
+    var b = document.getElementById("more_hs_culture_button");
+    if (x.style.display === "none" || x.style.display == "") {
+        x.style.display = "block";
+        b.style.display = "none";
+    }
+    else {
+        x.style.display = "none";
+        b.style.display = "inline";
+    }
+}
