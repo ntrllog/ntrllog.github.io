@@ -23,3 +23,16 @@ function hsCulture() {
         b.style.display = "inline";
     }
 }
+
+function learningMath() {
+    var x = document.getElementById("more_learning_math");
+    var b = document.getElementById("more_learning_math_button");
+    if (x.style.display === "none" || x.style.display == "") {
+        x.style.display = "block";
+        b.style.display = "none";
+    }
+    else {
+        x.style.display = "none";
+        b.style.display = "inline";
+    }   
+}
