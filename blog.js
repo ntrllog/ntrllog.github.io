@@ -36,3 +36,16 @@ function learningMath() {
         b.style.display = "inline";
     }   
 }
+
+function haircut() {
+    var x = document.getElementById("more_haircut");
+    var b = document.getElementById("more_haircut_button");
+    if (x.style.display === "none" || x.style.display == "") {
+        x.style.display = "block";
+        b.style.display = "none";
+    }
+    else {
+        x.style.display = "none";
+        b.style.display = "inline";
+    }   
+}
