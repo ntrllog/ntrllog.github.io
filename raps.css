@@ -3,6 +3,7 @@ body, html {
   background-color: black;
   background-image: url('./pictures/pexels-photo-302655.jpeg');
   background-position: center;
+  padding-top: 20px;
 }
 
 h2 {

@@ -1,5 +1,6 @@
-body {
+body, html {
   background-color: aquamarine;
+  padding-top: 20px;
 }
 
 h2 {

@@ -1,3 +1,7 @@
+.navbar-toggler {
+  border-color: gray;
+}
+
 .banner {
   font-family: 'Trebuchet MS';
   text-align: center;
