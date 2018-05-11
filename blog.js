@@ -49,3 +49,16 @@ function haircut() {
     b.style.display = "inline";
   }   
 }
+
+function grammar() {
+  var x = document.getElementById("more_grammar");
+  var b = document.getElementById("more_grammar_button");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "block";
+    b.style.display = "none";
+  }
+  else {
+    x.style.display = "none";
+    b.style.display = "inline";
+  }   
+}
