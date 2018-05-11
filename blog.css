@@ -20,6 +20,12 @@
   font-family: 'Trebuchet MS';
 }
 
+#haircut {
+  height: 30%;
+  width: 30%;
+  margin-left: 13%;
+}
+
 #more_function, #more_hs_culture, #more_learning_math, #more_haircut {
   display: none;
 }
