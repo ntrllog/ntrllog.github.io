@@ -11,3 +11,16 @@ h2 {
 h5, h6 {
   color: #FF5733;
 }
+
+.jumbotron {
+  background-color: black;
+}
+
+.img-fluid {
+  margin-top: 5%;
+}
+
+p {
+  color: gray;
+  margin-bottom: 0;
+}
