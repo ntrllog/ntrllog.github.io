@@ -62,3 +62,16 @@ function grammar() {
     b.style.display = "inline";
   }   
 }
+
+function siren() {
+  var x = document.getElementById("more_siren");
+  var b = document.getElementById("more_siren_button");
+  if (x.style.display === "none" || x.style.display == "") {
+    x.style.display = "block";
+    b.style.display = "none";
+  }
+  else {
+    x.style.display = "none";
+    b.style.display = "inline";
+  }
+}
