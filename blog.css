@@ -20,6 +20,10 @@
   font-family: 'Trebuchet MS';
 }
 
+.date {
+  color: gray;
+}
+
 #more_function, #more_hs_culture, #more_learning_math, #more_haircut, #more_grammar {
   display: none;
 }
