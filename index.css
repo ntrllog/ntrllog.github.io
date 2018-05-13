@@ -4,6 +4,10 @@ body, html {
   background-color: rgb(31,26,22);
 }
 
+.navbar {
+  background-color: black;
+}
+
 .front {
   background-image: url('./pictures/tracks.jpg');
   height: 100%;

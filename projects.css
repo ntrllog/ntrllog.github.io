@@ -3,6 +3,10 @@ body, html {
   padding-top: 20px;
 }
 
+.navbar {
+  background-color: black;
+}
+
 h2 {
   color: #0D3895;
   margin-top: 3%;

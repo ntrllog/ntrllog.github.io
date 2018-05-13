@@ -2,6 +2,10 @@
   border-color: gray;
 }
 
+.navbar {
+  background-color: white;
+}
+
 .banner {
   font-family: 'Trebuchet MS';
   text-align: center;
