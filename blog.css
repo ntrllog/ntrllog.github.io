@@ -9,6 +9,7 @@
 .banner {
   font-family: 'Trebuchet MS';
   text-align: center;
+  padding-top: 9%;
 }
 
 .post {
@@ -28,8 +29,14 @@
   color: gray;
 }
 
-#more_function, #more_hs_culture, #more_learning_math, #more_haircut, #more_grammar, #more_siren {
-  display: none;
+.btn {
+  color: gray;
+  background-color: white;
+}
+
+.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 #back2Top {
