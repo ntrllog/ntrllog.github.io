@@ -21,6 +21,10 @@ h5 {
   color: grey;
 }
 
+p {
+  padding-left: 1%;
+}
+
 .post {
   border: 1px solid purple;
   color: gray;
