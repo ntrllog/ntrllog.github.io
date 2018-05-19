@@ -32,26 +32,37 @@
       <h5>Currently reading <i>The New Drawing on the Right Side of the Brain</i> by Betty Edwards</h5>
       <h6>(And I am amazed by the results)</h6>
       <div class="jumbotron">
+        <p>Click to enlarge</p>
         <div class="row">
           <div class="col-md">
-            <img class="img-fluid" src="./pictures/drawings/Igor Stravinsky.jpg">
+            <img class="img-fluid" data-toggle="modal" data-target="#myModal" src="./pictures/drawings/Igor Stravinsky.jpg">
             <p>4/21/18</p>
             <p>Pablo Picasso's <i>Portrait of Igor Stravinksy</i></p>
             <p>My first attempt at drawing</p>
-            <img class="img-fluid" src="./pictures/drawings/chair.jpg">
+            <img class="img-fluid" data-toggle="modal" data-target="#myModal" src="./pictures/drawings/chair.jpg">
             <p>5/12/18</p>
-            <p>A chair</p>
           </div>
           <div class="col-md">
-            <img class="img-fluid" src="./pictures/drawings/Knight.jpg">
+            <img class="img-fluid" data-toggle="modal" data-target="#myModal" src="./pictures/drawings/Knight.jpg">
             <p>4/22/18</p>
             <p>A sixteenth century drawing by an unknown German artist</p>
           </div>
           <div class="col-md">
-            <img class="img-fluid" src="./pictures/drawings/hand_1.jpg">
-            <img class="img-fluid" src="./pictures/drawings/hand_2.jpg">
+            <img class="img-fluid" data-toggle="modal" data-target="#myModal" src="./pictures/drawings/hand_1.jpg">
+            <img class="img-fluid" data-toggle="modal" data-target="#myModal" src="./pictures/drawings/hand_2.jpg">
             <p>5/5/18</p>
-            <p>My hand</p>
+          </div>
+          <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <img class="img-responsive" src="" />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -3,28 +3,33 @@ body, html {
     padding-top: 20px;
   }
   
-  .navbar {
-    background-color: black;
-  }
+.navbar {
+  background-color: black;
+}
   
-  h2 {
-    margin-top: 3%;
-    color: #FF5733;
-  }
+h2 {
+  margin-top: 3%;
+  color: #FF5733;
+}
   
-  h5, h6 {
-    color: #FF5733;
-  }
+h5, h6 {
+  color: #FF5733;
+}
   
-  .jumbotron {
-    background-color: black;
-  }
+.jumbotron {
+  background-color: black;
+}
   
-  .img-fluid {
-    margin-top: 5%;
-  }
+.img-fluid {
+  margin-top: 5%;
+}
   
-  p {
-    color: gray;
-    margin-bottom: 0;
-  }
+p {
+  color: gray;
+  margin-bottom: 0;
+}
+
+.img-responsive {
+  height: auto;
+  width: 100%;
+}
