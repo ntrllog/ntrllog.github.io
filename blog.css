@@ -1,3 +1,7 @@
+body, html {
+  padding-top: 50px;
+}
+
 .navbar-toggler {
   border-color: gray;
 }
