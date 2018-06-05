@@ -35,7 +35,10 @@ body, html {
 .about {
   color: grey;
   background-color: black;
-  text-align: center;
+  display: flex;
+  align-content: center;
+  justify-items: center;
+  height: 100%;
 }
 
 .about h1 {
@@ -44,10 +47,10 @@ body, html {
 
 .about p {
   margin-top: 3%;
+  text-align: center;
 }
 
 #profile {
-  height: 15%;
   width: 15%;
   border-radius: 100%;
   border: 1px black solid;
