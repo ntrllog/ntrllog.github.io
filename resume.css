@@ -2,86 +2,38 @@ html, body {
   font-family: "Trebuchet MS";
   padding-left: 5%;
   padding-right: 5%;
-  padding-top: 1%;
+  padding-top: 2%;
   margin-bottom: 5%;
 }
 
-.info h1 {
-  font-size: 40px;
+.tab {
+  margin-left: 50px;
 }
 
-.info p {
-  margin: 5% 0;
+.container {
+  margin-top: 5%;
 }
 
-.school {
-  margin-top: 2%;
-}
-
-#tab {
-  padding-left: 3%;
-}
-
-.coursework ul {
-  list-style-type: none;
-  display: flex;
-  padding: 0;
-}
-
-.coursework li {
-  margin-right: 5%;
-}
-
-.experience {
-  margin-top: 2%;
-}
-
-.experience .col-md-2 {
+.center {
   text-align: center;
 }
 
-.experience .col-md-2 p {
-  margin: 0 auto;
+.link {
+  color: gray;
+  text-decoration: underline;
+  text-decoration-color: gray;
 }
 
-.experience .col-md-10 p {
-  margin: 0 auto;
+.info {
+  border-bottom: 1px solid gray;
 }
 
-.second_row_exp {
-  margin-top: 2%;
-}
-
-.skills {
-  margin-top: 2%;
+.info .col-md {
   display: flex;
-}
-
-.skills ul {
-  height: 100%;
-  width: 100%;
-  list-style-type: none;
-  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.skills li {
-  margin-left: 2%;
-  margin-right: 2%;
-}
-
-.projects {
-  margin-top: 2%;
-}
-
-.projects p {
-  margin: 0;
-}
-
-.extras {
-  margin-top: 2%;
-}
-
-.extras p {
-  margin: 0 auto;
+.skills .col-sm {
+  text-align: right;
 }

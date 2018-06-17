@@ -12,8 +12,6 @@
 
     @page {
       size: 8.5in 11in;
-      margin: 0;
-      padding: 0;
     }
 
     .col-print-1 {width:8%; float:left;}
