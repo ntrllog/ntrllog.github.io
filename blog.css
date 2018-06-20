@@ -20,7 +20,7 @@ body, html {
   margin-left: 13%;
   margin-right: 40%;
   margin-top: 5%;
-  margin-bottom: 15%;
+  margin-bottom: 10%;
 }
 
 .title {
@@ -55,7 +55,7 @@ body, html {
   transform: rotate(270deg);
   position: fixed;
   bottom: 50px;
-  right: 20px;
+  right: 50px;
   background-color: #DDD;
   color: #555;
   text-align: center;
