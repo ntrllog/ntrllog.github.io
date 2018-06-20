@@ -24,7 +24,7 @@ h2 {
 
 .text_box {
   background-color: #ffffff;
-  opacity: 0.7;
+  opacity: 0.8;
   margin-bottom: 3%;
 }
 
@@ -47,12 +47,12 @@ h2 {
   height: auto;
 }
 
-.rap_player_section {
-  background: url('./pictures/jonathan-velasquez-160775-unsplash.jpg') no-repeat center fixed;
+.web_dev_section {
+  background: url('./pictures/webdevforbeg_bg.jpg') no-repeat center fixed;
   background-size: cover;
 }
 
-.rap_player {
+.web_dev {
   width: 30%;
   height: auto;
 }
