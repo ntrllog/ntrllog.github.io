@@ -42,6 +42,10 @@ body, html {
   box-shadow: none !important;
 }
 
+code {
+  color: black;
+}
+
 #back2Top {
   width: 40px;
   line-height: 40px;

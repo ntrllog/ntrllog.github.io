@@ -283,6 +283,34 @@
       </div>
       <a class="btn toggle-text" data-toggle="collapse" href="#collapseImagine"><span>Read more</span><span class="hidden">Read less</span></a>
     </div>
+    <p id="return">.</p>
+    <div class="post">
+      <h4 class="title">The Point of Some Return</h4>
+      <h6 class="date">June 21, 2018</h6>
+      <p>The concept of "return" is a difficult one. To understand and to explain.</p>
+      <p>When I first started learning how to code, I did not understand what return meant. No matter how many times the professor went over it (he wasn't bad!), I just couldn't wrap my head around it. I don't remember exactly - or even vaguely, for that matter - what words he used to explain what return does. I do remember the context in which it was introduced though.</p>
+      <div class="collapse" id="collapseReturn">
+        <p><code>public int addTwo(int x) {<br>&ensp;int y = x + 2;<br>&ensp;return y;<br>}</code></p>
+        <p>Not the exact example, but something more or less like this was on the slides. Just a random function that did something and returned a value. Whatever return meant. If I had to guess, I imagine the professor explained return by saying it "passed back the value" or "sends the value back" or something. Back WHERE?? WHERE did the value go when it was "returned"?</p>
+        <p>The curious thing about explaining return is that it's really hard to explain in words without restating the definition of return.</p>
+        <p>Of course, the concept of return totally makes sense to me now. But I still don't really know how to explain it. In words anyways. If I had to try to explain it, I would probably give an example and hope that it makes sense.</p>
+        <div class="row">
+          <div class="col-sm-5">
+            <p><code>public int addTwo(int x) {<br>&ensp;int y = x + 2;<br>&ensp;return y;<br>}<br>int a = addTwo(3);</code></p>
+          </div>
+          <div class="col-sm-3">
+            <p>Or in Python:<br>(Which might be easier to understand)</p>
+          </div>
+          <div class="col-sm-3">
+            <p><code>def addTwo(x):<br>&ensp;y = x + 2<br>&ensp;return y<br><br>a = addTwo(3)</code></p>
+          </div>
+        </div>
+        <p>In either case, a is equal to 5.</p>
+        <p>Seeing that extra line at the end (<code>a = addTwo(3)</code>) <i>along</i> with the function definition is when I finally understood return.</p>
+        <p>Hmm. Now that I think about it, I could explain return without restating the definition. I would say that return is the output of a function. Besides being a piece of code that is reused to perform a task - or being <a href="#function">something that does something</a> - a function could be (seen as) a machine that takes in an input and spits out an output. Return is what does the spitting out.</p>
+      </div>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseReturn"><span>Read more</span><span class="hidden">Read less</span></a>
+    </div>
     <a id="back2Top" title="Back to top" href="#">&#10148;</a>
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
