@@ -10,7 +10,7 @@ body, html {
 
 .front {
   background-image: url('./pictures/tracks.jpg');
-  height: 100%;
+  height: 90%;
   background-position: center;
   background-size: cover;
   display: flex;
