@@ -38,6 +38,7 @@ body, html {
   display: flex;
   align-content: center;
   justify-items: center;
+  margin: 0 auto;
   height: 100%;
 }
 
