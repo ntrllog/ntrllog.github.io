@@ -23,16 +23,13 @@ html, body {
   text-decoration-color: gray;
 }
 
-.info {
-  border-bottom: 1px solid gray;
-}
-
 .info .col-md {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.skills .col-sm {
-  text-align: right;
+li {
+  display: inline;
+  padding-right: 50px;
 }

@@ -8,6 +8,7 @@
       color: #000;
       background: #fff;
       font: 12pt Georgia;
+      padding-left: 0;
     }
 
     @page {
@@ -22,7 +23,7 @@
     .col-print-2 {width:16%; float:left;}
     .col-print-3 {width:25%; float:left;}
     .col-print-4 {width:33%; float:left;}
-    .col-print-5 {width:42%; float:left;}
+    .col-print-5 {width:42%; float:left; text-align: center;}
     .col-print-6 {width:50%; float:left;}
     .col-print-7 {width:58%; float:left;}
     .col-print-8 {width:66%; float:left;}
