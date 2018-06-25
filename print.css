@@ -15,6 +15,10 @@
       size: 8.5in 11in;
     }
 
+    button {
+      display: none;
+    }
+
     .container {
       margin-top: 3%;
     }
