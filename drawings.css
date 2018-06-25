@@ -23,6 +23,10 @@ h5, h6 {
 .img-fluid {
   margin-top: 5%;
 }
+
+img:hover {
+  transform: scale(1.1);
+}
   
 p {
   color: gray;
