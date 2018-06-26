@@ -29,210 +29,33 @@
       <h1>In Search of Something</h1>
       <h6>What it is, I don't know. But it's gotta be more than a better title.</h6>
     </div>
-    <p id="beginning">.</p>
+    <p id="return">.</p>
     <div class="post">
-      <h4 class="title">The Beginning</h4>
-      <h6 class="date">April 28, 2018</h6>
-      <p>I've never fancied myself a great writer. Or even a writer, for that matter. In fact, I don't even know why I'm writing this. Not just this post, but this sentence.</p>
-      <p>This word.</p>
-      <p>This letter.</p>
-      <p>Letter. Maybe that's it. Maybe I'm just writing a letter and mailing it to no one in particular. Maybe someone will open their mailbox and find this letter waiting to be opened and read. Or maybe it will get lost in the mail and never be read.</p>
-      <p>I suppose this would be the beginning of this blog. The problem with the beginning is you never know what's at the end or what you might find along the way. Perhaps that's not such a bad thing. But does the road through the beginning always have to be such a long and difficult one? There are no other roads and I've already come this far. So I might as well just keep going. Who knows? This might turn out to be a fun adventure.</p>
-    </div>
-    <p id="function">.</p>
-    <div class="post">
-      <h4 class="title">Something That Does Something</h4>
-      <h6 class="date">April 29, 2018</h6>
-      <p>What is a function? Those of you familiar with programming might say that a function is a piece of code that is reused throughout your code to perform a task. Those of you thinking in terms of higher-level math might (loosely) define it as a mapping from a set to another set. Those of you more comfortable with lower-level math might describe it as ... well, I'm not sure actually.</p>
-      <div class="collapse" id="collapseFunction">
-        <p>I remember being asked this question at an interview. It was for a tutoring position where I would have to help children with programming. So I had to explain what a function was so that a child could understand.</p>
-        <p>This question - a rubber ball to the prepared, a spear to those who weren't - was thrown at me. Its sharp point grazed my brain. My brain stopped for a few seconds in shock, realizing what could've happened if it had been thrown a few more millimeters to the side. I had been programming with functions for 2 years and I still didn't know what they were!? My brain started running around in circles. It fell, got back up, started running, fell again, got back up again, started running again ... When it finally stopped to rest, it came up with "a function is something that takes in an input, does something with it, and returns an output".</p>
-        <p>Not the best answer, but the best I could come up with in such a short amount of time. After saying it, I immediately thought of functions with no parameters and void signatures (functions with no input and no output). But that wasn't the main issue with my answer. My answer was no better than telling you that a function is something that does something.</p>
-        <p>I didn't get the position, which was no surprise to me. It wasn't just that question that killed my chances, but that's a different story. That spear left a lasting impression on me that still hurts to this day. How many concepts have I been using for a long time without thinking about what they were?</p>
-        <p>How many of those do I actually know how to explain?</p>
+      <h4 class="title">The Point of Some Return</h4>
+      <h6 class="date">June 21, 2018</h6>
+      <p>The concept of "return" is a difficult one. To understand and to explain.</p>
+      <p>When I first started learning how to code, I did not understand what return meant. No matter how many times the professor went over it (he wasn't bad!), I just couldn't wrap my head around it. I don't remember exactly - or even vaguely, for that matter - what words he used to explain what return does. I do remember the context in which it was introduced though.</p>
+      <div class="collapse" id="collapseReturn">
+        <p><code>public int addTwo(int x) {<br>&ensp;int y = x + 2;<br>&ensp;return y;<br>}</code></p>
+        <p>Not the exact example, but something more or less like this was on the slides. Just a random function that did something and returned a value. Whatever return meant. If I had to guess, I imagine the professor explained return by saying it "passed back the value" or "sends the value back" or something. Back WHERE?? WHERE did the value go when it was "returned"?</p>
+        <p>The curious thing about explaining return is that it's really hard to explain in words without restating the definition of return.</p>
+        <p>Of course, the concept of return totally makes sense to me now. But I still don't really know how to explain it. In words anyways. If I had to try to explain it, I would probably give an example and hope that it makes sense.</p>
+        <div class="row">
+          <div class="col-sm-5">
+            <p><code>public int addTwo(int x) {<br>&ensp;int y = x + 2;<br>&ensp;return y;<br>}<br>int a = addTwo(3);</code></p>
+          </div>
+          <div class="col-sm-3">
+            <p>Or in Python:<br>(Which might be easier to understand)</p>
+          </div>
+          <div class="col-sm-3">
+            <p><code>def addTwo(x):<br>&ensp;y = x + 2<br>&ensp;return y<br><br>a = addTwo(3)</code></p>
+          </div>
+        </div>
+        <p>In either case, a is equal to 5.</p>
+        <p>Seeing that extra line at the end (<code>a = addTwo(3)</code>) <i>along</i> with the function definition is when I finally understood return.</p>
+        <p>Hmm. Now that I think about it, I could explain return without restating the definition. I would say that return is the output of a function. Besides being a piece of code that is reused to perform a task - or being <a href="#function">something that does something</a> - a function could be (seen as) a machine that takes in an input and spits out an output. Return is what does the spitting out.</p>
       </div>
-      <a class="btn toggle-text" data-toggle="collapse" href="#collapseFunction"><span>Read more</span><span class="hidden">Read less</span></a>
-    </div>
-    <p id="culture">.</p>
-    <div class="post">
-      <h4 class="title">High School Culturalism</h4>
-      <h6 class="date">April 30, 2018</h6>
-      <p>I'm sitting in a chair, but I don't fit in it. It's a normal, plastic chair that an average-sized adult could sit on. It's a normal, plastic chair behind a normal-sized table in a normal-sized room. It's a normal, plastic chair.</p>
-      <div class="collapse" id="collapseCulture">
-        <p>It's early in the morning, and I'm in a high school classroom. If you walk into the room and look around, you would see a bunch of students. If you happened to look at me, you would think I was just another student. There was nothing about my faded blue sweater, light gray t-shirt, and coal black jeans that made me look different from everyone else. Just another student. Yet I didn't feel like I was one of them. Yeah, I was a college student tutoring at a high school. But that wasn't it. After all, I was still a student, and I had been in their shoes only 4 years ago. I was sitting in a normal, plastic chair just like they all were. The problem was, I wasn't part of their "student culture" anymore.</p>
-        <p>I wasn't actually "part" of it, just around people who were. It was normal to hate school and, therefore, normal to not try in anything school-related. I get it. It's so much more fun to be talking with friends, and it's so much easier to be on our phones. It also doesn't help that everything coming out of the teacher's mouth either isn't making sense or is just plain BORING. Those people around me weren't bad people, but I could see why they wouldn't pay attention in class or skip it altogether.</p>
-        <p>I'm sure everyone wasn't like that - they just chose to present themselves that way to fit in with everyone else. I mean, that's why nerds get bullied and picked on right? Pretty soon, you start hearing things like "I hate school" or "I don't wanna do this s***" and murmurs of agreement everywhere you go.</p>
-        <p>At my high school, that type of student culture wasn't as harsh as I may have made it seem. Or I was just at the "wrong" place at the "wrong" time. Either way, I thought I left it behind coming into college. Selfishly, I thought to myself, "I won't have to feel uncomfortable being around those type of people ever again". But here I am now, at a high school helping students I so selfishly wanted to avoid. Ouch.</p>
-        <p>Again, they weren't bad people - I just didn't belong with them.</p>
-        <p>It's early in the morning, and I'm sitting in chair in a high school classroom. A normal, plastic chair behind a normal-sized table in a normal-sized room. I still don't feel quite right in it, but, this time, I feel slightly more comfortable. Because next to me, is another student who, although he doesn't like school, is at least willing to try.</p>
-        <p>When I get out of my chair, I look back, and I see something strange in the corner of my eye. The chair looks different. Then I blink and everything is back to normal. I'm probably imagining things. After all, I probably would've noticed if I was sitting on a cushion the whole time.</p>
-      </div>
-      <a class="btn toggle-text" data-toggle="collapse" href="#collapseCulture"><span>Read more</span><span class="hidden">Read less</span></a>
-    </div>
-    <p id="unnoticed">.</p>
-    <div class="post">
-      <h4 class="title">Unnoticed</h4>
-      <h6 class="date">May 1, 2018</h6>
-      <p>There's a mysterious attractiveness to her. It's not a "love-at-first-sight" sort of thing, but I can't look away no matter how hard I try. I manage to break my gaze once but it quickly makes its way back to her. She hasn't noticed me yet. And part of me is hoping that she won't.</p>
-      <p>The other part of me is desperately screaming at her, trying to get her to look at me. Deep down, that part of me knows it won't work though. Not just the screaming. But the relationship as well. Or, at least that's what I tell myself.</p>
-      <p>So the shy side overpowers the longing one, and I remain where I am. She never looks at me once. I feel kind of relieved, but a little wounded at the same time. I won't have to embarrass myself this time. Then her face blends into the crowd and becomes unnoticeable, the same way my face probably looks to her. I didn't know if I was ready for her to leave yet, but it was already too late.</p>
-      <p>As I'm walking, I play out scenarios in my head of me approaching her and imagine how "suave" I would be in each one. My thoughts are interrupted by a finger tap on my shoulder. I look behind me, expecting no one in particular, and see her face. She's looking at me. Smiling at me.</p> 
-      <p>Noticing me.</p>
-    </div>
-    <p id="learning_math">.</p>
-    <div class="post">
-      <h4 class="title">They Say Teaching Is The Best Way To Learn</h4>
-      <h6 class="date">May 3, 2018</h6>
-      <p>A few weeks ago, I read part of Habits of Mind: An Organizing Principle for Mathematics Curricula by Al Cuoco, E. Paul Goldenberg, and June Mark. They touched upon a point - or rather, centered their argument around a point - that I was slowly experiencing, but never really realized until now: math isn't really about knowing all the different shapes and their geometric properties or knowing how to do complex calculations with a ton of variables and symbols. Math is about knowing how to think.</p>
-      <div class="collapse" id="collapseLearningMath">
-        <p>Being a good student - or, perhaps not mutually exclusive, a blind and naive one - I never questioned what I was learning. I never asked myself, "Why do we have to know how to complete the square?" or "Why do we need to learn how to prove two triangles are congruent?". I just did them. Sure, some things are useful, like knowing how to calculate area and computing percentages, but when and how often am I ever going to be in a situation where it would be useful to know that sin(&pi;/6) is 1/2?</p>
-        <p>I've been asked by high school students before, "Do you need to know this for college?" My simple answer: "No." My more accurate but perhaps not the most motivating answer: "No, I haven't done this in forever." I already know what they're thinking, even if they don't say it out loud - "Then why do we need to learn this?" My high school self would've just said, "I don't know, just do it and get it over with."</p>
-        <p>For the past few days, the class for which I've been tutoring has been learning about how to prove triangles are congruent. Admittedly, I don't remember much about it. But I never realized how similar doing geometry proofs was to doing higher-level math proofs for theorems. You start with what you're given, use your knowledge to find out what else you can claim, and make your conclusions.</p>
-        <p>A student asked for help proving triangles are congruent. I had no idea how to do it. I immediately started thinking, "Well, what do we know from the picture?", "Can we say this?", "Will that help?". That's when I realized that those were the types of questions they should've been asking themselves. Learning how to prove triangles are congruent isn't about making sure you know (and remember) about the side-side-side postulate or side-angle-side postulate. It's about looking at the picture and using what you know to work towards the last step in the proof. In other words, it's about learning how to think and problem solve.</p>
-        <p>"Do you need to know this for college?" Probably not, at least to pass your classes anyways. I mean, you might be in a cryptography class where you have to complete the square, or you might be solving a combinatorial problem involving triangles. What's more important, I now have learned, is realizing you're learning about critical thinking - not about triangles.</p>
-      </div>
-      <a class="btn toggle-text" data-toggle="collapse" href="#collapseLearningMath"><span>Read more</span><span class="hidden">Read less</span></a>
-    </div>
-    <p id="grain">.</p>
-    <div class="post">
-      <h4 class="title">Going Against The Grain</h4>
-      <h6 class="date">May 5, 2018</h6>
-      <p>Have you ever held something in your hands and you know what to do with it, but you don't do it because you tell yourself you don't know how to do it?</p>
-      <p>Ok, so maybe I really didn't know how to cut hair - much less my own - but I knew what I had to do with the clippers in my hand. Yet, I never put them against my head. I looked back and forth between the instructions and my head in the mirror, hoping that something in my brain would just "click" and I would suddenly know what to do. The instructions were clear enough: split your head into three sections and, starting at the bottom, cut against the grain. Yet, I never put them against my head.</p>
-      <div class="collapse" id="collapseGrain">
-        <p>Ironically, my somewhat-irrational fear of messing up was preventing me from cutting. Ironic, because I wanted to have an "ugly" haircut. Somewhat-irrational, because it would grow back anyways. However, the only thought going through my mind was, "Once I cut my hair off, there's no undoing it". That idea gripped my hand and held it in place, as if it was blackmailing my brain. Telling me, "Don't do it, or else".</p>
-        <p>But my brain isn't always rational.</p>
-        <p>Zzzzzzzzzzzzzzzz. Oh wow. I did it. I actually did it. It wasn't that bad. And it was so liberating! I felt as if I had broken off chains I didn't even know were weighing me down. In a way, I was free - free from the expectations of getting a good haircut. Free from my boring, generic, could-be-anybody look. Free from myself. I changed to a smaller guard and kept going.</p>
-        <p>I actually didn't cut off a lot of hair. But it was enough to make people stare at me and wonder what happened. Which was what I wanted, in a way. Not to be some weirdo with a horrible sense of fasion or no sense of self-respect. But to be someone different.</p>
-        <p>Someone new.</p>
-      </div>
-      <a class="btn toggle-text" data-toggle="collapse" href="#collapseGrain"><span>Read more</span><span class="hidden">Read less</span></a>
-    </div>
-    <p id="greatest_experiment">.</p>
-    <div class="post">
-      <h4 class="title">The Greatest Experiment</h4>
-      <h6 class="date">May 7, 2018</h6>
-      <p>"Where is everybody?" Said Enrico Fermi.</p>
-      <p>Our universe is enormous. And very old. Yet, over the course of 14 billion years, Earth is still the only known place able to sustain life? A tiny speck in the possibly infinite expanse of space, and there's only one Earth? This is the Fermi paradox.</p>
-      <p>What if aliens do exist, but they're purposely avoiding contact with us? Watching us, like we're animals at the zoo. This is the zoo hypothesis.</p>
-      <p>What if, we could find another Earth, and watch how life evolves? Would we see the same thing happen on that Earth as it did on this one? Plants, animals, dinosaurs, early humans, modern-day humans. The Stone Age, the Renaissance, World War 2. The lightbulb, phone, car, computer. Religion, language, culture.</p>
-      <p>Would life on that Earth go through the exact same process that life on our Earth did? Would those people make the same advancements and the same mistakes? Or did all of whatever occured on our Earth just happen by chance, and that Earth has creatures we have never seen; inventions we have never made; ideas we have never thought. What if they're aliens to us, and we're aliens to them? This is what I call the greatest experiment.</p>
-    </div>
-    <p id="writers_block">.</p>
-    <div class="post">
-      <h4 class="title">Writer's Block</h4>
-      <h6 class="date">May 10, 2018</h6>
-      <p>So you're writer's block. I was expecting something ... a little more ... well, more.</p>
-      <p>I can't even see you. Not because of your size, but because you have no form. Yet I can feel your presence looming over me. Taunting me. You enjoy seeing me suffer don't you? I suppose it's because I'm a fresh target.</p>
-      <p>Oh, you've been watching me ever since I could write? I wonder why I've never noticed you before then. I swear I didn't avoid you on purpose. I've heard about you, but you were just another one of those things I thought were never going to happen to me.</p>
-      <p>I've done so much writing in school though. Why have you never attacked me? Is it because prompts and deadlines are barriers you can't get through? Fine, I'll admit it if you won't. They're barriers I can't get through. Give me a prompt and my imagination becomes a tightrope on which I must balance. One small step away, and I fall. Give me a deadline and my imagination quickly runs to meet it, not stopping to enjoy the scenery.</p>
-      <p>Oh, that's it isn't it? You feed off of creativity don't you? You're nothing but a block filled with other people's thoughts. And now mine.</p>
-      <p>I'll let you have this win. I guess I'll have to get used to your presence. Unless I stop thinking. But that's not poss-.</p>
-    </div>
-    <p id="grammar_rules">.</p>
-    <div class="post">
-      <h4 class="title">Grammar Rules(!) (get it?)</h4>
-      <h6 class="date">May 11, 2018</h6>
-      <p>I'm a grammar Nazi. Well, ok. I used to be. If you somehow stumbled upon this website and read my previous posts, you might think my grammar is a little lacking. I admit, my grasp on correct grammar rules and mechanics isn't as good as it once was. Not to brag, but my score on the English section of the ACT was 34/36. The point is, grammar came easily to me.</p>
-      <div class="collapse" id="collapseGrammar">
-        <p>What I liked about grammar was all the rules. A comma must be placed before a conjunction separating two independent clauses. A dependent clause cannot stand alone as a sentence (incomplete sentences). A sentence cannot have more than two conjunctions separating independent clauses or predicates (run-ons). A phrase describing an object must be placed next to the object being described (dangling modifiers). The last item in a list must have an appropriate conjunction before it, like "and" or "or". A sentence shouldn't end with a preposition, which is perhaps my favorite.</p> 
-        <p>So. Many. Rules.</p>
-        <p>Even the word "grammar" sounds so proper and formal doesn't it?</p>
-        <p>I was born into the near-ludicrous, strict world of English. Then I left. I no longer care about whether I should've put a comma at a certain place, or whether I'm using dashes correctly. I no longer care about maintaining consistent verb tense or a single point of view. I no longer care about forming complete sentences or cutting up run-ons. Because, in the end, it doesn't really matter for me anymore. Well, except in a few cases.</p>
-        <p>There are some rules that shouldn't be broken though. Like subject-verb agreement. Using could've instead of could of. Eh, there aren't a lot. Or I just can't remember them right now.</p>
-        <p>I'm on the fence about using the correct comparative/superlative form of an adjective. From my experience, this is probably the most common mistake both native and non-native English speakers make (as a result of the fast-paced nature of conversation). On one hand, the meaning of "more better" is totally understandable. On the other hand, "better" is <i>already</i> the correct comparative form and should actually be used instead. An even harder one to detect, especially in conversation, is using the superlative in a situation with only two objects and using the comparative with more than three.</p>
-        <p>Really, the only reason why I'm writing about grammar is because I started this "free" writing. Someone, upon reviewing my previous posts, told me that I had a strong sense of grammar rules. Wait, what? My post was scattered with grammatical errors. (Or so I thought at the time. Turns out, the ones she read didn't have as much as I thought it did.)</p>
-        <p>It turns out there's a general consensus that breaking rules is ok when you understand them and why you're breaking them. I don't really know if I understand why I'm breaking a rule. Does "cuz it sounds good to me" count? It's pretty much the only reason why I write anything the way it is. Like this.</p>
-        <p>Do you have to be good at grammar to be a good writer? I'm not a good writer so I don't know. Part of me still thinks that content is more important. One can follow the conventions of English perfectly but write boring garbage. Another part of me thinks that wonderful ideas can lose their meaning through poorly structured sentences.</p>
-        <p>A small part of me thinks, "Who cares? (sometimes "Who's reading?") This is fun. Just forget about everything and write."</p>
-      </div>
-      <a class="btn toggle-text" data-toggle="collapse" href="#collapseGrammar"><span>Read more</span><span class="hidden">Read less</span></a>
-    </div>
-    <p id="light_side">.</p>
-    <div class="post">
-      <h4 class="title">Switching To The Light Side</h4>
-      <h6 class="date">May 12, 2018</h6>
-      <p>A woman is walking towards me. She looks at me. I start to open my mouth, the word "Hi" ready to jump out. Then she gives me a weird look. I close my mouth before the letter h escapes and walk past her, not saying anything. I'm confused.</p>
-      <p>Oh, right. My hair. I totally forgot about my haircut. I forgot it was ugly.</p>
-      <p>It's only been two weeks and, already, I feel normal. Even with the right side of my head shaved to a buzz cut and the left side mostly untouched. Actually, I feel more than normal.</p>
-      <p>I feel strangely confident.</p>
-      <p>Part of it is that I actually like this style. Which is weird. I don't think anyone would admit this hairstyle looks cool - much less get it. However, two people with whom I have familiarized myself have complimented it. Thank you very much. But not the response I was really looking for. I guess that makes the compliments so much more meaningful though. Perhaps there is some sort of beauty in this ugliness I have carved for myself.</p>
-      <p>The other part is, I finally feel like I have some sort of defining feature that makes me stand out. Not that I cut my hair for that reason, but it is a rather nice consequence. For a good part of my life, I just wanted to not be judged. I wanted to be just another person you saw and never thought about again. I wanted to blend in wherever I went, like another brick in the wall.</p>
-      <p>I never realized the light was so comforting.</p>
-    </div>
-    <p id="siren">.</p>
-    <div class="post">
-      <h4 class="title">The Siren Armed With Light</h4>
-      <h6 class="date">May 13, 2018</h6>
-      <p>There's a mysterious attractiveness to her. I don't know why it's taken me so long to realize it. I guess the phrase "not immediately pretty" applies. Now that I say it, it actually sounds a bit degrading. No, she's always been pretty. What's not immediate is why. I never noticed the way her face attracts all the light in the room. Bending every wave. Redirecting every particle. Making her face glow.</p>
-      <div class="collapse" id="collapseSiren">
-        <p>Yet, at the same time, her face also seems to be reflecting the light. Like a mirror. Aiming the light at whomever she wants. But instead of blinding them, she casts a warm, soft glow, inviting the target to take in the beauty. And that target is me.</p>
-        <p>Is it possible she's doing this on purpose? Is she somehow able to control light like this to attract anyone she wants? Am I the only one who's noticing this?</p>
-        <p>Perhaps I'm being too hopeful. I mean, why me of all people? But the more I look at her, the more she seems to be redirecting the light at me. And she's doing this without looking in my direction. As if she knows that she has my attention, but wants to keep me hanging at the edge of my seat. Am I being too hopeful?</p>
-        <p>Finally she looks at me. I immediately look away, the way one does when caught staring. My face feels a little warmer. I can't tell if it's because I'm getting red or because the light is getting more intense. After a moment of embarrassment, I look back at her. Is it me or is her smile a little bit bigger? Not in a devious way, but in a relieved way. It makes her face even prettier. I can't help but smile too.</p>
-        <p>As I'm walking, I think about her face. The way it draws the light towards her and reflects it towards me at the same time. My heart flutters and skips a beat. I look behind me, hoping that she's around. Hoping I can see her face again.</p>
-        <p>I see her.</p>
-        <p>Her face is still as pretty as I last saw it. Still radiating. Still glowing. Except I don't feel the warm glow anymore. She's aiming the light at another guy. Another guy who's holding her hand. Basking in the warmth of her light. I look away, with mixed feelings in my heart. Sadness. Jealousy. A little bit of wistfulness. The world seems a bit darker without her face lighting it up. It's ok, it's not too dark. At least the sun is shining for him.</p>
-      </div>
-      <a class="btn toggle-text" data-toggle="collapse" href="#collapseSiren"><span>Read more</span><span class="hidden">Read less</span></a>
-    </div>
-    <p id="sound_crime">.</p>
-    <div class="post">
-      <h4 class="title">The Sound A Crime Makes</h4>
-      <h6 class="date">May 14, 2018</h6>
-      <p>Free guitar lessons! Participate in a paid study! Need tutoring? Anyone looking at me would've thought I was actually interested in what those flyers had to say. Huh, yeah right. There was only one paper I was interested in.</p>
-      <div class="collapse" id="collapseSoundCrime">
-        <p>Ah, there he is. Out of the corner of my eye, I see him leaving his room. I turn my head to look past him and stare intently at the door. The doorknob specifically. He doesn't lock it. As he turns around, I slowly turn my head back to look at the flyers. Thump, thump, thump. The wind blows by as he rushes past me. I pull out my phone and start walking towards his door.</p>
-        <p>As a precaution, I knock on it. No answer. Ok, let's open it. Creeeeaaaaaaaak! Oh my god. Why didn't it make this sound when it was closing? Resisting the temptation to look behind me, I slip in.</p>
-        <p>My eyes scan the room, taking note of where everything is placed. Whiteboard cleared of all writing. Chair pushed in all the way. A pile of papers neatly placed on the corner of his desk. Looks like this will be quick. I make my way over to the papers and quickly thumb through them, looking for my name. No... No... No...</p>
-        <p>Thump, thump, thump. What!? Is that him!? Oh my god oh my god. What do I do what do I do? I pull out the chair, hide under his desk, and pull it back in. Creeeeaaaaaaaak! Followed by complete silence. My whole body tenses up. I stop breathing. Please don't sit down. Please don't sit down. I don't hear anything. Suddenly, his hand comes straight at me. My heart punches my chest and my eyes widen as I let out a small gasp. His hand stops for a moment, but then reaches for a briefcase next to me. He grabs the briefcase and pulls it out, his hand disappearing with it.</p>
-        <p>Click.</p>
-        <p>I let out a huge sigh after he closes the door and my whole body melts into a pile of relaxation. I wait until I can't hear his footsteps anymore. Then I slowly crawl out from under the desk, as if making a sound will send him back in. I keep my eye on the door, half-expecting it to open at any moment. Thump, thump, thump. Oh my god, he's back! Quickly, I jump back under the desk, a loud bang echoing the room when I bash my knee against the table. Thump, thump, thump. Where is he?? Thump, thump, thump. Wait a minute, that's my heart. Getting out from under the desk again, I let out another huge sigh while massaging my knee and continue sifting through the papers. No... No... No... Maybe it's in the storage cabinets. I pull out the top drawer. Locked. Next one. Also locked. They were all locked.
-        <p>Disappointed, but extremely relieved at not getting caught, I start to leave. I take one last look at the room behind me, searching for anything out of the ordinary. Then I open the door.</p>
-        <p>Creeeeaaaaaaaak! My heart nearly explodes and I jump up as I let out a startled gasp.</p>
-        <p>Another pair of eyes is staring right at me.</p>
-      </div>
-      <a class="btn toggle-text" data-toggle="collapse" href="#collapseSoundCrime"><span>Read more</span><span class="hidden">Read less</span></a>
-    </div>
-    <p id="response_culturalism">.</p>
-    <div class="post">
-      <h4 class="title">In Response To High School Culturalism</h4>
-      <h6 class="date">May 23, 2018</h6>
-      <p>I've been struggling with this a lot lately. Why do students not care about school? Granted, school isn't always fun. It isn't always easy. But isn't it important?</p>
-      <div class="collapse" id="collapseResponseCulturalism">
-        <p>I would think so, but I feel like I was brainwashed to believe that. Not that that makes education unimportant. But I feel like one of the reasons I thought education was important was because everyone else was doing it. At least in high school anyways. Before high school, education was important because if I did badly, I would get in trouble with my parents. (Which was actually still the case in high school, but less important to me by then.)</p>
-        <p>Probably two of the dumbest reasons why school was important to me. Especially considering the fact that for my whole life, I've been told by many people that education is the key to success. The key. Presumably, to a door. But what's behind that door? Well, yeah, success. But if I opened that door, what would I see? What does success look like?</p>
-        <p>That's the problem isn't it?</p>
-        <p>I guess that's why success was never one of my motivations to do well in school. I had no idea what success meant for me. I imagine that might be the case for other students as well. Or maybe I'm wrong.</p>
-        <p>But that's what I want to know.</p>
-        <p>Why do students not care about school? I thought I had it figured out. School is forced upon us, and we rarely like doing things we're forced to do right? School is boring, and we would much rather just be on our phones and hanging out with friends right? Growing up in my community, that's the vibe I got from the people around me. I'm not saying that's how they actually were; I'm saying that's the message I got. In other words, it could all be a front.</p>
-        <p>Other people - wiser and more experienced - have told me something else. For many of the students, both of their parents are working hard to get by and expect/prefer their children to help pay for basic necessities too. Or their parents are too busy/stressed to remind their children that education is important. Either way, education becomes a lower priority. I can't relate, but understandable.</p>
-        <p>Another reason popped into my head recently as well. A lot of non-career (for lack of a better term) jobs don't really require an extensive education. Only basic reading, writing, and arithmetic. Which are learned pretty early on. I mean, disregarding the requirement for a disploma, you don't really need to finish high school to be able to work in a restaurant or a store.</p>
-        <p>I've sorta thought about this before, but it's never really had a big impact on me until now. I'll admit, it's not easy helping other students when they "clearly" don't wanna be there. I don't expect them to pretend to care just for me - or any other teacher/tutor for that matter. But if they aren't going to care, I would like to know why.</p>
-      </div>
-      <a class="btn toggle-text" data-toggle="collapse" href="#collapseResponseCulturalism"><span>Read more</span><span class="hidden">Read less</span></a>
-    </div>
-    <p id="spring">.</p>
-    <div class="post">
-      <h4 class="title">Spring</h4>
-      <h6 class="date">June 6, 2018</h6>
-      <p>Love is in the air. Weaving in and out. Bobbing up and down. Hitting me and then backing off. It hurts.</p>
-      <p>Is there something about spring that brings it out? Or am I breathing the wrong air in the other seasons?</p>
-      <p>Actually, it's not even love. It's something though. Something's messing with me.</p>
-      <p>Spring is coming to an end. So is "whatever" it is. Maybe it does have something to do with spring. Or maybe it's just the fact that the quarter is ending. I don't know if I like it, but it'll probably come back.</p>
-      <p>I'll probably not be ready for it either. I've never really been good at boxing.</p>
-    </div>
-    <p id="biking">.</p>
-    <div class="post">
-      <h4 class="title">Biking For The First Time</h4>
-      <h6 class="date">June 7, 2018</h6>
-      <p>So I rode a road bike for the first time today. It was absolutely amazing. And terrifying.</p>
-      <p>Which came as a surprise to me. I learned how to ride a bike when I was like 7 or something. I've been cycling semi-seriously for maybe 7 years? Not 7 years straight, but within that time frame. And yet, riding a road bike was scary.</p>
-      <p>Maybe it's because I've been riding a mountain bike all those years. For those who don't know, mountain bikes generally have thicker wheels, so it's easier to ride on different types of terrain. Road bikes have (very) thin wheels because they're meant for riding fast on flat surfaces, like roads. Can you imagine balancing your life on two wheels about as thick as your thumb?</p>
-      <p>Not to mention I was riding pretty fast. Faster than I was used to anyways. Not on purpose. Road bikes are built to go fast. It's sort of like driving on the freeway for the first time. You know what to do, but the prospect of getting into an accident is pretty scary considering the fact that you're driving at such high speeds.</p>
-      <p>I guess I'll have to get used to it. It's certainly a lot better than my old bike. Not just because it was a mountain bike, but because it was from Target. The main problem, for me anyways, with bikes from places like Target and Walmart is that they are heavy. Because they are built with cheap parts. They're only $200 after all.</p>
-      <p>Amazing and terrifying. A pretty good combo if you ask me.</p>
-      <p>Update (6/13): It took me 1 hour and 30 minutes to go 14.5 miles on my mountain bike. Google Maps estimates that it takes 1 hour and 15 minutes. I can do it in 1 hour and 5 minutes on my road bike.</p>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseReturn"><span>Read more</span><span class="hidden">Read less</span></a>
     </div>
     <p id="imagine">.</p>
     <div class="post">
@@ -283,33 +106,210 @@
       </div>
       <a class="btn toggle-text" data-toggle="collapse" href="#collapseImagine"><span>Read more</span><span class="hidden">Read less</span></a>
     </div>
-    <p id="return">.</p>
+    <p id="biking">.</p>
     <div class="post">
-      <h4 class="title">The Point of Some Return</h4>
-      <h6 class="date">June 21, 2018</h6>
-      <p>The concept of "return" is a difficult one. To understand and to explain.</p>
-      <p>When I first started learning how to code, I did not understand what return meant. No matter how many times the professor went over it (he wasn't bad!), I just couldn't wrap my head around it. I don't remember exactly - or even vaguely, for that matter - what words he used to explain what return does. I do remember the context in which it was introduced though.</p>
-      <div class="collapse" id="collapseReturn">
-        <p><code>public int addTwo(int x) {<br>&ensp;int y = x + 2;<br>&ensp;return y;<br>}</code></p>
-        <p>Not the exact example, but something more or less like this was on the slides. Just a random function that did something and returned a value. Whatever return meant. If I had to guess, I imagine the professor explained return by saying it "passed back the value" or "sends the value back" or something. Back WHERE?? WHERE did the value go when it was "returned"?</p>
-        <p>The curious thing about explaining return is that it's really hard to explain in words without restating the definition of return.</p>
-        <p>Of course, the concept of return totally makes sense to me now. But I still don't really know how to explain it. In words anyways. If I had to try to explain it, I would probably give an example and hope that it makes sense.</p>
-        <div class="row">
-          <div class="col-sm-5">
-            <p><code>public int addTwo(int x) {<br>&ensp;int y = x + 2;<br>&ensp;return y;<br>}<br>int a = addTwo(3);</code></p>
-          </div>
-          <div class="col-sm-3">
-            <p>Or in Python:<br>(Which might be easier to understand)</p>
-          </div>
-          <div class="col-sm-3">
-            <p><code>def addTwo(x):<br>&ensp;y = x + 2<br>&ensp;return y<br><br>a = addTwo(3)</code></p>
-          </div>
-        </div>
-        <p>In either case, a is equal to 5.</p>
-        <p>Seeing that extra line at the end (<code>a = addTwo(3)</code>) <i>along</i> with the function definition is when I finally understood return.</p>
-        <p>Hmm. Now that I think about it, I could explain return without restating the definition. I would say that return is the output of a function. Besides being a piece of code that is reused to perform a task - or being <a href="#function">something that does something</a> - a function could be (seen as) a machine that takes in an input and spits out an output. Return is what does the spitting out.</p>
+      <h4 class="title">Biking For The First Time</h4>
+      <h6 class="date">June 7, 2018</h6>
+      <p>So I rode a road bike for the first time today. It was absolutely amazing. And terrifying.</p>
+      <p>Which came as a surprise to me. I learned how to ride a bike when I was like 7 or something. I've been cycling semi-seriously for maybe 7 years? Not 7 years straight, but within that time frame. And yet, riding a road bike was scary.</p>
+      <p>Maybe it's because I've been riding a mountain bike all those years. For those who don't know, mountain bikes generally have thicker wheels, so it's easier to ride on different types of terrain. Road bikes have (very) thin wheels because they're meant for riding fast on flat surfaces, like roads. Can you imagine balancing your life on two wheels about as thick as your thumb?</p>
+      <p>Not to mention I was riding pretty fast. Faster than I was used to anyways. Not on purpose. Road bikes are built to go fast. It's sort of like driving on the freeway for the first time. You know what to do, but the prospect of getting into an accident is pretty scary considering the fact that you're driving at such high speeds.</p>
+      <p>I guess I'll have to get used to it. It's certainly a lot better than my old bike. Not just because it was a mountain bike, but because it was from Target. The main problem, for me anyways, with bikes from places like Target and Walmart is that they are heavy. Because they are built with cheap parts. They're only $200 after all.</p>
+      <p>Amazing and terrifying. A pretty good combo if you ask me.</p>
+      <p>Update (6/13): It took me 1 hour and 30 minutes to go 14.5 miles on my mountain bike. Google Maps estimates that it takes 1 hour and 15 minutes. I can do it in 1 hour and 5 minutes on my road bike.</p>
+    </div>
+    <p id="spring">.</p>
+    <div class="post">
+      <h4 class="title">Spring</h4>
+      <h6 class="date">June 6, 2018</h6>
+      <p>Love is in the air. Weaving in and out. Bobbing up and down. Hitting me and then backing off. It hurts.</p>
+      <p>Is there something about spring that brings it out? Or am I breathing the wrong air in the other seasons?</p>
+      <p>Actually, it's not even love. It's something though. Something's messing with me.</p>
+      <p>Spring is coming to an end. So is "whatever" it is. Maybe it does have something to do with spring. Or maybe it's just the fact that the quarter is ending. I don't know if I like it, but it'll probably come back.</p>
+      <p>I'll probably not be ready for it either. I've never really been good at boxing.</p>
+    </div>
+    <p id="response_culturalism">.</p>
+    <div class="post">
+      <h4 class="title">In Response To High School Culturalism</h4>
+      <h6 class="date">May 23, 2018</h6>
+      <p>I've been struggling with this a lot lately. Why do students not care about school? Granted, school isn't always fun. It isn't always easy. But isn't it important?</p>
+      <div class="collapse" id="collapseResponseCulturalism">
+        <p>I would think so, but I feel like I was brainwashed to believe that. Not that that makes education unimportant. But I feel like one of the reasons I thought education was important was because everyone else was doing it. At least in high school anyways. Before high school, education was important because if I did badly, I would get in trouble with my parents. (Which was actually still the case in high school, but less important to me by then.)</p>
+        <p>Probably two of the dumbest reasons why school was important to me. Especially considering the fact that for my whole life, I've been told by many people that education is the key to success. The key. Presumably, to a door. But what's behind that door? Well, yeah, success. But if I opened that door, what would I see? What does success look like?</p>
+        <p>That's the problem isn't it?</p>
+        <p>I guess that's why success was never one of my motivations to do well in school. I had no idea what success meant for me. I imagine that might be the case for other students as well. Or maybe I'm wrong.</p>
+        <p>But that's what I want to know.</p>
+        <p>Why do students not care about school? I thought I had it figured out. School is forced upon us, and we rarely like doing things we're forced to do right? School is boring, and we would much rather just be on our phones and hanging out with friends right? Growing up in my community, that's the vibe I got from the people around me. I'm not saying that's how they actually were; I'm saying that's the message I got. In other words, it could all be a front.</p>
+        <p>Other people - wiser and more experienced - have told me something else. For many of the students, both of their parents are working hard to get by and expect/prefer their children to help pay for basic necessities too. Or their parents are too busy/stressed to remind their children that education is important. Either way, education becomes a lower priority. I can't relate, but understandable.</p>
+        <p>Another reason popped into my head recently as well. A lot of non-career (for lack of a better term) jobs don't really require an extensive education. Only basic reading, writing, and arithmetic. Which are learned pretty early on. I mean, disregarding the requirement for a disploma, you don't really need to finish high school to be able to work in a restaurant or a store.</p>
+        <p>I've sorta thought about this before, but it's never really had a big impact on me until now. I'll admit, it's not easy helping other students when they "clearly" don't wanna be there. I don't expect them to pretend to care just for me - or any other teacher/tutor for that matter. But if they aren't going to care, I would like to know why.</p>
       </div>
-      <a class="btn toggle-text" data-toggle="collapse" href="#collapseReturn"><span>Read more</span><span class="hidden">Read less</span></a>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseResponseCulturalism"><span>Read more</span><span class="hidden">Read less</span></a>
+    </div>
+    <p id="sound_crime">.</p>
+    <div class="post">
+      <h4 class="title">The Sound A Crime Makes</h4>
+      <h6 class="date">May 14, 2018</h6>
+      <p>Free guitar lessons! Participate in a paid study! Need tutoring? Anyone looking at me would've thought I was actually interested in what those flyers had to say. Huh, yeah right. There was only one paper I was interested in.</p>
+      <div class="collapse" id="collapseSoundCrime">
+        <p>Ah, there he is. Out of the corner of my eye, I see him leaving his room. I turn my head to look past him and stare intently at the door. The doorknob specifically. He doesn't lock it. As he turns around, I slowly turn my head back to look at the flyers. Thump, thump, thump. The wind blows by as he rushes past me. I pull out my phone and start walking towards his door.</p>
+        <p>As a precaution, I knock on it. No answer. Ok, let's open it. Creeeeaaaaaaaak! Oh my god. Why didn't it make this sound when it was closing? Resisting the temptation to look behind me, I slip in.</p>
+        <p>My eyes scan the room, taking note of where everything is placed. Whiteboard cleared of all writing. Chair pushed in all the way. A pile of papers neatly placed on the corner of his desk. Looks like this will be quick. I make my way over to the papers and quickly thumb through them, looking for my name. No... No... No...</p>
+        <p>Thump, thump, thump. What!? Is that him!? Oh my god oh my god. What do I do what do I do? I pull out the chair, hide under his desk, and pull it back in. Creeeeaaaaaaaak! Followed by complete silence. My whole body tenses up. I stop breathing. Please don't sit down. Please don't sit down. I don't hear anything. Suddenly, his hand comes straight at me. My heart punches my chest and my eyes widen as I let out a small gasp. His hand stops for a moment, but then reaches for a briefcase next to me. He grabs the briefcase and pulls it out, his hand disappearing with it.</p>
+        <p>Click.</p>
+        <p>I let out a huge sigh after he closes the door and my whole body melts into a pile of relaxation. I wait until I can't hear his footsteps anymore. Then I slowly crawl out from under the desk, as if making a sound will send him back in. I keep my eye on the door, half-expecting it to open at any moment. Thump, thump, thump. Oh my god, he's back! Quickly, I jump back under the desk, a loud bang echoing the room when I bash my knee against the table. Thump, thump, thump. Where is he?? Thump, thump, thump. Wait a minute, that's my heart. Getting out from under the desk again, I let out another huge sigh while massaging my knee and continue sifting through the papers. No... No... No... Maybe it's in the storage cabinets. I pull out the top drawer. Locked. Next one. Also locked. They were all locked.
+        <p>Disappointed, but extremely relieved at not getting caught, I start to leave. I take one last look at the room behind me, searching for anything out of the ordinary. Then I open the door.</p>
+        <p>Creeeeaaaaaaaak! My heart nearly explodes and I jump up as I let out a startled gasp.</p>
+        <p>Another pair of eyes is staring right at me.</p>
+      </div>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseSoundCrime"><span>Read more</span><span class="hidden">Read less</span></a>
+    </div>
+    <p id="siren">.</p>
+    <div class="post">
+      <h4 class="title">The Siren Armed With Light</h4>
+      <h6 class="date">May 13, 2018</h6>
+      <p>There's a mysterious attractiveness to her. I don't know why it's taken me so long to realize it. I guess the phrase "not immediately pretty" applies. Now that I say it, it actually sounds a bit degrading. No, she's always been pretty. What's not immediate is why. I never noticed the way her face attracts all the light in the room. Bending every wave. Redirecting every particle. Making her face glow.</p>
+      <div class="collapse" id="collapseSiren">
+        <p>Yet, at the same time, her face also seems to be reflecting the light. Like a mirror. Aiming the light at whomever she wants. But instead of blinding them, she casts a warm, soft glow, inviting the target to take in the beauty. And that target is me.</p>
+        <p>Is it possible she's doing this on purpose? Is she somehow able to control light like this to attract anyone she wants? Am I the only one who's noticing this?</p>
+        <p>Perhaps I'm being too hopeful. I mean, why me of all people? But the more I look at her, the more she seems to be redirecting the light at me. And she's doing this without looking in my direction. As if she knows that she has my attention, but wants to keep me hanging at the edge of my seat. Am I being too hopeful?</p>
+        <p>Finally she looks at me. I immediately look away, the way one does when caught staring. My face feels a little warmer. I can't tell if it's because I'm getting red or because the light is getting more intense. After a moment of embarrassment, I look back at her. Is it me or is her smile a little bit bigger? Not in a devious way, but in a relieved way. It makes her face even prettier. I can't help but smile too.</p>
+        <p>As I'm walking, I think about her face. The way it draws the light towards her and reflects it towards me at the same time. My heart flutters and skips a beat. I look behind me, hoping that she's around. Hoping I can see her face again.</p>
+        <p>I see her.</p>
+        <p>Her face is still as pretty as I last saw it. Still radiating. Still glowing. Except I don't feel the warm glow anymore. She's aiming the light at another guy. Another guy who's holding her hand. Basking in the warmth of her light. I look away, with mixed feelings in my heart. Sadness. Jealousy. A little bit of wistfulness. The world seems a bit darker without her face lighting it up. It's ok, it's not too dark. At least the sun is shining for him.</p>
+      </div>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseSiren"><span>Read more</span><span class="hidden">Read less</span></a>
+    </div>
+    <p id="light_side">.</p>
+    <div class="post">
+      <h4 class="title">Switching To The Light Side</h4>
+      <h6 class="date">May 12, 2018</h6>
+      <p>A woman is walking towards me. She looks at me. I start to open my mouth, the word "Hi" ready to jump out. Then she gives me a weird look. I close my mouth before the letter h escapes and walk past her, not saying anything. I'm confused.</p>
+      <p>Oh, right. My hair. I totally forgot about my haircut. I forgot it was ugly.</p>
+      <p>It's only been two weeks and, already, I feel normal. Even with the right side of my head shaved to a buzz cut and the left side mostly untouched. Actually, I feel more than normal.</p>
+      <p>I feel strangely confident.</p>
+      <p>Part of it is that I actually like this style. Which is weird. I don't think anyone would admit this hairstyle looks cool - much less get it. However, two people with whom I have familiarized myself have complimented it. Thank you very much. But not the response I was really looking for. I guess that makes the compliments so much more meaningful though. Perhaps there is some sort of beauty in this ugliness I have carved for myself.</p>
+      <p>The other part is, I finally feel like I have some sort of defining feature that makes me stand out. Not that I cut my hair for that reason, but it is a rather nice consequence. For a good part of my life, I just wanted to not be judged. I wanted to be just another person you saw and never thought about again. I wanted to blend in wherever I went, like another brick in the wall.</p>
+      <p>I never realized the light was so comforting.</p>
+    </div>
+    <p id="grammar_rules">.</p>
+    <div class="post">
+      <h4 class="title">Grammar Rules(!) (get it?)</h4>
+      <h6 class="date">May 11, 2018</h6>
+      <p>I'm a grammar Nazi. Well, ok. I used to be. If you somehow stumbled upon this website and read my previous posts, you might think my grammar is a little lacking. I admit, my grasp on correct grammar rules and mechanics isn't as good as it once was. Not to brag, but my score on the English section of the ACT was 34/36. The point is, grammar came easily to me.</p>
+      <div class="collapse" id="collapseGrammar">
+        <p>What I liked about grammar was all the rules. A comma must be placed before a conjunction separating two independent clauses. A dependent clause cannot stand alone as a sentence (incomplete sentences). A sentence cannot have more than two conjunctions separating independent clauses or predicates (run-ons). A phrase describing an object must be placed next to the object being described (dangling modifiers). The last item in a list must have an appropriate conjunction before it, like "and" or "or". A sentence shouldn't end with a preposition, which is perhaps my favorite.</p> 
+        <p>So. Many. Rules.</p>
+        <p>Even the word "grammar" sounds so proper and formal doesn't it?</p>
+        <p>I was born into the near-ludicrous, strict world of English. Then I left. I no longer care about whether I should've put a comma at a certain place, or whether I'm using dashes correctly. I no longer care about maintaining consistent verb tense or a single point of view. I no longer care about forming complete sentences or cutting up run-ons. Because, in the end, it doesn't really matter for me anymore. Well, except in a few cases.</p>
+        <p>There are some rules that shouldn't be broken though. Like subject-verb agreement. Using could've instead of could of. Eh, there aren't a lot. Or I just can't remember them right now.</p>
+        <p>I'm on the fence about using the correct comparative/superlative form of an adjective. From my experience, this is probably the most common mistake both native and non-native English speakers make (as a result of the fast-paced nature of conversation). On one hand, the meaning of "more better" is totally understandable. On the other hand, "better" is <i>already</i> the correct comparative form and should actually be used instead. An even harder one to detect, especially in conversation, is using the superlative in a situation with only two objects and using the comparative with more than three.</p>
+        <p>Really, the only reason why I'm writing about grammar is because I started this "free" writing. Someone, upon reviewing my previous posts, told me that I had a strong sense of grammar rules. Wait, what? My post was scattered with grammatical errors. (Or so I thought at the time. Turns out, the ones she read didn't have as much as I thought it did.)</p>
+        <p>It turns out there's a general consensus that breaking rules is ok when you understand them and why you're breaking them. I don't really know if I understand why I'm breaking a rule. Does "cuz it sounds good to me" count? It's pretty much the only reason why I write anything the way it is. Like this.</p>
+        <p>Do you have to be good at grammar to be a good writer? I'm not a good writer so I don't know. Part of me still thinks that content is more important. One can follow the conventions of English perfectly but write boring garbage. Another part of me thinks that wonderful ideas can lose their meaning through poorly structured sentences.</p>
+        <p>A small part of me thinks, "Who cares? (sometimes "Who's reading?") This is fun. Just forget about everything and write."</p>
+      </div>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseGrammar"><span>Read more</span><span class="hidden">Read less</span></a>
+    </div>
+    <p id="writers_block">.</p>
+    <div class="post">
+      <h4 class="title">Writer's Block</h4>
+      <h6 class="date">May 10, 2018</h6>
+      <p>So you're writer's block. I was expecting something ... a little more ... well, more.</p>
+      <p>I can't even see you. Not because of your size, but because you have no form. Yet I can feel your presence looming over me. Taunting me. You enjoy seeing me suffer don't you? I suppose it's because I'm a fresh target.</p>
+      <p>Oh, you've been watching me ever since I could write? I wonder why I've never noticed you before then. I swear I didn't avoid you on purpose. I've heard about you, but you were just another one of those things I thought were never going to happen to me.</p>
+      <p>I've done so much writing in school though. Why have you never attacked me? Is it because prompts and deadlines are barriers you can't get through? Fine, I'll admit it if you won't. They're barriers I can't get through. Give me a prompt and my imagination becomes a tightrope on which I must balance. One small step away, and I fall. Give me a deadline and my imagination quickly runs to meet it, not stopping to enjoy the scenery.</p>
+      <p>Oh, that's it isn't it? You feed off of creativity don't you? You're nothing but a block filled with other people's thoughts. And now mine.</p>
+      <p>I'll let you have this win. I guess I'll have to get used to your presence. Unless I stop thinking. But that's not poss-.</p>
+    </div>
+    <p id="greatest_experiment">.</p>
+    <div class="post">
+      <h4 class="title">The Greatest Experiment</h4>
+      <h6 class="date">May 7, 2018</h6>
+      <p>"Where is everybody?" Said Enrico Fermi.</p>
+      <p>Our universe is enormous. And very old. Yet, over the course of 14 billion years, Earth is still the only known place able to sustain life? A tiny speck in the possibly infinite expanse of space, and there's only one Earth? This is the Fermi paradox.</p>
+      <p>What if aliens do exist, but they're purposely avoiding contact with us? Watching us, like we're animals at the zoo. This is the zoo hypothesis.</p>
+      <p>What if, we could find another Earth, and watch how life evolves? Would we see the same thing happen on that Earth as it did on this one? Plants, animals, dinosaurs, early humans, modern-day humans. The Stone Age, the Renaissance, World War 2. The lightbulb, phone, car, computer. Religion, language, culture.</p>
+      <p>Would life on that Earth go through the exact same process that life on our Earth did? Would those people make the same advancements and the same mistakes? Or did all of whatever occured on our Earth just happen by chance, and that Earth has creatures we have never seen; inventions we have never made; ideas we have never thought. What if they're aliens to us, and we're aliens to them? This is what I call the greatest experiment.</p>
+    </div>
+    <p id="grain">.</p>
+    <div class="post">
+      <h4 class="title">Going Against The Grain</h4>
+      <h6 class="date">May 5, 2018</h6>
+      <p>Have you ever held something in your hands and you know what to do with it, but you don't do it because you tell yourself you don't know how to do it?</p>
+      <p>Ok, so maybe I really didn't know how to cut hair - much less my own - but I knew what I had to do with the clippers in my hand. Yet, I never put them against my head. I looked back and forth between the instructions and my head in the mirror, hoping that something in my brain would just "click" and I would suddenly know what to do. The instructions were clear enough: split your head into three sections and, starting at the bottom, cut against the grain. Yet, I never put them against my head.</p>
+      <div class="collapse" id="collapseGrain">
+        <p>Ironically, my somewhat-irrational fear of messing up was preventing me from cutting. Ironic, because I wanted to have an "ugly" haircut. Somewhat-irrational, because it would grow back anyways. However, the only thought going through my mind was, "Once I cut my hair off, there's no undoing it". That idea gripped my hand and held it in place, as if it was blackmailing my brain. Telling me, "Don't do it, or else".</p>
+        <p>But my brain isn't always rational.</p>
+        <p>Zzzzzzzzzzzzzzzz. Oh wow. I did it. I actually did it. It wasn't that bad. And it was so liberating! I felt as if I had broken off chains I didn't even know were weighing me down. In a way, I was free - free from the expectations of getting a good haircut. Free from my boring, generic, could-be-anybody look. Free from myself. I changed to a smaller guard and kept going.</p>
+        <p>I actually didn't cut off a lot of hair. But it was enough to make people stare at me and wonder what happened. Which was what I wanted, in a way. Not to be some weirdo with a horrible sense of fasion or no sense of self-respect. But to be someone different.</p>
+        <p>Someone new.</p>
+      </div>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseGrain"><span>Read more</span><span class="hidden">Read less</span></a>
+    </div>
+    <p id="learning_math">.</p>
+    <div class="post">
+      <h4 class="title">They Say Teaching Is The Best Way To Learn</h4>
+      <h6 class="date">May 3, 2018</h6>
+      <p>A few weeks ago, I read part of Habits of Mind: An Organizing Principle for Mathematics Curricula by Al Cuoco, E. Paul Goldenberg, and June Mark. They touched upon a point - or rather, centered their argument around a point - that I was slowly experiencing, but never really realized until now: math isn't really about knowing all the different shapes and their geometric properties or knowing how to do complex calculations with a ton of variables and symbols. Math is about knowing how to think.</p>
+      <div class="collapse" id="collapseLearningMath">
+        <p>Being a good student - or, perhaps not mutually exclusive, a blind and naive one - I never questioned what I was learning. I never asked myself, "Why do we have to know how to complete the square?" or "Why do we need to learn how to prove two triangles are congruent?". I just did them. Sure, some things are useful, like knowing how to calculate area and computing percentages, but when and how often am I ever going to be in a situation where it would be useful to know that sin(&pi;/6) is 1/2?</p>
+        <p>I've been asked by high school students before, "Do you need to know this for college?" My simple answer: "No." My more accurate but perhaps not the most motivating answer: "No, I haven't done this in forever." I already know what they're thinking, even if they don't say it out loud - "Then why do we need to learn this?" My high school self would've just said, "I don't know, just do it and get it over with."</p>
+        <p>For the past few days, the class for which I've been tutoring has been learning about how to prove triangles are congruent. Admittedly, I don't remember much about it. But I never realized how similar doing geometry proofs was to doing higher-level math proofs for theorems. You start with what you're given, use your knowledge to find out what else you can claim, and make your conclusions.</p>
+        <p>A student asked for help proving triangles are congruent. I had no idea how to do it. I immediately started thinking, "Well, what do we know from the picture?", "Can we say this?", "Will that help?". That's when I realized that those were the types of questions they should've been asking themselves. Learning how to prove triangles are congruent isn't about making sure you know (and remember) about the side-side-side postulate or side-angle-side postulate. It's about looking at the picture and using what you know to work towards the last step in the proof. In other words, it's about learning how to think and problem solve.</p>
+        <p>"Do you need to know this for college?" Probably not, at least to pass your classes anyways. I mean, you might be in a cryptography class where you have to complete the square, or you might be solving a combinatorial problem involving triangles. What's more important, I now have learned, is realizing you're learning about critical thinking - not about triangles.</p>
+      </div>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseLearningMath"><span>Read more</span><span class="hidden">Read less</span></a>
+    </div>
+    <p id="unnoticed">.</p>
+    <div class="post">
+      <h4 class="title">Unnoticed</h4>
+      <h6 class="date">May 1, 2018</h6>
+      <p>There's a mysterious attractiveness to her. It's not a "love-at-first-sight" sort of thing, but I can't look away no matter how hard I try. I manage to break my gaze once but it quickly makes its way back to her. She hasn't noticed me yet. And part of me is hoping that she won't.</p>
+      <p>The other part of me is desperately screaming at her, trying to get her to look at me. Deep down, that part of me knows it won't work though. Not just the screaming. But the relationship as well. Or, at least that's what I tell myself.</p>
+      <p>So the shy side overpowers the longing one, and I remain where I am. She never looks at me once. I feel kind of relieved, but a little wounded at the same time. I won't have to embarrass myself this time. Then her face blends into the crowd and becomes unnoticeable, the same way my face probably looks to her. I didn't know if I was ready for her to leave yet, but it was already too late.</p>
+      <p>As I'm walking, I play out scenarios in my head of me approaching her and imagine how "suave" I would be in each one. My thoughts are interrupted by a finger tap on my shoulder. I look behind me, expecting no one in particular, and see her face. She's looking at me. Smiling at me.</p> 
+      <p>Noticing me.</p>
+    </div>
+    <p id="culture">.</p>
+    <div class="post">
+      <h4 class="title">High School Culturalism</h4>
+      <h6 class="date">April 30, 2018</h6>
+      <p>I'm sitting in a chair, but I don't fit in it. It's a normal, plastic chair that an average-sized adult could sit on. It's a normal, plastic chair behind a normal-sized table in a normal-sized room. It's a normal, plastic chair.</p>
+      <div class="collapse" id="collapseCulture">
+        <p>It's early in the morning, and I'm in a high school classroom. If you walk into the room and look around, you would see a bunch of students. If you happened to look at me, you would think I was just another student. There was nothing about my faded blue sweater, light gray t-shirt, and coal black jeans that made me look different from everyone else. Just another student. Yet I didn't feel like I was one of them. Yeah, I was a college student tutoring at a high school. But that wasn't it. After all, I was still a student, and I had been in their shoes only 4 years ago. I was sitting in a normal, plastic chair just like they all were. The problem was, I wasn't part of their "student culture" anymore.</p>
+        <p>I wasn't actually "part" of it, just around people who were. It was normal to hate school and, therefore, normal to not try in anything school-related. I get it. It's so much more fun to be talking with friends, and it's so much easier to be on our phones. It also doesn't help that everything coming out of the teacher's mouth either isn't making sense or is just plain BORING. Those people around me weren't bad people, but I could see why they wouldn't pay attention in class or skip it altogether.</p>
+        <p>I'm sure everyone wasn't like that - they just chose to present themselves that way to fit in with everyone else. I mean, that's why nerds get bullied and picked on right? Pretty soon, you start hearing things like "I hate school" or "I don't wanna do this s***" and murmurs of agreement everywhere you go.</p>
+        <p>At my high school, that type of student culture wasn't as harsh as I may have made it seem. Or I was just at the "wrong" place at the "wrong" time. Either way, I thought I left it behind coming into college. Selfishly, I thought to myself, "I won't have to feel uncomfortable being around those type of people ever again". But here I am now, at a high school helping students I so selfishly wanted to avoid. Ouch.</p>
+        <p>Again, they weren't bad people - I just didn't belong with them.</p>
+        <p>It's early in the morning, and I'm sitting in chair in a high school classroom. A normal, plastic chair behind a normal-sized table in a normal-sized room. I still don't feel quite right in it, but, this time, I feel slightly more comfortable. Because next to me, is another student who, although he doesn't like school, is at least willing to try.</p>
+        <p>When I get out of my chair, I look back, and I see something strange in the corner of my eye. The chair looks different. Then I blink and everything is back to normal. I'm probably imagining things. After all, I probably would've noticed if I was sitting on a cushion the whole time.</p>
+      </div>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseCulture"><span>Read more</span><span class="hidden">Read less</span></a>
+    </div>
+    <p id="function">.</p>
+    <div class="post">
+      <h4 class="title">Something That Does Something</h4>
+      <h6 class="date">April 29, 2018</h6>
+      <p>What is a function? Those of you familiar with programming might say that a function is a piece of code that is reused throughout your code to perform a task. Those of you thinking in terms of higher-level math might (loosely) define it as a mapping from a set to another set. Those of you more comfortable with lower-level math might describe it as ... well, I'm not sure actually.</p>
+      <div class="collapse" id="collapseFunction">
+        <p>I remember being asked this question at an interview. It was for a tutoring position where I would have to help children with programming. So I had to explain what a function was so that a child could understand.</p>
+        <p>This question - a rubber ball to the prepared, a spear to those who weren't - was thrown at me. Its sharp point grazed my brain. My brain stopped for a few seconds in shock, realizing what could've happened if it had been thrown a few more millimeters to the side. I had been programming with functions for 2 years and I still didn't know what they were!? My brain started running around in circles. It fell, got back up, started running, fell again, got back up again, started running again ... When it finally stopped to rest, it came up with "a function is something that takes in an input, does something with it, and returns an output".</p>
+        <p>Not the best answer, but the best I could come up with in such a short amount of time. After saying it, I immediately thought of functions with no parameters and void signatures (functions with no input and no output). But that wasn't the main issue with my answer. My answer was no better than telling you that a function is something that does something.</p>
+        <p>I didn't get the position, which was no surprise to me. It wasn't just that question that killed my chances, but that's a different story. That spear left a lasting impression on me that still hurts to this day. How many concepts have I been using for a long time without thinking about what they were?</p>
+        <p>How many of those do I actually know how to explain?</p>
+      </div>
+      <a class="btn toggle-text" data-toggle="collapse" href="#collapseFunction"><span>Read more</span><span class="hidden">Read less</span></a>
+    </div>
+    <p id="beginning">.</p>
+    <div class="post">
+      <h4 class="title">The Beginning</h4>
+      <h6 class="date">April 28, 2018</h6>
+      <p>I've never fancied myself a great writer. Or even a writer, for that matter. In fact, I don't even know why I'm writing this. Not just this post, but this sentence.</p>
+      <p>This word.</p>
+      <p>This letter.</p>
+      <p>Letter. Maybe that's it. Maybe I'm just writing a letter and mailing it to no one in particular. Maybe someone will open their mailbox and find this letter waiting to be opened and read. Or maybe it will get lost in the mail and never be read.</p>
+      <p>I suppose this would be the beginning of this blog. The problem with the beginning is you never know what's at the end or what you might find along the way. Perhaps that's not such a bad thing. But does the road through the beginning always have to be such a long and difficult one? There are no other roads and I've already come this far. So I might as well just keep going. Who knows? This might turn out to be a fun adventure.</p>
     </div>
     <a id="back2Top" title="Back to top" href="#">&#10148;</a>
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
