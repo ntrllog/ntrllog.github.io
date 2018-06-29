@@ -7,6 +7,7 @@ body, html {
 
 .navbar {
   background-color: black;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 h2 {

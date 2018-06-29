@@ -4,6 +4,12 @@ body, html {
   background-image: url('./pictures/pexels-photo-302655.jpeg');
   background-position: center;
   padding-top: 50px;
+  font-family: cursive;
+}
+
+.navbar {
+  background-color: black;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 h2 {

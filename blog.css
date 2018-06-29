@@ -4,6 +4,7 @@
 
 .navbar {
   background-color: white;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .banner {
@@ -12,7 +13,8 @@
 }
 
 .post {
-  font-family: 'Times New Roman';
+  font-family: 'Markazi Text', 'Times New Roman';
+  font-size: 20px;
   margin-left: 13%;
   margin-right: 40%;
   margin-top: 5%;

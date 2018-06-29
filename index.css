@@ -2,10 +2,12 @@ body, html {
   height: 100%;
   margin: 0;
   background-color: rgb(31,26,22);
+  font-family: 'Titillium Web', sans-serif;
 }
 
 .navbar {
   background-color: black;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .front {
@@ -17,12 +19,6 @@ body, html {
   flex-direction: column-reverse;
   justify-content: center;
   margin-bottom: 0;
-}
-
-.front h1 {
-  color: white;
-  text-align: center;
-  font-family: "Helvetica";
 }
 
 .caption {
