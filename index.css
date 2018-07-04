@@ -45,7 +45,7 @@ body, html {
 }
 
 #profile {
-  width: 15%;
+  width: 200px;
   border-radius: 5%;
   border: 2px silver solid;
   display: block;
