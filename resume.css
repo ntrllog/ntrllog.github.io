@@ -35,6 +35,10 @@ button {
   align-items: center;
 }
 
+#flex_col {
+  flex-direction: column;
+}
+
 li {
   display: inline;
   padding-right: 50px;
