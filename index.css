@@ -44,6 +44,15 @@ body, html {
   text-align: center;
 }
 
+.icons {
+  text-align: center;
+}
+
+.fa {
+  padding: 20px;
+  color: white;
+}
+
 #profile {
   width: 200px;
   border-radius: 5%;
