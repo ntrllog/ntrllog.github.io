@@ -12,6 +12,10 @@
   text-align: center;
 }
 
+.container {
+  margin-left: 150px;
+}
+
 .post {
   font-family: 'Crimson Text', 'Times New Roman';
   font-size: 18px;
