@@ -1,12 +1,21 @@
 body, html {
   width: 100%;
+  height: 100%;
   background-color: black;
+  overflow-x: hidden;
+  font-family: 'Shadows Into Light', 'sans-serif';
+  font-size: 20px;
+  color: gray;
 }
 
 .ctr {
-  padding-top: 50px;
   width: 100%;
+  height: 100%;
   margin: 0;
+}
+
+.ctr h1 {
+  text-align: center;
 }
 
 a {
@@ -17,40 +26,14 @@ a:hover {
   text-decoration: none;
 }
 
-.flex-around {
-  margin-top: 50px;
-  display: flex;
-  justify-content: space-around;
-}
-
-.flame-shadow {
-  width: 100px;
-  height: 30px;
-  border-radius: 100px / 50px;
-}
-
-#shadow1 {
-  animation: shadow1 3s linear infinite;
-}
-
-#shadow2 {
-  animation: shadow2 3s linear infinite;
-}
-
-.center-top {
-  margin-top: 50px;
-  margin-bottom: 50px;
-  text-align: center;
-}
-
 .carousel {
-  background-color: gray;
+  background-color: black;
   width: 100%;
 }
 
 .carousel-cell {
-  width: 60%;
-  height: 400px;
+  width: 500px;
+  height: 300px;
   margin-right: 50px;
   background-color: black;
   background-size: cover;
@@ -62,6 +45,12 @@ h3 {
   text-align: center;
 }
 
+.flex-around {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-around;
+}
+
 .flex-col {
   width: 200px;
   display: flex;
@@ -70,8 +59,8 @@ h3 {
 }
 
 .flame {
-  width: 80px;
-  height: 100px;
+  width: 60px;
+  height: 80px;
   border-radius: 100% 50% 50% 50% / 100% 100% 40% 40%;
 }
 
@@ -84,15 +73,19 @@ h3 {
 }
 
 .crossguard {
-  width: 130px;
-  height: 30px;
+  width: 80px;
+  height: 20px;
   background-color: rgb(45, 10, 10);
 }
 
 .handle {
-  width: 50px;
-  height: 70px;
+  width: 40px;
+  height: 50px;
   background-color: rgb(45, 10, 10);
+}
+
+.modal-content {
+  background-color: black;
 }
 
 #loading {

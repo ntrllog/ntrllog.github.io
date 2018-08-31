@@ -12,38 +12,37 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
     <title>Alan Lam • Projects</title>
     <link href="projects.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   </head>
   <body>
     <div id="page" class="ctr">
-      <a href="index.html">&lArr; Back</a>
       <div class="row">
         <div class="col-12">
-          <div class="flex-around">
-            <div id="shadow1" class="flame-shadow"></div>
-            <div class="center-top">
-              <h1>Projects</h1>
-            </div>
-            <div id="shadow2" class="flame-shadow"></div>
-          </div>
+          <h1>Projects</h1>
+          <a href="index.html">&lArr; Back</a>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <div class="carousel" data-flickity='{ "prevNextButtons": false, "pageDots": false }'>
             <div class="carousel-cell">
-              <h3>Web Dev For Beginners</h3>
+              <a class="btn" data-toggle="modal" data-target="#webdev"><h3>Web Dev For Beginners</h3></a>
+              <img class="img-fluid" src="./pictures/webdevforbeg.jpg">
             </div>
             <div class="carousel-cell">
-              <h3>Bagels</h3>
+              <a class="btn" data-toggle="modal" data-target="#bagels"><h3>Bagels</h3></a>
+              <img class="img-fluid" src="./pictures/bagels.jpg">
             </div>
             <div class="carousel-cell">
-              <h3>Notes</h3>
+              <a class="btn" data-toggle="modal" data-target="#notes"><h3>Notes</h3></a>
+              <img class="img-fluid" src="./pictures/notes.jpg">
             </div>
             <div class="carousel-cell">
-              <h3>Racket Fun</h3>
+              <a class="btn" data-toggle="modal" data-target="#racket"><h3>Racket Fun</h3></a>
+              <img class="img-fluid" src="./pictures/racket.jpg">
             </div>
           </div>
         </div>
@@ -56,12 +55,75 @@
               <div class="crossguard"></div>
               <div class="handle"></div>
             </div>
-            <p>Drag screen horizontally</p>
+            <p>Drag screen horizontally. Click project name to view.</p>
             <div class="flex-col">
               <div id="flame2" class="flame"></div>
               <div class="crossguard"></div>
               <div class="handle"></div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="webdev" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Web Dev For Beginners</h5>
+          </div>
+          <div class="modal-body">
+            <p>A website introducing web development to beginners</p>
+            <a href="https://webdevforbeginners.github.io" target="_blank">Visit it!</a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="bagels" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Bagels</h5>
+          </div>
+          <div class="modal-body">
+            <p>An Android app of a simple numbers deduction game</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="notes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Notes</h5>
+          </div>
+          <div class="modal-body">
+            <p>A website containing my notes from my courses</p>
+            <a href="https://alan-lam.github.io/notes" target="_blank">Visit it!</a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="racket" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Racket Fun</h5>
+          </div>
+          <div class="modal-body">
+            <p>A Racket program that contains interview-like problems solved using a functional programming style</p>
+            <a href="https://github.com/alan-lam/Problem-Sets" target="_blank">Visit it!</a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

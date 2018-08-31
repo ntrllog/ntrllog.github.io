@@ -7,9 +7,13 @@ body {
 }
 
 .banner {
-  font-family: 'Trebuchet MS', 'sans-serif';
+  font-family: 'Indie Flower', 'sans-serif';
   text-align: center;
   background-color: rgb(190, 190, 190);
+}
+
+.banner h6 {
+  font-family: 'Indie Flower'
 }
 
 .container {
