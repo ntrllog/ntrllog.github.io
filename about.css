@@ -1,16 +1,26 @@
 body, html {
   width: 100%;
-  margin: 0;
+  height: 100%;
   background-color: black;
-  color: rgb(180, 180, 180);
+  color: white;
   font-family: "Titillium Web";
-  background-image: url("./pictures/ivana-cajina-759463-unsplash.jpg");
+  background-image: url("./pictures/ivana-cajina-759458-unsplash.jpg");
+  background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.scroll {
+  height: 100%;
+  width: 102%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .container {
-  padding-top: 50px;
+  margin-top: 5%;
+  height: 100%;
 }
 
 a {
@@ -69,6 +79,16 @@ a:hover {
 
 .carousel-control-prev {
   width: 4%;
+}
+
+.sum {
+  display: flex;
+  flex-direction: column;
+}
+
+.sum img {
+  height: 90%;
+  align-self: center;
 }
 
 .caption {

@@ -10,7 +10,7 @@ body, html {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: black;
+  background-image: url("./pictures/img-noise-361x370.png");
   transition: 1s;
 }
 

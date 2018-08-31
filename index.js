@@ -11,6 +11,7 @@ function enter() {
   else {
     document.getElementById("overlay").style.transition = "0s";
     document.getElementById("overlay").style.height = "0";
-    document.getElementById("overlay_text").style.visibility = "hidden";
+    var element2 = document.getElementById("overlay_text");
+    element2.parentNode.removeChild(element2);
   }
 })();
