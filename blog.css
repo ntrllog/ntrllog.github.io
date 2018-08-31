@@ -1,6 +1,15 @@
+body {
+  background-color: rgb(222, 222, 222);
+}
+
+.navbar {
+  background-color: rgb(222, 222, 222);
+}
+
 .banner {
   font-family: 'Trebuchet MS', 'sans-serif';
   text-align: center;
+  background-color: rgb(190, 190, 190);
 }
 
 .container {
