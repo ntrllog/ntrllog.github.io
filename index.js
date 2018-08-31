@@ -1,11 +1,16 @@
-function displayAnswer() {
-  var text;
-  var guess = prompt("There's likely a better way to ask for a guess");
-  if (guess == "112114") {
-    text = "Yep";
+function enter() {
+  document.getElementById("overlay").style.height = "0";
+  document.getElementById("overlay_text").style.visibility = "hidden";
+}
+
+(function() {
+  var visited = sessionStorage.getItem('visited');
+  if (!visited) {
+    sessionStorage.setItem('visited', true);
   }
   else {
-    text = "Nope";
+    document.getElementById("overlay").style.transition = "0s";
+    document.getElementById("overlay").style.height = "0";
+    document.getElementById("overlay_text").style.visibility = "hidden";
   }
-  document.getElementById("answer").innerHTML = text;
-}
+})();

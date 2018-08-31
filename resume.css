@@ -1,5 +1,5 @@
 html, body {
-  font-family: "Trebuchet MS";
+  font-family: "Trebuchet MS", "sans-serif";
   padding-left: 5%;
   padding-right: 5%;
   margin-bottom: 5%;
@@ -11,22 +11,8 @@ button {
   top: 10px;
 }
 
-.tab {
-  margin-left: 50px;
-}
-
 .container {
   margin-top: 5%;
-}
-
-.center {
-  text-align: center;
-}
-
-.link {
-  color: gray;
-  text-decoration: underline;
-  text-decoration-color: gray;
 }
 
 .info .col-md {
@@ -35,11 +21,31 @@ button {
   align-items: center;
 }
 
-#flex_col {
+.link {
+  color: gray;
+  text-decoration: underline;
+  text-decoration-color: gray;
+}
+
+.center {
+  text-align: center;
+}
+
+.tab {
+  margin-left: 50px;
+}
+
+.flex-col {
   flex-direction: column;
 }
 
 li {
   display: inline;
   padding-right: 50px;
+}
+
+@media screen and (max-width: 1024px) {
+  button {
+    display: none;
+  }
 }

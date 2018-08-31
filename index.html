@@ -12,145 +12,44 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Titillium+Web|Ubuntu" rel="stylesheet">
-    <title>How Do I Edit This</title>
+    <link href="https://fonts.googleapis.com/css?family=Allan|Bungee+Shade|Yeon+Sung" rel="stylesheet">
+    <title>Alan Lam's Website</title>
     <link href="index.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
   </head>
   <body>
-    <a name="top"></a>
-    <nav class="navbar navbar-dark navbar-expand-sm fixed-top">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <div class="navbar-nav">
-          <a class="nav-link" href="index.html">Home</a>
-          <a class="nav-link" href="raps.html">Raps</a>
-          <a class="nav-link" href="projects.html">Projects</a>
-          <a class="nav-link" href="beats.html">Beats</a>
-          <a class="nav-link" href="drawings.html">Drawings</a>
-          <a class="nav-link" href="blog.html">Blog</a>
-          <a class="nav-link" href="resume.html" target="_blank">Resume</a>
-        </div>
+    <a onclick="enter()">
+      <div id="overlay">
+        <div id="overlay_text">
+          <div>
+            <h1>Welcome!</h1>
+            <h3>Click anywhere on the page to enter</h3>
+          </div>
       </div>
-    </nav>
-    <section class="jumbotron front"></section>
-    <div class="caption">
-      <h6>I was told that when I reached this part of the forest, Jack, who was in charge of all the trading or something, would be there.</h6>
-      <h6>Later, someone came up to me and called me Jack. I told him he was mistaken because I was master of nothing.</h6>
-    </div>
-    <section class="jumbotron about">
-      <div>
-        <h1>About</h1>
-        <img id="profile" src="./pictures/self.jpg">
-        <p>Hi. I'm Alan. I'm a 4th year student at UCSD pursuing a B.S. in Mathematics - Computer Science and a minor in Mathematics Education.</p>
-        <p>I'm currently taking an Abstract Algebra class. To help with that, I'm <a href="https://alan-lam.github.io/notes/math_103b.html" target="_blank">transcribing my notes onto a website</a>, which surprisingly takes a lot of time to do.</p>
-        <p>This website layout is a bit boring. I'm gonna change it sometime soon.</p>
-        <div class="icons">
-          <a href="https://github.com/alan-lam" target="_blank" class="fa fa-github"></a>
-          <a href="https://www.linkedin.com/in/ntrllog" target="_blank" class="fa fa-linkedin"></a>
+    </a>
+    <div id="home" class="animated fadeIn">
+      <div class="row">
+        <div class="col-3">
+          <a class="light1" href="projects.html" id="projects">Projects</a>
+          <a class="light1" href="misc.html" id="misc">Artsy Stuff</a>
         </div>
-      </div>
-    </section>
-    <section class="jumbotron random">
-      <h1>Random Tidbits of Half-Jokes, Word Play, and Stuff</h1>
-      <div id="text-carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="0">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="carousel-content">
-                <p>I like the natural logarithm. It has nothing to do with it's mathematical properties. It's more of an English thing.</p>
-                <p id="tab">Think special fx</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p>The best "<a href="https://www.smbc-comics.com/comic/the-largest-number-2" target="_blank">anti-proof</a>".</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p>Adjectives in English absolutely have to be in this order: opinion, size, age, shape, color, origin, material, purpose</p>
-              <p id="tab">"The great big old red Chinese wooden cooking tool"</p>
-              <p id="tab">I've tried selling a "gray old big backpack" on a few online marketplaces, but no one was able to identify the language I was using to describe it.</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p>A great Jeopardy clue:</p>
-              <p id="tab">"Of the words in the acronym GOAT, the one in the superlative degree."</p>
-              <p id="tab">I am occasionally ribbed by some friends who call me goat because of my last name, but I prefer to interpret it, as the clue suggests, as a compliment.</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p>Half of 78, all of 79 and 80, and half of 81 have learned me that 57*, 72, and 73 are funny, and 62, 63, and 64 smell good.</p>
-              <p id="tab">It would've been nice to have one set of numbers that are funny and smell good, but I doubt <a href="https://en.wikipedia.org/wiki/Dmitri_Mendeleev" target="_blank">Mendeleev</a> would've approved.</p>
-              <p id="tab">*some images are better than others</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p><a href="https://en.wikipedia.org/wiki/Eternal_return" target="_blank">Eternal return</a> is pretty intriguing. Wait, have I said that already?</p>
-              <p id="tab">To avoid thinking about this in the future, I'll stop thinking about it now. Unless past me has already thought about it. Has he?</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p>A string of digits:</p>
-              <button onclick="displayAnswer()">Take a Guess</button>
-              <p id="answer"></p>
-              <p id="tab">Hint: Two twins make a double, repeat again to get a square.</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p><a href="https://en.wikipedia.org/wiki/Semantic_satiation" target="_blank">Semantic satiation</a> semantic satiation semantic satiation semantic satiation semantic satiation</p>
-              <p>Are those even words?</p>
-              <p id="tab">Now we know the boy actually cried, "wolf! wolf! wolf! wolf! wolf! wolf! wolf! wolf! wolf!"</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <img id="letter" src="./pictures/letter.jpg">
-              <p id="tab">Besides the bad attempt at print font writing of course</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p>It's the <a href="https://en.wikipedia.org/wiki/Litotes" target="_blank">litotes</a> not in death that don't make a small difference.</p>
-              <p id="tab">It's the little things that make <a href="https://en.wikipedia.org/wiki/Pun" target="_blank">paronomasia</a> so good. I scoff at those who call it the lowest form of comedy.</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p>You can remember stuff better if you -</p>
-              <p id="tab">Wait, what's the <a href="https://en.wikipedia.org/wiki/Zeigarnik_effect" target="_blank">Zeigarnik Effect</a> again?</p>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="carousel-content">
-              <p>Don't you hate it when the proof is so long, you forget what you're trying to prove?</p>
-              <p id="tab">Wait, the proof isn't over??</p>
-            </div>
+        <div class="col-6">
+          <div>
+            <a class="light1" href="blog.html" id="blog">Blog</a>
+            <a class="light2" href="resume.html" id="resume" target="_blank">Resume</a>
+            <a class="light1" href="projects.html" id="projects">Projects</a>
+            <a class="light2" href="misc.html" id="misc">Artsy Stuff</a>
           </div>
         </div>
-        <a class="carousel-control-prev" href="#text-carousel" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#text-carousel" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+        <div class="col-3">
+          <a class="light2" href="blog.html" id="blog">Blog</a>
+          <a class="light2" href="resume.html" id="resume" target="_blank">Resume</a>
+        </div>
       </div>
-    </section>
-    <div class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-md">
-            <p>Updated: August 26, 2018<p>
-          </div>
+      <div class="row">
+        <div class="col-12">
+          <a href="about.html" id="about_link">About Me</a>
         </div>
       </div>
     </div>

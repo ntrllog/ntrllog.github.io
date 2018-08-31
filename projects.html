@@ -12,107 +12,113 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <title>How Do I Edit This</title>
+    <title>Alan Lam • Projects</title>
     <link href="projects.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   </head>
   <body>
-    <nav class="navbar navbar-dark navbar-expand-sm fixed-top">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <div class="navbar-nav">
-          <a class="nav-link" href="index.html">Home</a>
-          <a class="nav-link" href="raps.html">Raps</a>
-          <a class="nav-link" href="projects.html">Projects</a>
-          <a class="nav-link" href="beats.html">Beats</a>
-          <a class="nav-link" href="drawings.html">Drawings</a>
-          <a class="nav-link" href="blog.html">Blog</a>
-          <a class="nav-link" href="resume.html" target="_blank">Resume</a>
-        </div>
-      </div>
-    </nav>
-    <div class="container">
-      <h2>Projects</h2>
-      <div id="web_dev" class="jumbotron web_dev_section">
-        <div class="text_box">
-          <h3 id="header"><a href="https://webdevforbeginners.github.io" class="link" target="_blank">Web Dev For Beginners</a></h3>
-          <p id="description">A website introducing web development to beginners</p>
-        </div>
-        <div class="row">
-          <div class="col-md">
-            <img class="img-fluid " src="./pictures/webdevforbeg.jpg">
+    <div id="page" class="ctr">
+      <a href="index.html">&lArr; Back</a>
+      <div class="row">
+        <div class="col-12">
+          <div class="flex-around">
+            <div id="shadow1" class="flame-shadow"></div>
+            <div class="center-top">
+              <h1>Projects</h1>
+            </div>
+            <div id="shadow2" class="flame-shadow"></div>
           </div>
         </div>
       </div>
-      <div id="bagels" class="jumbotron bagels_section">
-        <div class="text_box">
-          <h3 id="header">Bagels</h3>
-          <p id="description">A simple numbers deduction game</p>
-        </div>
-        <div class="row">
-          <div class="col-md"></div>
-          <div class="col-md">
-            <img class="img-fluid bagels" src="./pictures/bagels/bagels_home.png">
-          </div>
-          <div class="col-md"></div>
-        </div>
-        <div class="row">
-          <div class="col-md">
-            <img class="img-fluid bagels" src="./pictures/bagels/bagels_easy_notes.png">
-          </div>
-          <div class="col-md">
-            <img class="img-fluid bagels" src="./pictures/bagels/bagels_easy_win.png">
-          </div>
-          <div class="col-md">
-            <img class="img-fluid bagels" src="./pictures/bagels/bagels_medium_notes.png">
-          </div>
-          <div class="col-md">
-            <img class="img-fluid bagels" src="./pictures/bagels/bagels_medium_win.png">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md">
-            <img class="img-fluid bagels" src="./pictures/bagels/bagels_hard_notes.png">
-          </div>
-          <div class="col-md">
-            <img class="img-fluid bagels" src="./pictures/bagels/bagels_hard_win.png">
-          </div>
-          <div class="col-md">
-            <img class="img-fluid bagels" src="./pictures/bagels/bagels_impossible_notes.png">
-          </div>
-          <div class="col-md">
-            <img class="img-fluid bagels" src="./pictures/bagels/bagels_impossible_win.png">
+      <div class="row">
+        <div class="col-12">
+          <div class="carousel" data-flickity='{ "prevNextButtons": false, "pageDots": false }'>
+            <div class="carousel-cell">
+              <h3>Web Dev For Beginners</h3>
+            </div>
+            <div class="carousel-cell">
+              <h3>Bagels</h3>
+            </div>
+            <div class="carousel-cell">
+              <h3>Notes</h3>
+            </div>
+            <div class="carousel-cell">
+              <h3>Racket Fun</h3>
+            </div>
           </div>
         </div>
       </div>
-      <div id="notes" class="jumbotron">
-        <div class="text_box">
-          <h3 id="header"><a href="https://alan-lam.github.io/notes" class="link" target="_blank">Notes</a></h3>
-          <p id="description">A transcription of my notes from my classes because why not? (A work in progress)</p>
-        </div>
-      </div>
-      <div id="problem_sets" class="jumbotron">
-        <div class="text_box">
-          <h3 id="header"><a href="https://github.com/alan-lam/Problem-Sets" class="link" target="_blank">Programming Competition Problem Sets</a></h3>
-          <p id="description">Problems solved using Racket in a functional programming style. Or an attempt to anyways. (A work in progress)</p>
-        </div>
-      </div>
-      <div id="poker" class="jumbotron poker_section">
-        <div class="text_box">
-          <h3 id="header">Poker</h3>
-          <p id="description">A text-based console game (A work in progress)</p>
-        </div>
-        <div class="row">
-          <div class="col-md">
-            <img class="img-fluid" src="./pictures/poker.jpg">
+      <div class="row">
+        <div class="col-12">
+          <div class="flex-around">
+            <div class="flex-col">
+              <div id="flame1" class="flame"></div>
+              <div class="crossguard"></div>
+              <div class="handle"></div>
+            </div>
+            <p>Drag screen horizontally</p>
+            <div class="flex-col">
+              <div id="flame2" class="flame"></div>
+              <div class="crossguard"></div>
+              <div class="handle"></div>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div id="loading">
+      <div id="loader">
+        <div id="bat1" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat2" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat3" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat4" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat5" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat6" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat7" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat8" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat9" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
         </div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script src="projects.js"></script>
   </body>
 </html>

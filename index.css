@@ -1,90 +1,169 @@
 body, html {
   height: 100%;
+  width: 100%;
   margin: 0;
-  background-color: rgb(31,26,22);
-  font-family: 'Titillium Web', sans-serif;
-}
-
-.navbar {
+  overflow: hidden;
   background-color: black;
-  font-family: 'Ubuntu', sans-serif;
 }
 
-.front {
-  background-image: url('./pictures/tracks.jpg');
-  height: 90%;
-  background-position: center;
-  background-size: cover;
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: center;
-  margin-bottom: 0;
-}
-
-.caption {
-  color: white;
-  text-align: right;
-  margin-bottom: 2%;
-  margin-right: 2%;
-}
-
-.about {
-  color: grey;
-  background-color: black;
+#overlay {
+  position: absolute;
   height: 100%;
-  overflow: auto;
+  width: 100%;
+  background-color: black;
+  transition: 1s;
 }
 
-.about h1 {
-  margin-bottom: 3%;
+#overlay_text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: white;
+  transition: 0.7s;
 }
 
-.about p {
-  margin-top: 3%;
+#overlay h1 {
+  font-family: "Bungee Shade";
+  animation: fade 2s linear infinite;
+}
+
+#overlay h3 {
+  font-family: "Allan";
+  animation: fade 2s linear infinite;
+}
+
+#home {
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+  background-image: url("./Pictures/jez-timms-139495-unsplash_[modified].jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  animation-duration: 3s;
+}
+
+.col-3, .col-6 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.col-3 a  {
+  margin: 50px 0 50px 0;
+  font-size: 40px;
+  font-family: "Yeon Sung";
+  color: gray;
+}
+
+.col-3 a:hover {
+  transform: scale(1.5);
+}
+
+.col-3 a:hover, .col-12 a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.col-6 {
+  height: 90vh;
+}
+
+.col-6 a {
+  display: none;
+}
+
+.light1 {
+  animation: flicker1 3s linear infinite;
   text-align: center;
 }
 
-.icons {
+.light2 {
+  animation: flicker2 3s linear infinite;
   text-align: center;
 }
 
-.fa {
-  padding: 20px;
+.col-12 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#about_link {
+  font-family: "Yeon Sung";
+  font-size: 30px;
+  color: gray;
+}
+
+#about_link:hover {
   color: white;
 }
 
-#profile {
-  width: 200px;
-  border-radius: 5%;
-  border: 2px silver solid;
-  display: block;
-  margin: 0 auto;
+@keyframes fade {
+  0%, 100% {
+    color: black;
+  }
+  25%, 75% {
+    color: gray;
+  }
+  50% {
+    color: white;
+  }
 }
 
-.random {
-  background-color: black;
-  color: gray;
+@keyframes flicker1 {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity:.99;
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity:0.4;
+    text-shadow: none; 
+  }
 }
 
-#text-carousel {
-  padding: 10%;
+@keyframes flicker2 {
+  0%, 8% {
+    opacity:0.1;
+  }
+  2%, 9%, 20%, 30% {
+    opacity:1;
+  }
+  12% {
+    opacity:0.1;
+  }
+  25% {
+    opacity:0.3;
+  }
+  70% {
+    opacity:0.7;
+  }
+  72% {
+    opacity:0.2;
+  }
+  77%, 100% {
+    opacity:.9;
+  }
 }
 
-.carousel-content {
-  padding-left: 5%;
-  padding-right: 5%;
-  min-height: 200px;
-}
+@media screen and (max-width: 1024px) {
+  #home {
+    background-position: center;
+  }
+  
+  .col-3 a {
+    display: none;
+  }
 
-#tab {
-  padding-left: 3%;
-}
+  .col-6 {
+    justify-content: flex-end;
+  }
 
-#letter {
-  max-width: 100%;
-}
-
-.footer {
-  color: gray;
-  background-color: black;
+  .col-6 a {
+    font-family: "Yeon Sung";
+    display: block;
+    color: rgba(255, 255, 255, 0.267);
+    margin-bottom: 15px;
+  }
 }
