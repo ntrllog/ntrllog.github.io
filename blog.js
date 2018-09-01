@@ -5,6 +5,7 @@ $('.toggle-text').click(function() {
 
 function onReady(callback) {
   var intervalID = window.setInterval(checkReady, 1000);
+  document.getElementsByTagName('html')[0].style.overflow = "hidden";
   
   function checkReady() {
     if (document.getElementsByTagName('body')[0] !== undefined) {
@@ -21,5 +22,6 @@ function show(id, value) {
 onReady(function () {
   show('page', true);
   show('loading', false);
+  document.getElementsByTagName('html')[0].style.overflowY = "auto";
 });
   

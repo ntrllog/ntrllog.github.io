@@ -92,7 +92,7 @@ a:hover {
 }
 
 .caption {
-  text-align: right;
+  align-self: center;
 }
 
 #loading {

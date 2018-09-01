@@ -1,5 +1,6 @@
 function onReady(callback) {
   var intervalID = window.setInterval(checkReady, 1000);
+  document.getElementsByTagName('html')[0].style.overflow = "hidden";
 
   function checkReady() {
     if (document.getElementsByTagName('body')[0] !== undefined) {

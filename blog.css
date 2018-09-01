@@ -1,19 +1,13 @@
-body {
-  background-color: rgb(222, 222, 222);
-}
-
-.navbar {
-  background-color: rgb(222, 222, 222);
+body, .navbar {
+  background-position: center;
+  background-size: contain;
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("./pictures/paper-2500942_960_720.jpg");
 }
 
 .banner {
   font-family: 'Indie Flower', 'sans-serif';
   text-align: center;
-  background-color: rgb(190, 190, 190);
-}
-
-.banner h6 {
-  font-family: 'Indie Flower'
+  background-color: rgb(226, 226, 226);
 }
 
 .container {
@@ -54,7 +48,7 @@ code {
   width: 40px;
   line-height: 40px;
   overflow: hidden;
-  z-index: 999;
+  z-index: 99;
   cursor: pointer;
   -moz-transform: rotate(270deg);
   -webkit-transform: rotate(270deg);
