@@ -1,9 +1,25 @@
-a {
-  color: black;
+body {
+  background-color: black;
+  color: white;
 }
 
 a:hover {
   text-decoration: none;
+}
+
+.container {
+  margin-top: 5%;
+}
+
+.carousel {
+  width: 100%;
+}
+
+.carousel-cell {
+  width: 500px;
+  margin-right: 50px;
+  border-radius: 5px;
+  counter-increment: carousel-cell;
 }
 
 #loading {

@@ -17,4 +17,5 @@ function show(id, value) {
 onReady(function () {
   show('page', true);
   show('loading', false);
+  document.getElementsByTagName('html')[0].style.overflowY = "scroll";
 });
