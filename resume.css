@@ -10,8 +10,13 @@ button {
 	width: 80%;
 }
 
+h1 {
+  text-shadow: -2px 2px gray;
+}
+
 h2 {
   font-family: "Mukta", "sans-serif";
+  text-shadow: -2px 2px gray;
 }
 
 .contact {
