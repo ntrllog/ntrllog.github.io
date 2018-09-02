@@ -1,3 +1,9 @@
+button {
+  position: absolute;
+  right: 80px;
+  top: 10px;
+}
+
 .resume{
   font-family: "M PLUS Rounded 1c", "sans-serif";
 	margin: 50px auto 50px auto;
@@ -39,7 +45,7 @@ h2 {
 }
 
 @media print {
-  .recognition, #preuss {
+  .recognition, #preuss, button {
     display: none;
   }
 }
