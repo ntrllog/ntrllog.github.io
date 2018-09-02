@@ -85,22 +85,6 @@ body, html {
   text-align: center;
 }
 
-.col-12 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#about_link {
-  font-family: "Yeon Sung";
-  font-size: 30px;
-  color: gray;
-}
-
-#about_link:hover {
-  color: white;
-}
-
 @keyframes fade {
   0%, 100% {
     color: black;
