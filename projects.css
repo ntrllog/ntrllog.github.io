@@ -9,13 +9,17 @@ body, html {
   color: gray;
 }
 
-.ctr {
-  width: 100%;
-  margin: 0;
+.container {
+  margin-top: 5%;
 }
 
-.ctr h1 {
+.container h1 {
   text-align: center;
+}
+
+#egg {
+  color: gray;
+  text-decoration: none;
 }
 
 a {
@@ -39,10 +43,6 @@ a:hover {
   background-size: cover;
   border-radius: 5px;
   counter-increment: carousel-cell;
-}
-
-h3 {
-  text-align: center;
 }
 
 .flex-around {
