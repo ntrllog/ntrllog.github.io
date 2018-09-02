@@ -147,7 +147,7 @@ body, html {
   .col-6 a {
     font-family: "Yeon Sung";
     display: block;
-    color: rgba(255, 255, 255, 0.267);
+    color: rgba(255, 255, 255, 0.7);
     margin-bottom: 15px;
   }
 }

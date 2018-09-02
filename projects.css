@@ -33,6 +33,7 @@ a:hover {
 .carousel {
   background-color: transparent;
   width: 100%;
+  text-align: center;
 }
 
 .carousel-cell {

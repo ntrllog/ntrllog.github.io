@@ -297,3 +297,12 @@ a:hover {
     margin-top: 0;
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .carousel-cell {
+    height: 250px;
+  }
+  img {
+    width: 50%;
+  }
+}
