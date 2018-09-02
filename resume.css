@@ -1,51 +1,45 @@
-html, body {
-  font-family: "Trebuchet MS", "sans-serif";
-  padding-left: 5%;
-  padding-right: 5%;
-  margin-bottom: 5%;
+.resume{
+  font-family: "M PLUS Rounded 1c", "sans-serif";
+	margin: 50px auto 50px auto;
+	width: 80%;
 }
 
-button {
-  position: absolute;
-  right: 80px;
-  top: 10px;
+h2 {
+  font-family: "Mukta", "sans-serif";
 }
 
-.container {
-  margin-top: 5%;
-}
-
-.info .col-md {
+.contact {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
-.link {
-  color: gray;
-  text-decoration: underline;
-  text-decoration-color: gray;
-}
-
-.center {
-  text-align: center;
-}
-
-.tab {
-  margin-left: 50px;
-}
-
-.flex-col {
+.col-5 {
+  display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
-li {
-  display: inline;
-  padding-right: 50px;
+.experience .col-5 {
+  font-weight: bold;
 }
 
-@media screen and (max-width: 1024px) {
-  button {
+.list {
+  display: flex;
+  justify-content: space-around;
+}
+
+.education, .experience, .projects, .skills, .recognition {
+  margin-top: 50px;
+}
+
+.education p, .experience p, .projects p, .recognition p {
+  margin-left: 25px;
+}
+
+@media print {
+  .recognition, #preuss {
     display: none;
   }
 }
