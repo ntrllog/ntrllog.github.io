@@ -4,6 +4,12 @@ body, .navbar {
   background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("./pictures/paper-2500942_960_720.jpg");
 }
 
+#back {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+}
+
 .banner {
   font-family: 'Indie Flower', 'sans-serif';
   text-align: center;
@@ -349,5 +355,10 @@ code {
 @media screen and (max-width: 800px) {
   .container {
     margin-left: 0;
+  }
+  #back {
+    top: 10px;
+    left: 10px;
+    position: absolute;
   }
 }

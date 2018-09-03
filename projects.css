@@ -9,6 +9,12 @@ body, html {
   color: gray;
 }
 
+#back {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+}
+
 .container {
   margin-top: 5%;
 }
@@ -442,5 +448,12 @@ a:hover {
   }
   100% {
     background-color: rgb(255, 190, 20);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #back {
+    top: 10px;
+    left: 10px;
   }
 }
