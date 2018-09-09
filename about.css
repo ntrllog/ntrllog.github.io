@@ -41,23 +41,24 @@ a:hover {
   text-decoration: underline;
 }
 
-.flex-around {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.flex-around img {
+.flex-col img {
   border-radius: 5%;
 }
 
 .flex-col {
   display: flex;
+  align-items: center;
   flex-direction: column;
 }
 
-.flex-col a {
-  margin: 25px 0 25px 0;
+.flex-evenly {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.flex-evenly a {
+  margin-top: 50px;
 }
 
 .random {
@@ -92,12 +93,11 @@ a:hover {
 }
 
 .sum img {
-  height: 90%;
-  align-self: center;
+  height: 85%;
 }
 
 .caption {
-  align-self: center;
+  align-self: flex-end;
 }
 
 #loading {
