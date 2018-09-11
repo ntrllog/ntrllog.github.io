@@ -4,7 +4,7 @@ body, html {
   background-color: black;
   color: white;
   font-family: "Titillium Web";
-  background-image: url("./pictures/ivana-cajina-759458-unsplash.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("./pictures/ivana-cajina-759458-unsplash.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
