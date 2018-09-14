@@ -50,6 +50,13 @@ code {
   color: black;
 }
 
+#quote {
+  position: fixed;
+  width: 250px;
+  right: 40px;
+  top: 30%;
+}
+
 #back2Top {
   width: 40px;
   line-height: 40px;
