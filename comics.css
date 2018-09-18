@@ -1,0 +1,16 @@
+body {
+  background-color: gray;
+}
+
+.container {
+  margin-top: 50px;
+  height: 100%;
+  width: 50%;
+  background-color: white;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
