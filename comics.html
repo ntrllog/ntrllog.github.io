@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      var gaProperty = 'UA-125103983-1';
+    
+      // Disable tracking if the opt-out cookie exists.
+      var disableStr = 'ga-disable-' + gaProperty;
+      if (document.cookie.indexOf(disableStr + '=true') > -1) {
+        window[disableStr] = true;
+      }
+    </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125103983-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -17,29 +26,104 @@
      / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
     /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
     -->
-    <title>Alan Lam · Comics</title>
+    <title>Alan Lam · Random Tidbits</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope|Nanum+Brush+Script" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="comics.css" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
+    <div id="page" class="container">
       <div class="row">
         <div class="col-3 flex">
-          <a href="index.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+          <a href="index.html"><i id="back" class="fas fa-long-arrow-alt-left fa-2x"></i></a>
         </div>
-        <div class="col-9">
-          <h3>Random Tidbits</h3>
+        <div class="col-9 flex-col">
+          <h3 id="title">Random Tidbits</h3>
+          <p>Check out <a href="https://xkcd.com" class="link" target="_blank">xkcd</a>! (which is much better)</p>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <div class="jumbotron">
-            
+          <div class="carousel carousel-a" data-flickity='{ "wrapAround": true, "prevNextButtons": false, "pageDots": false, "sync": ".carousel-b" }'>
+            <div class="carousel-cell">
+              <img class="img-fluid" src="pictures/comics/ln.jpg">
+            </div>
+            <div class="carousel-cell">
+              <img class="img-fluid" src="pictures/comics/anti_proof.jpg">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="carousel carousel-b" data-flickity='{ "wrapAround": true, "pageDots": false, "prevNextButtons": false }'>
+            <div class="carousel-cell">
+              <p>I'm from the U.S., so I don't know who "linn", "lunn", or "lawn" is. I think I met "lawn" in Canada once.</p>
+            </div>
+            <div class="carousel-cell">
+              <p>What? I didn't use my phone during the exam! I had that memorized!</p>
+              <a href="https://www.smbc-comics.com/comic/the-largest-number-2" class="link" target="_blank">Link</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <p id="left">Drag/slide horizontally</p>
+    <p id="right">to scroll</p>
+    <div id="loading">
+      <div id="loader">
+        <div id="bat1" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat2" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat3" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat4" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat5" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat6" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat7" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat8" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+        <div id="bat9" class="bat">
+          <div class="left_wing"></div>
+          <div class="body"></div>
+          <div class="right_wing"></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script src="https://unpkg.com/flickity-sync@2/flickity-sync.js"></script>
+    <script src="comics.js"></script>
   </body>
 </html>
