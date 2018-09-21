@@ -28,9 +28,10 @@
     -->
     <title>Alan Lam · Random Tidbits</title>
     <meta charset="utf-8">
+    <meta name="description" content="A webcomic of random stuff in the realm of language, math, (computer) science, and others. Heavily inspired by xkcd">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope|Nanum+Brush+Script" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope|Nanum+Brush+Script|Permanent+Marker" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="comics.css" rel="stylesheet">
   </head>
@@ -42,13 +43,35 @@
         </div>
         <div class="col-9 flex-col">
           <h3 id="title">Random Tidbits</h3>
+          <p>(from the Random Tidbits section of my <a href="about.html" class="link">about</a> page, which provides more explanation for some of these)</p>
           <p>Finally, I can use Comic Sans</p>
           <p>Check out <a href="https://xkcd.com" class="link" target="_blank">xkcd</a>! (which is much better)</p>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <div class="carousel carousel-a" data-flickity='{ "wrapAround": true, "prevNextButtons": false, "pageDots": false, "sync": ".carousel-b" }'>
+          <div class="carousel carousel-title" data-flickity='{ "wrapAround": true, "prevNextButtons": false, "pageDots": false, "sync": ".carousel-content" }'>
+            <div class="carousel-cell">
+              <h4>What's In a Name?</h4>
+            </div>
+            <div class="carousel-cell">
+              <h4>Anti-proof</h4>
+            </div>
+            <div class="carousel-cell">
+              <h4>Adjectives</h4>
+            </div>
+            <div class="carousel-cell">
+              <h4>A Great Jeopardy Clue</h4>
+            </div>
+            <div class="carousel-cell">
+              <h4>Eternal Return</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="carousel carousel-content" data-flickity='{ "wrapAround": true, "prevNextButtons": false, "pageDots": false, "sync": ".carousel-text" }'>
             <div class="carousel-cell">
               <img class="img-fluid" src="pictures/comics/ln.jpg">
             </div>
@@ -61,12 +84,15 @@
             <div class="carousel-cell">
               <img class="img-fluid" src="pictures/comics/goat.jpg">
             </div>
+            <div class="carousel-cell">
+              <img class="img-fluid" src="pictures/comics/eternal_return.jpg">
+            </div>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <div class="carousel carousel-b" data-flickity='{ "wrapAround": true, "pageDots": false, "prevNextButtons": false }'>
+          <div class="carousel carousel-text" data-flickity='{ "wrapAround": true, "pageDots": false, "prevNextButtons": false }'>
             <div class="carousel-cell">
               <p>I'm from the U.S., so I don't know who "linn", "lunn", or "lawn" is. I think I met "lawn" in Canada once.</p>
             </div>
@@ -80,12 +106,16 @@
             <div class="carousel-cell">
               <p>Ba-a-a-a</p>
             </div>
+            <div class="carousel-cell">
+              <p>To avoid thinking about this in the future, I'll stop thinking about it now. Unless past me has already thought about it. Has he?</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <p id="left">Drag/slide horizontally</p>
-    <p id="right">to scroll</p>
+    <p id="left"><b>Drag/slide horizontally</b></p>
+    <p id="right"><b>to scroll</b></p>
+    <p id="mobile"><b>Zoom in using purple space</b></p>
     <div id="loading">
       <div id="loader">
         <div id="bat1" class="bat">

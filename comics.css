@@ -52,6 +52,14 @@ body {
   text-align: center;
 }
 
+h4 {
+  font-family: 'Permanent Marker', cursive;
+}
+
+#mobile {
+  display: none;
+}
+
 #left {
   position: fixed;
   left: 5%;
@@ -60,7 +68,7 @@ body {
 
 #right {
   position: fixed;
-  right: 10%;
+  right: 5%;
   top: 500px;
 }
 
@@ -337,5 +345,13 @@ body {
   0%, 20%, 40%, 60%, 80%, 100% {
     transform: rotate(0);
     margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #mobile {
+    display: block;
+    text-align: center;
+    font-size: 300%;
   }
 }
