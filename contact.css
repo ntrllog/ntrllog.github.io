@@ -1,7 +1,14 @@
-body, .navbar {
+body {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-image: url('./pictures/ivana-cajina-759463-unsplash.jpg');
   background-position: center;
-  background-size: contain;
-  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("./pictures/paper-2500942_960_720.jpg");
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #back {
@@ -10,77 +17,35 @@ body, .navbar {
   left: 50px;
 }
 
-.banner {
-  font-family: 'Indie Flower', 'sans-serif';
-  text-align: center;
-  background-color: rgb(226, 226, 226);
+h1, p {
+  color: white;
 }
 
-.container {
-  margin-left: 15%;
+form {
+  width: 50%;
 }
 
-.post {
-  font-family: 'Crimson Text', 'Times New Roman';
-  font-size: 18px;
-  margin-top: 5%;
-  margin-bottom: 10%;
+.contact-form-info {
+  margin-bottom: 10px;
 }
 
-.title {
-  text-align: left;
-  font-family: 'Trebuchet MS', 'sans-serif';
+.col-6 input {
+  width: 100%;
 }
 
-.date {
-  color: gray;
+textarea {
+  width: 100%;
+  height: 200px;
+  resize: none;
 }
 
-.btn {
-  color: gray;
-  background-color: white;
+#submit {
+  width: 100px;
+  float: left;
 }
 
-.btn:focus, .btn:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-code {
-  color: black;
-}
-
-#quote {
-  position: fixed;
-  width: 250px;
-  right: 40px;
-  top: 30%;
-}
-
-#back2Top {
-  width: 40px;
-  line-height: 40px;
-  overflow: hidden;
-  z-index: 99;
-  cursor: pointer;
-  -moz-transform: rotate(270deg);
-  -webkit-transform: rotate(270deg);
-  -o-transform: rotate(270deg);
-  -ms-transform: rotate(270deg);
-  transform: rotate(270deg);
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-  background-color: #DDD;
-  color: #555;
-  text-align: center;
-  font-size: 30px;
-  text-decoration: none;
-}
-
-#back2Top:hover {
-  background-color: #DDF;
-  color: #000;
+#after-submit {
+  display: none;
 }
 
 #loading {
@@ -164,6 +129,18 @@ code {
 
 #bat9 {
   animation: fly9 1s linear infinite;
+}
+
+@keyframes hover {
+  0%, 50%, 100% {
+    top: 50%;
+  }
+  25% {
+    top: 45%;
+  }
+  75% {
+    top: 65%;
+  }
 }
 
 @keyframes fly1 {
@@ -356,19 +333,5 @@ code {
   0%, 20%, 40%, 60%, 80%, 100% {
     transform: rotate(0);
     margin-top: 0;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .container {
-    margin-left: 0;
-  }
-  #back {
-    top: 10px;
-    left: 10px;
-    position: absolute;
-  }
-  #quote {
-    display: none;
   }
 }
