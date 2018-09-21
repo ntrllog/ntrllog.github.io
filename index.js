@@ -1,6 +1,7 @@
 function enter() {
   document.getElementById("overlay").style.height = "0";
   document.getElementById("overlay_text").style.visibility = "hidden";
+  document.getElementById("sign").style.visibility = "visible";
 }
 
 (function() {
