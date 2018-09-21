@@ -44,6 +44,15 @@ body, html {
   animation-duration: 3s;
 }
 
+#sign {
+  position: fixed;
+  top: 0;
+  left: 45%;
+  filter: brightness(50%);
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
 .col-3, .col-6 {
   display: flex;
   flex-direction: column;
