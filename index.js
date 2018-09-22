@@ -14,5 +14,6 @@ function enter() {
     document.getElementById("overlay").style.height = "0";
     var element2 = document.getElementById("overlay_text");
     element2.parentNode.removeChild(element2);
+    document.getElementById("sign").style.visibility = "visible";
   }
 })();
