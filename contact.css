@@ -17,37 +17,6 @@ body {
   left: 50px;
 }
 
-h1, p {
-  color: white;
-}
-
-form {
-  width: 50%;
-}
-
-.contact-form-info {
-  margin-bottom: 10px;
-}
-
-.col-6 input {
-  width: 100%;
-}
-
-textarea {
-  width: 100%;
-  height: 200px;
-  resize: none;
-}
-
-#submit {
-  width: 100px;
-  float: left;
-}
-
-#after-submit {
-  display: none;
-}
-
 #loading {
   display: block;
   position: absolute;

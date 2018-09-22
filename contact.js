@@ -1,4 +1,4 @@
-function onReady(callback) {
+/* function onReady(callback) {
   var intervalID = window.setInterval(checkReady, 1000);
   document.getElementsByTagName('html')[0].style.overflow = "hidden";
 
@@ -28,7 +28,7 @@ function success() {
   }
 }
 
-$('#gform').on('submit', function(e) {
-  $('#gform')[0].reset();
+$('#contact').on('submit', function(e) {
+  $('#contact')[0].reset();
   $('#after-submit').show();
-});
+}); */
