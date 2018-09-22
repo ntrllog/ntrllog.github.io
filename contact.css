@@ -5,10 +5,6 @@ body {
   background-image: url('./pictures/ivana-cajina-759463-unsplash.jpg');
   background-position: center;
   background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   color: white;
 }
 
@@ -16,6 +12,32 @@ body {
   position: fixed;
   top: 50px;
   left: 50px;
+}
+
+.flex {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  margin-bottom: 20px;
+}
+
+textarea {
+  resize: none;
+  height: 200px;
+  width: 300px;
+  margin-bottom: 20px;
 }
 
 #loading {
