@@ -27,8 +27,3 @@ function success() {
     document.getElementById('submit').disabled = false;
   }
 }
-
-$('#contact').on('submit', function(e) {
-  $('#contact')[0].reset();
-  $('#after-submit').show();
-});

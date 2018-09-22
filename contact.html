@@ -23,8 +23,8 @@
       <form name="contact" method="POST" netlify>
         <input type="text" name="name" placeholder="Name">
         <input type="text" name="email" placeholder="Email">
-        <textarea name="message" placeholder="Enter your message!"></textarea>
-        <button type="submit">Send</button>
+        <textarea name="message" placeholder="Enter your message!" onkeyup="success()"></textarea>
+        <button type="submit" id="submit" disabled>Send</button>
       </form>
     </div>
     <div id="loading">
