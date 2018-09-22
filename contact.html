@@ -1,23 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script>
-      var gaProperty = 'UA-125103983-1';
-    
-      // Disable tracking if the opt-out cookie exists.
-      var disableStr = 'ga-disable-' + gaProperty;
-      if (document.cookie.indexOf(disableStr + '=true') > -1) {
-        window[disableStr] = true;
-      }
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125103983-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-  
-      gtag('config', 'UA-125103983-1');
-    </script>
     <!--
                                       _
         /\     _             _   _   | |             __    __
@@ -37,16 +20,16 @@
     <a href="index.html"><i id="back" class="fas fa-long-arrow-alt-left fa-2x"></i></a>
     <h1 id="page">Contact Me</h1>
     <script type="text/javascript">var submitted=false;</script>
-    <form name="gform" id="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSfOG7vqku5Yuir3zilmOaabKUKENvXu_5lPfAqbojLTBoHcrg/formResponse?" target="hidden_iframe" onsubmit="submitted=true;">
+    <form name="gform" id="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSfOG7vqku5Yuir3zilmOaabKUKENvXu_5lPfAqbojLTBoHcrg/formResponse" target="hidden_iframe" onsubmit="submitted=true;">
       <div class="row contact-form-info">
         <div class="col-6">
-          <input type="text" name="entry.1814790159" placeholder="Name">
+          <input type="text" name="entry.1814790159" id="entry.1814790159" placeholder="Name">
         </div>
         <div class="col-6">
-          <input type="text" name="entry.231464946" placeholder="Email">
+          <input type="text" name="entry.231464946" id="entry.231464946" placeholder="Email">
         </div>
       </div>
-      <textarea name="entry.763372318" id="message" placeholder="Your message! (Required to submit)" onkeyup="success()"></textarea>
+      <textarea name="entry.763372318" id="entry.763372318" placeholder="Your message! (Required to submit)" onkeyup="success()"></textarea>
       <input type="submit" id="submit" value="Submit" disabled>
     </form>
     <p id="after-submit">Thanks! Your message has been sent!</p>

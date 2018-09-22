@@ -20,7 +20,7 @@ onReady(function () {
 });
 
 function success() {
-  if (document.getElementById('message').value === "") {
+  if (document.getElementsByTagName('textarea')[0].value === "") {
     document.getElementById('submit').disabled = true;
   }
   else {
