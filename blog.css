@@ -16,6 +16,12 @@ body, .navbar {
   background-color: rgb(226, 226, 226);
 }
 
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .container {
   margin-left: 15%;
 }
@@ -51,10 +57,12 @@ code {
 }
 
 #quote {
-  position: fixed;
+  position: absolute;
   width: 250px;
-  right: 40px;
-  top: 30%;
+  right: 20px;
+  top: 10px;
+  font-family: 'Crimson Text', 'Times New Roman';
+  text-align: justify;
 }
 
 #back2Top {
