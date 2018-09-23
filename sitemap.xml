@@ -9,73 +9,78 @@
 
 <url>
   <loc>https://alanlam.netlify.com/</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://alanlam.netlify.com/blog.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://alanlam.netlify.com/projects.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://alanlam.netlify.com/comics/litotes.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <loc>https://alanlam.netlify.com/comics/zeigarnik_effect.html</loc>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://alanlam.netlify.com/about.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://alanlam.netlify.com/resume.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://alanlam.netlify.com/contact.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://alanlam.netlify.com/index.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://alanlam.netlify.com/comics/semantic_satiation.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <loc>https://alanlam.netlify.com/comics/litotes.html</loc>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://alanlam.netlify.com/comics/whats_in_a_name.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://alanlam.netlify.com/comics/eternal_return.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <loc>https://alanlam.netlify.com/comics/semantic_satiation.html</loc>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
   <loc>https://alanlam.netlify.com/comics/antiproof.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://alanlam.netlify.com/comics/a_great_jeopardy_clue.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <loc>https://alanlam.netlify.com/comics/eternal_return.html</loc>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.41</priority>
 </url>
 <url>
   <loc>https://alanlam.netlify.com/comics/adjectives.html</loc>
-  <lastmod>2018-09-23T05:27:41+00:00</lastmod>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
   <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://alanlam.netlify.com/comics/a_great_jeopardy_clue.html</loc>
+  <lastmod>2018-09-23T06:27:54+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 
 
