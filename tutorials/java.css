@@ -1,0 +1,15 @@
+#back {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+
+.container {
+  padding-top: 20px;
+}
+
+.content {
+  margin-bottom: 30px;
+  border: 2px solid black;
+  padding-left: 10px;
+}
