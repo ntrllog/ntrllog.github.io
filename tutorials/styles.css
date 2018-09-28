@@ -13,3 +13,17 @@
   border: 2px solid black;
   padding-left: 10px;
 }
+
+.col-md-5 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (max-width: 1024px) {
+  #back {
+    position: absolute;
+    top: 30px;
+    left: 250px;
+  }
+}
