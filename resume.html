@@ -19,7 +19,7 @@
     <link href="resume.css" rel="stylesheet">
   </head>
   <body class="animated flash">
-    <a href="./Alan Lam · Resume.pdf" id="pdf" target="_blank"><i class="far fa-file-pdf fa-2x"></i></i></a>
+    <a href="./Alan Lam · Resume.pdf" id="pdf" class="print-hide" target="_blank"><i class="far fa-file-pdf fa-2x"></i></i></a>
     <div class="resume">
       <div class="row">
         <div class="col-4">
@@ -92,7 +92,7 @@
             </div>
           </div>
         </div>
-        <div id="preuss">
+        <div class="print-hide">
           <div class="row">
             <div class="col-7">
               <p><i><b>Preuss School</b> La Jolla, CA</i></p>
@@ -123,22 +123,34 @@
             <p>Wrote tutorials to introduce basic elements of HTML and CSS to beginners</p>
           </div>
           <div class="col-6">
+            <p><b><a href="https://alanlam.netlify.com/tutorials/tutorials" target="_blank">Intro to CS Tutorials</a> [HTML/CSS]</b></p>
+            <p>A series of interactive tutorials for programming</p>
+            <p>Wrote exercises to introduce basic programming concepts to beginners</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <p><b><a href="https://github.com/alan-lam/Notepad" target="_blank">Notepad</a> [Java/Android]</b></p>
+            <p>An Android app of a simple text editor</p>
+            <p>Implemented functionality for saving and storing notes to external storage and loading notes from external storage</p>
+          </div>
+          <div class="col-6">
             <p><b><a href="https://github.com/alan-lam/Bagels" target="_blank">Bagels</a> [Java/Android]</b></p>
             <p>An Android app of a simple numbers deduction game</p>
             <p>Designed the layout of each activity and implemented functionality for generating hints, displaying to screen, and saving notes</p>
           </div>
         </div>
-        <div class="row">
-          <div class="col-6">
-            <p><b>Snake [Python] (Webroot Hackathon)</b></p>
-            <p>Multiplayer version of the snake game</p>
-            <p>Created functions for snake to make smarter decisions against other players</p>
-          </div>
+        <div class="row print-hide">
           <div class="col-6">
             <p><b>Client-Server Messaging [Java]</b></p>
             <p>A terminal-based messaging application</p>
             <p>Used Java Sockets to implement server and client connections</p>
             <p>Used threads to connect multiple clients and receive/send messages</p>
+          </div>
+          <div class="col-6">
+            <p><b>Snake [Python] (Webroot Hackathon)</b></p>
+            <p>Multiplayer version of the snake game</p>
+            <p>Created functions for snake to make smarter decisions against other players</p>
           </div>
         </div>
       </div>
@@ -159,7 +171,7 @@
           </div>
         </div>
       </div>
-      <div class="recognition">
+      <div class="recognition print-hide">
         <div class="row">
           <div class="col-12">
             <h2>Recognition</h2>
