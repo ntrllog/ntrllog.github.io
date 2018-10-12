@@ -6,7 +6,7 @@ body, html {
   overflow-x: hidden;
   font-family: 'Shadows Into Light', 'sans-serif';
   font-size: 20px;
-  color: gray;
+  color: white;
 }
 
 #back {
@@ -24,16 +24,13 @@ body, html {
 }
 
 #egg {
-  color: gray;
+  color: white;
   text-decoration: none;
 }
 
 a {
   color: white;
-}
-
-a:hover {
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .carousel {
