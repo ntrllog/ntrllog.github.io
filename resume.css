@@ -72,8 +72,10 @@ body {
   .print-hide {
     display: none;
   }
-  a {
+
+  a:link {
     color: black;
+    text-decoration: none;
   }
 }
 
