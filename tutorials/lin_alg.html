@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+    -->
+    <title>Numerical Analysis: A Linear Algebra Story</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="lin_alg.css" rel="stylesheet">
+  </head>
+  <body>
+    <a href="tutorials.html"><i id="back" class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+    <div class="container">
+      <h1>Numerical Analysis: A Linear Algebra Story</h1>
+      <div class="row">
+        <div class="col-12">
+          <p>Linear algebra is all about solving `Ax = b,` where, usually, `A` is an `n xx n` matrix, `x` is an `n xx 1` matrix, and `b` is an `n xx 1` matrix. Specifically, given `A` and `b,` find `x`. In other words, if the problem is</p>
+          <div class="math">
+            <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[..., ..., ..., ...],[a_(n,1), a_(n,2), ..., a_(n,n)]] [[x_1], [x_2], [...], [x_n]] = [[b_1], [b_2], [...], [b_n]]`</p>
+          </div>
+          <p>where we know all the `a` and `b` values, what values of `x` make that true?</p>
+          <p>Concretely, what values of `x_1, x_2,` and `x_3` make that equation true?</p>
+          <div class="math">
+            <p>`[[1, 4, 1],[8, 2, 0],[5, 6, 2]][[x_1],[x_2],[x_3]] = [[24],[32],[49]]`</p>
+          </div>
+          <p>Of course, we could try plugging in random values for x and hope that they work. But that would take forever. Even if we did it with a computer, it would be impractical to do so all the time.</p>
+          <h2>Finding `A^-1`</h2>
+          <p>A <i>slightly</i> better approach would be to "isolate" the `x`. As from elementary algebra, we could solve for `x` in `5x = 10` by dividing both sides by `5`. So, for `Ax = b`, why not "divide" both sides by `A`? (More formally known as taking the inverse). There are some special cases in which it is impossible to take the inverse of `A`, so for simplicity, we avoid those cases and assume it is possible, i.e., `A` is "invertible".</p>
+          <p>In theory, the answer really is that simple. Multiply both sides by the inverse of `A` (denoted by `A^-1`) to get `x = A^-1b`. Done. In practice, though, this process is actually pretty complicated and time-consuming, <i>especially</i> when done by hand. In fact, doing it by hand is so nightmarish, let's assume we have a computer program that inverts and multiplies matrices for us. It turns out that even with a computer doing millions of operations in mere milliseconds, <b>inverting a matrix and then multiplying is relatively time-consuming</b>.</p>
+          <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do less operations. So <b>we'll consider how long inverting a matrix takes by looking at how many operations it takes.</b> The process is complicated (for me to know/explain), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. If you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2: 8` operations, `4 xx 4: 64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. Imagine `1,000,000^3` operations.)</p>
+          <p><b>The story thus far</b>: We're trying to solve `Ax = b`. (Given `A` and `b`, find `x`.) In theory, the simplest approach is to multiply both sides by `A^-1` to get `x = A^-1b`. In practice, this approach is not simple at all. Compared to other methods of solving this problem, finding `A^-1` is time-consuming. (And also space-inefficient, but I'll disregard it in this story.)</p>
+          <p><b>Time complexity of finding `A^-1`</b>: `n^3`</p>
+          <h2>Triangular Systems</h2>
+          <p>Let's assume `A` can be "split up" into two matrices: one lower-triangular matrix (denoted by `L`) and one upper-triangular matrix (denoted by `U`). So `A = LU:`</p>
+          <div class="math">
+            <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[..., ..., ..., ...],[a_(n,1), a_(n,2), ..., a_(n,n)]] = [[l_(1,1), 0, ..., 0],[l_(2,1), l_(2,2), 0, ...],[..., ..., ..., 0],[l_(n,1), l_(n,2), ..., l_(n,n)]] [[u_(1,1), u_(1,2), ..., u_(1,n)],[0, u_(2,2), ..., u_(2,n)],[..., 0, ..., ...],[0, ..., 0, u_(n,n)]]`.</p>
+          </div>
+          <p>For example,</p>
+          <div class="math">
+            <p>`[[6, 4, 2, 2],[-3, 0, 3, 5],[9, 7, 7, 5],[12, 9, 12, 16]] = [[2, 0, 0, 0],[-1, 2, 0, 0],[3, 1, -1, 0],[4, 1, -3, 3]] [[3, 2, 1, 1],[0, 1, 2, 3],[0, 0, -2, 1],[0, 0, 0, 4]]`</p>
+          </div>
+          <p>The problem now becomes `(A)x = b => (LU)x = b.` Where do go from here? The answer lies in the special property of lower- and upper-triangular matrices. (Namely, the zeros.)</p>
+          <p>First of all, it is quite easy to solve something like `Lx = b`. For example,</p>
+          <div class="math">
+            <p>`[[5, 0, 0],[2, -4, 0],[1, 2, 3]] [[x_1],[x_2],[x_3]] = [[15],[-2],[10]]`</p>
+            <p>`5x_1 + 0x_2 + 0x_3 = 15 => x_1 = 3`</p>
+            <p>`2x_1 + -4x_2 + 0x_3 = -2 => x_2 = 2` (plugging in `3` for `x_1`)</p>
+            <p>`1x_1 + 2x_2 + 3x_3 = 10 => x_3 = 1` (plugging in `3` for `x_1` and `2` for `x_2`)</p>
+            <p>(This process is known as forward substitution.)</p>
+          </div>
+          <p>We have `LUx = b`. To take advantage of the easiness of forward substitution, let's view the problem as: `L(y) = b`, where `y = Ux`. Solving `Ly = b` like in the previous example, we easily obtain values for `y`. But how do we get `x`?</p>
+          <p>It's also just as easy to solve something like `Ux = b`. For example,</p>
+          <div class="math">
+            <p>`[[3, 2, 4],[0, 1, 2],[0, 0, 3]] [[x_1],[x_2],[x_3]] = [[19],[8],[9]]`</p>
+            <p>`0x_1 + 0x_2 + 3x_3 = 9 => x_3 = 3`</p>
+            <p>`0x_1 + 1x_2 + 2x_3 = 8 => x_2 = 2` (plugging in `3` for `x_3`)</p>
+            <p>`3x_1 + 2_x2 + 4x_3 = 19 => x_1 = 1` (plugging in `3` for `x_3` and `2` for `x_2`)</p>
+            <p>(This process is known as back substitution.)</p>
+          </div>
+          <p>Notice before, we defined `y = Ux`. We have `y` (from solving `Ly = b`), and we have `U` (assumed it was possible to split `A = LU`). So like in the previous example, it is possible to solve for `x`. Let's see how this plays out with real numbers.</p>
+          <p>Let `A = [[2, 1],[6, 5]]`, `b = [[4],[16]]`. Our goal is to find `x_1, x_2` such that `[[2, 1],[6, 5]] [[x_1],[x_2]] = [[4],[16]]`</p>
+          <p>Let's also say we knew exactly how to split up `A`:</p>
+          <div class="math">
+            <p>`A = LU = [[1, 0],[3, 2]] [[2, 1],[0, 1]]`</p>
+          </div>
+          <p>The new problem becomes:</p>
+          <div class="math">
+            <p>`[[1, 0],[3, 2]] [[2, 1],[0, 1]] [[x_1],[x_2]] = [[4],[16]]`</p>
+            <p>(1)</p>
+          </div>
+          <p>Let's let</p>
+          <div class="math">
+            <p>`[[y_1],[y_2]] = [[2, 1],[0, 1]] [[x_1],[x_2]]`</p>
+            <p>(2)</p>
+          </div>
+          <p>so that</p>
+          <div class="math">
+            <p>`[[1, 0],[3, 2]] [[y_1],[y_2]] = [[4],[16]]`</p>
+            <p>`1y_1 + 0y_2 = 4 => y_1 = 4`</p>
+            <p>`3y_1 + 2y_2 = 16 => y_2 = 2`</p>
+            <p>(3)</p>
+          </div>
+          <p>Now that we have our values for `y`, let's go back to (2):</p>
+          <div class="math">
+            <p>`[[4],[2]] = [[2, 1],[0, 1]] [[x_1],[x_2]]`</p>
+            <p>`0x_1 + 1x_2 = 2 => x_2 = 2`</p>
+            <p>`2x_1 + 1x_2 = 4 => x_1 = 1`</p>
+            <p>(4)</p>
+          </div>
+          <p>And we have our values for x, as desired.</p>
+          <p>To summarize: We assumed `A` could be "split up" into two parts `L` and `U` (i.e., `A = LU`). With that, the problem became `Ax = b => LUx = b`. We took advantage of the fact that solving something like `Lx = b` was easy. So by letting `y = Ux`, we could solve `Ly = b`. Doing that gave us `y`, so we could get `x` by solving `Ux = y`.</p>
+          <p>This process may look like it requires a lot of steps. <b>But it actually takes less operations than inverting a matrix.</b> Let's look at how many operations it takes to solve `Ly = b`. <b>We'll count operations by calculating how many numbers we have to perform operations on.</b></p>
+          <p>For the first row, there is `1` number. (By nature of matrix multiplication, the `0`'s don't count as numbers.)</p>
+          <div class="math">
+            <p>`[[color(red)(5), 0, 0],[2, -4, 0],[1, 2, 3]] [[x_1],[x_2],[x_3]] = [[15],[-2],[10]]`</p>
+          </div>
+          <p>For the second row, there are `2` numbers.</p>
+          <div class="math">
+            <p>`[[5, 0, 0],[color(red)(2), color(red)(-4), 0],[1, 2, 3]] [[x_1],[x_2],[x_3]] = [[15],[-2],[10]]`</p>
+          </div>
+          <p>This continues until the `n^(th)` row where there are `n` numbers.</p>
+          <div class="math">
+            <p>`[[5, 0, 0],[2, -4, 0],[color(red)(1), color(red)(2), color(red)(3)]] [[x_1],[x_2],[x_3]] = [[15],[-2],[10]]`</p>
+          </div>
+          <p>So there are `1 + 2 + ... + n = n^2/2` total numbers we have to perform operations on.</p>
+          <p><b>This means we have to do <i>about</i> `n^2` operations to solve `Ly = b.` (forward substitution)</b> Now we have to solve `Ux = y.` (back substitution) By similar reasoning, `U` also has `n^2/2` numbers, so it also takes <i>about</i> `n^2` operations. <b>Altogether, the total number of operations to solve `LUx = b` is `n^2 + n^2 = 2n^2.`</b> For simplicity, we can consider it as `n^2` operations.</p>
+          <p>This is <i>definitely</i> less than the `n^3` operations it took to find `A^-1.`</p>
+          <p><b>The story thus far</b>: We found out that finding `A^-1` simply takes too long `(n^3).` It turns out that if we could split `A` into two parts, `L` and `U`, it would only take about `n^2` operations to solve for `x`.
+          <p><b>Time complexity for forward and back substitution</b>: `n^2`</p>
+          <h2>Cholesky Decomposition</h2>
+          <p>It turns out that it generally isn't easy finding matrices `L` and `U` such that `A = LU.` But splitting `A` into triangular matrices made solving `Ax = b` so fast though. Relatively fast anyway. Is it possible to still use this idea of splitting matrices into `2` parts, but with the parts (relatively) easy to find?</p>
+          <p>It is, but we're gonna have to assume more things about the matrix `A`. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
+          <p>For example,</p>
+          <div class="math">
+            <p>`[[1, 1, 1],[1, 2, 2],[1, 2, 3]] = [[1, 0, 0],[1, 1, 0],[1, 1, 1]] [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`</p>
+          </div>
+          <p>where `A = [[1, 1, 1],[1, 2, 2],[1, 2, 3]]`, `R = [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`, and `R^T = [[1, 0, 0],[1, 1, 0],[1, 1, 1]]`</p>
+          <p>I know we made a lot of assumptions about `A`, so all of this looks like it'll only work for super-specific cases, but it turns out that most of the useful matrices used in real life can be written as `A = R^TR`. How convenient. (If `A` can be written as `R^TR`, then it is symmetric, positive definite.)</p>
+          <p>The task now becomes finding such a matrix `R` such that `A = R^TR.` (`A` has to be symmetric, positive definite for this to work, so we'll assume `A` is symmetric, positive definite.)</p>
+          <p>Let `A = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]]`</p>
+          <div class="math">
+            <p>`[[1, -2, -1],[-2, 8, 8],[-1, 8, 19]] = [[r_(1,1), 0, 0],[r_(1,2), r_(2,2), 0],[r_(1,3), r_(2,3), r_(3,3)]] [[r_(1,1), r_(1,2), r_(1,3)],[0, r_(2,2), r_(2,3)],[0,0,r_(3,3)]]`</p>
+            <p>`r_(1,1)*r_(1,1) = 1 => r_(1,1) = 1`</p>
+            <p>`r_(1,2)*r_(1,1) = -2 => r_(1,2) = -2`</p>
+            <p>`r_(1,3)*r_(1,1) = -1 => r_(1,3) = -1`</p>
+            <p>`r_(1,2)*r_(1,2) + r_(2,2)*r_(2,2) = 8 => r_(2,2) = 2`</p>
+            <p>`r_(1,3)*r_(1,2) + r_(2,3)*r_(2,2) = 8 => r_(2,3) = 3`</p>
+            <p>`r_(1,3)*r_(1,3) + r_(2,3)*r_(2,3) + r_(3,3)*r_(3,3) = 19 => r_(3,3) = 3`</p>
+          </div>
+          <p>So `A = R^TR = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]] = [[1, 0, 0],[-2, 2, 0],[-1, 3, 3]] [[1, -2, -1],[0, 2, 3],[0, 0, 3]]`</p>
+          <p>To summarize: Finding `2` matrices `L` and `U` such that `A = LU` is generally hard. An easier approach is to find only `1` matrix `R` such that `A = R^TR.` By the nature of `R` (being upper-triangular) and `R^T` (being lower-triangular), we can still do forward and back substitution like we did for triangular systems. Doing this allows us to decompose `A` easily and <i>still</i> achieve the `n^2` time of doing forward and back substitution.</p>
+        </div>
+      </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>

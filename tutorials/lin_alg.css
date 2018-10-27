@@ -1,0 +1,23 @@
+#back {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+
+.container {
+  margin-top: 20px;
+  font-family: serif;
+  font-size: 110%;
+}
+
+.math {
+  text-align: center;
+}
+
+@media screen and (max-width: 1024px) {
+  #back {
+    position: absolute;
+    top: 30px;
+    left: 250px;
+  }
+}
