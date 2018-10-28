@@ -163,6 +163,25 @@
             <p><b>The story thus far:</b> Finding `A^-1` takes too long `(n^3)`. Finding `L` and `U` such that `A = LU` is hard, but faster `(n^2)`. Finding `R` such that `A = R^TR` is easier, and potentially just as fast.</p>
             <p><b>Time complexity for Cholesky decomposition:</b> `n^3`</p>
           </div>
+          <h2>Banded Matrices</h2>
+          <p>Things get better if `A` has a bunch of `0`'s (if `A` has a lot of `0`'s, it is called "sparse".) Much like most matrices have a Cholesky factor, most matrices are also large and sparse. A specific type of sparse matrix - a banded matrix - actually allows us to perform Cholesky decomposition faster.</p>
+          <p>(For those keeping track, all the assumptions we've made about `A` up to this point are that `A` is symmetric, positive definite, sparse, and banded. Again, `A` sounds super specific, but these type of matrices show up a lot apparently.)</p>
+          <p>This is an example of a banded matrix: (notice the "band" of numbers across the diagonal and the `0`'s)</p>
+          <div class="math">
+            <p>`[[color(red)(2), color(red)(1), 0, 0, 0],[color(red)(1), color(red)(2), color(red)(1), 0, 0],[0, color(red)(1), color(red)(2), color(red)(1), 0],[0, 0, color(red)(1), color(red)(2), color(red)(1)],[0, 0, 0, color(red)(1), color(red)(2)]]`</p>
+          </div>
+          <p>It has bandwidth `3` (how wide the band is) and semiband `1` (half of the width of the band). In general, a banded matrix has semiband `s` and bandwidth `2s+1`.</p>
+          <p>It turns out that there's an important result involving banded matrices: if `A` is symmetric, positive definite, and banded with semiband `s`, then its Cholesky factor `R` is also banded with semiband `s`. This is important, because if `A` had a bunch of `0`'s, then R will have a bunch of `0`'s too. These `0`'s mean less operations we have to do to find out what `R` is.</p>
+          <p>Recall the process for finding `R` if `A` is not banded:</p>
+          <div class="math">
+            <p>`[[2, 1, 4, 9, 3],[1, 2, 1, 3, 2],[5, 1, 4, 1, 2],[3, 8, 1, 2, 1],[6, 8, 9, 1, 2]] = [[r_(1,1), 0, 0, 0, 0],[r_(1,2), r_(2,2), 0, 0, 0],[r_(1,3), r_(2,3), r_(3,3), 0, 0],[r_(1,4), r_(2,4), r_(3,4), r_(4,4), 0],[r_(1,5), r_(2,5), r_(3,5), r_(4,5), r_(5,5)]] [[r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)],[0, r_(2,2), r_(2,3), r_(2,4), r_(2,5)],[0, 0, r_(3,3), r_(3,4), r_(3,5)],[0, 0, 0, r_(4,4), r_(4,5)],[0, 0, 0, 0, r_(5,5)]]`</p>
+          </div>
+          <p>Now let's see what happens when `A` is banded:</p>
+          <div class="math">
+            <p>`[[2, 1, 0, 0, 0],[1, 2, 1, 0, 0],[0, 1, 2, 1, 0],[0, 0, 1, 2, 1],[0, 0, 0, 1, 2]] = [[r_(1,1), 0, 0, 0, 0],[r_(1,2), r_(2,2), 0, 0, 0],[r_(1,3), r_(2,3), r_(3,3), 0, 0],[r_(1,4), r_(2,4), r_(3,4), r_(4,4), 0],[r_(1,5), r_(2,5), r_(3,5), r_(4,5), r_(5,5)]] [[r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)],[0, r_(2,2), r_(2,3), r_(2,4), r_(2,5)],[0, 0, r_(3,3), r_(3,4), r_(3,5)],[0, 0, 0, r_(4,4), r_(4,5)],[0, 0, 0, 0, r_(5,5)]]`</p>
+          </div>
+          <p>So it takes about `n` operations to find `R`. Even better is that because of all the `0`'s, performing forward and back substitution is also very fast.</p>
+          <p>All in all, it takes about `n` operations to solve `Ax = b` if we know that `A` is symmetric, positive definite, and banded. That is significantly faster than the `n^3` operations to find `R` and the `n^2` operations to do forward and back substitution.</p>
         </div>
       </div>
     </div>
