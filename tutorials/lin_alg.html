@@ -36,7 +36,7 @@
           <h2>Finding `A^-1`</h2>
           <p>A <i>slightly</i> better approach would be to "isolate" the `x`. As from elementary algebra, we could solve for `x` in `5x = 10` by dividing both sides by `5`. So, for `Ax = b`, why not "divide" both sides by `A`? (More formally known as taking the inverse). There are some special cases in which it is impossible to take the inverse of `A`, so for simplicity, we avoid those cases and assume it is possible, i.e., `A` is "invertible".</p>
           <p>In theory, the answer really is that simple. Multiply both sides (on the left) by the inverse of `A` (denoted by `A^-1`) to get `x = A^-1b`. Done. In practice, though, this process is actually pretty complicated and time-consuming, <i>especially</i> when done by hand. In fact, doing it by hand is so nightmarish, let's assume we have a computer program that inverts and multiplies matrices for us. It turns out that even with a computer doing millions of operations in mere milliseconds, <b>inverting a matrix and then multiplying is relatively time-consuming</b>.</p>
-          <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do less operations. So <b>we'll consider how long inverting a matrix takes by looking at how many operations it takes.</b> The process is complicated (for me to know/explain), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2: 8` operations, `4 xx 4: 64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. Imagine `1,000,000^3` operations.)</p>
+          <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do less operations. So <b>we'll consider how long inverting a matrix takes by looking at how many operations it takes.</b> The process is complicated (for me to know/explain), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2` matrix: `8` operations, `4 xx 4` matrix: `64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. Imagine `1,000,000^3` operations.)</p>
           <div class="box">
             <p><b>The story thus far</b>: We're trying to solve `Ax = b`. (Given `A` and `b`, find `x`.) In theory, the simplest approach is to multiply both sides by `A^-1` to get `x = A^-1b`. In practice, this approach is not simple at all. Compared to other methods of solving this problem, finding `A^-1` is time-consuming. (And also space-inefficient, but I'll disregard it in this story.)</p>
             <p><b>Time complexity of finding `A^-1`</b>: `n^3`</p>
@@ -138,8 +138,8 @@
             <p>`[[1, 1, 1],[1, 2, 2],[1, 2, 3]] = [[1, 0, 0],[1, 1, 0],[1, 1, 1]] [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`</p>
           </div>
           <p>where `R = [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`, and `R^T = [[1, 0, 0],[1, 1, 0],[1, 1, 1]]`</p>
-          <p>I know we made a lot of assumptions about `A`, so all of this looks like it'll only work for super-specific cases, but it turns out that most of the useful matrices used in real life can be written as `A = R^TR`. How convenient. (If `A` can be written as `R^TR`, then it is symmetric, positive definite.)</p>
-          <p>The task now becomes finding such a matrix `R` such that `A = R^TR.` (`A` has to be symmetric, positive definite for this to work, so we'll assume `A` is symmetric, positive definite.)</p>
+          <p>I know we made a lot of assumptions about `A`, so all of this looks like it'll only work for super-specific cases. However, it turns out that most of the useful matrices used in real life can be written as `A = R^TR`. How convenient. (If `A` can be written as `R^TR`, then it is symmetric, positive definite.)</p>
+          <p>The task now becomes finding a matrix `R` such that `A = R^TR.` (`A` has to be symmetric, positive definite for this to work, so we'll assume `A` is symmetric, positive definite.)</p>
           <p>Let `A = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]]`</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/lin_alg/find_cholesky_factor.gif">
@@ -165,7 +165,7 @@
           </div>
           <h2>Banded Matrices</h2>
           <p>Things get better if `A` has a bunch of `0`'s (if `A` has a lot of `0`'s, it is called "sparse".) Much like most matrices have a Cholesky factor, most matrices are also large and sparse. A specific type of sparse matrix - a banded matrix - actually allows us to perform Cholesky decomposition faster.</p>
-          <p>(For those keeping track, all the assumptions we've made about `A` up to this point are that `A` is symmetric, positive definite, sparse, and banded. Again, `A` sounds super specific, but these type of matrices show up a lot apparently.)</p>
+          <p>(For those keeping track, all the assumptions we've made about `A` up to this point are that `A` is symmetric, positive definite, and banded (sparseness is implied). Again, `A` sounds super specific, but these type of matrices show up a lot apparently.)</p>
           <p>This is an example of a banded matrix: (notice the "band" of numbers across the diagonal and the `0`'s)</p>
           <div class="math">
             <p>`[[color(red)(2), color(red)(1), 0, 0, 0],[color(red)(1), color(red)(2), color(red)(1), 0, 0],[0, color(red)(1), color(red)(2), color(red)(1), 0],[0, 0, color(red)(1), color(red)(2), color(red)(1)],[0, 0, 0, color(red)(1), color(red)(2)]]`</p>
@@ -176,12 +176,30 @@
           <div class="math">
             <p>`[[2, 1, 4, 9, 3],[1, 2, 1, 3, 2],[5, 1, 4, 1, 2],[3, 8, 1, 2, 1],[6, 8, 9, 1, 2]] = [[r_(1,1), 0, 0, 0, 0],[r_(1,2), r_(2,2), 0, 0, 0],[r_(1,3), r_(2,3), r_(3,3), 0, 0],[r_(1,4), r_(2,4), r_(3,4), r_(4,4), 0],[r_(1,5), r_(2,5), r_(3,5), r_(4,5), r_(5,5)]] [[r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)],[0, r_(2,2), r_(2,3), r_(2,4), r_(2,5)],[0, 0, r_(3,3), r_(3,4), r_(3,5)],[0, 0, 0, r_(4,4), r_(4,5)],[0, 0, 0, 0, r_(5,5)]]`</p>
           </div>
+          <p>Notice how we have to go through all the rows of `A` to calculate `r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)`</p>
           <p>Now let's see what happens when `A` is banded:</p>
           <div class="math">
             <p>`[[2, 1, 0, 0, 0],[1, 2, 1, 0, 0],[0, 1, 2, 1, 0],[0, 0, 1, 2, 1],[0, 0, 0, 1, 2]] = [[r_(1,1), 0, 0, 0, 0],[r_(1,2), r_(2,2), 0, 0, 0],[r_(1,3), r_(2,3), r_(3,3), 0, 0],[r_(1,4), r_(2,4), r_(3,4), r_(4,4), 0],[r_(1,5), r_(2,5), r_(3,5), r_(4,5), r_(5,5)]] [[r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)],[0, r_(2,2), r_(2,3), r_(2,4), r_(2,5)],[0, 0, r_(3,3), r_(3,4), r_(3,5)],[0, 0, 0, r_(4,4), r_(4,5)],[0, 0, 0, 0, r_(5,5)]]`</p>
           </div>
-          <p>So it takes about `n` operations to find `R`. Even better is that because of all the `0`'s, performing forward and back substitution is also very fast.</p>
+          <p>We only need to go through the first `2` rows of `A`. Why is that? Let's look at the `3^(rd)` row where we solve for the value of `r_(1,3)`. The equation is</p>
+          <div class="math">
+            <p>`r_(1,3)*r_(1,1) = 0`</p>
+          </div>
+          <p>Regardless of what `r_(1,1)` is*, `r_(1,3)` has to be `0`. The same holds true for the rest of the rows below. We know those values are going to be `0`, so why bother calculating them?</p>
+          <p>*`r_(1,1)` will not be `0` because we assumed `A` was positive definite. This means the diagonal of `A` will be positive numbers. Solving for `r_(1,1)*r_(1,1) = #` cannot result in `r_(1,1) = 0`.</p>
+          <p>Recognizing those `0`'s allows us to skip over numbers in each row. That means, in each row, we only have to perform operations on about `2s+1` (defined earlier as the width of the band) numbers. With `n` rows, we have about `ns` total numbers.</p>
+          <p>So it takes about `ns` operations to find `R`. Compared to non-banded matrices, it's faster than the `n^3` operations it took to find `R`. Even better is that because of all the `0`'s, performing forward and back substitution is also very fast.</p>
+          <p>Recall the important fact mentioned earlier: if `A` is symmetric, positive definite, and banded with semiband `s`, then its Cholesky factor `R` is also banded with semiband `s`.</p>
+          <p>So solving `Rx = y` (back substitution) could look something like this: (remember `R` is upper-triangular)</p>
+          <div class="math">
+            <p>`[[2, 1, 0, 0, 0],[0, 2, 1, 0, 0],[0, 0, 2, 1, 0],[0, 0, 0, 2, 1],[0, 0, 0, 0, 2]] [[x_1],[x_2],[x_3],[x_4],[x_5]] = [[4],[5],[6],[10],[4]]`</p>
+          </div>
+          <p>Like before, each row only has about `s` (defined earlier as the semiband, or half of the band) numbers. With `n` rows, there are a total of `ns` numbers. <b>This means back substitution only takes `ns` operations. The same reasoning holds for forward substitution.</b></p>
           <p>All in all, it takes about `n` operations to solve `Ax = b` if we know that `A` is symmetric, positive definite, and banded. That is significantly faster than the `n^3` operations to find `R` and the `n^2` operations to do forward and back substitution.</p>
+          <div class="box">
+            <p><b>The story thus far:</b> Cholesky decomposition was a powerful method, but it still took `n^3` operations to find `R`. If we know `A` will be banded, then we can take advantage of its unique structure. The result is that it only takes `ns` operations to find `R` and another `ns` operations to do forward and back substitution to solve `Ax = b`. `s` is usually relatively small compared to `n` so it's safe to say that the whole process takes `n` operations.</p>
+            <p><b>Time complexity of Cholesky decomposition with banded matrices:</b> `n`</p>
+          </div>
         </div>
       </div>
     </div>
