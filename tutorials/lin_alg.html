@@ -199,9 +199,8 @@
           <div class="math">
             <p>`[[2, 1, 0, 0, 0],[0, 2, 1, 0, 0],[0, 0, 2, 1, 0],[0, 0, 0, 2, 1],[0, 0, 0, 0, 2]] [[x_1],[x_2],[x_3],[x_4],[x_5]] = [[4],[5],[6],[10],[4]]`</p>
           </div>
-          <p>Like before, each row only has about `s` numbers, each requiring `s` previous values for the computation. With `n` rows, there are a total of `ns^2` operations. <b>This means back substitution only takes `ns^2` operations. The same reasoning holds for forward substitution.</b></p>
-          <p>All in all, it takes about `3ns^2` (or simply, `n`) operations to solve `Ax = b` if we know that `A` is symmetric, positive definite, and banded. That is significantly faster than the `n^3` operations to find `R` and the `n^2` operations to do forward and back substitution.</p>
-          <p>As a disclaimer, I could be wrong about the specific details of the time complexity. However, the end result is the same: `n` operations.</p>
+          <p>Each row only has about `s` numbers. With `n` rows, there are a total of `ns` numbers. <b>This means back substitution only takes `ns` operations. The same reasoning holds for forward substitution.</b></p>
+          <p><b>All in all, it takes about `ns^2 + 2ns` (or simply, `n`) operations to solve `Ax = b` if we know that `A` is symmetric, positive definite, and banded.</b> That is significantly faster than the `n^3` operations to find `R` and the `n^2` operations to do forward and back substitution.</p>
           <div class="box">
             <p><b>The story thus far:</b> Cholesky decomposition was a powerful method, but it still took `n^3` operations to find `R`. If we know `A` will be banded, then we can take advantage of its unique structure. The result is that it only takes `ns^2` operations to find `R` and another `ns` operations to do forward and back substitution to solve `Ax = b`. `s` is usually relatively small compared to `n` so it's safe to say that the whole process takes `n` operations.</p>
             <p><b>Time complexity of Cholesky decomposition with banded matrices:</b> `n`</p>
