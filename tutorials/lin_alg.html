@@ -241,9 +241,31 @@
           <p>This is Jacobi's method.</p>
           <p>How long does it take? Let's first look at how it performs on a full matrix.</p>
           <div class="math">
-            <p></p>
           </div>
+          <p>There are `n` rows. For each row, we have to multiply and add `n` numbers. So there are `n^2` operations in total.</p>
+          <p>Doesn't seem to be too great. But what about if `A` was sparse? (with about `s` nonzero numbers per row)</p>
+          <div class="math">
+          </div>
+          <p>Now, there are only `s` elements per row. So we only need to do `ns` operations in total. Recall that Cholesky decomposition on a banded matrix also took roughly `ns` operations (`ns^2` operations). <b>But it was only that fast when the matrix was banded.</b> Here, with iterative methods, we achieved `ns` time without needing the matrix to be banded.</p>
           <h2>Iterative Methods: Gauss-Seidel</h2>
+          <p>The Gauss-Seidel method is pretty similar to the Jacobi method, but it is slightly smarter. Recall the equation for Jacobi:</p>
+          <div class="math">
+            <p>`x_i^((k+1)) = (b_i - sum_(j != i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
+          </div>
+          <p>Another way to write this is:</p>
+          <div class="math">
+            <p>`x_i^((k+1)) = (b_i - sum_(j < i) a_(i,j)*x_j^((k)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
+          </div>
+          <p>Notice the summation with `j < i`. That sum is going through all the values for which we have already made guesses. (That equation is giving us the new guess for the `i^(th)` number on the `k+1^(st)` iteration. So surely, we had to have made guesses for all the numbers before `i` on the `k+1^(st)` iteration right?) So instead of using an old guess, why not use the new guesses we just recently obtained?</p>
+          <div class="math">
+            <p>`x_i^((k+1)) = (b_i - sum_(j < i) a_(i,j)*x_j^((k+1)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
+          </div>
+          <p>This is the Gauss-Seidel method.</p>
+          <p>The Gauss-Seidel method should take about the same time as Jacobi's method since they are pretty much almost doing the same thing.</p>
+          <div class="box">
+            <p><b>The story thus far:</b> Two iterative methods that approximate the solution to `Ax = b` are Jacobi's method and the Gauss-Seidel method. Both of these start with an initial random guess and generate new guesses based on our old guesses.</p>
+            <p><b>Time complexity for Jacobi/Gauss-Seidel:</b> `n^2` for full matrices, `n` for sparse matrices</p>
+          </div>
         </div>
       </div>
     </div>
