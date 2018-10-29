@@ -22,7 +22,6 @@
       <h1>Numerical Analysis: A Linear Algebra Story</h1>
       <div class="row">
         <div class="col-12">
-          <p class="box">Note: This story assumes the reader has a basic understanding of matrices. (e.g. <a href="https://www.mathsisfun.com/algebra/matrix-multiplying.html" target="_blank">matrix multiplication</a>, <a href="http://www.sosmath.com/matrix/matinv/matinv.html" target="_blank">invertibility</a>, <a href="http://www.mathwords.com/t/transpose_of_a_matrix.htm" target="_blank">transposes</a>). Familiarity with Big O notation helps, but isn't necessary to follow along.</p>
           <p>Linear algebra is all about solving `Ax = b,` where, usually, `A` is an `n xx n` matrix, `x` is an `n xx 1` matrix, and `b` is an `n xx 1` matrix. Specifically, given `A` and `b,` find `x`. In other words, if the problem is</p>
           <div class="math">
             <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[..., ..., ..., ...],[a_(n,1), a_(n,2), ..., a_(n,n)]] [[x_1], [x_2], [...], [x_n]] = [[b_1], [b_2], [...], [b_n]]`</p>
@@ -38,7 +37,7 @@
           <p>In theory, the answer really is that simple. Multiply both sides (on the left) by the inverse of `A` (denoted by `A^-1`) to get `x = A^-1b`. Done. In practice, though, this process is actually pretty complicated and time-consuming, <i>especially</i> when done by hand. In fact, doing it by hand is so nightmarish, let's assume we have a computer program that inverts and multiplies matrices for us. It turns out that even with a computer doing millions of operations in mere milliseconds, <b>inverting a matrix and then multiplying is relatively time-consuming</b>.</p>
           <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do less operations. So <b>we'll consider how long inverting a matrix takes by looking at how many operations it takes.</b> The process is complicated (for me to know/explain), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2` matrix: `8` operations, `4 xx 4` matrix: `64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. Imagine `1,000,000^3` operations.)</p>
           <div class="box">
-            <p><b>The story thus far</b>: We're trying to solve `Ax = b`. (Given `A` and `b`, find `x`.) In theory, the simplest approach is to multiply both sides by `A^-1` to get `x = A^-1b`. In practice, this approach is not simple at all. Compared to other methods of solving this problem, finding `A^-1` is time-consuming. (And also space-inefficient, but I'll disregard it in this story.)</p>
+            <p><b>The story thus far</b>: We're trying to solve `Ax = b`. (Given `A` and `b`, find `x`.) In theory, the simplest approach is to multiply both sides by `A^-1` to get `x = A^-1b`. In practice, this approach is not simple at all. Compared to other methods of solving this problem, finding `A^-1` is time-consuming.</p>
             <p><b>Time complexity of finding `A^-1`</b>: `n^3`</p>
           </div>
           <h2>Triangular Systems</h2>
@@ -102,7 +101,7 @@
           <p>And we have our values for x, as desired.</p>
           <p class="box">To summarize: We assumed `A` could be "split up" into two parts `L` and `U` (i.e., `A = LU`). With that, the problem became `Ax = b => LUx = b`. We took advantage of the fact that solving something like `Lx = b` was easy. So by letting `y = Ux`, we could solve `Ly = b`. Doing that gave us `y`, so we could get `x` by solving `Ux = y`.</p>
           <p>This process may look like it requires a lot of steps. <b>But it actually takes less operations than inverting a matrix.</b> Let's look at how many operations it takes to solve `Ly = b`. <b>We'll count operations by counting how many numbers we have to perform operations on.</b></p>
-          <p>For the first row, there is `1` number. (By nature of matrix multiplication, the `0`'s don't count as numbers.)</p>
+          <p>For the first row, there is `1` number. (By the nature of matrix multiplication, the `0`'s don't count as numbers.)</p>
           <div class="math">
             <p>`[[color(red)(5), 0, 0],[2, -4, 0],[1, 2, 3]] [[color(red)(x_1)],[x_2],[x_3]] = [[15],[-2],[10]]`</p>
           </div>
@@ -138,8 +137,8 @@
             <p>`[[1, 1, 1],[1, 2, 2],[1, 2, 3]] = [[1, 0, 0],[1, 1, 0],[1, 1, 1]] [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`</p>
           </div>
           <p>where `R = [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`, and `R^T = [[1, 0, 0],[1, 1, 0],[1, 1, 1]]`</p>
-          <p>I know we made a lot of assumptions about `A`, so all of this looks like it'll only work for super-specific cases. However, it turns out that most of the useful matrices used in real life can be written as `A = R^TR`. How convenient. (If `A` can be written as `R^TR`, then it is symmetric, positive definite.)</p>
-          <p>The task now becomes finding a matrix `R` such that `A = R^TR.` (`A` has to be symmetric, positive definite for this to work, so we'll assume `A` is symmetric, positive definite.)</p>
+          <p>I know we made a lot of assumptions about `A`, so all of this looks like it'll only work for super-specific cases. However, it turns out that most of the useful matrices used in real life can be written as `A = R^TR`. How convenient. (If `A` can be written as `R^TR`, then it is positive definite.)</p>
+          <p>The task now becomes finding a matrix `R` such that `A = R^TR.` (`A` has to be positive definite for this to work, so we'll assume `A` is positive definite.)</p>
           <p>Let `A = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]]`</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/lin_alg/find_cholesky_factor.gif">
@@ -165,13 +164,13 @@
           </div>
           <h2>Banded Matrices</h2>
           <p>Things get better if `A` has a bunch of `0`'s (if `A` has a lot of `0`'s, it is called "sparse".) Much like most matrices have a Cholesky factor, most matrices are also large and sparse. A specific type of sparse matrix - a banded matrix - actually allows us to perform Cholesky decomposition faster.</p>
-          <p>(For those keeping track, all the assumptions we've made about `A` up to this point are that `A` is symmetric, positive definite, and banded (sparseness is implied). Again, `A` sounds super specific, but these type of matrices show up a lot apparently.)</p>
+          <p>(For those keeping track, all the assumptions we've made about `A` up to this point are that `A` is positive definite (can be split into `R^TR`) and banded (sparseness is implied). Again, `A` sounds super specific, but these type of matrices show up a lot apparently.)</p>
           <p>This is an example of a banded matrix: (notice the "band" of numbers across the diagonal and the `0`'s)</p>
           <div class="math">
             <p>`[[color(red)(2), color(red)(1), 0, 0, 0],[color(red)(1), color(red)(2), color(red)(1), 0, 0],[0, color(red)(1), color(red)(2), color(red)(1), 0],[0, 0, color(red)(1), color(red)(2), color(red)(1)],[0, 0, 0, color(red)(1), color(red)(2)]]`</p>
           </div>
           <p>It has bandwidth `3` (how wide the band is) and semiband `1` (half of the width of the band). In general, a banded matrix has semiband `s` and bandwidth `2s+1`.</p>
-          <p>It turns out that there's an important result involving banded matrices: if `A` is symmetric, positive definite, and banded with semiband `s`, then its Cholesky factor `R` is also banded with semiband `s`. This is important, because if `A` had a bunch of `0`'s, then R will have a bunch of `0`'s too. These `0`'s mean less operations we have to do to find out what `R` is.</p>
+          <p>It turns out that there's an important result involving banded matrices: if `A` is positive definite and banded with semiband `s`, then its Cholesky factor `R` is also banded with semiband `s`. This is important, because if `A` had a bunch of `0`'s, then R will have a bunch of `0`'s too. These `0`'s mean less operations we have to do to find out what `R` is.</p>
           <p>Recall the process for finding `R` if `A` is not banded:</p>
           <div class="math">
             <!-- <p>`[[2, 1, 4, 9, 3],[1, 2, 1, 3, 2],[5, 1, 4, 1, 2],[3, 8, 1, 2, 1],[6, 8, 9, 1, 2]] = [[r_(1,1), 0, 0, 0, 0],[r_(1,2), r_(2,2), 0, 0, 0],[r_(1,3), r_(2,3), r_(3,3), 0, 0],[r_(1,4), r_(2,4), r_(3,4), r_(4,4), 0],[r_(1,5), r_(2,5), r_(3,5), r_(4,5), r_(5,5)]] [[r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)],[0, r_(2,2), r_(2,3), r_(2,4), r_(2,5)],[0, 0, r_(3,3), r_(3,4), r_(3,5)],[0, 0, 0, r_(4,4), r_(4,5)],[0, 0, 0, 0, r_(5,5)]]`</p> -->
@@ -202,16 +201,16 @@
             </div>
           </div>
           <p>So it takes about `ns^2` operations to find `R`. Compared to non-banded matrices, it's faster than the `n^3` operations it took to find `R`. Even better is that because of all the `0`'s, performing forward and back substitution is also very fast.</p>
-          <p>Recall the important fact mentioned earlier: if `A` is symmetric, positive definite, and banded with semiband `s`, then its Cholesky factor `R` is also banded with semiband `s`.</p>
+          <p>Recall the important fact mentioned earlier: if `A` is positive definite and banded with semiband `s`, then its Cholesky factor `R` is also banded with semiband `s`.</p>
           <p>So solving `Rx = y` (back substitution) could look something like this: (remember `R` is upper-triangular)</p>
           <div class="math">
             <p>`[[2, 1, 0, 0, 0],[0, 2, 1, 0, 0],[0, 0, 2, 1, 0],[0, 0, 0, 2, 1],[0, 0, 0, 0, 2]] [[x_1],[x_2],[x_3],[x_4],[x_5]] = [[4],[5],[6],[10],[4]]`</p>
           </div>
           <p>Each row only has about `s` numbers. With `n` rows, there are a total of `ns` numbers. <b>This means back substitution only takes `ns` operations. The same reasoning holds for forward substitution.</b></p>
-          <p><b>All in all, it takes about `ns^2 + 2ns` (or simply, `n`) operations to solve `Ax = b` if we know that `A` is symmetric, positive definite, and banded.</b> That is significantly faster than the `n^3` operations to find `R` and the `n^2` operations to do forward and back substitution.</p>
+          <p><b>All in all, it takes about `ns^2 + 2ns` (or simply, `ns^2`) operations to solve `Ax = b` if we know that `A` is positive definite and banded.</b> That is significantly faster than the `n^3` operations to find `R` and the `n^2` operations to do forward and back substitution.</p>
           <div class="box">
-            <p><b>The story thus far:</b> Cholesky decomposition was a powerful method, but it still took `n^3` operations to find `R`. If we know `A` will be banded, then we can take advantage of its unique structure. The result is that it only takes `ns^2` operations to find `R` and another `ns` operations to do forward and back substitution to solve `Ax = b`. `s` is usually relatively small compared to `n` so it's safe to say that the whole process takes `n` operations.</p>
-            <p><b>Time complexity of Cholesky decomposition with banded matrices:</b> `n`</p>
+            <p><b>The story thus far:</b> Cholesky decomposition was a powerful method, but it still took `n^3` operations to find `R`. If we know `A` will be banded (and positive definite), then we can take advantage of its unique structure. The result is that it only takes `ns^2` operations to find `R` and another `ns` operations to do forward and back substitution to solve `Ax = b`.</p>
+            <p><b>Time complexity of Cholesky decomposition with banded matrices:</b> `ns^2`</p>
           </div>
           <h2>Iterative Methods: Overview</h2>
           <p>Cholesky decomposition with banded matrices is nice. But it's only fast when the matrices are banded, which isn't always going to be the case. However, let's consider a different scenario. Let's suppose that we have such a giant matrix, that it takes a day or something to complete. If we stopped our program while it was in the middle of doing Cholesky, we would end up with nothing. It would be nice to be able to stop early and see if the answer we have so far is close to the real answer. That's what iterative methods allow us to do.</p>
@@ -245,7 +244,7 @@
           <div class="math">
             <p>`x_i^((k+1)) = (b_i - sum_(j != i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
           </div>
-          <p>At the `k^(th)` iteration, we have our `k^(th)` guess. We get our next guess (the `k+1^(st)` guess) by plugging in our `k^(th)` guess into that equation.</p>
+          <p>On the `k^(th)` iteration, we have our `k^(th)` guess. We get our next guess (the `k+1^(st)` guess) by plugging in our `k^(th)` guess into that equation.</p>
           <p>This is Jacobi's method.</p>
           <p>How long does it take? Let's first look at how it performs on a full matrix.</p>
           <div class="math">
@@ -274,7 +273,7 @@
           <p>The Gauss-Seidel method should take about the same time as Jacobi's method since they are pretty much almost doing the same thing.</p>
           <div class="box">
             <p><b>The story thus far:</b> Two iterative methods that approximate the solution to `Ax = b` are Jacobi's method and the Gauss-Seidel method. Both of these start with an initial random guess and generate new guesses based on our old guesses.</p>
-            <p><b>Time complexity for Jacobi/Gauss-Seidel:</b> `n^2` for full matrices, `n` for sparse matrices</p>
+            <p><b>Time complexity for Jacobi/Gauss-Seidel:</b> `n^2` for full matrices, `n` for sparse matrices (`ns` if the sparseness depends on the size of the matrix)</p>
           </div>
         </div>
       </div>
