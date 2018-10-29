@@ -213,6 +213,37 @@
             <p><b>The story thus far:</b> One way of approaching the `Ax = b` problem is to solve for the exact solution (e.g. by Cholesky decomposition). Another way of approaching the problem is to <i>approximate</i> the solution instead of getting the exact solution. This is sometimes faster and more applicable to general matrices.</p>
           </div>
           <h2>Iterative Methods: Jacobi</h2>
+          <p>So we start with an initial guess - either a random guess or an educated one - and get a new guess. How do we get the new guess?</p>
+          <p>Let's look at `Ax = b`.</p>
+          <div class="math">
+            <p>`[[a_(1,1), a_(1,2), a_(1,3)],[a_(2,1), a_(2,2), a_(2,3)],[a_(3,1), a_(3,2), a_(3,3)]] [[x_1],[x_2],[x_3]] = [[b_1],[b_2],[b_3]]`</p>
+          </div>
+          <p>If we wanted to get `x_1`, we would do:</p>
+          <div class="math">
+            <p>`a_(1,1)*x_1 + a_(1,2)*x_2 + a_(1,3)*x_3 = b_1`</p>
+            <p>`a_(1,1)*x_1 = b_1 - a_(1,2)*x_2 - a_(1,3)*x_3`</p>
+            <p>`x_1 = (b_1 - a_(1,2)*x_2 - a_(1,3)*x_3) / a_(1,1)`</p>
+          </div>
+          <p>By similar reasoning, `x_2` and `x_3` would be:</p>
+          <div class="math">
+            <p>`x_2 = (b_2 - a_(2,1)*x_1 - a_(2,3)*x_3) / a_(2,2)`</p>
+            <p>`x_3 = (b_3 - a_(3,1)*x_1 - a_(3,2)*x_2) / a_(3,3)`</p>
+          </div>
+          <p>Generalizing this, we could say that to get `x_i`, we would do:</p>
+          <div class="math">
+            <p>`x_i = (b_i - sum_(j != i) a_(i,j)*x_j) / a_(i,i)`</p>
+          </div>
+          <p>This is the equation to get the exact answer. Since we're working with guesses and not exact answers, we need to modify this equation slightly:</p>
+          <div class="math">
+            <p>`x_i^((k+1)) = (b_i - sum_(j != i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
+          </div>
+          <p>At the `k^(th)` iteration, we have our `k^(th)` guess. We get our next guess (the `k+1^(st)` guess) by plugging in our `k^(th)` guess into that equation.</p>
+          <p>This is Jacobi's method.</p>
+          <p>How long does it take? Let's first look at how it performs on a full matrix.</p>
+          <div class="math">
+            <p></p>
+          </div>
+          <h2>Iterative Methods: Gauss-Seidel</h2>
         </div>
       </div>
     </div>
