@@ -245,7 +245,18 @@
             <p>`x_i^((k+1)) = (b_i - sum_(j != i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
           </div>
           <p>On the `k^(th)` iteration, we have our `k^(th)` guess. We get our next guess (the `k+1^(st)` guess) by plugging in our `k^(th)` guess into that equation.</p>
-          <p>This is Jacobi's method.</p>
+          <p>This is Jacobi's method. In equation form. This is Jacobi in matrix form:</p>
+          <div class="math">
+            <p>`x^((k+1)) = D^(-1)((D-A)x^((k)) + b)`</p>
+          </div>
+          <p>where `D` is the matrix containing the diagonal of `A`</p>
+          <div class="math">
+            <p>`D = [[a_(1,1), 0, ..., 0],[0, a_(2,2), 0, ...],[..., 0, ..., 0],[0, ..., 0, a_(n,n)]]`</p>
+          </div>
+          <div class="box">
+            <p>`D^(-1)` is equivalent to taking each entry of `A` and "flipping it" `(1/a_(i,i))`</p>
+            <p>`D-A` is getting `A` and subtracting off the diagonals `a_(i,i)` so that they are all `0`, i.e., we're dealing with all `a_(i,j)` where `i != j` `(sum_(j != i) a_(i,j)*x_j^((k)))`</p>
+          </div>
           <p>How long does it take? Let's first look at how it performs on a full matrix.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/lin_alg/analyze_jacobi_full.gif">
@@ -275,6 +286,32 @@
             <p><b>The story thus far:</b> Two iterative methods that approximate the solution to `Ax = b` are Jacobi's method and the Gauss-Seidel method. Both of these start with an initial random guess and generate new guesses based on our old guesses.</p>
             <p><b>Time complexity for Jacobi/Gauss-Seidel:</b> `n^2` for full matrices, `n` for sparse matrices (`ns` if the sparseness depends on the size of the matrix)</p>
           </div>
+          <h2>Vector Norms</h2>
+          <p>Since we're getting approximate answers, it's important to know how close our answer `x^((k))` is to the real answer `x`. Because `x^((k))` and `x` are vectors, we need to define a notion of distance between vectors.</p>
+          <p>Vector norms are used to measure lengths of vectors. `||x||` is the length of `x`. One example of a norm is the "`2`-norm" which is:</p>
+          <div class="math">
+            <p>`||x||_2 = sqrt(x_1^2 + x_2^2 + ... + x_n^2)`</p>
+          </div>
+          <p>With this notion of length, we can come up with the notion of distance between two vectors:</p>
+          <div class="math">
+            <p>`||x-y||_2 = sqrt((x_1-y_1)^2 + ... + (x_n-y_n)^2)`</p>
+          </div>
+          <p>Informally, that is saying, "how far apart are `x` and `y`? Those familiar with the distance formula might see some similarities.</p>
+          <p>Going back to our problem at hand, we want to know how far apart our answer `x^((k))` is to the real answer `x`. Now that we have a way of measuring distance between two vectors, we can represent that as:</p>
+          <div class="math">
+            <p>`||x^((k)) - x||`</p>
+          </div>
+          <h2>Convergence of Iterative Methods</h2>
+          <p>Iterative methods (at least Jacobi and Gauss-Seidel anyway) can be summarized by the notion of "additive splitting". That is, we can rewrite `A` as `A = M - N` where `M` and `N` are two matrices (and `M` is invertible).</p>
+          <p>The problem then becomes:</p>
+          <div class="math">
+            <p>`Ax = b`</p>
+            <p>`=> (M-N)x = b`</p>
+            <p>`=> Mx - Nx = b`</p>
+            <p>`=> Mx = Nx + b`</p>
+            <p>`=> x = M^(-1)(Nx + b)`</p>
+          </div>
+          <p>How does this relate to iterative methods? Well, that equation says: if we plug in `x` on the right and do some operations to it, we get back `x`. <b>If we plug in `x` on one side, and get it back on the other side, then we've found our answer.</b> That's what we're doing with iterative methods.</p>
         </div>
       </div>
     </div>
