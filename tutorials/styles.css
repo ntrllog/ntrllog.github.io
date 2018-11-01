@@ -2,12 +2,6 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-#back {
-  position: absolute;
-  top: 50px;
-  left: 50px;
-}
-
 .container {
   padding-top: 20px;
 }
@@ -26,12 +20,4 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-@media screen and (max-width: 1024px) {
-  #back {
-    position: absolute;
-    top: 30px;
-    left: 250px;
-  }
 }

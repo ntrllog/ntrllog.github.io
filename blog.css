@@ -4,13 +4,11 @@ body, .navbar {
   background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("./pictures/blog/paper-2500942_960_720.jpg");
 }
 
-#back {
-  position: fixed;
-  top: 50px;
-  left: 50px;
-}
-
 .banner {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-right: 10px;
+  margin-bottom: 10px;
   font-family: 'Indie Flower', 'sans-serif';
   text-align: center;
   background-color: rgb(226, 226, 226);
@@ -54,15 +52,6 @@ body, .navbar {
 
 code {
   color: black;
-}
-
-#quote {
-  position: absolute;
-  width: 250px;
-  right: 20px;
-  top: 10px;
-  font-family: 'Crimson Text', 'Times New Roman';
-  text-align: justify;
 }
 
 #back2Top {
@@ -370,11 +359,6 @@ code {
 @media screen and (max-width: 1024px) {
   .container {
     margin-left: 0;
-  }
-  #back {
-    top: 10px;
-    left: 10px;
-    position: absolute;
   }
   #quote {
     display: none;
