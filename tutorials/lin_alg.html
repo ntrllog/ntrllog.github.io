@@ -157,7 +157,7 @@
           <p>This pattern repeats for all `n` columns of `R`. For each column, we're doing operations on <i>about</i> `n^2` numbers. Since there are `n` columns, we're doing operations on about `n*n^2 = n^3` numbers.</p>
           <p><b>So finding the Cholesky factor `R` requires `n^3` operations.</b> Wait. That sounds bad. Inverting a matrix took `n^3` operations and that was considered bad. So if finding `R` takes about as long as it does to find `A^-1`, why bother with Cholesky decomposition at all?</p>
           <p>Well, so far, all of this was done to solve `Ax = b`. Just <i>one</i> problem. What if we changed `b`? What if we were trying to solve `Ax = c?` Or `Ax = d?` (All using the same matrix `A`.) <b>If we had to solve multiple problems using the same matrix `A`, we would have to repeatedly do `n^3` operations to find the inverse* for each problem.</b> If we instead found the Cholesky decomposition first, we would have `R^T` and `R` stored in the computer ready to use for each problem and <i>only</i> have to do forward and back substitution for each problem. <b>This means for one problem, it will take `n^3` operations. But for future, subsequent problems, it will <i>only</i> take `n^2` operations</b>.</p>
-          <p>*The actual method beginning linear algebra students would apply to solve `Ax = b` would probably be Gaussian Elimination, which still takes `n^3` operations. (When I say "beginning" I do not imply that I have more knowledge in linear algebra than they do lol.)</p>
+          <p>*Gaussian elimination is another (slightly more viable) option, but it still takes `n^3` operations.</p>
           <div class="box">
             <p><b>The story thus far:</b> Finding `A^-1` takes too long `(n^3)`. Finding `L` and `U` such that `A = LU` is hard, but faster `(n^2)`. Finding `R` such that `A = R^TR` is easier, and potentially just as fast.</p>
             <p><b>Time complexity for Cholesky decomposition:</b> `n^3`</p>
@@ -280,7 +280,15 @@
           <div class="math">
             <p>`x_i^((k+1)) = (b_i - sum_(j < i) a_(i,j)*x_j^((k+1)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
           </div>
-          <p>This is the Gauss-Seidel method.</p>
+          <p>This is the Gauss-Seidel method. And in matrix form:</p>
+          <div class="math">
+            <p>`x^((k+1)) = D^(-1)(b + Ex^((k+1)) + Fx^((k)))`</p>
+          </div>
+          <p>where `E` is the negative of the lower-triangular part of `A` and `F` is the negative upper-triangular part of `A`.</p>
+          <div class="math">
+            <p>`E = [[-a_(1,1), 0, ..., 0], [-a_(2,1), -a_(2,2), 0, ...], [..., ..., ..., 0], [-a_(n,n), ..., ..., -a_(n,n)]]`</p>
+            <p>`F = [[-a_(1,1), -a_(1,2), ..., -a_(1,n)], [0, -a_(2,2), ..., ...], [..., 0, ..., ...], [0, ..., 0, -a_(n,n)]]`</p>
+          </div>
           <p>The Gauss-Seidel method should take about the same time as Jacobi's method since they are pretty much almost doing the same thing.</p>
           <div class="box">
             <p><b>The story thus far:</b> Two iterative methods that approximate the solution to `Ax = b` are Jacobi's method and the Gauss-Seidel method. Both of these start with an initial random guess and generate new guesses based on our old guesses.</p>
@@ -311,7 +319,79 @@
             <p>`=> Mx = Nx + b`</p>
             <p>`=> x = M^(-1)(Nx + b)`</p>
           </div>
-          <p>How does this relate to iterative methods? Well, that equation says: if we plug in `x` on the right and do some operations to it, we get back `x`. <b>If we plug in `x` on one side, and get it back on the other side, then we've found our answer.</b> That's what we're doing with iterative methods.</p>
+          <p>How does this relate to iterative methods? Well, that equation says: if we plug in `x` on the right and do some operations to it, we get back `x`. <b>If we plug in `x` on one side, and get it back on the other side, then we've found our answer.</b> That describes exactly what we're doing with iterative methods.</p>
+          <p>So `x^((k+1)) = M^(-1)(Nx^((k)) + b)` is the general formula for iterative methods. How do Jacobi and Gauss-Seidel fit into this formula? (Compare to the matrix form of each method mentioned earlier)</p>
+          <p>For Jacobi, let `M = D` and `N = (D-A)`</p>
+          <div class="math">
+            <p>`x^((k+1)) = D^(-1)((D-A)x^((k)) + b)`</p>
+          </div>
+          <p>For Gauss-Seidel, let `M = D-E` and `N = F`</p>
+          <div class="math">
+            <p>`x^((k+1)) = (D-E)^(-1)(Fx^((k)) + b)`</p>
+            <p>`(D-E)x^((k+1)) = Fx^((k)) + b`</p>
+            <p>`Dx^((k+1)) - Ex^((k+1)) = Fx^((k)) + b`</p>
+            <p>`Dx^((k+1)) = Ex^((k+1)) + Fx^((k)) + b`</p>
+            <p>`x^((k+1)) = D^(-1)(b + Ex^((k+1)) + Fx^((k)))`</p>
+          </div>
+          <p>Recall that `D` is the diagonal of `A`, `E` is the negative of the lower-triangular part of `A`, and `F` is the negative of the upper-triangular part of `A`.</p>
+          <p>Now that we've established that `Mx^((k+1)) = Nx^((k)) + b` really is the general formula for iterative methods, we can talk about looking at when (possibly if) iterative methods will give us an answer (i.e., converge).</p>
+          <p>If `Mx^((k+1)) = Nx^((k)) + b` is the equation we're using to approximate the solution and `Mx = Nx + b` is what we're trying to achieve, then subtracting them gives us how far away we are from the actual solution.</p>
+          <div class="math">
+            <p>`Mx^((k+1)) = Nx^((k)) + b`</p>
+            <p>`-(Mx = Nx + b)`</p>
+            <p>`Mx^((k+1)) - Mx = Nx^((k)) - Nx`</p>
+            <p>`M(x^((k+1)) - x) = N(x^((k)) - x)`</p>
+          </div>
+          <p>Let's let `e^((k)) = x^((k)) - x` be how far away we are from the actual solution at the `k^(th)` step. That means `e^((k+1)) = x^((k+1)) - x` is how far away we are from the actual solution at the `k+1^(st)` step. With that, we have</p>
+          <div class="math">
+            <p>`Me^((k+1)) = Ne^((k))`</p>
+            <p>`e^((k+1)) = (M^(-1)N)e^((k))`</p>
+          </div>
+          <p>Keeping in mind that `e` represents how far away we are from the actual solution (and that iterative methods don't always work), if we are to actually get a solution using iterative methods, then we need `||e^((k+1))||_2` to get closer and closer to `0` as `k` keeps increasing (The more we guess, the closer we get to the answer).</p>
+          <p>Let's let `G = M^(-1)N`. Then `e^((k+1)) = Ge^((k))`. We could recursively apply that formula to get:</p>
+          <div class="math">
+            <p>`e^((k+1)) = G(Ge^(k-1)) = G(G(Ge^(k-2))) = ...`</p>
+            <p>`e^((k+1)) = G^(k+1)e^((0))`</p>
+          </div>
+          <p>`G^(k+1)` is `M^(-1)N` multiplied by itself `k+1` times and `e^((0))` is the distance away from our initial guess to the actual answer. If we want `e^((k+1))` to go to `0`, then `G^(k+1)` has to go to `0` and/or `e^((0))` has to go to `0`. We don't really have control over how far our initial guess is away from the actual answer (i.e., we can't really pick a guess that's close to the actual answer) so the only choice left is to hope that multiplying `G = M^(-1)N` a bunch of times results in it going to `0` (kind of like how multiplying `0.1` a bunch of times makes it closer to `0`).</p>
+          <p>There's a way to tell if multiplying `G` a bunch of times will make it go to `0` and it involves looking at the eigenvectors and eigenvalues of `G`.</p>
+          <p>`v_i` is an eigenvector of `G` if `Gv_i = lambda_i v_i` for some number `lambda_i`, which is then the eigenvalue of `G`.</p>
+          <div class="box">
+            <p>Example:</p>
+            <p>`[[3, 2], [3, -2]] [[2],[1]] = 4[[2],[1]]`</p>
+            <p>`v = [[2],[1]]` and `lambda = 4`</p>
+          </div>
+          <p>Let's write* `e^((0))` in terms of the eigenvectors of `G`:</p>
+          <div class="math">
+            <p>`e^((0)) = c_1v_1 + ... + c_nv_n`</p>
+          </div>
+          <p>Then multiply it by `G`:</p>
+          <div class="math">
+            <p>`Ge^((0)) = c_1Gv_1 + ... + c_nGv_n`</p>
+          </div>
+          <p>Remember that `Gv_i = lambda_i v_i`:</p>
+          <div class="math">
+            <p>`Ge^((0)) = c_1lambda_1v_1 + ... + c_nlambda_nv_n`</p>
+          </div>
+          <p>Generalizing this for `G^k`:</p>
+          <div class="math">
+            <p>`G^ke^((0)) = c_1lambda_1^kv_1 + ... + c_nlambda_n^kv_n`</p>
+          </div>
+          <p>Now we're back to where we were before introducing all the eigen-stuff: we wanted to know if and how `G^ke^((0))` would go to `0`. In this equation, that happens if `|lambda_i| < 1` i.e., all the (aboslute values of the) eigenvalues of `G` are smaller than `1`. (Again, multiplying `0.1` a bunch of times makes it go to `0`).</p>
+          <div class="box">
+            <p>*This is possible because `G` is invertible. This leads to the fact that any vector with `n` values can be written in terms of the eigenvectors of `G`. In math-speak: `{v_1, ..., v_n}` span `R^n`.</p>
+          </div>
+          <div class="box">
+            <p>To summarize: Iterative methods don't always work. Sometimes, making more guesses causes our guess to go farther and farther away from the actual answer. We are approximating after all. It would be nice to know ahead of time if we are going to get close to our answer (if the iterative method will converge). It turns out that by looking at eigenvalues, we can determine if we will get close to our solution or not.</p>
+          </div>
+          <p>There's a term for this concept: spectral radius. The spectral radius, denoted by `rho(G)` is:</p>
+          <div class="math">
+            <p>`rho(G) = max_i |lambda_i|`</p>
+          </div>
+          <p>In words, the spectral radius of a matrix is the largest eigenvalue of that matrix. Relating this back to the conclusion we got earlier, <b>if the spectral radius of a matrix is less than `1`, then `G^(k)e^((0)) = e^((k+1))` will go to `0` (the distance from our guess to the actual answer will get closer to `0`; the iterative method will converge).</b></p>
+          <p>What's remarkable about this fact is that this is true <i>no matter what our initial guess is.</i></p>
+          <p>So we have a way of determining if the iterative method will converge. Just calculate all the eigenvalues of `G` and see if the largest eigenvalue is less than `1`. Well, it turns out that finding eigenvalues of a matrix is a slow process, so that's not going to help us much.</p>
+          <p>There's an easier criterion for determing the spectral radius: <b>for any matrix `G` with `0's` along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) |g_(i,j)|` (the sum of the numbers in each row). If `R_i < 1` for all `i`, then `rho(G) < max_i R_i < 1`.</b></p>
         </div>
       </div>
     </div>
