@@ -391,7 +391,25 @@
           <p>In words, the spectral radius of a matrix is the largest eigenvalue of that matrix. Relating this back to the conclusion we got earlier, <b>if the spectral radius of a matrix is less than `1`, then `G^(k)e^((0)) = e^((k+1))` will go to `0` (the distance from our guess to the actual answer will get closer to `0`; the iterative method will converge).</b></p>
           <p>What's remarkable about this fact is that this is true <i>no matter what our initial guess is.</i></p>
           <p>So we have a way of determining if the iterative method will converge. Just calculate all the eigenvalues of `G` and see if the largest eigenvalue is less than `1`. Well, it turns out that finding eigenvalues of a matrix is a slow process, so that's not going to help us much.</p>
-          <p>There's an easier criterion for determining the spectral radius: <b>for any matrix `G = M^(-1)N` with `0's` along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) |g_(i,j)|` (the sum of the numbers in each row). If `R_i < 1` for all `i`, then `rho(G) < max_i R_i < 1`.</b></p>
+          <p>There's an easier criterion for determining the spectral radius: <b>for any matrix `G = M^(-1)N` with `0's` along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) |g_(i,j)|` (the sum of the numbers in each row). If `R_i < 1` for all `i`, then `rho(G) <= max_i R_i < 1`</b> (Gershgorin Theorem).</p>
+          <div class="box">
+            <p>Does Jacobi converge for:</p>
+            <div class="math">
+              <p>`A = [[3, -1, 0, 0, 0],[-1, 3, -1, 0, 0],[0, -1, 3, -1, 0],[0, 0, -1, 3, -1],[0, 0, 0, -1, 3]]`?</p>
+            </div>
+            <p>Letting `M = D`, `N = D-A`, `G = M^(-1)N` we have:</p>
+            <div class="flex">
+              <p>`M = [[3, 0, 0, 0, 0],[0, 3, 0, 0, 0],[0, 0, 3, 0, 0],[0, 0, 0, 3, 0],[0, 0, 0, 0, 3]]`</p>
+              <p>`N = [[0, 1, 0, 0, 0],[1, 0, 1, 0, 0],[0, 1, 0, 1, 0],[0, 0, 1, 0, 1],[0, 0, 0, 1, 0]]`</p>
+              <p>`G = [[0, 1/3, 0, 0, 0],[1/3, 0, 1/3, 0, 0],[0, 1/3, 0, 1/3, 0],[0, 0, 1/3, 0, 1/3],[0, 0, 0, 1/3, 0]]`</p>
+            </div>
+            <p>To know if Jacobi will converge, we need to know if the spectral radius of `A` is less than `1`. We can find that out easily by taking each row sum and looking at the max (Gershgorin Theorem).</p>
+            <div class="math">
+              <p>`R_1 = R_5 = 1/3`</p>
+              <p>`R_2 = R_3 = R_4 = 2/3`</p>
+            </div>
+            <p>Since `2/3` is the max row sum, `rho(A) <= 2/3`. Since `rho(A) < 1`, Jacobi will converge no matter what guess we choose as our initial guess.</p>
+          </div>
         </div>
       </div>
     </div>
