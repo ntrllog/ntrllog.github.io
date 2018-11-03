@@ -391,7 +391,7 @@
           <p>In words, the spectral radius of a matrix is the largest eigenvalue of that matrix. Relating this back to the conclusion we got earlier, <b>if the spectral radius of a matrix is less than `1`, then `G^(k)e^((0)) = e^((k+1))` will go to `0` (the distance from our guess to the actual answer will get closer to `0`; the iterative method will converge).</b></p>
           <p>What's remarkable about this fact is that this is true <i>no matter what our initial guess is.</i></p>
           <p>So we have a way of determining if the iterative method will converge. Just calculate all the eigenvalues of `G` and see if the largest eigenvalue is less than `1`. Well, it turns out that finding eigenvalues of a matrix is a slow process, so that's not going to help us much.</p>
-          <p>There's an easier criterion for determing the spectral radius: <b>for any matrix `G` with `0's` along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) |g_(i,j)|` (the sum of the numbers in each row). If `R_i < 1` for all `i`, then `rho(G) < max_i R_i < 1`.</b></p>
+          <p>There's an easier criterion for determining the spectral radius: <b>for any matrix `G = M^(-1)N` with `0's` along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) |g_(i,j)|` (the sum of the numbers in each row). If `R_i < 1` for all `i`, then `rho(G) < max_i R_i < 1`.</b></p>
         </div>
       </div>
     </div>
