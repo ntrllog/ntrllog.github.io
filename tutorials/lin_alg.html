@@ -379,7 +379,7 @@
           </div>
           <p>Now we're back to where we were before introducing all the eigen-stuff: we wanted to know if and how `G^ke^((0))` would go to `0`. In this equation, that happens if `|lambda_i| < 1` i.e., all the (aboslute values of the) eigenvalues of `G` are smaller than `1`. (Again, multiplying `0.1` a bunch of times makes it go to `0`).</p>
           <div class="box">
-            <p>*This is possible because `G` is invertible. This leads to the fact that any vector with `n` values can be written in terms of the eigenvectors of `G`. In math-speak: `{v_1, ..., v_n}` span `R^n`.</p>
+            <p>*This is possible because `G` is invertible. `G` being an invertible (`n xx n`) matrix leads to the fact that any vector with `n` values can be written in terms of the eigenvectors of `G`. In math-speak: `{v_1, ..., v_n}` span `R^n`.</p>
           </div>
           <div class="box">
             <p>To summarize: Iterative methods don't always work. Sometimes, making more guesses causes our guess to go farther and farther away from the actual answer. We are approximating after all. It would be nice to know ahead of time if we are going to get close to our answer (if the iterative method will converge). It turns out that by looking at eigenvalues, we can determine if we will get close to our solution or not.</p>
@@ -409,6 +409,9 @@
               <p>`R_2 = R_3 = R_4 = 2/3`</p>
             </div>
             <p>Since `2/3` is the max row sum, `rho(A) <= 2/3`. Since `rho(A) < 1`, Jacobi will converge no matter what guess we choose as our initial guess.</p>
+          </div>
+          <div class="box">
+            <p><b>The story thus far:</b> Iterative methods can be written in matrix form as `x = (M^(-1)N)x + b`. From that equation, we derived the equation representing how far away our current guess is to the real answer: `e^((k+1)) = (M^(-1)N)e^((k))`. If `e^((k+1))` goes to `0` as we keep guessing, then that means we're getting closer to the real answer. One way to find out if `e^((k+1))` will go to `0` is to look at the spectral radius of `G = M^(-1)N`. If it is less than `1`, then `e^((k+1))` will eventually go to `0`. One way to find out if the spectral radius is less than `1` is to look at each row sum of `G` and see if the maximum row sum is less than `1`.</p>
           </div>
         </div>
       </div>
