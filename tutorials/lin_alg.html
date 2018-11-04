@@ -481,6 +481,24 @@
             <p>`norm(deltax)/norm(x) <= kappa(A)norm(deltab)/norm(b)`</p>
           </div>
           <p>The condition number is really important: if it is large, then even with a small error in `b`, we will end up with a large error in `x`. In this case, `A` is "well conditioned". If the condition number is small, then if the error in `b` is small, then the error in `x` is small. In this case, `A` is "ill conditioned".</p>
+          <div class="box">
+            <p>This is an example of a well conditioned system:</p>
+            <div class="math">
+              <p>`[[1, 2],[3, 4]][[x_1],[x_2]] = [[b_1],[b_2]]`</p>
+              <p>`x_1 + 2x_2 = b_1`</p>
+              <p>`3x_1 + 4x_2 = b_2`</p>
+              <img class="img-fluid" src="../pictures/lin_alg/well_condition_graph.gif">
+              <p>Notice that by moving the blue line up slightly (adding `deltab` to `b`), the solution only changes slightly.</p>
+            </div>
+            <p>This is an example of an ill conditioned system:</p>
+            <div class="math">
+              <p>`[[1, 2],[3, 5.6]][[x_1],[x_2]] = [[b_1],[b_2]]`</p>
+              <p>`x_1 + 2x_2 = b_1`</p>
+              <p>`3x_1 + 5.6x_2 = b_2`</p>
+              <img class="img-fluid" src="../pictures/lin_alg/ill_condition_graph.gif">
+              <p>Notice that by moving the blue line up slightly (adding `deltab` to `b`), the solution changes drastically.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
