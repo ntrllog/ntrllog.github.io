@@ -480,7 +480,7 @@
           <div class="math">
             <p>`norm(deltax)/norm(x) <= kappa(A)norm(deltab)/norm(b)`</p>
           </div>
-          <p>The condition number is really important: if it is large, then even with a small error in `b`, we will end up with a large error in `x`. In this case, `A` is "well conditioned". If the condition number is small, then if the error in `b` is small, then the error in `x` is small. In this case, `A` is "ill conditioned".</p>
+          <p>The condition number is really important: if it is small, then a small error in `b`, we will lead to a small error in `x`. In this case, `A` is "well conditioned". If the condition number is large, then even if the error in `b` is small, the error in `x` is large. In this case, `A` is "ill conditioned".</p>
           <div class="box">
             <p>This is an example of a well conditioned system:</p>
             <div class="math">
@@ -498,6 +498,8 @@
               <img class="img-fluid" src="../pictures/lin_alg/ill_condition_graph.gif">
               <p>Notice that by moving the blue line up slightly (adding `deltab` to `b`), the solution changes drastically.</p>
             </div>
+          </div>
+          <p>Note that the system was ill conditioned because the lines were almost parallel to each other. In linear algebra terms, the columns of `A` were almost linearly dependent. In linear algebra, that also means that `A` is almost not invertible. So the condition number is a way of measuring how close `A` is to not being invertible.</p>
           </div>
         </div>
       </div>
