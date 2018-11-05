@@ -410,6 +410,28 @@
             </div>
             <p>Since `2/3` is the max row sum, `rho(A) <= 2/3`. Since `rho(A) < 1`, Jacobi will converge no matter what guess we choose as our initial guess.</p>
           </div>
+          <p>Now we know when our iterative methods will converge. But we can also look at how many steps it will take to converge.</p>
+          <p>Let's look at `e^((k+1))` and `e^((k))`, both of which we defined as `e^((k+1)) = G^(k+1)e^((0))` and `e^((k)) = G^(k)e^((0))`. Remember that these can be written in terms of the eigenvectors of `G` (`{v_1, ..., v_n}`) since they span `R^n`.</p>
+          <div class="math">
+            <p>`e^((k+1)) = c_1lambda_1^(k+1)v_1 + ... c_nlambda_n^(k+1)v_n`</p>
+            <p>`e^((k)) = c_1lambda_1^(k)v_1 + ... c_nlambda_n^(k)v_n`</p>
+          </div>
+          <p>Let's look at those two in terms of the largest eigenvalue `lambda_i`:</p>
+          <div class="math">
+            <p>`e^((k+1)) ~~ c_ilambda_i^(k+1)v_i`</p>
+            <p>`e^((k)) ~~ c_ilambda_i^(k)v_i`</p>
+            <p>`norm(e^((k+1))) ~~ abs(c_i)abs(lambda_i^(k+1))norm(v_i)`</p>
+            <p>`norm(e^((k))) ~~ abs(c_i)abs(lambda_i^(k))norm(v_i)`</p>
+          </div>
+          <p>Dividing those two equations results in everything canceling out except for `abs(lambda_i)`.</p>
+          <div class="math">
+            <p>`norm(e^((k+1)))/norm(e^((k))) ~~ abs(lambda_i)`</p>
+          </div>
+          <p>Well, `abs(lambda_i)` is the spectral radius. Also, since `norm(e^((k+1)))` and `norm(e^((k)))` differed by `k+1 - k = 1` eigenvalue, `norm(e^((k)))/norm(e^((0)))` differ by `k - 0 = k` eigenvalues.
+          <div class="math">
+            <p>`norm(e^((k)))/norm(e^((0))) ~~ (rho(G))^k`</p>
+          </div>
+          <p>This tells us that if the spectral radius is small, then the iterative method will converge fairly quickly. If the spectral radius is big - but still less than `1` - it won't converge as quickly (`0.1^100` goes to `0` faster than `0.9^100` does). Knowing the spectral radius lets us determine for how many iterations we should let our iterative method run.</p>
           <div class="box">
             <p><b>The story thus far:</b> Iterative methods can be written in matrix form as `x = (M^(-1)N)x + b`. From that equation, we derived the equation representing how far away our current guess is to the real answer: `e^((k+1)) = (M^(-1)N)e^((k))`. If `e^((k+1))` goes to `0` as we keep guessing, then that means we're getting closer to the real answer. One way to find out if `e^((k+1))` will go to `0` is to look at the spectral radius of `G = M^(-1)N`. If it is less than `1`, then `e^((k+1))` will eventually go to `0`. One way to find out if the spectral radius is less than `1` is to look at each row sum of `G` and see if the maximum row sum is less than `1`.</p>
           </div>
