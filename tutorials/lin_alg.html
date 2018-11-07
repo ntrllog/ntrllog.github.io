@@ -347,7 +347,7 @@
             <p>`Me^((k+1)) = Ne^((k))`</p>
             <p>`e^((k+1)) = (M^(-1)N)e^((k))`</p>
           </div>
-          <p>Keeping in mind that `e` represents how far away we are from the actual solution (and that iterative methods don't always work), if we are to actually get a solution using iterative methods, then we need `norm(e^((k+1)))_2` to get closer and closer to `0` as `k` keeps increasing (The more we guess, the closer we get to the answer).</p>
+          <p><b>Keeping in mind that `e` represents how far away we are from the actual solution (and that iterative methods don't always work), if we are to actually get a solution using iterative methods, then we need `norm(e^((k+1)))` to get closer and closer to `0` as `k` keeps increasing (The more we guess, the closer we get to the answer).</b></p>
           <p>Let's let `G = M^(-1)N`. Then `e^((k+1)) = Ge^((k))`. We could recursively apply that formula to get:</p>
           <div class="math">
             <p>`e^((k+1)) = G(Ge^(k-1)) = G(G(Ge^(k-2))) = ...`</p>
@@ -373,11 +373,11 @@
           <div class="math">
             <p>`Ge^((0)) = c_1lambda_1v_1 + ... + c_nlambda_nv_n`</p>
           </div>
-          <p>Generalizing this for `G^k`:</p>
+          <p>Generalizing this for `G^(k+1)`:</p>
           <div class="math">
-            <p>`G^ke^((0)) = c_1lambda_1^kv_1 + ... + c_nlambda_n^kv_n`</p>
+            <p>`G^(k+1)e^((0)) = c_1lambda_1^(k+1)v_1 + ... + c_nlambda_n^(k+1)v_n`</p>
           </div>
-          <p>Now we're back to where we were before introducing all the eigen-stuff: we wanted to know if and how `G^ke^((0))` would go to `0`. In this equation, that happens if `abs(lambda_i) < 1` i.e., all the (aboslute values of the) eigenvalues of `G` are smaller than `1`. (Again, multiplying `0.1` a bunch of times makes it go to `0`).</p>
+          <p>Now we're back to where we were before introducing all the eigen-stuff: we wanted to know if and how `e^((k+1)) = G^(k+1)e^((0))` would go to `0`. In this equation, that happens if `abs(lambda_i) < 1` for all `i`, i.e., all the (aboslute values of the) eigenvalues of `G` are smaller than `1`. (Again, multiplying `0.1` a bunch of times makes it go to `0`).</p>
           <div class="box">
             <p>*This is possible because `G` is invertible. `G` being an invertible (`n xx n`) matrix leads to the fact that any vector with `n` values can be written in terms of the eigenvectors of `G`. In math-speak: `{v_1, ..., v_n}` span `R^n`.</p>
           </div>
@@ -388,7 +388,7 @@
           <div class="math">
             <p>`rho(G) = max_i abs(lambda_i)`</p>
           </div>
-          <p>In words, the spectral radius of a matrix is the largest eigenvalue of that matrix. Relating this back to the conclusion we got earlier, <b>if the spectral radius of a matrix is less than `1`, then `G^(k)e^((0)) = e^((k+1))` will go to `0` (the distance from our guess to the actual answer will get closer to `0`; the iterative method will converge).</b></p>
+          <p>In words, the spectral radius of a matrix is the largest eigenvalue of that matrix. Relating this back to the conclusion we got earlier, <b>if the spectral radius of a matrix is less than `1`, then `G^(k)e^((0)) = e^((k+1))` will go to `0` (the distance from our guess to the actual answer will get closer to `0`; the iterative method will converge).</b> We only need to look at the maximum eigenvalue - as opposed to all the eigenvalues - because if the maximum is less than `1`, then all the eigenvalues will be less than `1`.</p>
           <p>What's remarkable about this fact is that this is true <i>no matter what our initial guess is.</i></p>
           <p>So we have a way of determining if the iterative method will converge. Just calculate all the eigenvalues of `G` and see if the largest eigenvalue is less than `1`. Well, it turns out that finding eigenvalues of a matrix is a slow process, so that's not going to help us much.</p>
           <p>There's an easier criterion for determining the spectral radius: <b>for any matrix `G = M^(-1)N` with `0's` along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) abs(g_(i,j))` (the sum of the numbers in each row). If `R_i < 1` for all `i`, then `rho(G) <= max_i R_i < 1`</b> (Gershgorin Theorem).</p>
@@ -411,7 +411,7 @@
             <p>Since `2/3` is the max row sum, `rho(A) <= 2/3`. Since `rho(A) < 1`, Jacobi will converge no matter what guess we choose as our initial guess.</p>
           </div>
           <p>Now we know when our iterative methods will converge. But we can also look at how many steps it will take to converge.</p>
-          <p>Let's look at `e^((k+1))` and `e^((k))`, both of which we defined as `e^((k+1)) = G^(k+1)e^((0))` and `e^((k)) = G^(k)e^((0))`. Remember that these can be written in terms of the eigenvectors of `G` (`{v_1, ..., v_n}`) since they span `R^n`.</p>
+          <p>Let's look at `e^((k+1))` and `e^((k))`, both of which we defined as `e^((k+1)) = G^(k+1)e^((0))` and `e^((k)) = G^(k)e^((0))`. Remember that these can be written in terms of the eigenvectors of `G` (which are `{v_1, ..., v_n}`) since they span `R^n`.</p>
           <div class="math">
             <p>`e^((k+1)) = c_1lambda_1^(k+1)v_1 + ... c_nlambda_n^(k+1)v_n`</p>
             <p>`e^((k)) = c_1lambda_1^(k)v_1 + ... c_nlambda_n^(k)v_n`</p>
@@ -451,7 +451,7 @@
           <p>One useful result that will be used in the next section is `norm(Ax)_p <= norm(A)_pnorm(x)_p`.</p>
           <p>From this point on, <i>matrix</i> norms without a subscript are assumed to be the induced norm.</p>
           <h2>Condition Numbers</h2>
-          <p>And now back to our regularly scheduled programming: solving `Ax = b`. Except with a few changes.</p>
+          <p>And now back to our regularly scheduled programming: solving `Ax = b`. Except with a few changes (pun intended).</p>
           <p>In real life, `b` is usually obtained by some measurement. In other words, `b` is a vector that contains measured quantities. As a result, there is the possibility that we have measurement error. For example, you might record something as 5.25 miles when it is really 5.250432 miles. So we really don't have `b`; we have `overline(b)` where:</p>
           <div class="math">
             <p>`overline(b) = b + deltab`</p>
@@ -476,7 +476,7 @@
             <p>Here, `Ax = b`</p>
             <p>`Adeltax = deltab`</p>
             <p>`deltax = A^(-1)deltab`</p>
-            <p>`norm(deltax) = norm(A^(-1))norm(deltab)`</p>
+            <p>`norm(deltax) = norm(A^(-1)deltab)`</p>
           </div>
           <p>Using the useful result from the previous section:</p>
           <div class="math">
@@ -502,7 +502,7 @@
           <div class="math">
             <p>`norm(deltax)/norm(x) <= kappa(A)norm(deltab)/norm(b)`</p>
           </div>
-          <p>The condition number is really important: if it is small, then a small error in `b`, we will lead to a small error in `x`. In this case, `A` is "well conditioned". If the condition number is large, then even if the error in `b` is small, the error in `x` is large. In this case, `A` is "ill conditioned".</p>
+          <p><b>The condition number is really important: if it is small, then a small error in `b`, will lead to a small error in `x`. In this case, `A` is "well conditioned". If the condition number is large, then even if the error in `b` is small, the error in `x` will be large. In this case, `A` is "ill conditioned".</b></p>
           <div class="box">
             <p>This is an example of a well conditioned system:</p>
             <div class="math">
@@ -522,10 +522,47 @@
             </div>
           </div>
           <p>Note that the system was ill conditioned because the lines were almost parallel to each other. In linear algebra terms, the columns of `A` were almost linearly dependent. In linear algebra, that also means that `A` is almost not invertible. So the condition number is a way of measuring how close `A` is to not being invertible.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+		  <p>So we have `kappa(A) = norm(A)norm(A^(-1))`. Let's look at `norm(A)`.</p>
+		  <div class="math">
+			<p>`norm(A) = max_(x != 0) norm(Ax)/norm(x)`</p>
+		  </div>
+		  <p>This is like saying that we're looking for a vector `x`, such that when it is multiplied by `A`, the result is the largest vector out of all the choices we could've picked for `x`. (There are many choices as to what `x` could be. Different choices of `x` will give us different results of `Ax`. But there is one `x` that will give us the largest `Ax`. That is the `x` we're looking for here.)</p>
+		  <p>This introduces the "maximum magnification of `A`":</p>
+		  <div class="math">
+			<p>`norm(A) = max_(x != 0) norm(Ax)/norm(x) = text(maxmag)(A)`</p>
+		  </div>
+		  <p>Now let's look at `norm(A^(-1))`:</p>
+		  <div class="math">
+			<p>`norm(A^(-1)) = max_(x != 0) norm(A^(-1)x)/norm(x)`</p>
+			<p>Let's let `y = A^(-1)x`</p>
+			<p>`norm(A^(-1)) = max_(y != 0) norm(y)/norm(Ay)`</p>
+		  </div>
+		  <p>Thinking back to fractions, if we want to make `a/b` a big number, then we pick `a` to be big `(10000/3)`. If we want to make `b/a` a really big number, then we pick `a` to be small `(3/.00001)`. The idea of big and small and flipping the order of the fractions leads to the next result:</p>
+		  <div class="math">
+			<p>`norm(A^(-1)) = max_(y != 0) norm(y)/norm(Ay) = (min_(y != 0) norm(Ay)/norm(y))^(-1)`</p>
+		  </div>
+		  <p>This is like saying that we're looking for a vector `y`, such that when it is multiplied by `A`, the result is the <i>smallest</i> vector out of all the choices we could've picked for `y`. (There are many choices as to what `y` could be. Different choices of `y` will give us different results of `Ay`. But there is one `y` that will give us the largest `Ay`. That is the `y` we're looking for here.)</p>
+		  <p>This introduces the "minimum magnification of `A`":</p>
+		  <div class="math">
+			<p>`norm(A^(-1)) = (min_(x != 0) norm(Ax)/norm(x))^(-1) = (text(minmag)(A))^(-1)`</p>
+		  </div>
+		  <p>Combining these two magnifications, we have:</p>
+		  <div class="math">
+			<p>`kappa(A) = norm(A)norm(A^(-1)) = (text(maxmag)(A))/(text(minmag)(A))`</p>
+		  </div>
+		  <p>So we can calculate the condition number by "the largest we can stretch a vector" divided by "the smallest we can stretch a vector". It turns out that if we look at this in terms of the 2-norm*, we get:</p>
+		  <div class="math">
+			<p>`kappa(A) = norm(A)_2norm(A^(-1))_2 = (text(maximum eigenvalue of )A)/(text(minimum eigenvalue of )A)`</p>
+		  </div>
+		  <p>*It also turns out that we can only say "eigenvalue" when dealing with the 2-norm.</p>
+		  <div class="box">
+			<p>The notion of "stretching" a vector is related to eigenvalues.</p>
+			<p>`[[3, 2], [3, -2]] [[2],[1]] = 4[[2],[1]]`</p>
+			<p>`4` is an eigenvalue of `[[3, 2], [3, -2]]` and it is stretching the vector `[[2],[1]]` `4` times bigger.</p>
+		  </div>
+        </div> <!-- col -->
+      </div> <!-- row -->
+    </div> <!-- container -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   </body>
 </html>
