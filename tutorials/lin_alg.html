@@ -449,6 +449,11 @@
             <p>where `1 <= p <= oo`</p>
           </div>
           <p>These norms are usually more useful than the Frobenius norm, but they take longer to compute (`n^3`). (However, a (relatively) fast way to estimate `norm(A)_p` is to take a bunch of random vectors `x` and compute `norm(Ax)_p/norm(x)_p`. Whichever answer is largest, will be approximately equal to `norm(A)_p`).</p>
+		  <div class="box">
+			<p>It turns out that:</p>
+			<p>`norm(A)_1` is the largest 1-norm of the columns of `A` `(max_j sum_i abs(a_(i,j)))`</p>
+			<p>`norm(A)_oo` is the largest 1-norm of the rows of `A` `(max_i sum_j abs(a_(i,j)))`</p>
+		  </div>
           <p>One useful result that will be used is `norm(Ax)_p <= norm(A)_pnorm(x)_p`.</p>
           <p>From this point on, <i>matrix</i> norms without a subscript are assumed to be the induced norm.</p>
           <h2>Condition Numbers</h2>
@@ -604,8 +609,21 @@
 		  </div>
 		  <p>So the amount of error we get in our solution is bounded by the condition number and the amount of error in `A`.</p>
 		  <div class="box">
-			<p>Example: Let `A = [[1, 1],[1, 1.01]], A^(-1) = [[101, -100],[-100, 100]]`</p>
+			<p>Example: Let `A = [[1, 1],[1, 1.01]], A^(-1) = [[101, -100],[-100, 100]]`. Assume `norm(deltaA)_1 < .001`.</p>
+			<p>Using the facts about 1-norms from the Matrix Norms section, we get:</p>
+			<p>`norm(A)_1 = 2.01` and `norm(A^(-1))_1 = 201`</p>
+			<p>`kappa_1(A) = norm(A)_1*norm(A^(-1))_1 = (2.01)(201) ~~ 400`</p>
+			<p>`norm(deltax)_1/norm(x + deltax)_1 <= kappa_1(A)norm(deltaA)_1/norm(A)_1`</p>
+			<p>`norm(deltax)_1/norm(x + deltax)_1 <= (400)(.001/2.01)`</p>
+			<p>`norm(deltax)_1/norm(x + deltax)_1 <= .2`</p>
+			<p>This means that if we change `A` by `.1%`, the solution we get could be off from the true solution by `20%`.</p>
 		  </div>
+		  <div class="box">
+			<p><b>The story thus far:</b> Like for `b`, we never know `A` perfectly. (However, we assumed for this section we knew `b` perfectly.) So the problem becomes `(A + deltaA)x = b` where `deltaA` is the error in `A`. Also like for `b`, the condition number of `A` determines whether `deltaA` makes our answer still close enough to the true answer or completely off from the true answer.</p>
+		  </div>
+		  <h2>Error Estimates</h2>
+		  <p>An a priori error estimate is an estimate made about the potential error of our solution before solving for the solution. In other words, we are getting a feel for how accurate our solution will be so that once we do get our solution, we can determine whether it is accurate or not.</p>
+		  <p>An a posteriori estimate is the opposite: first we get our solution; then we analyze how accurate it is.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
