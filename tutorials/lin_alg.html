@@ -254,6 +254,7 @@
             <p>`D = [[a_(1,1), 0, ..., 0],[0, a_(2,2), 0, ...],[..., 0, ..., 0],[0, ..., 0, a_(n,n)]]`</p>
           </div>
           <div class="box">
+			<p>A rough idea of why the equation form is equivalent to the matrix form:</p>
             <p>`D^(-1)` is equivalent to taking each entry of `A` and "flipping it" `(1/a_(i,i))`</p>
             <p>`D-A` is getting `A` and subtracting off the diagonals `a_(i,i)` so that they are all `0`, i.e., we're dealing with all `a_(i,j)` where `i != j` `(sum_(j != i) a_(i,j)*x_j^((k)))`</p>
           </div>
@@ -413,15 +414,15 @@
           <p>Now we know when our iterative methods will converge. But we can also look at how many steps it will take to converge.</p>
           <p>Let's look at `e^((k+1))` and `e^((k))`, both of which we defined as `e^((k+1)) = G^(k+1)e^((0))` and `e^((k)) = G^(k)e^((0))`. Remember that these can be written in terms of the eigenvectors of `G` (which are `{v_1, ..., v_n}`) since they span `R^n`.</p>
           <div class="math">
-            <p>`e^((k+1)) = c_1lambda_1^(k+1)v_1 + ... c_nlambda_n^(k+1)v_n`</p>
-            <p>`e^((k)) = c_1lambda_1^(k)v_1 + ... c_nlambda_n^(k)v_n`</p>
+            <p>`e^((k+1)) = c_1lambda_1^(k+1)v_1 + ... + c_nlambda_n^(k+1)v_n`</p>
+            <p>`e^((k)) = c_1lambda_1^(k)v_1 + ... + c_nlambda_n^(k)v_n`</p>
           </div>
           <p>Let's look at those two in terms of the largest eigenvalue `lambda_i`:</p>
           <div class="math">
             <p>`e^((k+1)) ~~ c_ilambda_i^(k+1)v_i`</p>
             <p>`e^((k)) ~~ c_ilambda_i^(k)v_i`</p>
-            <p>`norm(e^((k+1))) ~~ abs(c_i)abs(lambda_i^(k+1))norm(v_i)`</p>
-            <p>`norm(e^((k))) ~~ abs(c_i)abs(lambda_i^(k))norm(v_i)`</p>
+            <p>`norm(e^((k+1))) ~~ abs(c_i)*abs(lambda_i^(k+1))*norm(v_i)`</p>
+            <p>`norm(e^((k))) ~~ abs(c_i)*abs(lambda_i^(k))*norm(v_i)`</p>
           </div>
           <p>Dividing those two equations results in everything canceling out except for `abs(lambda_i)`.</p>
           <div class="math">
@@ -448,18 +449,18 @@
             <p>where `1 <= p <= oo`</p>
           </div>
           <p>These norms are usually more useful than the Frobenius norm, but they take longer to compute (`n^3`). (However, a (relatively) fast way to estimate `norm(A)_p` is to take a bunch of random vectors `x` and compute `norm(Ax)_p/norm(x)_p`. Whichever answer is largest, will be approximately equal to `norm(A)_p`).</p>
-          <p>One useful result that will be used in the next section is `norm(Ax)_p <= norm(A)_pnorm(x)_p`.</p>
+          <p>One useful result that will be used is `norm(Ax)_p <= norm(A)_pnorm(x)_p`.</p>
           <p>From this point on, <i>matrix</i> norms without a subscript are assumed to be the induced norm.</p>
           <h2>Condition Numbers</h2>
           <p>And now back to our regularly scheduled programming: solving `Ax = b`. Except with a few changes (pun intended).</p>
-          <p>In real life, `b` is usually obtained by some measurement. In other words, `b` is a vector that contains measured quantities. As a result, there is the possibility that we have measurement error. For example, you might record something as 5.25 miles when it is really 5.250432 miles. So we really don't have `b`; we have `overline(b)` where:</p>
+          <p>In real life, `b` is usually obtained by some measurement. In other words, `b` is a vector that contains measured quantities. As a result, there is the possibility that we have measurement error. For example, you might record something as 5.25 miles when it is really 5.250432 miles. So we really don't have `b`; we have `hat(b)` where:</p>
           <div class="math">
-            <p>`overline(b) = b + deltab`</p>
+            <p>`hat(b) = b + deltab`</p>
             <p>where `deltab` is how much we are off by from `b`</p>
           </div>
-          <p>This changes the problem quite a bit. Instead of `Ax = b`, we now have `Ax = b + deltab`. <b>This is a problem because if we don't know `b` exactly, then we won't get `x` exactly.</b> This means that the answer we get is actually `overline x` where:</p>
+          <p>This changes the problem quite a bit. Instead of `Ax = b`, we now have `Ax = b + deltab`. <b>This is a problem because if we don't know `b` exactly, then we won't get `x` exactly.</b> This means that the answer we get is actually `hat x` where:</p>
           <div class="math">
-            <p>`overline(x) = x + deltax`</p>
+            <p>`hat(x) = x + deltax`</p>
             <p>where `deltax` is how much we are off by from `x`</p>
           </div>
           <p>So the real* problem we are trying to solve is:</p>
@@ -468,7 +469,7 @@
           </div>
           <p>*Right now, we're assuming we know `A` perfectly.</p>
           <p>With all these errors, the question isn't how to find `x` anymore. <b>What's more important is knowing if the error in `b` greatly affects the error in our answer.</b></p>
-          <p>The error in `b` can be measured by `norm(deltab)/norm(b)` (the size of the error in `b` relative to `b`) and the error in `x` can be measured by `norm(deltax)/norm(x)` (the size of the error in `x` relative to `x`). What we hope is that if `norm(deltab)/norm(b)` is small, then `norm(deltax)/norm(x)` is also small.</p>
+          <p>The error in `b` can be measured by `norm(deltab)/norm(b)` (the size of the error in `b` relative to `b`) and the error in `x` can be measured by `norm(deltax)/norm(x)` (the size of the error in `x` relative to `x`). <b>What we hope is that if `norm(deltab)/norm(b)` is small, then `norm(deltax)/norm(x)` is also small.</b></p>
           <p>We could derive a bound for `norm(deltax)/norm(x)`. Looking back at the "real" problem:</p>
           <div class="math">
             <p>`A(x + deltax) = b + deltab`</p>
@@ -480,23 +481,23 @@
           </div>
           <p>Using the useful result from the previous section:</p>
           <div class="math">
-            <p>`norm(deltax) <= norm(A^(-1))norm(b)`</p>
+            <p>`norm(deltax) <= norm(A^(-1))*norm(b)`</p>
             <p>`(1)`</p>
           </div>
           <p>To get `1/norm(x)` we look at `Ax = b`:</p>
           <div class="math">
             <p>`norm(b) = norm(Ax)`</p>
-            <p>`norm(b) <= norm(A)norm(x)`</p>
+            <p>`norm(b) <= norm(A)*norm(x)`</p>
             <p>`1/norm(x) <= norm(A)1/norm(b)`</p>
             <p>`(2)`</p>
           </div>
           <p>Multiplying `(1)` and `(2)`, we get:</p>
           <div class="math">
-            <p>`norm(deltax)/norm(x) <= norm(A)norm(A^(-1))norm(deltab)/norm(b)`</p>
+            <p>`norm(deltax)/norm(x) <= norm(A)*norm(A^(-1))norm(deltab)/norm(b)`</p>
           </div>
-          <p>`norm(A)norm(A^(-1))` is called the condition number of `A`, denoted by `kappa(A)`</p>
+          <p>`norm(A)*norm(A^(-1))` is called the condition number of `A`, denoted by `kappa(A)`</p>
           <div class="math">
-            <p>`kappa(A) = norm(A)norm(A^-1)`</p>
+            <p>`kappa(A) = norm(A)*norm(A^-1)`</p>
           </div>
           <p>So our equation becomes:</p>
           <div class="math">
@@ -522,7 +523,7 @@
             </div>
           </div>
           <p>Note that the system was ill conditioned because the lines were almost parallel to each other. In linear algebra terms, the columns of `A` were almost linearly dependent. In linear algebra, that also means that `A` is almost not invertible. So the condition number is a way of measuring how close `A` is to not being invertible.</p>
-		  <p>So we have `kappa(A) = norm(A)norm(A^(-1))`. Let's look at `norm(A)`.</p>
+		  <p>So we have `kappa(A) = norm(A)*norm(A^(-1))`. Let's look at `norm(A)`.</p>
 		  <div class="math">
 			<p>`norm(A) = max_(x != 0) norm(Ax)/norm(x)`</p>
 		  </div>
@@ -552,13 +553,58 @@
 		  </div>
 		  <p>So we can calculate the condition number by "the largest we can stretch a vector" divided by "the smallest we can stretch a vector". It turns out that if we look at this in terms of the 2-norm*, we get:</p>
 		  <div class="math">
-			<p>`kappa(A) = norm(A)_2norm(A^(-1))_2 = (text(maximum eigenvalue of )A)/(text(minimum eigenvalue of )A)`</p>
+			<p>`kappa_2(A) = norm(A)_2norm(A^(-1))_2 = (text(maximum eigenvalue of )A)/(text(minimum eigenvalue of )A)`</p>
 		  </div>
 		  <p>*It also turns out that we can only say "eigenvalue" when dealing with the 2-norm.</p>
 		  <div class="box">
 			<p>The notion of "stretching" a vector is related to eigenvalues.</p>
 			<p>`[[3, 2], [3, -2]] [[2],[1]] = 4[[2],[1]]`</p>
 			<p>`4` is an eigenvalue of `[[3, 2], [3, -2]]` and it is stretching the vector `[[2],[1]]` `4` times bigger.</p>
+		  </div>
+		  <div class="box">
+			<p>Another way in which the condition number is an indicator of how invertible a matrix is:</p>
+			<p>If `A` is not (or close to not being) invertible, then there exists a `0` (or some really small number close to `0`) eigenvalue. Getting the largest eigenvalue of `A` divided by `0` (or some really small number close to `0`) results in `oo` (or a really large number close to `oo`). Thus, the condition number tells us how close a matrix is to being invertible. If the condition number is small, then it is invertible (and the smaller the condition number, the easier it is to invert). If the condition number is `oo`, then it is not invertible (and the larger the condition number, the harder it is to invert).</p>
+		  </div>
+		  <p>This gives an alternate interpretation of the condition number, but it really isn't too useful. As mentioned before, calculating eigenvalues is a slow process. However, we can provide an estimate for the condition number.</p>
+		  <p>It turns out that the condition number of a matrix `A` is always bigger than the norm of any column of `A` divided by the norm of any other column of `A`:</p>
+		  <div class="math">
+			<p>`kappa_p(A) >= norm(a_i)_p/norm(a_j)_p`</p>
+		  </div>
+		  <p>This gives us a lower bound as to what the condition number could be.</p>
+		  <div class="box">
+			<p><b>The story thus far:</b> When it comes to solving `Ax = b`, we actually never know `b` perfectly. Because `b` is obtained from collecting measurements, `b` is subject to measurement error. Therefore, we're actually trying to solve `Ax = b + deltab` where `deltab` is the error. We could still solve for `x`, but it will be for `Ax = b + deltab`, not `Ax = b`. So we hope that the answer we get is close enough to the true answer to be useful. The condition number of `A` determines whether `deltab` is an issue or if it's small enough to not affect the problem.</p>
+		  </div>
+		  <h2>Perturbing `A`</h2>
+		  <p>In the previous section, we assumed that we knew `A` perfectly. Like `b`, `A` is also obtained from measurements, so it is also possible to have measurement error in `A`. Now we look at not knowing `A` perfectly but knowing `b` perfectly.</p>
+		  <div class="math">
+			<p>`(A + deltaA)x = b`</p>
+		  </div>
+		  <p>This is a harder problem than `Ax = b + deltab`. In that problem, `A` was assumed to be invertible, which made it possible to solve the problem. Here, adding some error to `A`, which is assumed to be invertible, might change it enough so that it is no longer invertible.</p>
+		  <p>How can we avoid that situation? It turns out that <b>if `A` is invertible and `norm(deltaA)/norm(A) < 1/(kappa(A))`, then `A + deltaA` is invertible.</b></p>
+		  <div class="box">
+			<p>A rough idea of the previous statement:</p>
+			<p>Adding error `(deltaA)` to `A` changes `A` and its eigenvalues. However, if the error is smaller than the smallest eigenvalue of `A`, then the error won't change `A` and its eigenvalues too much.</p>
+		  </div>
+		  <p>As before, since we don't have a perfect `A`, we don't have a perfect `x`. That means we have `hat(x) = x + deltax`. So the problem is:</p>
+		  <div class="math">
+			<p>`(A + deltaA)hat(x) = b`</p>
+			<p>`(A + deltaA)(x + deltax) = b`</p>
+			<p>`Ax + A(deltax) + deltaA(x + deltax) = b`</p>
+			<p>Here, `Ax = b`</p>
+			<p>`A(deltax) + deltaA(x + deltax) = 0`</p>
+			<p>`A(deltax) = -deltaA(x + deltax)`</p>
+			<p>`deltax = -A^(-1)(deltaA(x + deltax))`</p>
+			<p>`norm(deltax) = norm(-A^(-1)(deltaA(x + deltax)))`</p>
+			<p>`norm(deltax) <= norm(-A^(-1))*norm(deltaA(x + deltax))`</p>
+			<p>`norm(deltax) <= norm(-A^(-1))*norm(deltaA)*norm(x + deltax)`</p>
+			<p>Multiplying both sides by `1 = norm(A)/norm(A)`, we get:</p>
+			<p>`1*norm(deltax) <= norm(A^(-1))*norm(deltaA)*norm(x + deltax)norm(A)/norm(A)`</p>
+			<p>`norm(deltax)/norm(x + deltax) <= norm(A^(-1))*norm(A)norm(deltaA)/norm(A)`</p>
+			<p>`norm(deltax)/norm(x + deltax) <= kappa(A)norm(deltaA)/norm(A)`</p>
+		  </div>
+		  <p>So the amount of error we get in our solution is bounded by the condition number and the amount of error in `A`.</p>
+		  <div class="box">
+			<p>Example: Let `A = [[1, 1],[1, 1.01]], A^(-1) = [[101, -100],[-100, 100]]`</p>
 		  </div>
         </div> <!-- col -->
       </div> <!-- row -->
