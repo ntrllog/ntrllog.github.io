@@ -623,7 +623,80 @@
 		  </div>
 		  <h2>Error Estimates</h2>
 		  <p>An a priori error estimate is an estimate made about the potential error of our solution before solving for the solution. In other words, we are getting a feel for how accurate our solution will be so that once we do get our solution, we can determine whether it is accurate or not.</p>
-		  <p>An a posteriori estimate is the opposite: first we get our solution; then we analyze how accurate it is.</p>
+		  <p>This what we've been doing so far.</p>
+		  <p>An a posteriori estimate is the opposite: first we get our solution; then we analyze how accurate it is. That is what we'll do in this section.</p>
+		  <p>In an ideal situation, we would solve `Ax = b` to get `x`. Since `Ax` and `b` are equal to each other, subtracting them should result in `0`: `b-Ax = 0`.</p>
+		  <p>However, we're never going to have an ideal situation, so we would end up with `hat(x) != x`, which means `hat(x)` isn't the true solution. So `Ahat(x)` is not equal to `b`, and subtracting them should result in a number not `0`: `b-Ahat(x) = hat(r)`. `hat(r)` is called the residual.</p>
+		  <p>Now, we can analyze our error in terms of the residual. Let's look again at making a small change to `b`. So `Ax = b + deltab`. First of all:</p>
+		  <div class="math">
+			<p>`Ax = b + deltab`</p>
+			<p>`-deltab = b - Ax`</p>
+			<p>`-deltab = hat(r)`</p>
+		  </div>
+		  <p>Recall that in that section we defined `hat(x) = x + deltax`. Also in that section, we got this:</p>
+		  <div class="math">
+			<p>`norm(deltax)/norm(x) <= kappa(A)norm(deltab)/norm(b)`</p>
+		  </div>
+		  <p>We could rewrite this in terms of the residual:</p>
+		  <div class="math">
+			<p>`norm(x - hat(x))/norm(x) <= kappa(A) norm(hat(r))/norm(b)`</p>
+		  </div>
+		  <p>This equation is saying the same thing as the other equation. But this gives a different interpretation. Instead of bounding our error by looking at the change in `b`, we can bound our error by looking at the residual. This is more helpful because it's not really possible to calculate `deltab` (you can't really know exactly how much measurement error you made; if you did, then there would be almost no point to all of this.) But it is possible to calculate the residual: do `b - Ahat(x)`.</p>
+		  <div class="box">
+			<p>Example: `A = [[1, 1],[1, 1.01]]`, `kappa_1(A) ~~ 400`, `b = [[1],[2]]`.</p>
+			<p>Let's say we try to solve `Ax = b` and get our solution `hat(x)`.</p>
+			<p>Now we can check how far `hat(x)` is from the actual solution by getting the residual: `hat(r) = b - Ahat(x)`</p>
+			<p>Let's say `hat(r) = [[2 xx 10^(-5)],[1 xx 10^(-5)]]`</p>
+			<p>So what does this say about `x - hat(x)`? I.e., how far off is `hat(x)` from `x`?</p>
+			<p>From calculating, we get: `norm(hat(r))_1 = 3 xx 10^(-5)` and `norm(b)_1 = 3`</p>
+			<p>`norm(x - hat(x))/norm(x) <= kappa(A) norm(hat(r))/norm(b)`</p>
+			<p>`norm(x - hat(x))/norm(x) <= (400)((3 xx 10^(-5))/3)`</p>
+			<p>`norm(x - hat(x))/norm(x) <= .004`</p>
+			<p>What's happening here is that we got our solution `hat(x)` and the residual was really small (.01%). But after analyzing our error, our solution could be off by as much as `.4%`.</p>
+		  </div>
+		  <p>It takes `n^2` time to calculate `hat(r)`.</p>
+		  <h2>Floating Point Arithmetic</h2>
+		  <p>So far, the only errors that have been mentioned were measurement errors. There is another source of errors, and that is in how a computer stores numbers.</p>
+		  <p>Computers don't store numbers exactly the way in which we type them. It's impossible for some numbers, like `pi` since it has infinitely many digits. Because of storage limitation, computers store only a certain number of digits.</p>
+		  <div class="box">
+			<p>Example: Suppose our computer is computing `(1.52 xx 10^2)(2.72 xx 10^3)` and it only stores `3` digits.</p>
+			<p>The actual answer is `4.1344 xx 10^5`. But since our computer only stores `3` digits, it's saved as `4.13 xx 10^5`. So how far off are we?</p>
+			<p>`text(error) = abs(4.13 xx 10^5 - 4.1344 xx 10^5)/abs(4.1344 xx 10^5) ~~ 0.001 = .1%`</p>
+		  </div>
+		  <p>This is known as rounding error.</p>
+		  <div class="box">
+			<p>Other types of errors:</p>
+			<p>Overflow: if a computer only stores up to`10^308` digits, then `10^200*10^200` will be treated as `oo`</p>
+			<p>Underflow: if a computer only stores down to `10^-308` digits, then `10^(-200)*10^(-200)` will be treated as `0`</p>
+		  </div>
+		  <p>We can define what the computer actually stores by `fl(c)`, the float of `c`, where `c` is a number. One way to write this floating point error is:</p>
+		  <div class="math">
+			<p>`fl(c) = c(1 + epsilon)`</p>
+		  </div>
+		  <div class="box">
+			<p>That comes from the idea that `fl(c)` is `c` with some error. Mathematically, `fl(c) = c + e` where `e` is the absolute error. The relative error would be `e/c = epsilon => e = cepsilon`. Then `fl(c) = c + e = c + cepsilon = c(1 + epsilon)`.</p>
+		  </div>
+		  <p>Let's say we want the computer to multiply two numbers. What the computer would store is `fl(xy)`.</p>
+		  <p>Already, there are some errors before the calculation; the computer can't store `x` and `y` exactly. So it stores `fl(x) = x(1 + epsilon_1)`, call it `hat(x)`, and `fl(y) = y(1 + epsilon_2)`, call it `hat(y)`.</p>
+		  <p>So what we're actually getting is `fl(hat(x)hat(y))`.</p>
+		  <div class="math">
+			<p>`fl(hat(x)hat(y)) = hat(x)hat(y)(1 + epsilon_3)`</p>
+			<p>`fl(hat(x)hat(y)) = x(1 + epsilon_1)y(1 + epsilon_2)(1 + epsilon_3)`</p>
+			<p>`fl(hat(x)hat(y)) = xy(1 + epsilon_1)(1 + epsilon_2)(1 + epsilon_3)`</p>
+			<p>`fl(hat(x)hat(y)) ~~ xy(1 + epsilon_1 + epsilon_2 + epsilon_3)`</p>
+		  </div>
+		  <div class="box">
+			<p>Multiplying `(1 + epsilon_1)(1 + epsilon_2)(1 + epsilon_3)` will result in some terms like `epsilon_1*epsilon_2`. A small number multiplied by another small number is going to be a really small number, so we can ignore it because it won't affect anything on a big enough scale to matter.</p>
+		  </div>
+		  <p>So in multiplying two numbers, there could've been error in `x`, which is `(1 + epsilon_1)`, error in `y`, which is `(1 + epsilon_2)`, and error in `xy`, which is `(1 + epsilon_3)`. These errors add up.</p>
+		  <p>This could lead to a problem when doing Cholesky decomposition because the `r_(i,j)`'s were computed using previously calculated `r_(i,j)`'s. The errors gradually get bigger as the errors get carried over into future computations of `r_(i,j)`'s.</p>
+		  <p>It's even worse when doing addition/subtraction:</p>
+		  <div class="math">
+			<p>`hat(x) + hat(y) = x(1 + epsilon_1) + y(1 + epsilon_2)`</p>
+			<p>`= x + xepsilon_1 + y + yepsilon_2`</p>
+			<p>`= (x+y)(1 + x/(x+y)epsilon_1 + y/(x+y)epsilon_2)`</p>
+		  </div>
+		  <p>What if `x + y` was close to `0`? Since, we're dividing by `x + y`, so the error could possibly be infinite. This is referred to as "catastrophic error".</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
