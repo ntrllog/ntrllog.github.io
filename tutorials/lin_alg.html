@@ -731,7 +731,7 @@
 			<p><b>The story thus far:</b> Errors show up everywhere in solving `Ax = b`, from using iterative methods to get approximate solutions to using approximate data for `A` and `b` to computer storage limitations. When we get our solution, we want to know that the errors from any or all of these sources of errors don't make our solution completely incorrect. Two conditions for being able to trust our solution are: 1) having a small condition number `kappa(A)` and 2) verifying that the algorithm we're using to solve `Ax = b` is backward stable.</p>
 		  </div>
 		  <h2>Gaussian Elimination</h2>
-		  <p>Gaussian elimination is the first method that linear algebra students are taught for solving `Ax = b`. Yet, no one actually uses Gaussian elimination in real life.</p>
+		  <p>Gaussian elimination is the first method that linear algebra students are taught for solving `Ax = b`. However, with all the errors mentioned before, no one actually ever uses this method. Analyzing Gaussian elimination does produce a significant result though. (And several "Oh wow, I never realized that" moments because of the way linear algebra is taught at UCSD.)</p>
 		  <p>The basic idea is to turn the matrix `A` into an upper-triangular matrix in order to do back substitution.</p>
 		  <div class="box">
 			<br>
@@ -740,12 +740,18 @@
 		  </div>
 		  <div class="box">
 			<p>Example: `A = [[2, 1, 1],[2, 2, -1],[4, -1, 6]]`, `b = [[9],[9],[16]]`</p>
-			<p>`(1)` `[[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[color(red)(2), color(red)(2), color(red)(-1), |, color(red)(9)],[4, -1, 6, |, 16]] -> [[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[color(red)(0), color(red)(1), color(red)(-2), |, color(red)(0)],[4, -1, 6, |, 16]]`</p>
 			<p>`(1)` multiply the `1^(st)` row by `2/2 = 1` and subtract the `2^(nd)` row by the `1^(st)` row</p>
-			<p>`(2)` `[[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[0, 1, -2, |, 0],[color(red)(4), color(red)(-1), color(red)(6), |, color(red)(16)]] -> [[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[0, 1, -2, |, 0],[color(red)(0), color(red)(-3), color(red)(4), |, color(red)(-2)]]`</p>
+			<div class="math">
+			  <p>`(1)` `[[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[color(red)(2), color(red)(2), color(red)(-1), |, color(red)(9)],[4, -1, 6, |, 16]] -> [[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[color(red)(0), color(red)(1), color(red)(-2), |, color(red)(0)],[4, -1, 6, |, 16]]`</p>
+			</div>
 			<p>`(2)` multiply the `1^(st)` row by `4/2 = 2` and subtract the `3^(rd)` row by the `1^(st)` row</p>
-			<p>`(3)` `[[2, 1, 1, |, 9],[0, color(red)(1), color(red)(-2), |, color(red)(0)],[0, color(red)(-3), color(red)(4), |, color(red)(-2)]] -> [[2, 1, 1, |, 9],[0, color(red)(1), color(red)(-2), |, color(red)(0)],[0, color(red)(0), color(red)(-2), |, color(red)(-2)]]`</p>
+			<div class="math">
+			  <p>`(2)` `[[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[0, 1, -2, |, 0],[color(red)(4), color(red)(-1), color(red)(6), |, color(red)(16)]] -> [[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[0, 1, -2, |, 0],[color(red)(0), color(red)(-3), color(red)(4), |, color(red)(-2)]]`</p>
+			</div>
 			<p>`(3)` multiply the `2^(nd)` row by `(-3)/1 = -3` and subtract the `3^(rd)` row by the `2^(nd)` row</p>
+			<div class="math">
+			  <p>`(3)` `[[2, 1, 1, |, 9],[0, color(red)(1), color(red)(-2), |, color(red)(0)],[0, color(red)(-3), color(red)(4), |, color(red)(-2)]] -> [[2, 1, 1, |, 9],[0, color(red)(1), color(red)(-2), |, color(red)(0)],[0, color(red)(0), color(red)(-2), |, color(red)(-2)]]`</p>
+			</div>
 		  </div>
 		  <p>This is a simple but tedious and time-costly method. To get the first `0` in the `1^(st)` column, we're doing `n` multiplications and `n` subtractions `(1)`. To get the second `0` in the `1^(st)` column, we're also doing `n` multiplications and `n` subtractions `(2)`. And we did this for `2` rows (every row but the `1^(st)`).</p>
 		  <p>Generalizing this for the `1^(st)` column, there are `n-1` rows, each with `n+n = 2n` multiplications and subtractions. So the total is `2n(n-1) ~~ 2n^2` operations.</p>
@@ -786,6 +792,25 @@
 			<p>`Ax = b => Ax = Ly => Ax = LUx`.</p>
 		  </div>
 		  <p>That means `A` has to equal `LU`. More formally, <b>any invertible matrix `A` can be decomposed uniquely into `LU` where `L` is a lower-triangular matrix with `1`'s along the diagonal and `U` is an upper-triangular matrix.</b> This is very similar to Cholesky decomposition.</p>
+		  <div class="box">
+			<p>Example: Decompose `A = [[2, 1, -1],[-2, 0, 3],[0, 2, 3]]` into `L` and `U`.</p>
+			<p>We proceed by doing Gaussian elimination.</p>
+			<p>Multiply the `1^(st)` row by `(-1)` and subtract the `1^(st)` row from the `2^(nd)` row: `color(red)(m_(2,1) = -1)`, `color(red)(u_(2,1)) = -2 - 2*(-1) color(red)(= 0)`, `color(red)(u_(2,2)) = 0 - 1*(-1) color(red)(= 1)`, `color(red)(u_(2,3)) = 3 - (-1)*(-1) color(red)(= 2)`</p>
+			<div class="math">
+			  <p>`[[1, 0, 0],[color(red)(-1), 1, 0], [-, -, 1]][[2, 1, -1],[color(red)(0), color(red)(1), color(red)(2)],[0, 2, 3]]`</p>
+			</div>
+			<p>Multiply the `1^(st)` row by `(0)` and subtract the `1^(st)` row from the `3^(rd)` row: `color(red)(m_(3,1) = 0)`, `color(red)(u_(3,1)) = 0 - 2*0 color(red)(= 0)`, `color(red)(u_(3,2)) = 2 - 1*0 color(red)(= 2)`, `color(red)(u_(3,3)) = 3 - (-1)*0 color(red)(= 3)`</p>
+			<div class="math">
+			  <p>`[[1, 0, 0],[-1, 1, 0], [color(red)(0), -, 1]][[2, 1, -1],[0, 1, 2],[color(red)(0), color(red)(2), color(red)(3)]]`</p>
+			</div>
+			<p>Multiply the `2^(nd)` row by `(2)` and subtract the `2^(nd)` row from the `3^(rd)` row: `color(red)(m_(3,2) = 2)`, `color(red)(u_(3,1)) = 0 - 0*2 color(red)(= 0)`, `color(red)(u_(3,2)) = 2 - 1*2 color(red)(= 0)`, `color(red)(u_(3,3)) = 3 - 2*2 color(red)(= -1)`</p>
+			<div class="math">
+			  <p>`[[1, 0, 0],[-1, 1, 0], [0, color(red)(2), 1]][[2, 1, -1],[0, 1, 2],[color(red)(0), color(red)(0), color(red)(-1)]]`</p>
+			</div>
+		  </div>
+		  <div class="box">
+		    <p><b>The story thus far:</b> <p>
+		  </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
