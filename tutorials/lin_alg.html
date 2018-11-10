@@ -27,7 +27,7 @@
             <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[..., ..., ..., ...],[a_(n,1), a_(n,2), ..., a_(n,n)]] [[x_1], [x_2], [...], [x_n]] = [[b_1], [b_2], [...], [b_n]]`</p>
           </div>
           <p>where we know all the `a` and `b` values, what values of `x` make that true?</p>
-          <p>Concretely, what values of `x_1, x_2,` and `x_3` make that equation true?</p>
+          <p>Concretely, what values of `x_1, x_2,` and `x_3` make this equation true?</p>
           <div class="math">
             <p>`[[1, 4, 1],[8, 2, 0],[5, 6, 2]][[x_1],[x_2],[x_3]] = [[24],[32],[49]]`</p>
           </div>
@@ -35,7 +35,7 @@
           <h2>Finding `A^-1`</h2>
           <p>A <i>slightly</i> better approach would be to "isolate" the `x`. As from elementary algebra, we could solve for `x` in `5x = 10` by dividing both sides by `5`. So, for `Ax = b`, why not "divide" both sides by `A`? (More formally known as taking the inverse). There are some special cases in which it is impossible to take the inverse of `A`, so for simplicity, we avoid those cases and assume it is possible, i.e., `A` is "invertible".</p>
           <p>In theory, the answer really is that simple. Multiply both sides (on the left) by the inverse of `A` (denoted by `A^-1`) to get `x = A^-1b`. Done. In practice, though, this process is actually pretty complicated and time-consuming, <i>especially</i> when done by hand. In fact, doing it by hand is so nightmarish, let's assume we have a computer program that inverts and multiplies matrices for us. It turns out that even with a computer doing millions of operations in mere milliseconds, <b>inverting a matrix and then multiplying is relatively time-consuming</b>.</p>
-          <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do less operations. So <b>we'll consider how long inverting a matrix takes by looking at how many operations it takes.</b> The process is complicated (for me to know/explain), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2` matrix: `8` operations, `4 xx 4` matrix: `64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. Imagine `1,000,000^3` operations.)</p>
+          <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do less operations. Inverting an `n xx n` matrix is complicated (for me to know), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2` matrix: `8` operations, `4 xx 4` matrix: `64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. That would mean `1,000,000^3` operations.)</p>
           <div class="box">
             <p><b>The story thus far</b>: We're trying to solve `Ax = b`. (Given `A` and `b`, find `x`.) In theory, the simplest approach is to multiply both sides by `A^-1` to get `x = A^-1b`. In practice, this approach is not simple at all. Compared to other methods of solving this problem, finding `A^-1` is time-consuming.</p>
             <p><b>Time complexity of finding `A^-1`</b>: `n^3`</p>
@@ -45,7 +45,9 @@
           <div class="math">
             <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[..., ..., ..., ...],[a_(n,1), a_(n,2), ..., a_(n,n)]] = [[l_(1,1), 0, ..., 0],[l_(2,1), l_(2,2), 0, ...],[..., ..., ..., 0],[l_(n,1), l_(n,2), ..., l_(n,n)]] [[u_(1,1), u_(1,2), ..., u_(1,n)],[0, u_(2,2), ..., u_(2,n)],[..., 0, ..., ...],[0, ..., 0, u_(n,n)]]`.</p>
           </div>
-          <p class="box">Note: Lower-triangular means `0`'s on top right and numbers on bottom left. Upper-triangular means numbers on top right and `0`'s on bottom left. See example below.</p>
+		  <div class="box">
+			<p>Note: Lower-triangular means `0`'s on top right and numbers on bottom left. Upper-triangular means numbers on top right and `0`'s on bottom left. See example below.</p>
+		  </div>
           <p>For example,</p>
           <div class="math">
             <p>`[[6, 4, 2, 2],[-3, 0, 3, 5],[9, 7, 7, 5],[12, 9, 12, 16]] = [[2, 0, 0, 0],[-1, 2, 0, 0],[3, 1, -1, 0],[4, 1, -3, 3]] [[3, 2, 1, 1],[0, 1, 2, 3],[0, 0, -2, 1],[0, 0, 0, 4]]`</p>
@@ -99,7 +101,14 @@
             <p>`(4)`</p>
           </div>
           <p>And we have our values for x, as desired.</p>
-          <p class="box">To summarize: We assumed `A` could be "split up" into two parts `L` and `U` (i.e., `A = LU`). With that, the problem became `Ax = b => LUx = b`. We took advantage of the fact that solving something like `Lx = b` was easy. So by letting `y = Ux`, we could solve `Ly = b`. Doing that gave us `y`, so we could get `x` by solving `Ux = y`.</p>
+		  <div class="box">
+			<p>The math equation for forward/back substitution:</p>
+			<p>`x_i = (1/a_(i,i))(b_i - sum_(j = 1)^(i-1) a_(i,j)x_j)`</p>
+			<p>where `1 <= i <= n` is the row</p>
+		  </div>
+		  <div class="box">
+			<p>To summarize: We assumed `A` could be "split up" into two parts `L` and `U` (i.e., `A = LU`). With that, the problem became `Ax = b => LUx = b`. We took advantage of the fact that solving something like `Lx = b` was easy. So by letting `y = Ux`, we could solve `Ly = b`. Doing that gave us `y`, so we could get `x` by solving `Ux = y`.</p>
+		  </div>
           <p>This process may look like it requires a lot of steps. <b>But it actually takes less operations than inverting a matrix.</b> Let's look at how many operations it takes to solve `Ly = b`. <b>We'll count operations by counting how many numbers we have to perform operations on.</b></p>
           <p>For the first row, there is `1` number. (By the nature of matrix multiplication, the `0`'s don't count as numbers.)</p>
           <div class="math">
@@ -120,7 +129,7 @@
             <div class="math">
               <p>`[[***,*,*,*,*],[***,***,*,*,*],[***,***,***,*,*],[***,***,***,***,*],[***,***,***,***,***]]`</p>
             </div>
-            <p>Counting the number of stars, notice that it takes up about <i>half</i> of the area of the square. Hence, about `n^2/2` numbers.</p>
+            <p>Counting the stars, they take up about <i>half</i> of the area of the square. Hence, about `n^2/2` numbers.</p>
           </div>
           <p><b>This means we have to do <i>about</i> `n^2` operations to solve `Ly = b` (forward substitution).</b> Now we have to solve `Ux = y` (back substitution). By similar reasoning, `U` also has `n^2/2` numbers, so it also takes <i>about</i> `n^2` operations. <b>Altogether, the total number of operations to solve `LUx = b` is `n^2 + n^2 = 2n^2.`</b> For simplicity, we can consider it as `n^2` operations.</p>
           <p>This is <i>definitely</i> less than the `n^3` operations it took to find `A^-1.`</p>
@@ -129,9 +138,11 @@
             <p><b>Time complexity for forward and back substitution</b>: `n^2`</p>
           </div>
           <h2>Cholesky Decomposition</h2>
-          <p>It turns out that it generally isn't easy finding matrices `L` and `U` such that `A = LU.` But splitting `A` into triangular matrices made solving `Ax = b` so fast though. Relatively fast anyway. Is it possible to still use this idea of splitting matrices into `2` parts, but with the parts (relatively) easy to find?</p>
+          <p>It turns out that it generally isn't easy finding matrices `L` and `U` such that `A = LU.` But splitting `A` into triangular matrices made solving `Ax = b` so (relatively) fast though. Is it possible to still use this idea of splitting matrices into `2` parts, but with the parts (relatively) easy to find?</p>
           <p>It is, but we're gonna have to assume more things about the matrix `A`. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
-          <p class="box">Note: `T` means matrix transpose.</p>
+		  <div class="box">
+			<p>Note: `T` means matrix transpose.</p>
+		  </div>
           <p>For example, `A = [[1, 1, 1],[1, 2, 2],[1, 2, 3]]` can be split up into:</p>
           <div class="math">
             <p>`[[1, 1, 1],[1, 2, 2],[1, 2, 3]] = [[1, 0, 0],[1, 1, 0],[1, 1, 1]] [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`</p>
@@ -144,7 +155,15 @@
             <img class="img-fluid" src="../pictures/lin_alg/find_cholesky_factor.gif">
           </div>
           <p>So `A = R^TR = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]] = [[1, 0, 0],[-2, 2, 0],[-1, 3, 3]] [[1, -2, -1],[0, 2, 3],[0, 0, 3]]`</p>
-          <p class="box">To summarize: Finding `2` matrices `L` and `U` such that `A = LU` is generally hard. An easier approach is to find only `1` matrix `R` such that `A = R^TR.` By the nature of `R` (being upper-triangular) and `R^T` (being lower-triangular), we can still do forward and back substitution like we did for triangular systems. Doing this allows us to decompose `A` easily and <i>still</i> achieve the `n^2` time of doing forward and back substitution.</p>
+		  <div class="box">
+			<p>The math equation for Cholesky decomposition:</p>
+			<p>`r_(i,i) = sqrt(a_(i,i) - sum_(k = 1)^(i-1) r_(k,i)^2)`</p>
+			<p>`r_(i,j) = (1/r_(i,i))(a_(i,j) - sum_(k = 1)^(i-1) r_(k,i)*r_(k,j))`</p>
+			<p>where `1 <= i <= n` is the row and `1 <= j <= n` is the column</p>
+		  </div>
+		  <div class="box">
+			<p>To summarize: Finding `2` matrices `L` and `U` such that `A = LU` is generally hard. An easier approach is to find only `1` matrix `R` such that `A = R^TR.` By the nature of `R` (being upper-triangular) and `R^T` (being lower-triangular), we can still do forward and back substitution like we did for triangular systems. Doing this allows us to decompose `A` easily and <i>still</i> achieve the `n^2` time of doing forward and back substitution.</p>
+		  </div>
           <p>Let's see long it takes to find `R`.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/lin_alg/analyze_cholesky_1.gif">
@@ -156,15 +175,14 @@
           <p>For the second column of `R`, we're also doing operations on about `n^2/2` numbers in `R^T`.</p>
           <p>This pattern repeats for all `n` columns of `R`. For each column, we're doing operations on <i>about</i> `n^2` numbers. Since there are `n` columns, we're doing operations on about `n*n^2 = n^3` numbers.</p>
           <p><b>So finding the Cholesky factor `R` requires `n^3` operations.</b> Wait. That sounds bad. Inverting a matrix took `n^3` operations and that was considered bad. So if finding `R` takes about as long as it does to find `A^-1`, why bother with Cholesky decomposition at all?</p>
-          <p>Well, so far, all of this was done to solve `Ax = b`. Just <i>one</i> problem. What if we changed `b`? What if we were trying to solve `Ax = c?` Or `Ax = d?` (All using the same matrix `A`.) <b>If we had to solve multiple problems using the same matrix `A`, we would have to repeatedly do `n^3` operations to find the inverse* for each problem.</b> If we instead found the Cholesky decomposition first, we would have `R^T` and `R` stored in the computer ready to use for each problem and <i>only</i> have to do forward and back substitution for each problem. <b>This means for one problem, it will take `n^3` operations. But for future, subsequent problems, it will <i>only</i> take `n^2` operations</b>.</p>
-          <p>*Gaussian elimination is another (slightly more viable) option, but it still takes `n^3` operations.</p>
+          <p>Well, so far, all of this was done to solve `Ax = b`. Just <i>one</i> problem. What if we changed `b`? What if we were trying to solve `Ax = c?` Or `Ax = d?` (All using the same matrix `A`.) <b>If we had to solve multiple problems using the same matrix `A`, we would have to repeatedly do `n^3` operations to find the inverse for each problem.</b> If we instead found the Cholesky decomposition first, we would have `R^T` and `R` stored in the computer ready to use for each problem and <i>only</i> have to do forward and back substitution for each problem. <b>This means for one problem, it will take `n^3` operations. But for future, subsequent problems, it will <i>only</i> take `n^2` operations</b>.</p>
           <div class="box">
             <p><b>The story thus far:</b> Finding `A^-1` takes too long `(n^3)`. Finding `L` and `U` such that `A = LU` is hard, but faster `(n^2)`. Finding `R` such that `A = R^TR` is easier, and potentially just as fast.</p>
             <p><b>Time complexity for Cholesky decomposition:</b> `n^3`</p>
           </div>
           <h2>Banded Matrices</h2>
           <p>Things get better if `A` has a bunch of `0`'s (if `A` has a lot of `0`'s, it is called "sparse".) Much like most matrices have a Cholesky factor, most matrices are also large and sparse. A specific type of sparse matrix - a banded matrix - actually allows us to perform Cholesky decomposition faster.</p>
-          <p>(For those keeping track, all the assumptions we've made about `A` up to this point are that `A` is positive definite (can be split into `R^TR`) and banded (sparseness is implied). Again, `A` sounds super specific, but these type of matrices show up a lot apparently.)</p>
+          <p>(For those keeping track, all the assumptions we've made about `A` up to this point are that `A` is invertible, `A` is positive definite (can be split into `R^TR`) and banded (sparseness is implied). Again, `A` sounds super specific, but these type of matrices show up a lot apparently.)</p>
           <p>This is an example of a banded matrix: (notice the "band" of numbers across the diagonal and the `0`'s)</p>
           <div class="math">
             <p>`[[color(red)(2), color(red)(1), 0, 0, 0],[color(red)(1), color(red)(2), color(red)(1), 0, 0],[0, color(red)(1), color(red)(2), color(red)(1), 0],[0, 0, color(red)(1), color(red)(2), color(red)(1)],[0, 0, 0, color(red)(1), color(red)(2)]]`</p>
@@ -186,8 +204,10 @@
           <div class="math">
             <p>`r_(1,3)*r_(1,1) = 0`</p>
           </div>
-          <p>Regardless of what `r_(1,1)` is*, `r_(1,3)` has to be `0`. The same holds true for the rest of the rows below. We know those values are going to be `0`, so why bother calculating them?</p>
-          <p>*`r_(1,1)` will not be `0` because we assumed `A` was positive definite. This means the diagonal of `A` will be positive numbers. Solving for `r_(1,1)*r_(1,1) = #` cannot result in `r_(1,1) = 0`.</p>
+          <p>Regardless* of what `r_(1,1)` is, `r_(1,3)` has to be `0`. The same holds true for the rest of the rows below. We know those values are going to be `0`, so why bother calculating them?</p>
+		  <div class="box">
+			<p>*`r_(1,1)` will not be `0` because we assumed `A` was positive definite. This means the diagonal of `A` will be positive numbers. Solving for `r_(1,1)*r_(1,1) = #` cannot result in `r_(1,1) = 0`.</p>
+		  </div>
           <p>Recognizing those `0`'s allows us to skip over numbers in each row. That means, in each row, we only have to perform operations on about `2s+1` (defined earlier as the width of the band) numbers. However, each number in that row requires about `s` numbers for the computation*. Therefore, for each row, we have a total of about `s^2` operations. With `n` rows, we have about `ns^2` total operations.</p>
           <div class="box">
             <p>*A visual for the above statement:</p>
@@ -310,6 +330,10 @@
           <div class="math">
             <p>`norm(x^((k)) - x)`</p>
           </div>
+		  <div class="box">
+			<p>Another type of norm is the 1-norm:</p>
+			<p>`norm(x)_1 = abs(x_1) + abs(x_2) + ... + abs(x_n)`</p>
+		  </div>
           <h2>Convergence of Iterative Methods</h2>
           <p>Iterative methods (at least Jacobi and Gauss-Seidel anyway) can be summarized by the notion of "additive splitting". That is, we can rewrite `A` as `A = M - N` where `M` and `N` are two matrices (and `M` is invertible).</p>
           <p>The problem then becomes:</p>
@@ -424,7 +448,7 @@
             <p>`norm(e^((k+1))) ~~ abs(c_i)*abs(lambda_i^(k+1))*norm(v_i)`</p>
             <p>`norm(e^((k))) ~~ abs(c_i)*abs(lambda_i^(k))*norm(v_i)`</p>
           </div>
-          <p>Dividing those two equations results in everything canceling out except for `abs(lambda_i)`.</p>
+          <p>Dividing those last two equations results in everything canceling out except for `abs(lambda_i)`.</p>
           <div class="math">
             <p>`norm(e^((k+1)))/norm(e^((k))) ~~ abs(lambda_i)`</p>
           </div>
@@ -697,6 +721,42 @@
 			<p>`= (x+y)(1 + x/(x+y)epsilon_1 + y/(x+y)epsilon_2)`</p>
 		  </div>
 		  <p>What if `x + y` was close to `0`? Since, we're dividing by `x + y`, so the error could possibly be infinite. This is referred to as "catastrophic error".</p>
+		  <p>So multiplication is stable: nothing really gets too much worse because the errors only add up. However, addition/subtraction has issues when `x+y` is close to `0`.</p>
+		  <p>With all these errors showing up, we want to know that the solution we get is useful at all. One way of knowing this is by knowing if our calculations are "backward stable". We could do the computations first and then round. Or we could round first and then compute. If the answers from doing these two methods are the same, then the algorithm we're using is backward stable.</p>
+		  <div class="box">
+			<p>Compute first then round: `hat(x) = fl(A^(-1)b)`</p>
+			<p>Round first then compute: `hat(x) = (A + deltaA)^(-1)(b + deltab)`</p>
+		  </div>
+		  <div class="box">
+			<p><b>The story thus far:</b> Errors show up everywhere in solving `Ax = b`, from using iterative methods to get approximate solutions to using approximate data for `A` and `b` to computer storage limitations. When we get our solution, we want to know that the errors from any or all of these sources of errors don't make our solution completely incorrect. Two conditions for being able to trust our solution are: 1) having a small condition number `kappa(A)` and 2) verifying that the algorithm we're using to solve `Ax = b` is backward stable.</p>
+		  </div>
+		  <h2>Gaussian Elimination</h2>
+		  <p>Gaussian elimination is the first method that linear algebra students are taught for solving `Ax = b`. Yet, no one actually uses Gaussian elimination in real life.</p>
+		  <p>The basic idea is to turn the matrix `A` into an upper-triangular matrix in order to do back substitution.</p>
+		  <div class="box">
+			<br>
+			<p>`[[a_(1,1), a_(1,2), a_(1,3), |, b_1],[a_(2,1), a_(2,2), a_(2,3), |, b_2],[a_(3,1), a_(3,2), a_(3,3), |, b_3]] -> [[a_(1,1), a_(1,2), a_(1,3), |, b_1],[0, a'_(2,2), a'_(2,3), |, b'_2],[0, a'_(2,3), a'_(3,3), |, b'_3]] -> [[a_(1,1), a_(1,2), a_(1,3), |, b_1],[0, a'_(2,2), a'_(2,3), |, b'_2],[0, 0, a''_(2,3), |, b''_3]]`</p>
+			<p>where the `0`'s were obtained by multiplying the `1^(st)` row by a number `(a_(2,1)/a_(1,1))` so that `a_(1,1) = a_(2,1)`. Subtracting `a_(2,1)-a_(1,1)` would lead to `0` while `a_(2,2)-a_(1,2)` and `a_(2,3)-a_(1,3)` would be numbers that are not `a_(2,2)` and `a_(2,3)`.</p>
+		  </div>
+		  <div class="box">
+			<p>Example: `A = [[2, 1, 1],[2, 2, -1],[4, -1, 6]]`, `b = [[9],[9],[16]]`</p>
+			<p>`(1)` `[[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[color(red)(2), color(red)(2), color(red)(-1), |, color(red)(9)],[4, -1, 6, |, 16]] -> [[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[color(red)(0), color(red)(1), color(red)(-2), |, color(red)(0)],[4, -1, 6, |, 16]]`</p>
+			<p>`(1)` multiply the `1^(st)` row by `2/2 = 1` and subtract the `2^(nd)` row by the `1^(st)` row</p>
+			<p>`(2)` `[[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[0, 1, -2, |, 0],[color(red)(4), color(red)(-1), color(red)(6), |, color(red)(16)]] -> [[color(red)(2), color(red)(1), color(red)(1), |, color(red)(9)],[0, 1, -2, |, 0],[color(red)(0), color(red)(-3), color(red)(4), |, color(red)(-2)]]`</p>
+			<p>`(2)` multiply the `1^(st)` row by `4/2 = 2` and subtract the `3^(rd)` row by the `1^(st)` row</p>
+			<p>`(3)` `[[2, 1, 1, |, 9],[0, color(red)(1), color(red)(-2), |, color(red)(0)],[0, color(red)(-3), color(red)(4), |, color(red)(-2)]] -> [[2, 1, 1, |, 9],[0, color(red)(1), color(red)(-2), |, color(red)(0)],[0, color(red)(0), color(red)(-2), |, color(red)(-2)]]`</p>
+			<p>`(3)` multiply the `2^(nd)` row by `(-3)/1 = -3` and subtract the `3^(rd)` row by the `2^(nd)` row</p>
+		  </div>
+		  <p>This is a simple but tedious and time-costly method. To get the first `0` in the `1^(st)` column, we're doing `n` multiplications and `n` subtractions `(1)`. To get the second `0` in the `1^(st)` column, we're also doing `n` multiplications and `n` subtractions `(2)`. And we did this for `2` rows (every row but the `1^(st)`).</p>
+		  <p>Generalizing this for the `1^(st)` column, there are `n-1` rows, each with `n+n = 2n` multiplications and subtractions. So the total is `2n(n-1) ~~ 2n^2` operations.</p>
+		  <p>To get the first (and only) `0` in the `2^(nd)` column, we're doing `n-1` multiplications and `n-1` subtractions `(3)`. And we did this for `1` row (every row but the `1^(st)` and `2^(nd)`).</p>
+		  <p>Generalizing this for the `2^(nd)` column, there are `n-2` rows, each with `n-1 + n-1 = 2(n-1)` multiplications and subtractions. So the total is `2(n-1)(n-2) ~~ 2(n-1)^2` operations.</p>
+		  <p>Generalizing this for all columns, there are `2(n-i)^2 ~~ n^2` operations for the `i^(th)` column where `1 <= i <= n`. Since there are `n` columns, there are `n^2*n ~~ n^3` operations.</p>
+		  <p>Doing Gaussian elimination is like decomposing `A` into two matrices `L` (lower-triangular) and `U` (upper-triangular).</p>
+		  <p>We started with `b` (in the example, `[[9],[9],[16]]`) and turned it into some new vector `y` (in the example, `[[9],[0],[-2]]`). We did that by multiplying `b_1` `(9)` by `m_(2,1) = a_(2,1)/a_(1,1)` `(1 = 2/2)` and subtracting `b_1` from `b_2` `(9)`.</p>
+		  <div class="math">
+			<p>`[[b_1],[b_2],[b_3]] = [[y_1],[y_2],[y_3]]`</p>
+		  </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
