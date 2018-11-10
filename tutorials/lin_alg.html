@@ -791,7 +791,7 @@
 		  <div class="math">
 			<p>`Ax = b => Ax = Ly => Ax = LUx`.</p>
 		  </div>
-		  <p>That means `A` has to equal `LU`. More formally, <b>any invertible matrix `A` can be decomposed uniquely into `LU` where `L` is a lower-triangular matrix with `1`'s along the diagonal and `U` is an upper-triangular matrix.</b> This is very similar to Cholesky decomposition.</p>
+		  <p>That means `A` has to equal `LU`. More formally, <b>any invertible matrix `A` can be decomposed uniquely into `LU` where `L` is a lower-triangular matrix with `1`'s along the diagonal and `U` is an upper-triangular matrix.</b> This is very similar to Cholesky decomposition. The benefit is also there: if we have to compute `Ax = b` for multiple `b`, we can decompose `A` into `LU` and reuse them for future use.</p>
 		  <div class="box">
 			<p>Example: Decompose `A = [[2, 1, -1],[-2, 0, 3],[0, 2, 3]]` into `L` and `U`.</p>
 			<p>We proceed by doing Gaussian elimination.</p>
@@ -809,7 +809,7 @@
 			</div>
 		  </div>
 		  <div class="box">
-		    <p><b>The story thus far:</b> <p>
+		    <p>To summarize: Gaussian elimination is the age-old algorithm used to solve `Ax = b`. It involves performing row operations to change `Ax = b` into `Ux = y`. What's going on under the hood is that we're decomposing `A` into two matrices `L` and `U`. Gaussian elimination can be performed on any invertible matrix `A`, so that means any invertible matrix `A` can be decomposed into `LU`.<p>
 		  </div>
         </div> <!-- col -->
       </div> <!-- row -->
