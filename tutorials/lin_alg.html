@@ -731,7 +731,7 @@
 			<p><b>The story thus far:</b> Errors show up everywhere in solving `Ax = b`, from using iterative methods to get approximate solutions to using approximate data for `A` and `b` to computer storage limitations. When we get our solution, we want to know that the errors from any or all of these sources of errors don't make our solution completely incorrect. Two conditions for being able to trust our solution are: 1) having a small condition number `kappa(A)` and 2) verifying that the algorithm we're using to solve `Ax = b` is backward stable.</p>
 		  </div>
 		  <h2>Gaussian Elimination</h2>
-		  <p>Gaussian elimination is the first method that linear algebra students are taught for solving `Ax = b`. However, with all the errors mentioned before, no one actually ever uses this method. Analyzing Gaussian elimination does produce a significant result though. (And several "Oh wow, I never realized that" moments because of the way linear algebra is taught at UCSD.)</p>
+		  <p>Gaussian elimination is the first method that linear algebra students are taught for solving `Ax = b`. However, with all the errors mentioned before, no one actually ever uses this method. Analyzing Gaussian elimination does produce a significant result though.</p>
 		  <p>The basic idea is to turn the matrix `A` into an upper-triangular matrix in order to do back substitution.</p>
 		  <div class="box">
 			<br>
