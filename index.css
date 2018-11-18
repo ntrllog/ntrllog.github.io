@@ -1,0 +1,73 @@
+body {
+  background: -webkit-radial-gradient(rgb(42, 84, 112), rgb(76, 65, 119));
+  background: radial-gradient(rgb(42, 84, 112), rgb(76, 65, 119));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  overflow: hidden;
+  width: 100%;
+}
+
+.scene {
+  width: 100%;
+  transform: rotate(-35deg) skew(20deg,10deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+}
+
+.navbox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 10px;
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 150%;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.logo {
+  font-size: 1000%;
+  font-family: 'Londrina Outline', cursive;
+  text-shadow: -1px 1px lightgray,
+               -2px 2px lightgray,
+			   -3px 3px lightgray,
+			   -4px 4px lightgray,
+			   -5px 5px lightgray,
+			   -6px 6px lightgray,
+			   -7px 7px lightgray,
+			   -8px 8px lightgray,
+			   -9px 9px lightgray,
+			   -10px 10px lightgray;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50;
+  left: 50;
+  font-family: 'Finger Paint', cursive;
+}
+
+.contact a {
+  margin-bottom: 10px;
+}
+
+#name {
+  font-size: 200%;
+}
