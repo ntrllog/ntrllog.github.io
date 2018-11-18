@@ -14,7 +14,8 @@
     <meta name="description" content="Alan Lam's website">
     <meta name="google-site-verification" content="jeqDMsOGLrV7OcaFvE75t5FgxqZlFgwdlnhWERrv-8w" />
     <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Finger+Paint|Londrina+Outline" rel="stylesheet">
-    <link href="index.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="index.css" rel="stylesheet">
   </head>
   <body>
     <div class="scene">
@@ -25,14 +26,34 @@
           <a href="blog.html">blog</a>
           <a href="tutorials/tutorials.html">tutorials</a>
         </div>
-        <a href="#" class="logo">ln</a>
+        <a href="" class="logo" data-toggle="modal" data-target="#exampleModalCenter">ln</a>
       </div>
     </div>
     <div class="contact">
-      <a href="#" id="name">alan lam</a>
+      <a href="" id="name" data-toggle="modal" data-target="#exampleModalCenter">alan lam</a>
       <p>alanlam00@gmail.com</p>
       <a href="https://github.com/alan-lam" target="_blank">github</a>
       <a href="https://www.linkedin.com/in/ntrllog/" target="_blank">linkedin</a>
     </div>
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">About Me</h5>
+          </div>
+          <div class="modal-body">
+		    <div class="flex-between">
+               <p>Hi, I'm Alan. A <a class="link" href="https://i.pinimg.com/originals/17/85/dc/1785dc0172e27e5b634ed5c96f43e69b.jpg" target="_blank">mild-mannered</a> 4th year student at UCSD. A <a class="link" href="https://www.gocomics.com/calvinandhobbes/2014/04/28?utm_source=ch_twitter&utm_medium=SocialMarketing&utm_campaign=scheduled" target="_blank">mild-mannered</a> Math - Computer Science major with a Math Education minor.<br>I'm currently tutoring Power Up Math 1 at Morse High School.</p>
+			  <img src="./pictures/self.png">
+			</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
 </html>
