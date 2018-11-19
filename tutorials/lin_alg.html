@@ -631,9 +631,9 @@
             <p>`A(deltax) + deltaA(x + deltax) = 0`</p>
             <p>`A(deltax) = -deltaA(x + deltax)`</p>
             <p>`deltax = -A^(-1)(deltaA(x + deltax))`</p>
-            <p>`norm(deltax) = norm(-A^(-1)(deltaA(x + deltax)))`</p>
-            <p>`norm(deltax) <= norm(-A^(-1))*norm(deltaA(x + deltax))`</p>
-            <p>`norm(deltax) <= norm(-A^(-1))*norm(deltaA)*norm(x + deltax)`</p>
+            <p>`norm(deltax) = norm(A^(-1)(deltaA(x + deltax)))`</p>
+            <p>`norm(deltax) <= norm(A^(-1))*norm(deltaA(x + deltax))`</p>
+            <p>`norm(deltax) <= norm(A^(-1))*norm(deltaA)*norm(x + deltax)`</p>
             <p>Multiplying both sides by `1 = norm(A)/norm(A)`, we get:</p>
             <p>`1*norm(deltax) <= norm(A^(-1))*norm(deltaA)*norm(x + deltax)norm(A)/norm(A)`</p>
             <p>`norm(deltax)/norm(x + deltax) <= norm(A^(-1))*norm(A)norm(deltaA)/norm(A)`</p>
@@ -767,7 +767,7 @@
             <p>To get the first (and only) `0` in the `2^(nd)` column, we're doing `n-1` multiplications and `n-1` subtractions `(3)`. And we did this for `1` row (every row but the `1^(st)` and `2^(nd)`).</p>
             <p>Generalizing this for the `2^(nd)` column, there are `n-2` rows, each with `n-1 + n-1 = 2(n-1)` multiplications and subtractions. So the total is `2(n-1)(n-2) ~~ 2(n-1)^2` operations.</p>
             <p>Generalizing this for all columns, there are `2(n-i)^2 ~~ n^2` operations for the `i^(th)` column where `1 <= i <= n`. Since there are `n` columns, there are `n^2*n ~~ n^3` operations.</p>
-            <p>A result that this section will show is that doing Gaussian elimination is like decomposing `A` into two matrices `L` (lower-triangular) and `U` (upper-triangular).</p>
+            <p>A result that this section will show is that doing Gaussian elimination results in decomposing `A` into two matrices `L` (lower-triangular) and `U` (upper-triangular).</p>
             <p>We started with `b` (in the example, `[[9],[9],[16]]`) and turned it into some new vector `y` (in the example, `[[9],[0],[-2]]`). In `0`'ing out the `1^(st)` column, `2^(nd)` row, we multiplied `b_1` `(9)` by `m_(2,1) = a_(2,1)/a_(1,1)` `(1 = 2/2)` and subtracted that from `b_2` `(9)`.</p>
             <div class="math">
               <p>`[[b_1],[b_2],[b_3]] = [[y_1],[y_2],[y_3]] = [[b_1],[color(red)(b_2 - m_(2,1)*b_1)],[b_3 - m_(3,1)*b_1 - m_(3,2)*y_2]]`</p>
