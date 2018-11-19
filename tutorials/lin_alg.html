@@ -658,8 +658,9 @@
             <p>An a priori error estimate is an estimate made about the potential error of our solution before solving for the solution. In other words, we are getting a feel for how accurate our solution will be so that once we do get our solution, we can determine whether it is accurate or not.</p>
             <p>This what we've been doing so far.</p>
             <p>An a posteriori estimate is the opposite: first we get our solution; then we analyze how accurate it is. That is what we'll do in this section.</p>
-            <p>In an ideal situation, we would solve `Ax = b` to get `x`. Since `Ax` and `b` are equal to each other, subtracting them should result in `0`: `b-Ax = 0`.</p>
-            <p>However, we're never going to have an ideal situation, so we would end up with `hat(x) != x`, which means `hat(x)` isn't the true solution. So `Ahat(x)` is not equal to `b`, and subtracting them should result in a number not `0`: `b-Ahat(x) = hat(r)`. `hat(r)` is called the residual.</p>
+            <p>In an ideal situation, we would solve `Ax = b` to get `x`. Since `Ax` and `b` are equal to each other, subtracting them should result in `0`: that is, `b-Ax = 0`.</p>
+            <p>However, we're never going to have an ideal situation, so we would end up with `hat(x) != x`, which means `hat(x)` isn't the true solution. So `Ahat(x)` is not equal to `b`, and subtracting them should result in a number not `0`: that is, `b-Ahat(x) = hat(r)`. `hat(r)` is called the residual.</p>
+            <p>The residual is a measure of how close `hat(x)` is to being the actual solution.</p>
             <p>Now, we can analyze our error in terms of the residual. Let's look again at making a small change to `b`. So `Ax = b + deltab`. First of all:</p>
             <div class="math">
               <p>`Ax = b + deltab`</p>
