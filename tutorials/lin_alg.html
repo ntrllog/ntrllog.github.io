@@ -731,7 +731,7 @@
               <p>`= (x+y)(1 + x/(x+y)epsilon_1 + y/(x+y)epsilon_2)`</p>
             </div>
             <p>What if `x + y` was close to `0`? Since, we're dividing by `x + y`, so the error could possibly be infinite. This is referred to as "catastrophic error".</p>
-            <p>So multiplication is stable: nothing really gets too much worse because the errors only add up. However, addition/subtraction has issues when `x+y` is close to `0`.</p>
+            <p>Looking at the equation for multiplication, if the errors are small (e.g. each `epsilon_i` is much less than `1`), then the error in the product can be assumed to be small. Looking at the equation for addition, even if the errors were small, if `x` and `y` are large enough, they could affect the sum quite a bit.</p>
             <p>With all these errors showing up, we want to know that the solution we get is useful at all. One way of knowing this is by knowing if our calculations are "backward stable". We could do the computations first and then round. Or we could round first and then compute. If the answers from doing these two methods are the same, then the algorithm we're using is backward stable.</p>
             <div class="box">
               <p>Compute first then round: `hat(x) = fl(A^(-1)b)`</p>
