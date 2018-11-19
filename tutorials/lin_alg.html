@@ -552,6 +552,13 @@
             </div>
           </div>
           <p>Note that the system was ill conditioned because the lines were almost parallel to each other. In linear algebra terms, the columns of `A` were almost linearly dependent. In linear algebra, that also means that `A` is almost not invertible. So the condition number is a way of measuring how close `A` is to not being invertible.</p>
+          <div class="box">
+            <p>Here's an example of an ill conditioned system:</p>
+            <p>Consider `A = [[1000, 999],[999, 998]]`, `b = [[1999],[1997]]`</p>
+            <p>Solving for `x`, we get `x = [[1],[1]]`</p>
+            <p>Now, let's perturb `b` by a very small amount, say `[[-0.1],[0.1]]`, so that `b = [[1998.99],[1997.01]]`</p>
+            <p>Solving for `x`, we get `x = [[20.97],[-18.99]]`</p>
+          </div>
           <p>So we have `kappa(A) = norm(A)*norm(A^(-1))`. Let's look at `norm(A)`.</p>
 	  <div class="math">
             <p>`norm(A) = max_(x != 0) norm(Ax)/norm(x)`</p>
