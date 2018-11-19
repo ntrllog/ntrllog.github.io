@@ -138,8 +138,7 @@
             <p><b>Time complexity for forward and back substitution</b>: `n^2`</p>
           </div>
           <h2>Cholesky Decomposition</h2>
-          <p>It turns out that it generally isn't easy finding matrices `L` and `U` such that `A = LU.` But splitting `A` into triangular matrices made solving `Ax = b` so (relatively) fast though. Is it possible to still use this idea of splitting matrices into `2` parts, but with the parts (relatively) easy to find?</p>
-          <p>It is, but we're gonna have to assume more things about the matrix `A`. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
+          <p>Splitting `A` into 2 different matrices is nice, but there's another way to make it easier. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
             <div class="box">
 	      <p>Note: `T` means matrix transpose.</p>
 	    </div>
