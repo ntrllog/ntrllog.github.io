@@ -818,8 +818,14 @@
             </div>
           </div>
           <div class="box">
-            <p>To summarize: Gaussian elimination is the age-old algorithm used to solve `Ax = b`. It involves performing row operations to change `Ax = b` into `Ux = y`. What's going on under the hood is that we're decomposing `A` into two matrices `L` and `U`. Gaussian elimination can be performed on any invertible matrix `A`, so that means any invertible matrix `A` can be decomposed into `LU`.<p>
+            <p>To summarize: Gaussian elimination is the age-old algorithm used to solve `Ax = b`. It involves performing row operations to change `Ax = b` into `Ux = y`. What's going on under the hood is that we're decomposing `A` into two matrices `L` and `U`. Gaussian elimination can be performed on any invertible matrix `A`, so that means <i>any</i> invertible matrix `A` can be decomposed into `LU`.</p>
           </div>
+          <h2>Least Squares Problem</h2>
+          <p>Up to this point, `A` has been a square matrix (`n xx n`). However, it is possible for `A` to be an `n xx m` matrix where `n != m`.</p>
+          <div class="math">
+            <p>`[[a_(1,1), a_(1,2)],[a_(2,1), a_(2,2)],[a_(3,1), a_(3,2)]][[x_1],[x_2],[x_3]] = [[b_1],[b_2],[b_3]]`</p>
+          </div>
+          <p>We generally can't solve these problems perfectly, so we instead look at the residual, `hat(r) = b - Ax` and try to make it as small as possible (i.e. make `norm(hat(r))` as close to `0` as possible.)</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
