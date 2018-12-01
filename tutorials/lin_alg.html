@@ -870,6 +870,10 @@
             <img class="img-fluid" src="../pictures/lin_alg/least_squares_8.png">
           </div>
           <p>No matter what we choose for point `C`, the distance from point `A` to `B` (a straight line) will always be the shortest.</p>
+          <p>Going back to the statement before all the visuals, solving the least squares problem means making `norm(b-y)_2` as small as possible. From the visuals, we see that it is as small as possible when we take the vector pointing to the straight line dropped from `b`. The straight line is perpendicular to `R(A)`. More formally:</p>
+          <div class="math">
+            <p>`min norm(r)_2 = min_(w in R^m) norm(b - Aw)_2` if and only if `b - Aw in R(A)^(bot)`</p>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
