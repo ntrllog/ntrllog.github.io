@@ -835,7 +835,41 @@
           <div class="math">
             <p>`min_(y in R(A)) norm(b - y)_2`</p>
           </div>
-          <p>Let's look at this visually.</p>
+          <p>Let's look at this visually. We'll start with the case when `A` is a `2xx2` matrix.</p>
+          <p>The matrix `A` can be represented as two vectors (the columns of `A`)</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/lin_alg/least_squares_1.png">
+          </div>
+          <p>The range of `A`, `R(A)`, is the shaded area in blue between the vectors of `A` (this comes from the fact that the range of `A` is the span of the columns of `A` i.e. the column space of `A`)</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/lin_alg/least_squares_2.png">
+          </div>
+          <p>Now let's consider the case when `A` has `3` rows. Our (true) solution would now be in `3` dimensions.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/lin_alg/least_squares_3.png">
+          </div>
+          <p>In the least squares problem, `A` has more rows than columns, so let's say it is `3xx2`.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/lin_alg/least_squares_4.png">
+          </div>
+          <p>Since, `A` only has `2` columns, `x` must have `2` rows (by properties of matrix multiplication), meaning the solution <i>we can get</i> must be in `2` dimensions. This is a problem because the <i>true</i> solution is in `3` dimensions. This is why we can't solve least squares problems perfectly, as mentioned at the beginning.</p>
+          <p>The best we can do is the find the solution in `2` dimensions that is as close as possible to the true solution in `3` dimensions. This can be done by dropping a straight line down to the `2` dimension area.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/lin_alg/least_squares_5.png">
+          </div>
+          <p>The solution, denoted by `s`, is the vector pointing to where the line drops.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/lin_alg/least_squares_6.png">
+          </div>
+          <p>This would be the vector in `2` dimensions with the shortest distance to the actual solution. We could choose any other vector and it would be farther away to the true solution than `s`.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/lin_alg/least_squares_7.png">
+          </div>
+          <p>That could be seen by looking at right triangles.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/lin_alg/least_squares_8.png">
+          </div>
+          <p>No matter what we choose for point `C`, the distance from point `A` to `B` (a straight line) will always be the shortest.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
