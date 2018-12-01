@@ -826,6 +826,16 @@
             <p>`[[a_(1,1), a_(1,2)],[a_(2,1), a_(2,2)],[a_(3,1), a_(3,2)]][[x_1],[x_2]] = [[b_1],[b_2],[b_3]]`</p>
           </div>
           <p>We generally can't solve these problems perfectly, so we instead look at the residual, `hat(r) = b - Ax` and try to make it as small as possible (i.e. make `norm(hat(r))_2` as close to `0` as possible.)</p>
+          <p><b>So, to solve the least squares problem, we want to make `norm(hat(r))_2` as small as possible. Well, that's the same as saying, "out of all the possible vectors, choose the one - call it w - that makes `norm(hat(r))_2 = norm(b - Aw)_2` as small as possible."</b></p>
+          <div class="math">
+            <p>`min_(w in R^m) norm(b - Aw)_2`</p>
+            <p>where `R^m` is the set of all vectors with `m` rows</p>
+          </div>
+          <p>Since we're looking at `b - Aw`, let's instead consider only the vectors produced by doing `Aw`. The vectors that are formed by multiplying `A` with `w` are in the "range" of `A`, denoted `R(A)`.</p>
+          <div class="math">
+            <p>`min_(y in R(A)) norm(b - y)_2`</p>
+          </div>
+          <p>Let's look at this visually.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
