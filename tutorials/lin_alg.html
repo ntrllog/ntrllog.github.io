@@ -857,11 +857,11 @@
           <div class="math">
             <img class="img-fluid" src="../pictures/lin_alg/least_squares_5.png">
           </div>
-          <p>The solution, denoted by `s`, is the vector pointing to where the line drops. The line is a vector representing the difference between `b` and `s` (`b-s`).</p>
+          <p>The solution, denoted by `y`, is the vector pointing to where the line drops. That line is a vector representing the difference between `b` and `y`.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/lin_alg/least_squares_6.png">
           </div>
-          <p>This would be the vector in `2` dimensions with the shortest distance to the `b`. We could choose any other vector and it would be farther `b` than `s`.</p>
+          <p>This would be the vector in `2` dimensions with the shortest distance to the `b`. We could choose any other vector and it would be farther `b` than `y`.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/lin_alg/least_squares_7.png">
           </div>
@@ -869,11 +869,27 @@
           <div class="math">
             <img class="img-fluid" src="../pictures/lin_alg/least_squares_8.png">
           </div>
-          <p>No matter what we choose for point `C`, the distance from point `A` to `B` (a straight line) will always be the shortest.</p>
+          <p>No matter what we choose for point `C`, the distance from point `A` to `B` (a straight line) will always be the shortest (i.e. always be longer than `BC`).</p>
           <p>Going back to the statement before all the visuals, solving the least squares problem means making `norm(b-y)_2` as small as possible. From the visuals, we see that it is as small as possible when we take the vector pointing to the straight line dropped from `b`. The straight line is perpendicular to `R(A)`. More formally:</p>
           <div class="math">
             <p>`min norm(r)_2 = min_(w in R^m) norm(b - Aw)_2` if and only if `b - Aw in R(A)^(bot)`</p>
           </div>
+          <p>It turns out that `R(A)^(bot) = N(A^T)`, the null space of `A^T` (i.e. all the vectors `x` such that `A^Tx = 0`). So:</p>
+          <div class="math">
+            <p>`b - Ax in R(A)^(bot)`</p>
+            <p>`=> b - Ax in N(A^T)`</p>
+            <p>`=> A^T(b - Ax) = 0`</p>
+            <p>`=> A^Tb - A^TAx = 0`</p>
+            <p>`=> A^TAx = A^Tb`</p>
+          </div>
+          <p>This leads to the final statement about the least squares problem: <b>`x` solves the least squares problem for `Ax = b` if and only if `(A^TA)x = A^Tb`.</b><p>
+          <div class="box">
+            <p>I know I switched between using `w` and `x` throughout this section. At the beginning, we didn't know what `x` was, so we chose some vector `w` to try and make it equal to `x`. At the end, we showed that `w`, when chosen correctly, is the solution we're looking for.</p>
+          </div>
+          <div class="box">
+            <p>Thanks to <a href="http://setosa.io/ev/eigenvectors-and-eigenvalues/" target="_blank">Victor and Lewis</a> for their visual explanation, which helped me come up with this.</p>
+          </div>
+          <h2>QR Decomposition</h2>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
