@@ -948,11 +948,19 @@
               <p>`norm(hat(r)) = norm(d) = norm(-0.4)_2 = 0.4`</p>
             </div>
           </div>
-          <p>Notice how the problem went from `Ax = b` to `Rx = Q^Tb`. That means that doing a `QR` decomposition invovles turning `A` into `R`.</p>
+          <p>So if we're given `A`, how do we find the `Q` and `R`? Notice how the problem went from `Ax = b` to `Rx = Q^Tb`. That means that doing a `QR` decomposition invovles turning `A` into `R`.</p>
           <div class="math">
-            <p>`[[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] -> [[r_(1,1), r_(1,2), r_(1,3), r_(1,4)],[0, r_(2,2), r_(2,3), r_(2,4)],[0, 0, r_(3,3), r_(3,4)],[0, 0, 0, r_(4,4)],[0, 0, 0, 0]]`</p>
+            <p>`[[color(blue)(a_(1,1)), color(red)(a_(1,2)), a_(1,3), a_(1,4)],[color(blue)(a_(2,1)), color(red)(a_(2,2)), a_(2,3), a_(2,4)],[color(blue)(a_(3,1)), color(red)(a_(3,2)), a_(3,3), a_(3,4)],[color(blue)(a_(4,1)), color(red)(a_(4,2)), a_(4,3), a_(4,4)],[color(blue)(a_(5,1)), color(red)(a_(5,2)), a_(5,3), a_(5,4)]] -> [[color(blue)(r_(1,1)), color(red)(r_(1,2)), r_(1,3), r_(1,4)],[color(blue)(0), color(red)(r_(2,2)), r_(2,3), r_(2,4)],[color(blue)(0), color(red)(0), r_(3,3), r_(3,4)],[color(blue)(0), color(red)(0), 0, r_(4,4)],[color(blue)(0), color(red)(0), 0, 0]]`</p>
           </div>
-          <p>That is, we want to find a `Q` such that `Q^TA = R`. We want to find some matrix that turns the first column of `A` (`[[a_(1,1)], [a_(2,1)], [a_(3,1)], [a_(4,1)], [a_(5,1)]]`) into a vector with only `1` number in the first entry (`[[r_(1,1)], [0], [0], [0], [0]]`) and so on.</p>
+          <p>That is, we want to find a `Q` such that `Q^TA = R` (since `A = QR`). We want to find some matrix that turns the first column of `A` into a vector with only `1` number in the first entry and so on.</p>
+          <div class="math">
+            <p>`[[color(blue)(a_(1,1))], [color(blue)(a_(2,1))], [color(blue)(a_(3,1))], [color(blue)(a_(4,1))], [color(blue)(a_(5,1))]] -> [[color(blue)(r_(1,1))], [color(blue)(0)], [color(blue)(0)], [color(blue)(0)], [color(blue)(0)]]` `[[color(red)(a_(1,2))],[color(red)(a_(2,2))],[color(red)(a_(3,2))],[color(red)(a_(4,2))],[color(red)(a_(5,2))]] -> [[color(red)(r_(1,2))],[color(red)(r_(2,2))],[color(red)(0)],[color(red)(0)],[color(red)(0)]]`</p>
+          </div>
+          <p><b>It turns out that, for a vector `x`, there exists an orthogonal matrix `Q` such that `Q^Tx = [[-tau],[0], [...], [0]]`. So <i>for each column</i> of `A`, we can find a `Q_i` to do what we want.</b></p>
+          <div class="math">
+            <p>`Q_1A: [[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] -> [[-tau_1, alpha_(1,2), alpha_(1,3), alpha_(1,4)], [0, alpha_(2,2), alpha_(2,3), alpha_(2,4)], [0, alpha_(3,2), alpha_(3,3), alpha_(3,4)], [0, alpha_(4,2), alpha_(4,3), alpha_(4,4)], [0, alpha_(5,2), alpha_(5,3), alpha_(5,4)]]`</p>
+            <p>`Q_2Q_1A: [[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] -> [[-tau_1, beta_(1,2), beta_(1,3), beta_(1,4)], [0, -tau_2, beta_(2,3), beta_(2,4)], [0, 0, beta_(3,3), beta_(3,4)], [0, 0, beta_(4,3), beta_(4,4)], [0, 0, beta_(5,3), beta_(5,4)]]`</p>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
