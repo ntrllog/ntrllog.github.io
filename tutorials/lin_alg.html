@@ -925,6 +925,29 @@
             <p>`= sqrt(norm(hat(c) - hat(R)x)_2^2 + norm(d)_2^2)`</p>
           </div>
           <p>So from all of that, we get `norm(b - Ax)_2 = sqrt(norm(hat(c) - hat(R)x)_2^2 + norm(d)_2^2)`. We're trying to minimize `norm(b - Ax)`, which is the same as minimizing `sqrt(norm(hat(c) - hat(R)x)_2^2 + norm(d)_2^2)`. That happens when `norm(hat(c) - hat(R)x)_2^2 = 0`. That happens when `hat(R)x = c`. `hat(R)` is `m xx m` and `c` is `m xx 1`, so this problem is solvable using the techniques earlier in the story. `hat(R)` is actually upper triangular, so we can use back sub to solve for `x`. By solving for `x`, we are able to make `norm(c - hat(R)x) = 0`. What we are left with is `sqrt(norm(d)_2^2) = norm(d)_2`. That is the measure of the error in our solution (because we can't solve least squares problem perfectly).</p>
+          <div class="box">
+            <p>Example: `A = [[3, -6],[4, -8],[0, 1]]`, `b = [[1],[2],[3]]`, `Q = [[-0.6, 0, 0.8],[-0.8, 0, -0.6],[0, -1, 0]]`, `R = [[-5, 10],[0, -1],[0, 0]]`</p>
+            <p>First we rewrite the problem using `A = QR`:</p>
+            <div class="math">
+              <p>`[[-0.6, 0, 0.8],[-0.8, 0, -0.6],[0, -1, 0]] [[-5, 10],[0, -1],[0, 0]]x = [[1],[2],[3]]`</p>
+              <p>`QRx = b`</p>
+            </div>
+            <p>Then we can multiply both sides by `Q^T` to get `Rx = Q^Tb`. We have `Q` and `b` so we can solve for `Q^Tb`:</p>
+            <p>`Q^Tb = [[-0.6, -0.8, 0],[0, 0, -1],[0.8, -0.6, 0]] [[1],[2],[3]] = [[color(blue)(-2.2)],[color(blue)(-3)],[color(red)(-0.4)]] = [[color(blue)(hat(c))],[color(red)(d)]]`</p>
+            <div class="math">
+              <p>`[[-5, 10],[0, -1],[0, 0]]x = [[color(blue)(-2.2)],[color(blue)(-3)],[color(red)(-0.4)]]`</p>
+              <p>`Rx = [[color(blue)(hat(c))],[color(red)(d)]]`</p>
+            </div>
+            <p>We can then do back sub to solve for `x`:</p>
+            <div class="math">
+              <p>`[[-5, -10],[0, -1]]x = [[-2.2],[-3]]`</p>
+              <p>`=> x = [[6.44],[3]]`</p>
+            </div>
+            <p>`d` gives us the residual:</p>
+            <div class="math">
+              <p>`norm(hat(r)) = norm(d) = norm(-0.4)_2 = 0.4`</p>
+            </div>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
