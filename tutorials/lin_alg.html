@@ -948,6 +948,11 @@
               <p>`norm(hat(r)) = norm(d) = norm(-0.4)_2 = 0.4`</p>
             </div>
           </div>
+          <p>Notice how the problem went from `Ax = b` to `Rx = Q^Tb`. That means that doing a `QR` decomposition invovles turning `A` into `R`.</p>
+          <div class="math">
+            <p>`[[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] -> [[r_(1,1), r_(1,2), r_(1,3), r_(1,4)],[0, r_(2,2), r_(2,3), r_(2,4)],[0, 0, r_(3,3), r_(3,4)],[0, 0, 0, r_(4,4)],[0, 0, 0, 0]]`</p>
+          </div>
+          <p>That is, we want to find a `Q` such that `Q^TA = R`. We want to find some matrix that turns the first column of `A` (`[[a_(1,1)], [a_(2,1)], [a_(3,1)], [a_(4,1)], [a_(5,1)]]`) into a vector with only `1` number in the first entry (`[[r_(1,1)], [0], [0], [0], [0]]`) and so on.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
