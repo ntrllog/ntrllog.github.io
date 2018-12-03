@@ -37,8 +37,9 @@
           <p>In theory, the answer really is that simple. Multiply both sides (on the left) by the inverse of `A` (denoted by `A^-1`) to get `x = A^-1b`. Done. In practice, though, this process is actually pretty complicated and time-consuming, <i>especially</i> when done by hand. In fact, doing it by hand is so nightmarish, let's assume we have a computer program that inverts and multiplies matrices for us. It turns out that even with a computer doing millions of operations in mere milliseconds, <b>inverting a matrix and then multiplying is relatively time-consuming</b>.</p>
           <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do less operations. Inverting an `n xx n` matrix is complicated (for me to know), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2` matrix: `8` operations, `4 xx 4` matrix: `64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. That would mean `1,000,000^3` operations.)</p>
           <div class="box">
-            <p><b>The story thus far</b>: We're trying to solve `Ax = b`. (Given `A` and `b`, find `x`.) In theory, the simplest approach is to multiply both sides by `A^-1` to get `x = A^-1b`. In practice, this approach is not simple at all. Compared to other methods of solving this problem, finding `A^-1` is time-consuming.</p>
-            <p><b>Time complexity of finding `A^-1`</b>: `n^3`</p>
+            <p><b>The story thus far:</b> We're trying to solve `Ax = b`. (Given `A` and `b`, find `x`.) In theory, the simplest approach is to multiply both sides by `A^-1` to get `x = A^-1b`. In practice, this approach is not simple at all. Compared to other methods of solving this problem, finding `A^-1` is time-consuming.</p>
+            <p><b>Time complexity of finding `A^-1`:</b> `n^3`</p>
+            <p><b>Assumptions about `A`:</b> invertible</p>
           </div>
           <h2>Triangular Systems</h2>
           <p>Let's assume `A` can be "split up" into two matrices: one lower-triangular matrix (denoted by `L`) and one upper-triangular matrix (denoted by `U`). So `A = LU:`</p>
@@ -70,41 +71,45 @@
             <p>`color(green)(3)x_1 + color(green)(2)x_2 + color(green)(4)x_3 = color(green)(19) => x_1 = 1` (plugging in `3` for `x_3` and `2` for `x_2`)</p>
             <p>(<b>This process is known as back substitution.</b>)</p>
           </div>
-          <p>Notice before, we defined `y = Ux`. We have `y` (from solving `Ly = b`), and we have `U` (from assuming it was possible to split `A = LU`). So like in the previous example, it is possible to solve for `x`. Let's see how this plays out with real numbers.</p>
-          <p>Let `A = [[2, 1],[6, 5]]`, `b = [[4],[16]]`. Our goal is to find `x_1, x_2` such that `[[2, 1],[6, 5]] [[x_1],[x_2]] = [[4],[16]]`</p>
-          <p>Let's also say we knew exactly how to split up `A`:</p>
-          <div class="math">
-            <p>`A = LU = [[1, 0],[3, 2]] [[2, 1],[0, 1]]`</p>
-          </div>
-          <p>The new problem becomes:</p>
-          <div class="math">
-            <p>`[[1, 0],[3, 2]] [[2, 1],[0, 1]] [[x_1],[x_2]] = [[4],[16]]`</p>
-            <p>`(1)`</p>
-          </div>
-          <p>Let's let</p>
-          <div class="math">
-            <p>`[[y_1],[y_2]] = [[2, 1],[0, 1]] [[x_1],[x_2]]`</p>
-            <p>`(2)`</p>
-          </div>
-          <p>so that</p>
-          <div class="math">
-            <p>`[[1, 0],[3, 2]] [[y_1],[y_2]] = [[4],[16]]`</p>
-            <p>`1y_1 + 0y_2 = 4 => y_1 = 4`</p>
-            <p>`3y_1 + 2y_2 = 16 => y_2 = 2`</p>
-            <p>`(3)`</p>
-          </div>
-          <p>Now that we have our values for `y`, let's go back to `(2)`:</p>
-          <div class="math">
-            <p>`[[4],[2]] = [[2, 1],[0, 1]] [[x_1],[x_2]]`</p>
-            <p>`0x_1 + 1x_2 = 2 => x_2 = 2`</p>
-            <p>`2x_1 + 1x_2 = 4 => x_1 = 1`</p>
-            <p>`(4)`</p>
-          </div>
-          <p>And we have our values for x, as desired.</p>
+          <p>Notice before, we defined `y = Ux`. We have `y` (from solving `Ly = b`), and we have `U` (from assuming it was possible to split `A = LU`). So like in the previous example, it is possible to solve for `x`.</p>
           <div class="box">
-	          <p>The math equation for forward/back substitution:</p>
-	          <p>`x_i = (1/a_(i,i))(b_i - sum_(j = 1)^(i-1) a_(i,j)*x_j)`</p>
-	          <p>where `1 <= i <= n` is the row</p>
+            <p>Let `A = [[2, 1],[6, 5]]`, `b = [[4],[16]]`. Our goal is to find `x_1, x_2` such that `[[2, 1],[6, 5]] [[x_1],[x_2]] = [[4],[16]]`</p>
+            <p>Let's also say we knew exactly how to split up `A`:</p>
+            <div class="math">
+              <p>`A = LU = [[1, 0],[3, 2]] [[2, 1],[0, 1]]`</p>
+            </div>
+            <p>The new problem becomes:</p>
+            <div class="math">
+              <p>`[[1, 0],[3, 2]] [[2, 1],[0, 1]] [[x_1],[x_2]] = [[4],[16]]`</p>
+              <p>`(1)`</p>
+            </div>
+            <p>Let's let</p>
+            <div class="math">
+              <p>`[[y_1],[y_2]] = [[2, 1],[0, 1]] [[x_1],[x_2]]`</p>
+              <p>`(2)`</p>
+            </div>
+            <p>so that</p>
+            <div class="math">
+              <p>`[[1, 0],[3, 2]] [[y_1],[y_2]] = [[4],[16]]`</p>
+              <p>`1y_1 + 0y_2 = 4 => y_1 = 4`</p>
+              <p>`3y_1 + 2y_2 = 16 => y_2 = 2`</p>
+              <p>`(3)`</p>
+            </div>
+            <p>Now that we have our values for `y`, let's go back to `(2)`:</p>
+            <div class="math">
+              <p>`[[4],[2]] = [[2, 1],[0, 1]] [[x_1],[x_2]]`</p>
+              <p>`0x_1 + 1x_2 = 2 => x_2 = 2`</p>
+              <p>`2x_1 + 1x_2 = 4 => x_1 = 1`</p>
+              <p>`(4)`</p>
+            </div>
+            <p>And we have our values for x, as desired.</p>
+          </div>
+          <div class="box">
+            <p>The math equation for forward/back substitution:</p>
+            <div class="math">
+              <p>`x_i = (1/a_(i,i))(b_i - sum_(j = 1)^(i-1) a_(i,j)*x_j)`</p>
+              <p>where `1 <= i <= n` is the row</p>
+            </div>
 	        </div>
           <div class="box">
 	          <p>To summarize: We assumed `A` could be "split up" into two parts `L` and `U` (i.e., `A = LU`). With that, the problem became `Ax = b => LUx = b`. We took advantage of the fact that solving something like `Lx = b` was easy. So by letting `y = Ux`, we could solve `Ly = b`. Doing that gave us `y`, so we could get `x` by solving `Ux = y`.</p>
@@ -134,11 +139,12 @@
           <p><b>This means we have to do <i>about</i> `n^2` operations to solve `Ly = b` (forward substitution).</b> Now we have to solve `Ux = y` (back substitution). By similar reasoning, `U` also has `n^2/2` numbers, so it also takes <i>about</i> `n^2` operations. <b>Altogether, the total number of operations to solve `LUx = b` is `n^2 + n^2 = 2n^2.`</b> For simplicity, we can consider it as `n^2` operations.</p>
           <p>This is <i>definitely</i> less than the `n^3` operations it took to find `A^-1.`</p>
           <div class="box">
-            <p><b>The story thus far</b>: Finding `A^-1` simply takes too long `(n^3).` We found out that if we could split `A` into two parts, `L` and `U`, it would only take about `n^2` operations to solve for `x`.
-            <p><b>Time complexity for forward and back substitution</b>: `n^2`</p>
+            <p><b>The story thus far</b>: Finding `A^-1` simply takes too long `(n^3).` We found out that if we could split `A` into two parts, `L` and `U`, it would only take about `n^2` operations to solve for `x`.</p>
+            <p><b>Time complexity of forward and back substitution:</b> `n^2`</p>
+            <p><b>Assumptions about `A`:</b> invertible</p>
           </div>
           <h2>Cholesky Decomposition</h2>
-          <p>Splitting `A` into 2 different matrices is nice, but there's another way to make it easier. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
+          <p>Splitting `A` into 2 different matrices is nice, but we currently don't know exactly how to do so. There's an easier way to split up `A` and still take advantage of forward and back sub. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
           <div class="box">
 	          <p>Note: `T` means matrix transpose.</p>
 	        </div>
@@ -149,16 +155,20 @@
           <p>where `R = [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`, and `R^T = [[1, 0, 0],[1, 1, 0],[1, 1, 1]]`</p>
           <p>We made a lot of assumptions about `A`, so all of this looks like it'll only work for super-specific cases. However, it turns out that most of the useful matrices used in real life can be written as `A = R^TR`. How convenient. (If `A` can be written as `R^TR`, then it is positive definite.)</p>
           <p>The task now becomes finding a matrix `R` such that `A = R^TR.` (`A` has to be positive definite for this to work, so we'll assume `A` is positive definite.)</p>
-          <p>Let `A = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]]`</p>
-          <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/find_cholesky_factor.gif">
+          <div class="box">
+            <p>Let `A = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]]`</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/lin_alg/find_cholesky_factor.gif">
+            </div>
+            <p>So `A = R^TR = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]] = [[1, 0, 0],[-2, 2, 0],[-1, 3, 3]] [[1, -2, -1],[0, 2, 3],[0, 0, 3]]`</p>
           </div>
-          <p>So `A = R^TR = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]] = [[1, 0, 0],[-2, 2, 0],[-1, 3, 3]] [[1, -2, -1],[0, 2, 3],[0, 0, 3]]`</p>
           <div class="box">
             <p>The math equation for Cholesky decomposition:</p>
-            <p>`r_(i,i) = sqrt(a_(i,i) - sum_(k = 1)^(i-1) r_(k,i)^2)`</p>
-            <p>`r_(i,j) = (1/r_(i,i))(a_(i,j) - sum_(k = 1)^(i-1) r_(k,i)*r_(k,j))`</p>
-            <p>where `1 <= i <= n` is the row and `1 <= j <= n` is the column</p>
+            <div class="math">
+              <p>`r_(i,i) = sqrt(a_(i,i) - sum_(k = 1)^(i-1) r_(k,i)^2)`</p>
+              <p>`r_(i,j) = (1/r_(i,i))(a_(i,j) - sum_(k = 1)^(i-1) r_(k,i)*r_(k,j))`</p>
+              <p>where `1 <= i <= n` is the row and `1 <= j <= n` is the column</p>
+            </div>
           </div>
           <div class="box">
             <p>To summarize: Finding `2` matrices `L` and `U` such that `A = LU` makes solving the problem fast, but an easier approach is to find only `1` matrix `R` such that `A = R^TR.` By the nature of `R` (being upper-triangular) and `R^T` (being lower-triangular), we can still do forward and back substitution like we did for triangular systems. Doing this allows us to decompose `A` easily and <i>still</i> achieve the `n^2` time of doing forward and back substitution.</p>
@@ -176,8 +186,9 @@
           <p><b>So finding the Cholesky factor `R` requires `n^3` operations.</b> Wait. That sounds bad. Inverting a matrix took `n^3` operations and that was considered bad. So if finding `R` takes about as long as it does to find `A^-1`, why bother with Cholesky decomposition at all?</p>
           <p>Well, so far, all of this was done to solve `Ax = b`. Just <i>one</i> problem. What if we changed `b`? What if we were trying to solve `Ax = c?` Or `Ax = d?` (All using the same matrix `A`.) <b>If we had to solve multiple problems using the same matrix `A`, we would have to repeatedly do `n^3` operations to find the inverse for each problem.</b> If we instead found the Cholesky decomposition first, we would have `R^T` and `R` stored in the computer ready to use for each problem and <i>only</i> have to do forward and back substitution for each problem. <b>This means for one problem, it will take `n^3` operations. But for future, subsequent problems, it will <i>only</i> take `n^2` operations</b>.</p>
           <div class="box">
-            <p><b>The story thus far:</b> Finding `A^-1` takes too long `(n^3)`. Finding `L` and `U` such that `A = LU` is faster `(n^2)`. But finding `R` such that `A = R^TR` is easier, and potentially just as fast.</p>
-            <p><b>Time complexity for Cholesky decomposition:</b> `n^3`</p>
+            <p><b>The story thus far:</b> Finding `A^-1` takes too long `(n^3)`. Finding `L` and `U` such that `A = LU` is faster `(n^2)`, but we don't have a way of finding `L` and `U`. Finding `R` such that `A = R^TR` is easier, and potentially just as fast.</p>
+            <p><b>Time complexity of Cholesky decomposition:</b> `n^3`</p>
+            <p><b>Assumptions about `A`:</b> invertible, positive definite</p>
           </div>
           <h2>Banded Matrices</h2>
           <p>Things get better if `A` has a bunch of `0`'s (if `A` has a lot of `0`'s, it is called "sparse".) Much like most matrices have a Cholesky factor, most matrices are also large and sparse. A specific type of sparse matrix - a banded matrix - actually allows us to perform Cholesky decomposition faster.</p>
@@ -230,6 +241,7 @@
           <div class="box">
             <p><b>The story thus far:</b> Cholesky decomposition was a powerful method, but it still took `n^3` operations to find `R`. If we know `A` will be banded (and positive definite), then we can take advantage of its unique structure. The result is that it only takes `ns^2` operations to find `R` and another `ns` operations to do forward and back substitution to solve `Ax = b`.</p>
             <p><b>Time complexity of Cholesky decomposition with banded matrices:</b> `ns^2`</p>
+            <p><b>Assumptions about `A`:</b> invertible, positive definite, banded</p>
           </div>
           <h2>Iterative Methods: Overview</h2>
           <p>Cholesky decomposition with banded matrices is nice. But it's only fast when the matrices are banded, which isn't always going to be the case. However, let's consider a different scenario. Let's suppose that we have such a giant matrix, that it takes a day or something to complete. If we stopped our program while it was in the middle of doing Cholesky, we would end up with nothing. It would be nice to be able to stop early and see if the answer we have so far is close to the real answer. That's what iterative methods allow us to do.</p>
@@ -295,6 +307,7 @@
           <p>Another way to write this is:</p>
           <div class="math">
             <p>`x_i^((k+1)) = (b_i - sum_(j < i) a_(i,j)*x_j^((k)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
+            <p>because `j != i` is the same as all the numbers less than `i` (`j < i`) and all the number greater than `i` (`j > i`)</p>
           </div>
           <p>Notice the summation with `j < i`. That sum is going through all the values for which we have already made guesses. (That equation is giving us the new guess for the `i^(th)` number on the `k+1^(st)` iteration. So surely, we had to have made guesses for all the numbers before `i` on the `k+1^(st)` iteration right?) So instead of using an old guess, why not use the new guesses we just recently obtained?</p>
           <div class="math">
@@ -312,7 +325,8 @@
           <p>The Gauss-Seidel method should take about the same time as Jacobi's method since they are pretty much almost doing the same thing.</p>
           <div class="box">
             <p><b>The story thus far:</b> Two iterative methods that approximate the solution to `Ax = b` are Jacobi's method and the Gauss-Seidel method. Both of these start with an initial random guess and generate new guesses based on our old guesses.</p>
-            <p><b>Time complexity for Jacobi/Gauss-Seidel:</b> `n^2` for full matrices, `n` for sparse matrices (`ns` if the sparseness depends on the size of the matrix)</p>
+            <p><b>Time complexity of Jacobi/Gauss-Seidel:</b> `n^2` for full matrices, `n` for sparse matrices (`ns` if the sparseness depends on the size of the matrix)</p>
+            <p><b>Assumptions about `A`:</b> invertible</p>
           </div>
           <h2>Vector Norms</h2>
           <p>Since we're getting approximate answers, it's important to know how close our answer `x^((k))` is to the real answer `x`. Because `x^((k))` and `x` are vectors, we need to define a notion of distance between vectors.</p>
@@ -383,7 +397,7 @@
           <div class="box">
             <p>Example:</p>
             <p>`[[3, 2], [3, -2]] [[2],[1]] = 4[[2],[1]]`</p>
-            <p>`v = [[2],[1]]` and `lambda = 4`</p>
+            <p>`v = [[2],[1]]` is the eigenvector and `lambda = 4` is the eigenvalue</p>
           </div>
           <p>Let's write* `e^((0))` in terms of the eigenvectors of `G`:</p>
           <div class="math">
@@ -474,8 +488,8 @@
           <p>These norms are usually more useful than the Frobenius norm, but they take longer to compute (`n^3`). (However, a (relatively) fast way to estimate `norm(A)_p` is to take a bunch of random vectors `x` and compute `norm(Ax)_p/norm(x)_p`. Whichever answer is largest, will be approximately equal to `norm(A)_p`).</p>
           <div class="box">
             <p>It turns out that:</p>
-            <p>`norm(A)_1` is the largest 1-norm of the columns of `A` `(max_j sum_i abs(a_(i,j)))`</p>
-            <p>`norm(A)_oo` is the largest 1-norm of the rows of `A` `(max_i sum_j abs(a_(i,j)))`</p>
+            <p>`norm(A)_1` is the largest 1-norm of the columns of `A`: `(max_j sum_i abs(a_(i,j)))`</p>
+            <p>`norm(A)_oo` is the largest 1-norm of the rows of `A`: `(max_i sum_j abs(a_(i,j)))`</p>
           </div>
           <p>One useful result that will be used is `norm(Ax)_p <= norm(A)_pnorm(x)_p`.</p>
           <p>From this point on, <i>matrix</i> norms without a subscript are assumed to be the induced norm.</p>
@@ -818,7 +832,7 @@
             </div>
           </div>
           <div class="box">
-            <p>To summarize: Gaussian elimination is the age-old algorithm used to solve `Ax = b`. It involves performing row operations to change `Ax = b` into `Ux = y`. What's going on under the hood is that we're decomposing `A` into two matrices `L` and `U`. Gaussian elimination can be performed on any invertible matrix `A`, so that means <i>any</i> invertible matrix `A` can be decomposed into `LU`.</p>
+            <p>To summarize: Gaussian elimination is the age-old algorithm used to solve `Ax = b`. It involves performing row operations to change `Ax = b` into `Ux = y`. What's going on under the hood is that we're decomposing `A` into two matrices `L` and `U`. Gaussian elimination can be performed on any invertible matrix `A`, so that means <i>any</i> invertible matrix `A` can be decomposed into `LU`. In the Triangular Systems section, we said that we didn't have a way of finding `L` and `U`. Now we do.</p>
           </div>
           <h2>Least Squares Problem</h2>
           <p>Up to this point, `A` has been a square matrix (`n xx n`). However, it is possible for `A` to be an `n xx m` matrix where `n != m`.</p>
@@ -995,6 +1009,33 @@
             <p>Now that we've changed all the columns of `A` into the form we need, we're done:</p>
             <p>`Q_2^TQ_1^TA = [[-5, -3],[0, -5],[0, 0]] = R`</p>
             <p>**we can't change the `-5` in `[[-5, -3],[0, -4],[0, 3]]` because `Q` preserves lengths of vectors. `norm([[3],[4],[0]])_2 = norm([[-tau],[0],[0]])` so `tau` must be `5`. Changing the `-5` violates this property, so we only work below the first row for `Q_2`. Namely, `[[0, -4],[0, 3]]`.</p>
+            <p>We could get `Q` by doing `Q = Q_1Q_2`.</p>
+          </div>
+          <div class="box">
+            <p><b>The story thus far:</b> When `A` is a square `n xx n` matrix, we can use the techniques mentioned near the beginning of the story, like Cholesky decomposition or iterative methods to solve the problem. Those methods don't really work when `A` is `n xx m` though. Solving `Ax = b` when `A` is not a square matrix is known as the least squares problem. One way of solving the least squares problem is doing `QR` decomposition.</p>
+          </div>
+          <h2>Singular Value Decomposition</h2>
+          <p><i>"This is the single most important thing in all of matrix analysis." -Professor Alex Cloninger</i></p>
+          <p>`QR` decomposition only works in some situations*. A more powerful method that works in all(?) situations is singular value decomposition.</p>
+          <div class="box">
+           <p>*it only works when `A` has full rank, i.e. `A` has `m` pivots, i.e. `A` has `m` linearly independent column vectors, i.e. `A` has `n` linearly independent row vectors. The list goes on. I think.</p>
+          </div>
+          <p><b>Let `A` be an `n xx m` matrix with rank `r`. Then `A = USigmaV^T` where:</b></p>
+          <div class="math">
+            <p><b>`U` is an `n xx n` orthogonal matrix</b></p>
+            <p><b>`V` is an `m xx m` orthogonal matrix</b></p>
+            <p><b>`Sigma = [[sigma_1, -, -, -, -, -],[-, sigma_2, -, -, -, -],[-, -, ..., -, -, -],[-, -, -, sigma_r, -, -],[-, -, -, -, 0, -],[-, -, -, -, -, ...]]` is an `n xx m` "diagonal" matrix</b></p>
+            <p>where the dashes are `0`'s</p>
+            <p>`sigma_i` is a singular value and `sigma_1 >= sigma_2 >= ... >= sigma_r`
+          </div>
+          <div class="box">
+            <p>Alternatively, `A = sum_(i = 1)^r sigma_iu_iv_i^T`</p>
+          </div>
+          <p>It turns out that:</p>
+          <div class="math">
+            <p>`Av_i = sigma_iu_i`</p>
+            <p>`A^Tu_i = u_i^TA = sigma_iv_i`</p>
+            <p>for `1 <= i <= r`</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
