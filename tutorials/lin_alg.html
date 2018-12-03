@@ -964,12 +964,37 @@
           <p>For `m` columns of `A`, we would have `Q_m^TQ_(m-1)^T...Q_1^TA`. Then `Q^T = Q_m^TQ_(m-1)^T...Q_1^T`.</p>
           <p>It turns out that `Q = I - 2u``u^T` where `u = (x - y)/norm(x-y)_2`. `I` is the identity matrix. `x` is the column vector we're trying to change and `y` is the column vector we're trying to get.</p>
           <div class="box">
+            <p>Alternatively, `Q = I - 2/norm(u)_2^2 u``u^T`</p>
+          </div>
+          <div class="box">
             <p>Example: Find `Q` s.t. `Q[[3],[4]] = [[-tau],[0]]`</p>
             <p>Since orthogonal matrices don't change the size of vectors, `norm([[3],[4]])_2 = norm([[-tau],[0]])_2`</p>
             <p>`sqrt(3^2 + 4^2) = sqrt((-tau)^2 + 0^2) => tau = 5`</p>
             <p>So the problem becomes finding `Q` such that `Q[[3],[4]] = [[-5],[0]]`</p>
             <p>`u = (x - y)/norm(x-y)_2 = ([[3],[4]] - [[-5],[0]])/norm([[3],[4]] - [[-5],[0]])_2 = ([[8],[4]])/norm([[8],[4]])_2 = 1/sqrt(8^2 + 4^2) [[8],[4]] = 1/sqrt(80) [[8],[4]]`</p>
-            <p>So `Q = I - 2u``u^T = I - 2/80 [[8],[4]] [[8, 4]]`</p>
+            <p>So `Q = I - 2u``u^T = I - 2(1/sqrt(80)[[8],[4]])(1/sqrt(80)[[8, 4]]) = I - 2/80 [[8],[4]] [[8, 4]]`</p>
+          </div>
+          <p>Once we know what `Q` is, we are able to find `R` from `A = QR => R = Q^TA`.</p>
+          <div class="box">
+            <p>Example: Given `A = [[3, 5],[4, 0],[0, 3]]`, find `R`</p>
+            <p>First, we have to find `Q`. Since `A` has `2` columns, `Q = Q_1Q_2`. We start by finding `Q_1`. That means changing the first column of A into the form `[[-tau],[0],[0]]` and finding out what `u` is.</p>
+            <p>`[[3],[4],[0]] -> [[-tau],[0],[0]]`</p>
+            <p>`norm([[3],[4],[0]])_2 = norm([[-tau],[0],[0]])_2 => tau = 5`</p>
+            <p>`u = (x - y)/norm(x-y)_2 = ([[3],[4],[0]] - [[-5],[0],[0]])/norm([[3],[4],[0]] - [[-5],[0],[0]])_2 = ([[8],[4],[0]])/norm([[8],[4],[0]])_2 = 1/sqrt(80)[[8],[4],[0]]`</p>
+            <p>`Q_1 = = I - 2/norm(u)_2^2 u``u^T = I - 2/80 [[8],[4],[0]] [[8, 4, 0]]`</p>
+            <p>Remember that the end goal is `R = Q^TA = (Q_2Q_1)^TA = Q_2^TQ_1^TA`. We can solve for `Q_1^TA`:</p>
+            <p>By design, we found a `Q_1` such that it would turn the first column of `A` into `[[-5],[0],[0]]`. So we have:</p>
+            <p>`Q_1^T[[3],[4],[0]] = [[-5],[0],[0]]`. We need to know what `Q_1^T` does to the other column of `A`:</p>
+            <p>`Q_1^T[[5],[0],[3]] = (I - 2/80 [[8],[4],[0]] [[8, 4, 0]])^T [[5],[0],[3]] = (I - 2/80 [[8, 4, 0]]^T [[8],[4],[0]]^T) [[5],[0],[3]]`</p>
+            <p>`= (I - 2/80 [[8],[4],[0]] [[8, 4, 0]]) [[5],[0],[3]] = [[5],[0],[3]] - 2/80 [[8],[4],[0]] ([[8, 4, 0]][[5],[0],[3]])`</p>
+            <p>`= [[5],[0],[3]] - 2/80 [[8],[4],[0]] (40) = [[5],[0],[3]] - [[8],[4],[0]] = [[-3],[-4],[3]]`</p>
+            <p>So `Q_1^TA = Q_1^T[[3, 5],[4, 0],[0, 3]] = [[-5, -3],[0, -4],[0, 3]]`</p>
+            <p>Now we need to find `Q_2` that changes the second column into `[[-tau_2],[0]]`**.</p>
+            <p>`[[-4],[3]] -> [[-tau_2],[0]]`</p>
+            <p>`norm([[-4],[3]])_2 = norm([[-tau_2],[0]])_2 => tau = 5`</p>
+            <p>Now that we've changed all the columns of `A` into the form we need, we're done:</p>
+            <p>`Q_2^TQ_1^TA = [[-5, -3],[0, -5],[0, 0]] = R`</p>
+            <p>**we can't change the `-5` in `[[-5, -3],[0, -4],[0, 3]]` because `Q` preserves lengths of vectors. `norm([[3],[4],[0]])_2 = norm([[-tau],[0],[0]])` so `tau` must be `5`. Changing the `-5` violates this property, so we only work below the first row for `Q_2`. Namely, `[[0, -4],[0, 3]]`.</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
