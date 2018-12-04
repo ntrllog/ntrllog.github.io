@@ -114,7 +114,7 @@
           <div class="box">
 	          <p>To summarize: We assumed `A` could be "split up" into two parts `L` and `U` (i.e., `A = LU`). With that, the problem became `Ax = b => LUx = b`. We took advantage of the fact that solving something like `Lx = b` was easy. So by letting `y = Ux`, we could solve `Ly = b`. Doing that gave us `y`, so we could get `x` by solving `Ux = y`.</p>
           </div>
-          <p>This process may look like it requires a lot of steps. <b>But it actually takes less operations than inverting a matrix.</b> Let's look at how many operations it takes to solve `Ly = b`. <b>We'll count operations by counting how many numbers we have to perform operations on.</b></p>
+          <p>This process may look like it requires a lot of steps, but <b>it actually takes less operations than inverting a matrix.</b> Let's look at how many operations it takes to solve `Ly = b`. <b>We'll count operations by counting how many numbers we have to perform operations on.</b></p>
           <p>For the first row, there is `1` number. (By the nature of matrix multiplication, the `0`'s don't count as numbers.)</p>
           <div class="math">
             <p>`[[color(red)(5), 0, 0],[2, -4, 0],[1, 2, 3]] [[color(red)(x_1)],[x_2],[x_3]] = [[15],[-2],[10]]`</p>
@@ -144,7 +144,7 @@
             <p><b>Assumptions about `A`:</b> invertible</p>
           </div>
           <h2>Cholesky Decomposition</h2>
-          <p>Splitting `A` into 2 different matrices is nice, but we currently don't know exactly how to do so. There's an easier way to split up `A` and still take advantage of forward and back sub. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
+          <p>Splitting `A` into 2 different matrices is nice, but we currently don't know exactly how to do so. Fortunately, there's an easier way to split up `A` and still take advantage of forward and back sub. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
           <div class="box">
 	          <p>Note: `T` means matrix transpose.</p>
 	        </div>
