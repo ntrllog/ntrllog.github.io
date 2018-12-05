@@ -972,7 +972,7 @@
           <div class="math">
             <p>`[[color(blue)(a_(1,1))], [color(blue)(a_(2,1))], [color(blue)(a_(3,1))], [color(blue)(a_(4,1))], [color(blue)(a_(5,1))]] -> [[color(blue)(r_(1,1))], [color(blue)(0)], [color(blue)(0)], [color(blue)(0)], [color(blue)(0)]]` `[[color(red)(a_(1,2))],[color(red)(a_(2,2))],[color(red)(a_(3,2))],[color(red)(a_(4,2))],[color(red)(a_(5,2))]] -> [[color(red)(r_(1,2))],[color(red)(r_(2,2))],[color(red)(0)],[color(red)(0)],[color(red)(0)]]`</p>
           </div>
-          <p><b>It turns out that, for a vector `x`, there exists an orthogonal matrix `Q` such that `Q^Tx = [[-tau],[0], [...], [0]]`. So <i>for each column</i> of `A`, we can find a `Q_i` to do what we want.</b></p>
+          <p><b>It turns out that, for a vector `x`, there exists an orthogonal matrix `Q` such that `Q^Tx = [[-tau],[0], [vdots], [0]]`. So <i>for each column</i> of `A`, we can find a `Q_i` to do what we want.</b></p>
           <div class="math">
             <p>`Q_1^TA: [[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] -> [[-tau_1, alpha_(1,2), alpha_(1,3), alpha_(1,4)], [0, alpha_(2,2), alpha_(2,3), alpha_(2,4)], [0, alpha_(3,2), alpha_(3,3), alpha_(3,4)], [0, alpha_(4,2), alpha_(4,3), alpha_(4,4)], [0, alpha_(5,2), alpha_(5,3), alpha_(5,4)]]`</p>
             <p>`Q_2^TQ_1^TA: [[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] -> [[-tau_1,alpha_(1,2), alpha_(1,3), alpha_(1,4)], [0, -tau_2, beta_(2,3), beta_(2,4)], [0, 0, beta_(3,3), beta_(3,4)], [0, 0, beta_(4,3), beta_(4,4)], [0, 0, beta_(5,3), beta_(5,4)]]`</p>
@@ -1018,7 +1018,7 @@
           </div>
           <h2>Singular Value Decomposition</h2>
           <p><i>"This is the single most important thing in all of matrix analysis." -Professor Alex Cloninger</i></p>
-          <p>`QR` decomposition only works in some situations*. A more powerful method that works in all(?) situations is singular value decomposition.</p>
+          <p>`QR` decomposition only works in some situations*. A more powerful method that works in all(?) situations is singular value decomposition (SVD).</p>
           <div class="box">
            <p>*it only works when `A` has full rank, i.e. `A` has `m` pivots, i.e. `A` has `m` linearly independent column vectors, i.e. `A` has `n` linearly independent row vectors. The list goes on. I think.</p>
           </div>
@@ -1073,11 +1073,86 @@
             <p>To find the eigenvalues of `A A^T`, we find the determinant of `A A^T - lambdaI` and set it equal to `0`.</p>
             <p>`abs(A A^T-lambdaI) = abs([[2-lambda, 1],[1, 2-lambda]]) = (2-lambda)^2 - 1^2 = lambda^2 - 4lambda + 3 = 0 => lambda = 3,1`</p>
             <p>Since `sigma_1 >= sigma_2 >= ... >= sigma_r` and we're looking for `sigma_1`, we consider the larger eigenvalue `3`.</p>
-            <p>`3` is an eigenvalue of `A A^T`, so `sigma_1` of `A` is `sqrt(3)`.</p>
+            <p>`3` is an eigenvalue of `A A^T`, so `sigma_1` of `A` is `sqrt(3)` (`sigma_2` would be `sqrt(1) = 1`).</p>
+            <p>So `norm(A)_2 = sigma_1 = sqrt(3)`</p>
           </div>
           <div class="box">
             <p>*`A A^T` will always be symmetric. By definition, `A` is symmetric if `A^T = A`. So `(A A^T)^T = (A^T)^TA^T = A A^T`.</p>
             <p>Similarly, `A^TA` will also always be symmetric. `(A^TA)^T = A^T(A^T)^T = A^TA`.</p>
+          </div>
+          <p>Singular values are also helpful with finding the condition number of a non-square matrix. For a square matrix, the condition number was defined as:</p>
+          <div class="math">
+            <p>`kappa(A) = norm(A)norm(A^(-1))`</p>
+          </div>
+          <p>However, non-square matrices don't have an inverse. So that definition of condition number doesn't make sense in this situation. We also defined condition numbers as:</p>
+          <div class="math">
+            <p>`kappa(A) = (text(maxmag)(A))/(text(minmag)(A))`</p>
+          </div>
+          <p>Here, the maximum `A` can stretch a vector is `sigma_1` and the minimum `A` can stretch a vector is `sigma_m`.</p>
+          <div class="math">
+            <p>`kappa(A) = sigma_1/sigma_m`</p>
+            <p>when `n > m`</p>
+          </div>
+          <p>And the condition number for non-square matrices is a measure of how good the least squares approximation will be.</p>
+          <p>In general, when we use the determinant method to find the eigenvalues of a `2 xx 2` matrix, we end up with a quadratic equation (`ax^2 + bx + c = 0`). For `3 xx 3`, we end up with a cubic equation. For `4 xx 4`, we end up with a quartic equation. It is always possible to find the roots of those equations. But for polynomials with degree greater than `5`, there are no formulas for finding the roots. This means the determinant method won't always work for matrices `5 xx 5` and greater.</p>
+          <p>That would mean that SVD decomposition would only work if `A^TA` was smaller than `5 xx 5`. This isn't true however. So we have to look at another way to find an eigenvalue.</p>
+          <h2>Power Method</h2>
+          <p>First, some terminology. `(lambda, v)` is an eigenpair of `A` if `Av = lambdav`. If `A` has eigenpairs `(lambda_i, v_i)`, then, by convention, we order them such that `abs(lambda_1) > abs(lambda_2) > ... > abs(lambda_n)`. `lambda_1` is considered the dominant eigenvalue.</p>
+          <p>Not only does the determinant method not work for big matrices, it only gives us the eigenvalues. We have to do a completely different method to find the eigenvectors. The power method gives us both the eigenvalues and eigenvectors (i.e. eigenpairs) at the same time. (The power method actually gives us the dominant eigenvalue. Variations of the power method give us all the eigenvalues.)</p>
+          <p>There is a restriction for the power method though. It only works when `A` is semisimple: all the eigenvalues are distinct.</p>
+          <p>So how does it work? Let's pick a random vector `q`. We can rewrite `q` in terms of the eigenvectors of `A`:</p>
+          <div class="math">
+            <p>`q = c_1v_1 + ... + c_nv_n`</p>
+          </div>
+          <p>Now, let's multiply `q` by `A`:</p>
+          <div class="math">
+            <p>`Aq = c_1lambda_1v_1 + ... + c_nlambda_nv_n`</p>
+            <p>since `Av_i = lambda_iv_i`</p>
+          </div>
+          <p>Repeatedly multiplying by `A` results in:</p>
+          <div class="math">
+            <p>`A^2q = c_1lambda_1^2v_1 + ... + c_nlambda_n^2v_n`</p>
+            <p>`vdots`</p>
+            <p>`A^kq = c_1lambda_1^kv_1 + ... + c_nlambda_n^kv_n`</p>
+          </div>
+          <p>Factoring out the `lambda_1^k`, we get:</p>
+          <div class="math">
+            <p>`A^kq = lambda_1^k(c_1v_1 + c_2(lambda_2/lambda_1)^kv_2 + ... + c_n(lambda_n/lambda_1)^kv_n)`</p>
+          </div>
+          <p>When `k` gets large enough, then `A^kq ~~ lambda_1^kc_1v_1` (since `abs(lambda_1)` is greater than `abs(lambda_i)`, `lambda_i/lambda_1` will be less than `1` and with repeated multiplications, will get to `0`.)</p>
+          <p>Then we have:</p>
+          <div class="math">
+            <p>`A^kq ~~ lambda_1^kc_1v_1 => (A^kq)/lambda_1^k ~~ c_1v_1`</p>
+          </div>
+          <p>This gives us a way of finding the eigenvector. How large will `k` be before we get a good estimate? If we let `q^((k)) = (A^kq)/lambda_1^k`, then we can look at `norm(q^((k))-c_1v_1)_2`:</p>
+          <div class="math">
+            <p>`norm(q^((k))-c_1v_1)_2 = norm((lambda_2/lamda_1)^kc_2v_2 + ... + (lambda_n/lambda_1)^kc_nv_n)_2`</p>
+            <p>`<= sum_(i = 2)^n (lambda_i/lambda_1)^k abs(c_i)norm(v_i)_2` (by triangle inequality)</p>
+            <p>`<= abs(lambda_2/lambda_1)^k sum_(i = 2)^n abs(c_i)norm(v_i)_2` (since `lambda_1 > lambda_2 > ... > lambda_i`)</p>
+          </div>
+          <p>So `norm(q^((k)) - c_1v_1)_2 <= abs(lambda_2/lambda_1)^k sum_(i = 2)^n abs(c_i)norm(v_i)_2` goes to `0` as `k -> oo`. This means that we should stop when `abs(lambda_2/lambda_1)^k` is really small.</p>
+          <p>This says that repeatedly multiplying `q` by `A` and dividing by `lambda_1` will eventually give us the eigenvector `v_1`. It also says that if `abs(lambda_2/lambda_1)` is much smaller than `1`, then it won't take long for this method to converge (i.e. `k` will be small). But if `abs(lambda_2/lambda_1)` is close to `1` (i.e. `lambda_2` is close to `lambda_1`), then it will take a long time to converge (i.e. `k` will be large).</p>
+          <p>We have a way of finding the eigenvector, but it is dependent on the eigenvalue. And we currently don't know the eigenvalue. It turns out that we can't really compute it exactly, so we make an educated guess as to what it could be.</p>
+          <div class="box">
+            <p>Example: `A = [[2, 0],[0, 1]]`. We start with a guess `q^((0)) = [[1],[1]]`.</p>
+            <p>Throughout, we let `s_j` be the "guess" as to what the eigenvalue could be after the `j^(th)` step. `q^((j))` would be the approximation of the eigenvector after the `j^(th)` step. We choose `s_j` to be the largest entry in `Aq^((j-1))`. `q^((j))` would be `(Aq^((j-1)))/s_j`.</p>
+            <div class="math">
+              <p>`Aq^((0)) = [[2],[1]]`, `s_1 = 2`, `q^((1)) = [[1],[1/2]]`</p>
+              <p>`Aq^((1)) = [[2],[1/2]]`, `s_2 = 2`, `q^((2)) = [[1],[1/4]]`</p>
+              <p>`Aq^((2)) = [[2],[1/4]]`, `s_3 = 2`, `q^((3)) = [[1],[1/8]]`</p>
+              <p>`vdots`</p>
+              <p>`Aq^((k)) = [[2],[1/2^k]]`, `s_k = 2`, `q^((k)) = [[1],[1/2^k]]`</p>
+            </div>
+            <p>So our guess for the eigenvalue is `2` and the eigenvector would be `[[1],[0]]` as `k` gets large.</p>
+          </div>
+          <div class="box">
+            <p>Example: `A = [[2, 1],[1, 4]]`. We start with a guess `q^((0)) = [[1],[1]]`.</p>
+            <div class="math">
+              <p>`Aq^((0)) = [[3],[5]]`, `s_1 = 5`, `q^((1)) = [[3/5],[1]]`</p>
+              <p>`Aq^((1)) = [[11/5],[23/5]]`, `s_2 = 23/5`, `q^((2)) = [[11/23],[1]]`</p>
+              <p>`Aq^((2)) = [[45/23],[103/23]]`, `s_3 = 103/23`, `q^((3)) = [[45/103],[1]]`</p>
+            </div>
+            <p>So our guess for the eigenvalue is `4.4` and the eigenvector would be `[[4.4],[1]]` as `k` gets large.</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
