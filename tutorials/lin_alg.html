@@ -24,7 +24,7 @@
           <h1>Numerical Analysis: A Linear Algebra Story</h1>
           <p>Linear algebra is all about solving `Ax = b,` where, usually, `A` is an `n xx n` matrix, `x` is an `n xx 1` matrix, and `b` is an `n xx 1` matrix. Specifically, given `A` and `b,` find `x`. In other words, if the problem is</p>
           <div class="math">
-            <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[..., ..., ..., ...],[a_(n,1), a_(n,2), ..., a_(n,n)]] [[x_1], [x_2], [...], [x_n]] = [[b_1], [b_2], [...], [b_n]]`</p>
+            <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[vdots, vdots, ddots, vdots],[a_(n,1), a_(n,2), ..., a_(n,n)]] [[x_1], [x_2], [vdots], [x_n]] = [[b_1], [b_2], [vdots], [b_n]]`</p>
           </div>
           <p>where we know all the `a` and `b` values, what values of `x` make that true?</p>
           <p>Concretely, what values of `x_1, x_2,` and `x_3` make this equation true?</p>
@@ -44,7 +44,7 @@
           <h2>Triangular Systems</h2>
           <p>Let's assume `A` can be "split up" into two matrices: one lower-triangular matrix (denoted by `L`) and one upper-triangular matrix (denoted by `U`). So `A = LU:`</p>
           <div class="math">
-            <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[..., ..., ..., ...],[a_(n,1), a_(n,2), ..., a_(n,n)]] = [[l_(1,1), 0, ..., 0],[l_(2,1), l_(2,2), 0, ...],[..., ..., ..., 0],[l_(n,1), l_(n,2), ..., l_(n,n)]] [[u_(1,1), u_(1,2), ..., u_(1,n)],[0, u_(2,2), ..., u_(2,n)],[..., 0, ..., ...],[0, ..., 0, u_(n,n)]]`.</p>
+            <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[vdots, vdots, ddots, vdots],[a_(n,1), a_(n,2), ..., a_(n,n)]] = [[l_(1,1), 0, ..., 0],[l_(2,1), l_(2,2), 0, vdots],[vdots, vdots, ddots, 0],[l_(n,1), l_(n,2), ..., l_(n,n)]] [[u_(1,1), u_(1,2), ..., u_(1,n)],[0, u_(2,2), ..., u_(2,n)],[vdots, 0, ddots, vdots],[0, ..., 0, u_(n,n)]]`.</p>
           </div>
           <div class="box">
             <p>Note: Lower-triangular means `0`'s on top right and numbers on bottom left. Upper-triangular means numbers on top right and `0`'s on bottom left. See example below.</p>
@@ -282,7 +282,7 @@
           </div>
           <p>where `D` is the matrix containing the diagonal of `A`</p>
           <div class="math">
-            <p>`D = [[a_(1,1), 0, ..., 0],[0, a_(2,2), 0, ...],[..., 0, ..., 0],[0, ..., 0, a_(n,n)]]`</p>
+            <p>`D = [[a_(1,1), 0, ..., 0],[0, a_(2,2), 0, vdots],[vdots, 0, ddots, 0],[0, ..., 0, a_(n,n)]]`</p>
           </div>
           <div class="box">
             <p>A rough idea of why the equation form is equivalent to the matrix form:</p>
@@ -319,8 +319,8 @@
           </div>
           <p>where `E` is the negative of the lower-triangular part of `A` and `F` is the negative upper-triangular part of `A`.</p>
           <div class="math">
-            <p>`E = [[-a_(1,1), 0, ..., 0], [-a_(2,1), -a_(2,2), 0, ...], [..., ..., ..., 0], [-a_(n,n), ..., ..., -a_(n,n)]]`</p>
-            <p>`F = [[-a_(1,1), -a_(1,2), ..., -a_(1,n)], [0, -a_(2,2), ..., ...], [..., 0, ..., ...], [0, ..., 0, -a_(n,n)]]`</p>
+            <p>`E = [[-a_(1,1), 0, ..., 0], [-a_(2,1), -a_(2,2), 0, vdots], [vdots, vdots, ddots, 0], [-a_(n,n), ..., ..., -a_(n,n)]]`</p>
+            <p>`F = [[-a_(1,1), -a_(1,2), ..., -a_(1,n)], [0, -a_(2,2), ..., vdots], [vdots, 0, ddots, vdots], [0, ..., 0, -a_(n,n)]]`</p>
           </div>
           <p>The Gauss-Seidel method should take about the same time as Jacobi's method since they are pretty much almost doing the same thing.</p>
           <div class="box">
@@ -396,7 +396,9 @@
           <p>`v_i` is an eigenvector of `G` if `Gv_i = lambda_i v_i` for some number `lambda_i`, which is then the eigenvalue of `G`.</p>
           <div class="box">
             <p>Example:</p>
-            <p>`[[3, 2], [3, -2]] [[2],[1]] = 4[[2],[1]]`</p>
+            <p>`[[3, 2],[3, -2]] [[2],[1]] = [[8],[4]]`</p>
+            <p>`4[[2],[1]] = [[8],[4]]`</p>
+            <p>`=> [[3, 2],[3, -2]] = 4[[2],[1]]`</p>
             <p>`v = [[2],[1]]` is the eigenvector and `lambda = 4` is the eigenvalue</p>
           </div>
           <p>Let's write* `e^((0))` in terms of the eigenvectors of `G`:</p>
@@ -808,7 +810,7 @@
           </div>
           <p>That could actually be written in matrix form when we rearrange `y_i = b_i - sum_(j = 1)^(i-1) m_(i,j)*y_j => b_i = sum_(j = 1)^(i-1) m_(i,j)*y_j + y_i`:</p>
           <div class="math">
-            <p>`[[b_1],[b_2],[...],[...],[b_n]] = [[1, 0, 0, ..., 0], [m_(2,1), 1, 0, ..., 0], [m_(3,1), m_(3,2), 1, 0, ...], [..., ..., ..., ..., 0], [m_(n,1), m_(n,2), m_(n,3), ..., 1]][[y_1], [y_2], [...], [...], [y_n]] = [[y_1], [m_(2,1)*y_1 + y_2], [m_(3,1)*y_1 + m_(3,2)*y_2 + y_3], [...], [...]]`</p>
+            <p>`[[b_1],[b_2],[vdots],[vdots],[b_n]] = [[1, 0, 0, ..., 0], [m_(2,1), 1, 0, ddots, vdots], [m_(3,1), m_(3,2), 1, ddots, vdots], [vdots, vdots, vdots, ddots, 0], [m_(n,1), m_(n,2), m_(n,3), ..., 1]][[y_1], [y_2], [vdots], [vdots], [y_n]] = [[y_1], [m_(2,1)*y_1 + y_2], [m_(3,1)*y_1 + m_(3,2)*y_2 + y_3], [vdots], [vdots]]`</p>
           </div>
           <p>This means that `b` can be written in terms of `L` and `y`. Namely, `b = Ly`. So if we're using Gaussian elimination to solve `Ax = b`, that is equivalent to solving `Ax = Ly`. But also remember that by doing Gaussian elimination, we transformed the problem from `Ax = b` to `Ux = y`. So:</p>
           <div class="math">
@@ -976,9 +978,9 @@
             <p>`Q_2^TQ_1^TA: [[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] -> [[-tau_1,alpha_(1,2), alpha_(1,3), alpha_(1,4)], [0, -tau_2, beta_(2,3), beta_(2,4)], [0, 0, beta_(3,3), beta_(3,4)], [0, 0, beta_(4,3), beta_(4,4)], [0, 0, beta_(5,3), beta_(5,4)]]`</p>
           </div>
           <p>For `m` columns of `A`, we would have `Q_m^TQ_(m-1)^T...Q_1^TA`. Then `Q^T = Q_m^TQ_(m-1)^T...Q_1^T`.</p>
-          <p>It turns out that `Q = I - 2u``u^T` where `u = (x - y)/norm(x-y)_2`. `I` is the identity matrix. `x` is the column vector we're trying to change and `y` is the column vector we're trying to get.</p>
+          <p>It turns out that `Q = I - 2u u^T` where `u = (x - y)/norm(x-y)_2`. `I` is the identity matrix. `x` is the column vector we're trying to change and `y` is the column vector we're trying to get.</p>
           <div class="box">
-            <p>Alternatively, `Q = I - 2/norm(u)_2^2 u``u^T`</p>
+            <p>Alternatively, `Q = I - 2/norm(u)_2^2 u u^T`</p>
           </div>
           <div class="box">
             <p>Example: Find `Q` s.t. `Q[[3],[4]] = [[-tau],[0]]`</p>
@@ -986,7 +988,7 @@
             <p>`sqrt(3^2 + 4^2) = sqrt((-tau)^2 + 0^2) => tau = 5`</p>
             <p>So the problem becomes finding `Q` such that `Q[[3],[4]] = [[-5],[0]]`</p>
             <p>`u = (x - y)/norm(x-y)_2 = ([[3],[4]] - [[-5],[0]])/norm([[3],[4]] - [[-5],[0]])_2 = ([[8],[4]])/norm([[8],[4]])_2 = 1/sqrt(8^2 + 4^2) [[8],[4]] = 1/sqrt(80) [[8],[4]]`</p>
-            <p>So `Q = I - 2u``u^T = I - 2(1/sqrt(80)[[8],[4]])(1/sqrt(80)[[8, 4]]) = I - 2/80 [[8],[4]] [[8, 4]]`</p>
+            <p>So `Q = I - 2u u^T = I - 2(1/sqrt(80)[[8],[4]])(1/sqrt(80)[[8, 4]]) = I - 2/80 [[8],[4]] [[8, 4]]`</p>
           </div>
           <p>Once we know what `Q` is, we are able to find `R` from `A = QR => R = Q^TA`.</p>
           <div class="box">
@@ -995,7 +997,7 @@
             <p>`[[3],[4],[0]] -> [[-tau],[0],[0]]`</p>
             <p>`norm([[3],[4],[0]])_2 = norm([[-tau],[0],[0]])_2 => tau = 5`</p>
             <p>`u = (x - y)/norm(x-y)_2 = ([[3],[4],[0]] - [[-5],[0],[0]])/norm([[3],[4],[0]] - [[-5],[0],[0]])_2 = ([[8],[4],[0]])/norm([[8],[4],[0]])_2 = 1/sqrt(80)[[8],[4],[0]]`</p>
-            <p>`Q_1 = = I - 2/norm(u)_2^2 u``u^T = I - 2/80 [[8],[4],[0]] [[8, 4, 0]]`</p>
+            <p>`Q_1 = = I - 2/norm(u)_2^2 u u^T = I - 2/80 [[8],[4],[0]] [[8, 4, 0]]`</p>
             <p>Remember that the end goal is `R = Q^TA = (Q_2Q_1)^TA = Q_2^TQ_1^TA`. We can solve for `Q_1^TA`:</p>
             <p>By design, we found a `Q_1` such that it would turn the first column of `A` into `[[-5],[0],[0]]`. So we have:</p>
             <p>`Q_1^T[[3],[4],[0]] = [[-5],[0],[0]]`. We need to know what `Q_1^T` does to the other column of `A`:</p>
@@ -1024,7 +1026,7 @@
           <div class="math">
             <p><b>`U` is an `n xx n` orthogonal matrix</b></p>
             <p><b>`V` is an `m xx m` orthogonal matrix</b></p>
-            <p><b>`Sigma = [[sigma_1, -, -, -, -, -],[-, sigma_2, -, -, -, -],[-, -, ..., -, -, -],[-, -, -, sigma_r, -, -],[-, -, -, -, 0, -],[-, -, -, -, -, ...]]` is an `n xx m` "diagonal" matrix</b></p>
+            <p><b>`Sigma = [[sigma_1, -, -, -, -, -],[-, sigma_2, -, -, -, -],[-, -, ddots, -, -, -],[-, -, -, sigma_r, -, -],[-, -, -, -, 0, -],[-, -, -, -, -, ddots]]` is an `n xx m` "diagonal" matrix</b></p>
             <p>where the dashes are `0`'s</p>
             <p>`sigma_1 >= sigma_2 >= ... >= sigma_r` are singular values</p>
           </div>
@@ -1055,22 +1057,27 @@
             <p>`(Av_i)/sigma_i = u_i`</p>
           </div>
           <div class="box">
-            <p>Another way to find the values of `u_i` is to find the eigenvectors of `A``A^T`.</p>
+            <p>Another way to find the values of `u_i` is to find the eigenvectors of `A A^T`.</p>
           </div>
           <div class="box">
-            <p>It turns out that the eigenvectors of `A``A^T` are the columns of `U` and the eigenvectors of `A^TA` are the columns of `V`.</p>
+            <p>It turns out that the eigenvectors of `A A^T` are the columns of `U` and the eigenvectors of `A^TA` are the columns of `V`.</p>
           </div>
           <div class="box">
-            <p>The singular values `sigma_i` are the square roots of the eigenvalues of `A``A^T` or `A^TA`. An interesting point arises when we look at the sizes of each matrix. `A` is an `n xx m` matrix, so `A``A^T` is an `n xx n` matrix whereas `A^TA` is an `m xx m` matrix. Since `n != m`, either `n > m` or `n < m`. Either way, one matrix will be smaller than the other. So it would be faster to find out which matrix is smaller compute the eigenvalues of the smaller matrix.</p>
+            <p>The singular values `sigma_i` are the square roots of the eigenvalues of `A A^T` or `A^TA`. An interesting point arises when we look at the sizes of each matrix. `A` is an `n xx m` matrix, so `A A^T` is an `n xx n` matrix whereas `A^TA` is an `m xx m` matrix. Since `n != m`, either `n > m` or `n < m`. Either way, one matrix will be smaller than the other. So it would be faster to find out which matrix is smaller compute the eigenvalues of the smaller matrix.</p>
           </div>
           <p>Besides being used to find the decomposition of `A`, `sigma_i` is important in another way. We've looked at `norm(A)_2` but only when `A` was a square matrix. Here, `A` isn't a square matrix, so the norm is a bit different. <b>It turns out that `norm(A)_2 = sigma_1`.</b></p>
           <div class="box">
             <p>Example: `A = [[1, 0, 1],[1, 1, 0]]`. What is `norm(A)_2`?</p>
-            <p>We know that `norm(A)_2 = sigma_1`. And to find `sigma_1` we need to find the eigenvalues of either `A``A^T` or `A^TA`. So first we want to find out which one of `A``A^T` and `A^TA` is smaller. `A``A^T` is `2 xx 2` and `A^TA` is `3 xx 3`, so we find the eigenvalues of `A``A^T`.</p>
-            <p>`A``A^T = [[1, 0, 1],[1, 1, 0]] [[1, 1],[0, 1],[1, 0]] = [[2, 1],[1, 2]]`*</p>
+            <p>We know that `norm(A)_2 = sigma_1`. And to find `sigma_1` we need to find the eigenvalues of either `A A^T` or `A^TA`. So first we want to find out which one of `A A^T` and `A^TA` is smaller. `A A^T` is `2 xx 2` and `A^TA` is `3 xx 3`, so we find the eigenvalues of `A A^T`.</p>
+            <p>`A A^T = [[1, 0, 1],[1, 1, 0]] [[1, 1],[0, 1],[1, 0]] = [[2, 1],[1, 2]]`*</p>
+            <p>To find the eigenvalues of `A A^T`, we find the determinant of `A A^T - lambdaI` and set it equal to `0`.</p>
+            <p>`abs(A A^T-lambdaI) = abs([[2-lambda, 1],[1, 2-lambda]]) = (2-lambda)^2 - 1^2 = lambda^2 - 4lambda + 3 = 0 => lambda = 3,1`</p>
+            <p>Since `sigma_1 >= sigma_2 >= ... >= sigma_r` and we're looking for `sigma_1`, we consider the larger eigenvalue `3`.</p>
+            <p>`3` is an eigenvalue of `A A^T`, so `sigma_1` of `A` is `sqrt(3)`.</p>
           </div>
           <div class="box">
-            <p>*Note: `A``A^T` will always be symmetric.</p>
+            <p>*`A A^T` will always be symmetric. By definition, `A` is symmetric if `A^T = A`. So `(A A^T)^T = (A^T)^TA^T = A A^T`.</p>
+            <p>Similarly, `A^TA` will also always be symmetric. `(A^TA)^T = A^T(A^T)^T = A^TA`.</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
