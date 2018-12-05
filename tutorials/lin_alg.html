@@ -1026,16 +1026,51 @@
             <p><b>`V` is an `m xx m` orthogonal matrix</b></p>
             <p><b>`Sigma = [[sigma_1, -, -, -, -, -],[-, sigma_2, -, -, -, -],[-, -, ..., -, -, -],[-, -, -, sigma_r, -, -],[-, -, -, -, 0, -],[-, -, -, -, -, ...]]` is an `n xx m` "diagonal" matrix</b></p>
             <p>where the dashes are `0`'s</p>
-            <p>`sigma_i` is a singular value and `sigma_1 >= sigma_2 >= ... >= sigma_r`
+            <p>`sigma_1 >= sigma_2 >= ... >= sigma_r` are singular values</p>
           </div>
           <div class="box">
             <p>Alternatively, `A = sum_(i = 1)^r sigma_iu_iv_i^T`</p>
           </div>
+          <p>Assuming we know the values of `v_i`, how do we find the values of `sigma_i` and `u_i`?</p>
           <p>It turns out that:</p>
           <div class="math">
             <p>`Av_i = sigma_iu_i`</p>
             <p>`A^Tu_i = u_i^TA = sigma_iv_i`</p>
             <p>for `1 <= i <= r`</p>
+          </div>
+          <p>To get `sigma_i`, we can look at `(A^TA)v_i`:</p>
+          <div class="math">
+            <p>`(A^TA)v_i = A^T(Av_i)`</p>
+            <p>`= A^T(sigma_iu_i)`</p>
+            <p>`= sigma_iA^Tu_i = sigma_i(A^Tu_i)`</p>
+            <p>`= sigma_i(sigma_iv_i)`</p>
+            <p>`= sigma_i^2v_i`</p>
+          </div>
+          <p>So we get `A^TAv_i = sigma_i^2v_i`. This means `sigma_i^2` is an eigenvalue of `A^TA`. That means all `sigma_i` are the square roots of the eigenvalues of `A^TA`. <b>To find the singular values `sigma_i` of `A`, we find the eigenvalues of `A^TA` and take the square root of them.</b></p>
+          <div class="box">
+            <p>Very informally, `A^TA` is <i>kinda like</i> `A^2`. So finding the eigenvalues of that and taking the square root gives us the eigenvalues of `A`.</p>
+          </div>
+          <p>Since we have `Av_i = sigma_iu_i`, we can divide both sides by `sigma_i` to get `u_i`:</p>
+          <div class="math">
+            <p>`(Av_i)/sigma_i = u_i`</p>
+          </div>
+          <div class="box">
+            <p>Another way to find the values of `u_i` is to find the eigenvectors of `A``A^T`.</p>
+          </div>
+          <div class="box">
+            <p>It turns out that the eigenvectors of `A``A^T` are the columns of `U` and the eigenvectors of `A^TA` are the columns of `V`.</p>
+          </div>
+          <div class="box">
+            <p>The singular values `sigma_i` are the square roots of the eigenvalues of `A``A^T` or `A^TA`. An interesting point arises when we look at the sizes of each matrix. `A` is an `n xx m` matrix, so `A``A^T` is an `n xx n` matrix whereas `A^TA` is an `m xx m` matrix. Since `n != m`, either `n > m` or `n < m`. Either way, one matrix will be smaller than the other. So it would be faster to find out which matrix is smaller compute the eigenvalues of the smaller matrix.</p>
+          </div>
+          <p>Besides being used to find the decomposition of `A`, `sigma_i` is important in another way. We've looked at `norm(A)_2` but only when `A` was a square matrix. Here, `A` isn't a square matrix, so the norm is a bit different. <b>It turns out that `norm(A)_2 = sigma_1`.</b></p>
+          <div class="box">
+            <p>Example: `A = [[1, 0, 1],[1, 1, 0]]`. What is `norm(A)_2`?</p>
+            <p>We know that `norm(A)_2 = sigma_1`. And to find `sigma_1` we need to find the eigenvalues of either `A``A^T` or `A^TA`. So first we want to find out which one of `A``A^T` and `A^TA` is smaller. `A``A^T` is `2 xx 2` and `A^TA` is `3 xx 3`, so we find the eigenvalues of `A``A^T`.</p>
+            <p>`A``A^T = [[1, 0, 1],[1, 1, 0]] [[1, 1],[0, 1],[1, 0]] = [[2, 1],[1, 2]]`*</p>
+          </div>
+          <div class="box">
+            <p>*Note: `A``A^T` will always be symmetric.</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
