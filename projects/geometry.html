@@ -14,10 +14,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+    <link href="geometry.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
       <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+      <h1>Geometry Theorems</h1>
+      <h2>Basic Facts</h2>
+      <h5><p>BF 1: Through two given points, there is one and only one line.</p></h5>
+      <ul>
+        <li>It is possible to draw a line through two points.</li>
+        <li>If two lines have two or more points in common, they must really be the same line.</li>
+      </ul>
+      <h5><p>BF 2: On a ray, there is exactly one point at a given distance from the endpoint.</p></h5>
+      <ul>
+        <li>It is possible to find a point on the ray at a given distance from the endpoint.</li>
+        <li>If two points on the ray have the same distance from the endpoint, they must really be the same point.</li>
+      </ul>
+      <h5><p>BF 3: It is possible to extend a line segment to an infinite line.</p></h5>
+      <h5><p>BF 4: It is possible to find the midpoint of a line segment.</p></h5>
+      <h5><p>BF 5: It is possible to draw the bisector of an angle.</p></h5>
+      <h5><p>BF 6: Given a line `l` and a point `P` (which may be either on `l` or not on `l`), it is possible to draw a line through `P` which is perpendicular to `l`.</p></h5>
+      <h5><p>BF 7: (SSS) If two triangles have three pairs of corresponding sides equal, then the triangles are congruent.</p></h5>
+      <h5><p>BF 8: (SAS) If two triangles have two pairs of corresponding sides the <i>included</i> angles equal, then the triangles are congruent.</p></h5>
+      <h5><p>BF 9: (ASA) If two triangles have two pairs of corresponding angles and the <i>included</i> side equal, then the triangles are congruent.</p></h5>
+      <h2>1. Misc</h2>
+      <h5><p>1.1: Vertical angles are congruent.</p></h5>
+      <p>Prove: `alpha = gamma`</p>
+      <ol>
+        <li><p>`alpha + beta = 180^circ`</p></li>
+        <li><p>`gamma + beta = 180^circ`</p></li>
+        <li><p>1,2 `=> alpha = 180^circ - beta, gamma = 180^circ - beta`</p></li>
+        <li><p>3 `=> alpha = gamma`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/1.1.jpg">
+      <h5><p>1.2: If two sides of a triangle are congruent, then the angles opposite these sides are congruent.</p></h5>
+      <p>Prove: `angle A = angle B`</p>
+      <ol>
+        <li><p>At midpoint `M` of `AB`, connect `AM`.</p></li>
+        <li><p>`CM ~= CM`</p></li>
+        <li><p>`CA ~= CB` (given)</p></li>
+        <li><p>`AM ~= BM` (midpoint)</p></li>
+        <li><p>2,3,4 `=> triangle ACM ~= triangle BCM` (SSS)</p></li>
+        <li><p>`angle B = angle C` (CPCTC)</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/1.2.jpg">
+      <h5><p>1.3: If two angles of a triangle are congruent, then the sides opposite them are congruent.</p></h5>
+      <p>Prove: `AB = AC`</p>
+      <ol>
+        <li><p>Consider two triangles: `triangle ABC` and `triangle ACB`.</p></li>
+        <li><p>`angle B ~= angle C` (given)</p></li>
+        <li><p>`BC ~= CB`</p></li>
+        <li><p>`angle C ~= angle B` (given)</p></li>
+        <li><p>2,3,4 `=> triangle ABC ~= triangle ACB` (ASA)</p></li>
+        <li><p>`AB ~= AC` (CPCTC)</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/1.3.jpg">
+      <h5><p>1.4: Through a given point outside a given line, there is at most one line perpendicular to the given line.</p></h5>
+      <p>Prove: Through `P`, there exists only one perpendicular line to line `l`</p>
+      <ol>
+        <li><p>Let `PB` be the perpendicular line to `l`</p></li>
+        <li><p>Since `PB` is perpendicular to `l`, `angle PCD ~= angle BCD = 90^circ`.</p></li>
+        <li><p>Draw another (unique) line from `P` to `B` (`PAB`). From BF 1 (only one line between two points), this line cannot be a straight line</p></li>
+        <li><p>So `angle PAB` cannot equal `180^circ`</p></li>
+        <li><p>Then `angle PAC` and `angle BAC` both cannot be equal to `90^circ`</p></li>
+        <li><p>Therefore, `PAB` cannot be perpendicular to `l`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/1.4.jpg">
+      <h2>2. Triangle Inequalities</h2>
+      <h5><p>2.1: (Exterior Angle Theorem) An exterior angle of a triangle is greater than each interior angle not supplementary to it.</p></h5>
+      <p>Prove: For `triangle ABC`, `angle BCE > angle A` and `angle BCE > angle B`</p>
+      <ol>
+        <li><p>Through the midpoint `M` of `BC`, construct `AD` such that `AM ~= DM`</p></li>
+        <li><p>Connect `DC`</p></li>
+        <li><p>`CM ~= BM` (midpoint)</p></li>
+        <li><p>`angle CMD ~= angle BMA` (vertical angles)</p></li>
+        <li><p>`AM ~= DM` (by construction)</p></li>
+        <li><p>3,4,5 `=> triangle ABM ~= triangle DCM` (SAS)</p></li>
+        <li><p>`angle B ~= angle BCD` (CPCTC)</p></li>
+        <li><p>`angle BCD lt angle BCE`</p></li>
+        <li><p>`angle B lt angle BCE`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/2.1.jpg">
+      <p>(Similar reasoning for `angle A lt angle BCE`)</p></li>
+      <h5><p>2.2: In any triangle, the angle opposite to a greater side is greater.</p></h5>
+      <p>Prove: `AB gt BC => angle C gt angle A`</p>
+      <ol>
+        <li><p>Since `AB gt BC`, we can construct a line `CD` such that `BD ~= BC`</p></li>
+        <li><p>From 1.2 (angles opposite congruent sides are congruent), `angle BDC ~= angle BCD`</p></li>
+        <li><p>From 2.1 (exterior angle greater than interior angles not supplementary), `angle BDC gt angle A`</p></li>
+        <li><p>Then `angle BCD gt angle A`</p></li>
+        <li><p>So `angle C gt angle BCD gt angle A`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/2.2.jpg">
+      <h5><p>2.3: The side opposite to a greater angle is greater.</p></h5>
+      <p>Prove: `angle A gt angle C => BC gt AB`</p>
+      <ol>
+        <li><p>Suppose, for a contradiction, that `angle A gt angle C`, but `BC` is not greater than `AB`. Then either `BC ~= AB` or `BC lt AB`</p></li>
+        <li><p>If `BC ~= AB`, then, by 1.2 (angles opposite congruent sides are congruent), `angle A ~= angle C`, which contradicts `angle A gt angle C`</p></li>
+        <li><p>If `BC lt AB`, then, by 2.2 (angle opposite greater side is greater), `angle A lt angle C`, which contradicts `angle A gt angle C`</p></li>
+        <li><p>So `BC gt AB`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/2.3.jpg">
+      <h5><p>2.4 (Triangle Inequality Theorem) In a triangle, each side is smaller than the sum of the other two sides.</p></h5>
+      <p>(More importantly, the largest side of a triangle is smaller than the sum of the other two smaller sides.)</p>
+      <p>Prove: `AC lt AB + BC`</p>
+      <ol>
+        <li><p>Extend `AB` to `AD` such that `BD ~= BC`</p></li>
+        <li><p>Connect `DC`</p></li>
+        <li><p>From 1.2 (angles opposite congruent sides are congruent), `angle D ~= angle DCB`</p></li>
+        <li><p>Since `angle DCB lt angle DCA`, `angle D lt angle DCA`</p></li>
+        <li><p>From 2.3 (side opposite greater angle is greater), `AC lt AB + BD`</p></li>
+        <li><p>Since `BC ~= BD`, `AC lt AB + BC`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/2.4.jpg">
+      <h5><p>2.5 (Hinge Theorem) If two sides of one triangle are congruent respectively to two sides of another triangle, then:</p></h5>
+      <h5><p>(1) the greater angle contained by these sides is opposed to the greater side;</p></h5>
+      <h5><p>(2) the greater of the non-congruent sides is opposed to the greater angle.</p></h5>
+      <p>(1) Prove: `AB ~= A'B', AC ~= A'C', angle A gt angle A' => BC gt B'C`</p>
+      <ol>
+        <li><p>Overlay `triangle A'B'C'` on `triangle ABC` such that `A'C'` lies exactly on `AC`</p></li>
+        <li><p>Bisect `angle BAB'` with `AD`</p></li>
+        <li><p>`AB ~= A'B'` (given)</p></li>
+        <li><p>`angle BAD ~= angle B'AD` (bisect)</p></li>
+        <li><p>`AD ~= AD`</p></li>
+        <li><p>3,4,5 `=> triangle ABD ~= triangle AB'D` (SAS)</p></li>
+        <li><p>`BD ~= B'D` (CPCTC)</p></li>
+        <li><p>From 2.4 (side smaller than sum of other two sides), `B'C lt B'D + DC`</p></li>
+        <li><p>Since `B'D ~= BD`, `B'C lt BD + DC`</p></li>
+        <li><p>`BD + DC = BC`, so `B'C lt BC`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/2.5.1.jpg">
+      <p>(2) Prove: `AB ~= A'B', AC ~= A'C', B'C' gt BC => angle A' gt angle A`</p>
+      <ol>
+        <li><p>Suppose, for a contradiction, that `angle A'` is not greater than `angle A`. Then either `angle A' ~= angle A` or `angle A' lt angle A`</p></li>
+        <li><p>If `angle A' ~= angle A`, then `triangle ABC ~= triangle A'B'C'` (SAS)</p></li>
+        <li><p>If `angle A' lt angle A`, then, by (1), `B'C' lt BC`, which contradicts `B'C' gt BC`</p></li>
+        <li><p>So `angle A' gt angle A`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/2.5.2.jpg">
+      <h2>3. Right Triangles</h2>
+      <h2>4. Perpendicular/Angle Bisector</h2>
+      <h2>5. Geometric Constructions</h2>
+      <h2>6. Parallel Lines</h2>
+      <h2>7. Angle Sums</h2>
+      <h2>8. Parallelograms and Trapezoids</h2>
+      <h2>9. Circles</h2>
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   </body>

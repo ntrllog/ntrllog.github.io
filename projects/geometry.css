@@ -1,0 +1,12 @@
+body {
+  font-family: 'Merriweather', serif;
+}
+
+.container {
+  margin-top: 20px;
+  text-align: justify;
+}
+
+img {
+  margin-bottom: 10px;
+}
