@@ -197,7 +197,7 @@
       <h5><p><b>3.3: Two right triangles are congruent:</b></p></h5>
       <h5><p><b>(1) if the hypotenuse and an acute angle of one triangle are congruent to respectively the hypotenuse and an acute angle of the other;</b></p></h5>
       <h5><p><b>(2) if the hypotenuse and a leg of one triangle are congruent respectively to the hypotenuse and a leg of the other.</b></p></h5>
-      <p>(1) Prove `AB ~= A'B', angle A ~= angle A' => triangle ABC ~= triangle A'B'C'`</p>
+      <p>(1) Prove: `AB ~= A'B', angle A ~= angle A' => triangle ABC ~= triangle A'B'C'`</p>
       <ol>
         <li><p>Suppose, for a contradiction, that `triangle ABC` is not congruent to `triangle A'B'C'`</p></li>
         <li><p>Overlay `triangle A'B'C'` on `triangle ABC` such that `A'B'` lies exactly on `AB` and `angle A'` lies exactly on `angle A`</p></li>
@@ -205,8 +205,44 @@
         <li><p>Then there will be two perpendiculars from the same point to the same line, which contradicts 1.4 (only one perpendicular through a point)</p></li>
       </ol>
       <img class="img-fluid" src="../pictures/geometry/3.3.1.jpg">
-      <h2>4. Perpendicular/Angle Bisector</h2>
+      <p>(2) Prove: `AB ~= A'B', BC ~= B'C' => triangle ABC ~= triangle A'B'C'`</p>
+      <ol>
+        <li><p>Suppose, for a contradiction, that `triangle ABC` is not congruent to `triangle A'B'C'`</p></li>
+        <li><p>Overlay `triangle A'B'C'` on `triangle ABC` such that `B'C'` lies exactly on `BC`</p></li>
+        <li><p>Since `triangle ABC` is not congruent with `triangle A'B'C'`, `A'` will either be on the left of `A` (denoted `A'`) or on the right of `A` (denoted `A''`)</p></li>
+        <li><p>Then we have congruent slants whose feet are not the same distance away from the foot of the perpendicular, which contradicts 3.2.1 (if two slants are congruent, then their feet are the same distance away from the foot of the perpendicular)</p></li>
+      </ol>
+      <!-- <img class="img-fluid" src="../pictures/geometry/3.3.2.jpg"> -->
+      <h2>4. Perpendicular Bisectors</h2>
+      <h5><p><b>4.1: If a point lies on the perpendicular bisector of a segment, then the point is the same distance away from the endpoints of the segment.</b></p></h5>
+      <p>Prove: `AB ~= AC`</p>
+      <ol>
+        <li><p>`BM ~= CM` (bisector)</p></li>
+        <li><p>`angle AMB ~= angle AMC` (right angles)</p></li>
+        <li><p>`AM ~= AM`</p></li>
+        <li><p>1,2,3 `=> triangle AMB ~= triangle AMC` (SAS)</p></li>
+        <li><p>`AB ~= AC` (CPCTC)</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/4.1.jpg">
+      <p>(Can also use 3.1.2 since feet of slants are same distance away from perpendicular)</p>
+      <h5><p><b>4.2: If a point is the same distance away from the endpoints of a segment, then the point lies on the perpendicular bisector of the segment.</b></p></h5>
+      <p>Prove: `AM ~= CM`</p>
+      <ol>
+        <li><p>`AB ~= BC` (given)</p></li>
+        <li><p>`BM ~= BM`</p></li>
+        <li><p>From 3.3.2 (hypotenuse,leg of right triangle), `triangle ABM ~= triangle CBM`</p></li>
+        <li><p>`AM ~= CM` (CPCTC)</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/4.2.jpg">
       <h2>5. Geometric Constructions</h2>
+      <h5><p><b>5.1: Construct a triangle with the given three sides `a`, `b`, and `c`.</b></p></h5>
+      <h5><p><b>5.2: Construct an angle congruent to the given angle `ABC` and such that one of the sides is a given line `MN`, and the vertex is at a point `O` given on the line.</b></p></h5>
+      <h5><p><b>5.3: Bisect a given angle.</b></p><h5>
+      <h5><p><b>5.4: Erect a perpendicular to the line `AB` from a given point `C`.</b></p></h5>
+      <h5><p><b>5.5: Drop a perpendicular to a given line `BC` from a given point `A`.</b></p></h5>
+      <h5><p><b>5.6: Draw a perpendicular to a given segment `AB` through its midpoint.</b></p></h5>
+      <h5><p><b>5.7: Bisect a given straight segment.</b></p></h5>
+      <h5><p><b>5.8: Construct a triangle with a given base `b`, an angle `alpha` at the base, and the sum `s` of the other two sides.</b></p></h5>
       <h2>6. Parallel Lines</h2>
       <h2>7. Angle Sums</h2>
       <h2>8. Parallelograms and Trapezoids</h2>
