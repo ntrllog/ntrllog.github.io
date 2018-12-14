@@ -285,8 +285,18 @@
       <h5><p><b>9.3: In a circle, two chords are of equal length if and only if they are equidistant from the center of the circle.</b></p></h5>
       <h5><p><b>9.4: The greater one of two non-congruent chords is closer to the center of the circle.</b></p></h5>
       <h5><p><b>9.5: A line is tangent to a circle if and only if it is perpendicular to the radius of the circle at the tangency point.</b></p></h5>
-      <h5><p><b>9.6: In a circle, an inscribed angle is half of the arc it subtends.</b></p></h5>
+      <h5><p><b>9.6: In a circle, an inscribed angle is half of the arc it subtends; i.e., half of the central angle.</b></p></h5>
       <h5><p><b>9.7: The angle formed by a chord and a tangent is equal ot any inscribed angle that subtends the chord.</b></p></h5>
+      <p>Prove: `angle BAD ~= angle C`</p>
+      <ol>
+        <li><p>Since `AD` is tangent to circle `O`, `AD bot OA => angle OAD = 90^circ`</p></li>
+        <li><p>1 `=> angle OAB = 90^circ - angle BAD`</p></li>
+        <li><p>`OA ~= OB` (radii in same circle)</p></li>
+        <li><p>From 1.2 (angles opposite congruent sides are congruent), 3 `=> angle OAB ~= angle OBA`</p></li>
+        <li><p>2,4 `=> angle OBA = 90^circ - angle BAD`</p></li>
+        <li><p>From 7.1 (sum of angles in triangle is `180^circ`), `angle O = 180^circ - (90^circ - angle BAD) - (90^circ - angle BAD) = 2angleBAD`</p></li>
+        <li><p>From 9.6, `angle C = (2angleBAD)/2 = angle BAD`</p></li>
+      </ol>
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   </body>
