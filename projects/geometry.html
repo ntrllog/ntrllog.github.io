@@ -258,6 +258,18 @@
       <h5><p><b>(3) the sum of same-side interior angles is `180^circ`.</b></p></h5>
       <h2>7. Angle Sums of Polygons</h2>
       <h5><p><b>7.1: The sum of angles of a triangle is `180^circ`.</b></p></h5>
+      <p>Prove: `angle A + angle B + angle BCA = 180^circ`</p>
+      <ol>
+        <li><p>Extend `AC` to `AD`</p></li>
+        <li><p>Construct `CE` || `AB`</p></li>
+        <li><p>From 6.4.1 (corresponding angles are congruent), `angle A ~= angle ECD`</p></li>
+        <li><p>From 6.4.2 (alternate interior angles are congruent), `angle B ~= angle BCE`</p></li>
+        <li><p>`angle BCA, angle BCE, angle ECD` form a line `=> angle BCA + angle BCE + angle ECD = 180^circ`</p></li>
+        <li><p>3,4 `=> angle BCA + angle B + angle A = 180^circ`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/7.1.jpg">
+      <h5><p><b>7.1.A: Any exterior angle of a triangle is equal to the sum of the interior angles not supplementary to it.</b></p></h5>
+      <p>Result from above.</p>
       <h5><p><b>7.2: The sum of angles of a convex polygon having `n` sides is `180(n-2)^circ`.</b></p></h5>
       <h5><p><b>7.3: If at each vertex of a convex polygon, we extend one of the sides of this angle, then the sum of the exterior angles thus formed is `360^circ`.</b></p></h5>
       <h2>8. Parallelograms and Trapezoids</h2>
@@ -283,9 +295,43 @@
       <h5><p><b>9.1: Through any three points, not lying on the same line, it is possible to draw one and only one circle.</b></p></h5>
       <h5><p><b>9.2: The diameter is perpendicular to the chord if and only if it bisects the chord.</b></p></h5>
       <h5><p><b>9.3: In a circle, two chords are of equal length if and only if they are equidistant from the center of the circle.</b></p></h5>
+      <p>Prove: `OE ~= OF => AB ~= CD`</p>
+      <ol>
+        <li><p>Connect `AO`, `BO`, `CO`, `DO`</p></li>
+        <li><p>`AO ~= CO` (radii in same circle)</p></li>
+        <li><p>`OE ~= OF` (given)</p></li>
+        <li><p>From 3.3.2 (hypotenuse, leg of right triangle), `triangle AOE ~= triangle COF`</p></li>
+        <li><p>`AE ~= CF` (CPCTC)</p></li>
+        <li><p>`BO ~= DO` (radii in same circle)</p></li>
+        <li><p>From 3.3.2 (hypotenuse, leg of right triangle), `triangle BOE ~= triangle DOF`</p></li>
+        <li><p>`BE ~= DF` (CPCTC)</p></li>
+        <li><p>5,8 `=> AB ~= CD`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/9.3.jpg">
+      <p>Prove: `AB ~= CD => OE ~= OF`</p>
+      <ol>
+        <li><p>From 9.2, `OE` bisects `AB` and `OE` bisects `CD`</p></li>
+        <li><p>1 `=> AE ~= CF`</p></li>
+        <li><p>`AO ~= CO` (radii in same circle)</p></li>
+        <li><p>From 3.3.2 (hypotenuse, leg of right triangle), `triangle AOE ~= triangle COF`</p></li>
+        <li><p>`OE ~= OF` (CPCTC)</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/9.3.jpg">
       <h5><p><b>9.4: The greater one of two non-congruent chords is closer to the center of the circle.</b></p></h5>
       <h5><p><b>9.5: A line is tangent to a circle if and only if it is perpendicular to the radius of the circle at the tangency point.</b></p></h5>
       <h5><p><b>9.6: In a circle, an inscribed angle is half of the arc it subtends; i.e., half of the central angle.</b></p></h5>
+      <p>Prove: `beta_1 + beta_2 = 2(alpha_1 + alpha_2)` (which is equivalent to `(beta_1 + beta_2)/2 = alpha_1 + alpha_2`)</p>
+      <ol>
+        <li><p>Bisect `angle BOC` to get `beta_1` and `beta_2`</p></li>
+        <li><p>Connect `OA` to form `alpha_1` and `alpha_2`</p></li>
+        <li><p>`OB ~= OA` (radii in same circle)</p></li>
+        <li><p>From 1.2 (angles opposite congruent sides are congruent), `angle OBA ~= angle OAB = alpha_1`</p></li>
+        <li><p>`OC ~= OA` (radii in same circle)</p></li>
+        <li><p>From 1.2 (angles opposite congruent sides are congruent), `angle OCA ~= angle OAC = alpha_2`</p></li>
+        <li><p>From 7.1.A (exterior angle is sum of interior angles not supplementary), `beta_1 = 2alpha_1` and `beta_2 = 2alpha_2`</p></li>
+        <li><p>`beta_1 + beta_2 = 2alpha_1 + 2alpha_2 = 2(alpha_1 + alpha_2)`</p></li>
+      </ol>
+      <img class="img-fluid" src="../pictures/geometry/9.6.jpg">
       <h5><p><b>9.7: The angle formed by a chord and a tangent is equal ot any inscribed angle that subtends the chord.</b></p></h5>
       <p>Prove: `angle BAD ~= angle C`</p>
       <ol>
@@ -297,6 +343,7 @@
         <li><p>From 7.1 (sum of angles in triangle is `180^circ`), `angle O = 180^circ - (90^circ - angle BAD) - (90^circ - angle BAD) = 2angleBAD`</p></li>
         <li><p>From 9.6, `angle C = (2angleBAD)/2 = angle BAD`</p></li>
       </ol>
+      <img class="img-fluid" src="../pictures/geometry/9.7.jpg">
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   </body>
