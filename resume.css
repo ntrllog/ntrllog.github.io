@@ -1,6 +1,6 @@
 body {
   width: 100%;
-  font-family: "M PLUS Rounded 1c", "sans-serif";
+  font-family: 'Gentium Basic', serif;
 }
 
 #pdf {
@@ -42,7 +42,6 @@ body {
   margin-top: 10px;
   padding-left: 3px;
   padding-right: 3px;
-  border: 1px solid gray;
 }
 
 .col-sm-8 {
@@ -62,10 +61,6 @@ body {
   width: 50%;
   margin-left: 5px;
   margin-right: 5px;
-}
-
-#single {
-  width: 100%;
 }
 
 @media print {
