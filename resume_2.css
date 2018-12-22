@@ -39,4 +39,7 @@
     color: black;
     text-decoration: none !important;
   }
+  .print-hide {
+    display: none;
+  }
 }
