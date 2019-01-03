@@ -2,13 +2,6 @@ body {
   font-family: 'Courier New', Courier, monospace
 }
 
-#pdf {
-  position: absolute;
-  right: 70px;
-  top: 20px;
-  color: black;
-}
-
 .jumbotron {
   margin-top: 50px;
   background-color: white;
@@ -17,10 +10,4 @@ body {
 
 .container {
   margin-left: 150px;
-}
-
-@media print {
-  .print-hide {
-    display: none;
-  }
 }
