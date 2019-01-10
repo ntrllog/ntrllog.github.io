@@ -59,6 +59,10 @@ h1 {
   align-items: center;
 }
 
+.col-12 {
+  padding-top: 10px;
+}
+
 h2 {
   font-family: 'Permanent Marker', cursive;
 }
