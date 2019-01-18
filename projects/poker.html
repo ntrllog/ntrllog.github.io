@@ -23,15 +23,11 @@
           <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
           <h1>Coding Poker in Java</h1>
           <p>Note: My code isn't an example of best software engineering practices. That's not to say they're bad practices; I <i>just</i> focused on getting the game to work.</p>
+          <p>It's a simple terminal-based game. It looks like this:</p>
+          <img class="img-fluid" src="../pictures/projects/poker.jpg">
+          <p>And the full code is on <a href="https://github.com/alan-lam/Poker" target="_blank">GitHub</a>.</p>
+          <p>I'll organize this to match my thought process as close as possible. I'll also organize some things for efficiency and clarity. I started this 3 years ago though, so I don't remember exactly what was going on in my mind at the time. I also made many mistakes and started over many times, which isn't reflected here. (Again, because I don't remember the details.)</p>
           <p>I have 6 classes: Card, Player, Table, HandRanker, GameManager, Play.</p>
-          <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Card</span> <span style="color: #333333">{</span>
-    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> rank<span style="color: #333333">;</span>
-    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> suit<span style="color: #333333">;</span>
-    <span style="color: #008800; font-weight: bold">private</span> String<span style="color: #333333">[]</span> ranks <span style="color: #333333">=</span> <span style="color: #333333">{</span><span style="background-color: #fff0f0">&quot;A&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;2&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;3&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;4&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;5&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;6&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;7&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;8&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;9&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;10&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;J&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Q&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;K&quot;</span><span style="color: #333333">};</span>
-    <span style="color: #008800; font-weight: bold">private</span> String<span style="color: #333333">[]</span> suits <span style="color: #333333">=</span> <span style="color: #333333">{</span><span style="background-color: #fff0f0">&quot;Spades&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Clubs&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Diamonds&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Hearts&quot;</span><span style="color: #333333">};</span>
-<span style="color: #333333">}</span>
-</pre></div>
-          <p>The rank is the card's numerical value (e.g. 2, 5, 10) and the suit is the card's symbol (e.g. Hearts). These ints are used to index into the String arrays to get the card's rank and suit.</p>
           <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Card</span> <span style="color: #333333">{</span>
     <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> rank<span style="color: #333333">;</span>
     <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> suit<span style="color: #333333">;</span>
@@ -42,9 +38,233 @@
         <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">rank</span> <span style="color: #333333">=</span> rank<span style="color: #333333">;</span>
         <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">suit</span> <span style="color: #333333">=</span> suit<span style="color: #333333">;</span>
     <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">getRank</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">rank</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">getSuit</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">suit</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
 <span style="color: #333333">}</span>
 </pre></div>
-          <p>The constructor takes in two ints, both representing the rank and suit. Here, 0 would be "A", 10 would be "J", 11 would be "Q", and 12 would be "K".</p>
+          <p>The rank is the card's face value (e.g. A, 5, 10) and the suit is the card's symbol (e.g. Hearts). These ints are used to index into the String arrays to get the card's rank and suit. I believe I used ints to make comparing card values easier and strings to make printing easier.</p>
+          <p>The constructor takes in two ints, both representing the rank and suit. The ints represent the index of the corresponding String array. So <code>Card card = new Card(1,3);</code> would be a 2 of Hearts. And the classic getters and setters are there too.</p>
+          <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Card</span> <span style="color: #333333">{</span>
+    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> rank<span style="color: #333333">;</span>
+    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> suit<span style="color: #333333">;</span>
+    <span style="color: #008800; font-weight: bold">private</span> String<span style="color: #333333">[]</span> ranks <span style="color: #333333">=</span> <span style="color: #333333">{</span><span style="background-color: #fff0f0">&quot;A&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;2&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;3&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;4&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;5&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;6&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;7&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;8&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;9&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;10&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;J&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Q&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;K&quot;</span><span style="color: #333333">};</span>
+    <span style="color: #008800; font-weight: bold">private</span> String<span style="color: #333333">[]</span> suits <span style="color: #333333">=</span> <span style="color: #333333">{</span><span style="background-color: #fff0f0">&quot;Spades&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Clubs&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Diamonds&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Hearts&quot;</span><span style="color: #333333">};</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #0066BB; font-weight: bold">Card</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> rank<span style="color: #333333">,</span> <span style="color: #333399; font-weight: bold">int</span> suit<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">rank</span> <span style="color: #333333">=</span> rank<span style="color: #333333">;</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">suit</span> <span style="color: #333333">=</span> suit<span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">getRank</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">rank</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">getSuit</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">suit</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> String <span style="color: #0066BB; font-weight: bold">toString</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> ranks<span style="color: #333333">[</span><span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">getRank</span><span style="color: #333333">()]</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot; &quot;</span> <span style="color: #333333">+</span> suits<span style="color: #333333">[</span><span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">getSuit</span><span style="color: #333333">()];</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+</pre></div>
+          <p>I use the toString method for printing the card's face value and symbol. As a reminder, printing an object (e.g. via System.println) automatically calls the object's toString method.</p>
+          <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Player</span> <span style="color: #333333">{</span>
+    Card<span style="color: #333333">[]</span> cards <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Card<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">];</span>
+    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> money <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">2000</span><span style="color: #333333">;</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">setCards</span><span style="color: #333333">(</span>Card card1<span style="color: #333333">,</span> Card card2<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        cards<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">]</span> <span style="color: #333333">=</span> card1<span style="color: #333333">;</span>
+        cards<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">1</span><span style="color: #333333">]</span> <span style="color: #333333">=</span> card2<span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> Card<span style="color: #333333">[]</span> <span style="color: #0066BB; font-weight: bold">getCards</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">cards</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">getMoney</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">money</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">addMoney</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> money<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">money</span> <span style="color: #333333">+=</span> money<span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">subMoney</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> money<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">money</span> <span style="color: #333333">-=</span> money<span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+</pre></div>
+        <p>I use the Player class for both the user and the CPU. The Card array represents the two cards each player has and the money represents ... well, how much money each player has. Classic getters and setters are included.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Table</span> <span style="color: #333333">{</span>
+    <span style="color: #008800; font-weight: bold">private</span> Card<span style="color: #333333">[]</span> cards <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Card<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">5</span><span style="color: #333333">];</span>
+    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> moneyFromP1 <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">;</span>
+    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> moneyFromCPU <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">;</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">setCards</span><span style="color: #333333">(</span>Card c1<span style="color: #333333">,</span> Card c2<span style="color: #333333">,</span> Card c3<span style="color: #333333">,</span> Card c4<span style="color: #333333">,</span> Card c5<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        cards<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">]</span> <span style="color: #333333">=</span> c1<span style="color: #333333">;</span>
+        cards<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">1</span><span style="color: #333333">]</span> <span style="color: #333333">=</span> c2<span style="color: #333333">;</span>
+        cards<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">]</span> <span style="color: #333333">=</span> c3<span style="color: #333333">;</span>
+        cards<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">]</span> <span style="color: #333333">=</span> c4<span style="color: #333333">;</span>
+        cards<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">4</span><span style="color: #333333">]</span> <span style="color: #333333">=</span> c5<span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> Card<span style="color: #333333">[]</span> <span style="color: #0066BB; font-weight: bold">getCards</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">cards</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">getMoneyFromP1</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">moneyFromP1</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">getMoneyFromCPU</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">moneyFromCPU</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">addP1Money</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> money<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">moneyFromP1</span> <span style="color: #333333">+=</span> money<span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">addCPUMoney</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> money<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">moneyFromCPU</span> <span style="color: #333333">+=</span> money<span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">clearTableMoney</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">moneyFromP1</span> <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">;</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">moneyFromCPU</span> <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+</pre></div>
+        <p>I made a Table class because it would be holding cards and money. The ints <code>moneyFromP1</code> and <code>moneyFromCPU</code> represent how much each player is betting each round. I distinguish between the two, so the user can see how much each player is putting in. <code>clearTableMoney</code> is for the end of the round when the winner is determined. At that point, the money is distributed appropriately (by another function), so there's no more money left on the table.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">java.util.*</span><span style="color: #333333">;</span>
+
+<span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">GameManager</span> <span style="color: #333333">{</span>
+
+  <span style="color: #008800; font-weight: bold">public</span> ArrayList<span style="color: #333333">&lt;</span>Card<span style="color: #333333">&gt;</span> <span style="color: #0066BB; font-weight: bold">makeDeck</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+  <span style="color: #333333">}</span>
+
+  <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">clearScreen</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+  <span style="color: #333333">}</span>
+
+  <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">printDelay</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+  <span style="color: #333333">}</span>
+
+<span style="color: #333333">}</span>
+</pre></div>
+        <p>The idea for a GameManager class came from my Introduction to Computer Science: Java II course (CSE 8B), in which we made a 2048 clone. In that project, we used GameManager to run the game and handle input. I originally used it for the same purpose (to run the game). But I wanted that functionality in a separate class to make the code easier to understand. I'm not really sure if I achieved that. Here, the GameManager is for handling the "logistics" of the game (e.g. making the deck and controlling the output to the screen).</p>
+        <p><code>java.util.*</code> is used for making an ArrayList and for random number generation.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">java.util.*</span><span style="color: #333333">;</span>
+
+<span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">GameManager</span> <span style="color: #333333">{</span>
+
+  <span style="color: #008800; font-weight: bold">public</span> ArrayList<span style="color: #333333">&lt;</span>Card<span style="color: #333333">&gt;</span> <span style="color: #0066BB; font-weight: bold">makeDeck</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+      Hashtable<span style="color: #333333">&lt;</span>Card<span style="color: #333333">,</span> Boolean<span style="color: #333333">&gt;</span> cards <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Hashtable<span style="color: #333333">&lt;</span>Card<span style="color: #333333">,</span> Boolean<span style="color: #333333">&gt;();</span> <span style="color: #888888">// used for duplicate checking</span>
+      ArrayList<span style="color: #333333">&lt;</span>Card<span style="color: #333333">&gt;</span> deck <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> ArrayList<span style="color: #333333">&lt;</span>Card<span style="color: #333333">&gt;();</span> <span style="color: #888888">// holds cards that will be used in the game</span>
+      Random random <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Random<span style="color: #333333">();</span>
+  <span style="color: #333333">}</span>
+
+  <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">clearScreen</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+  <span style="color: #333333">}</span>
+
+  <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">printDelay</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+  <span style="color: #333333">}</span>
+
+<span style="color: #333333">}</span>
+</pre></div>
+        <p>Since we're going to generate the cards randomly, there is a chance that we will generate duplicate cards. I use a Hashtable to quickly find out if a card has been generated already. (I originally used a while loop to check for duplicates! Oh boy.) The key is a Card object and the value is a Boolean. The value isn't really useful here. The ArrayList holds the cards that will be used in the game.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">java.util.*</span><span style="color: #333333">;</span>
+
+<span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">GameManager</span> <span style="color: #333333">{</span>
+
+  <span style="color: #008800; font-weight: bold">public</span> ArrayList<span style="color: #333333">&lt;</span>Card<span style="color: #333333">&gt;</span> <span style="color: #0066BB; font-weight: bold">makeDeck</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+      Hashtable<span style="color: #333333">&lt;</span>Card<span style="color: #333333">,</span> Boolean<span style="color: #333333">&gt;</span> cards <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Hashtable<span style="color: #333333">&lt;</span>Card<span style="color: #333333">,</span> Boolean<span style="color: #333333">&gt;();</span> <span style="color: #888888">// used for duplicate checking</span>
+      ArrayList<span style="color: #333333">&lt;</span>Card<span style="color: #333333">&gt;</span> deck <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> ArrayList<span style="color: #333333">&lt;</span>Card<span style="color: #333333">&gt;();</span> <span style="color: #888888">// holds cards that will be used in the game</span>
+      Random random <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Random<span style="color: #333333">();</span>
+
+      <span style="color: #008800; font-weight: bold">while</span> <span style="color: #333333">(</span>deck<span style="color: #333333">.</span><span style="color: #0000CC">size</span><span style="color: #333333">()</span> <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">9</span><span style="color: #333333">)</span> <span style="color: #333333">{</span>
+          <span style="color: #333399; font-weight: bold">int</span> rank <span style="color: #333333">=</span> random<span style="color: #333333">.</span><span style="color: #0000CC">nextInt</span><span style="color: #333333">(</span><span style="color: #0000DD; font-weight: bold">13</span><span style="color: #333333">);</span>
+          <span style="color: #333399; font-weight: bold">int</span> suit <span style="color: #333333">=</span> random<span style="color: #333333">.</span><span style="color: #0000CC">nextInt</span><span style="color: #333333">(</span><span style="color: #0000DD; font-weight: bold">4</span><span style="color: #333333">);</span>
+          Card card <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Card<span style="color: #333333">(</span>rank<span style="color: #333333">,</span>suit<span style="color: #333333">);</span>
+    
+          <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">(!</span>cards<span style="color: #333333">.</span><span style="color: #0000CC">containsKey</span><span style="color: #333333">(</span>card<span style="color: #333333">))</span> <span style="color: #333333">{</span>
+              cards<span style="color: #333333">.</span><span style="color: #0000CC">put</span><span style="color: #333333">(</span>card<span style="color: #333333">,</span> <span style="color: #008800; font-weight: bold">true</span><span style="color: #333333">);</span>
+              deck<span style="color: #333333">.</span><span style="color: #0000CC">add</span><span style="color: #333333">(</span>card<span style="color: #333333">);</span>
+          <span style="color: #333333">}</span>
+      <span style="color: #333333">}</span>
+      <span style="color: #008800; font-weight: bold">return</span> deck<span style="color: #333333">;</span>
+  <span style="color: #333333">}</span>
+
+  <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">clearScreen</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+  <span style="color: #333333">}</span>
+
+  <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">printDelay</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+  <span style="color: #333333">}</span>
+
+<span style="color: #333333">}</span>
+</pre></div>
+          <p>We only need to generate 9 cards for each round: 2 for the user; 2 for the CPU; and 5 for the table. <code>containsKey</code> is a Hashtable function that checks to see if an item exists by checking if the key is in the table. If the card doesn't exist in the Hashtable, then it is a valid card, and we'll put it in our deck. We have to put it in the Hashtable too, so that the card will show up in future lookups. (and we won't generate that card again).</p>
+          <p>Currently, this won't actually work, meaning there is a chance for duplicates. That's because when <code>containsKey</code> is called, the Hashtable checks to see if the current card is equal to each card in the table. You know, something like <code>card == card1InTable</code>, <code>card == card2InTable</code>, ... The Hashtable doesn't know when two cards are equal because we defined our own object. So we have to go back to the Card class and add some more things.</p>
+          <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Card</span> <span style="color: #008800; font-weight: bold">implements</span> Comparable<span style="color: #333333">&lt;</span>Card<span style="color: #333333">&gt;</span> <span style="color: #333333">{</span>
+    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> rank<span style="color: #333333">;</span>
+    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">int</span> suit<span style="color: #333333">;</span>
+    <span style="color: #008800; font-weight: bold">private</span> String<span style="color: #333333">[]</span> ranks <span style="color: #333333">=</span> <span style="color: #333333">{</span><span style="background-color: #fff0f0">&quot;A&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;2&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;3&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;4&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;5&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;6&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;7&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;8&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;9&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;10&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;J&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Q&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;K&quot;</span><span style="color: #333333">};</span>
+    <span style="color: #008800; font-weight: bold">private</span> String<span style="color: #333333">[]</span> suits <span style="color: #333333">=</span> <span style="color: #333333">{</span><span style="background-color: #fff0f0">&quot;Spades&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Clubs&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Diamonds&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Hearts&quot;</span><span style="color: #333333">};</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #0066BB; font-weight: bold">Card</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> rank<span style="color: #333333">,</span> <span style="color: #333399; font-weight: bold">int</span> suit<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">rank</span> <span style="color: #333333">=</span> rank<span style="color: #333333">;</span>
+        <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">suit</span> <span style="color: #333333">=</span> suit<span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">getRank</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">rank</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">getSuit</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">suit</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> String <span style="color: #0066BB; font-weight: bold">toString</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> ranks<span style="color: #333333">[</span><span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">getRank</span><span style="color: #333333">()]</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot; &quot;</span> <span style="color: #333333">+</span> suits<span style="color: #333333">[</span><span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">getSuit</span><span style="color: #333333">()];</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #888888">/* used for hashtable comparison */</span>
+    <span style="color: #555555; font-weight: bold">@Override</span>
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">hashCode</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">getRank</span><span style="color: #333333">()</span> <span style="color: #333333">+</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">getSuit</span><span style="color: #333333">();</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #888888">/* used for hashtable comparison */</span>
+    <span style="color: #555555; font-weight: bold">@Override</span>
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">boolean</span> <span style="color: #0066BB; font-weight: bold">equals</span><span style="color: #333333">(</span>Object o<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">(((</span>Card<span style="color: #333333">)</span>o<span style="color: #333333">).</span><span style="color: #0000CC">getRank</span><span style="color: #333333">()</span> <span style="color: #333333">==</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">getRank</span><span style="color: #333333">()</span> <span style="color: #333333">&amp;&amp;</span> <span style="color: #333333">((</span>Card<span style="color: #333333">)</span>o<span style="color: #333333">).</span><span style="color: #0000CC">getSuit</span><span style="color: #333333">()</span> <span style="color: #333333">==</span> <span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">getSuit</span><span style="color: #333333">())</span> <span style="color: #333333">{</span>
+            <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">true</span><span style="color: #333333">;</span>
+        <span style="color: #333333">}</span>
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">false</span><span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #888888">/* need to override to implement Comparable */</span>
+    <span style="color: #555555; font-weight: bold">@Override</span>
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">int</span> <span style="color: #0066BB; font-weight: bold">compareTo</span><span style="color: #333333">(</span>Card card<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">(</span><span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">rank</span> <span style="color: #333333">&lt;</span> card<span style="color: #333333">.</span><span style="color: #0000CC">rank</span><span style="color: #333333">)</span> <span style="color: #333333">{</span>
+            <span style="color: #008800; font-weight: bold">return</span> <span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span><span style="color: #333333">;</span>
+        <span style="color: #333333">}</span>
+        <span style="color: #008800; font-weight: bold">else</span> <span style="color: #0066BB; font-weight: bold">if</span> <span style="color: #333333">(</span><span style="color: #008800; font-weight: bold">this</span><span style="color: #333333">.</span><span style="color: #0000CC">rank</span> <span style="color: #333333">==</span> card<span style="color: #333333">.</span><span style="color: #0000CC">rank</span><span style="color: #333333">)</span> <span style="color: #333333">{</span>
+            <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">;</span>
+        <span style="color: #333333">}</span>
+        <span style="color: #008800; font-weight: bold">else</span> <span style="color: #333333">{</span>
+            <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">1</span><span style="color: #333333">;</span>
+        <span style="color: #333333">}</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+</pre></div>
+          <p>Take note of the change at the top where Card is implementing Comparable. I honestly found these three methods on Stack Overflow, so I modified it a little bit to work. I think <code>hashCode</code> is like a unique ID for each card. <code>equals</code> is used to check if two objects (in this case Card objects) are equal. We define two cards to be the same if they have the same face value and symbol, which we represented as ints. I don't think <code>compareTo</code> is used, but we need to override it to implement Comparable.</p>
+          <p>Now, the Hashtable will correctly check for duplicates.</p>
         </div> <!-- col-12 -->
       </div> <!-- row -->
     </div> <!-- container -->
