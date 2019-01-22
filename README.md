@@ -1,4 +1,4 @@
 # alan-lam.github.io
 
-Hey! It's a website!
+Hey, it's a website!
 https://alanlam.netlify.com
