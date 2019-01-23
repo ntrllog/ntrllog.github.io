@@ -29,6 +29,7 @@
           <button onclick="refresh()">Start Over</button>
         </div>
         <div class="col-sm-10">
+          <p><b>Rounds to nearest ten thousandth (4 decimal places)</b></p>
           <p>Sum:</p>
           <p id="sum"></p>
           <p>Average:</p>
@@ -99,7 +100,7 @@
     var first_differences = [];
     
     for (var i = 0; i < elements.length-1; i++) {
-      var difference = parseFloat(parseFloat(elements[i+1].value) - parseFloat(elements[i].value)).toFixed(3);
+      var difference = parseFloat(parseFloat(elements[i+1].value) - parseFloat(elements[i].value)).toFixed(4);
       first_differences.push(difference);
     }
     
@@ -108,7 +109,7 @@
     var second_differences = [];
     
     for (var i = 0; i < elements.length-2; i++) {
-      var first_difference = parseFloat(parseFloat(first_differences[i+1]) - parseFloat(first_differences[i])).toFixed(3);
+      var first_difference = parseFloat(parseFloat(first_differences[i+1]) - parseFloat(first_differences[i])).toFixed(4);
       second_differences.push(first_difference);
     }
     
@@ -117,7 +118,7 @@
     var third_differences = [];
     
     for (var i = 0; i < elements.length-3; i++) {
-      var third_difference = parseFloat(parseFloat(second_differences[i+1]) - parseFloat(second_differences[i])).toFixed(3);
+      var third_difference = parseFloat(parseFloat(second_differences[i+1]) - parseFloat(second_differences[i])).toFixed(4);
       third_differences.push(third_difference);
     }
     
