@@ -30,10 +30,6 @@
         </div>
         <div class="col-sm-10">
           <p><b>Rounds to nearest ten thousandth (4 decimal places)</b></p>
-          <p>Sum:</p>
-          <p id="sum"></p>
-          <p>Average:</p>
-          <p id="average"></p>
           <p>Sequence of First Differences:</p>
           <p id="first-differences"></p>
           <p>Sequence of Second Differences:</p>
@@ -87,15 +83,9 @@
     var a = [];
     var elements = document.querySelectorAll('.rowInput');
     
-    var sum = 0;
     for (var i = 0; i < elements.length; i++) {
       a.push(elements[i].value);
-      sum += parseFloat(elements[i].value);
     }
-    document.getElementById('sum').innerHTML = sum;
-    
-    var average = parseFloat(sum / elements.length).toFixed(3);
-    document.getElementById('average').innerHTML = average;
     
     var first_differences = [];
     
