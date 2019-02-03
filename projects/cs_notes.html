@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+    -->
+    <title>CS Notes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="lin_alg.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+          <h1>CS Notes</h1>
+          <div class="box">
+            <h3>Short Circuiting</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">(</span>a <span style="color: #333333">||</span> b<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+<span style="color: #333333">}</span>
+</pre></div>
+            <p>If a is true, then b won't be evaluated.</p>
+          </div>
+          <div class="box">
+            <h3>Order of Evaluation</h3>
+            <p>Generally left to right, not PEMDAS</p>
+          </div>
+          <div class="box">
+            <h3>Member Variables</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> <span style="color: #333333">{</span>
+    <span style="color: #333399; font-weight: bold">int</span> x<span style="color: #333333">;</span>
+<span style="color: #333333">}</span></pre></div>
+            <p>Member variables are automatically initialized to 0.</p>
+          </div>
+          <div class="box">
+            <h3>Ragged Arrays</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">[][]</span> a <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> <span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">4</span><span style="color: #333333">][];</span>
+</pre></div>
+            <p>2d arrays where each array has a different length</p>
+          </div>
+          <div class="box">
+            <h3>For Each Loop</h3>
+            <p>The iterator is assigned the value of each item in the array. If it is an array of primitives, then the iterator is assigned a value. If it is an array of objects, then the iterator is assigned an address.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">for</span> <span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> x <span style="color: #333333">:</span> a<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+    x <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">;</span>
+<span style="color: #333333">}</span></pre></div>
+            <p>Contents of a are unchanged because x is a primitive</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">for</span> <span style="color: #333333">(</span>Test t <span style="color: #333333">:</span> a<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+    t<span style="color: #333333">.</span><span style="color: #0000CC">value</span> <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">;</span>
+<span style="color: #333333">}</span></pre></div>
+            <p>Objects in a are changed because t is pointing to the objects</p>
+          </div>
+          <div class="box">
+            <h3>Arrays Equals Method</h3>
+            <p>All objects have an equals method. For arrays, it is a shallow comparison (==).</p>
+          </div>
+          <div class="box">
+            <h3>Static</h3>
+            <p>Static variables and methods don't belong to an object; they belong to the class.</p>
+            <p>If a member variable is static, then all objects that are created share that variable. If a member variable is not static, then each object will have its own copy of the member variable.</p>
+          </div>
+          <div class="box">
+            <h3>References in Functions</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">test</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> x<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+    x <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">10</span><span style="color: #333333">;</span>
+<span style="color: #333333">}</span>
+
+<span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">static</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">main</span><span style="color: #333333">(</span>String<span style="color: #333333">[]</span> args<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+    <span style="color: #333399; font-weight: bold">int</span> x <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">5</span><span style="color: #333333">;</span>
+    test<span style="color: #333333">(</span>x<span style="color: #333333">);</span>
+<span style="color: #333333">}</span></pre></div>
+            <p>The x inside the test method parameter is not the same as the x in the main method (because it is a primitive).</p>
+          </div>
+        </div> <!-- col -->
+      </div> <!-- row -->
+    </div> <!-- container -->
+  </body>
+</html>
