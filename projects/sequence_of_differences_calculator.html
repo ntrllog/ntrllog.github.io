@@ -8,7 +8,7 @@
      / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
     /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
     -->
-    <title>Sequence of Differences Calculator</title>
+    <title>Sequence of Differences & Ratios Calculator</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A little calculator for calculating sequence of differences">
@@ -19,23 +19,25 @@
   <body>
     <div class="container">
       <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
-      <h1>Sequence of Differences & Average of Ratios Calculator</h1>
+      <h1>Sequence of Differences & Ratios Calculator</h1>
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-3">
           <input id="numRows" placeholder="Number of inputs" type="number">
           <button id="submit" onclick="createRows()">Submit</button>
           <div id="rows"></div>
           <button id="calculate" onclick="calculate()">Calculate</button>
           <button onclick="refresh()">Start Over</button>
         </div>
-        <div class="col-sm-10">
-          <p><b>Sequence of differences rounds to nearest ten thousandth (4 decimal places)</b></p>
+        <div class="col-sm-9">
+          <p><b>Rounds to nearest ten thousandth (4 decimal places)</b></p>
           <p>Sequence of First Differences:</p>
           <p id="first-differences"></p>
           <p>Sequence of Second Differences:</p>
           <p id="second-differences"></p>
           <p>Sequence of Third Differences:</p>
           <p id="third-differences"></p>
+          <p>Sequence of Ratios of Consecutive Terms:</p>
+          <p id="ratios"><p>
           <p>Average of Ratios (calculated by `(sum_(i=1)^(n-1) a_(i+1)/a_i)/(n-1)`):</p>
           <p id="average_of_ratios"></p>
         </div>
@@ -112,14 +114,17 @@
     
     document.getElementById('third-differences').innerHTML = third_differences.join(', ');
     
+    var ratios = [];
     var average = 0;
     
     for (var i = 0; i < elements.length-1; i++) {
       var ratio = parseFloat(elements[i+1].value)/parseFloat(elements[i].value);
+      ratios.push(ratio);
       average += ratio;
     }
     average /= elements.length-1;
     
+    document.getElementById('ratios').innerHTML = ratios.join(', ');
     document.getElementById('average_of_ratios').innerHTML = average;
     
   }
