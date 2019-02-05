@@ -39,6 +39,16 @@
     <span style="color: #333399; font-weight: bold">int</span> x<span style="color: #333333">;</span>
 <span style="color: #333333">}</span></pre></div>
             <p>Member variables are automatically initialized to a "zero" value (e.g. 0 for ints, null for non-primitives).</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> <span style="color: #333333">{</span>
+    <span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">[]</span> a<span style="color: #333333">;</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #0066BB; font-weight: bold">Test</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+        a <span style="color: #333333">=</span> <span style="color: #333333">{</span><span style="color: #0000DD; font-weight: bold">4</span><span style="color: #333333">,</span> <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">,</span> <span style="color: #0000DD; font-weight: bold">4</span><span style="color: #333333">};</span> <span style="color: #888888">// Compiler error</span>
+        a<span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">]</span> <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">4</span> <span style="color: #888888">// Runtime error</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+</pre></div>
+            <p>For the second error, a new array object was never created.</p>
           </div>
           <div class="box">
             <h3>Ragged Arrays</h3>
