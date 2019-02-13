@@ -75,6 +75,10 @@ a:hover {
   font-size: 200%;
 }
 
+.modal {
+  font-family: 'Ubuntu', sans-serif;
+}
+
 .modal-header, .modal-body, .modal-footer {
   background: #2b5876;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #4e4376, #2b5876);  /* Chrome 10-25, Safari 5.1-6 */
