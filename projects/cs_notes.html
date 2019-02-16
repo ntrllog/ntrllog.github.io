@@ -195,6 +195,14 @@
 </pre></div>
             <p>Behavior depends on object, not reference</p>
           </div>
+          <div class="box">
+            <h3>Type Casting</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Snake var1 <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Cobra<span style="color: #333333">();</span>
+<span style="color: #333333">((</span>Python<span style="color: #333333">)</span>var1<span style="color: #333333">).</span><span style="color: #0000CC">method2</span><span style="color: #333333">();</span>
+</pre></div>
+            <p>At compile time, the compiler only checks to see if there is some sort of relationship between the reference and the type cast. It doesn't matter which is the superclass and which is the subclass.</p>
+            <p>At runtime, there must be a "right is-a left" relationship when type casting, or else there will be a runtime error. Cobra is-a Python in this case.</p>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
