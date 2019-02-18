@@ -116,9 +116,55 @@
           <div class="box">
             <h3>Override vs. Overload</h3>
             <p>Override: method with same signature (name & parameters) and same return type (where the method is in the subclass)</p>
-            <p>used to perform actions specific to the subclass</p>
+            <ul>
+              <li><p>used to perform actions specific to the subclass</p></li>
+              <li><p>method resolution is done at runtime</p></li>
+            </ul>
             <p>Overload: two or more methods have same name, different (number/type of) parameters</p>
-            <p>used to perform same operation on different types of input</p>
+            <ul>
+              <li><p>used to perform same operation on different types of input</p></li>
+              <li><p>method resolution is done at compile time</p></li>
+            </ul>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Snake</span> <span style="color: #333333">{</span>
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">meth</span><span style="color: #333333">(</span>Snake s<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        System<span style="color: #333333">.</span><span style="color: #0000CC">out</span><span style="color: #333333">.</span><span style="color: #0000CC">println</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;1&quot;</span><span style="color: #333333">);</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+</pre></div>
+            <br>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Cobra</span> <span style="color: #008800; font-weight: bold">extends</span> Snake <span style="color: #333333">{</span>
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">meth</span><span style="color: #333333">(</span>Snake s<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        System<span style="color: #333333">.</span><span style="color: #0000CC">out</span><span style="color: #333333">.</span><span style="color: #0000CC">println</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;2&quot;</span><span style="color: #333333">);</span>
+    <span style="color: #333333">}</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">meth</span><span style="color: #333333">(</span>Cobra c<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        System<span style="color: #333333">.</span><span style="color: #0000CC">out</span><span style="color: #333333">.</span><span style="color: #0000CC">println</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;3&quot;</span><span style="color: #333333">);</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+</pre></div>
+            <br>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">static</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">main</span><span style="color: #333333">(</span>String<span style="color: #333333">[]</span> args<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+
+    Snake snake <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Snake<span style="color: #333333">();</span>
+    Cobra cobra <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Cobra<span style="color: #333333">();</span>
+    Snake snake_ref_cobra <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Cobra<span style="color: #333333">();</span>
+
+    snake<span style="color: #333333">.</span><span style="color: #0000CC">meth</span><span style="color: #333333">(</span>snake<span style="color: #333333">);</span> <span style="color: #888888">// 1</span>
+    snake<span style="color: #333333">.</span><span style="color: #0000CC">meth</span><span style="color: #333333">(</span>snake_ref_cobra<span style="color: #333333">);</span> <span style="color: #888888">// 1</span>
+    snake<span style="color: #333333">.</span><span style="color: #0000CC">meth</span><span style="color: #333333">(</span>cobra<span style="color: #333333">);</span> <span style="color: #888888">// 1</span>
+
+    snake_ref_cobra<span style="color: #333333">.</span><span style="color: #0000CC">meth</span><span style="color: #333333">(</span>snake<span style="color: #333333">);</span> <span style="color: #888888">// 2</span>
+    snake_ref_cobra<span style="color: #333333">.</span><span style="color: #0000CC">meth</span><span style="color: #333333">(</span>snake_ref_cobra<span style="color: #333333">);</span> <span style="color: #888888">// 2</span>
+    snake_ref_cobra<span style="color: #333333">.</span><span style="color: #0000CC">meth</span><span style="color: #333333">(</span>cobra<span style="color: #333333">);</span> <span style="color: #888888">// 2</span>
+
+    cobra<span style="color: #333333">.</span><span style="color: #0000CC">meth</span><span style="color: #333333">(</span>snake<span style="color: #333333">);</span> <span style="color: #888888">// 2</span>
+    cobra<span style="color: #333333">.</span><span style="color: #0000CC">meth</span><span style="color: #333333">(</span>snake_ref_cobra<span style="color: #333333">);</span> <span style="color: #888888">// 2</span>
+    cobra<span style="color: #333333">.</span><span style="color: #0000CC">meth</span><span style="color: #333333">(</span>cobra<span style="color: #333333">);</span> <span style="color: #888888">// 3</span>
+
+<span style="color: #333333">}</span>
+</pre></div>
+            <p>For the second set (<code>snake_ref_cobra.meth(...)</code>), at compile time, the compiler goes to the <code>Snake</code> class and checks if there is a method called <code>meth</code> that takes in a <code>Snake</code>. Since there is, at runtime, the program will execute the <code>meth</code> that takes in a <code>Snake</code>. This is what "method resolution is done at compile time" means.</p>
+            <p>The same happens for <code>cobra.meth(snake_ref_cobra)</code>. At compile time, the compiler goes to the <code>Cobra</code> class and checks if there is a method called <code>meth</code> that takes in a <code>Snake</code>.</p>
           </div>
           <div class="box">
             <h3>Inheritance</h3>
@@ -203,6 +249,17 @@
 </pre></div>
             <p>At compile time, the compiler only checks to see if there is some sort of relationship between the reference and the type cast. It doesn't matter which is the superclass and which is the subclass.</p>
             <p>At runtime, there must be a "right is-a left" relationship when type casting, or else there will be a runtime error. Cobra is-a Python in this case.</p>
+          </div>
+          <div class="box">
+            <h3>Abstract Classes</h3>
+            <p>Don't want to create objects of that class (too generic)</p>
+            <p>Forces the children (subclasses) to override a method</p>
+          </div>
+          <div class="box">
+            <h3>Interfaces</h3>
+            <p>Java only allows extending from one superclass, so implementing an interface is kinda like extending from multiple superclasses.</p>
+            <p>Only have public abstract methods or public static final constants</p>
+            <p>The type of an object can be the type of the interface (e.g. <code>Comparable</code>). This means it can be an <code>instanceof</code> <code>Comparable</code>.</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
