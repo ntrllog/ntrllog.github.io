@@ -37,6 +37,7 @@
         <div class="col-sm-3">
           <h6>Computer Science</h6>
           <ul>
+            <li><a href="#binary_search">Binary Search</a></li>
             <li><a href="#coding_on_a_chromebook">Coding on a Chromebook</a></li>
             <li><a href="#observations_as_instructor_aide">Observations as an Instructor Aide for a Beginning iOS Class</a></li>
             <li><a href="#2_mod_3">2 Mod 3</a></li>
@@ -106,6 +107,14 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="binary_search">.</p>
+          <div class="post">
+            <h4 class="title">Binary Search</h4>
+            <h6 class="date">February 28, 2019</h6>
+            <p>Start with search space, n</p>
+            <p>Keep dividing it by 2</p>
+            <p>End up with 1 left</p>
+          </div>
           <p id="coding_on_a_chromebook">.</p>
           <div class="post">
             <h4 class="title">Coding on a Chromebook</h4>
@@ -836,6 +845,11 @@
     <a id="back2Top" title="Back to top" href="#">&#10148;</a>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <script src="writings.js"></script>
+    <script>
+      $('.hidden').removeClass('hidden').hide();
+      $('.toggle-text').click(function() {
+        $(this).find('span').each(function() { $(this).toggle(); });
+      });
+    </script>
   </body>
 </html>
