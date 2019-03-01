@@ -261,6 +261,15 @@
             <p>Only have public abstract methods or public static final constants</p>
             <p>The type of an object can be the type of the interface (e.g. <code>Comparable</code>). This means it can be an <code>instanceof</code> <code>Comparable</code>.</p>
           </div>
+					<div class="box">
+					  <h3>Finding Midpoint (e.g. for binary search)</h3>
+						<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span> mid <span style="color: #333333">=</span> <span style="color: #333333">(</span>low<span style="color: #333333">+</span>high<span style="color: #333333">)/</span><span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">;</span>
+</pre></div>
+            <p>Works most of the time, but leads to overflow when low and high are really large</p>
+						<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span> mid <span style="color: #333333">=</span> low <span style="color: #333333">+</span> <span style="color: #333333">((</span>high<span style="color: #333333">-</span>low<span style="color: #333333">)/</span><span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">);</span>
+</pre></div>
+            <p>This is the better way to do it</p>
+					</div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
