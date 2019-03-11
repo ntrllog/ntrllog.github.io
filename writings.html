@@ -37,6 +37,7 @@
         <div class="col-sm-3">
           <h6>Computer Science</h6>
           <ul>
+            <li><a href="#recursion_as_settings">Recursion as Settings</a></li>
             <li><a href="#students_as_processors">Students as Processors</a></li>
             <li><a href="#binary_search">Binary Search</a></li>
             <li><a href="#coding_on_a_chromebook">Coding on a Chromebook</a></li>
@@ -109,6 +110,17 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="recursion_as_settings">.</p>
+          <div class="post">
+            <h4 class="title">Recursion as Settings</h4>
+            <h6 class="date">March 10, 2019</h6>
+            <p>With all the stack frames to keep track of, recursion gets a little bit tricky. One confusion with recursion is where the program continues executing after a recursive call. Does it go back to the place where the previous recursive call was made? Does it go back to the first place where the recursive call was made? Does it go back to main?</p>
+            <p>Figuring out where the program continues executing after a recursive call can be compared to navigating the "Settings" section of your phone.</p>
+            <p>On Android, you can do "Settings" -> "About phone" -> "Status".</p>
+            <p>On iOS, you can do "Settings" -> "General" -> "About".</p>
+            <p>When you're on "Status" or "About" and you press back, you would expect to go to the previous page from which you came (either "About phone" or "General"). You wouldn't press back and go to the very first page ("Settings").</p>
+            <p>The same applies to recursion. You go back to the recursive call from which you came (which is going to be the most recent call).</p>
+          </div>
           <p id="students_as_processors">.</p>
           <div class="post">
             <h4 class="title">Students as Processors</h4>
