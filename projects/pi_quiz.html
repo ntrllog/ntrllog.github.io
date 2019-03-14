@@ -67,6 +67,11 @@
       input.type = "number";
       input.id = ""+i;
       input.oninput = function() {checkDigit(this)};
+      input.addEventListener("keypress", function (evt) {
+        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
+          evt.preventDefault();
+        }
+      });
       document.getElementById('inputArea').appendChild(input);
     }
     document.getElementById("0").autofocus = true;
