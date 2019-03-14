@@ -23,7 +23,7 @@
       <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
       <h1>Pi Quiz</h1>
       <p>How many digits of pi do you know? I've graciously provided the first digit for you!</p>
-      <h3>Tries Left: 5</h3>
+      <h3 id="num_of_tries">Tries Left: 5</h3>
       <div class="row">
         <div class="col-sm-12">
           <p>3.</p>
@@ -44,6 +44,10 @@
     padding-top: 50px;
   }
   
+  input {
+    width: 50px;
+  }
+  
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -52,13 +56,36 @@
 </style>
 
 <script>
+  const PI = [1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3,8,4,6,2,6,4,3,3,8,3,2,7,9,5,0,2,8,8,4,1,9,7,1,6,9,3,9,9,3,7,5,1,0,5,8,2,0,9,7,4,9,4,4,5,9,2,3,0,7,8,1,6,4,0,6,2,8,6,2,0,8,9,9,8,6,2,8,0,3,4,8,2,5,3,4,2,1,1,7,0,6,7,9,8,2,1,4,8,0,8,6,5,1,3,2,8,2,3,0,6,6,4,7,0,9,3,8,4,4,6,0,9,5,5,0,5,8,2,2,3,1,7,2,5,3,5,9,4,0,8,1,2,8,4,8,1,1,1,7,4,5,0,2,8,4,1,0,2,7,0,1,9,3,8,5,2,1,1,0,5,5,5,9,6,4,4,6,2,2,9,4,8,9,5,4,9,3,0,3,8,1,9,6];
+  var tries = 5;
+  
   function createInputs() {
     let numInputs = 200;
     for (var i = 0; i < numInputs; i++) {
       var input = document.createElement('input');
       input.type = "text";
       input.maxLength = "1";
+      input.id = ""+i;
+      input.oninput = function() {checkDigit(this)};
       document.getElementById('inputArea').appendChild(input);
+    }
+  }
+  
+  function checkDigit(elem) {
+    // TODO: Check if key pressed is digit?
+    
+    if (elem.value == PI[elem.id]) {
+      // TODO: Move to next input?
+    }
+    else {
+      tries -= 1;
+      document.getElementById('num_of_tries').innerHTML = "Tries Left: " + tries;
+      elem.value = "";
+    }
+    
+    if (tries == 0) {
+      alert("You lost!");
+      location.reload();
     }
   }
 </script>
