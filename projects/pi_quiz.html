@@ -22,6 +22,7 @@
     <div class="container">
       <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
       <h1>Pi Quiz</h1>
+      <p>Shortcut: <a href="pi_quiz.html">alanlam.netlify.com/pi</a></p>
       <p>How many digits of pi do you know? I've graciously provided the first digit for you!</p>
       <h3 id="num_of_tries">Tries Left: 5</h3>
       <div class="row">
@@ -69,6 +70,7 @@
       input.oninput = function() {checkDigit(this)};
       document.getElementById('inputArea').appendChild(input);
     }
+    document.getElementById("0").autofocus = true;
   }
   
   function checkDigit(elem) {
@@ -76,6 +78,8 @@
     
     if (elem.value == PI[elem.id]) {
       // TODO: Move to next input?
+      var nextId = parseInt(elem.id) + 1;
+      document.getElementById(""+nextId).focus();
     }
     else {
       tries -= 1;
