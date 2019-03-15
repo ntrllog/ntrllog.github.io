@@ -24,6 +24,38 @@
         <div class="col-12">
           <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
           <h1>Calculus: Modeling Reality</h1>
+          <p>Shortcut to this page: <a href="calculus.html">alanlam.netlify.com/calculus</a></p>
+          <p>Functions. Why study them? Why are they so important that we devote a field of math to studying them?</p>
+          <h2>To Fetch a Cup of Water</h2>
+          <div class="box">
+            <p>Jack runs up a hill and then back down to his starting point for a total distance of `12` kilometers. He runs `9` km/hr uphill and `16` km/hr downhill and uses the same straight path in both directions. What is Jack's distance from his starting point at any given moment during his run?</p>
+          </div>
+          <p>For whatever reason, we want to know his distance from his starting point <em>at any given moment</em>. In kilometers, no less. (Perhaps this has some location tracking applications?) For me, the words "at any given moment" is a tip-off that we should come up with a function so that we could plug in <em>any</em> time and get his distance.</p>
+          <p>We are probably familiar with the formula `d = rt` (distance = rate * time). We're looking for distance. We have his rates. This looks like it'll be helpful.</p>
+          <p>Since he has different rates going up and down the hill, we'll probably need `2` equations to model this situation. One for going up the hill. One for going down the hill.</p>
+          <p>Let's let `t` be the time in minutes. When he's going up the hill, he's going at a rate of `9` km/hr. Since `t` is the number of minutes, we'll convert the rate so it becomes `9/60` km/min. Now we can come up with the equation `d = 9/60 t`.</p>
+          <p>Going down the hill is almost the same. It seems like the equation would be `d = 16/60 t`. Let's combine these two equations into a piecewise function.</p>
+          <div class="math">
+            <p>`d(t) = {(9/60 t), (16/60 t):}`</p>
+          </div>
+          <p>So if we wanted to find the distance after `1` minute, we would plug in `1` for `t` and get ... wait. Which equation do we use?</p>
+          <p>Thinking about our situation, it takes him `40` minutes to run up the hill. `(6 \ km)/(x min) = (9 \ km)/(60 min) => x = 40.` (If it takes him `60` minutes to run `9` km, then it takes him `40` minutes to run `6` km, which is the length of the distance from the bottom to the top of the hill.) So at `1` minute, he's still running up the hill, which means we want to use the first equation. In order to clarify which equation we should use, we should set bounds on `t` for our piecewise function.</p>
+          <div class="math">
+            <p>`d(t) = {(9/60 t \ \ \ 0 <= t < 40), (16/60 t):}`</p>
+          </div>
+          <p>So for what values of `t` do we use the second equation? `(6 \ km)/(x min) = (16 \ km)/(60 min) => x = 22.5`. It takes Jack `22.5` minutes to run `6` km if he takes `60` minutes to run `16` km. But keep in mind that at this point, he's already run for `40` minutes. So our function becomes:</p>
+          <div class="math">
+            <p>`d(t) = {(9/60 t \ \ \ 0 <= t < 40), (16/60 t \ \ \ 40 <= t < 62.5):}`</p>
+          </div>
+          <p>This is almost correct. When Jack is at the top of the hill, he <em>should be `6` km away from the starting point</em>. But `16/60 * 40` doesn't give us `6`. We have to modify the second equation a bit.</p>
+          <p>`d(t) = 16/60 t` measures how much distance Jack has covered, not his distance from the starting point. To find that, we have to subtract the distance he's covered from the total distance.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/calculus/distance.gif">
+          </div>
+          <p>So our second equation becomes `d(t) = 6 - 16/60 t`. But plugging in `t = 40` still doesn't give us `6`. That's because we also have to take into account that he's been running for `40` minutes already at this point. So we have to subtract `40` from `t`. One way to look at it is that we have to find a way to make sure that when we plug in `t = 40`, we get `6`. Our final answer becomes:</p>
+          <div class="math">
+            <p>`d(t) = {(9/60 t \ \ \ 0 <= t < 40), (6 - 16/60 (t - 40) \ \ \ 40 <= t < 62.5):}`</p>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
