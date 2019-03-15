@@ -68,6 +68,59 @@
             <p>Then `s(t_f) = c(t_f - t_i) + s(t_i)`</p>
             <p>Since that is of the form `y = mx + b` (where `y = s(t_f), m = c, x = (t_f - t_i), b = s(t_i)`), it is a linear function.</p>
           </div>
+          <h2>Gaining Popularity</h2>
+          <p>Suppose we want to predict the population of a certain city. How would we do that? We could collect data on the population from past years and use that to make a prediction.</p>
+          <div class="math flex">
+            <table>
+              <tr>
+                <td>year</td>
+                <td>population</td>
+              </tr>
+              <tr>
+                <td>1998</td>
+                <td>67.38</td>
+              </tr>
+              <tr>
+                <td>1999</td>
+                <td>69.13</td>
+              </tr>
+              <tr>
+                <td>2000</td>
+                <td>70.93</td>
+              </tr>
+              <tr>
+                <td>2001</td>
+                <td>72.78</td>
+              </tr>
+              <tr>
+                <td>2002</td>
+                <td>74.68</td>
+              </tr>
+              <tr>
+                <td>2003</td>
+                <td>76.63</td>
+              </tr>
+              <tr>
+                <td>2004</td>
+                <td>78.63</td>
+              </tr>
+            </table>
+          </div>
+          <p>When given a sequence of numbers, it's often insightful to see if there's a pattern. These numbers are increasing each year. Maybe they're increasing by the same number each year?</p>
+          <div class="math">
+            <p>`69.13 - 67.38 = 1.75`</p>
+            <p>`70.93 - 69.13 = 1.8`</p>
+            <p>`72.78 - 70.93 = 1.85`</p>
+            <p>`74.68 - 72.78 = 1.9`</p>
+          </div>
+          <p>Well, they're not increasing by the same number each year, but it still looks there's a pattern here. Without doing the calculation, it seems that `76.63 - 74.68` is likely equal to `1.95`. And obviously, `78.63 - 76.63 = 2`. Using this pattern, we could predict the population at a certain year. For example, the population in 2005 is probably `80.68`.</p>
+          <h4>Sequence of Differences</h4>
+          <p>By subtracting the populations, we were looking at the sequence of first differences. By looking at the pattern in those differences, we were looking at the sequence of second differences.</p>
+          <p>Let `{a_n}_(n >= 1) = a_1, a_2, a_3, ..., a_n` be a sequence. Then we can define `{b_n}_(n >= 1)` to be the sequence of first differences where `b_n = a_(n+1) - a_n`.</p>
+          <p>In the previous example, `{a_7} = {67.38, 69.13, 70.93, 72.78, 74.68, 76.63, 78.63}` and `{b_6} = {1.75, 1.8, 1.85, 1.9, 1.95, 2}`.</p>
+          <p>The sequence of second differences would be defined as `{c_n}_(n >= 1)` where `c_n = b_(n+1) - b_n`.</p>
+          <p>In the previous example, `{c_5} = {0.05, 0.05, 0.05, 0.05, 0.05}`.</p>
+          <p>So what do sequences of differences have to do with functions? Well, it turns out that if the sequence of first differences of a sequence is nonzero and constant, then that sequence is linear, i.e. it can be represented by a linear function. If the sequence of second differences of a sequence is nonzero and constant, then that sequence is quadratic, i.e. it can be represented by a quadratic function.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
