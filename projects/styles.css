@@ -22,7 +22,6 @@ body {
   margin-bottom: 10px;
 }
 
-.carousel-cell {
-  width: 400px;
-  counter-increment: carousel-cell;
+.carousel-item {
+  text-align: center;
 }
