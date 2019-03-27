@@ -1,6 +1,6 @@
-.container {
+body {
+  width: 100%;
   font-family: 'Gentium Basic', serif;
-  margin-top: 50px;
 }
 
 #pdf {
@@ -10,36 +10,84 @@
   color: black;
 }
 
+.header {
+  text-align: center;
+}
+
+.header p {
+  margin: 0;
+  padding: 0;
+}
+
 #name {
-  font-size: 300%;
-  font-weight: 500;
+  font-size: 50px;
+  font-weight: bold;
 }
 
-#info {
+.flex-evenly {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-#info ul {
-  list-style-type: none;
-}
-
-.line {
-  border-bottom: 10px solid black;
+.row {
   margin-top: 10px;
 }
 
-.date {
-  text-align: right;
+.underline {
+  border-bottom: 1px solid black;
+}
+
+.box {
+  margin-top: 10px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.col-sm-8 {
+  border-left: 1px solid black;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex .box {
+  width: 50%;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 @media print {
-  .link {
-    color: black;
-    text-decoration: none !important;
-  }
   .print-hide {
     display: none;
+  }
+
+  a, a:link {
+    color: black;
+    text-decoration: none;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .flex-evenly {
+    flex-direction: column;
+  }
+  #pdf {
+    display: none;
+  }
+  .col-sm-8 {
+    border-left: 0px;
+  }
+  .flex {
+    flex-direction: column;
+  }
+  .flex .box {
+    width: 100%;
   }
 }
