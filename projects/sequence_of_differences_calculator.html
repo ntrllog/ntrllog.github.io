@@ -18,6 +18,29 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
+    <style>
+      body {
+        font-family: 'Ubuntu', sans-serif;
+      }
+      
+      .container {
+        padding-top: 50px;
+      }
+      
+      button {
+        margin-top: 10px;
+      }
+      
+      #calculate {
+        display: none;
+      }
+      
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -49,92 +72,67 @@
       </div>
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      function createRows() {
+        numRows = document.getElementById('numRows').value;
+        for (var i = 0; i < numRows; i++) {
+          var row = document.createElement('input');
+          row.type = "number";
+          row.className = "rowInput";
+          document.getElementById('rows').appendChild(row);
+        }
+        document.getElementById('submit').style.display = 'none';
+        document.getElementById('calculate').style.display = 'block';
+      }
+      
+      function calculate() {
+        var elements = document.querySelectorAll('.rowInput');
+        
+        var first_differences = [];
+        
+        for (var i = 0; i < elements.length-1; i++) {
+          var difference = parseFloat(parseFloat(elements[i+1].value) - parseFloat(elements[i].value)).toFixed(4);
+          first_differences.push(difference);
+        }
+        
+        document.getElementById('first-differences').innerHTML = first_differences.join(', ');
+        
+        var second_differences = [];
+        
+        for (var i = 0; i < elements.length-2; i++) {
+          var first_difference = parseFloat(parseFloat(first_differences[i+1]) - parseFloat(first_differences[i])).toFixed(4);
+          second_differences.push(first_difference);
+        }
+        
+        document.getElementById('second-differences').innerHTML = second_differences.join(', ');
+        
+        var third_differences = [];
+        
+        for (var i = 0; i < elements.length-3; i++) {
+          var third_difference = parseFloat(parseFloat(second_differences[i+1]) - parseFloat(second_differences[i])).toFixed(4);
+          third_differences.push(third_difference);
+        }
+        
+        document.getElementById('third-differences').innerHTML = third_differences.join(', ');
+        
+        var ratios = [];
+        var average = 0;
+        
+        for (var i = 0; i < elements.length-1; i++) {
+          var ratio = parseFloat(elements[i+1].value)/parseFloat(elements[i].value);
+          ratios.push(ratio);
+          average += ratio;
+        }
+        average /= elements.length-1;
+        
+        document.getElementById('ratios').innerHTML = ratios.join(', ');
+        document.getElementById('average_of_ratios').innerHTML = average;
+        
+      }
+      
+      function refresh() {
+        location.reload();
+      }
+    </script>
   </body>
  </html>
-
-<style>
-  body {
-    font-family: 'Ubuntu', sans-serif;
-  }
-  
-  .container {
-    padding-top: 50px;
-  }
-  
-  button {
-    margin-top: 10px;
-  }
-  
-  #calculate {
-    display: none;
-  }
-  
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-</style>
-
-<script>
-  function createRows() {
-    numRows = document.getElementById('numRows').value;
-    for (var i = 0; i < numRows; i++) {
-      var row = document.createElement('input');
-      row.type = "number";
-      row.className = "rowInput";
-      document.getElementById('rows').appendChild(row);
-    }
-    document.getElementById('submit').style.display = 'none';
-    document.getElementById('calculate').style.display = 'block';
-  }
-  
-  function calculate() {
-    var elements = document.querySelectorAll('.rowInput');
-    
-    var first_differences = [];
-    
-    for (var i = 0; i < elements.length-1; i++) {
-      var difference = parseFloat(parseFloat(elements[i+1].value) - parseFloat(elements[i].value)).toFixed(4);
-      first_differences.push(difference);
-    }
-    
-    document.getElementById('first-differences').innerHTML = first_differences.join(', ');
-    
-    var second_differences = [];
-    
-    for (var i = 0; i < elements.length-2; i++) {
-      var first_difference = parseFloat(parseFloat(first_differences[i+1]) - parseFloat(first_differences[i])).toFixed(4);
-      second_differences.push(first_difference);
-    }
-    
-    document.getElementById('second-differences').innerHTML = second_differences.join(', ');
-    
-    var third_differences = [];
-    
-    for (var i = 0; i < elements.length-3; i++) {
-      var third_difference = parseFloat(parseFloat(second_differences[i+1]) - parseFloat(second_differences[i])).toFixed(4);
-      third_differences.push(third_difference);
-    }
-    
-    document.getElementById('third-differences').innerHTML = third_differences.join(', ');
-    
-    var ratios = [];
-    var average = 0;
-    
-    for (var i = 0; i < elements.length-1; i++) {
-      var ratio = parseFloat(elements[i+1].value)/parseFloat(elements[i].value);
-      ratios.push(ratio);
-      average += ratio;
-    }
-    average /= elements.length-1;
-    
-    document.getElementById('ratios').innerHTML = ratios.join(', ');
-    document.getElementById('average_of_ratios').innerHTML = average;
-    
-  }
-  
-  function refresh() {
-    location.reload();
-  }
-</script>
