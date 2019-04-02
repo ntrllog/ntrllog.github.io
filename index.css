@@ -1,3 +1,8 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   background: -webkit-radial-gradient(rgb(42, 84, 112), rgb(76, 65, 119));
   background: radial-gradient(rgb(42, 84, 112), rgb(76, 65, 119));
@@ -62,8 +67,8 @@ a:hover {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 50;
-  left: 50;
+  top: 50px;
+  left: 50px;
   font-family: 'Finger Paint', cursive;
 }
 
@@ -73,8 +78,8 @@ a:hover {
 
 .logo-section {
   position: absolute;
-  bottom: 50;
-  right: 50;
+  bottom: 50px;
+  right: 50px;
   box-shadow: -8px 8px 5px rgb(1, 53, 50);
 }
 
