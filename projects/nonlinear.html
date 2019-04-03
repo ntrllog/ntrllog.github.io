@@ -49,6 +49,40 @@
           <p>Scientific notation helps make it easier to store numbers, but some complications <em>still</em> pop up. Consider a computer that can only store at most `3` digits in the mantissa. Let's say we wanted to store the number `0.002146`. In scientific notation, it would be `0.2146 xx 10^(-2)`, which has `4` digits in the mantissa. Our computer can only store `3` digits in the mantissa, so how should it be stored? There are 2 options: chopping and rounding.</p>
           <p>Under chopping, `0.2146 xx 10^(-2)` would become `0.214 xx 10^(-2)`. As the name implies, the rest of the digits (after the `3^(rd)`) are "chopped off". Under rounding, `0.2146 xx 10^(-2)` would become `0.215 xx 10^(-2)`.</p>
           <p>From this, we can see that what the computer stores isn't always going to be exactly equal to the original number. The version of the number that the computer stores can be denoted by `fl(x)`, where `x` is the original number.</p>
+          <p>So the <b>difference between the original number and the stored number is going to be the error</b>. There are `2` types of errors:</p>
+          <ul>
+            <li><p>absolute error ` = abs(x - fl(x))`</p></li>
+            <li><p>relative error ` = abs(x - fl(x))/abs(x)` (this is often more useful)</p></li>
+          </ul>
+          <p>Errors are bad, but unavoidable. So it would be helpful to know how bad the relative error could be for any number we want to store.</p>
+          <p>Let's say we want to store the number `x` (which is not `0`) on an `n`-digit chopping computer (a computer that stores at most `n` digits and uses the chopping method). Written in scientific notation,</p>
+          <div class="math">
+            <p>`x = +- 0.d_1\ d_2\ d_3\ ... xx 10^a`</p>
+            <p>where `d_i` is the `i^(th)` digit of the mantissa of `x`</p>
+          </div>
+          <p>Since this computer uses chopping, it would only store the first `n` digits of the mantissa. Written in scientific notation,</p>
+          <div class="math">
+            <p>`fl(x) = +- 0.d_1\ d_2\ d_3\ ...\ d_n xx 10^a`</p>
+          </div>
+          <p>We want to compute the relative error, so we need `abs(x - fl(x))` and `abs(x)`.</p>
+          <div class="math">
+            <p>`abs(x - fl(x)) = 0.ubrace(00...0)_n\ d_(n+1)\ d_(n+2)\ ... xx 10^a`</p>
+            <p>`abs(x) = 0.d_1\ d_2\ d_3\ ... xx 10^a`</p>
+            <p>relative error = `abs(x - fl(x))/abs(x) = (0.obrace(00...0)^n\ d_(n+1)\ d_(n+2)\ ... xx 10^a)/(0.d_1\ d_2\ d_3\ ... xx 10^a)`</p>
+            <p>` = (0.obrace(00...0)^n\ d_(n+1)\ d_(n+2)\ ...)/(0.d_1\ d_2\ d_3\ ...)`</p>
+          </div>
+          <p>To find out the worst our error could be, we want to make it as large as possible. We do that by making the numerator as big as possible (by letting `d_(n+1) = d_(n+2) = ... = 9`) and making the denominator as small as possible (by letting `d_1 = d_2 = ... = 0`).</p>
+          <div class="math">
+            <p>`<= (0.obrace(00...0)^(n-1)1)/(0.100)`</p>
+            <p>` = 0.obrace(0...0)^(n-2)1`</p>
+            <p>` = 10^(-(n-1))`</p>
+            <p>` = 10^(1-n)`</p>
+          </div>
+          <p>So the relative error — which we can denote by `epsilon` — can be at most `10^(1-n)`. This is the worst error possible for an `n`-digit chopping computer.</p>
+          <div class="box">
+            <p>For an `n`-digit rounding computer, `epsilon = 10^(1-n)/2`</p>
+          </div>
+          <h2>Arithmetic Operations: Even a Computer Can't Do Them Without Errors</h2>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
