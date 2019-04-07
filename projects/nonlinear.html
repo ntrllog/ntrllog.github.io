@@ -71,18 +71,107 @@
             <p>relative error = `abs(x - fl(x))/abs(x) = (0.obrace(00...0)^n\ d_(n+1)\ d_(n+2)\ ... xx 10^a)/(0.d_1\ d_2\ d_3\ ... xx 10^a)`</p>
             <p>` = (0.obrace(00...0)^n\ d_(n+1)\ d_(n+2)\ ...)/(0.d_1\ d_2\ d_3\ ...)`</p>
           </div>
-          <p>To find out the worst our error could be, we want to make it as large as possible. We do that by making the numerator as big as possible (by letting `d_(n+1) = d_(n+2) = ... = 9`) and making the denominator as small as possible (by letting `d_1 = d_2 = ... = 0`).</p>
+          <p>To find out the worst our error could be, we want to make it as large as possible. We do that by making the numerator as big as possible (by letting `d_(n+1) = d_(n+2) = ... = 9`)* and making the denominator as small as possible (by letting `d_1 = d_2 = ... = 0`).</p>
+          <p>*`0.999... = 1`</p>
           <div class="math">
             <p>`<= (0.obrace(00...0)^(n-1)1)/(0.100)`</p>
             <p>` = 0.obrace(0...0)^(n-2)1`</p>
             <p>` = 10^(-(n-1))`</p>
             <p>` = 10^(1-n)`</p>
           </div>
-          <p>So the relative error — which we can denote by `epsilon` — can be at most `10^(1-n)`. This is the worst error possible for an `n`-digit chopping computer.</p>
+          <p>So the relative error — which we can denote by `epsilon` — can be at most `10^(1-n)`. This is the largest error possible for an `n`-digit chopping computer.</p>
           <div class="box">
             <p>For an `n`-digit rounding computer, `epsilon = 10^(1-n)/2`</p>
           </div>
           <h2>Arithmetic Operations: Even a Computer Can't Do Them Without Errors</h2>
+          <p>Let's suppose we wanted to add `0.42312` and `0.63546` on a `3`-digit rounding computer. First, the computer would store them as `0.423` and `0.635`. Then, the computer would add those two to get `1.058`*. Since this is a `3`-digit rounding computer, it would say that the answer is `1.06`. In math notation:</p>
+          <div class="math">
+            <p>`fl(fl(0.42312) + fl(0.63546)) = fl(0.423 + 0.635) = fl(1.058) = 1.06`</p>
+          </div>
+          <p>Notice how this differs from the actual answer, which is `1.05858`.</p>
+          <p>*This is a `4`-digit number, but the computer can only store `3`-digit numbers. It turns out that computers temporarily store results of arithmetic operations using more digits if needed.</p>
+          <div class="box">
+            <p>For longer strings of operations, the computer performs the operations pairwise. For example:</p>
+            <div class="math">
+              <p>`x * y * z = color(red)((x * y)) * z`</p>
+              <p>the computer does `x*y` first, then multiplies that with `z`</p>
+              <p>`= fl(color(red)(fl(fl(x)*fl(y)))*fl(z))`</p>
+            </div>
+          </div>
+          <p>We've established that there are errors in storing numbers. And performing operations with "wrong" numbers will lead to numbers that are "more wrong". But how much error could there be when doing arithmetic operations?</p>
+          <p>Let's suppose we wanted to multiply two numbers, `x` and `y`. In the computer, they're stored as `fl(x)` and `fl(y)`. Well, we can write:</p>
+          <div class="math">
+            <p>`fl(x) = x(1 + delta_1)`</p>
+            <p>`fl(y) = y(1 + delta_2)`</p>
+            <p>where `abs(delta_1)` and `abs(delta_2)` are the relative errors*</p>
+          </div>
+          <p>In words: `fl(text(some number))` is the actual value with some error attached to it.</p>
+          <div class="math">
+            <p>*`fl(x) = x(1 + delta_1)`</p>
+            <p>`=> fl(x) = x + xdelta_1`</p>
+            <p>`=> fl(x) - x = xdelta_1`</p>
+            <p>`=> (fl(x) - x)/x = delta_1`</p>
+            <p>`=> abs(fl(x)-x)/abs(x) = abs(delta_1)`</p>
+          </div>
+          <p>So multiplying those two values would result in:</p>
+          <div class="math">
+            <p>`fl(fl(x)*fl(y))`</p>
+            <p>`= fl(x(1+delta_1)*y(1+delta_2))`</p>
+            <p>`= (x(1+delta_1)*y(1+delta_2))(1+delta_3)`</p>
+            <p>`= xy(1 + delta)`</p>
+            <p>where `abs(delta)` is the relative error</p>
+            <p>and `(1 + delta) = (1 + delta_1)(1 + delta_2)(1 + delta_3)`</p>
+            <p>`= 1 + delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3`</p>
+          </div>
+          <p>So how big is the relative error?</p>
+          <div class="math">
+            <p>`1 + delta = 1 + delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3`</p>
+            <p>`=> delta = delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3`</p>
+            <p>`=> abs(delta) = abs(delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3)`</p>
+            <p>`=> abs(delta) <= abs(delta_1) + abs(delta_2) + abs(delta_3) + abs(delta_1delta_2) + abs(delta_1delta_3) + abs(delta_2delta_3) + abs(delta_1delta_2delta_3)` (by triangle inequality)</p>
+          </div>
+          <p>In the previous section, we defined `epsilon` to be the largest possible relative error. So all of these relative errors are smaller than `epsilon`, i.e. `abs(delta_1), abs(delta_2), abs(delta_3) <= epsilon`</p>
+          <div class="math">
+            <p>`abs(delta) <= abs(delta_1) + abs(delta_2) + abs(delta_3) + abs(delta_1delta_2) + abs(delta_1delta_3) + abs(delta_2delta_3) + abs(delta_1delta_2delta_3)`</p>
+            <p>`=> abs(delta) <= epsilon + epsilon + epsilon + epsilon^2 + epsilon^2 + epsilon^2 + epsilon^3`</p>
+            <p>`= 3epsilon + 3epsilon^2 + epsilon^3`</p>
+            <p>`= 3epsilon + O(epsilon^2) = O(epsilon)`</p>
+          </div>
+          <p>So multiplying two numbers will lead to error, but it will be at most `3` times as bad as the worst error in storing a number.</p>
+          <div class="box">
+            <p>`(x*y)*z` gets relative error `abs(delta) <= 5epsilon + O(epsilon^2)`</p>
+            <p>`((x_1*x_2)*x_3)*x_4*...*x_m` gets relative error `abs(delta) <= (2m-1)epsilon + O(epsilon^2)`</p>
+          </div>
+          <p>Now, let's suppose we wanted to subtract two numbers `x` and `y`.</p>
+          <div class="math">
+            <p>`fl(fl(x)-fl(y)) = (x(1+delta_1) - y(1+delta_2))(1+delta_3)`</p>
+            <p>`= (x - y + xdelta_1 - ydelta_2)(1 + delta_3)`</p>
+            <p>`= (x - y)(1 + (xdelta_1)/(x-y) - (ydelta_2)/(x-y))(1 + delta_3)`</p>
+            <p>`= (x - y)(1 + delta)`</p>
+            <p>where `(1 + delta) = (1 + (xdelta_1)/(x-y) - (ydelta_2)/(x-y))(1 + delta_3)`</p>
+            <p>`=> delta = delta_3 + (xdelta_1)/(x-y) - (ydelta_2)/(x-y) + delta_3((xdelta_1)/(x-y) - (ydelta_2)/(x-y))`</p>
+          </div>
+          <p><b>But `abs(x/(x-y))` and `abs(y/(x-y))` can be very large when `x` is close to `y`. When this happens, `abs(delta)` will be very large. This is called catastrophic cancellation.</b></p>
+          <div class="box">
+            <p>Example: For `n = 5` (a `5`-digit rounding computer), let's subtract `x = 1` and `y = 1.00001`. (The exact solution is `1 - 1.00001 = -0.00001`)</p>
+            <p>`fl(1) = 1` and `fl(1.00001) = 1.0000 = 1`</p>
+            <p>So `fl(1) - fl(1.00001) = 0`</p>
+            <p>Relative error = `abs(text(exact) - text(approximate))/abs(exact) = abs(-0.00001 - 0)/abs(-0.00001) = 1`</p>
+            <p>This means there is `100%` error.</p>
+          </div>
+          <p><b>1) Errors become slightly larger every arithmetic operation</b>.</p>
+          <div class="box">
+            <p>Because of this, we want to minimize the number of arithmetic operations whenever possible. For example, `1 + x + x^2 + x^3` takes `6` operations to do (`3` additions, `3` multiplications). However, we could rewrite `1 + x + x^2 + x^3` as `1 + x(1 + x(1 + x))`, which only requires `5` operations. The number of operations saved writing polynomials in nested form increases as the number of polynomials increases.</p>
+          </div>
+          <p><b>2) Catastrophic cancellation can occur when subtracting numbers</b>.</p>
+          <div class="box">
+            <p>Consider the situation of trying to find the roots of a quadratic equation `ax^2 + bx + c = 0`. Let's suppose `b` is positive and `a`, `c` are small so that `abs(-4ac)` is small. Then `x = (-b + sqrt(b^2-4ac))/(2a) ~~ (-b + sqrt(b^2))/(2a) = (-b + b)/(2a) = 0`*, which leads to catastrophic cancellation. We could avoid this by rewriting `x` by multiplying it by `1`.</p>
+            <p>`x = (-b + sqrt(b^2-4ac))/(2a) * (-b-sqrt(b^2-4ac))/(-b-sqrt(b^2-4ac)) = (b^2 - (b^2 - 4ac))/(2a(-b-sqrt(b^2-4ac))) = (2c)/(-b-sqrt(b^2-4ac))`. In this case, catastrophic cancellation is avoided.</p>
+            <p>*It only equals `0` when the number of digits of `b` exceeds the number of digits the computer can store. After all, `sqrt(b^2 - 4ac) ~~ sqrt(b^2)`.</p>
+          </div>
+          <div class="box">
+            <p>Catastrophic cancellation only occurs when the number of digits exceeds the number of digits of a number a computer can store. This is why everything is fine when doing something like `5 - 4.99999`.</p>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
