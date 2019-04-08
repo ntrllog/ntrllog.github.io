@@ -7,6 +7,7 @@
 
 .box {
   padding-left: 10px;
+  padding-right: 10px;
   border: 1px solid black;
   margin-bottom: 30px;
 }
@@ -23,4 +24,13 @@ h2 {
 .flex {
   display: flex;
   justify-content: space-evenly;
+}
+
+.btn {
+  border-color: black;
+  margin-bottom: 5px;
+}
+
+.btn:focus, .btn:active {
+  box-shadow: none !important;
 }

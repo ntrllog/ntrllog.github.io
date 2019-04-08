@@ -12,7 +12,7 @@
     <title>Numerical Analysis: A Nonlinear Story</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
@@ -81,9 +81,42 @@
           </div>
           <p>So the relative error — which we can denote by `epsilon` — can be at most `10^(1-n)`. This is the largest error possible for an `n`-digit chopping computer.</p>
           <div class="box">
-            <p>For an `n`-digit rounding computer, `epsilon = 10^(1-n)/2`</p>
+            <p>For an `n`-digit rounding computer, `epsilon = 1/2 * 10^(1-n)`</p>
+            <div class="collapse" id="collapseRelErrorRoundBound">
+              <p>Let `x = 0.d_1\ d_2\ ... xx 10^a` be a real number. Suppose `d_(n+1) < 5`. Then `fl(x) = 0.d_1\ d_2\ ... d_n xx 10^a`</p>
+              <div class="math">
+                <p>relative error = `abs(x - fl(x))/abs(x)`</p>
+                <p>`= (0.obrace(0...0)^n\ d_(n+1)\ d_(n+2)\ ... xx 10^a)/(0.d_1\ d_2\ ... xx 10^a)`</p>
+                <p>`= (0.obrace(0...0)^n\ d_(n+1)\ d_(n+2)\ ...)/(0.d_1\ d_2\ ...)`</p>
+                <p>`<= (0.obrace(0...0)^n49...)/(0.10...)`</p>
+                <p>`= (0.obrace(0...0)^n5)/(0.1)`</p>
+                <p>`= 0.obrace(0...0)^(n-1)5`</p>
+                <p>`= 0.5 xx 10^(-(n-1))`</p>
+                <p>`= 1/2 xx 10^(1-n)`</p>
+              </div>
+              <p>Now suppose `5 <= d_(n+1) <= 9`. Then `fl(x) = 0.d_1\ d_2\ ...\ d_n xx 10^a + 0.obrace(0...0)^(n-1)1 xx 10^a`</p>
+              <div class="math">
+                <p>relative error = `abs(x - fl(x))/abs(x)`</p>
+                <p>`= abs(0.d_1\ d_2\ ...\ d_n\ d_(n+1)\ ... xx 10^a - 0.d_1\ ...\ d_n xx 10^a - 0.obrace(0...0)^(n-1)1 xx 10^a)/abs(0.d_1\ d_2\ ... xx 10^a)`</p>
+                <p>`= abs(0.obrace(0...0)^n\ d_(n+1)\ ... - 0.obrace(0...0)^(n-1)1)/abs(0.d_1\ d_2\ ...)`*</p>
+                <p>`<= (0.obrace(0...0)^n5)/0.1`</p>
+                <p>`= 0.obrace(0...0)^(n-1)5`</p>
+                <p>`= 0.5 xx 10^(-(n-1))`</p>
+                <p>`= 1/2 xx 10^(1-n)`</p>
+              </div>
+              <p>*Since `5 <= d_(n+1) <= 9`, we have:</p>
+              <div class="math">
+                <p>`abs(0.obrace(0...0)^n5 - 0.obrace(0...0)^(n-1)1) = 0.obrace(0...0)^n5`</p>
+                <p>`abs(0.obrace(0...0)^n6 - 0.obrace(0...0)^(n-1)1) = 0.obrace(0...0)^n4`</p>
+                <p>`abs(0.obrace(0...0)^n7 - 0.obrace(0...0)^(n-1)1) = 0.obrace(0...0)^n3`</p>
+                <p>`abs(0.obrace(0...0)^n8 - 0.obrace(0...0)^(n-1)1) = 0.obrace(0...0)^n2`</p>
+                <p>`abs(0.obrace(0...0)^n9 - 0.obrace(0...0)^(n-1)1) = 0.obrace(0...0)^n1`</p>
+              </div>
+              <p>So `d_(n+1) = 5` (and `d_(n+2) = d_(n+3) = ... = 0`) gives us the biggest error possible.</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseRelErrorRoundBound">Proof</a>
           </div>
-          <h2>Arithmetic Operations: Even a Computer Can't Do Them Without Errors</h2>
+          <h2>Errors in Arithmetic Operations</h2>
           <p>Let's suppose we wanted to add `0.42312` and `0.63546` on a `3`-digit rounding computer. First, the computer would store them as `0.423` and `0.635`. Then, the computer would add those two to get `1.058`*. Since this is a `3`-digit rounding computer, it would say that the answer is `1.06`. In math notation:</p>
           <div class="math">
             <p>`fl(fl(0.42312) + fl(0.63546)) = fl(0.423 + 0.635) = fl(1.058) = 1.06`</p>
@@ -161,7 +194,7 @@
           </div>
           <p><b>1) Errors become slightly larger every arithmetic operation</b>.</p>
           <div class="box">
-            <p>Because of this, we want to minimize the number of arithmetic operations whenever possible. For example, `1 + x + x^2 + x^3` takes `6` operations to do (`3` additions, `3` multiplications). However, we could rewrite `1 + x + x^2 + x^3` as `1 + x(1 + x(1 + x))`, which only requires `5` operations. The number of operations saved writing polynomials in nested form increases as the number of polynomials increases.</p>
+            <p>Because of this, we want to minimize the number of arithmetic operations whenever possible. For example, `1 + x + x^2 + x^3` takes `6` operations to do (`3` additions, `3` multiplications). However, we could rewrite `1 + x + x^2 + x^3` as `1 + x(1 + x(1 + x))`, which only requires `5` operations (`3` additions, `2` multiplications). The number of operations saved writing polynomials in nested form increases as the number of polynomials increases.</p>
           </div>
           <p><b>2) Catastrophic cancellation can occur when subtracting numbers</b>.</p>
           <div class="box">
@@ -172,9 +205,70 @@
           <div class="box">
             <p>Catastrophic cancellation only occurs when the number of digits exceeds the number of digits of a number a computer can store. This is why everything is fine when doing something like `5 - 4.99999`.</p>
           </div>
+          <h2>Solving Nonlinear Equations</h2>
+          <p>How do we solve something like `cos(x) = x`? Let's say we didn't have a calculator, so we can't find the exact answer. How can we find a (good) approximation? In general, how do we find an approximation for `f(x) = g(x)`?</p>
+          <h3>Getting to the Root of the Problem</h3>
+          <p>One way is to change the equation to the form `f(x) = 0`. Then, finding the roots of `f(x)` will be the solutions. Of course, it isn't going to be obvious what the roots are just from looking at something like `cos(x) - x = 0`. But we can try to trap a root in a small interval (i.e. find a small interval between which a root lies).</p>
+          <p>This can be done with an iterative algorithm. We start with a root trapped in a large interval and reduce the size of the interval at every step. But how do we find an interval in which there is a root? Without knowing this, we can't start the algorithm!</p>
+          <p>We do this by using the <b>Intermediate Value Theorem, which says if `f` is a continuous function in `[a,b]`, then `f` assumes every value between `f(a)` and `f(b).`</b></p>
+          <canvas id="IVTGeneralEx"></canvas>
+          <p>In this example, `f` achieves every value between `20` and `40` between `a` and `b`.</p>
+          <p>So how does this help us find roots? We can apply it to the situation where `f(a)` and `f(b)` have different signs (i.e. one is positive and the other is negative). <b>If `f(a)` and `f(b)` have different signs, then `f` has a root in `[a, b]`.</b></p>
+          <canvas id="IVTRootEx"></canvas>
+          <p>In this example, `f` achieves every value (including `0`) between `40` and `-10` between `a` and `b`.</p>
+          <p>This suggests that we start the algorithm by picking `a_0, b_0` such that `f(a_0), f(b_0)` have different signs.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script>
+      var IVTGeneralEx = document.getElementById('IVTGeneralEx').getContext('2d');
+      let IVTGeneralExchart = new Chart(IVTGeneralEx, {
+        type: 'line',
+        data: {
+          datasets: [{
+            label: 'y = f(x)',
+            fill: false,
+            data: [, 20, 30, 20, 10, 20, 30, 40, ]
+          }],
+          labels: ['', 'a', '', '', '', '', '', 'b', '']
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                min: -5,
+                stepSize: 10
+              }
+            }]
+          }
+        }
+      });
+      var IVTRootEx = document.getElementById('IVTRootEx').getContext('2d');
+      let IVTRootExchart = new Chart(IVTRootEx, {
+        type: 'line',
+        data: {
+          datasets: [{
+            label: 'y = f(x)',
+            fill: false,
+            data: [, 40, 50, 40, 20, -10, 20, -10, ]
+          }],
+          labels: ['', 'a', '', '', '', '', '', 'b', '']
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                min: -20,
+                stepSize: 10
+              }
+            }]
+          }
+        }
+      });
+    </script>
   </body>
 </html>
