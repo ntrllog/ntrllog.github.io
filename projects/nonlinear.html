@@ -26,6 +26,7 @@
           <h1>Numerical Analysis: A Nonlinear Story</h1>
           <hr>
           <p>Shortcut to this page: <a href="nonlinear.html">alanlam.netlify.com/nonlinear</a></p>
+          <p>This is the nonlinear version of the <a href="lin_alg.html" target="_blank">linear algebra story</a>.</p>
           <h2>A Numbers Store Stores Numbers</h2>
           <p>How does a computer store numbers? Vaguely, we could describe it as putting each digit in a space somewhere in the computer's memory. So `100` would need `3` spaces*. This seems like an easy and obvious idea until we get to numbers like `pi`, which has an infinite number of digits. Does this mean we need an infinite amount of memory to store `pi`? But computers don't have infinite memory, so what happens then?</p>
           <p>*Computers work in binary, so things are a little bit different than this.</p>
@@ -219,7 +220,8 @@
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/ivt_root.jpg">
           </div>
-          <p>This suggests that we start the algorithm by picking `a_0, b_0` such that `f(a_0), f(b_0)` have different signs.</p>
+          <p>Again, `f` achieves every value between the dotted lines between `a` and `b`. Here, the `x`-axis lies between the dotted lines, so it is guaranteed that `f` will cross the `x`-axis, i.e. `f(c) = 0` at some point `c` between `a` and `b`.</p>
+          <p>This suggests that we start the algorithm by picking `a_0, b_0` such that `f(a_0), f(b_0)` have different signs (e.g. `f(a_0)` is positive and `f(b_0)` is negative).</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/root_algorithm_0.jpg">
           </div>
@@ -238,6 +240,9 @@
             <p>`abs(text(exact)-text(approximate)) = abs(r - d_n) <= abs(b_n - a_n)`</p>
             <p>where `r` is the exact solution</p>
           </div>
+          <div class="box">
+            <p>This is because the worst error would occur when the approximation we pick is `a_n` and the actual solution is `b_n` (or vice versa).</p>
+          </div>
           <p>We usually pick as our approximation the midpoint of `a_n` and `b_n`. That actually gives us a better approximation because the most error we could have then is half of the previous error. (This would be when the exact solution is either at `a_n` or at `b_n`.)</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/root_algorithm_error.jpg">
@@ -245,6 +250,38 @@
           </div>
           <div class="box">
             <p>In general, `abs(r - d_n) <= max(abs(d_n-a_n), abs(d_n-b_n))`.</p>
+          </div>
+          <p>So to summarize, the algorithm for finding a root of a polynomial is:</p>
+          <ol>
+            <li><p>Start with an interval `[a_0,b_0]` where `f(a_0)` and `f(b_0)` have different signs</p></li>
+            <li><p>Cut the interval in half at `c_0`, which is the midpoint of `[a_0,b_0]`</p></li>
+            <li><p>Pick a new (smaller) interval such that either `f(a_0)` and `f(c_0)` have different signs or `f(c_0)` and `f(b_0)` have different signs</p></li>
+            <li><p>Repeat the steps for that new (smaller) interval</p></li>
+          </ol>
+          <p>As the steps suggest, the name of this algorithm is the <b>bisection method</b>.</p>
+          <p>The bisection method generates a sequence of approximations:</p>
+          <div class="math">
+            <p>`{c_n}_(n=0)^(oo)`</p>
+            <p>where `c_n = (a_n + b_n)/2`</p>
+          </div>
+          <p>If the actual solution is `r`, then what we want to say is that `color(blue)(lim_(n->oo) c_n = r)`. In words, the more times we do the algorithm, the more approximations we will get and the closer those approximations will be to the actual solution `r`.</p>
+          <p>Another way to say that is that the difference (i.e. error) between the approximation we get and the actual solution gets closer and closer to `0`. Generally, this won't always happen, but for the bisection method, it is true that the more times we do the algorithm, the closer it will get to `0`.</p>
+          <div class="box">
+            <p>Previously, we found that `abs(r - c_n) <= abs(b_n - a_n)/2`. Well that means `abs(r - c_0) <= abs(b_0 - a_0)/2`. And also, `abs(r - c_1) <= abs(b_1 - a_1)/2`</p>
+            <p>But what is `abs(b_1 - a_1)`? Thinking back to the steps of the algorithm, `[a_1,b_1]` represented the new interval after splitting `[a_0,b_0]` in half. So `[a_1,b_1]` is really half of `[a_0,b_0]`. Which means `abs(b_1 - a_1) = abs(b_0 - a_0)/2`.</p>
+            <p>Putting all that together, `abs(r - c_1) <= abs(b_1 - a_1)/2 = (abs(b_0 - a_0)/2)/2 = 1/2^2 (b_0 - a_0)`</p>
+            <p>Generalizing that idea, we can see that:</p>
+            <div class="math">
+              <p>`abs(r - c_n) <= 1/2^1 (b_n - a_n)`</p>
+              <p>`abs(r - c_1) <= 1/2^2 (b_0 - a_0)`</p>
+              <p>`abs(r - c_2) <= 1/2^3 (b_0 - a_0)`</p>
+              <p>`abs(r - c_3) <= 1/2^4 (b_0 - a_0)`</p>
+              <p>`vdots`</p>
+              <p>`abs(r - c_n) <= 1/2^(n+1) (b_0 - a_0)`</p>
+            </div>
+            <p>Now, as `n` gets larger and larger (i.e. as we do more steps of the algorithm), the right-hand side gets smaller and smaller. When `n` goes to `oo`, the right-hand side goes to `0`.</p>
+            <p>This proves that what we want to say is true: `color(blue)(lim_(n->oo) abs(r - c_n) = 0 => lim_(n->oo)c_n = r)`</p>
+            <p>When this happens, we say that the bisection method <em>converges</em>.</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
