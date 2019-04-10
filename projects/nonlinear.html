@@ -229,6 +229,23 @@
           </div>
           <p>Now we have two choices for what our new interval `[a_1, b_1]` could be: `[a_0, c_0]` or `[c_0, b_0]`. The IVT doesn't tell us if there's a root between `a_0` and `c_0`, but it does guarantee that there is a root between `c_0` and `b_0`. So the new interval `[a_1, b_1]` should be `[c_0, b_0]`.</p>
           <p>And this process of dividing the interval in half repeats until the interval is small enough.</p>
+          <p>The thing is, we're looking for a number, but we end up with an interval (two numbers). So how do we get our answer? We could just pick some number between that interval. At this point, the interval is really small, so our approximation should be close to the actual solution. But how much error is there?</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/root_algorithm_n.jpg">
+          </div>
+          <p>Let's pick some number `d_n` and use that as our approximation. In this picture, there would be the most error if the actual solution was at `b_n`. In general,</p>
+          <div class="math">
+            <p>`abs(text(exact)-text(approximate)) = abs(r - d_n) <= abs(b_n - a_n)`</p>
+            <p>where `r` is the exact solution</p>
+          </div>
+          <p>We usually pick as our approximation the midpoint of `a_n` and `b_n`. That actually gives us a better approximation because the most error we could have then is half of the previous error. (This would be when the exact solution is either at `a_n` or at `b_n`.)</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/root_algorithm_error.jpg">
+            <p>`abs(text(exact)-text(approximate)) = abs(r - c_n) <= abs(b_n - a_n)/2`</p>
+          </div>
+          <div class="box">
+            <p>In general, `abs(r - d_n) <= max(abs(d_n-a_n), abs(d_n-b_n))`.</p>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
