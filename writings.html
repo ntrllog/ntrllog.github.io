@@ -37,7 +37,7 @@
         <div class="col-sm-3">
           <h6>Computer Science</h6>
           <ul>
-            <!-- <li><a href="#manasa_and_stones">Manasa and Stones</a></li> -->
+            <li><a href="#manasa_and_stones">Manasa and Stones</a></li>
             <li><a href="#flatland_space_stations">Flatland Space Stations</a></li>
             <li><a href="#math_in_cs">Math in CS</a></li>
             <li><a href="#recursion_as_settings">Recursion as Settings</a></li>
@@ -113,16 +113,44 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
-          <!-- <p id="manasa_and_stones">.</p>
+          <p id="manasa_and_stones">.</p>
           <div class="post">
             <h4 class="title">Manasa and Stones</h4>
-            <h6 class="date">April 13, 2019</h6>
+            <h6 class="date">April 14, 2019</h6>
+            <a href="#math_in_cs">#MathInCS</a>
+            <br>
             <a href="https://www.hackerrank.com/challenges/manasa-and-stones/problem" target="_blank">HackerRank link</a>
-          </div> -->
+            <p>So there are a number of stones on a path that are numbered starting from 0. Each consecutive stone differs by one of two values. The task is to find out all the numbers the last stone could have.</p>
+            <p>For example, we could have: 0 -> 2 -> 11 -> 13. The difference between each consecutive stone is either 2 or 9. Assuming there are a total of 4 stones, all the possible numbers the last stone could have are:  13, 6, 27, 20.</p>
+            <div class="collapse" id="collapseManasaAndStones">
+              <p>The brute force solution is to generate all the possible paths and then find the last number in each path.</p>
+              <p>Well, we know that one possible path is where the differences between each stone are all 2's. So the last stone would be 6.</p>
+              <img class="img-fluid" src="pictures/writings/manasas/first_path.png">
+              <p>Another possible path is where the differences are all 9's. So the last stone would be a 27.</p>
+              <img class="img-fluid" src="pictures/writings/manasas/last_path.jpg">
+              <p>So now the only options left are situations where [two differences are 2's and one difference is 9] and [two differences are 9's and one difference is 2]. (However, this doesn't mean that there are two paths left. There are actually 6 paths left because we don't know which stones have the difference of 2 and which stones have the difference of 9. For example, the differences could go [2 -> 2 -> 9] or [2 -> 9 -> 2] or [9 -> 2 -> 2].)</p>
+              <p>So how do we generalize this? First, notice that there are 3 differences between 4 stones. Generally, there are n-1 differences between n stones. Second, recall how we generated the first two paths: considering the situation where all the differences were the same. This is the same as multiplying the first difference n-1 times and multiplying the second difference n-1 times. This makes sense because if there are n-1 differences and each difference is the same number, then the last number is the result of multiplying the difference by the number of differences (n-1).</p>
+              <img class="img-fluid" src="pictures/writings/manasas/multiplying.jpg">
+              <p>Third, note that paths with differences like [2 -> 2-> 9], [2 -> 9 -> 2], and [9 -> 2 -> 2] all result in the last stone having the same number.</p>
+              <img class="img-fluid" src="pictures/writings/manasas/same_difference.jpg">
+              <p>This is because we're essentially adding all the possible combinations of 2's and 9's to get the last stone. Addition is commutative, meaning we can switch the order of the numbers and still get the same result. Recognizing this is crucial because this means we don't have to waste time generating paths that will give us the same result anyway.</p>
+              <p>Combining these three points give us the following approach to solving the problem:</p>
+              <img class="img-fluid" src="pictures/writings/manasas/algorithm.png">
+              <p>In words, we're considering all the possible combination of 2's and 9's for 3 differences (4 stones means there are 3 differences.)</p>
+              <p>Note: There are 2<sup>n-1</sup> total possible paths (n-1 differences, 2 choices for each difference). If n is really big (i.e. there are a lot of stones) then the brute force approach would take a really long time. Also recall that some of those paths resulted in the same answer for the last stone, so it's also inefficient.</p>
+              <p>Second note: It's also no coincidence that there is a pattern in the last number of the last stone. Notice how each last number differs by 7 (e.g. 6 + 7 = 13, 13 + 7 = 20), which also happens to be the difference between the differences 2 and 9 (i.e. 9 — 2 = 7). This is because, as we're going down the table, we taking away a 2 and adding a 9 (i.e. doing 9 — 2), resulting in adding a 7.</p>
+              <p>Third note: I believe the number of stones always equals the number of unique last numbers, simply because there are n numbers between 0 and n-1. (We're trying to find the last stone when there are 0 differences of 9, 1 difference of 9, 2 differences of 9, ..., n-1 differences of 9.)</p>
+              <img class="img-fluid" src="pictures/writings/manasas/formula.jpg">
+              <p>I'll be convinced if this equation is true. Unless my equation is wrong.</p>
+            </div>
+            <a class="btn toggle-text" data-toggle="collapse" href="#collapseManasaAndStones"><span>Read more</span><span class="hidden">Read less</span></a>
+          </div>
           <p id="flatland_space_stations">.</p>
           <div class="post">
             <h4 class="title">Flatland Space Stations</h4>
             <h6 class="date">April 13, 2019</h6>
+            <a href="#math_in_cs">#MathInCS</a>
+            <br>
             <a href="https://www.hackerrank.com/challenges/flatland-space-stations/problem" target="_blank">HackerRank link</a>
             <p>So there are some cities and some space stations on a route. For simplicity, they can be thought of as being lined up in a straight line, so that when you walk on that line, you will walk through a city or a space station. And every city and space station are 1 km apart from each other. The task is to find the longest distance between a city to the <em>nearest</em> space station.</p>
             <img class="img-fluid" src="pictures/writings/flatland_space_station/problem.jpg">
@@ -146,7 +174,7 @@
             <p>Here are some problems from HackerRank where I used math (or mathematical thinking/reasoning) to come up with a better solution than one that uses brute force.</p>
             <ul>
               <li><a href="#flatland_space_stations">Flatland Space Stations</a></li>
-              <!-- <li><a href="#manasa_and_stones">Manasa and Stones</a></li> -->
+              <li><a href="#manasa_and_stones">Manasa and Stones</a></li>
             </ul>
           </div>
           <p id="mnemonic_devices">.</p>
@@ -339,10 +367,10 @@
             <p>My explanation?</p>
             <div class="row">
               <div class="col-sm-3">
-                <img class="img-fluid" src="pictures/writings/4mod3.png">
+                <img class="img-fluid" src="pictures/writings/mod/4mod3.png">
               </div>
               <div class="col-sm-3">
-                <img class="img-fluid" src="pictures/writings/2mod3.png">
+                <img class="img-fluid" src="pictures/writings/mod/2mod3.png">
               </div>
             </div>
             <p>There's something about dividing a smaller number by a larger number to get a fraction that seems to trip up some students.</p>
@@ -480,19 +508,19 @@
             <h4 class="title">I'm Tiled of This</h4>
             <h6 class="date">September 10, 2018</h6>
             <p>So I had to replace some kitchen countertop tiles recently. It was hard, to say the least. Keep in mind that I have no experience whatsoever with stuff like this.</p>
-            <img class="img-fluid" src="./pictures/writings/tile_start.jpg">
+            <img class="img-fluid" src="./pictures/writings/tiled/tile_start.jpg">
             <p>I have no idea when and how that ever happened. To make things worse, I have no idea where the piece went.</p>
             <p>For some reason, my mind jumped to making a crescent-shaped piece somehow. It would've been much easier to glue it on than to remove and replace the tiles.</p>
             <p>But alas, there were no crescent-shaped tiles.</p>
             <div class="collapse" id="collapseTiled">
-              <img class="img-fluid" src="./pictures/writings/tile_mid_1.jpeg">
+              <img class="img-fluid" src="./pictures/writings/tiled/tile_mid_1.jpeg">
               <p>Yep. By removing one tile, I made the problem worse. The hole — originally spanning across two tiles — now spanned across three tiles. Great. Just great.</p>
               <p>Removing one tile was hard enough. I mean, have you ever tried "sawing" through a rock with scissors? I imagine it's probably something like that.</p>
               <p>It's also hard mentally as well. It's demoralizing when you're sawing and prying away at a broken tile — which you never broke by the way — only to break pieces off of the perfectly good tiles next to it. Well, then you would have to take off those freshly ruined tiles. And oops. You just inevitably broke more pieces off of more good tiles next to those freshly ruined tiles.</p>
-              <img class="img-fluid" src="./pictures/writings/tile_mid_2.jpg">
+              <img class="img-fluid" src="./pictures/writings/tiled/tile_mid_2.jpg">
               <p>That was the third most satisfying thing to see in this whole experience.</p>
               <p>Did you know that it is difficult finding a store that stocks v-cap tiles in the size you need? That was the second most satisfying thing to see.</p>
-              <img class="img-fluid" src="./pictures/writings/tile_end.jpg">
+              <img class="img-fluid" src="./pictures/writings/tiled/tile_end.jpg">
               <p>And that was the most satisfying thing to see.</p>
             </div>
             <a class="btn toggle-text" data-toggle="collapse" href="#collapseTiled"><span>Read more</span><span class="hidden">Read less</span></a>
