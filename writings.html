@@ -37,6 +37,9 @@
         <div class="col-sm-3">
           <h6>Computer Science</h6>
           <ul>
+            <!-- <li><a href="#manasa_and_stones">Manasa and Stones</a></li> -->
+            <li><a href="#flatland_space_stations">Flatland Space Stations</a></li>
+            <li><a href="#math_in_cs">Math in CS</a></li>
             <li><a href="#recursion_as_settings">Recursion as Settings</a></li>
             <li><a href="#students_as_processors">Students as Processors</a></li>
             <li><a href="#binary_search">Binary Search</a></li>
@@ -110,6 +113,42 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <!-- <p id="manasa_and_stones">.</p>
+          <div class="post">
+            <h4 class="title">Manasa and Stones</h4>
+            <h6 class="date">April 13, 2019</h6>
+            <a href="https://www.hackerrank.com/challenges/manasa-and-stones/problem" target="_blank">HackerRank link</a>
+          </div> -->
+          <p id="flatland_space_stations">.</p>
+          <div class="post">
+            <h4 class="title">Flatland Space Stations</h4>
+            <h6 class="date">April 13, 2019</h6>
+            <a href="https://www.hackerrank.com/challenges/flatland-space-stations/problem" target="_blank">HackerRank link</a>
+            <p>So there are some cities and some space stations on a route. For simplicity, they can be thought of as being lined up in a straight line, so that when you walk on that line, you will walk through a city or a space station. And every city and space station are 1 km apart from each other. The task is to find the longest distance between a city to the <em>nearest</em> space station.</p>
+            <img class="img-fluid" src="pictures/writings/flatland_space_station/problem.jpg">
+            <div class="collapse" id="collapseFlatlandSpaceStations">
+              <p>The brute force solution is to find the distance between every city and the nearest space station to it.</p>
+              <p>But we could get a better solution by observing the position of a city that would be at the farthest distance from the nearest space station. Let's suppose we're placing a city between two space stations such that it results in the longest distance possible to the nearest space station. We can't place it near the space stations because the farthest distance to the nearest space station would be really small. So we should put it somewhere in the middle of the two space stations.</p>
+              <p>Let's consider placing it directly in the middle of the two space stations then. This means that the distance to one space station is exactly the same as the distance to the other space station. Moving it a little bit to the left or right makes it closer to a space station (and thus it's no longer at the farthest distance possible).</p>
+              <img class="img-fluid" src="pictures/writings/flatland_space_station/city_shift.jpg">
+              <p>This suggests that the farthest distance a city can be from any two space stations is half of the distance between the two space stations. So instead of looking at the distance from every city, we look at the distance from every two space stations and calculate the distance to their midpoint. The largest distance from doing that should be the farthest distance from any city to the nearest space station. (Notice that this supports the situation in the first picture. Also notice that this works even if there an even number of cities between two space stations.)</p>
+              <img class="img-fluid" src="pictures/writings/flatland_space_station/solution.jpg">
+              <p>There are edge cases, but this is the main idea.</p>
+            </div>
+            <a class="btn toggle-text" data-toggle="collapse" href="#collapseFlatlandSpaceStations"><span>Read more</span><span class="hidden">Read less</span></a>
+          </div>
+          <p id="math_in_cs">.</p>
+          <div class="post">
+            <h4 class="title">Math in CS</h4>
+            <h6 class="date">April 13, 2019</h6>
+            <p>For some reason, there's this perceived notion that computer science and math are closely related. Some believe that you need to be good at math to do well in computer science. Or that doing well in computer science means that you're good at math. This isn't true. Ask a first-year computer science student how much math they use and how complicated the math is. Or learn programming and see for yourself. :)</p>
+            <p>I would like to present a different argument though: approaching computer science from a math perspective makes you a better problem solver. (So being good at math makes you better at solving some computer science problems.) And I don't mean simply finding a solution to a problem. I mean finding an optimal solution — or, at the very least, a better one than brute force — to a problem.</p>
+            <p>Here are some problems from HackerRank where I used math (or mathematical thinking/reasoning) to come up with a better solution than one that uses brute force.</p>
+            <ul>
+              <li><a href="#flatland_space_stations">Flatland Space Stations</a></li>
+              <!-- <li><a href="#manasa_and_stones">Manasa and Stones</a></li> -->
+            </ul>
+          </div>
           <p id="mnemonic_devices">.</p>
           <div class="post">
             <h4 class="title">Mnemonic Devices</h4>
