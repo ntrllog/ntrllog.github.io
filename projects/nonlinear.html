@@ -265,24 +265,22 @@
             <p>where `c_n = (a_n + b_n)/2`</p>
           </div>
           <p>If the actual solution is `r`, then what we want to say is that `color(blue)(lim_(n->oo) c_n = r)`. In words, the more times we do the algorithm, the more approximations we will get and the closer those approximations will be to the actual solution `r`.</p>
-          <p>Another way to say that is that the difference (i.e. error) between the approximation we get and the actual solution gets closer and closer to `0`. Generally, this won't always happen, but for the bisection method, it is true that the more times we do the algorithm, the closer it will get to `0`.</p>
-          <div class="box">
-            <p>Previously, we found that `abs(r - c_n) <= abs(b_n - a_n)/2`. Well that means `abs(r - c_0) <= abs(b_0 - a_0)/2`. And also, `abs(r - c_1) <= abs(b_1 - a_1)/2`</p>
-            <p>But what is `abs(b_1 - a_1)`? Thinking back to the steps of the algorithm, `[a_1,b_1]` represented the new interval after splitting `[a_0,b_0]` in half. So `[a_1,b_1]` is really half of `[a_0,b_0]`. Which means `abs(b_1 - a_1) = abs(b_0 - a_0)/2`.</p>
-            <p>Putting all that together, `abs(r - c_1) <= abs(b_1 - a_1)/2 = (abs(b_0 - a_0)/2)/2 = 1/2^2 (b_0 - a_0)`</p>
-            <p>Generalizing that idea, we can see that:</p>
-            <div class="math">
-              <p>`abs(r - c_n) <= 1/2^1 (b_n - a_n)`</p>
-              <p>`abs(r - c_1) <= 1/2^2 (b_0 - a_0)`</p>
-              <p>`abs(r - c_2) <= 1/2^3 (b_0 - a_0)`</p>
-              <p>`abs(r - c_3) <= 1/2^4 (b_0 - a_0)`</p>
-              <p>`vdots`</p>
-              <p>`abs(r - c_n) <= 1/2^(n+1) (b_0 - a_0)`</p>
-            </div>
-            <p>Now, as `n` gets larger and larger (i.e. as we do more steps of the algorithm), the right-hand side gets smaller and smaller. When `n` goes to `oo`, the right-hand side goes to `0`.</p>
-            <p>This proves that what we want to say is true: `color(blue)(lim_(n->oo) abs(r - c_n) = 0 => lim_(n->oo)c_n = r)`</p>
-            <p>When this happens, we say that the bisection method <em>converges</em>.</p>
+          <p>Another way to say that is that the difference (i.e. error) between the approximation we get and the actual solution gets closer and closer to `0`. Generally, it might not be guaranteed to happen, but for the bisection method, it is true that the more times we do the algorithm, the closer it will get to `0`.</p>
+          <p>Previously, we found that `abs(r - c_n) <= abs(b_n - a_n)/2`. Well that means `abs(r - c_0) <= abs(b_0 - a_0)/2`. And also, `abs(r - c_1) <= abs(b_1 - a_1)/2`.</p>
+          <p>But what is `abs(b_1 - a_1)`? Thinking back to the steps of the algorithm, `[a_1,b_1]` represented the new interval after splitting `[a_0,b_0]` in half. So `[a_1,b_1]` is really half of `[a_0,b_0]`. Which means `abs(b_1 - a_1) = abs(b_0 - a_0)/2`.</p>
+          <p>Putting all that together, `abs(r - c_1) <= abs(b_1 - a_1)/2 = (abs(b_0 - a_0)/2)/2 = 1/2^2 (b_0 - a_0)`</p>
+          <p>Generalizing that idea, we can see that:</p>
+          <div class="math">
+            <p>`abs(r - c_n) <= 1/2^1 (b_n - a_n)`</p>
+            <p>`abs(r - c_1) <= 1/2^2 (b_0 - a_0)`</p>
+            <p>`abs(r - c_2) <= 1/2^3 (b_0 - a_0)`</p>
+            <p>`abs(r - c_3) <= 1/2^4 (b_0 - a_0)`</p>
+            <p>`vdots`</p>
+            <p>`abs(r - c_n) <= 1/2^(n+1) (b_0 - a_0)`</p>
           </div>
+          <p>Now, as `n` gets larger and larger (i.e. as we do more steps of the algorithm), the right-hand side gets smaller and smaller. When `n` goes to `oo`, the right-hand side goes to `0`.</p>
+          <p>This proves that what we want to say is true: `color(blue)(lim_(n->oo) abs(r - c_n) = 0 => lim_(n->oo)c_n = r)`</p>
+          <p>When this happens, we say that the bisection method <em>converges</em>.</p>
           <p>So in theory, the error gets really small when `n` is large. But how large should `n` be? How many times should we keep dividing intervals in half?</p>
           <p>If we know that the worst error is `1/2^(n+1) (b_0 - a_0)`, then we can decide how small the error could be.</p>
           <div class="box">
@@ -322,6 +320,45 @@
      <span style="color: #008800; font-weight: bold">end</span>
 <span style="color: #008800; font-weight: bold">end</span>
 </pre></div>
+          </div>
+          <p>Let's look at the speed of the bisection method. Since we're dealing with nonlinear equations, we can say that computing `f(x)` is relatively hard (i.e. time-consuming). Of course, a computer can do it almost instantly, but it takes more time to compute powers and roots than additions and divisions. So we can measure the speed of the bisection method by counting how many times we compute `f(x)`.</p>
+          <p>In the code above, we're calcuating `f(a)` and `f(c)` every iteration. That's `2` costly operations. It turns out we can reduce it to only `1` costly operation per iteration if we store their values.</p>
+          <div class="box">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">function</span><span style="color: #bbbbbb"> </span>[c] =<span style="color: #bbbbbb"> </span><span style="color: #0066BB; font-weight: bold">bisectionOptimized</span>(a,b,n)<span style="color: #bbbbbb"></span>
+<span style="color: #bbbbbb">    </span>c = (a<span style="color: #333333">+</span>b)<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>;
+    fa = f(a);
+    <span style="color: #008800; font-weight: bold">for</span> step = <span style="color: #0000DD; font-weight: bold">1</span>:n
+        fc = f(c);
+        <span style="color: #008800; font-weight: bold">if</span> fa<span style="color: #333333">*</span>fc <span style="color: #333333">&lt;</span>= <span style="color: #0000DD; font-weight: bold">0</span>
+            b = c;
+        <span style="color: #008800; font-weight: bold">else</span>
+            a = c;
+            fa = fc;
+        <span style="color: #008800; font-weight: bold">end</span>
+        c = (a<span style="color: #333333">+</span>b)<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>;
+    <span style="color: #008800; font-weight: bold">end</span>
+<span style="color: #008800; font-weight: bold">end</span>
+</pre></div>
+          </div>
+          <p>We only need to calculate `f(a)` once at the beginning to use IVT. After that, `a` becomes `c`. At this point, we've also already calculated `f(c)`, so when we're trying to find new intervals, we don't need to calculate `f(c)` again.</p>
+          <div class="box">
+            <p>Let's look at the bisection method without the code. Let's assume that to find `c_0`, we have to first determine whether `f(a_0)` and `f(b_0)` have opposite signs. Then to find `c_1` we have to compute `f(c_0)` and so on.</p>
+            <div class="math">
+              <p>`c_0`: `2` total function evaluations so far (`f(a_0)` and `f(b_0)`)</p>
+              <p>`c_1`: `3` total function evaluations so far (`f(c_0)` plus previous)</p>
+              <p>`c_2`: `4` total function evaluations so far (`f(c_1)` plus previous)</p>
+              <p>`vdots`</p>
+              <p>`c_n`: `n+2` function evaluations</p>
+            </div>
+            <p>The `2` function evaluations come from using the IVT to ensure that the root is in between the intervals.</p>
+          </div>
+          <div class="box">
+            <p>Some details regarding the bisection method:</p>
+            <ul>
+              <li><p>If `f(a)` and `f(c)` are both really large, then it's possible that multiplying them together results in a number that is too large for the computer to store. Then, we would get errors like we saw in the previous section. To avoid this, we could define a function called `sign(f(x)) = {(1 if f(x) > 0),(-1 if f(x) < 0),(0 if f(x) = 0):}`. Then we could check if `sign(f(a)) cancel(=) sign(f(c))` instead of multiplying them.</p></li>
+              <li><p>It might sound like a good idea to check if `f(c_n) = 0` to stop the algorithm early. That would mean that in doing our algorithm, we hit on the <em>exact</em> root. The chances of that happening are virtually `0` (imagine marking `sqrt(2)` <em>exactly</em> on a a number line). The bisection method will converge anyway, so checking that is an extra costly operation.</p></li>
+              <li><p>Like with the first point, it's possible that when calculating `c = (a+b)/2`, adding `a` and `b` results in a number too large to store. We can avoid this by calculating `c = a + (b-a)/2`. Note that `a + (b-a)/2 = (a + b)/2`.</p></li>
+            </ul>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
