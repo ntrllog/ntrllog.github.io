@@ -56,6 +56,7 @@
         <div class="col-sm-3">
           <h6>Math</h6>
           <ul>
+            <li><a href="#fair_rations">Fair Rations</a></li>
             <li><a href="#manasa_and_stones">Manasa and Stones</a></li>
             <li><a href="#flatland_space_stations">Flatland Space Stations</a></li>
             <li><a href="#math_in_cs">Math in CS</a></li>
@@ -113,6 +114,26 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="fair_rations">.</p>
+          <div class="post">
+            <h4 class="title">Fair Rations</h4>
+            <h6 class="date">April 14, 2019</h6>
+            <a href="#math_in_cs">#MathInCS</a>
+            <br>
+            <a href="https://www.hackerrank.com/challenges/fair-rations/problem" target="_blank">HackerRank link</a>
+            <p>So there is a line of people who are getting bread. Some of them may or may not already have bread. When you give a loaf of bread to Person A, you also have to give a loaf either to the person directly in front of or directly behind Person A. The task is to find the lowest number of loaves you have to give out so that everyone in line has an even amount of loaves. (Or determine if it's not possible.)</p>
+            <p>For example, we could have 2-5-7, which means that the first person has 2 loaves, the second person has 5 loaves, and the third person has 7 loaves. We could give out 1 loaf of bread to the second person and 1 loaf of bread to the person behind, which is the third person. Then it becomes 2-6-8. Everyone has an even number of loaves, and we had to distribute 2 loaves to get there.</p>
+            <p>Solution:</p>
+            <div class="" id="collapseFairRations">
+              <p>The brute force solution might involve checking how many loaves each person has every time we give out loaves. It turns out that we don't even need to know how many loaves each person has.</p>
+              <p>Instead of looking at how to actually solve this problem, I want to look at knowing when it is impossible to distribute loaves such that everyone has an even amount. That is, it might be possible that no matter how many loaves we give out, there will always be at least one person with an odd number.</p>
+              <p>It will be impossible for everyone to have an even number in this case: 2-3-2. But not in this case: 5-2-3-2. Why is that?</p>
+              <p>Let's look at the total number of loaves that people already have in each case. 7 and 12. Since this problem deals with even and odd, let's look at those numbers that way. 7 is odd and 12 is even. So it looks like it won't work if the total number of loaves is odd, and it will work if the total number of loaves is even?</p>
+              <p>Yes, that is actually true. But why?</p>
+              <p>There are 2 crucial ideas to understanding this. The first is that if everyone has an even number of loaves, that means the sum of </p>
+            </div>
+            <a class="btn toggle-text" data-toggle="collapse" href="#collapseFairRations"><span>Read more</span><span class="hidden">Read less</span></a>
+          </div>
           <p id="manasa_and_stones">.</p>
           <div class="post">
             <h4 class="title">Manasa and Stones</h4>
@@ -122,9 +143,10 @@
             <a href="https://www.hackerrank.com/challenges/manasa-and-stones/problem" target="_blank">HackerRank link</a>
             <p>So there are a number of stones on a path that are numbered starting from 0. Each consecutive stone differs by one of two values. The task is to find out all the numbers the last stone could have.</p>
             <p>For example, we could have: 0 -> 2 -> 11 -> 13. The difference between each consecutive stone is either 2 or 9. Assuming there are a total of 4 stones, all the possible numbers the last stone could have are:  13, 6, 27, 20.</p>
+            <p>Solution:</p>
             <div class="collapse" id="collapseManasaAndStones">
               <p>The brute force solution is to generate all the possible paths and then find the last number in each path.</p>
-              <p>Well, we know that one possible path is where the differences between each stone are all 2's. So the last stone would be 6.</p>
+              <p>How could we do better? Well, we know that one possible path is where the differences between each stone are all 2's. So the last stone would be 6.</p>
               <img class="img-fluid" src="pictures/writings/manasas/first_path.png">
               <p>Another possible path is where the differences are all 9's. So the last stone would be a 27.</p>
               <img class="img-fluid" src="pictures/writings/manasas/last_path.jpg">
@@ -154,9 +176,10 @@
             <a href="https://www.hackerrank.com/challenges/flatland-space-stations/problem" target="_blank">HackerRank link</a>
             <p>So there are some cities and some space stations on a route. For simplicity, they can be thought of as being lined up in a straight line, so that when you walk on that line, you will walk through a city or a space station. And every city and space station are 1 km apart from each other. The task is to find the longest distance between a city to the <em>nearest</em> space station.</p>
             <img class="img-fluid" src="pictures/writings/flatland_space_station/problem.jpg">
+            <p>Solution:</p>
             <div class="collapse" id="collapseFlatlandSpaceStations">
               <p>The brute force solution is to find the distance between every city and the nearest space station to it.</p>
-              <p>But we could get a better solution by observing the position of a city that would be at the farthest distance from the nearest space station. Let's suppose we're placing a city between two space stations such that it results in the longest distance possible to the nearest space station. We can't place it near the space stations because the farthest distance to the nearest space station would be really small. So we should put it somewhere in the middle of the two space stations.</p>
+              <p>How could we do better? We could get a better solution by observing the position of a city that would be at the farthest distance from the nearest space station. Let's suppose we're placing a city between two space stations such that it results in the longest distance possible to the nearest space station. We can't place it near the space stations because the farthest distance to the nearest space station would be really small. So we should put it somewhere in the middle of the two space stations.</p>
               <p>Let's consider placing it directly in the middle of the two space stations then. This means that the distance to one space station is exactly the same as the distance to the other space station. Moving it a little bit to the left or right makes it closer to a space station (and thus it's no longer at the farthest distance possible).</p>
               <img class="img-fluid" src="pictures/writings/flatland_space_station/city_shift.jpg">
               <p>This suggests that the farthest distance a city can be from any two space stations is half of the distance between the two space stations. So instead of looking at the distance from every city, we look at the distance from every two space stations and calculate the distance to their midpoint. The largest distance from doing that should be the farthest distance from any city to the nearest space station. (Notice that this supports the situation in the first picture. Also notice that this works even if there an even number of cities between two space stations.)</p>
@@ -175,6 +198,12 @@
             <ul>
               <li><a href="#flatland_space_stations">Flatland Space Stations</a></li>
               <li><a href="#manasa_and_stones">Manasa and Stones</a></li>
+              <li><a href="#fair_rations">Fair Rations</a></li>
+            </ul>
+            <p>These problems aren't necessarily difficult, but I think they present great opportunities to:</p>
+            <ul>
+              <li><p>use math rigorously to justify and explain why certain methods work</p></li>
+              <li><p>explore math (that you've learned) and apply it in ways not used in the classroom</p></li>
             </ul>
           </div>
           <p id="mnemonic_devices">.</p>
