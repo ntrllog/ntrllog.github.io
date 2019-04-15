@@ -117,7 +117,7 @@
           <p id="fair_rations">.</p>
           <div class="post">
             <h4 class="title">Fair Rations</h4>
-            <h6 class="date">April 14, 2019</h6>
+            <h6 class="date">April 14, 2019 (last updated on April 15, 2019)</h6>
             <a href="#math_in_cs">#MathInCS</a>
             <br>
             <a href="https://www.hackerrank.com/challenges/fair-rations/problem" target="_blank">HackerRank link</a>
@@ -125,12 +125,16 @@
             <p>For example, we could have 2-5-7, which means that the first person has 2 loaves, the second person has 5 loaves, and the third person has 7 loaves. We could give out 1 loaf of bread to the second person and 1 loaf of bread to the person behind, which is the third person. Then it becomes 2-6-8. Everyone has an even number of loaves, and we had to distribute 2 loaves to get there.</p>
             <p>Solution:</p>
             <div class="collapse" id="collapseFairRations">
-              <p>The brute force solution might involve checking how many loaves each person has every time we give out loaves. It turns out that we don't even need to know how many loaves each person has.</p>
+              <p>The brute force solution might involve checking how many loaves each person has every time we give out loaves. But it turns out that we don't even need to know how many loaves each person has.</p>
               <p>Instead of looking at how to actually solve this problem, I want to look at knowing when it is impossible to distribute loaves such that everyone has an even amount. That is, it might be possible that no matter how many loaves we give out, there will always be at least one person with an odd number.</p>
               <p>It will be impossible for everyone to have an even number in this case: 2-3-2. But not in this case: 5-2-3-2. Why is that?</p>
               <p>Let's look at the total number of loaves that people already have in each case. 7 and 12. Since this problem deals with even and odd, let's look at those numbers that way. 7 is odd and 12 is even. So it looks like it won't work if the total number of loaves is odd, and it will work if the total number of loaves is even?</p>
               <p>Yes, that is actually true. But why?</p>
-              <p>There are 2 crucial ideas to understanding this. The first is that if everyone has an even number of loaves, then the total number of loaves is also even. This is because the sum of even numbers is an even number. The second is that we're adding 2 loaves to the total each time. 2 is an even number.</p>
+              <p>Let's start with 2-3-2 and reorganize it so that the people with an even number of loaves are on the left and the people with an odd number of loaves are on the right. 2-2-3. We're not going to give loaves to the first or second person because they already have an even number of loaves. So let's give a loaf to the third person. According to the rules, this means we also have to give one to the second person (the person directly in front). 2-3-4. Reorganizing the line again, we get 2-4-3. We end up with one person with an odd number again. And this will continue forever, because adding 1 to an even number will result in an odd number (and there will always be an even number to add 1 to because adding 1 to an odd number results in an even number).</p>
+              <p>Now let's look at 5-2-3-2 and reorganize that. 2-2-3-5. Giving loaves to the third and fourth person, we end up with 2-2-4-6. Everyone has an even number of loaves, so we're done.</p>
+              <p>Generalizing this, we can pair up odd numbers so that when we give each person in a pair one loaf, they turn into even numbers. If there are an even amount of odd numbers, then every odd number will have a partner and each one will turn into an even number. If there are an odd amount of odd numbers, then pairing them up will always result in one odd number left without a partner. So it will be impossible for everyone to have an even number of loaves.</p>
+              <img class="img-fluid" src="pictures/writings/even_odd.jpg">
+              <p>It also turns out that adding even numbers with an even amount of odd numbers results in an even number. Adding even numbers with an odd amount of odd numbers results in an odd number. This is why we can distribute loaves if the total number is even, and we can't when the total number is odd.</p>
             </div>
             <a class="btn toggle-text" data-toggle="collapse" href="#collapseFairRations"><span>Read more</span><span class="hidden">Read less</span></a>
           </div>
@@ -159,6 +163,7 @@
               <p>Combining these three points give us the following approach to solving the problem:</p>
               <img class="img-fluid" src="pictures/writings/manasas/algorithm.png">
               <p>In words, we're considering all the possible combination of 2's and 9's for 3 differences (4 stones means there are 3 differences.)</p>
+              <p><b>In general, this algorithm considers all possible combinations of differences. Combinations because order doesn't matter.</b></p>
               <p>Note: There are 2<sup>n-1</sup> total possible paths (n-1 differences, 2 choices for each difference). If n is really big (i.e. there are a lot of stones) then the brute force approach would take a really long time. Also recall that some of those paths resulted in the same answer for the last stone, so it's also inefficient.</p>
               <p>Second note: It's also no coincidence that there is a pattern in the last number of the last stone. Notice how each last number differs by 7 (e.g. 6 + 7 = 13, 13 + 7 = 20), which also happens to be the difference between the differences 2 and 9 (i.e. 9 — 2 = 7). This is because, as we're going down the table, we taking away a 2 and adding a 9 (i.e. doing 9 — 2), resulting in adding a 7.</p>
               <p>Third note: I believe the number of stones always equals the number of unique last numbers, simply because there are n numbers between 0 and n-1. (We're trying to find the last stone when there are 0 differences of 9, 1 difference of 9, 2 differences of 9, ..., n-1 differences of 9.)</p>
@@ -182,7 +187,7 @@
               <p>How could we do better? We could get a better solution by observing the position of a city that would be at the farthest distance from the nearest space station. Let's suppose we're placing a city between two space stations such that it results in the longest distance possible to the nearest space station. We can't place it near the space stations because the farthest distance to the nearest space station would be really small. So we should put it somewhere in the middle of the two space stations.</p>
               <p>Let's consider placing it directly in the middle of the two space stations then. This means that the distance to one space station is exactly the same as the distance to the other space station. Moving it a little bit to the left or right makes it closer to a space station (and thus it's no longer at the farthest distance possible).</p>
               <img class="img-fluid" src="pictures/writings/flatland_space_station/city_shift.jpg">
-              <p>This suggests that the farthest distance a city can be from any two space stations is half of the distance between the two space stations. So instead of looking at the distance from every city, we look at the distance from every two space stations and calculate the distance to their midpoint. The largest distance from doing that should be the farthest distance from any city to the nearest space station. (Notice that this supports the situation in the first picture. Also notice that this works even if there an even number of cities between two space stations.)</p>
+              <p>This suggests that <b>the farthest distance a city can be from any two space stations is half of the distance between the two space stations.</b> So instead of looking at the distance from every city, we look at the distance from every two space stations and calculate the distance to their midpoint. The largest distance from doing that should be the farthest distance from any city to the nearest space station. (Notice that this supports the situation in the first picture. Also notice that this works even if there an even number of cities between two space stations.)</p>
               <img class="img-fluid" src="pictures/writings/flatland_space_station/solution.jpg">
               <p>There are edge cases, but this is the main idea.</p>
             </div>
