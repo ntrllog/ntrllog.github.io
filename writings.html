@@ -124,13 +124,13 @@
             <p>So there is a line of people who are getting bread. Some of them may or may not already have bread. When you give a loaf of bread to Person A, you also have to give a loaf either to the person directly in front of or directly behind Person A. The task is to find the lowest number of loaves you have to give out so that everyone in line has an even amount of loaves. (Or determine if it's not possible.)</p>
             <p>For example, we could have 2-5-7, which means that the first person has 2 loaves, the second person has 5 loaves, and the third person has 7 loaves. We could give out 1 loaf of bread to the second person and 1 loaf of bread to the person behind, which is the third person. Then it becomes 2-6-8. Everyone has an even number of loaves, and we had to distribute 2 loaves to get there.</p>
             <p>Solution:</p>
-            <div class="" id="collapseFairRations">
+            <div class="collapse" id="collapseFairRations">
               <p>The brute force solution might involve checking how many loaves each person has every time we give out loaves. It turns out that we don't even need to know how many loaves each person has.</p>
               <p>Instead of looking at how to actually solve this problem, I want to look at knowing when it is impossible to distribute loaves such that everyone has an even amount. That is, it might be possible that no matter how many loaves we give out, there will always be at least one person with an odd number.</p>
               <p>It will be impossible for everyone to have an even number in this case: 2-3-2. But not in this case: 5-2-3-2. Why is that?</p>
               <p>Let's look at the total number of loaves that people already have in each case. 7 and 12. Since this problem deals with even and odd, let's look at those numbers that way. 7 is odd and 12 is even. So it looks like it won't work if the total number of loaves is odd, and it will work if the total number of loaves is even?</p>
               <p>Yes, that is actually true. But why?</p>
-              <p>There are 2 crucial ideas to understanding this. The first is that if everyone has an even number of loaves, that means the sum of </p>
+              <p>There are 2 crucial ideas to understanding this. The first is that if everyone has an even number of loaves, then the total number of loaves is also even. This is because the sum of even numbers is an even number. The second is that we're adding 2 loaves to the total each time. 2 is an even number.</p>
             </div>
             <a class="btn toggle-text" data-toggle="collapse" href="#collapseFairRations"><span>Read more</span><span class="hidden">Read less</span></a>
           </div>
