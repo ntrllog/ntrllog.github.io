@@ -26,10 +26,10 @@
           <h1>Numerical Analysis: A Nonlinear Story</h1>
           <hr>
           <p>Shortcut to this page: <a href="nonlinear.html">alanlam.netlify.com/nonlinear</a></p>
-          <p>This is the nonlinear version of the <a href="lin_alg.html" target="_blank">linear algebra story</a>.</p>
+          <p>This is the nonlinear version of the <a href="lin_alg.html" target="_blank">linear algebra story</a>. The linear story was looking at how to solve problems of the form `Ax = b` i.e. `Ax - b = 0`, which is linear. This story looks at how to solve problems of the form `f(x) = g(x)` where `f(x), g(x)` are nonlinear. For example, they could be `x^2, x^3, cos(x), e^(x), ...`</p>
           <h2>A Numbers Store Stores Numbers</h2>
-          <p>How does a computer store numbers? Vaguely, we could describe it as putting each digit in a space somewhere in the computer's memory. So `100` would need `3` spaces*. This seems like an easy and obvious idea until we get to numbers like `pi`, which has an infinite number of digits. Does this mean we need an infinite amount of memory to store `pi`? But computers don't have infinite memory, so what happens then?</p>
-          <p>*Computers work in binary, so things are a little bit different than this.</p>
+          <p>How does a computer store numbers? Vaguely, we could describe it as putting each digit in a space somewhere in the computer's memory. So `100` would need `3` spaces`color(red)(text(*))`. This seems like an easy and obvious idea until we get to numbers like `pi`, which has an infinite number of digits. Does this mean we need an infinite amount of memory to store `pi`? But computers don't have infinite memory, so what happens then?</p>
+          <p>`color(red)(text(*)`Computers work in binary, so things are a little bit different than this.</p>
           <p><b>Computers store a number by keeping as much of it as it can, and then throwing away the rest.</b> So if a computer can only store at most `8` digits, then it would store `pi` as `3.1415926`. But complications arise when we're dealing with really big or really small numbers. For example, `0.00000000000000045` would be stored as `0.0000000`, which is just `0`. This is a problem because `0.00000000000000045` isn't equal to `0`, but it would be treated as such. A similar problem occurs for `1000000000000000`, which would be stored as `10000000`, which is much much smaller.</p>
           <p>This suggests needing a smarter way to represent the numbers. Enter, scientific notation. With scientific notation, we can represent `0.00000000000000045` as `0.45 xx 10^(-16)` and `1000000000000000` as `1 xx 10^15`. Then we would only need to store the `45` and the `-16` for `0.45 xx 10^(-16)`. And the `1` and the `15` for `1 xx 10^15`.</p>
           <div class="box">
@@ -72,8 +72,8 @@
             <p>relative error = `abs(x - fl(x))/abs(x) = (0.obrace(00...0)^n\ d_(n+1)\ d_(n+2)\ ... xx 10^a)/(0.d_1\ d_2\ d_3\ ... xx 10^a)`</p>
             <p>` = (0.obrace(00...0)^n\ d_(n+1)\ d_(n+2)\ ...)/(0.d_1\ d_2\ d_3\ ...)`</p>
           </div>
-          <p>To find out the worst our error could be, we want to make it as large as possible. We do that by making the numerator as big as possible (by letting `d_(n+1) = d_(n+2) = ... = 9`)* and making the denominator as small as possible (by letting `d_1 = d_2 = ... = 0`).</p>
-          <p>*`0.999... = 1`</p>
+          <p>To find out the worst our error could be, we want to make it as large as possible. We do that by making the numerator as big as possible (by letting `d_(n+1) = d_(n+2) = ... = 9`)`color(red)(text(*))` and making the denominator as small as possible (by letting `d_1 = d_2 = ... = 0`).</p>
+          <p>`color(red)(text(*))``0.999... = 1`</p>
           <div class="math">
             <p>`<= (0.obrace(00...0)^(n-1)1)/(0.100)`</p>
             <p>` = 0.obrace(0...0)^(n-2)1`</p>
@@ -99,13 +99,13 @@
               <div class="math">
                 <p>relative error = `abs(x - fl(x))/abs(x)`</p>
                 <p>`= abs(0.d_1\ d_2\ ...\ d_n\ d_(n+1)\ ... xx 10^a - 0.d_1\ ...\ d_n xx 10^a - 0.obrace(0...0)^(n-1)1 xx 10^a)/abs(0.d_1\ d_2\ ... xx 10^a)`</p>
-                <p>`= abs(0.obrace(0...0)^n\ d_(n+1)\ ... - 0.obrace(0...0)^(n-1)1)/abs(0.d_1\ d_2\ ...)`*</p>
+                <p>`= abs(0.obrace(0...0)^n\ d_(n+1)\ ... - 0.obrace(0...0)^(n-1)1)/abs(0.d_1\ d_2\ ...)color(red)(text(*)`</p>
                 <p>`<= (0.obrace(0...0)^n5)/0.1`</p>
                 <p>`= 0.obrace(0...0)^(n-1)5`</p>
                 <p>`= 0.5 xx 10^(-(n-1))`</p>
                 <p>`= 1/2 xx 10^(1-n)`</p>
               </div>
-              <p>*Since `5 <= d_(n+1) <= 9`, we have:</p>
+              <p>`color(red)(text(*))` Since `5 <= d_(n+1) <= 9`, we have:</p>
               <div class="math">
                 <p>`abs(0.obrace(0...0)^n5 - 0.obrace(0...0)^(n-1)1) = 0.obrace(0...0)^n5`</p>
                 <p>`abs(0.obrace(0...0)^n6 - 0.obrace(0...0)^(n-1)1) = 0.obrace(0...0)^n4`</p>
@@ -117,13 +117,16 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseRelErrorRoundBound">Proof</a>
           </div>
+          <div class="box">
+            <p><b>The story thus far:</b> When we're working with really small/large numbers, computers won't be able to store them exactly as they are. Computers get around this by storing them using scientific notation. But even then, some numbers have so many digits (e.g. `pi`) that computers still can't store them exactly as they are. So computers either round the number or chop the number so there are less digits to store. This means that computers store a modified version of the number (denoted `fl(x)`).</p>
+          </div>
           <h2>Errors in Arithmetic Operations</h2>
-          <p>Let's suppose we wanted to add `0.42312` and `0.63546` on a `3`-digit rounding computer. First, the computer would store them as `0.423` and `0.635`. Then, the computer would add those two to get `1.058`*. Since this is a `3`-digit rounding computer, it would say that the answer is `1.06`. In math notation:</p>
+          <p>Let's suppose we wanted to add `0.42312` and `0.63546` on a `3`-digit rounding computer. First, the computer would store them as `0.423` and `0.635`. Then, the computer would add those two to get `1.058``color(red)(text(*))`. Since this is a `3`-digit rounding computer, it would say that the answer is `1.06`. In math notation:</p>
           <div class="math">
             <p>`fl(fl(0.42312) + fl(0.63546)) = fl(0.423 + 0.635) = fl(1.058) = 1.06`</p>
           </div>
           <p>Notice how this differs from the actual answer, which is `1.05858`.</p>
-          <p>*This is a `4`-digit number, but the computer can only store `3`-digit numbers. It turns out that computers temporarily store results of arithmetic operations using more digits if needed.</p>
+          <p>`color(red)(text(*))` This is a `4`-digit number, but the computer can only store `3`-digit numbers. It turns out that computers temporarily store results of arithmetic operations using more digits if needed.</p>
           <div class="box">
             <p>For longer strings of operations, the computer performs the operations pairwise. For example:</p>
             <div class="math">
@@ -137,15 +140,19 @@
           <div class="math">
             <p>`fl(x) = x(1 + delta_1)`</p>
             <p>`fl(y) = y(1 + delta_2)`</p>
-            <p>where `abs(delta_1)` and `abs(delta_2)` are the relative errors*</p>
+            <p>where `abs(delta_1)` and `abs(delta_2)` are the relative errors`color(red)(text(*))`</p>
           </div>
           <p>In words: `fl(text(some number))` is the actual value with some error attached to it.</p>
-          <div class="math">
-            <p>*`fl(x) = x(1 + delta_1)`</p>
-            <p>`=> fl(x) = x + xdelta_1`</p>
-            <p>`=> fl(x) - x = xdelta_1`</p>
-            <p>`=> (fl(x) - x)/x = delta_1`</p>
-            <p>`=> abs(fl(x)-x)/abs(x) = abs(delta_1)`</p>
+          <div class="box">
+            <p>`color(red)(text(*))` Recall that the formula for relative error is `abs(fl(x)-x)/abs(x)`</p>
+            <div class="math">
+              <p>`fl(x) = x(1 + delta_1)`</p>
+              <p>`=> fl(x) = x + xdelta_1`</p>
+              <p>`=> fl(x) - x = xdelta_1`</p>
+              <p>`=> (fl(x) - x)/x = delta_1`</p>
+              <p>`=> abs(fl(x)-x)/abs(x) = abs(delta_1)`</p>
+            </div>
+            <p>so `abs(delta_1)` is the relative error (similarly for `abs(delta_2)`)</p>
           </div>
           <p>So multiplying those two values would result in:</p>
           <div class="math">
@@ -171,7 +178,7 @@
             <p>`= 3epsilon + 3epsilon^2 + epsilon^3`</p>
             <p>`= 3epsilon + O(epsilon^2) = O(epsilon)`</p>
           </div>
-          <p>So multiplying two numbers will lead to error, but it will be at most `3` times as bad as the worst error in storing a number.</p>
+          <p>So <b>multiplying two numbers will lead to error, but it will be at most `3` times as bad as the worst error in storing a number.</b></p>
           <div class="box">
             <p>`(x*y)*z` gets relative error `abs(delta) <= 5epsilon + O(epsilon^2)`</p>
             <p>`((x_1*x_2)*x_3)*x_4*...*x_m` gets relative error `abs(delta) <= (2m-1)epsilon + O(epsilon^2)`</p>
@@ -199,12 +206,15 @@
           </div>
           <p><b>2) Catastrophic cancellation can occur when subtracting numbers</b>.</p>
           <div class="box">
-            <p>Consider the situation of trying to find the roots of a quadratic equation `ax^2 + bx + c = 0`. Let's suppose `b` is positive and `a`, `c` are small so that `abs(-4ac)` is small. Then `x = (-b + sqrt(b^2-4ac))/(2a) ~~ (-b + sqrt(b^2))/(2a) = (-b + b)/(2a) = 0`*, which leads to catastrophic cancellation. We could avoid this by rewriting `x` by multiplying it by `1`.</p>
+            <p>Consider the situation of trying to find the roots of a quadratic equation `ax^2 + bx + c = 0`. Let's suppose `b` is positive and `a`, `c` are small so that `abs(-4ac)` is small. Then `x = (-b + sqrt(b^2-4ac))/(2a) ~~ (-b + sqrt(b^2))/(2a) = (-b + b)/(2a) = 0``color(red)(text(*))`, which leads to catastrophic cancellation. We could avoid this by rewriting `x` by multiplying it by `1`.</p>
             <p>`x = (-b + sqrt(b^2-4ac))/(2a) * (-b-sqrt(b^2-4ac))/(-b-sqrt(b^2-4ac)) = (b^2 - (b^2 - 4ac))/(2a(-b-sqrt(b^2-4ac))) = (2c)/(-b-sqrt(b^2-4ac))`. In this case, catastrophic cancellation is avoided.</p>
-            <p>*It only equals `0` when the number of digits of `b` exceeds the number of digits the computer can store. After all, `sqrt(b^2 - 4ac) ~~ sqrt(b^2)`.</p>
+            <p>`color(red)(text(*))`It only equals `0` when the number of digits of `b` exceeds the number of digits the computer can store. After all, `sqrt(b^2 - 4ac) ~~ sqrt(b^2)`.</p>
           </div>
           <div class="box">
             <p>Catastrophic cancellation only occurs when the number of digits exceeds the number of digits of a number a computer can store. This is why everything is fine when doing something like `5 - 4.99999`.</p>
+          </div>
+          <div class="box">
+            <p><b>The story thus far:</b> Computers store modified versions of numbers. This means that the number the computer stores is "wrong". When we work with "wrong" numbers (e.g. add, multiply them), we're gonna get an answer that is even "more wrong". For multiplication, things aren't too bad. But for subtraction, we can get undesired results when the numbers we're subtracting are really close to each other.</p>
           </div>
           <h2>Solving Nonlinear Equations</h2>
           <p>How do we solve something like `cos(x) = x`? Let's say we didn't have a calculator, so we can't find the exact answer. How can we find a (good) approximation? In general, how do we find an approximation for `f(x) = g(x)`?</p>
@@ -281,7 +291,7 @@
           <p>Now, as `n` gets larger and larger (i.e. as we do more steps of the algorithm), the right-hand side gets smaller and smaller. When `n` goes to `oo`, the right-hand side goes to `0`.</p>
           <p>This proves that what we want to say is true: `color(blue)(lim_(n->oo) abs(r - c_n) = 0 => lim_(n->oo)c_n = r)`</p>
           <p>When this happens, we say that the bisection method <em>converges</em>.</p>
-          <p>So in theory, the error gets really small when `n` is large. But how large should `n` be? How many times should we keep dividing intervals in half?</p>
+          <p>So in theory, the error gets really small when `n` is large. But how large should `n` be? How many times should we keep dividing intervals in half until we get a satisfactory answer?</p>
           <p>If we know that the worst error is `1/2^(n+1) (b_0 - a_0)`, then we can decide how small the error could be.</p>
           <div class="box">
             <p>Note that the error bound is dependent only on `a_0`, `b_0`, and `n`. We can already figure out how much error there will be without even knowing what `f(x)` is.</p>
@@ -295,14 +305,14 @@
               <p>`log_2(4*10^12) <= n+1`</p>
               <p>`n >= log_2(4*10^(12))-1 ~~ 41`</p>
             </div>
-            <p>So if we do the bisecting method for `41` steps, then the approximation we end up with will have an error of no more than `10^(-12)`.</p>
+            <p>So if we do the bisection method for `41` steps, then the approximation we end up with will have an error of no more than `10^(-12)`.</p>
           </div>
           <div class="box">
             <p>There are other procedures for deciding when to stop without using error bounds.</p>
             <ol>
               <li><p>We could stop when `abs(c_n - c_(n-1))` is small enough. In this case, we would be getting approximations that are unchanging because the error is so small. For example, if we got `{..., 0.98757, 0.98754, 0.98751, 0.98751, 0.98751, 0.98751}`, then we could be pretty sure that `0.98751` is a good approximation.</p></li>
               <li><p>We could stop when `abs(f(c_n))` is small enough. In this case, `abs(f(c_n))` would be really close to `0`, which is what we wanted in the first place (because we're looking for roots).</p></li>
-              <li><p>We could stop when the algorithm takes too long or is not converging. This could happen for general algorithms (not the bisecting method).</p></li>
+              <li><p>We could stop when the algorithm takes too long or is not converging. This could happen for general algorithms (not the bisection method).</p></li>
             </ol>
           </div>
           <div class="box">
@@ -359,6 +369,11 @@
               <li><p>It might sound like a good idea to check if `f(c_n) = 0` to stop the algorithm early. That would mean that in doing our algorithm, we hit on the <em>exact</em> root. The chances of that happening are virtually `0` (imagine marking `sqrt(2)` <em>exactly</em> on a a number line). The bisection method will converge anyway, so checking that is an extra costly operation.</p></li>
               <li><p>Like with the first point, it's possible that when calculating `c = (a+b)/2`, adding `a` and `b` results in a number too large to store. We can avoid this by calculating `c = a + (b-a)/2`. Note that `a + (b-a)/2 = (a + b)/2`.</p></li>
             </ul>
+          </div>
+          <div class="box">
+            <p><b>The story thus far:</b> Now we're looking at how to actually solve problems like `f(x) = g(x)`. One way is to rearrange the equation so that we get `f(x) - g(x) = 0` (for simplicity, we generalize it to `f(x) = 0`). Then the task is to find the roots/zeros of `f(x)`. One way to find a root is to start with a big interval in which the root is guaranteed to lie. Then we repeatedly make the interval smaller and smaller until it's really close to the root.</p>
+            <p><b>Speed of bisection method:</b> `1` function evaluation per iteration</p>
+            <p><b>Convergence of bisection method:</b> `e_n = 1/(2^(n+1))(b_0 - a_0)`</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
