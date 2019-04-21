@@ -487,6 +487,82 @@
           <p>From this, we can see that Newton's method (generally) converges faster than the bisection method. The convergence of Newton's method is described as "quadratic convergence" because of the power `2`.</p>
           <h4>Speed of Newton's Method</h4>
           <p>The iterative formula for Newton's method is `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. From this, we can see that it requires `2` function evaluations per iteration. The bisection method required `2` function evaluations at the beginning, but then it only required `1` function evaluation per iteration. <b>This means that Newton's method does roughly twice as many function evaluations per iteration as the bisection method.</b> This also means that Newton's method is <em>slower</em> than the bisection method, but this is offset by the fact that it converges faster.</p>
+          <h4>Convergence of Newton's Method, Revisited</h4>
+          <p>So one convergence result we have is that if `f''` is continuous near `r` and `f'(r) != 0`, then choosing an `x_0` sufficiently close to `r` will result in convergence of Newton's method.</p>
+          <p>Another convergence result is that if `f'' > 0` (`f` is concave up) in the interval `[r, oo)` and `f' > 0` (`f` is increasing) in the interval `[r,oo)`, then `x_0 in [r,oo)` implies Newton's method will converge.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/concaveup_increasing.jpg">
+          </div>
+          <p>This is an example where `f'' > 0` and `f' > 0`.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/concaveup_increasing_convergence.jpg">
+          </div>
+          <p>We can see that if we continue, we will eventually hit `r`. This is what the second convergence result is saying. It's important to note that we have to start at an `x_0` to the right of `r`, i.e. `x_0 > r`.</p>
+          <div class="box">
+            <p>To prove the second convergence result, we have to show that:</p>
+            <ol>
+              <li><p>`x_n` is decreasing, i.e. `x_n < ... < x_3 < x_2 < x_1 < x_0`</p></li>
+              <li><p>a decreasing sequence bounded from below has to converge</p></li>
+              <li><p>what it converges to is `r`</p>
+            </ol>
+          </div>
+          <p>Before, we prove those `3` points, it's useful to first prove `2` lemmas.</p>
+          <div class="box">
+            <p>Lemma: If `{x_n}_(n=0)^(oo)` is the sequence of approximations obtained from Newton's method, then `x_n in [r,oo)`. In words, every approximation will be to the right of `r`.</p>
+            <div class="collapse" id="collapseNewtonLemma1">
+              <p>We have `x_(n+1) - r = e_(n+1) = (f''(zeta_n))/(2f'(zeta_n))(e_n)^2`</p>
+              <p>For the approximations before reaching `r`, there will be some error, i.e. `e_n >= 0`</p>
+              <p>If `e_n >= 0`, then `e_(n+1) = (f''(zeta_n))/(2f'(zeta_n))(e_n)^2 >= 0`. This is because we assumed `f'' > 0` & `f' > 0` and `e_n >= 0 => (e_n)^2 >= 0`</p>
+              <p>So we have `e_(n+1) = x_(n+1) - r >= 0 => x_(n+1) >= r`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseNewtonLemma1">Proof</a>
+          </div>
+          <div class="box">
+            <p>Lemma: Suppose `x_n -> s`. Then `s` is a root of `f`. In other words, if we keep taking approximations and they all start to equal a certain number, then that number must be the root.</p>
+            <div class="collapse" id="collapseNewtonLemma2">
+              <p>We have `x_(n+1) = x_n - f(x_n)/(f'(x_n))`</p>
+              <p>Since `f` and `f'` are continuous, `lim_(n->oo) x_(n+1) = lim_(n->oo) x_n - f(x_n)/(f'(x_n))` (we can take limits of both sides because they're continuous functions)</p>
+              <p>Since we have `x_n -> s`, `lim_(n->oo) x_(n+1) = s` and `lim_(n->oo) x_n = s`</p>
+              <p>So we end up with `s = s - f(s)/(f'(s))`</p>
+              <p>`=> 0 = f(s)/(f'(s)) => f(s) = 0`, which means `s` is a root</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseNewtonLemma2">Proof</a>
+          </div>
+          <div class="box">
+            <p>1. `x_n` is decreasing</p>
+            <div class="collapse" id="collapseNewton1">
+              <p>We have `x_(n+1) = x_n - f(x_n)/(f'(x_n))`</p>
+              <p>Since `f' > 0`, `f(r) = 0`, and `x_n > r`, `f(x_n) >= 0`</p>
+              <p>Also, since `f' > 0`, `f'(x_n) > 0`</p>
+              <p>So `f(x_n)/(f'(x_n)) >= 0`</p>
+              <p>This means that `x_(n+1)` is obtained by getting `x_n` and taking away a part of it. If you take away a part of the original amount, then the amount you end up with will always be less than the original amount.</p>
+              <p>So `x_(n+1) < x_n`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseNewton1">Proof</a>
+          </div>
+          <div class="box">
+            <p>2. a decreasing sequence bounded from below has to converge</p>
+            <div class="collapse" id="collapseNewton2">
+              <p>If every approximation is to the right of `r`, then we will never go below (to the left of) `r` (from first lemma)</p>
+              <p>But we also can't be jumping randomly either because `x_n` is decreasing (from 1.)</p>
+              <p>So we have to keep moving left but never past `r`</p>
+              <p>Eventually, we will hit a point where we can't keep moving left because we have to stay to the right of `r`</p>
+              <p>Note: at this point, where it stops doesn't necessarily have to be at `r`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseNewton2">Proof</a>
+          </div>
+          <div class="box">
+            <p>3. what it converges to is `r`</p>
+            <div class="collapse" id="collapseNewton3">
+              <p>Using the point-slope formula, we get the equation of the line passing through `s` and `r`: `f(s) = f(r) + f'(alpha_n)(s-r)` for some `alpha_n` between `s` and `r``color(red)(text(*))`</p>
+              <p>From the second lemma, `s` is a root, so `f(s) = 0`. Also, `f(r)` is a root by definition</p>
+              <p>`0 = 0 = f'(alpha_n)(s-r)`</p>
+              <p>`f'(alpha_n) > 0` since `f' > 0`, so we can divide both sides by `f'(alpha_n)`</p>
+              <p>`s - r = 0 => s = r`</p>
+              <p>`color(red)(text(*))``f'(alpha_n)` is the slope of the secant line passing through `s` and `r`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseNewton3">Proof</a>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
