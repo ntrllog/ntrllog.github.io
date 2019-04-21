@@ -392,6 +392,9 @@
           </div>
           <p>The idea is to start at an initial guess `x_0` and repeatedly draw tangent lines until we (hopefully) get close to the root.</p>
           <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/comic_newton.jpg">
+          </div>
+          <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/newton_iterative.jpg">
           </div>
           <p>Using the point-slope formula for the equation of a line, we can get the equation of the tangent line at `x_0`:</p>
@@ -563,6 +566,18 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewton3">Proof</a>
           </div>
+          <p>Note: we proved that Newton's method converges on the interval `[r,oo)` when `f'' > 0` and `f' > 0`. We can take a similar approach to prove that Newtons' method converges:</p>
+          <ul>
+            <li><p>on the interval `[r,oo)` when `f'' < 0` and `f' < 0`</p></li>
+            <li><p>on the interval `(-oo,r]` when `f'' > 0` and `f' < 0`</p></li>
+            <li><p>on the interval `(-oo,r]` when `f'' < 0` and `f' > 0`</p></li>
+          </ul>
+          <div class="box">
+            <p><b>The story thus far:</b> Newton's method approximates a root by repeatedly drawing tangent lines until the root of the tangent line matches the root of the function. It has to do more function evaluations per iteration than the bisection method, but it converges faster than the bisection method.</p>
+            <p><b>Speed of Newton's method:</b> `2` function evaluations per iteration</p>
+            <p><b>Convergence of Newton's method:</b> `e_(n+1) = (f''(zeta_n))/(2f'(x_n))(e_n)^2` for `zeta_n` between `x_n` and `r`</p>
+          </div>
+          <h3>Oh See Can't You See</h3>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
