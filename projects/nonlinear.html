@@ -31,6 +31,9 @@
           <p>How does a computer store numbers? Vaguely, we could describe it as putting each digit in a space somewhere in the computer's memory. So `100` would need `3` spaces`color(red)(text(*))`. This seems like an easy and obvious idea until we get to numbers like `pi`, which has an infinite number of digits. Does this mean we need an infinite amount of memory to store `pi`? But computers don't have infinite memory, so what happens then?</p>
           <p>`color(red)(text(*)`Computers work in binary, so things are a little bit different than this.</p>
           <p><b>Computers store a number by keeping as much of it as it can, and then throwing away the rest.</b> So if a computer can only store at most `8` digits, then it would store `pi` as `3.1415926`. But complications arise when we're dealing with really big or really small numbers. For example, `0.00000000000000045` would be stored as `0.0000000`, which is just `0`. This is a problem because `0.00000000000000045` isn't equal to `0`, but it would be treated as such. A similar problem occurs for `1000000000000000`, which would be stored as `10000000`, which is much much smaller.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/comic_storing.jpg">
+          </div>
           <p>This suggests needing a smarter way to represent the numbers. Enter, scientific notation. With scientific notation, we can represent `0.00000000000000045` as `0.45 xx 10^(-16)` and `1000000000000000` as `1 xx 10^15`. Then we would only need to store the `45` and the `-16` for `0.45 xx 10^(-16)`. And the `1` and the `15` for `1 xx 10^15`.</p>
           <div class="box">
             <p>In these examples, the `45` and the `1` are called the "mantissa" and the `-16` and the `15` are called the "exponents".</p>
@@ -221,6 +224,9 @@
           <h3>Getting to the Root of the Problem</h3>
           <p>One way is to change the equation to the form `f(x) = 0`. Then, finding the roots of `f(x)` will be the solutions. Of course, it isn't going to be obvious what the roots are just from looking at something like `cos(x) - x = 0`. But we can try to trap a root in a small interval (i.e. find a small interval between which a root lies).</p>
           <p>This can be done with an iterative algorithm. We start with a root trapped in a large interval and reduce the size of the interval at every step. But how do we find an interval in which there is a root? Without knowing this, we can't start the algorithm!</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/comic_bisection.jpg">
+          </div>
           <p>We do this by using the <b>Intermediate Value Theorem, which says if `f` is a continuous function in `[a,b]`, then `f` assumes every value between `f(a)` and `f(b).`</b></p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/ivt_general.jpg">
@@ -374,6 +380,41 @@
             <p><b>The story thus far:</b> Now we're looking at how to actually solve problems like `f(x) = g(x)`. One way is to rearrange the equation so that we get `f(x) - g(x) = 0` (for simplicity, we generalize it to `f(x) = 0`). Then the task is to find the roots/zeros of `f(x)`. One way to find a root is to start with a big interval in which the root is guaranteed to lie. Then we repeatedly make the interval smaller and smaller until it's really close to the root.</p>
             <p><b>Speed of bisection method:</b> `1` function evaluation per iteration</p>
             <p><b>Convergence of bisection method:</b> `e_n = 1/(2^(n+1))(b_0 - a_0)`</p>
+          </div>
+          <h3>Straight to the Point</h3>
+          <p>The bisection method is great and all, but are there other ways that might be faster?</p>
+          <p>Another method we could use is Newton's method. In this method, we use tangent lines to approximate the root.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/newton.jpg">
+          </div>
+          <p>The idea is to start at an initial guess `x_0` and repeatedly draw tangent lines until we (hopefully) get close to the root.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/newton_iterative.jpg">
+          </div>
+          <p>Using the point-slope formula for the equation of a line, we can get the equation of the tangent line at `x_0`:</p>
+          <div class="math">
+            <p>`y - f(x_0) = f'(x_0)(x - x_0)`</p>
+            <p>`y = f'(x_0)(x - x_0) + f(x_0)`</p>
+          </div>
+          <p>Solving for `x`, we get:</p>
+          <div class="math">
+            <p>`x = x_0 - f(x_0)/(f'(x_0))`</p>
+          </div>
+          <p>This leads to the iterative formula for Newton's method:</p>
+          <div class="math">
+            <p>`x_(n+1) = x_n - f(x_n)/(f'(x_n))`</p>
+          </div>
+          <div class="box">
+            <p>There are some cases where Newton's method won't work.</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/newton_farther.jpg">
+              <p>Here, each approximation results in a tangent line that just keeps going to the right.</p>
+              <img class="img-fluid" src="../pictures/nonlinear/newton_bounce.jpg">
+              <p>Here, the approximations will just keep bouncing back and forth between `x_0` and `x_1`.</p>
+              <img class="img-fluid" src="../pictures/nonlinear/newton_parallel.jpg">
+              <p>Here, the tangent line doesn't cross the `x`-axis, so we can't get an approximation.</p>
+            </div>
+            <p>So unlike the bisection method, Newton's method won't always work. However, it's still worth looking at Newton's method, because it turns out that it is generally faster than the bisection method.</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
