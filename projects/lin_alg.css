@@ -34,3 +34,8 @@ h2 {
 .btn:focus, .btn:active {
   box-shadow: none !important;
 }
+
+td {
+  text-align: center;
+  padding: 10px;
+}

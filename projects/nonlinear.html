@@ -247,6 +247,7 @@
           </div>
           <p>Now we have two choices for what our new interval `[a_1, b_1]` could be: `[a_0, c_0]` or `[c_0, b_0]`. The IVT doesn't tell us if there's a root between `a_0` and `c_0`, but it does guarantee that there is a root between `c_0` and `b_0`. So the new interval `[a_1, b_1]` should be `[c_0, b_0]`.</p>
           <p>And this process of dividing the interval in half repeats until the interval is small enough.</p>
+          <h4>Error of the Bisection Method</h4>
           <p>The thing is, we're looking for a number, but we end up with an interval (two numbers). So how do we get our answer? We could just pick some number between that interval. At this point, the interval is really small, so our approximation should be close to the actual solution. But how much error is there?</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/root_algorithm_n.jpg">
@@ -275,6 +276,7 @@
             <li><p>Repeat the steps for that new (smaller) interval</p></li>
           </ol>
           <p>As the steps suggest, the name of this algorithm is the <b>bisection method</b>.</p>
+          <h4>Convergence of the Bisection Method</h4>
           <p>The bisection method generates a sequence of approximations:</p>
           <div class="math">
             <p>`{c_n}_(n=0)^(oo)`</p>
@@ -337,7 +339,8 @@
 <span style="color: #008800; font-weight: bold">end</span>
 </pre></div>
           </div>
-          <p>Let's look at the speed of the bisection method. Since we're dealing with nonlinear equations, we can say that computing `f(x)` is relatively hard (i.e. time-consuming). Of course, a computer can do it almost instantly, but it takes more time to compute powers and roots than additions and divisions. So we can measure the speed of the bisection method by counting how many times we compute `f(x)`.</p>
+          <h4>Speed of the Bisection Method</h4>
+          <p>Since we're dealing with nonlinear equations, we can say that computing `f(x)` is relatively hard (i.e. time-consuming). Of course, a computer can do it almost instantly, but it takes more time to compute powers and roots than additions and divisions. So we can measure the speed of the bisection method by counting how many times we compute `f(x)`.</p>
           <p>In the code above, we're calcuating `f(a)` and `f(c)` every iteration. That's `2` costly operations. It turns out we can reduce it to only `1` costly operation per iteration if we store their values.</p>
           <div class="box">
             <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">function</span><span style="color: #bbbbbb"> </span>[c] =<span style="color: #bbbbbb"> </span><span style="color: #0066BB; font-weight: bold">bisectionOptimized</span>(a,b,n)<span style="color: #bbbbbb"></span>
@@ -416,6 +419,74 @@
             </div>
             <p>So unlike the bisection method, Newton's method won't always work. However, it's still worth looking at Newton's method, because it turns out that it is generally faster than the bisection method.</p>
           </div>
+          <h4>Error of Newton's Method</h4>
+          <div class="box">
+            <p>A Taylor series represents a function as an infinite sum.</p>
+            <div class="math">
+              <p>`f(x) = f(a) + (f'(a))/(1!)(x-a) + (f''(a))/(2!)(x-a)^2 + (f'''(a))/(3!)(x-a)^3 + ...`</p>
+              <p>`f(x) = sum_(n=0)^(oo) (f^(n)(a))/(n!)(x-a)^(n)`</p>
+            </div>
+          </div>
+          <p>Notice that the first `2` terms of the Taylor series are the equation of a line for `f(x)` (and thus, are a linear approximation of `f(x)`). Since we're looking at approximations using lines, we'll consider the first `2` terms and collect the rest of the terms as some error.</p>
+          <div class="math">
+            <p>`f(x) = f(x_n) + f'(x_n)(x-x_n) + (f''(zeta_n))/2(x-x_n)^2`</p>
+            <p>for some `zeta_n` between `x` and `x_n`</p>
+          </div>
+          <p>Since we're interested in finding the root of `f(x)`, we can use `x = r` where `r` is a root to get:</p>
+          <div class="math">
+            <p>`0 = f(x_n) + f'(x_n)(r-x_n) + (f''(zeta_n))/2(r-x_n)^2`</p>
+            <p>`r = x_n - f(x_n)/(f'(x_n)) - (f''(zeta_n))/(2f'(x_n))(r-x_n)^2`</p>
+          </div>
+          <p>Well, `x_n - f(x_n)/(f'(x_n)) = x_(n+1)` from the iterative formula for Newton's method, so we have:</p>
+          <div class="math">
+            <p>`r = x_(n+1) - (f''(zeta_n))/(2f'(x_n))(r-x_n)^2`</p>
+            <p>`r - x_(n+1) = (f''(zeta_n))/(2f'(x_n))(r-x_n)^2`</p>
+          </div>
+          <p>Then, we can let `e_n = x_n - r` be the error between the approximation and the root (so `e_(n+1) = x_(n+1)-r`).</p>
+          <div class="math">
+            <p>`e_(n+1) = (f''(zeta_n))/(2f'(x_n))(e_n)^2`</p>
+          </div>
+          <p><b>This means that the error between our `(n+1)^(st)` approximation and the root is roughly equal to the square of the error between the `n^(th)` approximation and the root. So if the error was small for the `n^(th)` approximation, the error will be even smaller for the `(n+1)^(st)` approximation.</b></p>
+          <div class="box">
+            <ul>
+              <li><p>If `f'(x_n) = 0` (the slope of the tangent line is horizontal), then we get a `0` in the denominator. This explains one of the cases where Newton's method doesn't work mentioned earlier.</p></li>
+              <li><p>If `f''(zeta_n) = oo` (the second derivative of `f` doesn't exist), then we get really large error.</p>
+            </ul>
+          </div>
+          <h4>Convergence of Newton's Method</h4>
+          <p>Let's suppose `f'`,`f''` are continuous around `x = r` and `f'(r) != 0` to avoid the problems mentioned above. Then if we start with an intial guess close enough to `r`, we can get `x_n -> r` (the `n^(th)` approximation will approach `r`).</p>
+          <div class="box">
+            <p>Let's suppose we are close enough so that `(f''(zeta_n))/(2f'(x_n)) ~~ (f''(r))/(2f'(r))`. Then `e_(n+1) ~~ (f''(r))/(2f'(r))(e_n)^2 = ((f''(r))/(2f'(r))e_n)e_n`.</p>
+            <p>If `((f''(r))/(2f'(r))e_n) < 1`, then `e_(n+1) -> 0`.</p>
+          </div>
+          <p>Since `(f''(r))/(2f'(r))` is a constant, we can call it `c`. Then the error for Newton's method can be represented as `e_(n+1) ~~ c(e_n)^2`. Let's say the error of the `n^(th)` approximation was `0.001`.</p>
+          <div class="flex">
+            <table>
+              <tr>
+                <td></td>
+                <td>Bisection Method</td>
+                <td>Newton's Method</td>
+              </tr>
+              <tr>
+                <td>Error Formula</td>
+                <td>`e_(n+1) = 1/2e_n`</td>
+                <td>`e_(n+1) ~~ c(e_n)^2`</td>
+              </tr>
+              <tr>
+                <td>`e_n`</td>
+                <td>`0.001`</td>
+                <td>`0.001`</td>
+              </tr>
+              <tr>
+                <td>`e_(n+1)`</td>
+                <td>`0.0005`</td>
+                <td>`c*0.000001`</td>
+              </tr>
+            </table>
+          </div>
+          <p>From this, we can see that Newton's method (generally) converges faster than the bisection method. The convergence of Newton's method is described as "quadratic convergence" because of the power `2`.</p>
+          <h4>Speed of Newton's Method</h4>
+          <p>The iterative formula for Newton's method is `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. From this, we can see that it requires `2` function evaluations per iteration. The bisection method required `2` function evaluations at the beginning, but then it only required `1` function evaluation per iteration. <b>This means that Newton's method does roughly twice as many function evaluations per iteration as the bisection method.</b> This also means that Newton's method is <em>slower</em> than the bisection method, but this is offset by the fact that it converges faster.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
