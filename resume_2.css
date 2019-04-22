@@ -1,6 +1,7 @@
-.container {
+body {
   font-family: 'Gentium Basic', serif;
-  margin-top: 50px;
+  font-size: 123%;
+  text-align: justify;
 }
 
 #pdf {
@@ -34,11 +35,22 @@
   text-align: right;
 }
 
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 @media print {
   .link {
     color: black;
     text-decoration: none !important;
   }
+  .print-hide {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1024px) {
   .print-hide {
     display: none;
   }

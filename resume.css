@@ -1,6 +1,7 @@
 body {
   width: 100%;
   font-family: 'Gentium Basic', serif;
+  font-size: 120%;
 }
 
 #pdf {
@@ -8,6 +9,10 @@ body {
   right: 70px;
   top: 20px;
   color: black;
+}
+
+.mobile {
+  display: none;
 }
 
 .header {
@@ -30,16 +35,11 @@ body {
   align-items: center;
 }
 
-.row {
-  margin-top: 10px;
-}
-
 .underline {
   border-bottom: 1px solid black;
 }
 
 .box {
-  margin-top: 10px;
   padding-left: 3px;
   padding-right: 3px;
 }
@@ -75,6 +75,12 @@ body {
 }
 
 @media screen and (max-width: 1024px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
   .flex-evenly {
     flex-direction: column;
   }
