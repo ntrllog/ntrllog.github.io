@@ -578,6 +578,125 @@
             <p><b>Convergence of Newton's method:</b> `e_(n+1) = (f''(zeta_n))/(2f'(x_n))(e_n)^2` for `zeta_n` between `x_n` and `r`</p>
           </div>
           <h3>Oh See Can't You See</h3>
+          <p>So Newton's method converges faster than the bisection method does, but it requires more function evaluations. Is there a method that converges faster than the bisection method and requires less function than Newton's method?</p>
+          <p>Newton's method looked at tangent lines. Let's look instead at secant lines.</p>
+          <p>The secant method is a variation of Newton's method. It still uses the iterative formula `x_(n+1) = x_n - f(x_n)/(f'(x_n))`, but the difference is that `f'(x_n)` will be the slope of the secant line, not the tangent line.</p>
+          <p>The derivative can be calculated by `f'(a) = lim_(x->a) (f(x)-f(a))/(x-a)`. Without the limit, it can be approximated by `f'(a) ~~ (f(x)-f(a))/(x-a)`.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/secant.jpg">
+          </div>
+          <p>One way to get `f'(x_n)` is to consider the slope of the secant line through `x_(n-1)` and `x_n`. Then we have `f'(x_n) ~~ (f(x_n)-f(x_(n-1)))/(x_n-x_(n-1))`. This leads to the iterative formula for the secant method:</p>
+          <div class="math">
+            <p>`x_(n+1) = x_n - f(x_n)/((f(x_n)-f(x_(n-1)))/(x_n-x_(n-1)))`</p>
+            <p>`x_(n+1) = x_n - (f(x_n)(x_n - x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
+          </div>
+          <p>The idea is that we're getting our next approximation by drawing the secant line through our previous two approximations.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/secant_method.jpg">
+          </div>
+          <p>Notice how using the previous two approximations means we only need `1` function evaluation per iteration.</p>
+          <div class="flex">
+            <table>
+              <tr>
+                <td></td>
+                <td>all function evaluations needed</td>
+                <td>new function evaluations needed</td>
+              </tr>
+              <tr>
+                <td>`x_0`</td>
+                <td>`f(x_0)`</td>
+                <td>`f(x_0)`</td>
+              </tr>
+              <tr>
+                <td>`x_1`</td>
+                <td>`f(x_1)`</td>
+                <td>`f(x_1)`</td>
+              </tr>
+              <tr>
+                <td>`x_2`</td>
+                <td>`f(x_1), f(x_2)`</td>
+                <td>`f(x_2)`</td>
+              </tr>
+              <tr>
+                <td>`x_3`</td>
+                <td>`f(x_2), f(x_3)`</td>
+                <td>`f(x_3)`</td>
+              </tr>
+              <tr>
+                <td>`x_4`</td>
+                <td>`f(x_3), f(x_4)`</td>
+                <td>`f(x_4)`</td>
+              </tr>
+            </table>
+          </div>
+          <h4>Error of Secant Method</h4>
+          <p>To look at the error, we can start by rewriting the iterative formula:</p>
+          <div class="math">
+            <p>`x_(n+1) = x_n - (f(x_n)(x_n - x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
+            <p>`x_(n+1) = (x_n(f(x_n)-f(x_(n-1))))/(f(x_n)-f(x_(n-1))) - (x_nf(x_n) - x_(n-1)f(x_n))/(f(x_n)-f(x_(n-1)))`</p>
+            <p>`x_(n+1) = (x_nf(x_n) - x_nf(x_(n-1)) - x_nf(x_n) + x_(n-1)f(x_n))/(f(x_n)-f(x_(n-1)))`</p>
+            <p>`x_(n+1) = (x_(n-1)f(x_n) - x_nf(x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
+          </div>
+          <p>Now we can look at `e_(n+1) = x_(n+1) - r`:</p>
+          <div class="math">
+            <p>`x_(n+1)-r = (x_(n-1)f(x_n) - x_nf(x_(n-1)))/(f(x_n)-f(x_(n-1)))-r`</p>
+            <p>`x_(n+1)-r = (x_(n-1)f(x_n) - x_nf(x_(n-1)))/(f(x_n)-f(x_(n-1)))-(r(f(x_n)-f(x_(n-1))))/(f(x_n)-f(x_(n-1)))`</p>
+            <p>`x_(n+1)-r = (x_(n-1)f(x_n) - x_nf(x_(n-1)) - rf(x_n) + rf(x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
+          </div>
+          <p>Using the fact that `e_(n-1) = x_(n-1)-r` and `e_n = x_n - r`:</p>
+          <div class="math">
+            <p>`x_(n+1)-r = (e_(n-1)f(x_n)-e_nf(x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
+            <p>`x_(n+1)-r = (f(x_n)/e_n - f(x_(n-1))/e_(n-1))/(f(x_n)-f(x_(n-1)))(e_(n-1)e_n)`</p>
+            <p>by factoring out `(e_(n-1)e_n)`</p>
+          </div>
+          <p>Multiplying by `1 = (x_n-x_(n-1))/(x_n-x_(n-1))`:</p>
+          <div class="math">
+            <p>`x_(n+1)-r = ((x_n-x_(n-1))/(f(x_n)-f(x_(n-1)))*(f(x_n)/e_n-f(x_(n-1))/e_(n-1))/(x_n-x_(n-1)))e_(n-1)e_n`</p>
+          </div>
+          <div class="box">
+            <p>`(x_n-x_(n-1))/(f(x_n)-f(x_(n-1)))` is a constant</p>
+            <div class="collapse" id="collapseSecant1">
+              <p>Taylor series of `f` centered at `r`:</p>
+              <p>`f(x_n) = f(r) + f'(r)(x_n-r) + (f''(r))/2(x_n-r)^2 + ... = f(r) + f'(r)e_n + (f''(r))/2(e_n)^2 + ...`</p>
+              <p>Similarly, `f(x_(n-1)) = f(r) + f'(r)e_(n-1) + (f''(r))/2(e_(n-1))^2 + ...`</p>
+              <p>Subtracting `f(x_(n-1))` and `f(x_n)` gives us:</p>
+              <p>`f(x_n)-f(x_(n-1)) = f'(r)(e_n-e_(n-1)) + ...`</p>
+              <p>Well, `e_n-e_(n-1) = (x_n-r)-(x_(n-1)-r)=x_n-x_(n-1)`</p>
+              <p>So `f(x_n)-f(x_(n-1)) ~~ f'(r)(x_n-x_(n-1))`</p>
+              <p>Which means `(x_n-x_(n-1))/(f(x_n)-f(x_(n-1))) ~~ (x_n-x_(n-1))/(f'(r)(x_n-x_(n-1))) = 1/(f'(r))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseSecant1">Proof</a>
+          </div>
+          <div class="box">
+            <p>`(f(x_n)/e_n-f(x_(n-1))/e_(n-1))/(x_n-x_(n-1))` is a constant</p>
+            <div class="collapse" id="collapseSecant2">
+              <p>`f(x_n)/e_n = f'(r) + (f''(r))/2e_n + ...`</p>
+              <p>`f(x_(n-1))/e_(n-1) = f'(r) + (f''(r))/2e_(n-1) + ...`</p>
+              <p>Subtracting `f(x_(n-1))/e_(n-1)` and `f(x_n)/e_n` gives us:</p>
+              <p>`f(x_n)/e_n-f(x_(n-1))/e_(n-1) = (f''(r))/2(e_n-e_(n-1)) + ...`</p>
+              <p>Well, `e_n-e_(n-1) = (x_n-r)-(x_(n-1)-r)=x_n-x_(n-1)`</p>
+              <p>So `f(x_n)/e_n-f(x_(n-1))/e_(n-1) ~~ (f''(r))/2(x_n-x_(n-1))`</p>
+              <p>Which means `(f(x_n)/e_n-f(x_(n-1))/e_(n-1))/(x_n-x_(n-1)) ~~ ((f''(r))/2(x_n-x_(n-1)))/(x_n-x_(n-1)) = (f''(r))/2`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseSecant2">Proof</a>
+          </div>
+          <p>Combining the results above, we get that `x_(n+1)-r = e_(n+1) ~~ Ce_(n-1)e_n` where `C = (f''(r))/(2f'(r))`. If we want to compare this error to the error in Newton's method (which was `e_(n+1) = c(e_n)^2`), then we should rewrite `e_(n+1) = Ce_(n-1)e_n` in the form of `A(e_n)^(alpha)` and find out what `alpha` is. If `alpha < 2`, then the secant method converges slower than Newton's method. If `alpha > 2`, then the secant method converges faster than Newton's method.</p>
+          <div class="box">
+            <p>It turns out that `alpha ~~ 1.62`</p>
+            <div class="collapse" id="collapseSecant3">
+              <p>Suppose `e_(n+1) = Ce_(n-1)e_n = A(e_n)^(alpha)`</p>
+              <p>`e_n = A(e_(n-1))^(alpha)`</p>
+              <p>`e_(n-1) = (e_n)^(1/alpha)/A^(1/alpha)`</p>
+              <p>So `Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_(n-1))^(alpha)`</p>
+              <p>`e_n = A(e_(n-1))^(alpha) => (e_(n-1))^(alpha) = e_n/A`</p>
+              <p>`Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_n/A) = C(e_n)^(1/alpha)/A^(1/alpha)e_n = C/A^(1/alpha)(e_n)^(1+1/alpha)`</p>
+              <p>So `A(e_n)^(alpha) = C/A^(1/alpha)(e_n)^(1+1/alpha)`, which means `alpha = 1 + 1/alpha`</p>
+              <p>`alpha = 1 + 1/alpha => alpha^2 = alpha + 1 => alpha^2-alpha-1 = 0`</p>
+              <p>`alpha = (1 +- sqrt(5))/2 ~~ 1.62`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseSecant3">Proof</a>
+          </div>
+          <p>So `x_(n+1)-r = e_(n+1) = A(e_n)^(1.62)`, which means the secant method converges slower than Newton's method.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
