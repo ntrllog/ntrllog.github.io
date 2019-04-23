@@ -513,9 +513,9 @@
           <div class="box">
             <p>Lemma: If `{x_n}_(n=0)^(oo)` is the sequence of approximations obtained from Newton's method, then `x_n in [r,oo)`. In words, every approximation will be to the right of `r`.</p>
             <div class="collapse" id="collapseNewtonLemma1">
-              <p>We have `x_(n+1) - r = e_(n+1) = (f''(xi_n))/(2f'(xi_n))(e_n)^2`</p>
+              <p>We have `x_(n+1) - r = e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`</p>
               <p>For the approximations before reaching `r`, there will be some error, i.e. `e_n >= 0`</p>
-              <p>If `e_n >= 0`, then `e_(n+1) = (f''(xi_n))/(2f'(xi_n))(e_n)^2 >= 0`. This is because we assumed `f'' > 0` & `f' > 0` and `e_n >= 0 => (e_n)^2 >= 0`</p>
+              <p>If `e_n >= 0`, then `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2 >= 0`. This is because we assumed `f'' > 0` & `f' > 0` and `e_n >= 0 => (e_n)^2 >= 0`</p>
               <p>So we have `e_(n+1) = x_(n+1) - r >= 0 => x_(n+1) >= r`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewtonLemma1">Proof</a>
