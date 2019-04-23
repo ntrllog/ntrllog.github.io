@@ -432,34 +432,34 @@
           </div>
           <p>Notice that the first `2` terms of the Taylor series are the equation of a line for `f(x)` (and thus, are a linear approximation of `f(x)`). Since we're looking at approximations using lines, we'll consider the first `2` terms and collect the rest of the terms as some error.</p>
           <div class="math">
-            <p>`f(x) = f(x_n) + f'(x_n)(x-x_n) + (f''(zeta_n))/2(x-x_n)^2`</p>
-            <p>for some `zeta_n` between `x` and `x_n`</p>
+            <p>`f(x) = f(x_n) + f'(x_n)(x-x_n) + (f''(xi_n))/2(x-x_n)^2`</p>
+            <p>for some `xi_n` between `x` and `x_n`</p>
           </div>
           <p>Since we're interested in finding the root of `f(x)`, we can use `x = r` where `r` is a root to get:</p>
           <div class="math">
-            <p>`0 = f(x_n) + f'(x_n)(r-x_n) + (f''(zeta_n))/2(r-x_n)^2`</p>
-            <p>`r = x_n - f(x_n)/(f'(x_n)) - (f''(zeta_n))/(2f'(x_n))(r-x_n)^2`</p>
+            <p>`0 = f(x_n) + f'(x_n)(r-x_n) + (f''(xi_n))/2(r-x_n)^2`</p>
+            <p>`r = x_n - f(x_n)/(f'(x_n)) - (f''(xi_n))/(2f'(x_n))(r-x_n)^2`</p>
           </div>
           <p>Well, `x_n - f(x_n)/(f'(x_n)) = x_(n+1)` from the iterative formula for Newton's method, so we have:</p>
           <div class="math">
-            <p>`r = x_(n+1) - (f''(zeta_n))/(2f'(x_n))(r-x_n)^2`</p>
-            <p>`r - x_(n+1) = (f''(zeta_n))/(2f'(x_n))(r-x_n)^2`</p>
+            <p>`r = x_(n+1) - (f''(xi_n))/(2f'(x_n))(r-x_n)^2`</p>
+            <p>`r - x_(n+1) = (f''(xi_n))/(2f'(x_n))(r-x_n)^2`</p>
           </div>
           <p>Then, we can let `e_n = x_n - r` be the error between the approximation and the root (so `e_(n+1) = x_(n+1)-r`).</p>
           <div class="math">
-            <p>`e_(n+1) = (f''(zeta_n))/(2f'(x_n))(e_n)^2`</p>
+            <p>`e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`</p>
           </div>
           <p><b>This means that the error between our `(n+1)^(st)` approximation and the root is roughly equal to the square of the error between the `n^(th)` approximation and the root. So if the error was small for the `n^(th)` approximation, the error will be even smaller for the `(n+1)^(st)` approximation.</b></p>
           <div class="box">
             <ul>
               <li><p>If `f'(x_n) = 0` (the slope of the tangent line is horizontal), then we get a `0` in the denominator. This explains one of the cases where Newton's method doesn't work mentioned earlier.</p></li>
-              <li><p>If `f''(zeta_n) = oo` (the second derivative of `f` doesn't exist), then we get really large error.</p>
+              <li><p>If `f''(xi_n) = oo` (the second derivative of `f` doesn't exist), then we get really large error.</p>
             </ul>
           </div>
           <h4>Convergence of Newton's Method</h4>
           <p>Let's suppose `f'`,`f''` are continuous around `x = r` and `f'(r) != 0` to avoid the problems mentioned above. Then if we start with an intial guess close enough to `r`, we can get `x_n -> r` (the `n^(th)` approximation will approach `r`).</p>
           <div class="box">
-            <p>Let's suppose we are close enough so that `(f''(zeta_n))/(2f'(x_n)) ~~ (f''(r))/(2f'(r))`. Then `e_(n+1) ~~ (f''(r))/(2f'(r))(e_n)^2 = ((f''(r))/(2f'(r))e_n)e_n`.</p>
+            <p>Let's suppose we are close enough so that `(f''(xi_n))/(2f'(x_n)) ~~ (f''(r))/(2f'(r))`. Then `e_(n+1) ~~ (f''(r))/(2f'(r))(e_n)^2 = ((f''(r))/(2f'(r))e_n)e_n`.</p>
             <p>If `((f''(r))/(2f'(r))e_n) < 1`, then `e_(n+1) -> 0`.</p>
           </div>
           <p>Since `(f''(r))/(2f'(r))` is a constant, we can call it `c`. Then the error for Newton's method can be represented as `e_(n+1) ~~ c(e_n)^2`. Let's say the error of the `n^(th)` approximation was `0.001`.</p>
@@ -513,9 +513,9 @@
           <div class="box">
             <p>Lemma: If `{x_n}_(n=0)^(oo)` is the sequence of approximations obtained from Newton's method, then `x_n in [r,oo)`. In words, every approximation will be to the right of `r`.</p>
             <div class="collapse" id="collapseNewtonLemma1">
-              <p>We have `x_(n+1) - r = e_(n+1) = (f''(zeta_n))/(2f'(zeta_n))(e_n)^2`</p>
+              <p>We have `x_(n+1) - r = e_(n+1) = (f''(xi_n))/(2f'(xi_n))(e_n)^2`</p>
               <p>For the approximations before reaching `r`, there will be some error, i.e. `e_n >= 0`</p>
-              <p>If `e_n >= 0`, then `e_(n+1) = (f''(zeta_n))/(2f'(zeta_n))(e_n)^2 >= 0`. This is because we assumed `f'' > 0` & `f' > 0` and `e_n >= 0 => (e_n)^2 >= 0`</p>
+              <p>If `e_n >= 0`, then `e_(n+1) = (f''(xi_n))/(2f'(xi_n))(e_n)^2 >= 0`. This is because we assumed `f'' > 0` & `f' > 0` and `e_n >= 0 => (e_n)^2 >= 0`</p>
               <p>So we have `e_(n+1) = x_(n+1) - r >= 0 => x_(n+1) >= r`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewtonLemma1">Proof</a>
@@ -575,7 +575,7 @@
           <div class="box">
             <p><b>The story thus far:</b> Newton's method approximates a root by repeatedly drawing tangent lines until the root of the tangent line matches the root of the function. It has to do more function evaluations per iteration than the bisection method, but it converges faster than the bisection method.</p>
             <p><b>Speed of Newton's method:</b> `2` function evaluations per iteration</p>
-            <p><b>Convergence of Newton's method:</b> `e_(n+1) = (f''(zeta_n))/(2f'(x_n))(e_n)^2` for `zeta_n` between `x_n` and `r`</p>
+            <p><b>Convergence of Newton's method:</b> `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2` for `xi_n` between `x_n` and `r`</p>
           </div>
           <h3>Oh See Can't You See</h3>
           <p>So Newton's method converges faster than the bisection method does, but it requires more function evaluations. Is there a method that converges faster than the bisection method and requires less function than Newton's method?</p>
