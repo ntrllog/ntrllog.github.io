@@ -1,1 +1,1 @@
-Sitemap: https://alanlam.netlify.com/sitemap.xml
+Sitemap: https://aln.netlify.com/sitemap.xml
