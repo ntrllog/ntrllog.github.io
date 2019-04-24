@@ -582,6 +582,14 @@
             <p><b>Speed of Newton's method:</b> `2` function evaluations per iteration</p>
             <p><b>Convergence of Newton's method:</b> `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2` for `xi_n` between `x_n` and `r`</p>
           </div>
+          <div class="box">
+            <p>Solving Systems with `2` variables:</p>
+            <p>Suppose we wanted to solve a system like this: `{(f_1(x_1,x_2),=,0),(f_2(x_1,x_2),=,0):}` where `(r_1,r_2)` is the root</p>
+            <p>Then, with our initial guess `(x_1^((0)), x_2^((0)))`, we would solve it by doing:</p>
+            <div class="math">
+              <p>`[[x_1^((1))],[x_2^((1))]] = [[x_1^((0))],[x_2^((0))]] - [[(delf_1)/(delx_1)(x_1^((0)),x_2^((0))),(delf_1)/(delx_2)(x_1^((0)),x_2^((0)))],[(delf_2)/(delx_1)(x_1^((0)),x_2^((0))),(delf_2)/(delx_2)(x_1^((0)),x_2^((0)))]]^(-1)[[f_1(x_1^((0)),x_2^((0)))],[f_2(x_1^((0)),x_2^((0)))]]`</p>
+            </div>
+          </div>
           <h3>Oh See Can't You See</h3>
           <p>So Newton's method converges faster than the bisection method does, but it requires more function evaluations. Is there a method that converges faster than the bisection method and requires less function than Newton's method?</p>
           <p>Newton's method looked at tangent lines. Let's look instead at secant lines.</p>
