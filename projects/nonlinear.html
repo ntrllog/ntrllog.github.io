@@ -75,14 +75,15 @@
             <p>relative error = `abs(x - fl(x))/abs(x) = (0.obrace(00...0)^n\ d_(n+1)\ d_(n+2)\ ... xx 10^a)/(0.d_1\ d_2\ d_3\ ... xx 10^a)`</p>
             <p>` = (0.obrace(00...0)^n\ d_(n+1)\ d_(n+2)\ ...)/(0.d_1\ d_2\ d_3\ ...)`</p>
           </div>
-          <p>To find out the worst our error could be, we want to make it as large as possible. We do that by making the numerator as big as possible (by letting `d_(n+1) = d_(n+2) = ... = 9`)`color(red)(text(*))` and making the denominator as small as possible (by letting `d_1 = d_2 = ... = 0`).</p>
-          <p>`color(red)(text(*))``0.999... = 1`</p>
+          <p>To find out the worst our error could be, we want to make it as large as possible. We do that by making the numerator as big as possible (by letting `d_(n+1) = d_(n+2) = ... = 9`) and making the denominator as small as possible (by letting `d_1 = 1` `color(red)(text(*))` and `d_2 = d_3 = ... = 0`).</p>
+          <p>`color(red)(text(*))``d_1` cannot be `0` because of the way numbers are written in scientific notation. You wouldn't write something like `0.083 xx 10^3`; it would be `0.83 xx 10^2`.</p>
           <div class="math">
-            <p>`<= (0.obrace(00...0)^(n-1)1)/(0.100)`</p>
+            <p>`<= (0.obrace(00...0)^(n-1)1color(red)(text(*)))/(0.100)`</p>
             <p>` = 0.obrace(0...0)^(n-2)1`</p>
             <p>` = 10^(-(n-1))`</p>
             <p>` = 10^(1-n)`</p>
           </div>
+          <p>`color(red)(text(*))``0.999... = 1`</p>
           <p>So the relative error — which we can denote by `epsilon` — can be at most `10^(1-n)`. This is the largest error possible for an `n`-digit chopping computer.</p>
           <div class="box">
             <p>For an `n`-digit rounding computer, `epsilon = 1/2 * 10^(1-n)`</p>
@@ -232,7 +233,7 @@
             <img class="img-fluid" src="../pictures/nonlinear/ivt_general.jpg">
           </div>
           <p>In this example, `f` achieves every value between the dotted lines between `a` and `b`.</p>
-          <p>So how does this help us find roots? We can apply it to the situation where `f(a)` and `f(b)` have different signs (i.e. one is positive and the other is negative). <b>If `f(a)` and `f(b)` have different signs, then `f` has a root in `[a, b]`.</b></p>
+          <p>So how does this help us find roots? We can apply it to the situation where `f(a)` and `f(b)` have different signs (e.g. one is positive and the other is negative). <b>If `f(a)` and `f(b)` have different signs, then `f` has a root in `[a, b]`.</b></p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/ivt_root.jpg">
           </div>
@@ -289,7 +290,7 @@
           <p>Putting all that together, `abs(r - c_1) <= abs(b_1 - a_1)/2 = (abs(b_0 - a_0)/2)/2 = 1/2^2 (b_0 - a_0)`</p>
           <p>Generalizing that idea, we can see that:</p>
           <div class="math">
-            <p>`abs(r - c_n) <= 1/2^1 (b_n - a_n)`</p>
+            <p>`abs(r - c_0) <= 1/2^1 (b_0 - a_0)`</p>
             <p>`abs(r - c_1) <= 1/2^2 (b_0 - a_0)`</p>
             <p>`abs(r - c_2) <= 1/2^3 (b_0 - a_0)`</p>
             <p>`abs(r - c_3) <= 1/2^4 (b_0 - a_0)`</p>
@@ -402,11 +403,15 @@
             <p>`y - f(x_0) = f'(x_0)(x - x_0)`</p>
             <p>`y = f'(x_0)(x - x_0) + f(x_0)`</p>
           </div>
+          <p>Our goal is to get `y = 0`, so we have:</p>
+          <div class="math">
+            <p>`0 = f'(x_0)(x - x_0) + f(x_0)`</p>
+          </div>
           <p>Solving for `x`, we get:</p>
           <div class="math">
             <p>`x = x_0 - f(x_0)/(f'(x_0))`</p>
           </div>
-          <p>This leads to the iterative formula for Newton's method:</p>
+          <p>This is the intuition behind the iterative formula for Newton's method:</p>
           <div class="math">
             <p>`x_(n+1) = x_n - f(x_n)/(f'(x_n))`</p>
           </div>
@@ -515,7 +520,7 @@
             <div class="collapse" id="collapseNewtonLemma1">
               <p>We have `x_(n+1) - r = e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`</p>
               <p>For the approximations before reaching `r`, there will be some error, i.e. `e_n >= 0`</p>
-              <p>If `e_n >= 0`, then `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2 >= 0`. This is because we assumed `f'' > 0` & `f' > 0` and `e_n >= 0 => (e_n)^2 >= 0`</p>
+              <p>If `e_n >= 0`, then `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2 >= 0`. This is because we assumed `f'' > 0` & `f' > 0`, and `e_n >= 0 => (e_n)^2 >= 0`</p>
               <p>So we have `e_(n+1) = x_(n+1) - r >= 0 => x_(n+1) >= r`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewtonLemma1">Proof</a>
@@ -527,7 +532,7 @@
               <p>Since `f` and `f'` are continuous, `lim_(n->oo) x_(n+1) = lim_(n->oo) x_n - f(x_n)/(f'(x_n))` (we can take limits of both sides because they're continuous functions)</p>
               <p>Since we have `x_n -> s`, `lim_(n->oo) x_(n+1) = s` and `lim_(n->oo) x_n = s`</p>
               <p>So we end up with `s = s - f(s)/(f'(s))`</p>
-              <p>`=> 0 = f(s)/(f'(s)) => f(s) = 0`, which means `s` is a root</p>
+              <p>`=> 0 = -f(s)/(f'(s)) => f(s) = 0`, which means `s` is a root</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewtonLemma2">Proof</a>
           </div>
@@ -557,10 +562,10 @@
           <div class="box">
             <p>3. what it converges to is `r`</p>
             <div class="collapse" id="collapseNewton3">
-              <p>Using the point-slope formula, we get the equation of the line passing through `s` and `r`: `f(s) = f(r) + f'(alpha_n)(s-r)` for some `alpha_n` between `s` and `r``color(red)(text(*))`</p>
+              <p>Using the point-slope formula, we get the equation of the line passing through `s` and `r`: `f(s) = f(r) + f'(alpha_n)color(red)(text(*))(s-r)` for some `alpha_n` between `s` and `r`</p>
               <p>From the second lemma, `s` is a root, so `f(s) = 0`. Also, `f(r)` is a root by definition</p>
               <p>`0 = 0 = f'(alpha_n)(s-r)`</p>
-              <p>`f'(alpha_n) > 0` since `f' > 0`, so we can divide both sides by `f'(alpha_n)`</p>
+              <p>`f'(alpha_n) != 0` since `f' > 0`, so we can divide both sides by `f'(alpha_n)`</p>
               <p>`s - r = 0 => s = r`</p>
               <p>`color(red)(text(*))``f'(alpha_n)` is the slope of the secant line passing through `s` and `r`</p>
             </div>
@@ -614,18 +619,18 @@
               </tr>
               <tr>
                 <td>`x_2`</td>
+                <td>`f(x_0), f(x_1)`</td>
+                <td>none</td>
+              </tr>
+              <tr>
+                <td>`x_3`</td>
                 <td>`f(x_1), f(x_2)`</td>
                 <td>`f(x_2)`</td>
               </tr>
               <tr>
-                <td>`x_3`</td>
+                <td>`x_4`</td>
                 <td>`f(x_2), f(x_3)`</td>
                 <td>`f(x_3)`</td>
-              </tr>
-              <tr>
-                <td>`x_4`</td>
-                <td>`f(x_3), f(x_4)`</td>
-                <td>`f(x_4)`</td>
               </tr>
             </table>
           </div>
@@ -663,7 +668,7 @@
               <p>`f(x_n)-f(x_(n-1)) = f'(r)(e_n-e_(n-1)) + ...`</p>
               <p>Well, `e_n-e_(n-1) = (x_n-r)-(x_(n-1)-r)=x_n-x_(n-1)`</p>
               <p>So `f(x_n)-f(x_(n-1)) ~~ f'(r)(x_n-x_(n-1))`</p>
-              <p>Which means `(x_n-x_(n-1))/(f(x_n)-f(x_(n-1))) ~~ (x_n-x_(n-1))/(f'(r)(x_n-x_(n-1))) = 1/(f'(r))`</p>
+              <p>Which means `(x_n-x_(n-1))/(f(x_n)-f(x_(n-1))) ~~ (x_n-x_(n-1))/(f'(r)(x_n-x_(n-1))) = 1/(f'(r))`, which is a constant</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseSecant1">Proof</a>
           </div>
@@ -676,7 +681,7 @@
               <p>`f(x_n)/e_n-f(x_(n-1))/e_(n-1) = (f''(r))/2(e_n-e_(n-1)) + ...`</p>
               <p>Well, `e_n-e_(n-1) = (x_n-r)-(x_(n-1)-r)=x_n-x_(n-1)`</p>
               <p>So `f(x_n)/e_n-f(x_(n-1))/e_(n-1) ~~ (f''(r))/2(x_n-x_(n-1))`</p>
-              <p>Which means `(f(x_n)/e_n-f(x_(n-1))/e_(n-1))/(x_n-x_(n-1)) ~~ ((f''(r))/2(x_n-x_(n-1)))/(x_n-x_(n-1)) = (f''(r))/2`</p>
+              <p>Which means `(f(x_n)/e_n-f(x_(n-1))/e_(n-1))/(x_n-x_(n-1)) ~~ ((f''(r))/2(x_n-x_(n-1)))/(x_n-x_(n-1)) = (f''(r))/2`, which is a constant</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseSecant2">Proof</a>
           </div>
