@@ -220,7 +220,7 @@
           <div class="box">
             <p><b>The story thus far:</b> Computers store modified versions of numbers. This means that the number the computer stores is "wrong". When we work with "wrong" numbers (e.g. add, multiply them), we're gonna get an answer that is even "more wrong". For multiplication, things aren't too bad. But for subtraction, we can get undesired results when the numbers we're subtracting are really close to each other.</p>
           </div>
-          <h2>Solving Nonlinear Equations</h2>
+          <h2>Solving Nonlinear Equations: Roots</h2>
           <p>How do we solve something like `cos(x) = x`? Let's say we didn't have a calculator, so we can't find the exact answer. How can we find a (good) approximation? In general, how do we find an approximation for `f(x) = g(x)`?</p>
           <h3>Getting to the Root of the Problem</h3>
           <p>One way is to change the equation to the form `f(x) = 0`. Then, finding the roots of `f(x)` will be the solutions. Of course, it isn't going to be obvious what the roots are just from looking at something like `cos(x) - x = 0`. But we can try to trap a root in a small interval (i.e. find a small interval between which a root lies).</p>
@@ -679,12 +679,14 @@
             <p>`(x_n-x_(n-1))/(f(x_n)-f(x_(n-1)))` is a constant</p>
             <div class="collapse" id="collapseSecant1">
               <p>Taylor series of `f` centered at `r`:</p>
-              <p>`f(x_n) = f(r) + f'(r)(x_n-r) + (f''(r))/2(x_n-r)^2 + ... = f(r) + f'(r)e_n + (f''(r))/2(e_n)^2 + ...`</p>
-              <p>Similarly, `f(x_(n-1)) = f(r) + f'(r)e_(n-1) + (f''(r))/2(e_(n-1))^2 + ...`</p>
-              <p>Subtracting `f(x_(n-1))` and `f(x_n)` gives us:</p>
-              <p>`f(x_n)-f(x_(n-1)) = f'(r)(e_n-e_(n-1)) + ...`</p>
-              <p>Well, `e_n-e_(n-1) = (x_n-r)-(x_(n-1)-r)=x_n-x_(n-1)`</p>
-              <p>So `f(x_n)-f(x_(n-1)) ~~ f'(r)(x_n-x_(n-1))`</p>
+              <div class="math">
+                <p>`f(x_n) = f(r) + f'(r)(x_n-r) + (f''(r))/2(x_n-r)^2 + ... = f(r) + f'(r)e_n + (f''(r))/2(e_n)^2 + ...`</p>
+                <p>Similarly, `f(x_(n-1)) = f(r) + f'(r)e_(n-1) + (f''(r))/2(e_(n-1))^2 + ...`</p>
+                <p>Subtracting `f(x_(n-1))` and `f(x_n)` gives us:</p>
+                <p>`f(x_n)-f(x_(n-1)) = f'(r)(e_n-e_(n-1)) + ...`</p>
+                <p>Well, `e_n-e_(n-1) = (x_n-r)-(x_(n-1)-r)=x_n-x_(n-1)`</p>
+                <p>So `f(x_n)-f(x_(n-1)) ~~ f'(r)(x_n-x_(n-1))`</p>
+              </div>
               <p>Which means `(x_n-x_(n-1))/(f(x_n)-f(x_(n-1))) ~~ (x_n-x_(n-1))/(f'(r)(x_n-x_(n-1))) = 1/(f'(r))`, which is a constant</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseSecant1">Proof</a>
@@ -692,12 +694,14 @@
           <div class="box">
             <p>`(f(x_n)/e_n-f(x_(n-1))/e_(n-1))/(x_n-x_(n-1))` is a constant</p>
             <div class="collapse" id="collapseSecant2">
-              <p>`f(x_n)/e_n = f'(r) + (f''(r))/2e_n + ...`</p>
-              <p>`f(x_(n-1))/e_(n-1) = f'(r) + (f''(r))/2e_(n-1) + ...`</p>
-              <p>Subtracting `f(x_(n-1))/e_(n-1)` and `f(x_n)/e_n` gives us:</p>
-              <p>`f(x_n)/e_n-f(x_(n-1))/e_(n-1) = (f''(r))/2(e_n-e_(n-1)) + ...`</p>
-              <p>Well, `e_n-e_(n-1) = (x_n-r)-(x_(n-1)-r)=x_n-x_(n-1)`</p>
-              <p>So `f(x_n)/e_n-f(x_(n-1))/e_(n-1) ~~ (f''(r))/2(x_n-x_(n-1))`</p>
+              <div class="math">
+                <p>`f(x_n)/e_n = f'(r) + (f''(r))/2e_n + ...`</p>
+                <p>`f(x_(n-1))/e_(n-1) = f'(r) + (f''(r))/2e_(n-1) + ...`</p>
+                <p>Subtracting `f(x_(n-1))/e_(n-1)` and `f(x_n)/e_n` gives us:</p>
+                <p>`f(x_n)/e_n-f(x_(n-1))/e_(n-1) = (f''(r))/2(e_n-e_(n-1)) + ...`</p>
+                <p>Well, `e_n-e_(n-1) = (x_n-r)-(x_(n-1)-r)=x_n-x_(n-1)`</p>
+                <p>So `f(x_n)/e_n-f(x_(n-1))/e_(n-1) ~~ (f''(r))/2(x_n-x_(n-1))`</p>
+              </div>
               <p>Which means `(f(x_n)/e_n-f(x_(n-1))/e_(n-1))/(x_n-x_(n-1)) ~~ ((f''(r))/2(x_n-x_(n-1)))/(x_n-x_(n-1)) = (f''(r))/2`, which is a constant</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseSecant2">Proof</a>
@@ -708,14 +712,16 @@
             <p>It turns out that `alpha ~~ 1.62`</p>
             <div class="collapse" id="collapseSecant3">
               <p>Suppose `e_(n+1) = Ce_(n-1)e_n = A(e_n)^(alpha)`</p>
-              <p>`e_n = A(e_(n-1))^(alpha)`</p>
-              <p>`e_(n-1) = (e_n)^(1/alpha)/A^(1/alpha)`</p>
-              <p>So `Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_(n-1))^(alpha)`</p>
-              <p>`e_n = A(e_(n-1))^(alpha) => (e_(n-1))^(alpha) = e_n/A`</p>
-              <p>`Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_n/A) = C(e_n)^(1/alpha)/A^(1/alpha)e_n = C/A^(1/alpha)(e_n)^(1+1/alpha)`</p>
-              <p>So `A(e_n)^(alpha) = C/A^(1/alpha)(e_n)^(1+1/alpha)`, which means `alpha = 1 + 1/alpha`</p>
-              <p>`alpha = 1 + 1/alpha => alpha^2 = alpha + 1 => alpha^2-alpha-1 = 0`</p>
-              <p>`alpha = (1 +- sqrt(5))/2 ~~ 1.62`</p>
+              <div class="math">
+                <p>`e_n = A(e_(n-1))^(alpha)`</p>
+                <p>`e_(n-1) = (e_n)^(1/alpha)/A^(1/alpha)`</p>
+                <p>So `Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_(n-1))^(alpha)`</p>
+                <p>`e_n = A(e_(n-1))^(alpha) => (e_(n-1))^(alpha) = e_n/A`</p>
+                <p>`Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_n/A) = C(e_n)^(1/alpha)/A^(1/alpha)e_n = C/A^(1/alpha)(e_n)^(1+1/alpha)`</p>
+                <p>So `A(e_n)^(alpha) = C/A^(1/alpha)(e_n)^(1+1/alpha)`, which means `alpha = 1 + 1/alpha`</p>
+                <p>`alpha = 1 + 1/alpha => alpha^2 = alpha + 1 => alpha^2-alpha-1 = 0`</p>
+                <p>`alpha = (1 +- sqrt(5))/2 ~~ 1.62`</p>
+              </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseSecant3">Proof</a>
           </div>
@@ -739,7 +745,51 @@
             <p><b>Speed of secant method:</b> `1` function evaluation per iteration</p>
             <p><b>Convergence of secant method:</b> `e_(n+1) = (f''(r))/(2f'(r))e_(n-1)e_n`</p>
           </div>
+          <h2>Solving Nonlinear Equations: Fixed Points</h2>
+          <p>Switching gears, let's look at ways to solve nonlinear equations without finding roots.</p>
           <h3>What Goes In Must Go Out</h3>
+          <p>With Newton's method, we had: `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. Well, we could consider the right hand side as just one big function of `x_n`, call it `F(x_n)`. Then we have `x_(n+1) = F(x_n)`. So we plug in `x_n` and get out `x_(n+1)`. Let's suppose that we do this enough times so that `x_n -> s`. Then:</p>
+          <div class="math">
+            <p>`lim_(n->oo) x_(n+1) = lim_(n->oo)F(x_n)`</p>
+            <p>`s = F(lim_(n->oo) x_n)` (since `F` is continuous)</p>
+            <p>`s = F(s)`</p>
+          </div>
+          <p>This is saying that if we plug in a value, we get back that same value. This leads to another way of solving nonlinear equations: solving `x = F(x)` (as opposed to solving `f(x) = 0`).</p>
+          <p>The points `x` that satisfy `F(x) = x` are called <b>fixed points</b>. The idea is that if we apply `F` to `x` and we get back the same `x`, then that `x` is not changing, i.e. fixed.</p>
+          <div class="box">
+            <div class="row">
+              <div class="col-sm">
+                <p>`cosx = x`</p>
+                <p>root finding: `f(x) = cosx - x`</p>
+                <p>fixed point: `F(x) = cosx`</p>
+              </div>
+              <div class="col-sm">
+                <p>`x^2 = 2`</p>
+                <p>root finding: `f(x) = x^2 - 2`</p>
+                <p>fixed point: `ubrace(x^2-2+x)_(F(x)) = x`</p>
+                <p>fixed point: `ubrace(2/x)_(F(x)) = x`</p>
+                <p>fixed point: `ubrace(x/2 + 1/x)_(F(x)color(red)(text(*))) = x`</p>
+                <p>`color(red)(text(*))` this comes from Newton's method: `x - (x^2-2)/(2x)`</p>
+              </div>
+            </div>
+            <p>There are many options for solving nonlinear equations using the fixed point method. As long as the equation is of the form "`x` equals a function of `x`".</p>
+          </div>
+          <p>For convergence, we need `F` to be <b>contractive</b>. `F` is contractive if there exists a `lambda < 1` such that `abs(F(x)-F(y)) <= lambdaabs(x-y)` for all `x,y`. It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda < 1`).</p>
+          <p>Note: If `F` is contractive, then `F` is continuous.</p>
+          <div class="box">
+            <p><b>Fixed Point/Contractive Mapping Theorem:</b> Let `F:[a,b] -> [a,b]` be a contractive map. Then `F` has a unique fixed point in `[a,b]`. Also, `x_(n+1) = F(x_n)` with `x_0 in [a,b]` will converge to that fixed point.</p>
+            <div class="collapse" id="collapseUniqueFixedPoint">
+              <p>Suppose `x` and `y` are fixed points in `[a,b]`. We want to show that `x = y`</p>
+              <div class="math">
+                <p>`abs(F(x)-F(y)) <= lambdaabs(x-y)`</p>
+                <p>`abs(x-y) <= lambdaabs(x-y)` (since `x` is a fixed point, `F(x) = x`)</p>
+              </div>
+              <p>There are `2` cases: either `abs(x-y) != 0` or `abs(x-y) = 0`</p>
+              <p>Suppose `abs(x-y) != 0`. Then we can divide both sides by `abs(x-y)` to get `1 <= lambda`, which is a contradiction because `lambda < 1`</p>
+              <p>This means that `abs(x-y) = 0`, which means that `x = y`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseUniqueFixedPoint">Proof of Uniqueness</a>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
