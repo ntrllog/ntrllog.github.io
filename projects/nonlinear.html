@@ -585,6 +585,15 @@
           <div class="box">
             <p>Solving Systems with `2` variables:</p>
             <p>Suppose we wanted to solve a system like this: `{(f_1(x_1,x_2),=,0),(f_2(x_1,x_2),=,0):}` where `(r_1,r_2)` is the root</p>
+            <p>Using Taylor series, we can represent `f_1` as:</p>
+            <div class="math">
+              <p>`f_1(r_1,r_2) ~~ color(blue)(f_1(x_1^((0)),r_2)) + color(green)((delf_1)/(delx_1)(x_1^((0)),r_2)(r_1-x_1^((0))))`</p>
+              <p>`~~ color(blue)(f_1(x_1^((0)),x_2^((0))) + (delf_1)/(delx_2)(x_1^((0)),x_2^((0)))(r_2-x_2^((0))) + color(green)((delf_1)/(delx_1)(x_1^((0)),x_2^((0)))(r_1-x_1^((0))))`</p>
+            </div>
+            <p>And similarly for `f_2`:</p>
+            <div class="math">
+              <p>`f_2(r_1,r_2) ~~ f_2(x_1^((0)),x_2^((0))) + (delf_2)/(delx_1)(x_1^((0)),x_2^((0)))(r_1-x_1^((0))) + (delf_2)/(delx_2)(x_1^((0)),x_2^((0)))(r_2-x_2^((0)))`</p>
+            </div>
             <p>Then, with our initial guess `(x_1^((0)), x_2^((0)))`, we would solve it by doing:</p>
             <div class="math">
               <p>`[[x_1^((1))],[x_2^((1))]] = [[x_1^((0))],[x_2^((0))]] - [[(delf_1)/(delx_1)(x_1^((0)),x_2^((0))),(delf_1)/(delx_2)(x_1^((0)),x_2^((0)))],[(delf_2)/(delx_1)(x_1^((0)),x_2^((0))),(delf_2)/(delx_2)(x_1^((0)),x_2^((0)))]]^(-1)[[f_1(x_1^((0)),x_2^((0)))],[f_2(x_1^((0)),x_2^((0)))]]`</p>
@@ -659,10 +668,10 @@
           <p>Using the fact that `e_(n-1) = x_(n-1)-r` and `e_n = x_n - r`:</p>
           <div class="math">
             <p>`x_(n+1)-r = (e_(n-1)f(x_n)-e_nf(x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
-            <p>`x_(n+1)-r = (f(x_n)/e_n - f(x_(n-1))/e_(n-1))/(f(x_n)-f(x_(n-1)))(e_(n-1)e_n)`</p>
+            <p>`x_(n+1)-r = ((f(x_n)/e_n - f(x_(n-1))/e_(n-1))/(f(x_n)-f(x_(n-1))))color(red)(text(*))(e_(n-1)e_n)`</p>
             <p>by factoring out `(e_(n-1)e_n)`</p>
           </div>
-          <p>Multiplying by `1 = (x_n-x_(n-1))/(x_n-x_(n-1))`:</p>
+          <p>Multiplying by `1 = (x_n-x_(n-1))/(x_n-x_(n-1))color(red)(text(**))`:</p>
           <div class="math">
             <p>`x_(n+1)-r = ((x_n-x_(n-1))/(f(x_n)-f(x_(n-1)))*(f(x_n)/e_n-f(x_(n-1))/e_(n-1))/(x_n-x_(n-1)))e_(n-1)e_n`</p>
           </div>
@@ -693,6 +702,7 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseSecant2">Proof</a>
           </div>
+          <p>`color(red)(text(*))`Technically, this is a constant, but we want to study the whole equation as `n -> oo`. This is why we introduce `color(red)(text(**))`.</p>
           <p>Combining the results above, we get that `x_(n+1)-r = e_(n+1) ~~ Ce_(n-1)e_n` where `C = (f''(r))/(2f'(r))`. If we want to compare this error to the error in Newton's method (which was `e_(n+1) = c(e_n)^2`), then we should rewrite `e_(n+1) = Ce_(n-1)e_n` in the form of `A(e_n)^(alpha)` and find out what `alpha` is. If `alpha < 2`, then the secant method converges slower than Newton's method. If `alpha > 2`, then the secant method converges faster than Newton's method.</p>
           <div class="box">
             <p>It turns out that `alpha ~~ 1.62`</p>
@@ -710,6 +720,26 @@
             <a class="btn" data-toggle="collapse" href="#collapseSecant3">Proof</a>
           </div>
           <p>So `x_(n+1)-r = e_(n+1) = A(e_n)^(1.62)`, which means the secant method converges slower than Newton's method.</p>
+          <h4>Speed of Secant Method</h4>
+          <p>Recall that the secant method only requires `1` function evaluation per iteration, and that Newton's method requires `2` function evaluations per iteration. This means that we can perform `2` steps of the secant method in the time it takes to perform `1` step of Newton's method. So to compare them on a level playing field, we can compare the error when performing `2` steps of the secant method vs. the error in performing `1` step of Newton's method.</p>
+          <p>For the secant method:</p>
+          <table>
+            <tr>
+              <td>`x_(n+1)`</td>
+              <td>`abs(e_(n+1)) ~~ Cabs(e_n)^(1.62)`</td>
+            </tr>
+            <tr>
+              <td>`x_(n+2)`</td>
+              <td>`abs(e_(n+2)) ~~ Cabs(e_(n+1))^(1.62) ~~ C(Cabs(e_n)^(1.62))^(1.62) ~~ C^(1.62)abs(e_n)^(1.62^2) ~~ Cabs(e_n)^2.62`</td>
+            </tr>
+          </table>
+          <p>Comparing `Cabs(e_n)^2.62` to Newton's `cabs(e_n)^2`, we can see that the secant method can be considered faster.</p>
+          <div class="box">
+            <p><b>The story thus far:</b> The secant method is a variation of Newton's method where we use secant lines instead of tangent lines to approximate roots. It requires fewer function evaluations per iteration than Newton's method, but it may be faster or slower than Newton's method depending on how we study it.</p>
+            <p><b>Speed of secant method:</b> `1` function evaluation per iteration</p>
+            <p><b>Convergence of secant method:</b> `e_(n+1) = (f''(r))/(2f'(r))e_(n-1)e_n`</p>
+          </div>
+          <h3>What Goes In Must Go Out</h3>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
