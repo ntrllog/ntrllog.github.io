@@ -112,7 +112,7 @@
             <p>The math equation for forward/back substitution:</p>
             <div class="math">
               <p>`x_i = (1/a_(i,i))(b_i - sum_(j = 1)^(i-1) a_(i,j)*x_j)`</p>
-              <p>where `1 <= i <= n` is the row</p>
+              <p>where `1 le i le n` is the row</p>
             </div>
 	        </div>
           <div class="box">
@@ -171,7 +171,7 @@
             <div class="math">
               <p>`r_(i,i) = sqrt(a_(i,i) - sum_(k = 1)^(i-1) r_(k,i)^2)`</p>
               <p>`r_(i,j) = (1/r_(i,i))(a_(i,j) - sum_(k = 1)^(i-1) r_(k,i)*r_(k,j))`</p>
-              <p>where `1 <= i <= n` is the row and `1 <= j <= n` is the column</p>
+              <p>where `1 le i le n` is the row and `1 le j le n` is the column</p>
             </div>
           </div>
           <div class="box">
@@ -310,12 +310,12 @@
           </div>
           <p>Another way to write this is:</p>
           <div class="math">
-            <p>`x_i^((k+1)) = (b_i - sum_(j < i) a_(i,j)*x_j^((k)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
-            <p>because `j != i` is the same as all the numbers less than `i` (`j < i`) and all the number greater than `i` (`j > i`)</p>
+            <p>`x_i^((k+1)) = (b_i - sum_(j lt i) a_(i,j)*x_j^((k)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
+            <p>because `j != i` is the same as all the numbers less than `i` (`j lt i`) and all the number greater than `i` (`j > i`)</p>
           </div>
-          <p>Notice the summation with `j < i`. That sum is going through all the values for which we have already made guesses. (That equation is giving us the new guess for the `i^(th)` number on the `k+1^(st)` iteration. So surely, we had to have made guesses for all the numbers before `i` on the `k+1^(st)` iteration right?) So instead of using an old guess, why not use the new guesses we just recently obtained?</p>
+          <p>Notice the summation with `j lt i`. That sum is going through all the values for which we have already made guesses. (That equation is giving us the new guess for the `i^(th)` number on the `k+1^(st)` iteration. So surely, we had to have made guesses for all the numbers before `i` on the `k+1^(st)` iteration right?) So instead of using an old guess, why not use the new guesses we just recently obtained?</p>
           <div class="math">
-            <p>`x_i^((k+1)) = (b_i - sum_(j < i) a_(i,j)*x_j^((k+1)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
+            <p>`x_i^((k+1)) = (b_i - sum_(j lt i) a_(i,j)*x_j^((k+1)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
           </div>
           <p>This is the Gauss-Seidel method. And in matrix form:</p>
           <div class="math">
@@ -421,7 +421,7 @@
           <div class="math">
             <p>`G^(k+1)e^((0)) = c_1lambda_1^(k+1)v_1 + ... + c_nlambda_n^(k+1)v_n`</p>
           </div>
-          <p>Now we're back to where we were before introducing all the eigen-stuff: we wanted to know if and how `e^((k+1)) = G^(k+1)e^((0))` would go to `0`. In this equation, that happens if `abs(lambda_i) < 1` for all `i`, i.e., all the (aboslute values of the) eigenvalues of `G` are smaller than `1`. (Again, multiplying `0.1` a bunch of times makes it go to `0`).</p>
+          <p>Now we're back to where we were before introducing all the eigen-stuff: we wanted to know if and how `e^((k+1)) = G^(k+1)e^((0))` would go to `0`. In this equation, that happens if `abs(lambda_i) lt 1` for all `i`, i.e., all the (aboslute values of the) eigenvalues of `G` are smaller than `1`. (Again, multiplying `0.1` a bunch of times makes it go to `0`).</p>
           <div class="box">
             <p>*This is possible because `G` is invertible. `G` being an invertible (`n xx n`) matrix leads to the fact that any vector with `n` values can be written in terms of the eigenvectors of `G`. In math-speak: `{v_1, ..., v_n}` span `R^n`.</p>
           </div>
@@ -435,7 +435,7 @@
           <p>In words, the spectral radius of a matrix is the largest eigenvalue of that matrix. Relating this back to the conclusion we got earlier, <b>if the spectral radius of a matrix is less than `1`, then `G^(k)e^((0)) = e^((k+1))` will go to `0` (the distance from our guess to the actual answer will get closer to `0`; the iterative method will converge).</b> We only need to look at the maximum eigenvalue - as opposed to all the eigenvalues - because if the maximum is less than `1`, then all the eigenvalues will be less than `1`.</p>
           <p>What's remarkable about this fact is that this is true <i>no matter what our initial guess is.</i></p>
           <p>So we have a way of determining if the iterative method will converge. Just calculate all the eigenvalues of `G` and see if the largest eigenvalue is less than `1`. Well, it turns out that finding eigenvalues of a matrix is a slow process, so that's not going to help us much.</p>
-          <p>There's an easier criterion for determining the spectral radius: <b>for any matrix `G = M^(-1)N` with `0's` along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) abs(g_(i,j))` (the sum of the numbers in each row). If `R_i < 1` for all `i`, then `rho(G) <= max_i R_i < 1`</b> (Gershgorin Theorem).</p>
+          <p>There's an easier criterion for determining the spectral radius: <b>for any matrix `G = M^(-1)N` with `0's` along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) abs(g_(i,j))` (the sum of the numbers in each row). If `R_i lt 1` for all `i`, then `rho(G) le max_i R_i lt 1`</b> (Gershgorin Theorem).</p>
           <div class="box">
             <p>Does Jacobi converge for:</p>
             <div class="math">
@@ -452,7 +452,7 @@
               <p>`R_1 = R_5 = 1/3`</p>
               <p>`R_2 = R_3 = R_4 = 2/3`</p>
             </div>
-            <p>Since `2/3` is the max row sum, `rho(A) <= 2/3`. Since `rho(A) < 1`, Jacobi will converge no matter what guess we choose as our initial guess.</p>
+            <p>Since `2/3` is the max row sum, `rho(A) le 2/3`. Since `rho(A) lt 1`, Jacobi will converge no matter what guess we choose as our initial guess.</p>
           </div>
           <p>Now we know when our iterative methods will converge. But we can also look at how many steps it will take to converge.</p>
           <p>Let's look at `e^((k+1))` and `e^((k))`, both of which we defined as `e^((k+1)) = G^(k+1)e^((0))` and `e^((k)) = G^(k)e^((0))`. Remember that these can be written in terms of the eigenvectors of `G` (which are `{v_1, ..., v_n}`) since they span `R^n`.</p>
@@ -489,7 +489,7 @@
           <p>Another way to think about the size of a matrix is to think about how much `A` changes `x` when we do `Ax`. If `x` is a vector of size `1` and then multiplying it by `A` results in a vector of size `100`, then `A` was a big matrix. This leads to another type of norm known as an induced or operator norm:</p>
           <div class="math">
             <p>`norm(A)_p = max_(x != 0) norm(Ax)_p/norm(x)_p`</p>
-            <p>where `1 <= p <= oo`</p>
+            <p>where `1 le p le oo`</p>
           </div>
           <p>These norms are usually more useful than the Frobenius norm, but they take longer to compute (`n^3`). (However, a (relatively) fast way to estimate `norm(A)_p` is to take a bunch of random vectors `x` and compute `norm(Ax)_p/norm(x)_p`. Whichever answer is largest, will be approximately equal to `norm(A)_p`).</p>
           <div class="box">
@@ -497,7 +497,7 @@
             <p>`norm(A)_1` is the largest 1-norm of the columns of `A`: `(max_j sum_i abs(a_(i,j)))`</p>
             <p>`norm(A)_oo` is the largest 1-norm of the rows of `A`: `(max_i sum_j abs(a_(i,j)))`</p>
           </div>
-          <p>One useful result that will be used is `norm(Ax)_p <= norm(A)_pnorm(x)_p`.</p>
+          <p>One useful result that will be used is `norm(Ax)_p le norm(A)_pnorm(x)_p`.</p>
           <p>From this point on, <i>matrix</i> norms without a subscript are assumed to be the induced norm.</p>
           <h2>Condition Numbers</h2>
           <p>And now back to our regularly scheduled programming: solving `Ax = b`. Except with a few changes (pun intended).</p>
@@ -529,19 +529,19 @@
           </div>
           <p>Using the useful result from the previous section:</p>
           <div class="math">
-            <p>`norm(deltax) <= norm(A^(-1))*norm(deltab)`</p>
+            <p>`norm(deltax) le norm(A^(-1))*norm(deltab)`</p>
             <p>`(1)`</p>
           </div>
           <p>To get `1/norm(x)` we look at `Ax = b`:</p>
           <div class="math">
             <p>`norm(b) = norm(Ax)`</p>
-            <p>`norm(b) <= norm(A)*norm(x)`</p>
-            <p>`1/norm(x) <= norm(A)1/norm(b)`</p>
+            <p>`norm(b) le norm(A)*norm(x)`</p>
+            <p>`1/norm(x) le norm(A)1/norm(b)`</p>
             <p>`(2)`</p>
           </div>
           <p>Multiplying `(1)` and `(2)`, we get:</p>
           <div class="math">
-            <p>`norm(deltax)/norm(x) <= norm(A)*norm(A^(-1))norm(deltab)/norm(b)`</p>
+            <p>`norm(deltax)/norm(x) le norm(A)*norm(A^(-1))norm(deltab)/norm(b)`</p>
           </div>
           <p>`norm(A)*norm(A^(-1))` is called the condition number of `A`, denoted by `kappa(A)`</p>
           <div class="math">
@@ -549,7 +549,7 @@
           </div>
           <p>So our equation becomes:</p>
           <div class="math">
-            <p>`norm(deltax)/norm(x) <= kappa(A)norm(deltab)/norm(b)`</p>
+            <p>`norm(deltax)/norm(x) le kappa(A)norm(deltab)/norm(b)`</p>
           </div>
           <p><b>The condition number is really important: if it is small, then a small error in `b`, will lead to a small error in `x`. In this case, `A` is "well conditioned". If the condition number is large, then even if the error in `b` is small, the error in `x` could still be large. In this case, `A` is "ill conditioned".</b></p>
           <div class="box">
@@ -637,7 +637,7 @@
             <p>`(A + deltaA)x = b`</p>
           </div>
           <p>This is a harder problem than `Ax = b + deltab`. In that problem, `A` was assumed to be invertible, which made it possible to solve the problem. Here, adding some error to `A`, which is assumed to be invertible, might change it enough so that it is no longer invertible.</p>
-          <p>How can we avoid that situation? It turns out that <b>if `A` is invertible and `norm(deltaA)/norm(A) < 1/(kappa(A))`, then `A + deltaA` is invertible.</b></p>
+          <p>How can we avoid that situation? It turns out that <b>if `A` is invertible and `norm(deltaA)/norm(A) lt 1/(kappa(A))`, then `A + deltaA` is invertible.</b></p>
           <div class="box">
             <p>A rough idea of the previous statement:</p>
             <p>Adding error `(deltaA)` to `A` changes `A` and its eigenvalues. However, if the error is smaller than the smallest eigenvalue of `A`, then the error won't change `A` and its eigenvalues too much.</p>
@@ -652,22 +652,22 @@
             <p>`A(deltax) = -deltaA(x + deltax)`</p>
             <p>`deltax = -A^(-1)(deltaA(x + deltax))`</p>
             <p>`norm(deltax) = norm(A^(-1)(deltaA(x + deltax)))`</p>
-            <p>`norm(deltax) <= norm(A^(-1))*norm(deltaA(x + deltax))`</p>
-            <p>`norm(deltax) <= norm(A^(-1))*norm(deltaA)*norm(x + deltax)`</p>
+            <p>`norm(deltax) le norm(A^(-1))*norm(deltaA(x + deltax))`</p>
+            <p>`norm(deltax) le norm(A^(-1))*norm(deltaA)*norm(x + deltax)`</p>
             <p>Multiplying both sides by `1 = norm(A)/norm(A)`, we get:</p>
-            <p>`1*norm(deltax) <= norm(A^(-1))*norm(deltaA)*norm(x + deltax)norm(A)/norm(A)`</p>
-            <p>`norm(deltax)/norm(x + deltax) <= norm(A^(-1))*norm(A)norm(deltaA)/norm(A)`</p>
-            <p>`norm(deltax)/norm(x + deltax) <= kappa(A)norm(deltaA)/norm(A)`</p>
+            <p>`1*norm(deltax) le norm(A^(-1))*norm(deltaA)*norm(x + deltax)norm(A)/norm(A)`</p>
+            <p>`norm(deltax)/norm(x + deltax) le norm(A^(-1))*norm(A)norm(deltaA)/norm(A)`</p>
+            <p>`norm(deltax)/norm(x + deltax) le kappa(A)norm(deltaA)/norm(A)`</p>
           </div>
           <p>So the amount of error we get in our solution is bounded by the condition number and the amount of error in `A`.</p>
           <div class="box">
-            <p>Example: Let `A = [[1, 1],[1, 1.01]], A^(-1) = [[101, -100],[-100, 100]]`. Assume `norm(deltaA)_1 < .001`.</p>
+            <p>Example: Let `A = [[1, 1],[1, 1.01]], A^(-1) = [[101, -100],[-100, 100]]`. Assume `norm(deltaA)_1 lt .001`.</p>
             <p>Using the facts about 1-norms from the Matrix Norms section, we get:</p>
             <p>`norm(A)_1 = 2.01` and `norm(A^(-1))_1 = 201`</p>
             <p>`kappa_1(A) = norm(A)_1*norm(A^(-1))_1 = (2.01)(201) ~~ 400`</p>
-            <p>`norm(deltax)_1/norm(x + deltax)_1 <= kappa_1(A)norm(deltaA)_1/norm(A)_1`</p>
-            <p>`norm(deltax)_1/norm(x + deltax)_1 <= (400)(.001/2.01)`</p>
-            <p>`norm(deltax)_1/norm(x + deltax)_1 <= .2`</p>
+            <p>`norm(deltax)_1/norm(x + deltax)_1 le kappa_1(A)norm(deltaA)_1/norm(A)_1`</p>
+            <p>`norm(deltax)_1/norm(x + deltax)_1 le (400)(.001/2.01)`</p>
+            <p>`norm(deltax)_1/norm(x + deltax)_1 le .2`</p>
             <p>This means that if we change `A` by `.1%`, the solution we get could be off from the true solution by `20%`.</p>
           </div>
           <div class="box">
@@ -688,11 +688,11 @@
           </div>
           <p>Recall that in that section we defined `hat(x) = x + deltax`. Also in that section, we got this:</p>
           <div class="math">
-            <p>`norm(deltax)/norm(x) <= kappa(A)norm(deltab)/norm(b)`</p>
+            <p>`norm(deltax)/norm(x) le kappa(A)norm(deltab)/norm(b)`</p>
           </div>
           <p>We could rewrite this in terms of the residual:</p>
           <div class="math">
-            <p>`norm(x - hat(x))/norm(x) <= kappa(A) norm(hat(r))/norm(b)`</p>
+            <p>`norm(x - hat(x))/norm(x) le kappa(A) norm(hat(r))/norm(b)`</p>
           </div>
           <p>This equation is saying the same thing as the other equation. But this gives a different interpretation. Instead of bounding our error by looking at the change in `b`, we can bound our error by looking at the residual. This is more helpful because it's not really possible to calculate `deltab` (you can't really know exactly how much measurement error you made; if you did, then there would be almost no point to all of this.) But it is possible to calculate the residual: do `b - Ahat(x)`.</p>
           <div class="box">
@@ -702,9 +702,9 @@
             <p>Let's say `hat(r) = [[2 xx 10^(-5)],[1 xx 10^(-5)]]`</p>
             <p>So what does this say about `x - hat(x)`? I.e., how far off is `hat(x)` from `x`?</p>
             <p>From calculating, we get: `norm(hat(r))_1 = 3 xx 10^(-5)` and `norm(b)_1 = 3`</p>
-            <p>`norm(x - hat(x))/norm(x) <= kappa(A) norm(hat(r))/norm(b)`</p>
-            <p>`norm(x - hat(x))/norm(x) <= (400)((3 xx 10^(-5))/3)`</p>
-            <p>`norm(x - hat(x))/norm(x) <= .004`</p>
+            <p>`norm(x - hat(x))/norm(x) le kappa(A) norm(hat(r))/norm(b)`</p>
+            <p>`norm(x - hat(x))/norm(x) le (400)((3 xx 10^(-5))/3)`</p>
+            <p>`norm(x - hat(x))/norm(x) le .004`</p>
             <p>What's happening here is that we got our solution `hat(x)` and the residual was really small (.01%). But after analyzing our error, our solution could be off by as much as `.4%`.</p>
           </div>
           <p>It takes `n^2` time to calculate `hat(r)`.</p>
@@ -786,7 +786,7 @@
           <p>Generalizing this for the `1^(st)` column, there are `n-1` rows, each with `n+n = 2n` multiplications and subtractions. So the total is `2n(n-1) ~~ 2n^2` operations.</p>
           <p>To get the first (and only) `0` in the `2^(nd)` column, we're doing `n-1` multiplications and `n-1` subtractions `(3)`. And we did this for `1` row (every row but the `1^(st)` and `2^(nd)`).</p>
           <p>Generalizing this for the `2^(nd)` column, there are `n-2` rows, each with `n-1 + n-1 = 2(n-1)` multiplications and subtractions. So the total is `2(n-1)(n-2) ~~ 2(n-1)^2` operations.</p>
-          <p>Generalizing this for all columns, there are `2(n-i)^2 ~~ n^2` operations for the `i^(th)` column where `1 <= i <= n`. Since there are `n` columns, there are `n^2*n ~~ n^3` operations.</p>
+          <p>Generalizing this for all columns, there are `2(n-i)^2 ~~ n^2` operations for the `i^(th)` column where `1 le i le n`. Since there are `n` columns, there are `n^2*n ~~ n^3` operations.</p>
           <p>A result that this section will show is that doing Gaussian elimination results in decomposing `A` into two matrices `L` (lower-triangular) and `U` (upper-triangular).</p>
           <p>We started with `b` (in the example, `[[9],[9],[16]]`) and turned it into some new vector `y` (in the example, `[[9],[0],[-2]]`). In `0`'ing out the `1^(st)` column, `2^(nd)` row, we multiplied `b_1` `(9)` by `m_(2,1) = a_(2,1)/a_(1,1)` `(1 = 2/2)` and subtracted that from `b_2` `(9)`.</p>
           <div class="math">
@@ -1042,7 +1042,7 @@
           <div class="math">
             <p>`Av_i = sigma_iu_i`</p>
             <p>`A^Tu_i = u_i^TA = sigma_iv_i`</p>
-            <p>for `1 <= i <= r`</p>
+            <p>for `1 le i le r`</p>
           </div>
           <p>To get `sigma_i`, we can look at `(A^TA)v_i`:</p>
           <div class="math">
@@ -1067,7 +1067,7 @@
             <p>It turns out that the eigenvectors of `A A^T` are the columns of `U` and the eigenvectors of `A^TA` are the columns of `V`.</p>
           </div>
           <div class="box">
-            <p>The singular values `sigma_i` are the square roots of the eigenvalues of `A A^T` or `A^TA`. An interesting point arises when we look at the sizes of each matrix. `A` is an `n xx m` matrix, so `A A^T` is an `n xx n` matrix whereas `A^TA` is an `m xx m` matrix. Since `n != m`, either `n > m` or `n < m`. Either way, one matrix will be smaller than the other. So it would be faster to find out which matrix is smaller compute the eigenvalues of the smaller matrix.</p>
+            <p>The singular values `sigma_i` are the square roots of the eigenvalues of `A A^T` or `A^TA`. An interesting point arises when we look at the sizes of each matrix. `A` is an `n xx m` matrix, so `A A^T` is an `n xx n` matrix whereas `A^TA` is an `m xx m` matrix. Since `n != m`, either `n > m` or `n lt m`. Either way, one matrix will be smaller than the other. So it would be faster to find out which matrix is smaller compute the eigenvalues of the smaller matrix.</p>
           </div>
           <p>Besides being used to find the decomposition of `A`, `sigma_i` is important in another way. We've looked at `norm(A)_2` but only when `A` was a square matrix. Here, `A` isn't a square matrix, so the norm is a bit different. <b>It turns out that `norm(A)_2 = sigma_1`.</b></p>
           <div class="box">
@@ -1134,10 +1134,10 @@
           <p>This gives us a way of finding the eigenvector. How large will `k` be before we get a good estimate? If we let `q^((k)) = (A^kq)/lambda_1^k`, then we can look at `norm(q^((k))-c_1v_1)_2`:</p>
           <div class="math">
             <p>`norm(q^((k))-c_1v_1)_2 = norm((lambda_2/lamda_1)^kc_2v_2 + ... + (lambda_n/lambda_1)^kc_nv_n)_2`</p>
-            <p>`<= sum_(i = 2)^n (lambda_i/lambda_1)^k abs(c_i)norm(v_i)_2` (by triangle inequality)</p>
-            <p>`<= abs(lambda_2/lambda_1)^k sum_(i = 2)^n abs(c_i)norm(v_i)_2` (since `lambda_1 > lambda_2 > ... > lambda_i`)</p>
+            <p>`le sum_(i = 2)^n (lambda_i/lambda_1)^k abs(c_i)norm(v_i)_2` (by triangle inequality)</p>
+            <p>`le abs(lambda_2/lambda_1)^k sum_(i = 2)^n abs(c_i)norm(v_i)_2` (since `lambda_1 > lambda_2 > ... > lambda_i`)</p>
           </div>
-          <p>So `norm(q^((k)) - c_1v_1)_2 <= abs(lambda_2/lambda_1)^k sum_(i = 2)^n abs(c_i)norm(v_i)_2` goes to `0` as `k -> oo`. This means that we should stop when `abs(lambda_2/lambda_1)^k` is really small.</p>
+          <p>So `norm(q^((k)) - c_1v_1)_2 le abs(lambda_2/lambda_1)^k sum_(i = 2)^n abs(c_i)norm(v_i)_2` goes to `0` as `k -> oo`. This means that we should stop when `abs(lambda_2/lambda_1)^k` is really small.</p>
           <p>This says that repeatedly multiplying `q` by `A` and dividing by `lambda_1` will eventually give us the eigenvector `v_1`. It also says that if `abs(lambda_2/lambda_1)` is much smaller than `1`, then it won't take long for this method to converge (i.e. `k` will be small). But if `abs(lambda_2/lambda_1)` is close to `1` (i.e. `lambda_2` is close to `lambda_1`), then it will take a long time to converge (i.e. `k` will be large).</p>
           <p>We have a way of finding the eigenvector, but it is dependent on the eigenvalue. And we currently don't know the eigenvalue. It turns out that we can't really compute it exactly, so we make an educated guess as to what it could be.</p>
           <div class="box">
