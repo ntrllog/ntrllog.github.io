@@ -544,7 +544,7 @@
               <p>Also, since `f' > 0`, `f'(x_n) > 0`</p>
               <p>So `f(x_n)/(f'(x_n)) >= 0`</p>
               <p>This means that `x_(n+1)` is obtained by getting `x_n` and taking away a part of it. If you take away a part of the original amount, then the amount you end up with will always be less than the original amount.</p>
-              <p>So `x_(n+1) < x_n`</p>
+              <p>So `x_(n+1) lt x_n`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewton1">Proof</a>
           </div>
@@ -774,7 +774,7 @@
             </div>
             <p>There are many options for solving nonlinear equations using the fixed point method. As long as the equation is of the form "`x` equals a function of `x`".</p>
           </div>
-          <p>For convergence, we need `F` to be <b>contractive</b>. `F` is contractive if there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)` for all `x,y`. It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda lt 1`).</p>
+          <p>For convergence, we need `F` to be contractive. <b>`F` is contractive if there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)` for all `x,y`.</b> It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda lt 1`).</p>
           <p>Note: If `F` is contractive, then `F` is continuous.</p>
           <div class="box">
             <p><b>Fixed Point/Contractive Mapping Theorem:</b> Let `F:[a,b] -> [a,b]` be a contractive map. Then `F` has a unique fixed point in `[a,b]`. Also, `x_(n+1) = F(x_n)` with `x_0 in [a,b]` will converge to that fixed point.</p>
@@ -818,6 +818,25 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseConvergenceFixedPoint">Proof of Convergence</a>
           </div>
+          <p>So how do we know what to use for `lambda`? It turns out that we can answer this by looking at the <b>Mean Value Theorem, which says that if `f` is continuous on `[a,b]` and differentiable on `(a,b)`, then there exists a point `c` between `a` and `b` such that `f'(c) = (f(b)-f(a))/(b-a)`</b>.</p>
+          <p>For our situation, we can adjust that equation a little bit to get:</p>
+          <div class="math">
+            <p>`F'(xi) = (F(x)-F(y))/(x-y)`</p>
+            <p>`F(x)-F(y) = F'(xi)(x-y)`</p>
+          </div>
+          <p>Notice how similar this is to the contractive property: `abs(F(x)-F(y)) le lambdaabs(x-y)`. This means we can use `F'(xi)` for `lambda`.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/mvt.jpg">
+          </div>
+          <div class="box">
+            <p>`abs(F(x)-F(y)) le (max_(z in [a,b]) abs(F'(z)))color(red)(text(*)) abs(x-y)`</p>
+            <p>`color(red)(text(*))`If this is less than `1`, then `color(red)(text(*))` serves as `lambda`.</p>
+            <p>Also, `max_(z in [a,b]) abs(F'(z)) lt 1 iff f` is a contractive map.</p>
+          </div>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/fixed_point.jpg">
+          </div>
+          <p>This is the graphical interpretation of looking at fixed points. Notice that the point is on the line `y = x` and `y = F(x)`. So `x = F(x)`.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
