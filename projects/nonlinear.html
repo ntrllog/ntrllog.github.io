@@ -78,7 +78,7 @@
           <p>To find out the worst our error could be, we want to make it as large as possible. We do that by making the numerator as big as possible (by letting `d_(n+1) = d_(n+2) = ... = 9`) and making the denominator as small as possible (by letting `d_1 = 1` `color(red)(text(*))` and `d_2 = d_3 = ... = 0`).</p>
           <p>`color(red)(text(*))``d_1` cannot be `0` because of the way numbers are written in scientific notation. You wouldn't write something like `0.083 xx 10^3`; it would be `0.83 xx 10^2`.</p>
           <div class="math">
-            <p>`<= (0.obrace(00...0)^(n-1)1color(red)(text(*)))/(0.100)`</p>
+            <p>`le (0.obrace(00...0)^(n-1)1color(red)(text(*)))/(0.100)`</p>
             <p>` = 0.obrace(0...0)^(n-2)1`</p>
             <p>` = 10^(-(n-1))`</p>
             <p>` = 10^(1-n)`</p>
@@ -88,28 +88,28 @@
           <div class="box">
             <p>For an `n`-digit rounding computer, `epsilon = 1/2 * 10^(1-n)`</p>
             <div class="collapse" id="collapseRelErrorRoundBound">
-              <p>Let `x = 0.d_1\ d_2\ ... xx 10^a` be a real number. Suppose `d_(n+1) < 5`. Then `fl(x) = 0.d_1\ d_2\ ... d_n xx 10^a`</p>
+              <p>Let `x = 0.d_1\ d_2\ ... xx 10^a` be a real number. Suppose `d_(n+1) lt 5`. Then `fl(x) = 0.d_1\ d_2\ ... d_n xx 10^a`</p>
               <div class="math">
                 <p>relative error = `abs(x - fl(x))/abs(x)`</p>
                 <p>`= (0.obrace(0...0)^n\ d_(n+1)\ d_(n+2)\ ... xx 10^a)/(0.d_1\ d_2\ ... xx 10^a)`</p>
                 <p>`= (0.obrace(0...0)^n\ d_(n+1)\ d_(n+2)\ ...)/(0.d_1\ d_2\ ...)`</p>
-                <p>`<= (0.obrace(0...0)^n49...)/(0.10...)`</p>
+                <p>`le (0.obrace(0...0)^n49...)/(0.10...)`</p>
                 <p>`= (0.obrace(0...0)^n5)/(0.1)`</p>
                 <p>`= 0.obrace(0...0)^(n-1)5`</p>
                 <p>`= 0.5 xx 10^(-(n-1))`</p>
                 <p>`= 1/2 xx 10^(1-n)`</p>
               </div>
-              <p>Now suppose `5 <= d_(n+1) <= 9`. Then `fl(x) = 0.d_1\ d_2\ ...\ d_n xx 10^a + 0.obrace(0...0)^(n-1)1 xx 10^a`</p>
+              <p>Now suppose `5 le d_(n+1) le 9`. Then `fl(x) = 0.d_1\ d_2\ ...\ d_n xx 10^a + 0.obrace(0...0)^(n-1)1 xx 10^a`</p>
               <div class="math">
                 <p>relative error = `abs(x - fl(x))/abs(x)`</p>
                 <p>`= abs(0.d_1\ d_2\ ...\ d_n\ d_(n+1)\ ... xx 10^a - 0.d_1\ ...\ d_n xx 10^a - 0.obrace(0...0)^(n-1)1 xx 10^a)/abs(0.d_1\ d_2\ ... xx 10^a)`</p>
                 <p>`= abs(0.obrace(0...0)^n\ d_(n+1)\ ... - 0.obrace(0...0)^(n-1)1)/abs(0.d_1\ d_2\ ...)color(red)(text(*)`</p>
-                <p>`<= (0.obrace(0...0)^n5)/0.1`</p>
+                <p>`le (0.obrace(0...0)^n5)/0.1`</p>
                 <p>`= 0.obrace(0...0)^(n-1)5`</p>
                 <p>`= 0.5 xx 10^(-(n-1))`</p>
                 <p>`= 1/2 xx 10^(1-n)`</p>
               </div>
-              <p>`color(red)(text(*))` Since `5 <= d_(n+1) <= 9`, we have:</p>
+              <p>`color(red)(text(*))` Since `5 le d_(n+1) le 9`, we have:</p>
               <div class="math">
                 <p>`abs(0.obrace(0...0)^n5 - 0.obrace(0...0)^(n-1)1) = 0.obrace(0...0)^n5`</p>
                 <p>`abs(0.obrace(0...0)^n6 - 0.obrace(0...0)^(n-1)1) = 0.obrace(0...0)^n4`</p>
@@ -173,19 +173,19 @@
             <p>`1 + delta = 1 + delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3`</p>
             <p>`=> delta = delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3`</p>
             <p>`=> abs(delta) = abs(delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3)`</p>
-            <p>`=> abs(delta) <= abs(delta_1) + abs(delta_2) + abs(delta_3) + abs(delta_1delta_2) + abs(delta_1delta_3) + abs(delta_2delta_3) + abs(delta_1delta_2delta_3)` (by triangle inequality)</p>
+            <p>`=> abs(delta) le abs(delta_1) + abs(delta_2) + abs(delta_3) + abs(delta_1delta_2) + abs(delta_1delta_3) + abs(delta_2delta_3) + abs(delta_1delta_2delta_3)` (by triangle inequality)</p>
           </div>
-          <p>In the previous section, we defined `epsilon` to be the largest possible relative error. So all of these relative errors are smaller than `epsilon`, i.e. `abs(delta_1), abs(delta_2), abs(delta_3) <= epsilon`</p>
+          <p>In the previous section, we defined `epsilon` to be the largest possible relative error. So all of these relative errors are smaller than `epsilon`, i.e. `abs(delta_1), abs(delta_2), abs(delta_3) le epsilon`</p>
           <div class="math">
-            <p>`abs(delta) <= abs(delta_1) + abs(delta_2) + abs(delta_3) + abs(delta_1delta_2) + abs(delta_1delta_3) + abs(delta_2delta_3) + abs(delta_1delta_2delta_3)`</p>
-            <p>`=> abs(delta) <= epsilon + epsilon + epsilon + epsilon^2 + epsilon^2 + epsilon^2 + epsilon^3`</p>
+            <p>`abs(delta) le abs(delta_1) + abs(delta_2) + abs(delta_3) + abs(delta_1delta_2) + abs(delta_1delta_3) + abs(delta_2delta_3) + abs(delta_1delta_2delta_3)`</p>
+            <p>`=> abs(delta) le epsilon + epsilon + epsilon + epsilon^2 + epsilon^2 + epsilon^2 + epsilon^3`</p>
             <p>`= 3epsilon + 3epsilon^2 + epsilon^3`</p>
             <p>`= 3epsilon + O(epsilon^2) = O(epsilon)`</p>
           </div>
           <p>So <b>multiplying two numbers will lead to error, but it will be at most `3` times as bad as the worst error in storing a number.</b></p>
           <div class="box">
-            <p>`(x*y)*z` gets relative error `abs(delta) <= 5epsilon + O(epsilon^2)`</p>
-            <p>`((x_1*x_2)*x_3)*x_4*...*x_m` gets relative error `abs(delta) <= (2m-1)epsilon + O(epsilon^2)`</p>
+            <p>`(x*y)*z` gets relative error `abs(delta) le 5epsilon + O(epsilon^2)`</p>
+            <p>`((x_1*x_2)*x_3)*x_4*...*x_m` gets relative error `abs(delta) le (2m-1)epsilon + O(epsilon^2)`</p>
           </div>
           <p>Now, let's suppose we wanted to subtract two numbers `x` and `y`.</p>
           <div class="math">
@@ -255,7 +255,7 @@
           </div>
           <p>Let's pick some number `d_n` and use that as our approximation. In this picture, there would be the most error if the actual solution was at `b_n`. In general,</p>
           <div class="math">
-            <p>`abs(text(exact)-text(approximate)) = abs(r - d_n) <= abs(b_n - a_n)`</p>
+            <p>`abs(text(exact)-text(approximate)) = abs(r - d_n) le abs(b_n - a_n)`</p>
             <p>where `r` is the exact solution</p>
           </div>
           <div class="box">
@@ -264,10 +264,10 @@
           <p>We usually pick as our approximation the midpoint of `a_n` and `b_n`. That actually gives us a better approximation because the most error we could have then is half of the previous error. (This would be when the exact solution is either at `a_n` or at `b_n`.)</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/root_algorithm_error.jpg">
-            <p>`abs(text(exact)-text(approximate)) = abs(r - c_n) <= abs(b_n - a_n)/2`</p>
+            <p>`abs(text(exact)-text(approximate)) = abs(r - c_n) le abs(b_n - a_n)/2`</p>
           </div>
           <div class="box">
-            <p>In general, `abs(r - d_n) <= max(abs(d_n-a_n), abs(d_n-b_n))`.</p>
+            <p>In general, `abs(r - d_n) le max(abs(d_n-a_n), abs(d_n-b_n))`.</p>
           </div>
           <p>So to summarize, the algorithm for finding a root of a polynomial is:</p>
           <ol>
@@ -285,17 +285,17 @@
           </div>
           <p>If the actual solution is `r`, then what we want to say is that `color(blue)(lim_(n->oo) c_n = r)`. In words, the more times we do the algorithm, the more approximations we will get and the closer those approximations will be to the actual solution `r`.</p>
           <p>Another way to say that is that the difference (i.e. error) between the approximation we get and the actual solution gets closer and closer to `0`. Generally, it might not be guaranteed to happen, but for the bisection method, it is true that the more times we do the algorithm, the closer it will get to `0`.</p>
-          <p>Previously, we found that `abs(r - c_n) <= abs(b_n - a_n)/2`. Well that means `abs(r - c_0) <= abs(b_0 - a_0)/2`. And also, `abs(r - c_1) <= abs(b_1 - a_1)/2`.</p>
+          <p>Previously, we found that `abs(r - c_n) le abs(b_n - a_n)/2`. Well that means `abs(r - c_0) le abs(b_0 - a_0)/2`. And also, `abs(r - c_1) le abs(b_1 - a_1)/2`.</p>
           <p>But what is `abs(b_1 - a_1)`? Thinking back to the steps of the algorithm, `[a_1,b_1]` represented the new interval after splitting `[a_0,b_0]` in half. So `[a_1,b_1]` is really half of `[a_0,b_0]`. Which means `abs(b_1 - a_1) = abs(b_0 - a_0)/2`.</p>
-          <p>Putting all that together, `abs(r - c_1) <= abs(b_1 - a_1)/2 = (abs(b_0 - a_0)/2)/2 = 1/2^2 (b_0 - a_0)`</p>
+          <p>Putting all that together, `abs(r - c_1) le abs(b_1 - a_1)/2 = (abs(b_0 - a_0)/2)/2 = 1/2^2 (b_0 - a_0)`</p>
           <p>Generalizing that idea, we can see that:</p>
           <div class="math">
-            <p>`abs(r - c_0) <= 1/2^1 (b_0 - a_0)`</p>
-            <p>`abs(r - c_1) <= 1/2^2 (b_0 - a_0)`</p>
-            <p>`abs(r - c_2) <= 1/2^3 (b_0 - a_0)`</p>
-            <p>`abs(r - c_3) <= 1/2^4 (b_0 - a_0)`</p>
+            <p>`abs(r - c_0) le 1/2^1 (b_0 - a_0)`</p>
+            <p>`abs(r - c_1) le 1/2^2 (b_0 - a_0)`</p>
+            <p>`abs(r - c_2) le 1/2^3 (b_0 - a_0)`</p>
+            <p>`abs(r - c_3) le 1/2^4 (b_0 - a_0)`</p>
             <p>`vdots`</p>
-            <p>`abs(r - c_n) <= 1/2^(n+1) (b_0 - a_0)`</p>
+            <p>`abs(r - c_n) le 1/2^(n+1) (b_0 - a_0)`</p>
           </div>
           <p>Now, as `n` gets larger and larger (i.e. as we do more steps of the algorithm), the right-hand side gets smaller and smaller. When `n` goes to `oo`, the right-hand side goes to `0`.</p>
           <p>This proves that what we want to say is true: `color(blue)(lim_(n->oo) abs(r - c_n) = 0 => lim_(n->oo)c_n = r)`</p>
@@ -308,10 +308,10 @@
           <div class="box">
             <p>Ex: Let's say the starting interval is `[-1,3]` and that we want the error to be no bigger than `10^(-12)`.</p>
             <div class="math">
-              <p>`(3-(-1))/(2^(n+1)) <= 10^(-12)`</p>
-              <p>`4/(2^(n+1)) <= 1/10^(12)`</p>
-              <p>`4*10^12 <= 2^(n+1)`</p>
-              <p>`log_2(4*10^12) <= n+1`</p>
+              <p>`(3-(-1))/(2^(n+1)) le 10^(-12)`</p>
+              <p>`4/(2^(n+1)) le 1/10^(12)`</p>
+              <p>`4*10^12 le 2^(n+1)`</p>
+              <p>`log_2(4*10^12) le n+1`</p>
               <p>`n >= log_2(4*10^(12))-1 ~~ 41`</p>
             </div>
             <p>So if we do the bisection method for `41` steps, then the approximation we end up with will have an error of no more than `10^(-12)`.</p>
@@ -375,7 +375,7 @@
           <div class="box">
             <p>Some details regarding the bisection method:</p>
             <ul>
-              <li><p>If `f(a)` and `f(c)` are both really large, then it's possible that multiplying them together results in a number that is too large for the computer to store. Then, we would get errors like we saw in the previous section. To avoid this, we could define a function called `sign(f(x)) = {(1 if f(x) > 0),(-1 if f(x) < 0),(0 if f(x) = 0):}`. Then we could check if `sign(f(a)) cancel(=) sign(f(c))` instead of multiplying them.</p></li>
+              <li><p>If `f(a)` and `f(c)` are both really large, then it's possible that multiplying them together results in a number that is too large for the computer to store. Then, we would get errors like we saw in the previous section. To avoid this, we could define a function called `sign(f(x)) = {(1 if f(x) > 0),(-1 if f(x) lt 0),(0 if f(x) = 0):}`. Then we could check if `sign(f(a)) cancel(=) sign(f(c))` instead of multiplying them.</p></li>
               <li><p>It might sound like a good idea to check if `f(c_n) = 0` to stop the algorithm early. That would mean that in doing our algorithm, we hit on the <em>exact</em> root. The chances of that happening are virtually `0` (imagine marking `sqrt(2)` <em>exactly</em> on a a number line). The bisection method will converge anyway, so checking that is an extra costly operation.</p></li>
               <li><p>Like with the first point, it's possible that when calculating `c = (a+b)/2`, adding `a` and `b` results in a number too large to store. We can avoid this by calculating `c = a + (b-a)/2`. Note that `a + (b-a)/2 = (a + b)/2`.</p></li>
             </ul>
@@ -465,7 +465,7 @@
           <p>Let's suppose `f'`,`f''` are continuous around `x = r` and `f'(r) != 0` to avoid the problems mentioned above. Then if we start with an intial guess close enough to `r`, we can get `x_n -> r` (the `n^(th)` approximation will approach `r`).</p>
           <div class="box">
             <p>Let's suppose we are close enough so that `(f''(xi_n))/(2f'(x_n)) ~~ (f''(r))/(2f'(r))`. Then `e_(n+1) ~~ (f''(r))/(2f'(r))(e_n)^2 = ((f''(r))/(2f'(r))e_n)e_n`.</p>
-            <p>If `((f''(r))/(2f'(r))e_n) < 1`, then `e_(n+1) -> 0`.</p>
+            <p>If `((f''(r))/(2f'(r))e_n) lt 1`, then `e_(n+1) -> 0`.</p>
           </div>
           <p>Since `(f''(r))/(2f'(r))` is a constant, we can call it `c`. Then the error for Newton's method can be represented as `e_(n+1) ~~ c(e_n)^2`. Let's say the error of the `n^(th)` approximation was `0.001`.</p>
           <div class="flex">
@@ -509,7 +509,7 @@
           <div class="box">
             <p>To prove the second convergence result, we have to show that:</p>
             <ol>
-              <li><p>`x_n` is decreasing, i.e. `x_n < ... < x_3 < x_2 < x_1 < x_0`</p></li>
+              <li><p>`x_n` is decreasing, i.e. `x_n lt ... lt x_3 lt x_2 lt x_1 lt x_0`</p></li>
               <li><p>a decreasing sequence bounded from below has to converge</p></li>
               <li><p>what it converges to is `r`</p>
             </ol>
@@ -573,9 +573,9 @@
           </div>
           <p>Note: we proved that Newton's method converges on the interval `[r,oo)` when `f'' > 0` and `f' > 0`. We can take a similar approach to prove that Newtons' method converges:</p>
           <ul>
-            <li><p>on the interval `[r,oo)` when `f'' < 0` and `f' < 0`</p></li>
-            <li><p>on the interval `(-oo,r]` when `f'' > 0` and `f' < 0`</p></li>
-            <li><p>on the interval `(-oo,r]` when `f'' < 0` and `f' > 0`</p></li>
+            <li><p>on the interval `[r,oo)` when `f'' lt 0` and `f' lt 0`</p></li>
+            <li><p>on the interval `(-oo,r]` when `f'' > 0` and `f' lt 0`</p></li>
+            <li><p>on the interval `(-oo,r]` when `f'' lt 0` and `f' > 0`</p></li>
           </ul>
           <div class="box">
             <p><b>The story thus far:</b> Newton's method approximates a root by repeatedly drawing tangent lines until the root of the tangent line matches the root of the function. It has to do more function evaluations per iteration than the bisection method, but it converges faster than the bisection method.</p>
@@ -707,7 +707,7 @@
             <a class="btn" data-toggle="collapse" href="#collapseSecant2">Proof</a>
           </div>
           <p>`color(red)(text(*))`Technically, this is a constant, but we want to study the whole equation as `n -> oo`. This is why we introduce `color(red)(text(**))`.</p>
-          <p>Combining the results above, we get that `x_(n+1)-r = e_(n+1) ~~ Ce_(n-1)e_n` where `C = (f''(r))/(2f'(r))`. If we want to compare this error to the error in Newton's method (which was `e_(n+1) = c(e_n)^2`), then we should rewrite `e_(n+1) = Ce_(n-1)e_n` in the form of `A(e_n)^(alpha)` and find out what `alpha` is. If `alpha < 2`, then the secant method converges slower than Newton's method. If `alpha > 2`, then the secant method converges faster than Newton's method.</p>
+          <p>Combining the results above, we get that `x_(n+1)-r = e_(n+1) ~~ Ce_(n-1)e_n` where `C = (f''(r))/(2f'(r))`. If we want to compare this error to the error in Newton's method (which was `e_(n+1) = c(e_n)^2`), then we should rewrite `e_(n+1) = Ce_(n-1)e_n` in the form of `A(e_n)^(alpha)` and find out what `alpha` is. If `alpha lt 2`, then the secant method converges slower than Newton's method. If `alpha > 2`, then the secant method converges faster than Newton's method.</p>
           <div class="box">
             <p>It turns out that `alpha ~~ 1.62`</p>
             <div class="collapse" id="collapseSecant3">
@@ -745,9 +745,9 @@
             <p><b>Speed of secant method:</b> `1` function evaluation per iteration</p>
             <p><b>Convergence of secant method:</b> `e_(n+1) = (f''(r))/(2f'(r))e_(n-1)e_n`</p>
           </div>
-          <h2>Solving Nonlinear Equations: Fixed Points</h2>
+          <h2>Solving Nonlinear Equations: Functional Iteration</h2>
           <p>Switching gears, let's look at ways to solve nonlinear equations without finding roots.</p>
-          <h3>What Goes In Must Go Out</h3>
+          <h3>A Fixed Point of View</h3>
           <p>With Newton's method, we had: `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. Well, we could consider the right hand side as just one big function of `x_n`, call it `F(x_n)`. Then we have `x_(n+1) = F(x_n)`. So we plug in `x_n` and get out `x_(n+1)`. Let's suppose that we do this enough times so that `x_n -> s`. Then:</p>
           <div class="math">
             <p>`lim_(n->oo) x_(n+1) = lim_(n->oo)F(x_n)`</p>
@@ -774,21 +774,49 @@
             </div>
             <p>There are many options for solving nonlinear equations using the fixed point method. As long as the equation is of the form "`x` equals a function of `x`".</p>
           </div>
-          <p>For convergence, we need `F` to be <b>contractive</b>. `F` is contractive if there exists a `lambda < 1` such that `abs(F(x)-F(y)) <= lambdaabs(x-y)` for all `x,y`. It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda < 1`).</p>
+          <p>For convergence, we need `F` to be <b>contractive</b>. `F` is contractive if there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)` for all `x,y`. It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda lt 1`).</p>
           <p>Note: If `F` is contractive, then `F` is continuous.</p>
           <div class="box">
             <p><b>Fixed Point/Contractive Mapping Theorem:</b> Let `F:[a,b] -> [a,b]` be a contractive map. Then `F` has a unique fixed point in `[a,b]`. Also, `x_(n+1) = F(x_n)` with `x_0 in [a,b]` will converge to that fixed point.</p>
             <div class="collapse" id="collapseUniqueFixedPoint">
               <p>Suppose `x` and `y` are fixed points in `[a,b]`. We want to show that `x = y`</p>
               <div class="math">
-                <p>`abs(F(x)-F(y)) <= lambdaabs(x-y)`</p>
-                <p>`abs(x-y) <= lambdaabs(x-y)` (since `x` is a fixed point, `F(x) = x`)</p>
+                <p>`abs(F(x)-F(y)) le lambdaabs(x-y)`</p>
+                <p>`abs(x-y) le lambdaabs(x-y)` (since `x` is a fixed point, `F(x) = x`)</p>
               </div>
               <p>There are `2` cases: either `abs(x-y) != 0` or `abs(x-y) = 0`</p>
-              <p>Suppose `abs(x-y) != 0`. Then we can divide both sides by `abs(x-y)` to get `1 <= lambda`, which is a contradiction because `lambda < 1`</p>
+              <p>Suppose `abs(x-y) != 0`. Then we can divide both sides by `abs(x-y)` to get `1 le lambda`, which is a contradiction because `lambda lt 1`</p>
               <p>This means that `abs(x-y) = 0`, which means that `x = y`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseUniqueFixedPoint">Proof of Uniqueness</a>
+          </div>
+          <div class="box">
+            <p>We want to show that `x_n -> p` for some fixed point `p`</p>
+            <div class="collapse" id="collapseConvergenceFixedPoint">
+              <p>Rewrite `x_n` as `x_0 + (x_1 - x_0) + (x_2 - x_1) + ... + (x_n - x_(n-1))`:</p>
+              <div class="math">
+                <p>`x_n = x_0 + (x_1 - x_0) + (x_2 - x_1) + ... + (x_n - x_(n-1))`</p>
+                <p>`x_n = x_0 + sum_(n=1)^(oo) (x_n - x_(n-1))`</p>
+              </div>
+              <p>Showing that `x_n` converges is the same as showing that `sum_(n=1)^(oo) (x_n - x_(n-1))` converges, so let's look at that sum</p>
+              <p>Showing that `sum_(n=1)^(oo) (x_n - x_(n-1))` converges is the same as showing that `sum_(n=1)^(oo) abs(x_n - x_(n-1))` converges. We can do that by repeatedly applying `x_(n+1) = F(x_(n))` and `abs(F(x)-F(y)) le lambdaabs(x-y)`</p>
+              <div class="math">
+                <p>`abs(x_n - x_(n-1)) = abs(F(x_(n-1))-F(x_(n-2)))`</p>
+                <p>`abs(F(x_(n-1))-F(x_(n-2))) le lambdaabs(x_(n-1)-x_(n-2))`</p>
+                <p>`= lambda(F(x_(n-2))-F(x_(n-3)))`</p>
+                <p>`le lambda^2abs(x_(n-2)-x_(n-3))`</p>
+                <p>`le ... le lambda^(n-1)abs(x_1-x_0)`</p>
+              </div>
+              <p>So `sum_(n=1)^(oo) abs(x_n - x_(n-1)) le sum_(n=1)^(oo) lambda^(n-1)abs(x_1-x_0)`</p>
+              <div class="math">
+                <p>`sum_(n=1)^(oo) lambda^(n-1)abs(x_1-x_0) = abs(x_1-x_0)sum_(n=1)^(oo) lambda^(n-1)`</p>
+                <p>`= abs(x_1-x_0)sum_(n=0)^(oo)lambda^n`</p>
+                <p>`= abs(x_1-x_0)1/(1-lambda)color(red)(text(*))`, which is a number</p>
+              </div>
+              <p>So `x_n` converges. Let's say it converges to `p`. At the beginning of this section, we showed that `s = F(s)` if `x_n -> s`. Here `x_n -> p` so `p = F(p)`, i.e. `x_n` converges to the fixed point.</p>
+              <p>`color(red)(text(*))`This comes from the closed form of a geometric series. Recall that `lambda lt 1`.</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseConvergenceFixedPoint">Proof of Convergence</a>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
