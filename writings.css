@@ -54,6 +54,22 @@ code {
   color: black;
 }
 
+.green {
+  color: green;
+}
+
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
+}
+
+.purple {
+  color: purple;
+}
+
 #back2Top {
   width: 40px;
   line-height: 40px;
