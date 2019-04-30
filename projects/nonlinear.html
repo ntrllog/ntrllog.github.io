@@ -56,7 +56,7 @@
           <p>So the <b>difference between the original number and the stored number is going to be the error</b>. There are `2` types of errors:</p>
           <ul>
             <li><p>absolute error ` = abs(x - fl(x))`</p></li>
-            <li><p>relative error ` = abs(x - fl(x))/abs(x)` (this is often more useful)</p></li>
+            <li><p>relative error ` = abs(x - fl(x))/abs(x)`</p></li>
           </ul>
           <p>Errors are bad, but unavoidable. So it would be helpful to know how bad the relative error could be for any number we want to store.</p>
           <p>Let's say we want to store the number `x` (which is not `0`) on an `n`-digit chopping computer (a computer that stores at most `n` digits and uses the chopping method). Written in scientific notation,</p>
@@ -375,7 +375,7 @@
           <div class="box">
             <p>Some details regarding the bisection method:</p>
             <ul>
-              <li><p>If `f(a)` and `f(c)` are both really large, then it's possible that multiplying them together results in a number that is too large for the computer to store. Then, we would get errors like we saw in the previous section. To avoid this, we could define a function called `sign(f(x)) = {(1 if f(x) > 0),(-1 if f(x) lt 0),(0 if f(x) = 0):}`. Then we could check if `sign(f(a)) cancel(=) sign(f(c))` instead of multiplying them.</p></li>
+              <li><p>If `f(a)` and `f(c)` are both really large, then it's possible that multiplying them together results in a number that is too large for the computer to store. Then, we would get errors like we saw in the previous section. To avoid this, we could define a function called `sign(f(x)) = {(1 if f(x) > 0),(-1 if f(x) lt 0),(0 if f(x) = 0):}`. Then we could check if `sign(f(a)) != sign(f(c))` instead of multiplying them.</p></li>
               <li><p>It might sound like a good idea to check if `f(c_n) = 0` to stop the algorithm early. That would mean that in doing our algorithm, we hit on the <em>exact</em> root. The chances of that happening are virtually `0` (imagine marking `sqrt(2)` <em>exactly</em> on a a number line). The bisection method will converge anyway, so checking that is an extra costly operation.</p></li>
               <li><p>Like with the first point, it's possible that when calculating `c = (a+b)/2`, adding `a` and `b` results in a number too large to store. We can avoid this by calculating `c = a + (b-a)/2`. Note that `a + (b-a)/2 = (a + b)/2`.</p></li>
             </ul>
@@ -435,6 +435,7 @@
               <p>`f(x) = sum_(n=0)^(oo) (f^(n)(a))/(n!)(x-a)^(n)`</p>
             </div>
           </div>
+          <p>To look at the error, we need an equation with `abs(x_(n+1) - r)`. Since `x_(n+1) = x_n - f(x_n)/(f'(x_n))`, we need `x_n`, `f(x_n)`, and `f'(x_n)` to get `x_(n+1)`. We can get those `3` parts by looking at the Taylor series expansion of `f`.</p>
           <p>Notice that the first `2` terms of the Taylor series are the equation of a line for `f(x)` (and thus, are a linear approximation of `f(x)`). Since we're looking at approximations using lines, we'll consider the first `2` terms and collect the rest of the terms as some error.</p>
           <div class="math">
             <p>`f(x) = f(x_n) + f'(x_n)(x-x_n) + (f''(xi_n))/2(x-x_n)^2`</p>
@@ -462,7 +463,7 @@
             </ul>
           </div>
           <h4>Convergence of Newton's Method</h4>
-          <p>Let's suppose `f'`,`f''` are continuous around `x = r` and `f'(r) != 0` to avoid the problems mentioned above. Then if we start with an intial guess close enough to `r`, we can get `x_n -> r` (the `n^(th)` approximation will approach `r`).</p>
+          <p>Let's suppose `f'`,`f''` are continuous around `x = r` and `f'(r) != 0` to avoid the problems mentioned above. Then if we start with an intial guess close enough to `r`, we can get `x_n -> r` (i.e. the `n^(th)` approximation will approach `r`).</p>
           <div class="box">
             <p>Let's suppose we are close enough so that `(f''(xi_n))/(2f'(x_n)) ~~ (f''(r))/(2f'(r))`. Then `e_(n+1) ~~ (f''(r))/(2f'(r))(e_n)^2 = ((f''(r))/(2f'(r))e_n)e_n`.</p>
             <p>If `((f''(r))/(2f'(r))e_n) lt 1`, then `e_(n+1) -> 0`.</p>
@@ -518,6 +519,7 @@
           <div class="box">
             <p>Lemma: If `{x_n}_(n=0)^(oo)` is the sequence of approximations obtained from Newton's method, then `x_n in [r,oo)`. In words, every approximation will be to the right of `r`.</p>
             <div class="collapse" id="collapseNewtonLemma1">
+              <p>To show that every approximation will be to the right of `r`, we have to show that `x_(n+1) > r`, which means we need an equation with `x_(n+1)` and `r`. We can get both of them by looking at the error formula.</p>
               <p>We have `x_(n+1) - r = e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`</p>
               <p>For the approximations before reaching `r`, there will be some error, i.e. `e_n >= 0`</p>
               <p>If `e_n >= 0`, then `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2 >= 0`. This is because we assumed `f'' > 0` & `f' > 0`, and `e_n >= 0 => (e_n)^2 >= 0`</p>
@@ -528,6 +530,7 @@
           <div class="box">
             <p>Lemma: Suppose `x_n -> s`. Then `s` is a root of `f`. In other words, if we keep taking approximations and they all start to equal a certain number, then that number must be the root.</p>
             <div class="collapse" id="collapseNewtonLemma2">
+              <p>To prove that `s` is a root of `f`, we need to show that `f(s) = 0`, which means we need an equation with `f(x_n)`. So we look at the iterative formula.</p>
               <p>We have `x_(n+1) = x_n - f(x_n)/(f'(x_n))`</p>
               <p>Since `f` and `f'` are continuous, `lim_(n->oo) x_(n+1) = lim_(n->oo) x_n - f(x_n)/(f'(x_n))` (we can take limits of both sides because they're continuous functions)</p>
               <p>Since we have `x_n -> s`, `lim_(n->oo) x_(n+1) = s` and `lim_(n->oo) x_n = s`</p>
@@ -539,10 +542,11 @@
           <div class="box">
             <p>1. `x_n` is decreasing</p>
             <div class="collapse" id="collapseNewton1">
+              <p>To show that `x_n` is decreasing, we have to show that `x_(n+1) lt x_n`, which means we need an equation with `x_(n+1)` and `x_n`. So we look at the iterative formula.</p>
               <p>We have `x_(n+1) = x_n - f(x_n)/(f'(x_n))`</p>
-              <p>Since `f' > 0`, `f(r) = 0`, and `x_n > r`, `f(x_n) >= 0`</p>
-              <p>Also, since `f' > 0`, `f'(x_n) > 0`</p>
-              <p>So `f(x_n)/(f'(x_n)) >= 0`</p>
+              <p>Since `f' > 0`, `f(r) = 0`, and `x_n > r`, we get that `f(x_n) > 0`</p>
+              <p>Also, since `f' > 0`, we get that `f'(x_n) > 0`</p>
+              <p>So `f(x_n)/(f'(x_n)) > 0`</p>
               <p>This means that `x_(n+1)` is obtained by getting `x_n` and taking away a part of it. If you take away a part of the original amount, then the amount you end up with will always be less than the original amount.</p>
               <p>So `x_(n+1) lt x_n`</p>
             </div>
@@ -554,14 +558,15 @@
               <p>If every approximation is to the right of `r`, then we will never go below (to the left of) `r` (from first lemma)</p>
               <p>But we also can't be jumping randomly either because `x_n` is decreasing (from 1.)</p>
               <p>So we have to keep moving left but never past `r`</p>
-              <p>Eventually, we will hit a point where we can't keep moving left because we have to stay to the right of `r`</p>
-              <p>Note: at this point, where it stops doesn't necessarily have to be at `r`</p>
+              <p>We have to stop at some point either because we're at `r` or because the amount `x_n` is decreasing by is virtually `0`</p>
+              <p>Note: the second option means that it could stop at a point before `r`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewton2">Proof</a>
           </div>
           <div class="box">
             <p>3. what it converges to is `r`</p>
             <div class="collapse" id="collapseNewton3">
+              <p>What we want to show is that `s = r`. We can do this by showing `s-r = 0`, which means we need an equation with `s-r`. So we can look at the equation of the line passing though `s` and `r`.</p>
               <p>Using the point-slope formula, we get the equation of the line passing through `s` and `r`: `f(s) = f(r) + f'(alpha_n)color(red)(text(*))(s-r)` for some `alpha_n` between `s` and `r`</p>
               <p>From the second lemma, `s` is a root, so `f(s) = 0`. Also, `f(r)` is a root by definition</p>
               <p>`0 = 0 = f'(alpha_n)(s-r)`</p>
@@ -581,6 +586,7 @@
             <p><b>The story thus far:</b> Newton's method approximates a root by repeatedly drawing tangent lines until the root of the tangent line matches the root of the function. It has to do more function evaluations per iteration than the bisection method, but it converges faster than the bisection method.</p>
             <p><b>Speed of Newton's method:</b> `2` function evaluations per iteration</p>
             <p><b>Convergence of Newton's method:</b> `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2` for `xi_n` between `x_n` and `r`</p>
+            <p><b>Iterative formula for Newton's method:</b> `x_(n+1) = x_n - f(x_n)/(f'(x_n))`</p>
           </div>
           <div class="box">
             <p>Solving Systems with `2` variables:</p>
@@ -678,6 +684,7 @@
           <div class="box">
             <p>`(x_n-x_(n-1))/(f(x_n)-f(x_(n-1)))` is a constant</p>
             <div class="collapse" id="collapseSecant1">
+              <p>Since we're looking at subtracting `2` functions, maybe it would be helpful to write those functions as Taylor series expansions and hope that terms cancel out through subtraction.</p>
               <p>Taylor series of `f` centered at `r`:</p>
               <div class="math">
                 <p>`f(x_n) = f(r) + f'(r)(x_n-r) + (f''(r))/2(x_n-r)^2 + ... = f(r) + f'(r)e_n + (f''(r))/2(e_n)^2 + ...`</p>
@@ -720,7 +727,7 @@
                 <p>`Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_n/A) = C(e_n)^(1/alpha)/A^(1/alpha)e_n = C/A^(1/alpha)(e_n)^(1+1/alpha)`</p>
                 <p>So `A(e_n)^(alpha) = C/A^(1/alpha)(e_n)^(1+1/alpha)`, which means `alpha = 1 + 1/alpha`</p>
                 <p>`alpha = 1 + 1/alpha => alpha^2 = alpha + 1 => alpha^2-alpha-1 = 0`</p>
-                <p>`alpha = (1 +- sqrt(5))/2 ~~ 1.62`</p>
+                <p>`alpha = (1 + sqrt(5))/2 ~~ 1.62`</p>
               </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseSecant3">Proof</a>
@@ -729,21 +736,24 @@
           <h4>Speed of Secant Method</h4>
           <p>Recall that the secant method only requires `1` function evaluation per iteration, and that Newton's method requires `2` function evaluations per iteration. This means that we can perform `2` steps of the secant method in the time it takes to perform `1` step of Newton's method. So to compare them on a level playing field, we can compare the error when performing `2` steps of the secant method vs. the error in performing `1` step of Newton's method.</p>
           <p>For the secant method:</p>
-          <table>
-            <tr>
-              <td>`x_(n+1)`</td>
-              <td>`abs(e_(n+1)) ~~ Cabs(e_n)^(1.62)`</td>
-            </tr>
-            <tr>
-              <td>`x_(n+2)`</td>
-              <td>`abs(e_(n+2)) ~~ Cabs(e_(n+1))^(1.62) ~~ C(Cabs(e_n)^(1.62))^(1.62) ~~ C^(1.62)abs(e_n)^(1.62^2) ~~ Cabs(e_n)^2.62`</td>
-            </tr>
-          </table>
+          <div class="flex">
+            <table>
+              <tr>
+                <td>`x_(n+1)`</td>
+                <td>`abs(e_(n+1)) ~~ Cabs(e_n)^(1.62)`</td>
+              </tr>
+              <tr>
+                <td>`x_(n+2)`</td>
+                <td>`abs(e_(n+2)) ~~ Cabs(e_(n+1))^(1.62) ~~ C(Cabs(e_n)^(1.62))^(1.62) ~~ C^(1.62)abs(e_n)^(1.62^2) ~~ Cabs(e_n)^2.62`</td>
+              </tr>
+            </table>
+          </div>
           <p>Comparing `Cabs(e_n)^2.62` to Newton's `cabs(e_n)^2`, we can see that the secant method can be considered faster.</p>
           <div class="box">
             <p><b>The story thus far:</b> The secant method is a variation of Newton's method where we use secant lines instead of tangent lines to approximate roots. It requires fewer function evaluations per iteration than Newton's method, but it may be faster or slower than Newton's method depending on how we study it.</p>
             <p><b>Speed of secant method:</b> `1` function evaluation per iteration</p>
             <p><b>Convergence of secant method:</b> `e_(n+1) = (f''(r))/(2f'(r))e_(n-1)e_n`</p>
+            <p><b>Iterative formula for secant method:</b> `x_(n+1) = x_n - (f(x_n)(x_n - x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
           </div>
           <h2>Solving Nonlinear Equations: Functional Iteration</h2>
           <p>Switching gears, let's look at ways to solve nonlinear equations without finding roots.</p>
