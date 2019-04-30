@@ -755,7 +755,7 @@
             <p><b>Convergence of secant method:</b> `e_(n+1) = (f''(r))/(2f'(r))e_(n-1)e_n`</p>
             <p><b>Iterative formula for secant method:</b> `x_(n+1) = x_n - (f(x_n)(x_n - x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
           </div>
-          <h2>Solving Nonlinear Equations: Functional Iteration</h2>
+          <h2>Solving Nonlinear Equations: Fixed Point Method</h2>
           <p>Switching gears, let's look at ways to solve nonlinear equations without finding roots.</p>
           <h3>A Fixed Point of View</h3>
           <p>With Newton's method, we had: `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. Well, we could consider the right hand side as just one big function of `x_n`, call it `F(x_n)`. Then we have `x_(n+1) = F(x_n)`. So we plug in `x_n` and get out `x_(n+1)`. Let's suppose that we do this enough times so that `x_n -> s`. Then:</p>
@@ -787,7 +787,7 @@
           <p>For convergence, we need `F` to be contractive. <b>`F` is contractive if there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)` for all `x,y`.</b> It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda lt 1`).</p>
           <p>Note: If `F` is contractive, then `F` is continuous.</p>
           <div class="box">
-            <p><b>Fixed Point/Contractive Mapping Theorem:</b> Let `F:[a,b] -> [a,b]` be a contractive map. Then `F` has a unique fixed point in `[a,b]`. Also, `x_(n+1) = F(x_n)` with `x_0 in [a,b]` will converge to that fixed point.</p>
+            <p><b>Fixed Point Theorem:</b> Let `F:[a,b] -> [a,b]` be a contractive map. Then `F` has a unique fixed point in `[a,b]`. Also, `x_(n+1) = F(x_n)` with `x_0 in [a,b]` will converge to that fixed point.</p>
             <div class="collapse" id="collapseUniqueFixedPoint">
               <p>Suppose `x` and `y` are fixed points in `[a,b]`. We want to show that `x = y`</p>
               <div class="math">
@@ -847,6 +847,7 @@
             <img class="img-fluid" src="../pictures/nonlinear/fixed_point.jpg">
           </div>
           <p>This is the graphical interpretation of looking at fixed points. Notice that the point is on the line `y = x` and `y = F(x)`. So `x = F(x)`.</p>
+          <h4>Convergence of Fixed Point</h4>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
