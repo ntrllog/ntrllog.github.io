@@ -1,3 +1,7 @@
+button {
+  background-color: gray;
+}
+
 .container {
   margin-top: 20px;
   font-family: 'Ubuntu', sans-serif;
