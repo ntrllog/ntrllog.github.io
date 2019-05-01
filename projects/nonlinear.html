@@ -29,6 +29,19 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
             <a class="dropdown-item" href="#numbersstore">A Numbers Store Stores Numbers</a>
             <a class="dropdown-item" href="#errorsinoperations">Errors in Arithmetic Operations</a>
+            <a class="dropdown-item" href="#rootofproblem">Getting to the Root of the Problem</a>
+            <a class="dropdown-item" href="#errorbisection">Error of the Bisection Method</a>
+            <a class="dropdown-item" href="#convergencebisection">Convergence of the Bisection Method</a>
+            <a class="dropdown-item" href="#speedbisection">Speed of the Bisection Method</a>
+            <a class="dropdown-item" href="#straightpoint">Straight to the Point</a>
+            <a class="dropdown-item" href="#errornewton">Error of Newton's Method</a>
+            <a class="dropdown-item" href="#speednewton">Speed of Newton's Method</a>
+            <a class="dropdown-item" href="#convergencenewton">Convergence of Newton's Method</a>
+            <a class="dropdown-item" href="#seecant">Oh See Can't You See</a>
+            <a class="dropdown-item" href="#errorsecant">Error of Secant Method</a>
+            <a class="dropdown-item" href="#speedsecant">Speed of Secant Method</a>
+            <a class="dropdown-item" href="#fixedpointofview">A Fixed Point of View</a>
+            <a class="dropdown-item" href="#convergencefixedpoint">Convergence of the Fixed Point Method</a>
           </div>
         </li>
       </ul>
@@ -235,7 +248,7 @@
           </div>
           <h2>Solving Nonlinear Equations: Roots</h2>
           <p>How do we solve something like `cos(x) = x`? Let's say we didn't have a calculator, so we can't find the exact answer. How can we find a (good) approximation? In general, how do we find an approximation for `f(x) = g(x)`?</p>
-          <h3>Getting to the Root of the Problem</h3>
+          <h3 id="rootofproblem">Getting to the Root of the Problem</h3>
           <p>One way is to change the equation to the form `f(x) = 0`. Then, finding the roots of `f(x)` will be the solutions. Of course, it isn't going to be obvious what the roots are just from looking at something like `cos(x) - x = 0`. But we can try to trap a root in a small interval (i.e. find a small interval between which a root lies).</p>
           <p>This can be done with an iterative algorithm. We start with a root trapped in a large interval and reduce the size of the interval at every step. But how do we find an interval in which there is a root? Without knowing this, we can't start the algorithm!</p>
           <div class="math">
@@ -261,7 +274,7 @@
           </div>
           <p>Now we have two choices for what our new interval `[a_1, b_1]` could be: `[a_0, c_0]` or `[c_0, b_0]`. The IVT doesn't tell us if there's a root between `a_0` and `c_0`, but it does guarantee that there is a root between `c_0` and `b_0`. So the new interval `[a_1, b_1]` should be `[c_0, b_0]`.</p>
           <p>And this process of dividing the interval in half repeats until the interval is small enough.</p>
-          <h4>Error of the Bisection Method</h4>
+          <h4 id="errorbisection">Error of the Bisection Method</h4>
           <p>The thing is, we're looking for a number, but we end up with an interval (two numbers). So how do we get our answer? We could just pick some number between that interval. At this point, the interval is really small, so our approximation should be close to the actual solution. But how much error is there?</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/root_algorithm_n.jpg">
@@ -290,7 +303,7 @@
             <li><p>Repeat the steps for that new (smaller) interval</p></li>
           </ol>
           <p>As the steps suggest, the name of this algorithm is the <b>bisection method</b>.</p>
-          <h4>Convergence of the Bisection Method</h4>
+          <h4 id="convergencebisection">Convergence of the Bisection Method</h4>
           <p>The bisection method generates a sequence of approximations:</p>
           <div class="math">
             <p>`{c_n}_(n=0)^(oo)`</p>
@@ -353,7 +366,7 @@
 <span style="color: #008800; font-weight: bold">end</span>
 </pre></div>
           </div>
-          <h4>Speed of the Bisection Method</h4>
+          <h4 id="speedbisection">Speed of the Bisection Method</h4>
           <p>Since we're dealing with nonlinear equations, we can say that computing `f(x)` is relatively hard (i.e. time-consuming). Of course, a computer can do it almost instantly, but it takes more time to compute powers and roots than additions and divisions. So we can measure the speed of the bisection method by counting how many times we compute `f(x)`.</p>
           <p>In the code above, we're calcuating `f(a)` and `f(c)` every iteration. That's `2` costly operations. It turns out we can reduce it to only `1` costly operation per iteration if we store their values.</p>
           <div class="box">
@@ -398,7 +411,7 @@
             <p><b>Speed of bisection method:</b> `1` function evaluation per iteration</p>
             <p><b>Convergence of bisection method:</b> `e_n = 1/(2^(n+1))(b_0 - a_0)`</p>
           </div>
-          <h3>Straight to the Point</h3>
+          <h3 id="straightpoint">Straight to the Point</h3>
           <p>The bisection method is great and all, but are there other ways that might be faster?</p>
           <p>Another method we could use is Newton's method. In this method, we use tangent lines to approximate the root.</p>
           <div class="math">
@@ -440,7 +453,7 @@
             </div>
             <p>So unlike the bisection method, Newton's method won't always work. However, it's still worth looking at Newton's method, because it turns out that it is generally faster than the bisection method.</p>
           </div>
-          <h4>Error of Newton's Method</h4>
+          <h4 id="errornewton">Error of Newton's Method</h4>
           <div class="box">
             <p>A Taylor series represents a function as an infinite sum.</p>
             <div class="math">
@@ -507,9 +520,9 @@
             </table>
           </div>
           <p>From this, we can see that Newton's method (generally) converges faster than the bisection method. The convergence of Newton's method is described as "quadratic convergence" because of the power `2`.</p>
-          <h4>Speed of Newton's Method</h4>
+          <h4 id="speednewton">Speed of Newton's Method</h4>
           <p>The iterative formula for Newton's method is `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. From this, we can see that it requires `2` function evaluations per iteration. The bisection method required `2` function evaluations at the beginning, but then it only required `1` function evaluation per iteration. <b>This means that Newton's method does roughly twice as many function evaluations per iteration as the bisection method.</b> This also means that Newton's method is <em>slower</em> than the bisection method, but this is offset by the fact that it converges faster.</p>
-          <h4>Convergence of Newton's Method, Revisited</h4>
+          <h4 id="convergencenewton">Convergence of Newton's Method, Revisited</h4>
           <p>So one convergence result we have is that if `f''` is continuous near `r` and `f'(r) != 0`, then choosing an `x_0` sufficiently close to `r` will result in convergence of Newton's method.</p>
           <p>Another convergence result is that if `f'' > 0` (`f` is concave up) in the interval `[r, oo)` and `f' > 0` (`f` is increasing) in the interval `[r,oo)`, then `x_0 in [r,oo)` implies Newton's method will converge.</p>
           <div class="math">
@@ -618,7 +631,7 @@
               <p>`[[x_1^((1))],[x_2^((1))]] = [[x_1^((0))],[x_2^((0))]] - [[(delf_1)/(delx_1)(x_1^((0)),x_2^((0))),(delf_1)/(delx_2)(x_1^((0)),x_2^((0)))],[(delf_2)/(delx_1)(x_1^((0)),x_2^((0))),(delf_2)/(delx_2)(x_1^((0)),x_2^((0)))]]^(-1)[[f_1(x_1^((0)),x_2^((0)))],[f_2(x_1^((0)),x_2^((0)))]]`</p>
             </div>
           </div>
-          <h3>Oh See Can't You See</h3>
+          <h3 id="seecant">Oh See Can't You See</h3>
           <p>So Newton's method converges faster than the bisection method does, but it requires more function evaluations. Is there a method that converges faster than the bisection method and requires less function than Newton's method?</p>
           <p>Newton's method looked at tangent lines. Let's look instead at secant lines.</p>
           <p>The secant method is a variation of Newton's method. It still uses the iterative formula `x_(n+1) = x_n - f(x_n)/(f'(x_n))`, but the difference is that `f'(x_n)` will be the slope of the secant line, not the tangent line.</p>
@@ -670,7 +683,7 @@
               </tr>
             </table>
           </div>
-          <h4>Error of Secant Method</h4>
+          <h4 id="errorsecant">Error of Secant Method</h4>
           <p>To look at the error, we can start by rewriting the iterative formula:</p>
           <div class="math">
             <p>`x_(n+1) = x_n - (f(x_n)(x_n - x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
@@ -746,7 +759,7 @@
             <a class="btn" data-toggle="collapse" href="#collapseSecant3">Proof</a>
           </div>
           <p>So `x_(n+1)-r = e_(n+1) = A(e_n)^(1.62)`, which means the secant method converges slower than Newton's method.</p>
-          <h4>Speed of Secant Method</h4>
+          <h4 id="speedsecant">Speed of Secant Method</h4>
           <p>Recall that the secant method only requires `1` function evaluation per iteration, and that Newton's method requires `2` function evaluations per iteration. This means that we can perform `2` steps of the secant method in the time it takes to perform `1` step of Newton's method. So to compare them on a level playing field, we can compare the error when performing `2` steps of the secant method vs. the error in performing `1` step of Newton's method.</p>
           <p>For the secant method:</p>
           <div class="flex">
@@ -770,7 +783,7 @@
           </div>
           <h2>Solving Nonlinear Equations: Fixed Point Method</h2>
           <p>Switching gears, let's look at ways to solve nonlinear equations without finding roots.</p>
-          <h3>A Fixed Point of View</h3>
+          <h3 id="fixedpointofview">A Fixed Point of View</h3>
           <p>With Newton's method, we had: `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. Well, we could consider the right hand side as just one big function of `x_n`, call it `F(x_n)`. Then we have `x_(n+1) = F(x_n)`. So we plug in `x_n` and get out `x_(n+1)`. Let's suppose that we do this enough times so that `x_n -> s`. Then:</p>
           <div class="math">
             <p>`lim_(n->oo) x_(n+1) = lim_(n->oo)F(x_n)`</p>
@@ -860,7 +873,7 @@
             <img class="img-fluid" src="../pictures/nonlinear/fixed_point.jpg">
           </div>
           <p>This is the graphical interpretation of looking at fixed points. Notice that the point is on the line `y = x` and `y = F(x)`. So `x = F(x)`.</p>
-          <h4>Convergence of the Fixed Point Method</h4>
+          <h4 id="convergencefixedpoint">Convergence of the Fixed Point Method</h4>
           <p>Let's suppose the fixed point iterations converge to `s`. To look at the convergence, let's look at how the error compares to the error of Newton's method.</p>
           <p>So let's start with `e_(n+1) = x_(n+1) - s`. From the formula `x_(n+1) = F(x_n)` and the definition of fixed point, we get:</p>
           <div class="math">
