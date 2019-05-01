@@ -784,7 +784,7 @@
             </div>
             <p>There are many options for solving nonlinear equations using the fixed point method. As long as the equation is of the form "`x` equals a function of `x`".</p>
           </div>
-          <p>For convergence, we need `F` to be contractive. <b>`F` is contractive if there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)` for all `x,y`.</b> It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda lt 1`).</p>
+          <p>For this method to work, we need `F` to be contractive. <b>`F` is contractive if there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)` for all `x,y`.</b> It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda lt 1`).</p>
           <p>Note: If `F` is contractive, then `F` is continuous.</p>
           <div class="box">
             <p><b>Fixed Point Theorem:</b> Let `F:[a,b] -> [a,b]` be a contractive map. Then `F` has a unique fixed point in `[a,b]`. Also, `x_(n+1) = F(x_n)` with `x_0 in [a,b]` will converge to that fixed point.</p>
@@ -847,7 +847,36 @@
             <img class="img-fluid" src="../pictures/nonlinear/fixed_point.jpg">
           </div>
           <p>This is the graphical interpretation of looking at fixed points. Notice that the point is on the line `y = x` and `y = F(x)`. So `x = F(x)`.</p>
-          <h4>Convergence of Fixed Point</h4>
+          <h4>Convergence of the Fixed Point Method</h4>
+          <p>Let's suppose the fixed point iterations converge to `s`. To look at the convergence, let's look at how the error compares to the error of Newton's method.</p>
+          <p>So let's start with `e_(n+1) = x_(n+1) - s`. From the formula `x_(n+1) = F(x_n)` and the definition of fixed point, we get:</p>
+          <div class="math">
+            <p>`x_(n+1) - s`</p>
+            <p>`F(x_n) - F(s)`</p>
+          </div>
+          <p>To introduce `x_n - s = e_n`, we can look at the Taylor series expansion of `F(x_n)`:</p>
+          <div class="math">
+            <p>`color(green)(F(x_n)) - F(s)`</p>
+            <p>`color(green)(F(s) + F'(s)(x_n-s) + (F''(s))/2(x_n-s)^2 + ...) - F(s)`</p>
+            <p>`F'(s)(x_n-s) + (F''(s))/2(x_n-s)^2 + ...`</p>
+            <p>`F'(s)e_n + (F''(s))/2(e_n)^2 + ...`</p>
+          </div>
+          <p>So `e_(n+1) = F'(s)(e_n) + (F''(s))/2(e_n)^2 + ...` Notice that the error depends on the differentiability of `F`.</p>
+          <ul>
+            <li><p>If `F'(s) != 0`, then `e_(n+1) ~~ F'(s)e_n`</p></li>
+            <li><p>If `F'(s) = 0` and `F''(s) != 0`, then `e_(n+1) ~~ (F''(s))/2(e_n)^2`</p></li>
+            <li><p>If `F'(s) = F''(s) = 0` and `F'''(s) != 0`, then `e_(n+1) ~~ (F'''(s))/(3!)(e_n)^3`</p></li>
+          </ul>
+          <p>Recall that the error for Newton's method is `e_(n+1) = c(e_n)^2` where `c` is a constant.</p>
+          <ul>
+            <li><p>Fixed point method vs. Newton's method</p></li>
+            <li><p>`e_(n+1) ~~ F'(s)e_n` vs. `e_(n+1) = c(e_n)^2`</p></li>
+            <li><p>Fixed point converges slower than Newton's method does</p></li>
+            <li><p>`e_(n+1) ~~ (F''(s))/2(e_n)^2` vs. `e_(n+1) = c(e_n)^2`</p></li>
+            <li><p>Fixed point converges at the same rate as Newton's method does</p></li>
+            <li><p>`e_(n+1) ~~ (F'''(s))/(3!)(e_n)^3` vs. `e_(n+1) = c(e_n)^2`</p></li>
+            <li><p>Fixed point converges faster than Newton's method does</p></li>
+          </ul>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
