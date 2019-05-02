@@ -490,7 +490,7 @@
           <h4 id="speednewton">Speed of Newton's Method</h4>
           <p>The iterative formula for Newton's method is `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. From this, we can see that it requires `2` function evaluations per iteration. The bisection method required `2` function evaluations at the beginning, but then it only required `1` function evaluation per iteration. <b>This means that Newton's method does roughly twice as many function evaluations per iteration as the bisection method.</b> Doing more function evaluations means that Newton's method is <em>slower</em> than the bisection method.</p>
           <h4 id="convergencenewton">Convergence of Newton's Method</h4>
-          <p>But maybe Newton's method will converge faster than the bisection method will? Let's look back at the error equation `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`. Since `(f''(r))/(2f'(r))` is a constant, we can call it `c`. Then the error for Newton's method can be represented as `e_(n+1) ~~ c(e_n)^2`.</p>
+          <p>But maybe Newton's method will converge faster than the bisection method will? Let's look back at the error equation `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`. If we start with an initial guess close enough to `r`, then `(f''(xi_n))/(2f'(x_n)) ~~ (f''(r))/(2f'(r))`, which is a constant, so we can call it `c`. Then the error for Newton's method can be represented as `e_(n+1) ~~ c(e_n)^2`.</p>
           <div class="box">
             <p>Let's say the error of the `n^(th)` approximation was `0.001`.</p>
             <div class="flex">
@@ -701,10 +701,10 @@
           <p>Using the fact that `e_(n-1) = x_(n-1)-r` and `e_n = x_n - r`:</p>
           <div class="math">
             <p>`x_(n+1)-r = (e_(n-1)f(x_n)-e_nf(x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
-            <p>`x_(n+1)-r = ((f(x_n)/e_n - f(x_(n-1))/e_(n-1))/(f(x_n)-f(x_(n-1))))color(red)(text(*))(e_(n-1)e_n)`</p>
+            <p>`x_(n+1)-r = ((f(x_n)/e_n - f(x_(n-1))/e_(n-1))/(f(x_n)-f(x_(n-1))))(e_(n-1)e_n)`</p>
             <p>by factoring out `(e_(n-1)e_n)`</p>
           </div>
-          <p>Multiplying by `1 = (x_n-x_(n-1))/(x_n-x_(n-1))color(red)(text(**))`:</p>
+          <p>Multiplying by `1 = (x_n-x_(n-1))/(x_n-x_(n-1))`:</p>
           <div class="math">
             <p>`x_(n+1)-r = ((x_n-x_(n-1))/(f(x_n)-f(x_(n-1)))*(f(x_n)/e_n-f(x_(n-1))/e_(n-1))/(x_n-x_(n-1)))e_(n-1)e_n`</p>
           </div>
@@ -740,7 +740,6 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseSecant2">Proof</a>
           </div>
-          <p>`color(red)(text(*))`Technically, this is a constant, but we want to study the whole equation as `n -> oo`. This is why we introduce `color(red)(text(**))`.</p>
           <p>Combining the results above, we get that `x_(n+1)-r = e_(n+1) ~~ Ce_(n-1)e_n` where `C = (f''(r))/(2f'(r))`. If we want to compare this error to the error in Newton's method (which was `e_(n+1) = c(e_n)^2`), then we should rewrite `e_(n+1) = Ce_(n-1)e_n` in the form of `A(e_n)^(alpha)` and find out what `alpha` is. If `alpha lt 2`, then the secant method converges slower than Newton's method. If `alpha > 2`, then the secant method converges faster than Newton's method.</p>
           <div class="box">
             <p>It turns out that `alpha ~~ 1.62`</p>
@@ -890,21 +889,21 @@
           </div>
           <p>So `e_(n+1) = F'(s)(e_n) + (F''(s))/2(e_n)^2 + ...` Notice that the error depends on the differentiability of `F`.</p>
           <ul>
-            <li><p>If `F'(s) != 0`, then `e_(n+1) ~~ F'(s)e_n`</p></li>
-            <li><p>If `F'(s) = 0` and `F''(s) != 0`, then `e_(n+1) ~~ (F''(s))/2(e_n)^2`</p></li>
-            <li><p>If `F'(s) = F''(s) = 0` and `F'''(s) != 0`, then `e_(n+1) ~~ (F'''(s))/(3!)(e_n)^3`</p></li>
+            <li><p>`color(blue)(F'(s) != 0 => e_(n+1) ~~ F'(s)e_n)`</p></li>
+            <li><p>`color(green)(F'(s) = 0\ text(and)\ F''(s) != 0 => e_(n+1) ~~ (F''(s))/2(e_n)^2)`</p></li>
+            <li><p>`color(purple)(F'(s) = F''(s) = 0\ text(and)\ F'''(s) != 0 => e_(n+1) ~~ (F'''(s))/(3!)(e_n)^3)`</p></li>
           </ul>
           <p>Recall that the error for Newton's method is `e_(n+1) = c(e_n)^2` where `c` is a constant.</p>
           <ul>
             <li><p>Fixed point method vs. Newton's method</p></li>
-            <li><p>`e_(n+1) ~~ F'(s)e_n` vs. `e_(n+1) = c(e_n)^2`</p></li>
-            <li><p>Fixed point converges slower than Newton's method does</p></li>
-            <li><p>`e_(n+1) ~~ (F''(s))/2(e_n)^2` vs. `e_(n+1) = c(e_n)^2`</p></li>
-            <li><p>Fixed point converges at the same rate as Newton's method does</p></li>
-            <li><p>`e_(n+1) ~~ (F'''(s))/(3!)(e_n)^3` vs. `e_(n+1) = c(e_n)^2`</p></li>
-            <li><p>Fixed point converges faster than Newton's method does</p></li>
+            <li><p>`color(blue)(e_(n+1) ~~ F'(s)e_n\ text(vs.)\ e_(n+1) = c(e_n)^2)`</p></li>
+            <li><p>`color(blue)(text(Fixed point converges slower than Newton's method does))`</p></li>
+            <li><p>`color(green)(e_(n+1) ~~ (F''(s))/2(e_n)^2\ text(vs.)\ e_(n+1) = c(e_n)^2)`</p></li>
+            <li><p>`color(green)(text(Fixed point converges at the same rate as Newton's method does))`</p></li>
+            <li><p>`color(purple)(e_(n+1) ~~ (F'''(s))/(3!)(e_n)^3\ text(vs.)\ e_(n+1) = c(e_n)^2)`</p></li>
+            <li><p>`color(purple)(text(Fixed point converges faster than Newton's method does))`</p></li>
           </ul>
-          <p>We say a sequence has <b>order of convergence</b> `q` if `abs(e_(n+1))/abs(e_n)^q` converges to some nonzero number. Higher orders of convergence means the sequence converges faster.</p>
+          <p>We say a sequence has <b>order of convergence</b> `q` if `abs(e_(n+1))/abs(e_n)^q` converges to some nonzero number. (Sometimes the nonzero number is referred to as the "asymptotic error constant".) Higher orders of convergence means the sequence converges faster.</p>
           <div class="box">
             <p><b>The story thus far:</b> Instead of looking at solving problems of the form `f(x) = 0`, we look at solving problems of the form `f(x) = x`. Finding an `x` such that `f(x) = x` is done with the fixed point method. In order for the fixed point method to converge, `F` has to be contractive, which means that there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)`.</p>
             <p><b>Speed of fixed point method:</b> `1` function evaluation per iteration</p>
