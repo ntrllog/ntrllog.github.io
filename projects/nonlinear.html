@@ -563,7 +563,7 @@
               <p>We also assumed `f'' > 0` & `f' > 0`</p>
               <p>So we have `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2 gt 0`</p>
               <p>But `e_(n+1)` also equals `x_(n+1) - r`, so `x_(n+1) - r gt 0 => x_(n+1) gt r`</p>
-              <p>By assumption, `x_0 gt r` (and `x_0 ge x_n` since `x_n` is decreasing). From `1`., we have that `x_n` is decreasing. But if we keep decreasing and `x_(n+1) gt r` (`x_(n+1)` is <em>still</em> to the right of `r`), then that must mean all the approximations between `x_0` and `x_(n+1)` have to be to the right of `r`</p>
+              <p>By assumption, `x_0 gt r`. From `1`., we have that `x_n` is decreasing. (Note that `x_0 ge x_n` because `x_n` is decreasing.) But if we keep decreasing and `x_(n+1) gt r` (`x_(n+1)` is <em>still</em> to the right of `r`), then that must mean all the approximations between `x_0` and `x_(n+1)` have to be to the right of `r`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewton2">Proof</a>
           </div>
@@ -603,7 +603,7 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewton5">Proof</a>
           </div>
-          <p>We proved that Newton's method converges on the interval `[r,oo)` when `f'' > 0` and `f' > 0`. We can take a similar approach to prove that Newtons' method converges:</p>
+          <p>We proved that Newton's method converges on the interval `[r,oo)` when `f'' > 0` and `f' > 0`. We can take a similar approach to prove that Newton's method converges:</p>
           <ul>
             <li><p>on the interval `[r,oo)` when `f'' lt 0` and `f' lt 0`</p></li>
             <li><p>on the interval `(-oo,r]` when `f'' > 0` and `f' lt 0`</p></li>
