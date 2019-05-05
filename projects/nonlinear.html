@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
-    <link href="lin_alg.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
   </head>
   <body>
     <header class="navbar navbar-expand fixed-top navbar-dark flex-column flex-sm-row bd-navbar">
@@ -47,11 +47,12 @@
             <a class="dropdown-item" href="#solvingapprox">Solving Nonlinear Equations: Approximating Functions</a>
             <a class="dropdown-item" href="#polynomialtheorems">Polynomial Theorems</a>
             <a class="dropdown-item" href="#dividerinserepeat">Divide, Rinse, &amp; Repeat (To a Certain Degree)</a>
+            <a class="dropdown-item" href="#gettingthepoints">Getting the Points</a>
           </div>
         </li>
       </ul>
     </header>
-    <div class="container">
+    <div class="container line-height">
       <div class="row">
         <div class="col-12">
           <h1>Numerical Analysis: A Nonlinear Story</h1>
@@ -916,10 +917,19 @@
             <p><b>Iterative formula for fixed point method:</b> `x_(n+1) = F(x_n)`</p>
           </div>
           <h2 id="solvingapprox">Solving Nonlinear Equations: Approximating Functions</h2>
-          <p>Going back to the root-finding problem, we've been able to find just one root. It would be nice to be able to use the algorithms to find all the roots. It turns out that we actually can do this with polynomials because of their special properties. (It also turns out that we could replace or approximate complicated functions with polynomials.)</p>
+          <p>Going back to the root-finding problem, we've been able to find just one root. It would be nice to be able to use the algorithms to find all the roots. It turns out that we actually can do this with polynomials because of their special properties.</p>
           <h3 id="polynomialtheorems">Polynomial Theorems</h3>
           <p>`p(x) = a_0 + a_1x + a_2x^2 + ... + a_nx^n` (with `a_n != 0`) is a polynomial. The degree of a polynomial is the highest power, which in this case is `n`, denoted as `deg\ p(x) = n`.</p>
-          <p>The Fundamental Theorem of Algebra says that every nonconstant polynomial has at least one root in the complex field. In fact, an extension of this theorem states something more powerful: if the degree of a polynomial is `n`, then there are `n` roots in the complex field. What we would like is to use our algorithms to find all these (real) roots.</p>
+          <p>The Fundamental Theorem of Algebra says that every nonconstant polynomial has at least one root in the complex field. In fact, an extension of this theorem states something more powerful: if the degree of a polynomial is `n`, then there are exactly `n` roots in the complex field. What we would like is to use our algorithms to find all these (real) roots.</p>
+          <div class="box">
+            <p>When performing operations with polynomials, the degree can only stay the same or go down.</p>
+            <ul>
+              <li><p>`x^2 + x^2 = 2x^2`</p></li>
+              <li><p>`5x^3 - 3x^3 = 2x^3`</p></li>
+              <li><p>`x^3*x^2 = x^5` (note the degree of the left-hand side is `5`, not `3` or `2`)</p>
+              <li><p>`x^6/x^2 = x^4`</p>
+            </ul>
+          </div>
           <p>We can divide polynomials just like we can divide numbers. If we divide a polynomial `p(x)` (which has degree of at least `1`) by a linear polynomial `(x-s)`, then the result is a quotient `q(x)` (which is a polynomial) and a remainder `r`.</p>
           <div class="math">
             <p>`p(x) = (x-s)q(x) + r`</p>
@@ -947,13 +957,13 @@
           <p>If `p(x)` has degree `n`, then `(x-s)q(x)` also needs to have degree `n` (since they're equal to each other). Well, `(x-s)` has degree `1`, which means `q(x)` needs to have degree `n-1` (notice that gives us `1 + (n-1) = n`). Also notice that the degree of `q(x)` is `1` less than the degree of `p(x)`. In a very rough sense, the degree is decreasing by `1` every time we divide.</p>
           <p>We can only divide polynomials `p(x)` by linear polynomials `(x-s)` as long as `p(x)` has degree greater than `0`. Since the degree is "decreasing by `1` every time we divide", if `p(x)` has degree `n`, then we can only divide it `n` times. The result is that:</p>
           <div class="math">
-            <p>`p(x) = (x - r_1)*(x - r_2)*...*(x - r_n)*a_n`</p>
+            <p>`p(x) = (x - r_1)(x - r_2)...(x - r_n)a_n`</p>
             <p>where `a_n` is some constant</p>
           </div>
           <p>Giving us the `n` roots stated in the extension of the Fundamental Theorem of Algebra. So to find all the roots of `p(x)` we:</p>
           <ol>
             <li><p>Find one root of `p(x)`</p></li>
-            <li><p>Remove the root by dividing it out (setting `p(x)` equal to `(p(x))/(x-text(root))`)
+            <li><p>Remove the root by dividing it out (setting `p(x)` equal to `(p(x))/(x-text(root))`)</p></li>
             <li><p>Repeat</p></li>
           </ol>
           <div class="math">
@@ -961,6 +971,128 @@
           </div>
           <div class="box">
             <p>Since the algorithms only handle real roots, we will only find all the real roots and not the complex roots.</p>
+          </div>
+          <h3 id="gettingthepoints">Getting the Points</h3>
+          <p>So we've seen that it's possible to find all the roots of polynomials. But what about finding roots for complicated functions that aren't polynomials? It turns out that complicated functions can be replaced or approximated by polynomials.</p>
+          <p>Let's suppose we had a table of `n+1` data points `(x_i, y_i)` for `i = 0, ..., n` obtained from some complicated function `f(x)`. Then <b> there exists a unique polynomial with degree less than or equal to `n` that passes through (interpolates) the points</b>. The polynomial interpolating the data points is called the <b>interpolation polynomial</b>.</p>
+          <div class="box">
+            <div class="collapse" id="collapseUniquePoly">
+              <p>Suppose `p(x), q(x)` both interpolate the data points and `deg\ p(x), deg\ q(x) le n`</p>
+              <p>Let `r(x) = p(x)-q(x)` (note that `deg\ r le n`)</p>
+              <p>Then `r(x_i) = p(x_i)-q(x_i)` for all `i = 0, ..., n`</p>
+              <p>Since `p,q` both interpolate the data, `p(x_i) = q(x_i) = y_i`</p>
+              <p>So `r(x_i) = p(x_i)-q(x_i) = y_i-y_i = 0` for all `i = 0, ..., n`</p>
+              <p>This means `r` has `n+1` roots. But the degree of `r` is `n`.</p>
+              <p>So by the extension of the Fundamental Theorem of Algebra`color(red)(text(*))`, `r` must be a constant polynomial</p>
+              <p>Since `r(x_i) = 0` for all `i = 0, ..., n`, `r(x) = 0`</p>
+              <p>So `r(x) = 0 = p(x)-q(x) => p(x) = q(x)`</p>
+              <p>`color(red)(text(*))`The extension of the Fundamental Theorem of Algebra says that nonconstant polynomials with degree `n` have exactly `n` roots. Here `r` has `n+1` roots, but the degree of `r` is `n`, which  means `r` has more roots than it's degree. This means that `r` cannot be a nonconstant polynomial, i.e. it must be a constant polynomial.</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseUniquePoly">Proof of Uniqueness</a>
+          </div>
+          <div class="box">
+            <p>In the case when `n=1`, there are `2` points. And there is only one unique line (polynomial of degree `1`) passing through `2` points.</p>
+          </div>
+          <div class="box">
+            <p>The polynomial that interpolates the data points is `p(x) = sum_(i = 0)^n y_i prod_(j=0, j != i)^n (x-x_j)/(x_i-x_j)`</p>
+            <div class="collapse" id="collapseExistencePoly">
+              <p>Let's start with the table of data points</p>
+              <div class="flex">
+                <table>
+                  <tr>
+                    <td class="dark-right-border">`x`</td>
+                    <td>`x_0`</td>
+                    <td>`x_1`</td>
+                    <td>`...`</td>
+                    <td>`x_n`</td>
+                  </tr>
+                  <tr>
+                    <td class="dark-right-border">`y`</td>
+                    <td>`y_0`</td>
+                    <td>`y_1`</td>
+                    <td>`...`</td>
+                    <td>`y_n`</td>
+                  </tr>
+                </table>
+              </div>
+              <p>We could represent `y` by a vector as follows:</p>
+              <div class="math">
+                <p>`y = [[y_0], [y_1], [vdots], [y_n]] = y_0[[1], [0], [0], [vdots], [0]] + y_1[[0], [1], [0], [vdots], [0]] + ... + y_n[[0], [0], [vdots], [0], [1]]`</p>
+              </div>
+              <p>Then we take each vector and make a table for each one. Taking `y_0[[1], [0], [0], [vdots], [0]]` as an example:</p>
+              <div class="flex">
+                <table>
+                  <tr>
+                    <td class="dark-right-border">`x`</td>
+                    <td>`x_0`</td>
+                    <td>`x_1`</td>
+                    <td>`...`</td>
+                    <td>`x_n`</td>
+                  </tr>
+                  <tr>
+                    <td class="dark-right-border">`y`</td>
+                    <td>`1`</td>
+                    <td>`0`</td>
+                    <td>`...`</td>
+                    <td>`0`</td>
+                  </tr>
+                </table>
+              </div>
+              <p>Now we can find`color(red)(text(*))` a polynomial of degree less than or equal to `n` interpolating these points. Let's call the polynomial `l_0(x)`</p>
+              <p>Doing this for each vector, we get `p(x) = y_0l_0(x) + y_1l_1(x) + ... + y_nl_n(x)` (note that `deg\ p le n`)</p>
+              <p>By the way we set things up, for `x = [[x_0], [x_1], [vdots], [x_n]], p(x_i) = sum_(j=0)^n y_jl_j(x_i)` where `l_j(x_i) = {(0\ text(if)\ i != j),(1\ text(if)\ i = j):}`</p>
+              <p>This means `p(x_i) = y_i`, so `p(x) = [[y_0], [y_1], [vdots], [y_n]] = y`</p>
+              <p>`color(red)(text(*))`By the way we set things up, `l_0(x)` has roots at `x_1, ..., x_n` (and not at `x_0`)</p>
+              <p>So `l_0(x) = (x-x_1)(x-x_2)...(x-x_n)q(x)` where `q(x)` is a constant</p>
+              <p>We can find what the constant is by looking at `l_0(x_0) = 1`</p>
+              <div class="math">
+                <p>`1 = l_0(x_0) = (x_0-x_1)(x_0-x_2)...(x_0-x_n)q(x)`</p>
+                <p>`q(x) = 1/((x_0-x_1)(x_0-x_2)...(x_0-x_n))`</p>
+              </div>
+              <p>So `l_0(x) = ((x-x_1)(x-x_2)...(x-x_n))/((x_0-x_1)(x_0-x_2)...(x_0-x_n))`</p>
+              <p>Generally,</p>
+              <div class="math">
+                <p>`l_i(x) = ((x-x_0)...(x-x_(i-1))(x-x_(i+1))...(x-x_n))/((x_i-x_0)...(x_i-x_(i-1))(x_i-x_(i+1))...(x_i-x_n))`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseExistencePoly">Proof of Existence</a>
+          </div>
+          <p>The polynomial obtained using this formula is called the <b>Lagrange polynomial</b>.</p>
+          <div class="box">
+            <p>Let's suppose we have these data points:</p>
+            <table>
+              <tr>
+                <td class="dark-right-border">`x`</td>
+                <td>`1`</td>
+                <td>`2`</td>
+                <td>`3`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`y`</td>
+                <td>`-3`</td>
+                <td>`5`</td>
+                <td>`-9`</td>
+              </tr>
+            </table>
+            <p>Then `p(x) = -3(((x-2)(x-3))/((1-2)(1-3))) + 5(((x-1)(x-3))/((2-1)(2-3))) - 9(((x-1)(x-2))/((3-1)(3-2)))`</p>
+            <p>The idea is that if we plug in `x = 1`, we should get `p(1) = -3`. We make sure that happens by making sure the numerator is `0` for the second and third terms when we plug in `x = 1`. We also make sure that everything inside the parentheses of the first term cancels out when we plug in `x=1`.</p>
+          </div>
+          <div class="box">
+            <p>To easily see uniqueness, let's suppose we have a smaller table:</p>
+            <table>
+              <tr>
+                <td class="dark-right-border">`x`</td>
+                <td>`1`</td>
+                <td>`2`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`y`</td>
+                <td>`-3`</td>
+                <td>`5`</td>
+              </tr>
+            </table>
+            <p>Using the point-slope formula, the line passing through these `2` points is `y + 3 = (5-(-3))/(2-1)(x-1) => y = 8x - 11`</p>
+            <p>Then `p(x) = -3((x-2)/(1-2)) + 5((x-1)/(2-1)) = 3(x-2) + 5(x-1) = 3x - 6 + 5x - 5 = 8x -11`</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
