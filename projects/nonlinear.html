@@ -29,6 +29,7 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
             <a class="dropdown-item" href="#numbersstore">A Numbers Store Stores Numbers</a>
             <a class="dropdown-item" href="#errorsinoperations">Errors in Arithmetic Operations</a>
+            <a class="dropdown-item" href="#solvingroots">Solving Nonlinear Equations: Roots</a>
             <a class="dropdown-item" href="#rootofproblem">Getting to the Root of the Problem</a>
             <a class="dropdown-item" href="#errorbisection">Error of the Bisection Method</a>
             <a class="dropdown-item" href="#convergencebisection">Convergence of the Bisection Method</a>
@@ -40,8 +41,12 @@
             <a class="dropdown-item" href="#seecant">Oh See Can't You See</a>
             <a class="dropdown-item" href="#errorsecant">Error of Secant Method</a>
             <a class="dropdown-item" href="#speedsecant">Speed of Secant Method</a>
+            <a class="dropdown-item" href="#solvingfixed">Solving Nonlinear Equations: Fixed Point Method</a>
             <a class="dropdown-item" href="#fixedpointofview">A Fixed Point of View</a>
             <a class="dropdown-item" href="#convergencefixedpoint">Convergence of the Fixed Point Method</a>
+            <a class="dropdown-item" href="#solvingapprox">Solving Nonlinear Equations: Approximating Functions</a>
+            <a class="dropdown-item" href="#polynomialtheorems">Polynomial Theorems</a>
+            <a class="dropdown-item" href="#dividerinserepeat">Divide, Rinse, &amp; Repeat (To a Certain Degree)</a>
           </div>
         </li>
       </ul>
@@ -246,7 +251,7 @@
           <div class="box">
             <p><b>The story thus far:</b> Computers store modified versions of numbers. This means that the number the computer stores is "wrong". When we work with "wrong" numbers (e.g. add, multiply them), we're gonna get an answer that is even "more wrong". For multiplication, things aren't too bad. But for subtraction, we can get undesired results when the numbers we're subtracting are really close to each other.</p>
           </div>
-          <h2>Solving Nonlinear Equations: Roots</h2>
+          <h2 id="solvingroots">Solving Nonlinear Equations: Roots</h2>
           <p>How do we solve something like `cos(x) = x`? Let's say we didn't have a calculator, so we can't find the exact answer. How can we find a (good) approximation? In general, how do we find an approximation for `f(x) = g(x)`?</p>
           <h3 id="rootofproblem">Getting to the Root of the Problem</h3>
           <p>One way is to change the equation to the form `f(x) = 0`. Then, finding the roots of `f(x)` will be the solutions. Of course, it isn't going to be obvious what the roots are just from looking at something like `cos(x) - x = 0`. But we can try to trap a root in a small interval (i.e. find a small interval between which a root lies).</p>
@@ -781,7 +786,7 @@
             <p><b>Convergence of secant method:</b> `e_(n+1) = (f''(r))/(2f'(r))e_(n-1)e_n`</p>
             <p><b>Iterative formula for secant method:</b> `x_(n+1) = x_n - (f(x_n)(x_n - x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
           </div>
-          <h2>Solving Nonlinear Equations: Fixed Point Method</h2>
+          <h2 id="solvingfixed">Solving Nonlinear Equations: Fixed Point Method</h2>
           <p>Switching gears, let's look at ways to solve nonlinear equations without finding roots.</p>
           <h3 id="fixedpointofview">A Fixed Point of View</h3>
           <p>With Newton's method, we had: `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. Well, we could consider the right hand side as just one big function of `x_n`, call it `F(x_n)`. Then we have `x_(n+1) = F(x_n)`. So we plug in `x_n` and get out `x_(n+1)`. Let's suppose that we do this enough times so that `x_n -> s`. Then:</p>
@@ -905,13 +910,58 @@
           </ul>
           <p>We say a sequence has <b>order of convergence</b> `q` if `abs(e_(n+1))/abs(e_n)^q` converges to some nonzero number. (Sometimes the nonzero number is referred to as the "asymptotic error constant".) Higher orders of convergence means the sequence converges faster.</p>
           <div class="box">
-            <p><b>The story thus far:</b> Instead of looking at solving problems of the form `f(x) = 0`, we look at solving problems of the form `f(x) = x`. Finding an `x` such that `f(x) = x` is done with the fixed point method. In order for the fixed point method to converge, `F` has to be contractive, which means that there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)`.</p>
+            <p><b>The story thus far:</b> Instead of looking at solving problems of the form `f(x) = 0`, we look at solving problems of the form `f(x) = x`. Finding an `x` such that `f(x) = x` is done with the fixed point method. In order for the fixed point method to converge, `F` has to be contractive, which means that there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)`. From the MVT, we can use `max_x abs(F'(x))` for `lambda`.</p>
             <p><b>Speed of fixed point method:</b> `1` function evaluation per iteration</p>
             <p><b>Convergence of fixed point method:</b> `e_(n+1) = F'(s)e_n + (F''(s))/2(e_n)^2 + ...`</p>
             <p><b>Iterative formula for fixed point method:</b> `x_(n+1) = F(x_n)`</p>
           </div>
-          <h2>Solving Nonlinear Equations: Approximating Functions</h2>
-          <p></p>
+          <h2 id="solvingapprox">Solving Nonlinear Equations: Approximating Functions</h2>
+          <p>Going back to the root-finding problem, we've been able to find just one root. It would be nice to be able to use the algorithms to find all the roots. It turns out that we actually can do this with polynomials because of their special properties. (It also turns out that we could replace or approximate complicated functions with polynomials.)</p>
+          <h3 id="polynomialtheorems">Polynomial Theorems</h3>
+          <p>`p(x) = a_0 + a_1x + a_2x^2 + ... + a_nx^n` (with `a_n != 0`) is a polynomial. The degree of a polynomial is the highest power, which in this case is `n`, denoted as `deg\ p(x) = n`.</p>
+          <p>The Fundamental Theorem of Algebra says that every nonconstant polynomial has at least one root in the complex field. In fact, an extension of this theorem states something more powerful: if the degree of a polynomial is `n`, then there are `n` roots in the complex field. What we would like is to use our algorithms to find all these (real) roots.</p>
+          <p>We can divide polynomials just like we can divide numbers. If we divide a polynomial `p(x)` (which has degree of at least `1`) by a linear polynomial `(x-s)`, then the result is a quotient `q(x)` (which is a polynomial) and a remainder `r`.</p>
+          <div class="math">
+            <p>`p(x) = (x-s)q(x) + r`</p>
+          </div>
+          <div class="box">
+            <p>Using real numbers, this is like saying `9 = 2*4 + 1`.</p>
+          </div>
+          <p>The Remainder Theorem says that if we divide a polynomial `p(x)` by a linear polynomial `(x-s)`, then `p(s)` is the remainder `r`.</p>
+          <div class="box">
+            <p>`p(s) = (s-s)q(s) + r`</p>
+            <p>`p(s) = 0*q(s) + r`</p>
+            <p>`p(s) = r`</p>
+          </div>
+          <p>In fact, if `s` is a root, then `p(x) = (x-s)q(x)` (notice there's no remainder.)</p>
+          <div class="box">
+            <p>`p(s) = 0` since `s` is a root</p>
+            <p>`p(s) = (s-s)q(s) + r`</p>
+            <p>`0 = 0*q(s) + r`</p>
+            <p>`r = 0`</p>
+          </div>
+          <p>A special case of the Remainder Theorem — called the Factor Theorem — combines the two points above: `p(s) = 0 iff p(x) = (x-s)q(x)`. In words, <b>if `s` is a root of `p(x)`, then `p(x)` can be divided evenly by `(x-s)`, which means `p(x) = (x-s)q(x)`</b> (and if `p(x)` can be divided evenly by `(x-s)`, then `p(s) = 0`).</p>
+          <h3 id="dividerinserepeat">Divide, Rinse, &amp; Repeat (To a Certain Degree)</h3>
+          <p>So we can use the algorithms to find one root of `p(x)`, call it `r_1`, and then divide `p(x)` by `(x-r_1)` to get `p(x) = (x-r_1)q(x)`. Then we can use the algorithms to find the root of `q(x)`, call it `r_2`, and divide `q(x)` by `(x-r_2)` to get `p(x) = (x-r_1)(x-r_2)u(x)`. Wait, it seems like we can just keep on dividing forever. There's actually a limit to the number of times we can divide polynomials, and it involves looking at the degrees of the polynomials.</p>
+          <p>Recall that when we multiply like terms with exponents, we add the exponents. Like `x^2 * x^3 = x^5`.</p>
+          <p>If `p(x)` has degree `n`, then `(x-s)q(x)` also needs to have degree `n` (since they're equal to each other). Well, `(x-s)` has degree `1`, which means `q(x)` needs to have degree `n-1` (notice that gives us `1 + (n-1) = n`). Also notice that the degree of `q(x)` is `1` less than the degree of `p(x)`. In a very rough sense, the degree is decreasing by `1` every time we divide.</p>
+          <p>We can only divide polynomials `p(x)` by linear polynomials `(x-s)` as long as `p(x)` has degree greater than `0`. Since the degree is "decreasing by `1` every time we divide", if `p(x)` has degree `n`, then we can only divide it `n` times. The result is that:</p>
+          <div class="math">
+            <p>`p(x) = (x - r_1)*(x - r_2)*...*(x - r_n)*a_n`</p>
+            <p>where `a_n` is some constant</p>
+          </div>
+          <p>Giving us the `n` roots stated in the extension of the Fundamental Theorem of Algebra. So to find all the roots of `p(x)` we:</p>
+          <ol>
+            <li><p>Find one root of `p(x)`</p></li>
+            <li><p>Remove the root by dividing it out (setting `p(x)` equal to `(p(x))/(x-text(root))`)
+            <li><p>Repeat</p></li>
+          </ol>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/divide_poly_ex.jpg">
+          </div>
+          <div class="box">
+            <p>Since the algorithms only handle real roots, we will only find all the real roots and not the complex roots.</p>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
