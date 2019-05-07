@@ -19,40 +19,34 @@
     <link href="styles.css" rel="stylesheet">
   </head>
   <body>
-    <header class="navbar navbar-expand fixed-top navbar-dark flex-column flex-sm-row bd-navbar">
-      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
-      <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-        <li class="nav-item dropdown">
-          <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <button><span class="navbar-toggler-icon"></span></button>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-            <a class="dropdown-item" href="#numbersstore">A Numbers Store Stores Numbers</a>
-            <a class="dropdown-item" href="#errorsinoperations">Errors in Arithmetic Operations</a>
-            <a class="dropdown-item" href="#solvingroots">Solving Nonlinear Equations: Roots</a>
-            <a class="dropdown-item" href="#rootofproblem">Getting to the Root of the Problem</a>
-            <a class="dropdown-item" href="#errorbisection">Error of the Bisection Method</a>
-            <a class="dropdown-item" href="#convergencebisection">Convergence of the Bisection Method</a>
-            <a class="dropdown-item" href="#speedbisection">Speed of the Bisection Method</a>
-            <a class="dropdown-item" href="#straightpoint">Straight to the Point</a>
-            <a class="dropdown-item" href="#errornewton">Error of Newton's Method</a>
-            <a class="dropdown-item" href="#speednewton">Speed of Newton's Method</a>
-            <a class="dropdown-item" href="#convergencenewton">Convergence of Newton's Method</a>
-            <a class="dropdown-item" href="#seecant">Oh See Can't You See</a>
-            <a class="dropdown-item" href="#errorsecant">Error of Secant Method</a>
-            <a class="dropdown-item" href="#speedsecant">Speed of Secant Method</a>
-            <a class="dropdown-item" href="#solvingfixed">Solving Nonlinear Equations: Fixed Point Method</a>
-            <a class="dropdown-item" href="#fixedpointofview">A Fixed Point of View</a>
-            <a class="dropdown-item" href="#convergencefixedpoint">Convergence of the Fixed Point Method</a>
-            <a class="dropdown-item" href="#solvingapprox">Solving Nonlinear Equations: Approximating Functions</a>
-            <a class="dropdown-item" href="#polynomialtheorems">Polynomial Theorems</a>
-            <a class="dropdown-item" href="#dividerinserepeat">Divide, Rinse, &amp; Repeat (To a Certain Degree)</a>
-            <a class="dropdown-item" href="#gettingthepoints">Getting the Points</a>
-          </div>
-        </li>
-      </ul>
-    </header>
+    <div class="dropdown">
+      <button onclick="showMenu()" class="dropbtn">ToC</button>
+      <div class="dropdown-content" id="dropDownMenu">
+        <a class="dropdown-item" href="#numbersstore">A Numbers Store Stores Numbers</a>
+        <a class="dropdown-item" href="#errorsinoperations">Errors in Arithmetic Operations</a>
+        <a class="dropdown-item" href="#solvingroots">Solving Nonlinear Equations: Roots</a>
+        <a class="dropdown-item" href="#rootofproblem">Getting to the Root of the Problem</a>
+        <a class="dropdown-item" href="#errorbisection">Error of the Bisection Method</a>
+        <a class="dropdown-item" href="#convergencebisection">Convergence of the Bisection Method</a>
+        <a class="dropdown-item" href="#speedbisection">Speed of the Bisection Method</a>
+        <a class="dropdown-item" href="#straightpoint">Straight to the Point</a>
+        <a class="dropdown-item" href="#errornewton">Error of Newton's Method</a>
+        <a class="dropdown-item" href="#speednewton">Speed of Newton's Method</a>
+        <a class="dropdown-item" href="#convergencenewton">Convergence of Newton's Method</a>
+        <a class="dropdown-item" href="#seecant">Oh See Can't You See</a>
+        <a class="dropdown-item" href="#errorsecant">Error of Secant Method</a>
+        <a class="dropdown-item" href="#speedsecant">Speed of Secant Method</a>
+        <a class="dropdown-item" href="#solvingfixed">Solving Nonlinear Equations: Fixed Point Method</a>
+        <a class="dropdown-item" href="#fixedpointofview">A Fixed Point of View</a>
+        <a class="dropdown-item" href="#convergencefixedpoint">Convergence of the Fixed Point Method</a>
+        <a class="dropdown-item" href="#solvingapprox">Solving Nonlinear Equations: Approximating Functions</a>
+        <a class="dropdown-item" href="#polynomialtheorems">Polynomial Theorems</a>
+        <a class="dropdown-item" href="#dividerinserepeat">Divide, Rinse, &amp; Repeat (To a Certain Degree)</a>
+        <a class="dropdown-item" href="#gettingthepoints">Getting the Points</a>
+      </div>
+    </div>
     <div class="container line-height">
+      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
       <div class="row">
         <div class="col-12">
           <h1>Numerical Analysis: A Nonlinear Story</h1>
@@ -1218,6 +1212,23 @@
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
+    <script>
+      function showMenu() {
+        document.getElementById("dropDownMenu").classList.toggle("show");
+      }
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
