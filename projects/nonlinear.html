@@ -742,22 +742,36 @@
             <a class="btn" data-toggle="collapse" href="#collapseSecant2">Proof</a>
           </div>
           <p>Combining the results above, we get that `x_(n+1)-r = e_(n+1) ~~ Ce_(n-1)e_n` where `C = (f''(r))/(2f'(r))`. If we want to compare this error to the error in Newton's method (which was `e_(n+1) = c(e_n)^2`), then we should rewrite `e_(n+1) = Ce_(n-1)e_n` in the form of `A(e_n)^(alpha)` and find out what `alpha` is. If `alpha lt 2`, then the secant method converges slower than Newton's method. If `alpha > 2`, then the secant method converges faster than Newton's method.</p>
-          <div class="box">
-            <p>It turns out that `alpha ~~ 1.62`</p>
-            <div class="collapse" id="collapseSecant3">
-              <p>Suppose `e_(n+1) = Ce_(n-1)e_n = A(e_n)^(alpha)`</p>
-              <div class="math">
-                <p>`e_n = A(e_(n-1))^(alpha)`</p>
-                <p>`e_(n-1) = (e_n)^(1/alpha)/A^(1/alpha)`</p>
-                <p>So `Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_(n-1))^(alpha)`</p>
-                <p>`e_n = A(e_(n-1))^(alpha) => (e_(n-1))^(alpha) = e_n/A`</p>
-                <p>`Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_n/A) = C(e_n)^(1/alpha)/A^(1/alpha)e_n = C/A^(1/alpha)(e_n)^(1+1/alpha)`</p>
-                <p>So `A(e_n)^(alpha) = C/A^(1/alpha)(e_n)^(1+1/alpha)`, which means `alpha = 1 + 1/alpha`</p>
-                <p>`alpha = 1 + 1/alpha => alpha^2 = alpha + 1 => alpha^2-alpha-1 = 0`</p>
-                <p>`alpha = (1 + sqrt(5))/2 ~~ 1.62`</p>
-              </div>
-            </div>
-            <a class="btn" data-toggle="collapse" href="#collapseSecant3">Proof</a>
+          <p>Suppose `e_(n+1) = Ce_(n-1)e_n = A(e_n)^(alpha)`.</p>
+          <p>From `e_(n+1) = A(e_n)^(alpha)`, we get:</p>
+          <div class="math">
+            <p>`e_n = A(e_(n-1))^(alpha)`</p>
+          </div>
+          <p>Rearranging terms, we get:</p>
+          <div class="math">
+            <p>`e_(n-1) = (e_n)^(1/alpha)/A^(1/alpha)`</p>
+          </div>
+          <p>Plugging `e_(n-1)` and `e_n` into `Ce_(n-1)e_n = A(e_n)^(alpha)`:</p>
+          <div class="math">
+            <p>`Ce_(n-1)e_n = C(e_n)^(1/alpha)/A^(1/alpha)A(e_(n-1))^(alpha)`</p>
+          </div>
+          <p>Using `e_n = A(e_(n-1))^(alpha)`, we can find `(e_(n-1))^(alpha)`:</p>
+          <div class="math">
+            <p>`e_n = A(e_(n-1))^(alpha) => (e_(n-1))^(alpha) = e_n/A`</p>
+          </div>
+          <p>Now we substitute `e_n/A` for `(e_(n-1))^(alpha)` in `C(e_n)^(1/alpha)/A^(1/alpha)A(e_(n-1))^(alpha)`:</p>
+          <div class="math">
+            <p>`C(e_n)^(1/alpha)/A^(1/alpha)A(e_n/A)`</p>
+            <p>`C(e_n)^(1/alpha)/A^(1/alpha)e_n`</p>
+            <p>`C/A^(1/alpha)(e_n)^(1+1/alpha)`</p>
+          </div>
+          <p>So `Ce_(n-1)e_n = C/A^(1/alpha)(e_n)^(1+1/alpha) = A(e_n)^(alpha)`, which means `alpha = 1 + 1/alpha`</p>
+          <div class="math">
+            <p>`alpha = 1 + 1/alpha => alpha^2 = alpha + 1 => alpha^2-alpha-1 = 0`</p>
+          </div>
+          <p>Using the quadratic formula, we get:</p>
+          <div class="math">
+            <p>`alpha = (1 + sqrt(5))/2 ~~ 1.62`</p>
           </div>
           <p>So `x_(n+1)-r = e_(n+1) = A(e_n)^(1.62)`, which means the secant method converges slower than Newton's method.</p>
           <h4 id="speedsecant">Speed of Secant Method</h4>
