@@ -39,10 +39,11 @@
         <a class="dropdown-item" href="#solvingfixed">Solving Nonlinear Equations: Fixed Point Method</a>
         <a class="dropdown-item" href="#fixedpointofview">A Fixed Point of View</a>
         <a class="dropdown-item" href="#convergencefixedpoint">Convergence of the Fixed Point Method</a>
-        <a class="dropdown-item" href="#solvingapprox">Solving Nonlinear Equations: Approximating Functions</a>
+        <a class="dropdown-item" href="#solvingpolynomial">Solving Nonlinear Equations: Polynomial Interpolation</a>
         <a class="dropdown-item" href="#polynomialtheorems">Polynomial Theorems</a>
         <a class="dropdown-item" href="#dividerinserepeat">Divide, Rinse, &amp; Repeat (To a Certain Degree)</a>
         <a class="dropdown-item" href="#gettingthepoints">Getting the Points</a>
+        <a class="dropdown-item" href="#errorpolynomials">Error of Polynomial Interpolation</a>
       </div>
     </div>
     <div class="container line-height">
@@ -910,7 +911,7 @@
             <p><b>Convergence of fixed point method:</b> `e_(n+1) = F'(s)e_n + (F''(s))/2(e_n)^2 + ...`</p>
             <p><b>Iterative formula for fixed point method:</b> `x_(n+1) = F(x_n)`</p>
           </div>
-          <h2 id="solvingapprox">Solving Nonlinear Equations: Approximating Functions</h2>
+          <h2 id="solvingpolynomial">Solving Nonlinear Equations: Polynomial Interpolation</h2>
           <p>Going back to the root-finding problem, we've been able to find just one root. It would be nice to be able to use the algorithms to find all the roots. It turns out that we actually can do this with polynomials because of their special properties.</p>
           <h3 id="polynomialtheorems">Polynomial Theorems</h3>
           <p>`p(x) = a_0 + a_1x + a_2x^2 + ... + a_nx^n` (with `a_n != 0`) is a polynomial. The degree of a polynomial is the highest power, which in this case is `n`, denoted as `deg\ p(x) = n`.</p>
@@ -1208,6 +1209,79 @@
             <p>Then we add `(x_2,y_2)` to get `a_0 + a_1(x-x_0) + a_2(x-x_0)(x-x_1)`.</p>
             <p>At the `(n+1)^(st)` step, we get `a_0 + a_1(x-x_0) + a_2(x-x_0)(x-x_1) + ... + a_n(x-x_0)(x-x_1)...(x-x_(n-1))`</p>
             <p>`= sum_(i=0)^n a_i prod_(j = 0)^(i-1) (x-x_j)`</p>
+            <p>Note: Each `a_i` isn't equal to `y_i`. Finding `a_i` is similar to finding `C` mentioned above.</p>
+          </div>
+          <h4 id="errorpolynomials">Error of Polynomial Interpolation</h4>
+          <p>So given a set of points `(x_i, f(x_i))`, it's possible to find a polynomial (of lowest possible degree) that interpolates those points. However, the polynomial is just an approximation, so there's going to be some error. How well does an interpolation polynomial approximate `f(x)`?</p>
+          <div class="box">
+            <div class="math">
+              <a target="_blank" title="Cuvwb [CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Interpolation_der_Runge-Funktion_(n%3D5).svg"><img width="512" alt="Interpolation der Runge-Funktion (n=5)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Interpolation_der_Runge-Funktion_%28n%3D5%29.svg/512px-Interpolation_der_Runge-Funktion_%28n%3D5%29.svg.png"></a>
+              <p>"<a target="_blank" href="https://commons.wikimedia.org/wiki/File:Interpolation_der_Runge-Funktion_(n%3D5).svg">Interpolation der Runge-Funktion (n=5)</a>" by Cuvwb is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA 4.0</a></p>
+            </div>
+            <p>The blue line is the actual function `f(x) = 1/(1+25x^2)` (known as the Runge function), and the red line is the degree `5` interpolation polynomial. Notice that while they have the same `y`-values at `x = -5, -3, -1, 1, 3, 5`, the `y`-values differ in between those `x`-values.</p>
+          </div>
+          <p>Suppose `f(x) in C^(n+1)[a,b]color(red)(text(*))` for `x in [a,b]`. Suppose `p(x)` is the interpolation polynomial of degree `le n`. Then:</p>
+          <div class="math">
+            <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`</p>
+          </div>
+          <div class="box">
+            <p>`color(red)(text(*))` The `(n+1)^(st)` derivative of `f` exists and is continuous on `[a,b]`.</p>
+          </div>
+          <div class="box">
+            <p>Note that if `x` is far from the data points `x_i` then `abs(x-x_i)` is large, and `prod_(i=0)^n(x-x_i)` is large, making the error large.</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/error_poly.jpg">
+            </div>
+            <p>If we have a polynomial interpolating the points on the right, then it's not very likely that it will fit well with the point all the way on the left.</p>
+          </div>
+          <div class="box">
+            <p>Rolle's Theorem: If `f in C^1[a,b]` and `f(a) = f(b)`, then there exists a `c in (a,b)` such that `f'(c) = 0`</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/rolles.jpg">
+            </div>
+            <p>Notice that if `a` and `b` are roots of `f`, then there is a root of `f'` between the roots of `f`. This generalizes for higher-order derivatives. Between any two roots of `f'`, there is a root of `f''`. And so on. This idea is used in the proof of the error.</p>
+          </div>
+          <div class="box">
+            <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`</p>
+            <div class="collapse" id="collapseErrorPoly">
+              <p>If `x = x_i`, then `f(x_i) - p(x_i) = 0` (because `prod_(i=0)^n(x_i-x_i) = 0`).</p>
+              <p>Suppose `x != x_i`</p>
+              <p>Let `phi(t) = f(t)-p(t)-lambda w(t)` where `lambda` is chosen to be the number that makes `phi(x) = 0` and `w(t) = prod_(i=0)^n (t-x_i)`</p>
+              <p>Thus,</p>
+              <div class="math">
+                <p>`lambda = (f(x)-p(x))/(w(x))`</p>
+              </div>
+              <p>By the way we constructed it, `phi` has roots at `x_0, ..., x_n` and `x`. So it has `n+2` roots</p>
+              <p>Then by Rolle's Theorem, `phi'` has `n+1` roots</p>
+              <p>Continuing, `phi''` has `n` roots, `phi'''` has `n-1` roots, ..., `phi^((n+1))` has `1` root</p>
+              <p>This means there exists a `xi_x in (a,b)` such that `phi^((n+1))(xi_x) = 0`</p>
+              <p>Well,</p>
+              <div class="math">
+                <p>`phi^((n+1))(xi_x) = f^((n+1))(xi_x) - p^((n+1))(xi_x)-lambdaw^((n+1))(xi_x)`</p>
+              </div>
+              <p>Since `p(x)` has degree `le n`, taking `n+1` derivatives makes `p^((n+1)) = 0`</p>
+              <p>So,</p>
+              <div class="math">
+                <p>`phi^((n+1))(xi_x) = f^((n+1))(xi_x)-lambdaw^((n+1))(xi_x)`</p>
+              </div>
+              <p>Since `w(t)` is the product of `n+1` linear polynomials, `w(t)` has degree `n+1`. Which means when we take `n+1` derivatives, it will equal `(n+1)(n)...1 = (n+1)!`</p>
+              <p>So,</p>
+              <div class="math">
+                <p>`phi^((n+1))(xi_x) = f^((n+1))(xi_x)-lambda(n+1)!`</p>
+              </div>
+              <p>Remember that `lambda = (f(x)-p(x))/(w(x))` makes `phi(x) = 0`</p>
+              <p>So,</p>
+              <div class="math">
+                <p>`0 = f^((n+1))(xi_x)-((f(x)-p(x))/(w(x)))(n+1)!`</p>
+                <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x)w(x)`</p>
+              </div>
+              <p>Remember that `w(x) = prod_(i=0)^n (x-x_i)`</p>
+              <p>So,</p>
+              <div class="math">
+                <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x)prod_(i=0)^n (x-x_i)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseErrorPoly">Proof</a>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
