@@ -44,6 +44,7 @@
         <a class="dropdown-item" href="#dividerinserepeat">Divide, Rinse, &amp; Repeat (To a Certain Degree)</a>
         <a class="dropdown-item" href="#gettingthepoints">Getting the Points</a>
         <a class="dropdown-item" href="#errorpolynomials">Error of Polynomial Interpolation</a>
+        <a class="dropdown-item" href="#chebyshevpoly">Chebyshev Polynomials</a>
       </div>
     </div>
     <div class="container line-height">
@@ -1297,6 +1298,43 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseErrorPoly">Proof</a>
           </div>
+          <p>There are several ways to get better error. One way is to connect all the data points with straight lines. Then use only the data points we need instead of all the points. This concept is known as piecewise linear interpolation.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/piecewise_linear.jpg">
+          </div>
+          <p>Since we're looking at only `2` data points (`n=1`), the error of piecewise linear interpolation is:</p>
+          <div class="math">
+            <p>`abs(f(x)-p(x)) = 1/(2!) abs(f''(xi_x))abs(x-x_i)abs(x-x_(i+1))`</p>
+            <p>`le 1/2(max_(z in [x_i,x_(i+1)]) abs(f''(z)))abs(x_(i+1)-x_i)/2abs(x_(i+1)-x_i)/2`</p>
+            <p>`= 1/2(max_(z in [x_i,x_(i+1)]) abs(f''(z)))(x_(i+1)-x_i)^2/4`</p>
+          </div>
+          <div class="box">
+            <p>Ex: Consider `f(x) = e^(2x)` in the interval `[-1,1]` with the `n+1` data points evenly spaced and `x_0 = -1`, `x_n = 1`. Let `h` be the stepsize `= x_(i+1) - x_i = (1-(-1))/n = 2/n`. Fix `x in [-1,1]`, so `x in [x_i,x_(i+1)]` for some `i`. Let `p` be the piecewise linear interpolant. Then the error at `x` is:</p>
+            <div class="math">
+              <p>`f(x)-p(x) = (f''(xi_x))/2(x-x_i)(x-x_(i+1))` for some `xi_x in [x_i,x_(i+1)]`</p>
+            </div>
+            <p>Putting an upper bound on the error, we get:</p>
+            <div class="math">
+              <p>`abs(f(x)-p(x)) le (max_(z in [x_i,x_(i+1)])abs(4e^(2z)))/2abs((x-x_i)(x-x_(i+1)))`</p>
+            </div>
+            <p>So for `x in [-1,1]`:</p>
+            <div class="math">
+              <p>`abs(f(x)-p(x)) le (max_(z in [-1,1])abs(4e^(2z)))/2abs((x+1)(x-1))`</p>
+              <p>`= (4e^2)/2abs((x+1)(x-1))`</p>
+            </div>
+            <p>We can look at the error of `abs((x+1)(x-1))` graphically. `abs((x-x_i)(x-x_(i+1)))` is a degree `2` polynomial, so it is a parabola with roots at `x_i` and `x_(i+1)`.</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/e2x_piecewise.jpg">
+            </div>
+            <p>So `abs((x-x_i)(x-x_(i+1))) le (h/2)(h/2) = h^2/4`, which means:</p>
+            <div class="math">
+              <p>`(4e^2)/2abs((x+1)(x-1)) le (4e^2)/2*h^2/4`</p>
+              <p>`= (e^2h^2)/2`</p>
+            </div>
+            <p>Notice that the error goes to `0` as `n->oo` or `h->0`. In words, we can get better error if we use more data points or decrease the spacing between each data point.</p>
+          </div>
+          <h4 id="chebyshevpoly">Chebyshev Polynomials</h4>
+          <p>There is another way to get better error using all of the `n+1` data points.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
