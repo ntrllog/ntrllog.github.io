@@ -1334,7 +1334,68 @@
             <p>Notice that the error goes to `0` as `n->oo` or `h->0`. In words, we can get better error if we use more data points or decrease the spacing between each data point.</p>
           </div>
           <h4 id="chebyshevpoly">Chebyshev Polynomials</h4>
-          <p>There is another way to get better error using all of the `n+1` data points.</p>
+          <p>Let's say instead of working with a table of data points, we're given the function `f(x)`. It turns out that there's a way to optimally choose our `x_i` so the error is small. (We're essentially creating our own table of data points.) Determining what `x_i` to choose involves something called Chebyshev polynomials.</p>
+          <p>There are `2` definitions of Chebyshev polynomials. The first one is a recursive definition:</p>
+          <div class="math">
+            <p>`{(T_0(x) = 1),(T_1(x) = x), (T_(n+1)(x) = 2xT_n(x) - T_(n-1)(x)):}`</p>
+          </div>
+          <div class="box">
+            <p>So a Chebyshev polynomial of degree `2` would look like:</p>
+            <div class="math">
+              <p>`T_2(x) = 2x*T_1(x)-T_0(x) = 2x*x-1 = 2x^2-1`</p>
+            </div>
+            <p>And one of degree `3`:</p>
+            <div class="math">
+              <p>`T_3(x) = 2x*T_2(x)-T_1(x) = 2x*(2x^2-1) - x = 4x^3 - 3x`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Note: `T_n(x) = a_0 + a_1x + ... + a_nx^n` where `a_n = 2^(n-1)` for `n ge 1`.</p>
+            <p>For `n = 2`: `a_2 = 2^(2-1) = 2^1 = 2` (which appears in the `2x^2`)</p>
+            <p>For `n = 3`: `a_3 = 2^(3-1) = 2^2 = 4` (which appears in the `4x^3`)</p>
+          </div>
+          <p>The second definition of a Chebyshev polynomial is:</p>
+          <div class="math">
+            <p>`T_n(x) = cos(ncos^(-1)(x))`</p>
+          </div>
+          <div class="box">
+            <p>`T_0(x) = cos(0*cos^(-1)(x)) = cos(0) = 1`</p>
+            <p>`T_1(x) = cos(1*cos^(-1)(x)) = cos(cos^(-1)(x)) = x`</p>
+          </div>
+          <p>The second definition tells us a lot about the properties of Chebyshev polynomials.</p>
+          <ul>
+            <li><p>`cos(x)` ranges from `-1` to `1`, so `abs(T_n(x)) le 1`</p></li>
+            <li><p>`T_n(cos((2j-1)/(2n)pi)) = 0` for `j = 1, ..., n`</p></li>
+            <li style="list-style-type: none";><p>— this tells us about the roots of `T_n(x)`</p></li>
+            <li><p>`T_n(cos((jpi)/n)) = (-1)^j` for `j = 0, ..., n`</p></li>
+            <li style="list-style-type: none";><p>— this tells us about the min and max of `T_n(x)`</p></li>
+          </ul>
+          <div class="box">
+            <p>A <b>monic</b> polynomial of degree `n` has the form `x^n + a_(n-1)x^(n-1) + ... + a_0`</p>
+            <p>The coefficient in front of the highest degree term is `1`</p>
+            <p>The monic version of the Chebyshev polynomial is `(T_n(x))/2^(n-1)` for `n ge 1` (this comes from the note mentioned above)</p>
+            <p>That means `abs((T_n(x))/2^(n-1)) le 1/2^(n-1)`</p>
+          </div>
+          <p>Recall that the error of polynomial interpolation is `1/((n+1)!)f^((n+1))(xi_x) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`. We can make the error small by making `prod_(i=0)^n(x-x_i) = (x-x_0)...(x-x_n)` small. Well, `(x-x_0)...(x-x_n)` is a monic polynomial, and there's a property of monic polynomials that allows us to put a bound on the error of them.</p>
+          <div class="box">
+            <p>If `p` is a monic polynomial of degree `n`, then `max_(x in [-1,1]) abs(p(x)) ge 1/2^(n-1)`</p>
+            <div class="collapse" id="collapseMonic">
+              <p>To achieve a contradiction, suppose `p` is a monic polynomial of degree `n` such that `max_(x in [-1,1]) abs(p(x)) lt 1/2^(n-1)`</p>
+              <p>Let's consider `r(x) = p(x) - (T_n(x))/2^(n-1)`</p>
+              <p>Notice that `T_n(x) = cos(...)` means that `T_n(x)` oscillates from `-1` to `1`. So `(T_n(x))/2^(n-1)` oscillates from `-1/2^(n-1)` to `1/2^(n-1)`.</p>
+              <p>Since `(T_n(x))/2^(n-1)` is a degree `n` polynomial oscillating from `-1/2^(n-1)` to `1/2^(n-1)`, it crosses the `x`-axis `n` times.</p>
+              <p>This means `r(x)` changes signs `n` times, i.e. `r(x)` has `n` roots</p>
+              <p>But `p(x)` is a monic polynomial of degree `n`, and `(T_n(x))/2^(n-1)` is a monic polynomial of degree `n`. This means when we subtract `p(x)` and `(T_n(x))/2^(n-1)`, the term with degree `n` gets subtracted off, i.e. `r(x)` has degree at most `n-1`</p>
+              <p>Since `r(x)` has more roots than degree, by the extension of the Fundamental Theorem of Algebra, `r(x)` must be a constant polynomial; specifically, `r(x_i) = 0` for all `i`</p>
+              <p>So `r(x) = 0 = p(x) - (T_n(x))/2^(n-1) => p(x) = (T_n(x))/2^(n-1) = 1/2^(n-1)`, which is a contradiction</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseMonic">Proof</a>
+          </div>
+          <p>Notice that `abs((T_n(x))/2^(n-1)) le 1/2^(n-1) => max_(x in [-1,1]) abs((T_n(x))/2^(n-1)) = 1/2^(n-1)`. Combining this with the result above means that</p>
+          <div class="math">
+            <p>`max_(x in [-1,1]) abs(p(x)) ge max_(x in [-1,1]) abs((T_n(x))/2^(n-1))`</p>
+          </div>
+          <p>So `abs(p(x))` (a monic polynomial of degree `n`) is smallest when `p(x) = (T_n(x))/2^(n-1)`. So `(x-x_0)...(x-x_n)` (a monic polynomial of degree `n+1`) is smallest when `(x-x_0)...(x-x_n) = (T_(n+1)(x))/2^(n)`.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
