@@ -58,7 +58,7 @@
           <h2 id="numbersstore">A Numbers Store Stores Numbers</h2>
           <p>How does a computer store numbers? Vaguely, we could describe it as putting each digit in a space somewhere in the computer's memory. So `100` would need `3` spaces`color(red)(text(*))`. This seems like an easy and obvious idea until we get to numbers like `pi`, which has an infinite number of digits. Does this mean we need an infinite amount of memory to store `pi`? But computers don't have infinite memory, so what happens then?</p>
           <p>`color(red)(text(*)`Computers work in binary, so things are a little bit different than this.</p>
-          <p><b>Computers store a number by keeping as much of it as it can, and then throwing away the rest.</b> So if a computer can only store at most `8` digits, then it would store `pi` as `3.1415926`. But complications arise when we're dealing with really big or really small numbers. For example, `0.00000000000000045` would be stored as `0.0000000`, which is just `0`. This is a problem because `0.00000000000000045` isn't equal to `0`, but it would be treated as such. A similar problem occurs for `1000000000000000`, which would be stored as `10000000`, which is much much smaller.</p>
+          <p><strong>Computers store a number by keeping as much of it as it can, and then throwing away the rest.</strong> So if a computer can only store at most `8` digits, then it would store `pi` as `3.1415926`. But complications arise when we're dealing with really big or really small numbers. For example, `0.00000000000000045` would be stored as `0.0000000`, which is just `0`. This is a problem because `0.00000000000000045` isn't equal to `0`, but it would be treated as such. A similar problem occurs for `1000000000000000`, which would be stored as `10000000`, which is much much smaller.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/comic_storing.jpg">
           </div>
@@ -81,7 +81,7 @@
           <p>Scientific notation helps make it easier to store numbers, but some complications <em>still</em> pop up. Consider a computer that can only store at most `3` digits in the mantissa. Let's say we wanted to store the number `0.002146`. In scientific notation, it would be `0.2146 xx 10^(-2)`, which has `4` digits in the mantissa. Our computer can only store `3` digits in the mantissa, so how should it be stored? There are 2 options: chopping and rounding.</p>
           <p>Under chopping, `0.2146 xx 10^(-2)` would become `0.214 xx 10^(-2)`. As the name implies, the rest of the digits (after the `3^(rd)`) are "chopped off". Under rounding, `0.2146 xx 10^(-2)` would become `0.215 xx 10^(-2)`.</p>
           <p>From this, we can see that what the computer stores isn't always going to be exactly equal to the original number. The version of the number that the computer stores can be denoted by `fl(x)`, where `x` is the original number.</p>
-          <p>So the <b>difference between the original number and the stored number is going to be the error</b>. There are `2` types of errors:</p>
+          <p>So the <strong>difference between the original number and the stored number is going to be the error</strong>. There are `2` types of errors:</p>
           <ul>
             <li><p>absolute error ` = abs(x - fl(x))`</p></li>
             <li><p>relative error ` = abs(x - fl(x))/abs(x)`</p></li>
@@ -210,7 +210,7 @@
             <p>`= 3epsilon + 3epsilon^2 + epsilon^3`</p>
             <p>`= 3epsilon + O(epsilon^2) = O(epsilon)`</p>
           </div>
-          <p>So <b>multiplying two numbers will lead to error, but it will be at most `3` times as bad as the worst error in storing a number.</b></p>
+          <p>So <strong>multiplying two numbers will lead to error, but it will be at most `3` times as bad as the worst error in storing a number.</strong></p>
           <div class="box">
             <p>`(x*y)*z` gets relative error `abs(delta) le 5epsilon + O(epsilon^2)`</p>
             <p>`((x_1*x_2)*x_3)*x_4*...*x_m` gets relative error `abs(delta) le (2m-1)epsilon + O(epsilon^2)`</p>
@@ -224,7 +224,7 @@
             <p>where `(1 + delta) = (1 + (xdelta_1)/(x-y) - (ydelta_2)/(x-y))(1 + delta_3)`</p>
             <p>`=> delta = delta_3 + (xdelta_1)/(x-y) - (ydelta_2)/(x-y) + delta_3((xdelta_1)/(x-y) - (ydelta_2)/(x-y))`</p>
           </div>
-          <p><b>But `abs(x/(x-y))` and `abs(y/(x-y))` can be very large when `x` is close to `y`. When this happens, `abs(delta)` will be very large. This is called catastrophic cancellation.</b></p>
+          <p><strong>But `abs(x/(x-y))` and `abs(y/(x-y))` can be very large when `x` is close to `y`. When this happens, `abs(delta)` will be very large. This is called catastrophic cancellation.</strong></p>
           <div class="box">
             <p>Example: For `n = 5` (a `5`-digit rounding computer), let's subtract `x = 1` and `y = 1.00001`. (The exact solution is `1 - 1.00001 = -0.00001`)</p>
             <p>`fl(1) = 1` and `fl(1.00001) = 1.0000 = 1`</p>
@@ -232,11 +232,11 @@
             <p>Relative error = `abs(text(exact) - text(approximate))/abs(exact) = abs(-0.00001 - 0)/abs(-0.00001) = 1`</p>
             <p>This means there is `100%` error.</p>
           </div>
-          <p><b>1) Errors become slightly larger every arithmetic operation</b>.</p>
+          <p><strong>1) Errors become slightly larger every arithmetic operation</strong>.</p>
           <div class="box">
             <p>Because of this, we want to minimize the number of arithmetic operations whenever possible. For example, `1 + x + x^2 + x^3` takes `6` operations to do (`3` additions, `3` multiplications). However, we could rewrite `1 + x + x^2 + x^3` as `1 + x(1 + x(1 + x))`, which only requires `5` operations (`3` additions, `2` multiplications). The number of operations saved writing polynomials in nested form increases as the number of polynomials increases.</p>
           </div>
-          <p><b>2) Catastrophic cancellation can occur when subtracting numbers</b>.</p>
+          <p><strong>2) Catastrophic cancellation can occur when subtracting numbers</strong>.</p>
           <div class="box">
             <p>Consider the situation of trying to find the roots of a quadratic equation `ax^2 + bx + c = 0`. Let's suppose `b` is positive and `a`, `c` are small so that `abs(-4ac)` is small. Then `x = (-b + sqrt(b^2-4ac))/(2a) ~~ (-b + sqrt(b^2))/(2a) = (-b + b)/(2a) = 0``color(red)(text(*))`, which leads to catastrophic cancellation. We could avoid this by rewriting `x` by multiplying it by `1`.</p>
             <p>`x = (-b + sqrt(b^2-4ac))/(2a) * (-b-sqrt(b^2-4ac))/(-b-sqrt(b^2-4ac)) = (b^2 - (b^2 - 4ac))/(2a(-b-sqrt(b^2-4ac))) = (2c)/(-b-sqrt(b^2-4ac))`. In this case, catastrophic cancellation is avoided.</p>
@@ -256,12 +256,12 @@
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/comic_bisection.jpg">
           </div>
-          <p>We do this by using the <b>Intermediate Value Theorem, which says if `f` is a continuous function in `[a,b]`, then `f` assumes every value between `f(a)` and `f(b).`</b></p>
+          <p>We do this by using the <strong>Intermediate Value Theorem, which says if `f` is a continuous function in `[a,b]`, then `f` assumes every value between `f(a)` and `f(b).`</strong></p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/ivt_general.jpg">
           </div>
           <p>In this example, `f` achieves every value between the dotted lines between `a` and `b`.</p>
-          <p>So how does this help us find roots? We can apply it to the situation where `f(a)` and `f(b)` have different signs (e.g. one is positive and the other is negative). <b>If `f(a)` and `f(b)` have different signs, then `f` has a root in `[a, b]`.</b></p>
+          <p>So how does this help us find roots? We can apply it to the situation where `f(a)` and `f(b)` have different signs (e.g. one is positive and the other is negative). <strong>If `f(a)` and `f(b)` have different signs, then `f` has a root in `[a, b]`.</strong></p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/ivt_root.jpg">
           </div>
@@ -482,7 +482,7 @@
           <div class="math">
             <p>`e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`</p>
           </div>
-          <p><b>This means that the error between our `(n+1)^(st)` approximation and the root is roughly equal to the square of the error between the `n^(th)` approximation and the root. So if the error was small for the `n^(th)` approximation, the error will be even smaller for the `(n+1)^(st)` approximation.</b></p>
+          <p><strong>This means that the error between our `(n+1)^(st)` approximation and the root is roughly equal to the square of the error between the `n^(th)` approximation and the root. So if the error was small for the `n^(th)` approximation, the error will be even smaller for the `(n+1)^(st)` approximation.</strong></p>
           <div class="box">
             <ul>
               <li><p>If `f'(x_n) = 0` (the slope of the tangent line is horizontal), then we get a `0` in the denominator. This explains one of the cases where Newton's method doesn't work mentioned earlier.</p></li>
@@ -490,7 +490,7 @@
             </ul>
           </div>
           <h4 id="speednewton">Speed of Newton's Method</h4>
-          <p>The iterative formula for Newton's method is `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. From this, we can see that it requires `2` function evaluations per iteration. The bisection method required `2` function evaluations at the beginning, but then it only required `1` function evaluation per iteration. <b>This means that Newton's method does roughly twice as many function evaluations per iteration as the bisection method.</b> Doing more function evaluations means that Newton's method is <em>slower</em> than the bisection method.</p>
+          <p>The iterative formula for Newton's method is `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. From this, we can see that it requires `2` function evaluations per iteration. The bisection method required `2` function evaluations at the beginning, but then it only required `1` function evaluation per iteration. <strong>This means that Newton's method does roughly twice as many function evaluations per iteration as the bisection method.</strong> Doing more function evaluations means that Newton's method is <em>slower</em> than the bisection method.</p>
           <h4 id="convergencenewton">Convergence of Newton's Method</h4>
           <p>But maybe Newton's method will converge faster than the bisection method will? Let's look back at the error equation `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`. If we start with an initial guess close enough to `r`, then `(f''(xi_n))/(2f'(x_n)) ~~ (f''(r))/(2f'(r))`, which is a constant, so we can call it `c`. Then the error for Newton's method can be represented as `e_(n+1) ~~ c(e_n)^2`.</p>
           <div class="box">
@@ -522,8 +522,8 @@
           </div>
           <p>From this, we can see that Newton's method (generally) converges faster than the bisection method. The convergence of Newton's method is described as "quadratic convergence" because of the power `2`.</p>
           <p>But this doesn't mean that Newton's method <em>always</em> converges faster than the bisection method. It's possible that Newton's method won't converge at all (when `f' = 0` and/or `f''` doesn't exist). However, there are some theorems that guarantee the convergence of Newton's method.</p>
-          <p><b>Let's suppose `f'(x)`,`f''(x)` are continuous around `x = r` and `f'(r) != 0`. Then it turns out that if we start with an intial guess close enough to `r`, we can get `x_n -> r` (i.e. the `n^(th)` approximation will approach `r`).</b></p>
-          <p><b>Another convergence result is that if `f''(x) > 0` (`f` is concave up) in the interval `[r, oo)` and `f'(x) > 0` (`f` is increasing) in the interval `[r,oo)`, then `x_0 in [r,oo)` implies Newton's method will converge to `r`.</b></p>
+          <p><strong>Let's suppose `f'(x)`,`f''(x)` are continuous around `x = r` and `f'(r) != 0`. Then it turns out that if we start with an intial guess close enough to `r`, we can get `x_n -> r` (i.e. the `n^(th)` approximation will approach `r`).</strong></p>
+          <p><strong>Another convergence result is that if `f''(x) > 0` (`f` is concave up) in the interval `[r, oo)` and `f'(x) > 0` (`f` is increasing) in the interval `[r,oo)`, then `x_0 in [r,oo)` implies Newton's method will converge to `r`.</strong></p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/concaveup_increasing.jpg">
           </div>
@@ -826,7 +826,7 @@
             </div>
             <p>There are many options for solving nonlinear equations using the fixed point method. As long as the equation is of the form "`x` equals a function of `x`".</p>
           </div>
-          <p>For this method to work, we need `F` to be contractive. <b>`F` is contractive if there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)` for all `x,y`.</b> It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda lt 1`).</p>
+          <p>For this method to work, we need `F` to be contractive. <strong>`F` is contractive if there exists a positive `lambda lt 1` such that `abs(F(x)-F(y)) le lambdaabs(x-y)` for all `x,y`.</strong> It's "contractive" because the distance between `x` and `y` (represented by `abs(x-y)`) is getting smaller after applying `F` (because `lambda lt 1`).</p>
           <p>Note: If `F` is contractive, then `F` is continuous.</p>
           <div class="box">
             <p><b>Fixed Point Theorem:</b> Let `F:[a,b] -> [a,b]` be a contractive map. Then `F` has a unique fixed point in `[a,b]`. Also, `x_(n+1) = F(x_n)` with `x_0 in [a,b]` will converge to that fixed point.</p>
@@ -870,7 +870,7 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseConvergenceFixedPoint">Proof of Convergence</a>
           </div>
-          <p>So how do we know what to use for `lambda`? It turns out that we can answer this by looking at the <b>Mean Value Theorem, which says that if `f` is continuous on `[a,b]` and differentiable on `(a,b)`, then there exists a point `c` between `a` and `b` such that `f'(c) = (f(b)-f(a))/(b-a)`</b>.</p>
+          <p>So how do we know what to use for `lambda`? It turns out that we can answer this by looking at the <strong>Mean Value Theorem, which says that if `f` is continuous on `[a,b]` and differentiable on `(a,b)`, then there exists a point `c` between `a` and `b` such that `f'(c) = (f(b)-f(a))/(b-a)`</strong>.</p>
           <p>For our situation, we can adjust that equation a little bit to get:</p>
           <div class="math">
             <p>`F'(xi) = (F(x)-F(y))/(x-y)`</p>
@@ -960,7 +960,7 @@
             <p>`0 = 0*q(s) + r`</p>
             <p>`r = 0`</p>
           </div>
-          <p>A special case of the Remainder Theorem — called the Factor Theorem — combines the two points above: `p(s) = 0 iff p(x) = (x-s)q(x)`. In words, <b>if `s` is a root of `p(x)`, then `p(x)` can be divided evenly by `(x-s)`, which means `p(x) = (x-s)q(x)`</b> (and if `p(x)` can be divided evenly by `(x-s)`, then `p(s) = 0`).</p>
+          <p>A special case of the Remainder Theorem — called the Factor Theorem — combines the two points above: `p(s) = 0 iff p(x) = (x-s)q(x)`. In words, <strong>if `s` is a root of `p(x)`, then `p(x)` can be divided evenly by `(x-s)`, which means `p(x) = (x-s)q(x)`</strong> (and if `p(x)` can be divided evenly by `(x-s)`, then `p(s) = 0`).</p>
           <h3 id="dividerinserepeat">Divide, Rinse, &amp; Repeat (To a Certain Degree)</h3>
           <p>So we can use the algorithms to find one root of `p(x)`, call it `r_1`, and then divide `p(x)` by `(x-r_1)` to get `p(x) = (x-r_1)q(x)`. Then we can use the algorithms to find the root of `q(x)`, call it `r_2`, and divide `q(x)` by `(x-r_2)` to get `p(x) = (x-r_1)(x-r_2)u(x)`. Wait, it seems like we can just keep on dividing forever. There's actually a limit to the number of times we can divide polynomials, and it involves looking at the degrees of the polynomials.</p>
           <p>Recall that when we multiply like terms with exponents, we add the exponents. Like `x^2 * x^3 = x^5`.</p>
@@ -984,7 +984,7 @@
           </div>
           <h3 id="gettingthepoints">Getting the Points</h3>
           <p>So we've seen that it's possible to find all the roots of polynomials. But what about finding roots for complicated functions that aren't polynomials? It turns out that complicated functions can be replaced or approximated by polynomials.</p>
-          <p>Let's suppose we had a table of `n+1` data points `(x_i, y_i)` for `i = 0, ..., n` obtained from some complicated function `f(x)`. Then <b> there exists a unique polynomial with degree less than or equal to `n` that passes through (interpolates) the points</b>. The polynomial interpolating the data points is called the <b>interpolation polynomial</b>.</p>
+          <p>Let's suppose we had a table of `n+1` data points `(x_i, y_i)` for `i = 0, ..., n` obtained from some complicated function `f(x)`. Then <strong> there exists a unique polynomial with degree less than or equal to `n` that passes through (interpolates) the points</strong>. The polynomial interpolating the data points is called the <b>interpolation polynomial</b>.</p>
           <div class="box">
             <div class="collapse" id="collapseUniquePoly">
               <p>Suppose `p(x), q(x)` both interpolate the data points and `deg\ p(x), deg\ q(x) le n`</p>
@@ -1385,7 +1385,7 @@
               <p>Notice that `T_n(x) = cos(...)` means that `T_n(x)` oscillates from `-1` to `1`. So `(T_n(x))/2^(n-1)` oscillates from `-1/2^(n-1)` to `1/2^(n-1)`.</p>
               <p>Since `(T_n(x))/2^(n-1)` is a degree `n` polynomial oscillating from `-1/2^(n-1)` to `1/2^(n-1)`, it crosses the `x`-axis `n` times.</p>
               <p>This means `r(x)` changes signs `n` times, i.e. `r(x)` has `n` roots</p>
-              <p>But `p(x)` is a monic polynomial of degree `n`, and `(T_n(x))/2^(n-1)` is a monic polynomial of degree `n`. This means when we subtract `p(x)` and `(T_n(x))/2^(n-1)`, the term with degree `n` gets subtracted off, i.e. `r(x)` has degree at most `n-1`</p>
+              <p>But `p(x)` is a monic polynomial of degree `n`, and `(T_n(x))/2^(n-1)` is a monic polynomial of degree `n`. This means when we subtract `p(x)` and `(T_n(x))/2^(n-1)`, the `x^n` terms cancel out, meaning `r(x)` has degree at most `n-1`</p>
               <p>Since `r(x)` has more roots than degree, by the extension of the Fundamental Theorem of Algebra, `r(x)` must be a constant polynomial; specifically, `r(x_i) = 0` for all `i`</p>
               <p>So `r(x) = 0 = p(x) - (T_n(x))/2^(n-1) => p(x) = (T_n(x))/2^(n-1) = 1/2^(n-1)`, which is a contradiction</p>
             </div>
