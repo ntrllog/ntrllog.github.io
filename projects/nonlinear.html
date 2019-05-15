@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <!--
@@ -1284,7 +1284,7 @@
               <div class="math">
                 <p>`phi^((n+1))(xi_x) = f^((n+1))(xi_x)-lambda(n+1)!`</p>
               </div>
-              <p>Remember that `lambda = (f(x)-p(x))/(w(x))` makes `phi(x) = 0`</p>
+              <p>Remember that `lambda = (f(x)-p(x))/(w(x))` and `phi^((n+1))(xi_x) = 0`</p>
               <p>So,</p>
               <div class="math">
                 <p>`0 = f^((n+1))(xi_x)-((f(x)-p(x))/(w(x)))(n+1)!`</p>
@@ -1382,12 +1382,15 @@
             <div class="collapse" id="collapseMonic">
               <p>To achieve a contradiction, suppose `p` is a monic polynomial of degree `n` such that `max_(x in [-1,1]) abs(p(x)) lt 1/2^(n-1)`</p>
               <p>Let's consider `r(x) = p(x) - (T_n(x))/2^(n-1)`</p>
-              <p>Notice that `T_n(x) = cos(...)` means that `T_n(x)` oscillates from `-1` to `1`. So `(T_n(x))/2^(n-1)` oscillates from `-1/2^(n-1)` to `1/2^(n-1)`.</p>
-              <p>Since `(T_n(x))/2^(n-1)` is a degree `n` polynomial oscillating from `-1/2^(n-1)` to `1/2^(n-1)`, it crosses the `x`-axis `n` times.</p>
-              <p>This means `r(x)` changes signs `n` times, i.e. `r(x)` has `n` roots</p>
-              <p>But `p(x)` is a monic polynomial of degree `n`, and `(T_n(x))/2^(n-1)` is a monic polynomial of degree `n`. This means when we subtract `p(x)` and `(T_n(x))/2^(n-1)`, the `x^n` terms cancel out, meaning `r(x)` has degree at most `n-1`</p>
-              <p>Since `r(x)` has more roots than degree, by the extension of the Fundamental Theorem of Algebra, `r(x)` must be a constant polynomial; specifically, `r(x_i) = 0` for all `i`</p>
-              <p>So `r(x) = 0 = p(x) - (T_n(x))/2^(n-1) => p(x) = (T_n(x))/2^(n-1) = 1/2^(n-1)`, which is a contradiction</p>
+              <p>Recall that `T_n(cos((jpi)/n)) = (-1)^j` for `j = 0, ..., n`</p>
+              <p>So at `x = cos((jpi)/n)`, the sign of `T_n(x)` alternates `n+1` times</p>
+              <p>When `T_n(x)` is negative, `r(x) = p(x) + 1/(2^(n-1))` is positive</p>
+              <p>When `T_n(x)` is positive, `r(x) = p(x) - 1/(2^(n-1))` is negative since `abs(p(x)) lt 1/(2^(n-1))`</p>
+              <p>So the sign of `r(x)` also alternates `n+1` times</p>
+              <p>By the Intermediate Value Theorem, `r(x)` has `n` roots</p>
+              <p>But `r(x)` has degree `n-1color(red)(text(*))`, which contradicts the extension of the Fundamental Theorem of Algebra</p>
+              <p>So `max_(x in [-1,1]) abs(p(x)) ge 1/2^(n-1)`</p>
+              <p>`color(red)(text(*))p(x)` and `(T_n(x))/2^(n-1)` are monic polynomials, which means that the highest degree terms cancel out when doing `p(x) - (T_n(x))/2^(n-1)`. After subtraction, the term with the highest degree has degree `n-1`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseMonic">Proof</a>
           </div>
@@ -1395,7 +1398,8 @@
           <div class="math">
             <p>`max_(x in [-1,1]) abs(p(x)) ge max_(x in [-1,1]) abs((T_n(x))/2^(n-1))`</p>
           </div>
-          <p>So `abs(p(x))` (a monic polynomial of degree `n`) is smallest when `p(x) = (T_n(x))/2^(n-1)`. So `(x-x_0)...(x-x_n)` (a monic polynomial of degree `n+1`) is smallest when `(x-x_0)...(x-x_n) = (T_(n+1)(x))/2^(n)`.</p>
+          <p>Also notice that `abs(p(x))` (a monic polynomial of degree `n`) is smallest when `p(x) = (T_n(x))/2^(n-1)`. So `(x-x_0)...(x-x_n)` (a monic polynomial of degree `n+1`) is smallest when `(x-x_0)...(x-x_n) = (T_(n+1)(x))/2^n`.</p>
+          <p>Looking at that equation, we can actually make `(x-x_0)...(x-x_n) = 0` by picking `x_i` so that they are the roots of `(T_(n+1)(x))/2^n`. <strong>So we can optimally choose `x_i` by picking `x_(j-1) = cos((2j-1)/(2(n+1))pi)` for `j = 1, ..., n+1`</strong>.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
