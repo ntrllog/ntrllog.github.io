@@ -45,6 +45,7 @@
         <a class="dropdown-item" href="#gettingthepoints">Getting the Points</a>
         <a class="dropdown-item" href="#errorpolynomials">Error of Polynomial Interpolation</a>
         <a class="dropdown-item" href="#chebyshevpoly">Chebyshev Polynomials</a>
+        <a class="dropdown-item" href="#newtwonform">Newton's Form, Revisited</a>
       </div>
     </div>
     <div class="container line-height">
@@ -276,7 +277,7 @@
           </div>
           <p>Now we have two choices for what our new interval `[a_1, b_1]` could be: `[a_0, c_0]` or `[c_0, b_0]`. The IVT doesn't tell us if there's a root between `a_0` and `c_0`, but it does guarantee that there is a root between `c_0` and `b_0`. So the new interval `[a_1, b_1]` should be `[c_0, b_0]`.</p>
           <p>And this process of dividing the interval in half repeats until the interval is small enough.</p>
-          <h4 id="errorbisection">Error of the Bisection Method</h4>
+          <h3 id="errorbisection">Error of the Bisection Method</h3>
           <p>The thing is, we're looking for a number, but we end up with an interval (two numbers). So how do we get our answer? We could just pick some number between that interval. At this point, the interval is really small, so our approximation should be close to the actual solution. But how much error is there?</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/root_algorithm_n.jpg">
@@ -305,7 +306,7 @@
             <li><p>Repeat the steps for that new (smaller) interval</p></li>
           </ol>
           <p>As the steps suggest, the name of this algorithm is the <b>bisection method</b>.</p>
-          <h4 id="convergencebisection">Convergence of the Bisection Method</h4>
+          <h3 id="convergencebisection">Convergence of the Bisection Method</h3>
           <p>The bisection method generates a sequence of approximations:</p>
           <div class="math">
             <p>`{c_n}_(n=0)^(oo)`</p>
@@ -368,7 +369,7 @@
 <span style="color: #008800; font-weight: bold">end</span>
 </pre></div>
           </div>
-          <h4 id="speedbisection">Speed of the Bisection Method</h4>
+          <h3 id="speedbisection">Speed of the Bisection Method</h3>
           <p>Since we're dealing with nonlinear equations, we can say that computing `f(x)` is relatively hard (i.e. time-consuming). Of course, a computer can do it almost instantly, but it takes more time to compute powers and roots than additions and divisions. So we can measure the speed of the bisection method by counting how many times we compute `f(x)`.</p>
           <p>In the code above, we're calcuating `f(a)` and `f(c)` every iteration. That's `2` costly operations. It turns out we can reduce it to only `1` costly operation per iteration if we store their values.</p>
           <div class="box">
@@ -454,7 +455,7 @@
             </div>
             <p>So unlike the bisection method, Newton's method won't always work. However, it's still worth looking at Newton's method, because it turns out that it is generally faster than the bisection method.</p>
           </div>
-          <h4 id="errornewton">Error of Newton's Method</h4>
+          <h3 id="errornewton">Error of Newton's Method</h3>
           <div class="box">
             <p>A Taylor series represents a function as an infinite sum.</p>
             <div class="math">
@@ -489,9 +490,9 @@
               <li><p>If `f''(xi_n) = oo` (the second derivative of `f` doesn't exist), then we get really large error.</p>
             </ul>
           </div>
-          <h4 id="speednewton">Speed of Newton's Method</h4>
+          <h3 id="speednewton">Speed of Newton's Method</h3>
           <p>The iterative formula for Newton's method is `x_(n+1) = x_n - f(x_n)/(f'(x_n))`. From this, we can see that it requires `2` function evaluations per iteration. The bisection method required `2` function evaluations at the beginning, but then it only required `1` function evaluation per iteration. <strong>This means that Newton's method does roughly twice as many function evaluations per iteration as the bisection method.</strong> Doing more function evaluations means that Newton's method is <em>slower</em> than the bisection method.</p>
-          <h4 id="convergencenewton">Convergence of Newton's Method</h4>
+          <h3 id="convergencenewton">Convergence of Newton's Method</h3>
           <p>But maybe Newton's method will converge faster than the bisection method will? Let's look back at the error equation `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`. If we start with an initial guess close enough to `r`, then `(f''(xi_n))/(2f'(x_n)) ~~ (f''(r))/(2f'(r))`, which is a constant, so we can call it `c`. Then the error for Newton's method can be represented as `e_(n+1) ~~ c(e_n)^2`.</p>
           <div class="box">
             <p>Let's say the error of the `n^(th)` approximation was `0.001`.</p>
@@ -686,7 +687,7 @@
               </tr>
             </table>
           </div>
-          <h4 id="errorsecant">Error of Secant Method</h4>
+          <h3 id="errorsecant">Error of Secant Method</h3>
           <p>To look at the error, we can start by rewriting the iterative formula:</p>
           <div class="math">
             <p>`x_(n+1) = x_n - (f(x_n)(x_n - x_(n-1)))/(f(x_n)-f(x_(n-1)))`</p>
@@ -775,7 +776,7 @@
             <p>`alpha = (1 + sqrt(5))/2 ~~ 1.62`</p>
           </div>
           <p>So `x_(n+1)-r = e_(n+1) = A(e_n)^(1.62)`, which means the secant method converges slower than Newton's method.</p>
-          <h4 id="speedsecant">Speed of Secant Method</h4>
+          <h3 id="speedsecant">Speed of Secant Method</h3>
           <p>Recall that the secant method only requires `1` function evaluation per iteration, and that Newton's method requires `2` function evaluations per iteration. This means that we can perform `2` steps of the secant method in the time it takes to perform `1` step of Newton's method. So to compare them on a level playing field, we can compare the error when performing `2` steps of the secant method vs. the error in performing `1` step of Newton's method.</p>
           <p>For the secant method:</p>
           <div class="flex">
@@ -889,7 +890,7 @@
             <img class="img-fluid" src="../pictures/nonlinear/fixed_point.jpg">
           </div>
           <p>This is the graphical interpretation of looking at fixed points. Notice that the point is on the line `y = x` and `y = F(x)`. So `x = F(x)`.</p>
-          <h4 id="convergencefixedpoint">Convergence of the Fixed Point Method</h4>
+          <h3 id="convergencefixedpoint">Convergence of the Fixed Point Method</h3>
           <p>Let's suppose the fixed point iterations converge to `s`. To look at the convergence, let's look at how the error compares to the error of Newton's method.</p>
           <p>So let's start with `e_(n+1) = x_(n+1) - s`. From the formula `x_(n+1) = F(x_n)` and the definition of fixed point, we get:</p>
           <div class="math">
@@ -1226,7 +1227,7 @@
             <p>`= sum_(i=0)^n a_i prod_(j = 0)^(i-1) (x-x_j)`</p>
             <p>Note: Each `a_i` isn't equal to `y_i`. Finding `a_i` is similar to finding `C` mentioned above.</p>
           </div>
-          <h4 id="errorpolynomials">Error of Polynomial Interpolation</h4>
+          <h3 id="errorpolynomials">Error of Polynomial Interpolation</h3>
           <p>So given a set of points `(x_i, f(x_i))`, it's possible to find a polynomial (of lowest possible degree) that interpolates those points. However, the polynomial is just an approximation, so there's going to be some error. How well does an interpolation polynomial approximate `f(x)`?</p>
           <div class="box">
             <div class="math">
@@ -1333,7 +1334,7 @@
             </div>
             <p>Notice that the error goes to `0` as `n->oo` or `h->0`. In words, we can get better error if we use more data points or decrease the spacing between each data point.</p>
           </div>
-          <h4 id="chebyshevpoly">Chebyshev Polynomials</h4>
+          <h3 id="chebyshevpoly">Chebyshev Polynomials</h3>
           <p>Let's say instead of working with a table of data points, we're given the function `f(x)`. It turns out that there's a way to optimally choose our `x_i` so the error is small. (We're essentially creating our own table of data points.) Determining what `x_i` to choose involves something called Chebyshev polynomials.</p>
           <p>There are `2` definitions of Chebyshev polynomials. The first one is a recursive definition:</p>
           <div class="math">
@@ -1400,6 +1401,78 @@
           </div>
           <p>Also notice that `abs(p(x))` (a monic polynomial of degree `n`) is smallest when `p(x) = (T_n(x))/2^(n-1)`. So `(x-x_0)...(x-x_n)` (a monic polynomial of degree `n+1`) is smallest when `(x-x_0)...(x-x_n) = (T_(n+1)(x))/2^n`.</p>
           <p>Looking at that equation, we can actually make `(x-x_0)...(x-x_n) = 0` by picking `x_i` so that they are the roots of `(T_(n+1)(x))/2^n`. <strong>So we can optimally choose `x_i` by picking `x_(j-1) = cos((2j-1)/(2(n+1))pi)` for `j = 1, ..., n+1`</strong>.</p>
+          <h3>Newton's Form, Revisited</h3>
+          <p>The process for generating the interpolation polynomial of Newton's form invovled generating the interpolation polynomial for `1` data point, and then adding more data points.</p>
+          <div class="flex">
+            <table>
+              <tr>
+                <td class="dark-right-border">`x`</td>
+                <td>`x_0`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f(x)`</td>
+                <td>`f(x_0)`</td>
+              </tr>
+            </table>
+            <p>Let's say the interpolation polynomial is `q_0(x) = c_0`</p>
+          </div>
+          <br>
+          <div class="flex">
+            <table>
+              <tr>
+                <td class="dark-right-border">`x`</td>
+                <td>`x_0`</td>
+                <td>`x_1`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f(x)`</td>
+                <td>`f(x_0)`</td>
+                <td>`f(x_1)`</td>
+              </tr>
+            </table>
+            <p>`q_1(x) = q_0(x) + c_1(x-x_0)`</p>
+          </div>
+          <br>
+          <div class="flex">
+            <table>
+              <tr>
+                <td class="dark-right-border">`x`</td>
+                <td>`x_0`</td>
+                <td>`x_1`</td>
+                <td>`x_2`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f(x)`</td>
+                <td>`f(x_0)`</td>
+                <td>`f(x_1)`</td>
+                <td>`f(x_2)`</td>
+              </tr>
+            </table>
+            <p>`q_2(x) = q_1(x) + c_2(x-x_0)(x-x_1)`</p>
+          </div>
+          <p>So we can say that `c_i` is the coefficient of `x_i` for `q_i(x)` of</p>
+          <div class="flex">
+	    <table>
+              <tr>
+                <td class="dark-right-border">`x`</td>
+                <td>`x_0`</td>
+                <td>`...`</td>
+                <td>`x_i`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f(x)`</td>
+                <td>`f(x_0)`</td>
+                <td>`...`</td>
+                <td>`f(x_i)`</td>
+              </tr>
+            </table>
+          </div>
+          <p>The problem right now is that `c_i` is pretty hard to calculate (refer back to first mention of Newton's form). It turns out that there's an easier way to find out what the coefficients are without having to generate the interpolation polynomial piece by piece.</p>
+          <p>Since `c_i` depends on the values of `f(x)` at `x_0, ..., x_i`, there is a notation for `c_i`:</p>
+          <div class="math">
+            <p>`c_i = f[x_0, ..., x_i]`</p>
+          </div>
+          <p>`f[x_0, ..., x_i]` is called a <b>divided difference of order `i`</b>.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
