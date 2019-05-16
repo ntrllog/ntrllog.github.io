@@ -1473,6 +1473,48 @@
             <p>`c_i = f[x_0, ..., x_i]`</p>
           </div>
           <p>`f[x_0, ..., x_i]` is called a <b>divided difference of order `i`</b>.</p>
+          <p>Calculating divided differences is probably best shown through an example.</p>
+          <div class="math">
+          </div>
+          <p>Switching the order of the values in the table doesn't change what the divided differences are. Let's say we had a table of values and the interpolation polynomial `p(x) = a_0 + a_1x + ... + a_3x^3`.</p>
+          <div class="flex">
+            <table>
+              <tr>
+                <td class="dark-right-border">`x`</td>
+                <td>`x_0`</td>
+                <td>`x_1`</td>
+                <td>`x_2`</td>
+                <td>`x_3`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f(x)`</td>
+                <td>`f(x_0)`</td>
+                <td>`f(x_1)`</td>
+                <td>`f(x_2)`</td>
+                <td>`f(x_3)`</td>
+              </tr>
+            </table>
+          </div>
+          <p>Now let's form another table with the order of the values changed and have an interpolation polynomial `q` for this table.</p>
+          <div class="flex">
+            <table>
+              <tr>
+                <td class="dark-right-border">`x`</td>
+                <td>`x_1`</td>
+                <td>`x_0`</td>
+                <td>`x_3`</td>
+                <td>`x_2`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f(x)`</td>
+                <td>`f(x_1)`</td>
+                <td>`f(x_0)`</td>
+                <td>`f(x_3)`</td>
+                <td>`f(x_2)`</td>
+              </tr>
+            </table>
+          </div>
+          <p>Since `q` interpolates the same points as `p`, `q(x) = a_0 + a_1x + ... + a_3x^3 = p(x)`. This means the divided differences of `q` are the same as the divided differences of `p`. So `f[text(any permutation of)\ x_0, ..., x_n] = f[x_0, ..., x_n]`.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
