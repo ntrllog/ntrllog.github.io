@@ -1390,6 +1390,10 @@
               <p>So the sign of `r(x)` also alternates `n+1` times</p>
               <p>By the Intermediate Value Theorem, `r(x)` has `n` roots</p>
               <p>But `r(x)` has degree `n-1color(red)(text(*))`, which contradicts the extension of the Fundamental Theorem of Algebra</p>
+              <p>This means `r(x)` must be a constant polynomial</p>
+              <p>In fact, since `r(x)` has roots, `r(x) = 0`, i.e. `r(x)` is the zero polynomial</p>
+              <p>So `0 = p(x) - (T_n(x))/2^(n-1) => p(x) = (T_n(x))/2^(n-1)`</p>
+              <p>`=> p(x) ge 1/2^(n-1)`, which is a contradiction</p>
               <p>So `max_(x in [-1,1]) abs(p(x)) ge 1/2^(n-1)`</p>
               <p>`color(red)(text(*))p(x)` and `(T_n(x))/2^(n-1)` are monic polynomials, which means that the highest degree terms cancel out when doing `p(x) - (T_n(x))/2^(n-1)`. After subtraction, the term with the highest degree has degree `n-1`</p>
             </div>
