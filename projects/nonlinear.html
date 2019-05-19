@@ -46,6 +46,8 @@
         <a class="dropdown-item" href="#errorpolynomials">Error of Polynomial Interpolation</a>
         <a class="dropdown-item" href="#chebyshevpoly">Chebyshev Polynomials</a>
         <a class="dropdown-item" href="#newtwonform">Newton's Form, Revisited</a>
+        <a class="dropdown-item" href="#div_diff_properties">Properties of Divided Differences</a>
+        <a class="dropdown-item" href="#hermite_interpolation">Hermite Interpolation</a>
       </div>
     </div>
     <div class="container line-height">
@@ -1456,7 +1458,7 @@
           </div>
           <p>So we can say that `c_i` is the coefficient of `x_i` for `q_i(x)` of</p>
           <div class="flex">
-	    <table>
+	          <table>
               <tr>
                 <td class="dark-right-border">`x`</td>
                 <td>`x_0`</td>
@@ -1476,13 +1478,12 @@
           <div class="math">
             <p>`c_i = f[x_0, ..., x_i]`</p>
           </div>
-          <p>`f[x_0, ..., x_i]` is called a <b>divided difference of order `i`</b>.</p>
+          <p>Based on this notation, `f[x_0, ..., x_i]` is the coefficient of the `i^(th)` degree term. `f[x_0, ..., x_i]` is called a <b>divided difference of order `i`</b>.</p>
           <p>Calculating divided differences is probably best shown through an example.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/div_diff.jpg">
           </div>
-          <div class="math">
-          </div>
+          <h3 id="div_diff_properties">Properties of Divided Differences</h3>
           <p>Switching the order of the values in the table doesn't change what the divided differences are. Let's say we had a table of values and the interpolation polynomial `p(x) = a_0 + a_1x + ... + a_3x^3`.</p>
           <div class="flex">
             <table>
@@ -1522,6 +1523,32 @@
             </table>
           </div>
           <p>Since `q` interpolates the same points as `p`, `q(x) = a_0 + a_1x + ... + a_3x^3 = p(x)`. This means the divided differences of `q` are the same as the divided differences of `p`. So `f[text(any permutation of)\ x_0, ..., x_n] = f[x_0, ..., x_n]`.</p>
+          <p>We can also look at the error of polynomial interpolation in terms of divided differences.</p>
+          <p>Suppose we have an interpolation polynomial `p` interpolating the data points `(x_i, f(x_i))` for `i = 0, ..., n`. Now, let's add a new data point `(t,f(t))` and look at the error at that point. To interpolate that new point, we would do</p>
+          <div class="math">
+            <p>`p(x) + f[x_0, ..., x_n, t] prod_(i=0)^n (t-x_i)`.</p>
+            <p>(Therefore, we have `f(x) = p(x) + f[x_0, ..., x_n, t] prod_(i=0)^n (x-x_i)`.)</p>
+          </div>
+          <p>At `x = t`,</p>
+          <div class="math">
+            <p>`f(t) = p(t) + f[x_0, ..., x_n, t] prod_(i=0)^n (t-x_i)`.</p>
+            <p>`f(t) - p(t) = f[x_0, ..., x_n, t] prod_(i=0)^n (t-x_i)`.</p>
+          </div>
+          <p>Recall that the error of polynomial interpolation is (at `x = t`)</p>
+          <div class="math">
+            <p>`f(t)-p(t) = f^((n+1))(xi_t)/((n+1)!) prod_(i=0)^n(t-x_i)`</p>
+          </div>
+          <p>Comparing the two equations, we see that</p>
+          <div class="math">
+            <p>`f[x_0, ..., x_n, t] = f^((n+1))(xi_t)/((n+1)!)`</p>
+          </div>
+          <div class="box">
+            <p><b>The story thus far:</b> The bisection method, Newton's method, secant method, and fixed-point method allows us to find one root of a function. But we're often interested in finding all the roots of a function. For complicated functions, it's a bit tricky to do so, but it is possible for polynomials. This is convenient because we can approximate complicated functions with polynomials. Two methods for doing this are finding the Lagrange form and Newton form of the interpolation polynomial. Of course, it is only an approximation, so there will be some error. But we can reduce the error by using Chebyshev polynomials.</p>
+            <p><b>Lagrange form:</b> `p(x) = sum_(i = 0)^n f(x_i) prod_(j=0, j != i)^n (x-x_j)/(x_i-x_j)`</p>
+            <p><b>Newton form:</b> `p(x) = f[x_0] + sum_(i = 1)^n (f[x_0, ..., x_i] prod_(j = 0)^(i-1) (x-x_j))`</p>
+            <p><b>Error of polynomial interpolation:</b> `f(x)-p(x) = f^((n+1))(xi_x)/((n+1)!) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`</p>
+          </div>
+          <h3 id="hermite_interpolation">Hermite Interpolation</h3>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
