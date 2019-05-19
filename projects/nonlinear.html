@@ -47,7 +47,8 @@
         <a class="dropdown-item" href="#chebyshevpoly">Chebyshev Polynomials</a>
         <a class="dropdown-item" href="#newtwonform">Newton's Form, Revisited</a>
         <a class="dropdown-item" href="#div_diff_properties">Properties of Divided Differences</a>
-        <a class="dropdown-item" href="#hermite_interpolation">Hermite Interpolation</a>
+        <a class="dropdown-item" href="#hermiteinterpolation">Hermite Interpolation</a>
+        <a class="dropdown-item" href="#errorhermite">Error of Hermite Interpolation</a>
       </div>
     </div>
     <div class="container line-height">
@@ -1240,7 +1241,8 @@
           </div>
           <p>Suppose `f(x) in C^(n+1)[a,b]color(red)(text(*))` for `x in [a,b]`. Suppose `p(x)` is the interpolation polynomial of degree `le n`. Then:</p>
           <div class="math">
-            <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`</p>
+            <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x) prod_(i=0)^n(x-x_i)`</p>
+            <p>for some `xi_x in (a,b)`</p>
           </div>
           <div class="box">
             <p>`color(red)(text(*))` The `(n+1)^(st)` derivative of `f` exists and is continuous on `[a,b]`.</p>
@@ -1548,7 +1550,124 @@
             <p><b>Newton form:</b> `p(x) = f[x_0] + sum_(i = 1)^n (f[x_0, ..., x_i] prod_(j = 0)^(i-1) (x-x_j))`</p>
             <p><b>Error of polynomial interpolation:</b> `f(x)-p(x) = f^((n+1))(xi_x)/((n+1)!) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`</p>
           </div>
-          <h3 id="hermite_interpolation">Hermite Interpolation</h3>
+          <h3 id="hermiteinterpolation">Hermite Interpolation</h3>
+          <p>It's possible that we're given more information about our data points than just their values. We could know something about their first derivatives, second derivatives, and so on. Finding the interpolation polynomial for these situations is called Hermite interpolation.</p>
+          <p>Hermite interpolation will only work if enough information is given. Formally, for `x_0, ..., x_n`, we need to be given (along with their values `f(x_i)`) `f^((j))(x_i)` for `j = 0, ..., k_i-1`. For example, we could do Hermite interpolation for a table that looks like this:</p>
+          <div class="flex">
+            <table>
+              <tr>
+                <td></td>
+                <td>`x_0`</td>
+                <td>`x_1`</td>
+                <td>`x_2`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f(x)`</td>
+                <td>`f(x_0)`</td>
+                <td>`f(x_1)`</td>
+                <td>`f(x_2)`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f'(x)`</td>
+                <td></td>
+                <td>`f'(x_1)`</td>
+                <td>`f'(x_2)`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f''(x)`</td>
+                <td></td>
+                <td>`f''(x_1)`</td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
+          <div class="math">
+            <p>Here, `k_0 = 1`, `k_1 = 3`, `k_2 = 2`</p>
+            <p>`k_i` is the number of information given for each `x_i`</p>
+          </div>
+          <p>And we can't do Hermite interpolation for a table that looks like this:</p>
+          <div class="flex">
+            <table>
+              <tr>
+                <td></td>
+                <td>`x_0`</td>
+                <td>`x_1`</td>
+                <td>`x_2`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f(x)`</td>
+                <td>`f(x_0)`</td>
+                <td>`f(x_1)`</td>
+                <td>`f(x_2)`</td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f'(x)`</td>
+                <td>`f'(x_0)`</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="dark-right-border">`f''(x)`</td>
+                <td></td>
+                <td>`f''(x_1)`</td>
+                <td>`f''(x_2)`</td>
+              </tr>
+            </table>
+          </div>
+          <div class="math">
+            <p>because we have second derivatives, but the first derivatives are skipped.</p>
+            <p>We can't have gaps in the table that skip information about lower derivatives.</p>
+          </div>
+          <p>For Hermite interpolation, there exists a unique polynomial of degree `le m` that interpolates the data where `m = (text(total amount of information given)) - 1 =  sum_(i=0)^n k_i -1`</p>
+          <div class="box">
+            <div class="collapse" id="collapseHermite">
+              <p>Let `p(x) = a_0 + a_1x + ... + a_mx^m`</p>
+              <p>We want to show that it is possible to find unique `a_0, ..., a_m` that satisfies all the given information</p>
+              <p>We can represent that equation with a linear system `Avec(u) = vec(c)` where `A = [[1, x_0, x_0^2, ..., x_0^m],[1, x_1, x_1^2, ..., x_1^m], [vdots, vdots, vdots, ddots, vdots], [1, x_n, x_n^2, ..., x_n^m]]`, `vec(u) = [[a_0], [vdots], [a_m]]`, and `vec(c)` contains the information given to us</p>
+              <p>If `A` is invertible, then there exists a unique `vec(u)`, which proves what we want to show</p>
+              <p>So the goal is to show `A` is invertible by showing that `vec(u) = 0` is the only solution to `Avec(u) = 0`</p>
+              <p>`Avec(u) = 0` corresponds to finding the coefficients `a_0, ..., a_m` of the polynomial that interpolates the data `f^((j))(x_i) = 0`, i.e. all values and derivatives are equal to `0`</p>
+              <p>Keeping in mind that `k_i` is the number of information about `x_i`, we have `p(x) = (x-x_0)^(k_0) (x-x_1)^(k_1) ... (x-x_n)^(k_n) q(x)`</p>
+              <p>If `q != 0`, then `deg\ p ge sum_(i = 0)^n k_i = m+1`</p>
+              <p>But then the degree of `p` would be too high</p>
+              <p>Therefore, it must be the case that `q = 0`, which means `p = 0`</p>
+              <p>So the only polynomial interpolating the data `f^((j))(x_i) = 0` is the zero polynomial</p>
+              <p>Which means `vec(u) = 0` is the only solution to `Avec(u) = 0`</p>
+              <p>So `A` is invertible</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseHermite">Proof</a>
+          </div>
+          <h3 id="errorhermite">Error of Hermite Interpolation</h3>
+          <p>Suppose `f in C^(2n+2)[a,b]` and `p` is the interpolation polynomial of degree `le 2n+1` such that `p(x_i) = f(x_i)` and `p'(x_i) = f'(x_i)` for `i = 0, ..., n`. Then</p>
+          <div class="math">
+            <p>`f(x)-p(x) = (f^((2n+2))(xi_x))/((2n+2)!) (x-x_0)^2...(x-x_n)^2`</p>
+            <p>for some `xi_x in (a,b)`</p>
+          </div>
+          <div class="box">
+            <div class="collapse" id="collapseErrorHermite">
+              <p>Let `phi(t) = f(t)-p(t)-lambdaw(t)` where `w(t) = prod_(i = 0)^n (t-x_i)^2`, `lambda = (f(x)-p(x))/(w(x))` are chosen so that `phi(x) = phi'(x_i) =  0`</p>
+              <p>By this construction, `phi` has `n+2` zeros (at `x_0, ..., x_n, x`)</p>
+              <p>By Rolle's Theorem, `phi'` has `n+1` zeros. But `phi'(x_i) = 0`, which is another `n+1` zeros. So `phi'` has a total of `2n+2` zeros</p>
+              <p>Generalizing Rolle's Theorem,</p>
+              <div class="math">
+                <p>`phi''` has `2n+1` zeros</p>
+                <p>`phi'''` has `2n` zeros</p>
+                <p>`phi^((4))` has `2n-1` zeros</p>
+                <p>`vdots`</p>
+                <p>`phi^((2n+2))` has `1` zero, call it `xi_x in (a,b)`</p>
+              </div>
+              <p>So `phi^((2n+2))(xi_x) = 0`</p>
+              <p>Also, `phi^((2n+2))(xi_x) = f^((2n+2))(xi_x) - p^((2n+2))(xi_x) - lambdaw^((2n+2))(xi_x)`</p>
+              <p>Since `p` has degree `le 2n+1`, taking `2n+2` derivatives results in it being `0`</p>
+              <p>So `0 = f^((2n+2))(xi_x) - 0 - lambdaw^((2n+2))(xi_x)`</p>
+              <p>`w(t)` has degree `2(n+1) = 2n + 2`, so taking `2n+2` derivatives results in it being `(2n+2)!`</p>
+              <p>So `0 = f^((2n+2))(xi_x) - lambda(2n+2)!`</p>
+              <p>`lambda = (f(x)-p(x))/(w(x))`, so `0 = f^((2n+2))(xi_x) - (f(x)-p(x))/(w(x))(2n+2)!`</p>
+              <p>Moving terms around, we get `f(x)-p(x) = (f^((2n+2))(xi_x))/((2n+2)!) (x-x_0)^2...(x-x_n)^2`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseErrorHermite">Proof</a>
+          </div>
+          <p>Just like for regular polynomial interpolation we could use piecewise interpolation and Chebyshev polynomials to reduce the error. For piecewise interpolation, instead of piecewise <em>linear</em> interpolation, it would be piecewise <em>cubic</em> interpolation because of the extra information given through the derivatives.</p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
