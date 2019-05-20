@@ -1241,7 +1241,7 @@
           </div>
           <p>Suppose `f(x) in C^(n+1)[a,b]color(red)(text(*))` for `x in [a,b]`. Suppose `p(x)` is the interpolation polynomial of degree `le n`. Then:</p>
           <div class="math">
-            <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x) prod_(i=0)^n(x-x_i)`</p>
+            <p>`f(x)-p(x) = (f^((n+1))(xi_x))/((n+1)!) prod_(i=0)^n(x-x_i)`</p>
             <p>for some `xi_x in (a,b)`</p>
           </div>
           <div class="box">
@@ -1262,11 +1262,19 @@
             <p>Notice that if `a` and `b` are roots of `f`, then there is a root of `f'` between the roots of `f`. This generalizes for higher-order derivatives. Between any two roots of `f'`, there is a root of `f''`. And so on. This idea is used in the proof of the error.</p>
           </div>
           <div class="box">
-            <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`</p>
+            <p>`f(x)-p(x) = (f^((n+1))(xi_x))/((n+1)!) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`</p>
             <div class="collapse" id="collapseErrorPoly">
-              <p>If `x = x_i`, then `f(x_i) - p(x_i) = 0` (because `prod_(i=0)^n(x_i-x_i) = 0`).</p>
-              <p>Suppose `x != x_i`</p>
-              <p>Let `phi(t) = f(t)-p(t)-lambda w(t)` where `lambda` is chosen to be the number that makes `phi(x) = 0` and `w(t) = prod_(i=0)^n (t-x_i)`</p>
+              <p>We're going to construct a function `phi` that interpolates the data`color(red)(text(*))`, evaluate it at a point `t != x_i`, and show the error formula arises from this setup.</p> 
+              <p>Let `phi(t) = f(t)-p(t)-lambda w(t)` where `lambda` is chosen to be the number that makes `phi(x) = 0` (for a fixed `x`) and `w(t) = prod_(i=0)^n (t-x_i)`</p>
+              <div class="box">
+                <p>`color(red)(text(*))`Notice that
+                <div class="math">
+                  <p>`phi(x_i) = color(blue)(f(x_i) - p(x_i)) - color(green)(lambdaw(x_i))`</p>
+                  <p>`phi(x_i) = color(blue)(0) - color(green)(0) = 0`</p>
+                  <p>`0 = f(x_i)-p(x_i) - 0`</p>
+                  <p>`f(x_i) = p(x_i)`</p>
+                </div>
+              </div>
               <p>Thus,</p>
               <div class="math">
                 <p>`lambda = (f(x)-p(x))/(w(x))`</p>
@@ -1293,12 +1301,12 @@
               <p>So,</p>
               <div class="math">
                 <p>`0 = f^((n+1))(xi_x)-((f(x)-p(x))/(w(x)))(n+1)!`</p>
-                <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x)w(x)`</p>
+                <p>`f(x)-p(x) = (f^((n+1))(xi_x))/((n+1)!)w(x)`</p>
               </div>
               <p>Remember that `w(x) = prod_(i=0)^n (x-x_i)`</p>
               <p>So,</p>
               <div class="math">
-                <p>`f(x)-p(x) = 1/((n+1)!)f^((n+1))(xi_x)prod_(i=0)^n (x-x_i)`</p>
+                <p>`f(x)-p(x) = (f^((n+1))(xi_x))/((n+1)!) prod_(i=0)^n (x-x_i)`</p>
               </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseErrorPoly">Proof</a>
@@ -1672,7 +1680,25 @@
           </div>
           <div class="box">
             <div class="collapse" id="collapseErrorHermite">
-              <p>Let `phi(t) = f(t)-p(t)-lambdaw(t)` where `w(t) = prod_(i = 0)^n (t-x_i)^2`, `lambda = (f(x)-p(x))/(w(x))` are chosen so that `phi(x) = phi'(x_i) =  0`</p>
+              <p>We're going to construct a function `phi` that interpolates the data`color(red)(text(*))`, evaluate it at a point `t != x_i`, and show the error formula arises from this setup.</p> 
+              <p>Let `phi(t) = f(t)-p(t)-lambdaw(t)` where `w(t) = prod_(i = 0)^n (t-x_i)^2`, `lambda = (f(x)-p(x))/(w(x))` are chosen so that `phi(x) = 0`</p>
+              <div class="box">
+                <p>`color(red)(text(*))`Notice that
+                <div class="math">
+                  <p>`phi(x_i) = color(blue)(f(x_i) - p(x_i)) - color(green)(lambdaw(x_i))`</p>
+                  <p>`phi(x_i) = color(blue)(0) - color(green)(0) = 0`</p>
+                  <p>`0 = f(x_i)-p(x_i) - 0`</p>
+                  <p>`f(x_i) = p(x_i)`</p>
+                </div>
+                <p>`color(red)(text(*))`Also,</p>
+                <div class="math">
+                  <p>`phi'(x_i) = color(blue)(f'(x_i) - p'(x_i)) - color(green)(lambdaw'(x_i))`</p>
+                  <p>`phi'(x_i) = color(blue)(0) - color(green)(0) = 0`</p>
+                  <p>`0 = f'(x_i)-p'(x_i) - 0`</p>
+                  <p>`f'(x_i) = p'(x_i)`</p>
+                </div>
+                <p>Note that this means we have `phi'(x_i) = 0`</p>
+              </div>
               <p>By this construction, `phi` has `n+2` zeros (at `x_0, ..., x_n, x`)</p>
               <p>By Rolle's Theorem, `phi'` has `n+1` zeros. But `phi'(x_i) = 0`, which is another `n+1` zeros. So `phi'` has a total of `2n+2` zeros</p>
               <p>Generalizing Rolle's Theorem,</p>
