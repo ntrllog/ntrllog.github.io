@@ -1410,7 +1410,7 @@
           <p>Also notice that `abs(p(x))` (a monic polynomial of degree `n`) is smallest when `p(x) = (T_n(x))/2^(n-1)`. So `(x-x_0)...(x-x_n)` (a monic polynomial of degree `n+1`) is smallest when `(x-x_0)...(x-x_n) = (T_(n+1)(x))/2^n`.</p>
           <p>Looking at that equation, we can actually make `(x-x_0)...(x-x_n) = 0` by picking `x_i` so that they are the roots of `(T_(n+1)(x))/2^n`. <strong>So we can optimally choose `x_i` by picking `x_(j-1) = cos((2j-1)/(2(n+1))pi)` for `j = 1, ..., n+1`</strong>.</p>
           <h3>Newton's Form, Revisited</h3>
-          <p>The process for generating the interpolation polynomial of Newton's form invovled generating the interpolation polynomial for `1` data point, and then adding more data points.</p>
+          <p>The process for generating the interpolation polynomial of Newton's form involved generating the interpolation polynomial for `1` data point, and then adding more data points.</p>
           <div class="flex">
             <table>
               <tr>
@@ -1480,10 +1480,21 @@
           <div class="math">
             <p>`c_i = f[x_0, ..., x_i]`</p>
           </div>
-          <p>Based on this notation, `f[x_0, ..., x_i]` is the coefficient of the `i^(th)` degree term. `f[x_0, ..., x_i]` is called a <b>divided difference of order `i`</b>.</p>
-          <p>Calculating divided differences is probably best shown through an example.</p>
+          <p>`f[x_0, ..., x_i]` is called a <b>divided difference of order `i`</b>.</p>
+          <p>`f[x_0, ..., x_i]` is the coefficient of the `i^(th)` degree term. Also, `f[x_i] = f(x_i)`.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/div_diff.jpg">
+          </div>
+          <p>From this, we can see that the coefficients of `x_i` are going to lie along the top-most path.</p>
+          <div class="box math">
+            <img class="img-fluid" src="../pictures/nonlinear/div_diff_ex.jpg">
+          </div>
+          <p>We can even construct the interpolation polynomial at just some of the points. (From here on, the leftmost column contains the `x`-values and the column immediately to the right of it contains the `y`-values.)</p>
+          <div class="box">
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/div_diff_ex_2.jpg">
+            </div>
+            <p>The interpolation polynomial for the points `0,1,2` is `p(x) = 4-4(x-0) + 3/2(x-1)(x-0)`</p>
           </div>
           <h3 id="div_diff_properties">Properties of Divided Differences</h3>
           <p>Switching the order of the values in the table doesn't change what the divided differences are. Let's say we had a table of values and the interpolation polynomial `p(x) = a_0 + a_1x + ... + a_3x^3`.</p>
@@ -1525,6 +1536,17 @@
             </table>
           </div>
           <p>Since `q` interpolates the same points as `p`, `q(x) = a_0 + a_1x + ... + a_3x^3 = p(x)`. This means the divided differences of `q` are the same as the divided differences of `p`. So `f[text(any permutation of)\ x_0, ..., x_n] = f[x_0, ..., x_n]`.</p>
+          <p>Earlier, we said that the coefficients lie along the top-most path. However, because of this result, we can go along any path and still get the interpolation polynomial.</p>
+          <div class="box">
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/div_diff_ex_3.jpg">
+            </div>
+            <p>Here, the interpolation polynomial is `p(x) = 0-1(x-1)+3/2(x-1)(x-2)+1/6(x-1)(x-2)(x-0)-1/3(x-1)(x-2)(x-0)(x-3)`</p>
+            <p>This is more easily seen after rearranging the table:</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/div_diff_ex_4.jpg">
+            </div>
+          </div>
           <p>We can also look at the error of polynomial interpolation in terms of divided differences.</p>
           <p>Suppose we have an interpolation polynomial `p` interpolating the data points `(x_i, f(x_i))` for `i = 0, ..., n`. Now, let's add a new data point `(t,f(t))` and look at the error at that point. To interpolate that new point, we would do</p>
           <div class="math">
@@ -1627,13 +1649,18 @@
               <p>If `A` is invertible, then there exists a unique `vec(u)`, which proves what we want to show</p>
               <p>So the goal is to show `A` is invertible by showing that `vec(u) = 0` is the only solution to `Avec(u) = 0`</p>
               <p>`Avec(u) = 0` corresponds to finding the coefficients `a_0, ..., a_m` of the polynomial that interpolates the data `f^((j))(x_i) = 0`, i.e. all values and derivatives are equal to `0`</p>
-              <p>Keeping in mind that `k_i` is the number of information about `x_i`, we have `p(x) = (x-x_0)^(k_0) (x-x_1)^(k_1) ... (x-x_n)^(k_n) q(x)`</p>
+              <p>Keeping in mind that `k_i` is the number of information about `x_i`, we have `p(x) = (x-x_0)^(k_0) (x-x_1)^(k_1) ... (x-x_n)^(k_n) q(x)color(red)(text(*))`</p>
               <p>If `q != 0`, then `deg\ p ge sum_(i = 0)^n k_i = m+1`</p>
               <p>But then the degree of `p` would be too high</p>
               <p>Therefore, it must be the case that `q = 0`, which means `p = 0`</p>
               <p>So the only polynomial interpolating the data `f^((j))(x_i) = 0` is the zero polynomial</p>
               <p>Which means `vec(u) = 0` is the only solution to `Avec(u) = 0`</p>
               <p>So `A` is invertible</p>
+              <p>`color(red)(text(*))`Suppose we have, for `x_0 = 1`, `f(1) = f'(1) = f''(1) = 0`. In this case, `k_0 = 3`. So we have `(x-1)^3`.</p>
+              <p>Well, at `x = 1`, it equals `0`, so that's satisfied</p>
+              <p>Taking the first derivative, we get `3(x-1)^2`, which also equals `0` at `x = 1`</p>
+              <p>Taking the second derivative, we get `6(x-1)`, which also equals `0` at `x = 1`</p>
+              <p>This is why `p` has a root of multiplicity `k_i` at `x_i`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseHermite">Proof</a>
           </div>
@@ -1668,6 +1695,42 @@
             <a class="btn" data-toggle="collapse" href="#collapseErrorHermite">Proof</a>
           </div>
           <p>Just like for regular polynomial interpolation we could use piecewise interpolation and Chebyshev polynomials to reduce the error. For piecewise interpolation, instead of piecewise <em>linear</em> interpolation, it would be piecewise <em>cubic</em> interpolation because of the extra information given through the derivatives.</p>
+          <p>To actually construct the interpolation polynomial, we follow a process similar to constructing the polynomial using the Newton form (this will actually be considered the Newton form for constructing a Hermite polynomial.) We suppose we have an interpolation polynomial `q` interpolating `f` and `f'` at `x_0, ..., x_(n-1)` and add new data `f` and `f'` at `x_n`.</p>
+          <p>So we have `p(x) = q(x) + r(x)` where `q(x)` interpolates the old data at `x_0, ..., x_(n-1)` and `r(x)` interpolates <em>just</em> the new data at `x_n`. This is achieved by doing:</p>
+          <div class="math">
+            <p>`p(x) = q(x) + C(x-x_0)^2...(x-x_(n-1))^2`</p>
+          </div>
+          <p>But this polynomial only gives us the value of `f(x_n)`. We also need the polynomial to give us the value of `f'(x_n)`. So we end up with the final interpolation polynomial:</p>
+          <div class="math">
+            <p>`p(x) = q(x) + C(x-x_0)^2...(x-x_(n-1))^2 + D(x-x_0)^2...(x-x_(n-1))^2(x-x_n)`</p>
+          </div>
+          <p>In fact,</p>
+          <div class="math">
+            <p>`p(x) = a_0 + a_1(x-x_0) + a_2(x-x_0)^2 + a_3(x-x_0)^2(x-x_1) + a_4(x-x_0)^2(x-x_1)^2 + ... + a_(2n+1)(x-x_0)^2...(x-x_(n-1))^2 + a_(2n+2)(x-x_0)^2...(x-x_(n-1))^2(x-x_n)`</p>
+          </div>
+          <p>To find the values of `a_0, ..., a_(2n+2)`, we use divided differences, except we repeat each `x_i` twice (because we have two pieces of information on each `x_i`).</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/div_diff_hermite.jpg">
+          </div>
+          <p>However, notice that `f[x_0,x_0] = (f[x_0]-f[x_0])/(x_0-x_0) = 0/0`. To avoid this, we use a property of divided differences we showed earlier:</p>
+          <div class="math">
+            <p>`f[x_0, ..., x_n] = (f^((n))(xi))/(n!)`</p>
+            <p>for some `xi` between `x_0` and `x_n`</p>
+          </div>
+          <p>So `f[x_0,x_0] = (f'(xi))/(1!)` (for some `xi` between `x_0` and `x_0`) `= f'(x_0)`.</p>
+          <div class="box">
+            <p>Another way to see this is `lim_(y -> x_0) f[x_0,y] = lim_(y -> x_0) (f[x_0]-f(y))/(x_0-y) = f'(x_0)`</p>
+          </div>
+          <div class="box math">
+            <img class="img-fluid" src="../pictures/nonlinear/div_diff_hermite_ex.jpg">
+          </div>
+          <div class="box">
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/div_diff_hermite_ex_2.jpg">
+            </div>
+            <p>Notice that we repeated `0` three times because we had three pieces of information on `0`.</p>
+            <p>Also notice that `f[0,0,0] = (1-1)/(0-0) = 0/0`. Like we did earlier, we use `f[0,0,0] = (f''(xi))/(2!)` (for some `xi` between `[0,0]`) `= (f''(0))/2 = 4/2 = 2`</p>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
