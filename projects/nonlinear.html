@@ -931,7 +931,7 @@
             <p><b>Iterative formula for fixed point method:</b> `x_(n+1) = F(x_n)`</p>
           </div>
           <h2 id="solvingpolynomial">Solving Nonlinear Equations: Polynomial Interpolation</h2>
-          <p>Going back to the root-finding problem, we've been able to find just one root. It would be nice to be able to use the algorithms to find all the roots. It turns out that we actually can do this with polynomials because of their special properties.</p>
+          <p>Going back to the root-finding problem, we've been able to find just one root. However, it would be nice to be able to use the algorithms to find all the roots. It turns out that we actually can do this with polynomials because of their special properties.</p>
           <h3 id="polynomialtheorems">Polynomial Theorems</h3>
           <p>`p(x) = a_0 + a_1x + a_2x^2 + ... + a_nx^n` (with `a_n != 0`) is a polynomial. The degree of a polynomial is the highest power, which in this case is `n`, denoted as `deg\ p(x) = n`.</p>
           <p>The Fundamental Theorem of Algebra says that every nonconstant polynomial has at least one root in the complex field. In fact, an extension of this theorem states something more powerful: if the degree of a polynomial is `n`, then there are exactly `n` roots in the complex field. What we would like is to use our algorithms to find all these (real) roots.</p>
@@ -1112,7 +1112,7 @@
             <p>Since we defined a polynomial to be `p(x) = a_0 + a_1x + ... + a_nx^n` it seems natural to find a polynomial of that form that interpolates the data. Meaning we find `a_0, a_1, ..., a_n`. It turns out that it's not so easy (nor is it really a good idea).</p>
             <p>Since `p(x_i) = y_i = a_0 + a_1x_i + ... + a_nx_i^n` for `i = 0, ..., n`, we're solving a system of `n` equations with `n` unknowns. `Ax = b`</p>
             <div class="math">
-              <p>`[[1, x_0, ..., x_0^n],[1, x_1, ..., x_1^n],[vdots, vdots, ..., vdots],[1, x_n, ..., x_n^n]][[a_0],[a_1],[vdots],[a_n]] = [[y_0],[y_1],[vdots],[y_n]]`</p>
+              <p>`[[1, x_0, ..., x_0^n],[1, x_1, ..., x_1^n],[vdots, vdots, ddots, vdots],[1, x_n, ..., x_n^n]][[a_0],[a_1],[vdots],[a_n]] = [[y_0],[y_1],[vdots],[y_n]]`</p>
             </div>
             <p>`A` is known as a Vandermonde matrix, which is not well conditioned. This is why it's not a good idea (besides having to solve a matrix, which is time consuming).</p>
             <p>Initially, it also seems that this won't work if `A` is not invertible. But actually we can show that `A` is invertible by showing the null space of `A` is only `{0}`, i.e. `Ax = 0 => x = {0}`.</p>
@@ -1317,7 +1317,7 @@
           </div>
           <p>Since we're looking at only `2` data points (`n=1`), the error of piecewise linear interpolation is:</p>
           <div class="math">
-            <p>`abs(f(x)-p(x)) = 1/(2!) abs(f''(xi_x))abs(x-x_i)abs(x-x_(i+1))`</p>
+            <p>`abs(f(x)-p(x)) = abs(f''(xi_x))/(2!) abs(x-x_i)abs(x-x_(i+1))`</p>
             <p>`le 1/2(max_(z in [x_i,x_(i+1)]) abs(f''(z)))abs(x_(i+1)-x_i)/2abs(x_(i+1)-x_i)/2`</p>
             <p>`= 1/2(max_(z in [x_i,x_(i+1)]) abs(f''(z)))(x_(i+1)-x_i)^2/4`</p>
           </div>
@@ -1389,7 +1389,7 @@
             <p>The monic version of the Chebyshev polynomial is `(T_n(x))/2^(n-1)` for `n ge 1` (this comes from the note mentioned above)</p>
             <p>That means `abs((T_n(x))/2^(n-1)) le 1/2^(n-1)`</p>
           </div>
-          <p>Recall that the error of polynomial interpolation is `1/((n+1)!)f^((n+1))(xi_x) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`. We can make the error small by making `prod_(i=0)^n(x-x_i) = (x-x_0)...(x-x_n)` small. Well, `(x-x_0)...(x-x_n)` is a monic polynomial, and there's a property of monic polynomials that allows us to put a bound on the error of them.</p>
+          <p>Recall that the error of polynomial interpolation is `f^((n+1))(xi_x)/((n+1)!) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`. We can make the error small by making `prod_(i=0)^n(x-x_i) = (x-x_0)...(x-x_n)` small. Well, `(x-x_0)...(x-x_n)` is a monic polynomial, and there's a property of monic polynomials that allows us to put a bound on the error of them.</p>
           <div class="box">
             <p>If `p` is a monic polynomial of degree `n`, then `max_(x in [-1,1]) abs(p(x)) ge 1/2^(n-1)`</p>
             <div class="collapse" id="collapseMonic">
@@ -1544,7 +1544,7 @@
             </table>
           </div>
           <p>Since `q` interpolates the same points as `p`, `q(x) = a_0 + a_1x + ... + a_3x^3 = p(x)`. This means the divided differences of `q` are the same as the divided differences of `p`. So `f[text(any permutation of)\ x_0, ..., x_n] = f[x_0, ..., x_n]`.</p>
-          <p>Earlier, we said that the coefficients lie along the top-most path. However, because of this result, we can go along any path and still get the interpolation polynomial.</p>
+          <p>Earlier, we said that the coefficients lie along the top-most path. However, because of this result about switching order, we can go along any path and still get the interpolation polynomial.</p>
           <div class="box">
             <div class="math">
               <img class="img-fluid" src="../pictures/nonlinear/div_diff_ex_3.jpg">
