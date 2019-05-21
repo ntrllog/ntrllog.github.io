@@ -1657,7 +1657,8 @@
               <p>If `A` is invertible, then there exists a unique `vec(u)`, which proves what we want to show</p>
               <p>So the goal is to show `A` is invertible by showing that `vec(u) = 0` is the only solution to `Avec(u) = 0`</p>
               <p>`Avec(u) = 0` corresponds to finding the coefficients `a_0, ..., a_m` of the polynomial that interpolates the data `f^((j))(x_i) = 0`, i.e. all values and derivatives are equal to `0`</p>
-              <p>Keeping in mind that `k_i` is the number of information about `x_i`, we have `p(x) = (x-x_0)^(k_0) (x-x_1)^(k_1) ... (x-x_n)^(k_n) q(x)color(red)(text(*))`</p>
+              <p>So `p(x)` has roots of multiplicity `k_i` at `x_i``color(red)(text(*))`</p>
+              <p>This means `p(x) = (x-x_0)^(k_0) (x-x_1)^(k_1) ... (x-x_n)^(k_n) q(x)`</p>
               <p>If `q != 0`, then `deg\ p ge sum_(i = 0)^n k_i = m+1`</p>
               <p>But then the degree of `p` would be too high</p>
               <p>Therefore, it must be the case that `q = 0`, which means `p = 0`</p>
