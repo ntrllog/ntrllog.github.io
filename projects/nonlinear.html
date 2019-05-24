@@ -1264,16 +1264,16 @@
           <div class="box">
             <p>`f(x)-p(x) = (f^((n+1))(xi_x))/((n+1)!) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`</p>
             <div class="collapse" id="collapseErrorPoly">
-              <p>We're going to construct a function `phi` that interpolates the data`color(red)(text(*))`, evaluate it at a point `t != x_i`, and show the error formula arises from this setup.</p> 
               <p>Let `phi(t) = f(t)-p(t)-lambda w(t)` where `lambda` is chosen to be the number that makes `phi(x) = 0` (for a fixed `x`) and `w(t) = prod_(i=0)^n (t-x_i)`</p>
               <div class="box">
-                <p>`color(red)(text(*))`Notice that
+                <p>Notice that</p>
                 <div class="math">
                   <p>`phi(x_i) = color(blue)(f(x_i) - p(x_i)) - color(green)(lambdaw(x_i))`</p>
                   <p>`phi(x_i) = color(blue)(0) - color(green)(0) = 0`</p>
                   <p>`0 = f(x_i)-p(x_i) - 0`</p>
                   <p>`f(x_i) = p(x_i)`</p>
                 </div>
+                <p>This means we have `phi(x_i) = 0`</p>
               </div>
               <p>Thus,</p>
               <div class="math">
@@ -1404,8 +1404,8 @@
               <p>But `r(x)` has degree `n-1color(red)(text(*))`, which contradicts the extension of the Fundamental Theorem of Algebra</p>
               <p>This means `r(x)` must be a constant polynomial</p>
               <p>In fact, since `r(x)` has roots, `r(x) = 0`, i.e. `r(x)` is the zero polynomial</p>
-              <p>So `0 = p(x) - (T_n(x))/2^(n-1) => p(x) = (T_n(x))/2^(n-1)`</p>
-              <p>`=> p(x) ge 1/2^(n-1)`, which is a contradiction</p>
+              <p>So `0 = p(x) - (T_n(x))/2^(n-1) => p(x) = (T_n(x))/2^(n-1) => max_(x in [-1,1]) abs(p(x)) = max_(x in [-1,1]) (T_n(x))/2^(n-1)`</p>
+              <p>`=> max_(x in [-1,1]) p(x) = 1/2^(n-1)`, which is a contradiction</p>
               <p>So `max_(x in [-1,1]) abs(p(x)) ge 1/2^(n-1)`</p>
               <p>`color(red)(text(*))p(x)` and `(T_n(x))/2^(n-1)` are monic polynomials, which means that the highest degree terms cancel out when doing `p(x) - (T_n(x))/2^(n-1)`. After subtraction, the term with the highest degree has degree `n-1`</p>
             </div>
@@ -1681,24 +1681,23 @@
           </div>
           <div class="box">
             <div class="collapse" id="collapseErrorHermite">
-              <p>We're going to construct a function `phi` that interpolates the data`color(red)(text(*))`, evaluate it at a point `t != x_i`, and show the error formula arises from this setup.</p> 
               <p>Let `phi(t) = f(t)-p(t)-lambdaw(t)` where `w(t) = prod_(i = 0)^n (t-x_i)^2`, `lambda = (f(x)-p(x))/(w(x))` are chosen so that `phi(x) = 0`</p>
               <div class="box">
-                <p>`color(red)(text(*))`Notice that
+                <p>Notice that</p>
                 <div class="math">
                   <p>`phi(x_i) = color(blue)(f(x_i) - p(x_i)) - color(green)(lambdaw(x_i))`</p>
                   <p>`phi(x_i) = color(blue)(0) - color(green)(0) = 0`</p>
                   <p>`0 = f(x_i)-p(x_i) - 0`</p>
                   <p>`f(x_i) = p(x_i)`</p>
                 </div>
-                <p>`color(red)(text(*))`Also,</p>
+                <p>Also,</p>
                 <div class="math">
                   <p>`phi'(x_i) = color(blue)(f'(x_i) - p'(x_i)) - color(green)(lambdaw'(x_i))`</p>
                   <p>`phi'(x_i) = color(blue)(0) - color(green)(0) = 0`</p>
                   <p>`0 = f'(x_i)-p'(x_i) - 0`</p>
                   <p>`f'(x_i) = p'(x_i)`</p>
                 </div>
-                <p>Note that this means we have `phi'(x_i) = 0`</p>
+                <p>This means we have `phi(x_i) = 0` and `phi'(x_i) = 0`</p>
               </div>
               <p>By this construction, `phi` has `n+2` zeros (at `x_0, ..., x_n, x`)</p>
               <p>By Rolle's Theorem, `phi'` has `n+1` zeros. But `phi'(x_i) = 0`, which is another `n+1` zeros. So `phi'` has a total of `2n+2` zeros</p>
