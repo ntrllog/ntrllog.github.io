@@ -1785,11 +1785,54 @@
           <p>Usually we choose the knots `t_0, ..., t_n` to be the nodes `x_0, ..., x_n`.</p>
           <div class="box">
             <p>A spline of degree `0` consists of `n` constant polynomials. It is also known as a step function.</p>
-            <!-- <img class="img-fluid" src="../pictures/nonlinear/spline_deg0.jpg"> -->
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/spline_deg0.jpg">
+            </div>
             <p>A spline of degree `1` consists of `n` linear polynomials. It is the classic piecewise linear interpolation polynomial.</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/nonlinear/spline_deg1.jpg">
+            </div>
           </div>
           <p>Splines of degree `0` usually aren't continuous and splines of degree `1` aren't smooth. So the splines of interest are splines of degree `ge 2`.</p>
-          <p></p>
+          <div class="box">
+            <p>A linear system can either have no solutions, one solution, or infinitely many solutions. In general:</p>
+            <ul>
+              <li><p>If there are more equations than unknowns, then there are no solutions</p></li>
+              <li style="list-style-type: none;"><p>`{(x+y=7),(2x+2y=8),(3x+3y=6):}` we can't find `x,y` such that all `3` equations are true</p></li>
+              <li><p>If there are an equal number of equations and unknowns, then there is one unique solution</p></li>
+              <li style="list-style-type: none;"><p>`{(2x+3y=5),(5x+8y=13):}` has the solution `x = 1, y = 1`</p></li>
+              <li><p>If there are more unknowns than equations, then there are infinitely many solutions</p></li>
+              <li style="list-style-type: none;"><p>`{(2x+3y+4z=5),(5x+8y+z=13):}` has infinitely many solutions (one being `x = 1, y = 1, z = 0`)</p></li>
+            </ul>
+          </div>
+          <p>Splines of a certain degree need to have a specific form and need to satisfy certain conditions (e.g. continuity, continuity of first derivatives, ...). Because of this, there are going to be a number of equations and unknowns. What we would like to know is if it is possible to set up a spline of degree `k` that interpolates the data and has continuous `k-1` derivatives.</p>
+          <p>Splines of degree `2` have this form:</p>
+          <div class="math">
+            <p>`S(x) = {(Ax^2 + Bx + C, x in [t_0,t_1)),(Dx^2 + Ex + F, x in [t_1, t_2)),(vdots, vdots),(Gx^2 + Hx + I, x in [t_(n-1),t_n]):}`</p>
+          </div>
+          <p>From this, we have `3` unknowns per equation. There are a total of `n` equations from `t_0` to `t_n`. So the total number of unknowns is `3n`.</p>
+          <p>The number of equations comes from the conditions on interpolation and continuity. For each subinterval `[t_i,t_(i+1)]`, we need `S(t_i) = y_i` and `S(t_(i+1)) = y_(i+1)`. That's `2` equations per subinterval, and there are `n` subintervals. So the total number of equations is `2n`.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/spline_cond_interp.jpg">
+          </div>
+          <p>We also need continuous `1^(st)` derivatives, i.e. `S_i'(t_i) = S_(i+1)'(t_i)` for `i = 1, ..., n-1`. So that's another `n-1` equations.</p>
+          <div class="math">
+            <img class="img-fluid" src="../pictures/nonlinear/spline_cond_1deriv.jpg">
+          </div>
+          <p>The total number of unknowns is `3n` and the total number of equations is `2n + n-1 = 3n-1`. There are more unknowns than equations, so it is possible to set up a quadratic spline that satisfies interpolation and continuity. More formally, quadratic splines interpolate and are `C^1`.</p>
+          <p>Splines of degree `3` have this form:</p>
+          <div class="math">
+            <p>`S(x) = {(Ax^3 + Bx^2 + Cx + D, x in [t_0,t_1)),(vdots, vdots),(Ex^3 + Fx^2 + Gx + H, x in [t_(n-1),t_n]):}`</p>
+          </div>
+          <p>From this, we have `4` unknowns per equation, and `n` equations total. So the total number of unknowns is `4n`.</p>
+          <p>For the number of equations, the same reasoning for the degree `2` case applies to the degree `3` case. The only difference is we now need to consider the continuity of `2^(nd)` derivatives, which is another `n-1` equations (`S_i''(t_i) = S_(i+1)''(t_i)` for `i = 1, ..., n-1`).</p>
+          <p>So there are more unknowns (`4n`) than equations (`4n-2`), which means it is possible to set up a cubic spline. More formally, cubic splines interpolate and are `C^2`.</p>
+          <div class="box">
+            <p>Cubic splines are most often used in practice.</p>
+          </div>
+          <div class="box">
+            <p>There are `2` more unknowns than equations. This means we can find `2` more equations and still have a cubic spline. The `2` equations that are most often used are `S''(t_0) = S''(t_n) = 0`. Cubic splines with this condition are known as <b>natural cubic splines</b>.</p>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
