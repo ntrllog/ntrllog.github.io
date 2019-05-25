@@ -1774,7 +1774,7 @@
           </div>
           <h3 id="splineinterpolation">Spline Interpolation</h3>
           <p>Interpolation polynomials are smooth (have continuous derivatives), but they sometimes have bad error. To get better error, we said that using piecewise interpolation would help, but they are not smooth. Splines try to get the best of both: smoothness and better error.</p>
-          <p>A spline function is a piecewise function of polynomials on subintervals from `i = 0, ..., n`. The subintervals lie between `t_0`, ..., `t_n`, which are called <b>knots</b>. A spline function of degree `k` means that</p>
+          <p>A spline function is a piecewise function of polynomials on subintervals from `i = 0, ..., n`. The subintervals lie between `t_0`, ..., `t_n`, which are called <b>knots</b>. The knots `t_1, ..., t_(n-1)` are called <b>junctions</b>. A spline function of degree `k` means that</p>
           <ul>
             <li><p>all polynomial pieces have degree `le k`</p></li>
             <li><p>all polynomial pieces have a continuous `(k-1)^(st)` derivative</p></li>
@@ -1815,7 +1815,7 @@
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/spline_cond_interp.jpg">
           </div>
-          <p>We also need continuous `1^(st)` derivatives, i.e. `S_i'(t_i) = S_(i+1)'(t_i)` for `i = 1, ..., n-1`. So that's another `n-1` equations.</p>
+          <p>We also need continuous `1^(st)` derivatives, i.e. `S'_i(t_i) = S'_(i+1)(t_i)` for `i = 1, ..., n-1`. So that's another `n-1` equations.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/spline_cond_1deriv.jpg">
           </div>
@@ -1825,13 +1825,52 @@
             <p>`S(x) = {(Ax^3 + Bx^2 + Cx + D, x in [t_0,t_1)),(vdots, vdots),(Ex^3 + Fx^2 + Gx + H, x in [t_(n-1),t_n]):}`</p>
           </div>
           <p>From this, we have `4` unknowns per equation, and `n` equations total. So the total number of unknowns is `4n`.</p>
-          <p>For the number of equations, the same reasoning for the degree `2` case applies to the degree `3` case. The only difference is we now need to consider the continuity of `2^(nd)` derivatives, which is another `n-1` equations (`S_i''(t_i) = S_(i+1)''(t_i)` for `i = 1, ..., n-1`).</p>
+          <p>For the number of equations, the same reasoning for the degree `2` case applies to the degree `3` case. The only difference is we now need to consider the continuity of `2^(nd)` derivatives, which is another `n-1` equations (`S''_i(t_i) = S''_(i+1)(t_i)` for `i = 1, ..., n-1`).</p>
           <p>So there are more unknowns (`4n`) than equations (`4n-2`), which means it is possible to set up a cubic spline. More formally, cubic splines interpolate and are `C^2`.</p>
           <div class="box">
             <p>Cubic splines are most often used in practice.</p>
           </div>
           <div class="box">
             <p>There are `2` more unknowns than equations. This means we can find `2` more equations and still have a cubic spline. The `2` equations that are most often used are `S''(t_0) = S''(t_n) = 0`. Cubic splines with this condition are known as <b>natural cubic splines</b>.</p>
+          </div>
+          <div class="box">
+            <p>Existence and Uniqueness of Natural Cubic Splines</p>
+            <div class="collapse" id="collapseExistenceCubicSpline">
+              <p>Let `h_i = t_(i+1)-t_i` and `S''_i(t_i) = z_i`</p>
+              <p>Let `S''_i(x)` be the line satisfying `S''_i(t_i) = z_i` and `S_i''(t_(i+1)) = z_(i+1)`</p>
+              <p>Therefore,</p>
+              <div class="math">
+                <p>`S''_i(x) = z_i/h_i (t_(i+1)-x) + z_(i+1)/h_i (x-t_i)`</p>
+              </div>
+              <p>Integrating `S''_i(x)` twice gives us:</p>
+              <div class="math">
+                <p>`S_i(x) = z_i/(6h_i) (t_(i+1)-x)^3 + z_(i+1)/(6h_i) (x-t_i)^3 + C(x-t_i) + D(t_(i+1)-x)`</p>
+                <p>where `C` and `D` are integration constants</p>
+              </div>
+              <p>Using `S_i(t_i) = y_i` and `S_i(t_(i+1)) = y_(i+1)`, we can find `C` and `D`:</p>
+              <div class="math">
+                <p>`C = y_(i+1)/h_i - (z_(i+1)h_i)/6`</p>
+                <p>`D = y_i/h_i - (z_ih_i)/6`</p>
+              </div>
+              <p>To find `z_i`, we can use `S'_i(t_i) = S'_(i-1)(t_i)`</p>
+              <div class="math">
+                <p>`S'_i(t_i) = (-h_i)/3z_i - h_i/6z_(i+1) - y_i/h_i + y_(i+1)/h_i`</p>
+                <p>`S'_(i-1)(t_i) = h_(i-1)/6z_(i-1)+h_(i-1)/3z_i - y_(i-1)/h_(i-1) + y_i/h_(i-1)`</p>
+                <p>`(-h_i)/3z_i - h_i/6z_(i+1) - y_i/h_i + y_(i+1)/h_i = h_(i-1)/6z_(i-1)+h_(i-1)/3z_i - y_(i-1)/h_(i-1) + y_i/h_(i-1)`</p>
+                <p>`h_(i-1)z_(i-1) + 2(h_i+h_(i-1))z_i + h_iz_(i+1) = 6/h_i(y_(i+1)-y_i)-6/(h_(i-1))(y_i-y_(i-1))`</p>
+              </div>
+              <p>With `z_0 = z_n = 0` (making it a natural cubic spline), this is a linear system of the form:</p>
+              <div class="math">
+                <p>`[[u_1,h_1,,,,],[h_1,u_2,h_2,,,],[,h_2,u_3,h_3,,],[,,ddots,ddots,ddots,],[,,,h_(n-3),u_(n-2),h_(n-2)],[,,,,h_(n-2),u_(n-1)]] [[z_1],[z_2],[z_3],[vdots],[z_(n-2)],[z_(n-1)]] = [[b_1],[b_2],[b_3],[vdots],[b_(n-2)],[b_(n-1)]]`</p>
+              </div>
+              <p>where</p>
+              <div class="math">
+                <p>`u_i = 2(h_i+h_(i-1))`</p>
+                <p>`b_i = 6/h_i(y_(i+1)-y_i)-6/h_(i-1)(y_i-y_(i-1))`</p>
+              </div>
+              <p>The matrix is positive definite and tridiagonal, which means it is invertible.</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseExistenceCubicSpline">Proof</a>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
