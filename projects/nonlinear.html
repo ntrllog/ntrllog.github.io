@@ -49,6 +49,7 @@
         <a class="dropdown-item" href="#div_diff_properties">Properties of Divided Differences</a>
         <a class="dropdown-item" href="#hermiteinterpolation">Hermite Interpolation</a>
         <a class="dropdown-item" href="#errorhermite">Error of Hermite Interpolation</a>
+        <a class="dropdown-item" href="#splineinterpolation">Spline Interpolation</a>
       </div>
     </div>
     <div class="container line-height">
@@ -988,7 +989,7 @@
           </div>
           <h3 id="gettingthepoints">Getting the Points</h3>
           <p>So we've seen that it's possible to find all the roots of polynomials. But what about finding roots for complicated functions that aren't polynomials? It turns out that complicated functions can be replaced or approximated by polynomials.</p>
-          <p>Let's suppose we had a table of `n+1` data points `(x_i, y_i)` for `i = 0, ..., n` obtained from some complicated function `f(x)`. Then <strong> there exists a unique polynomial with degree less than or equal to `n` that passes through (interpolates) the points</strong>. The polynomial interpolating the data points is called the <b>interpolation polynomial</b>.</p>
+          <p>Let's suppose we had a table of `n+1` data points `(x_i, y_i)` for `i = 0, ..., n` obtained from some complicated function `f(x)`. Then <strong> there exists a unique polynomial with degree less than or equal to `n` that passes through (interpolates) the points</strong>. The polynomial interpolating the data points is called the <b>interpolation polynomial</b>. Each `x_i` is called a <b>node</b>.</p>
           <div class="box">
             <div class="collapse" id="collapseUniquePoly">
               <p>Suppose `p(x), q(x)` both interpolate the data points and `deg\ p(x), deg\ q(x) le n`</p>
@@ -1071,7 +1072,7 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseExistencePoly">Proof of Existence</a>
           </div>
-          <p>The polynomial obtained using this formula is called the <b>Lagrange polynomial</b> (or the <b>Lagrange form</b> of the interpolation polynomial).</p>
+          <p>The polynomial obtained using this formula is called the the <b>Lagrange form</b> of the interpolation polynomial.</p>
           <div class="box">
             <p>Let's suppose we have these data points:</p>
             <table>
@@ -1161,7 +1162,7 @@
             <p>`y_3 = q(x_3) + C(x_3-x_0)(x_3-x_1)(x_3-x_2)`</p>
             <p>`C = (y_3-q(x_3))/((x_3-x_0)(x_3-x_1)(x_3-x_2))`</p>
           </div>
-          <p>So `p(x) = q(x) + C(x-x_0)(x-x_1)(x-x_2)` interpolates all of the data. Polynomials obtained using this method are called <b>Newton polynomials</b> (or the <b>Newton form</b> of the interpolation polynomial).</p>
+          <p>So `p(x) = q(x) + C(x-x_0)(x-x_1)(x-x_2)` interpolates all of the data. Polynomials obtained using this method are called the <b>Newton form</b> of the interpolation polynomial.</p>
           <div class="box">
             <p>We can use Newton polynomials to interpolate data in general, not just in situations where we add new data. However, in constructing the polynomial, we act as if we were adding new data.</p>
             <div class="flex">
@@ -1228,7 +1229,7 @@
             <p>Then we add `(x_2,y_2)` to get `a_0 + a_1(x-x_0) + a_2(x-x_0)(x-x_1)`.</p>
             <p>At the `(n+1)^(st)` step, we get `a_0 + a_1(x-x_0) + a_2(x-x_0)(x-x_1) + ... + a_n(x-x_0)(x-x_1)...(x-x_(n-1))`</p>
             <p>`= sum_(i=0)^n a_i prod_(j = 0)^(i-1) (x-x_j)`</p>
-            <p>Note: Each `a_i` isn't equal to `y_i`. Finding `a_i` is similar to finding `C` mentioned above.</p>
+            <p>Note: Each `a_i` isn't equal to `y_i` (except for `a_0 = y_0`). Finding `a_i` is similar to finding `C` mentioned above.</p>
           </div>
           <h3 id="errorpolynomials">Error of Polynomial Interpolation</h3>
           <p>So given a set of points `(x_i, f(x_i))`, it's possible to find a polynomial (of lowest possible degree) that interpolates those points. However, the polynomial is just an approximation, so there's going to be some error. How well does an interpolation polynomial approximate `f(x)`?</p>
@@ -1344,7 +1345,7 @@
             <p>Notice that the error goes to `0` as `n->oo` or `h->0`. In words, we can get better error if we use more data points or decrease the spacing between each data point.</p>
           </div>
           <h3 id="chebyshevpoly">Chebyshev Polynomials</h3>
-          <p>Let's say instead of working with a table of data points, we're given the function `f(x)`. It turns out that there's a way to optimally choose our `x_i` so the error is small. (We're essentially creating our own table of data points.) Determining what `x_i` to choose involves something called Chebyshev polynomials.</p>
+          <p>Let's say instead of working with a table of data points, we're given the function `f(x)`. It turns out that there's a way to optimally choose our nodes so the error is small. (We're essentially creating our own table of data points.) Determining which nodes to choose involves something called Chebyshev polynomials.</p>
           <p>There are `2` definitions of Chebyshev polynomials. The first one is a recursive definition:</p>
           <div class="math">
             <p>`{(T_0(x) = 1),(T_1(x) = x), (T_(n+1)(x) = 2xT_n(x) - T_(n-1)(x)):}`</p>
@@ -1383,7 +1384,7 @@
           <div class="box">
             <p>A <b>monic</b> polynomial of degree `n` has the form `x^n + a_(n-1)x^(n-1) + ... + a_0`</p>
             <p>The coefficient in front of the highest degree term is `1`</p>
-            <p>The monic version of the Chebyshev polynomial is `(T_n(x))/2^(n-1)` for `n ge 1` (this comes from the note mentioned above)</p>
+            <p>The monic version of the Chebyshev polynomial is `(T_n(x))/2^(n-1)` for `n ge 1` (this comes from the note mentioned earlier)</p>
             <p>That means `abs((T_n(x))/2^(n-1)) le 1/2^(n-1)`</p>
           </div>
           <p>Recall that the error of polynomial interpolation is `f^((n+1))(xi_x)/((n+1)!) prod_(i=0)^n(x-x_i)` for some `xi_x in (a,b)`. We can make the error small by making `prod_(i=0)^n(x-x_i) = (x-x_0)...(x-x_n)` small. Well, `(x-x_0)...(x-x_n)` is a monic polynomial, and there's a property of monic polynomials that allows us to put a bound on the error of them.</p>
@@ -1413,7 +1414,7 @@
             <p>`max_(x in [-1,1]) abs(p(x)) ge max_(x in [-1,1]) abs((T_n(x))/2^(n-1))`</p>
           </div>
           <p>Also notice that `abs(p(x))` (a monic polynomial of degree `n`) is smallest when `p(x) = (T_n(x))/2^(n-1)`. So `(x-x_0)...(x-x_n)` (a monic polynomial of degree `n+1`) is smallest when `(x-x_0)...(x-x_n) = (T_(n+1)(x))/2^n`.</p>
-          <p>Looking at that equation, we can actually make `(x-x_0)...(x-x_n) = 0` by picking `x_i` so that they are the roots of `(T_(n+1)(x))/2^n`. <strong>So we can optimally choose `x_i` by picking `x_(j-1) = cos((2j-1)/(2(n+1))pi)` for `j = 1, ..., n+1`</strong>.</p>
+          <p>The nodes `x_0`, ..., `x_n` make the left-hand side equal to `0`. This means <strong>the nodes `x_0`, ..., `x_n` are the roots of the Chebyshev polynomial.</strong> This suggests that <strong>the minimum error is achieved when we pick nodes to be the roots of the Chebyshev polynomial, i.e. `x_i = cos((2i+1)/(2n+2)pi)` for `i = 0, ..., n`.</strong></p>
           <h3>Newton's Form, Revisited</h3>
           <p>The process for generating the interpolation polynomial of Newton's form involved generating the interpolation polynomial for `1` data point, and then adding more data points.</p>
           <div class="flex">
@@ -1732,6 +1733,9 @@
             <a class="btn" data-toggle="collapse" href="#collapseErrorHermite">Proof</a>
           </div>
           <p>Just like for regular polynomial interpolation we could use piecewise interpolation and Chebyshev polynomials to reduce the error. For piecewise interpolation, instead of piecewise <em>linear</em> interpolation, it would be piecewise <em>cubic</em> interpolation because of the extra information given through the derivatives.</p>
+          <div class="box">
+            <p>The (least possible) degree of the interpolation polynomial is always less than the number of data points given. For piecewise interpolation, we only consider `2` nodes. So the degree of the interpolation polynomial is `1`, hence the term piecewise <em>linear</em> interpolation. However, for Hermite interpolation, we also need to take into account the information about the derivatives. For `2` nodes `x_i`, `x_(i+1)`, we have `f(x_i)`, `f(x_(i+1))`, `f'(x_i)`, and `f'(x_(i+1))`, which is a total of `4` pieces of information. So the degree of the interpolation polynomial is at most `3`, hence the term piecewise <em>cubic</em> interpolation.</p>
+          </div>
           <p>To actually construct the interpolation polynomial, we follow a process similar to constructing the polynomial using the Newton form (this will actually be considered the Newton form for constructing a Hermite polynomial.) We suppose we have an interpolation polynomial `q` interpolating `f` and `f'` at `x_0, ..., x_(n-1)` and add new data `f` and `f'` at `x_n`.</p>
           <p>So we have `p(x) = q(x) + r(x)` where `q(x)` interpolates the old data at `x_0, ..., x_(n-1)` and `r(x)` interpolates <em>just</em> the new data at `x_n`. This is achieved by doing:</p>
           <div class="math">
@@ -1768,6 +1772,24 @@
             <p>Notice that we repeated `0` three times because we had three pieces of information on `0`.</p>
             <p>Also notice that `f[0,0,0] = (1-1)/(0-0) = 0/0`. Like we did earlier, we use `f[0,0,0] = (f''(xi))/(2!)` (for some `xi` between `[0,0]`) `= (f''(0))/2 = 4/2 = 2`</p>
           </div>
+          <h3 id="splineinterpolation">Spline Interpolation</h3>
+          <p>Interpolation polynomials are smooth (have continuous derivatives), but they sometimes have bad error. To get better error, we said that using piecewise interpolation would help, but they are not smooth. Splines try to get the best of both: smoothness and better error.</p>
+          <p>A spline function is a piecewise function of polynomials on subintervals from `i = 0, ..., n`. The subintervals lie between `t_0`, ..., `t_n`, which are called <b>knots</b>. A spline function of degree `k` means that</p>
+          <ul>
+            <li><p>all polynomial pieces have degree `le k`</p></li>
+            <li><p>all polynomial pieces have a continuous `(k-1)^(st)` derivative</p></li>
+          </ul>
+          <div class="math">
+            <p>`S(x) = {(S_0(x), x in [t_0,t_1)),(S_1(x),x in [t_1,t_2)),(vdots,vdots),(S_(n-1)(x),x in [t_(n-1),t_n]):}`</p>
+          </div>
+          <p>Usually we choose the knots `t_0, ..., t_n` to be the nodes `x_0, ..., x_n`.</p>
+          <div class="box">
+            <p>A spline of degree `0` consists of `n` constant polynomials. It is also known as a step function.</p>
+            <!-- <img class="img-fluid" src="../pictures/nonlinear/spline_deg0.jpg"> -->
+            <p>A spline of degree `1` consists of `n` linear polynomials. It is the classic piecewise linear interpolation polynomial.</p>
+          </div>
+          <p>Splines of degree `0` usually aren't continuous and splines of degree `1` aren't smooth. So the splines of interest are splines of degree `ge 2`.</p>
+          <p></p>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
