@@ -80,23 +80,8 @@ a:hover {
   margin-bottom: 10px;
 }
 
-.logo-section {
-  position: absolute;
-  bottom: 50px;
-  right: 50px;
-  box-shadow: -8px 8px 5px rgb(1, 53, 50);
-}
-
-#logo {
-  width: 150px;
-}
-
 #name {
   font-size: 200%;
-}
-
-.modal {
-  font-family: 'Ubuntu', sans-serif;
 }
 
 .modal-header, .modal-body, .modal-footer {
