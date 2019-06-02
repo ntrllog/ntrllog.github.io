@@ -50,6 +50,7 @@
         <a class="dropdown-item" href="#hermiteinterpolation">Hermite Interpolation</a>
         <a class="dropdown-item" href="#errorhermite">Error of Hermite Interpolation</a>
         <a class="dropdown-item" href="#splineinterpolation">Spline Interpolation</a>
+        <a class="dropdown-item" href="#bestapproximation">Solving Nonlinear Equations: Best Approximation</a>
       </div>
     </div>
     <div class="container line-height">
@@ -1872,6 +1873,43 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseExistenceCubicSpline">Proof</a>
           </div>
+          <div class="box">
+            <p>Natural cubic splines are the smoothest possible interpolating function. Let `a = t_0 lt t_1 lt ... lt t_n = b` be the nodes. Let `f in C^2[a,b]`. Let `S` be the natural cubic spline. Then `int_a^b(S''(x))^2dx le int_a^b (f''(x))^2dx`</p>
+            <div class="collapse" id="collapseOptimalCubicSpline">
+              <p>Let `g = f-S`</p>
+              <p>Then `g(t_i) = f(t_i)-S(t_i) = 0` for all `i`</p>
+              <div class="math">
+                <p>`int_a^b(f''(x))^2dx`</p>
+                <p>`= int_a^b(g''(x)+S''(x))^2dx`</p>
+                <p>`= int_a^b(g''(x))^2dx + int_a^b(S''(x))^2 + int_a^b2g''(x)S''(x)dx`</p>
+              </div>
+              <p>Since `(g''(x))^2` is `ge 0`, `int_a^b(g''(x))^2dx ge 0`</p>
+              <p>So we need to show that `int_a^b2g''(x)S''(x)dx ge 0`</p>
+              <div class="math">
+                <p>`int_a^bg''(x)S''(x)dx`</p>
+                <p>`= sum_(i=1)^n int_(t_(i-1))^(t_i)g''(x)S''(x)dx` (since `S` is a spline)</p>
+                <p>`= sum_(i=1)^n g'(x)S''(x)]_(t_(i-1))^(t_i)-int_(t_(i-1))^(t_i) g'(x)S'''(x)dx` (integration by parts)</p>
+              </div>
+              <p>`sum_(i=1)^n g'(x)S''(x)]_(t_(i-1))^(t_i)` is a telescoping series, so that equals `g'(t_n)S''(t_n)-g'(t_0)S''(t_0)`</p>
+              <p>`S'''(x)` is a constant, call it `c_i`, since `S` has degree `le 3`</p>
+              <p>Altogether, we have:</p>
+              <div class="math">
+                <p>`g'(t_n)S''(t_n)-g'(t_0)S''(t_0)-sum_(i=1)^nc_iint_(t_(i-1))^(t_i)g'(x)dx`</p>
+              </div>
+              <p>Since `S` is a natural cubic spline, we have `S''(t_n) = 0` and `S''(t_0) = 0`</p>
+              <div class="math">
+                <p>`-sum_(i=1)^nc_iint_(t_(i-1))^(t_i)g'(x)dx`</p>
+                <p>`= -sum_(i=1)^nc_i g(x)]_(t_(i-1))^(t_i)`</p>
+              </div>
+              <p>Earlier, we said that `g(t_i) = 0` for all `i`, which means that whole sum equals `0`</p>
+              <p>So we have:</p>
+              <div class="math">
+                <p>`int_a^b2g''(x)S''(x)dx = 0`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseOptimalCubicSpline">Proof</a>
+          </div>
+          <h2 id="bestapproximation">Solving Nonlinear Equations: Best Approximation</h2>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
