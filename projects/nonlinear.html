@@ -1910,6 +1910,84 @@
             <a class="btn" data-toggle="collapse" href="#collapseOptimalCubicSpline">Proof</a>
           </div>
           <h2 id="bestapproximation">Solving Nonlinear Equations: Best Approximation</h2>
+          <p>Instead of finding the polynomial that interpolates the data, sometimes we want to find the polynomial that best <em>approximates</em> the data. These polynomials and functions are going to live inside vector spaces.</p>
+          <div class="box">
+            <p>`V` is a <b>vector space</b> if `v,w in V => alphav + betaw in V`</p>
+            <p>A <b>normed vector space</b> is a vector space with a norm</p>
+          </div>
+          <p>Suppose `E` is a normed vector space. Let `G sube E` be a finite-dimensional subspace. For `f in E`, we want to find a `g in G` that best approximates `f` i.e., we want to minimize</p>
+          <div class="math">
+            <p>`norm(f-g)`</p>
+            <p>the distance between `f` and `g`</p>
+          </div>
+          <div class="box">
+            <p>If we let `E` be the set of continuous functions and `G` be the set of polynomials, then this models the situation we want: finding a polynomial that best approximates a function.</p>
+          </div>
+          <div class="box">
+            <p>Let `E` be a normed vector space. Let `G sube E` be a finite-dimensional subspace. For `f in E`, there exists a `g in G` that minimizes `norm(f-g)`</p>
+            <div class="collapse" id="collapseExistenceMinimizer">
+              <p>Since `G` is a subspace, it must contain the `0` element. So if there exists a minimizer, it has to satisfy `norm(f-g) le norm(f-0) = norm(f)`</p>
+              <p>This means we can find the minimizer in a smaller subset of `G`, namely:</p>
+              <div class="math">
+                <p>`K = {h in G | norm(f-h) le norm(f)}`</p>
+              </div>
+              <p>`K` is closed and bounded. Since `K` is inside a finite-dimensional space `G`, `K` is also compact</p>
+              <p>Consider the mapping:</p>
+              <div class="math">
+                <p>`K->R`</p>
+                <p>`h |-> norm(f-h)`</p>
+              </div>
+              <p>This is a continuous function over a compact set, which means it attains its minimum</p>
+              <p>So there exists a `g in K sube G` that minimizes `norm(f-h)` for all `h in K`</p>
+              <div class="box">
+                <p>My guesses as to what the terms mean:</p>
+                <ul>
+                  <li><p>closed: the set does not go off to `-oo` or `oo`</p></li>
+                  <li><p>bounded: the boundaries have square brackets</p></li>
+                  <li><p>compact: closed and bounded</p></li>
+                </ul>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseExistenceMinimizer">Proof</a>
+          </div>
+          <p>Finding the best approximation is a minimization problem. Which means we need to use calculus to find critical points. But in order to do this, the function (in this case, the norm) needs to be differentiable. This is often not the case. For example, the `1`-norm and `oo`-norm are both defined with absolute values, which is not differentiable. So we restrict our attention to a certain type of norm.</p>
+          <div class="box">
+            <p>`E` is a <b>real inner-product space</b> if it is a vector space with an inner product</p>
+            <p>An <b>inner product</b> is a multiplication between the elements of `E`, denoted as `ltv,wgt` for `v,w in E`</p>
+            <p>An inner product satisfies the usual properties of multiplication:</p>
+            <ul>
+              <li><p>commutativity: `ltf,hgt = lth,fgt`</p></li>
+              <li><p>distributivity: `ltf,alphah+betaggt = alphaltf,hgt+betaltf,ggt`</p></li>
+              <li><p>`ltf,fgt ge 0` (`= 0` only when `f = 0`)</p></li>
+            </ul>
+          </div>
+          <p>Using inner-products, we can create the norm</p>
+          <div class="math">
+            <p>`norm(f) = sqrt(ltf,fgt)`</p>
+          </div>
+          <div class="box">
+            <p>Examples of inner-product spaces:</p>
+            <p>`RR^n`</p>
+            <ul>
+              <li>`ltvec(v),vec(w)gt = vec(w)^Tvec(v) = sum_(i=1)^nv_iw_i`</li>
+            </ul>
+            <p>`C[a,b]`</p>
+            <ul>
+              <li>`ltf,ggt = int_a^b f(x)g(x)w(x)dx` for some fixed `w(x) gt 0`</li>
+            </ul>
+          </div>
+          <div class="box">
+            <p>In any inner-product space:</p>
+            <p>`f bot g` (`f` is orthogonal to `g`) if `ltf,ggt = 0`</p>
+            <p>`f bot G` if `ltf,ggt = 0` for all `g in G`</p>
+          </div>
+          <div class="box">
+            <p>Let `G` be a subspace of an inner-product space `E`. Then `g in G` is the best approximation of `f in E` if and only if `f-g bot G`</p>
+            <div class="" id="collapseBestApprox">
+              <p></p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseBestApprox">Proof</a>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
