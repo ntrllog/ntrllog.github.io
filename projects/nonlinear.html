@@ -1983,10 +1983,79 @@
           </div>
           <div class="box">
             <p>Let `G` be a subspace of an inner-product space `E`. Then `g in G` is the best approximation of `f in E` if and only if `f-g bot G`</p>
-            <div class="" id="collapseBestApprox">
-              <p></p>
+            <div class="collapse" id="collapseBestApprox">
+              <p>(`lArr`)Suppose there is a `g in G` satisfying `f-g bot G`. So given any `h in G`, `f-g bot h`</p>
+              <div class="math">
+                <p>`norm(f-h)^2`</p>
+                <p>`ltf-h,f-hgt`</p>
+                <p>`lt(f-g)+(g-h),(f-g)+(g-h)gt`</p>
+                <p>`ltf-g,f-ggt+ltg-h,g-hgt+2ltf-g,g-hgt`</p>
+                <p>`norm(f-g)^2+norm(g-h)^2+0color(red)(text(*))`</p>
+                <p>which is `ge norm(f-g)^2`</p>
+              </div>
+              <p>`color(red)(text(*))g-h in G` and `f-g bot G`, so `ltf-g,g-hgt = 0`</p>
+              <p>(`=>`)Suppose `g in G` is the best approximation of `f in E`</p>
+              <p>Let `h in G` and `lambda gt 0`</p>
+              <p>Consider `norm(f-g+lambdah)^2-norm(f-g)^2`</p>
+              <p>If `g` is the best approximation of `f`, then we have</p>
+              <div class="math">
+                <p>`norm(f-g+lambdah)^2-norm(f-g)^2 ge 0`</p>
+                <p>`norm(f-g)^2+norm(lambdah)^2+2ltf-g,lambdahgt-norm(f-g)^2 ge 0`</p>
+                <p>`lambdanorm(h)^2+2ltf-g,hgt ge 0`</p>
+              </div>
+              <p>Letting `lambda darr 0`, we get</p>
+              <div class="math">
+                <p>`2ltf-g,hgt ge 0`</p>
+                <p>`ltf-g,hgt ge 0`</p>
+              </div>
+              <p>This inequality must hold for all elements in `G`. So we can apply this inequality to `-h`</p>
+              <div class="math">
+                <p>`ltf-g,-hgt ge 0`</p>
+                <p>`-1ltf-g,hgt ge 0`</p>
+                <p>`ltf-g,hgt le 0`</p>
+              </div>
+              <p>So `ltf-g,hgt ge 0` and `ltf-g,hgt le 0 => ltf-g,hgt = 0`</p>
+              <a class="btn" data-toggle="collapse" href="#collapseBestApprox">Proof</a>
             </div>
-            <a class="btn" data-toggle="collapse" href="#collapseBestApprox">Proof</a>
+          </div>
+          <p>This theorem also tells us how to actually construct the best approximation. Assume `G` has a basis `g_1,...,g_n`. According to the theorem, we want `ltf-g,hgt = 0` for all `h in G`. `h` can be written as a linear combination of `g_1,...,g_n`, so it suffices to have `ltf-g,g_igt = 0` for all `i`.</p>
+          <p>We can start by looking for `g` in the form `sum_(j=1)^nc_jg_j`. Then `ltf-sum_(j=1)^n c_jg_j,g_igt = 0` for all `i`.</p>
+          <div class="math">
+            <p>`ltf-sum_(j=1)^n c_jg_j,g_igt = 0`</p>
+            <p>`ltf,g_igt-sum_(j=1)^nc_jltg_j,g_igt = 0`</p>
+            <p>`ltf,g_igt = sum_(j=1)^nc_jltg_j,g_igt`</p>
+          </div>
+          <p>This is an `nxxn` linear system of equations that we can solve to find the `c_j`'s. This system is referred to as normal equations.</p>
+          <div class="math">
+            <p>`[[\ \ \ ],[\ G\ ],[\ \ \ ]] [[c_1],[vdots],[c_n]] = [[ltftext(, )g_1gt],[vdots],[ltftext(, )g_ngt]]`</p>
+            <p>where `G_(ij) = ltg_i,g_jgt`</p>
+            <p>`G` is called the <b>Gram matrix</b></p>
+          </div>
+          <div class="box">
+            <p>Find the best fitting line to `f(x) = x^2` under the norm `norm(f) = (int_0^1(f(x))^2dx)^(1/2)`.</p>
+            <p>In this case `E` is the set of continuous functions in `[0,1]` and `G` is the set of degree `le 1` polynomials.</p>
+            <p>So our system will look like:</p>
+            <div class="math">
+              <p>`[[ltg_1text(, )g_1gt,ltg_1text(, )g_2gt],[ltg_2text(, )g_1gt, ltg_2text(, )g_2gt]][[c_1],[c_2]] = [[ltftext(, )g_1gt],[ltftext(, )g_2gt]]`</p>
+            </div>
+            <p>Let `G = {a_0+a_1x | a_0,a_1 in RR} = span{1,x}`. So `g_1 = 1` and `g_2 = x`</p>
+            <div class="math">
+              <p>`ltg_1,g_1gt = lt1,1gt = int_0^1 1dx = 1`</p>
+              <p>`ltg_1,g_2gt = lt1,xgt = int_0^1 xdx = 1/2`</p>
+              <p>`ltg_2,g_2gt = ltx,xgt = int_0^1 x^2dx = 1/3`</p>
+              <p>`ltf,g_1gt = ltx^2,1gt = int_0^1 x^2dx = 1/3`</p>
+              <p>`ltf,g_2gt = ltx^2,xgt = int_0^1 x^3dx = 1/4`</p>
+            </div>
+            <p>So the system becomes:</p>
+            <div class="math">
+              <p>`[[1,1/2],[1/2,1/3]][[c_1],[c_2]] = [[1/3],[1/4]]`</p>
+            </div>
+            <p>Solving for `c_1` and `c_2`:</p>
+            <div class="math">
+              <p>`[[c_1],[c_2]] = 1/(1/3-1/4)[[1/3,-1/2],[-1/2,1]][[1/3],[1/4]]`</p>
+              <p>`= [[-1/6],[1]]`</p>
+            </div>
+            <p>So the best-fitting line is `-1/6 + x`</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
