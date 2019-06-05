@@ -1963,7 +1963,7 @@
           </div>
           <p>Using inner-products, we can create the norm</p>
           <div class="math">
-            <p>`norm(f) = sqrt(ltf,fgt)`</p>
+            <p>`norm(f) = (ltf,fgt)^(1/2)`</p>
           </div>
           <div class="box">
             <p>Examples of inner-product spaces:</p>
@@ -2032,7 +2032,7 @@
             <p>`G` is called the <b>Gram matrix</b></p>
           </div>
           <div class="box">
-            <p>Find the best fitting line to `f(x) = x^2` under the norm `norm(f) = (int_0^1(f(x))^2dx)^(1/2)`.</p>
+            <p>Find the best fitting line to `f(x) = x^2` under the norm `norm(f) = (int_0^1(f(x))^2dx)^(1/2)`</p>
             <p>In this case `E` is the set of continuous functions in `[0,1]` and `G` is the set of degree `le 1` polynomials.</p>
             <p>So our system will look like:</p>
             <div class="math">
@@ -2056,6 +2056,19 @@
               <p>`= [[-1/6],[1]]`</p>
             </div>
             <p>So the best-fitting line is `-1/6 + x`</p>
+          </div>
+          <p>If we want the best-fitting degree `le n` polynomial, then we change `G` to be the set of degree `le n` polynomials. The normal equations would be an `(n+1)xx(n+1)` linear system. It seems natural to use `{1, x, ..., x^n}` as the basis for `G`, but it turns out that the Gram matrix becomes the Hilbert matrix, which is ill conditioned.</p>
+          <p>Instead, we should choose a different basis. It would be ideal if the Gram matrix was a diagonal matrix or the identity matrix. To be a diagonal matrix, we need `ltg_i,g_jgt = 0` for all `i != j`. Then `g_1,...,g_n` would be an orthogonal basis. To be the identity matrix, we additionally need `ltg_i,g_jgt = 1` for all `i = j`. Then `g_1,...,g_n` would be an orthonormal basis.</p>
+          <p>We could use <b>Legendre polynomials</b> to form an orthogonal basis (and therefore get a diagonal matrix). They are defined recursively:</p>
+          <div class="math">
+            <p>`p_0(x) = 1`</p>
+            <p>`p_1(x) = x-a_1`</p>
+            <p>`p_n(x) = (x-a_n)p_(n-1)(x)-b_np_(n-2)(x)`</p>
+          </div>
+          <p>where</p>
+          <div class="math">
+            <p>`a_n = (ltxp_(n-1),p_(n-1)gt)/(ltp_(n-1),p_(n-1)gt)`</p>
+            <p>`b_n = (ltxp_(n-1),p_(n-2)gt)/(ltp_(n-2),p_(n-2)gt)`</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
