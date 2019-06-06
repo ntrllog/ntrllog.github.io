@@ -45,7 +45,7 @@
         <a class="dropdown-item" href="#gettingthepoints">Getting the Points</a>
         <a class="dropdown-item" href="#errorpolynomials">Error of Polynomial Interpolation</a>
         <a class="dropdown-item" href="#chebyshevpoly">Chebyshev Polynomials</a>
-        <a class="dropdown-item" href="#newtwonform">Newton's Form, Revisited</a>
+        <a class="dropdown-item" href="#newtonform">Newton's Form, Revisited</a>
         <a class="dropdown-item" href="#div_diff_properties">Properties of Divided Differences</a>
         <a class="dropdown-item" href="#hermiteinterpolation">Hermite Interpolation</a>
         <a class="dropdown-item" href="#errorhermite">Error of Hermite Interpolation</a>
@@ -1414,9 +1414,12 @@
           <div class="math">
             <p>`max_(x in [-1,1]) abs(p(x)) ge max_(x in [-1,1]) abs((T_n(x))/2^(n-1))`</p>
           </div>
+          <div class="box">
+            <p>In words, the monic degree `n` Chebyshev polynomial minimizes `max_(x in [-1,1]) abs(p(x))` among all monic polynomials `p(x)` of degree `n`.</p>
+          </div>
           <p>Also notice that `abs(p(x))` (a monic polynomial of degree `n`) is smallest when `p(x) = (T_n(x))/2^(n-1)`. So `(x-x_0)...(x-x_n)` (a monic polynomial of degree `n+1`) is smallest when `(x-x_0)...(x-x_n) = (T_(n+1)(x))/2^n`.</p>
           <p>The nodes `x_0`, ..., `x_n` make the left-hand side equal to `0`. This means <strong>the nodes `x_0`, ..., `x_n` are the roots of the Chebyshev polynomial.</strong> This suggests that <strong>the minimum error is achieved when we pick nodes to be the roots of the Chebyshev polynomial, i.e. `x_i = cos((2i+1)/(2n+2)pi)` for `i = 0, ..., n`.</strong></p>
-          <h3>Newton's Form, Revisited</h3>
+          <h3 id="newtonform">Newton's Form, Revisited</h3>
           <p>The process for generating the interpolation polynomial of Newton's form involved generating the interpolation polynomial for `1` data point, and then adding more data points.</p>
           <div class="flex">
             <table>
@@ -2015,8 +2018,8 @@
                 <p>`ltf-g,hgt le 0`</p>
               </div>
               <p>So `ltf-g,hgt ge 0` and `ltf-g,hgt le 0 => ltf-g,hgt = 0`</p>
-              <a class="btn" data-toggle="collapse" href="#collapseBestApprox">Proof</a>
             </div>
+            <a class="btn" data-toggle="collapse" href="#collapseBestApprox">Proof</a>
           </div>
           <p>This theorem also tells us how to actually construct the best approximation. Assume `G` has a basis `g_1,...,g_n`. According to the theorem, we want `ltf-g,hgt = 0` for all `h in G`. `h` can be written as a linear combination of `g_1,...,g_n`, so it suffices to have `ltf-g,g_igt = 0` for all `i`.</p>
           <p>We can start by looking for `g` in the form `sum_(j=1)^nc_jg_j`. Then `ltf-sum_(j=1)^n c_jg_j,g_igt = 0` for all `i`.</p>
@@ -2059,6 +2062,19 @@
           </div>
           <p>If we want the best-fitting degree `le n` polynomial, then we change `G` to be the set of degree `le n` polynomials. The normal equations would be an `(n+1)xx(n+1)` linear system. It seems natural to use `{1, x, ..., x^n}` as the basis for `G`, but it turns out that the Gram matrix becomes the Hilbert matrix, which is ill conditioned.</p>
           <p>Instead, we should choose a different basis. It would be ideal if the Gram matrix was a diagonal matrix or the identity matrix. To be a diagonal matrix, we need `ltg_i,g_jgt = 0` for all `i != j`. Then `g_1,...,g_n` would be an orthogonal basis. To be the identity matrix, we additionally need `ltg_i,g_jgt = 1` for all `i = j`. Then `g_1,...,g_n` would be an orthonormal basis.</p>
+          <div class="box">
+            <p>To recap, this is the system we're working with:</p>
+            <div class="math">
+              <p>`[[\ \ \ ],[\ ltg_itext(, )g_jgt\ ],[\ \ \ ]] [[c_1],[vdots],[c_n]] = [[\ \ \ ],[\ ltftext(, )g_igt\ ],[\ \ \ ]]`</p>
+            </div>
+          </div>
+          <p>If `g_1, ..., g_n` are orthonormal, then `c_i = ltf,g_igt` and the best approximation `g` has the form `sum_(i=1)^nltf,g_igt g_i`. If `g_1, ..., g_n` are orthogonal, then we could make them orthonormal by using `g_1/norm(g_1), ..., g_n/norm(g_n)`. So `g` would have the form `sum_(i=1)^nltf,g_i/norm(g_i)gt g_i/norm(g_i)`.</p>
+          <div class="box">
+            <p>Alternatively, we could keep `g_1, ..., g_n` as orthogonal and find `c_i` accordingly:</p>
+            <div class="math">
+              <p>`c_i = (ltf,g_igt)/(ltg_i,g_igt) = (ltf,g_igt)/norm(g_i)^2`</p>
+            </div>
+          </div>
           <p>We could use <b>Legendre polynomials</b> to form an orthogonal basis (and therefore get a diagonal matrix). They are defined recursively:</p>
           <div class="math">
             <p>`p_0(x) = 1`</p>
@@ -2069,6 +2085,59 @@
           <div class="math">
             <p>`a_n = (ltxp_(n-1),p_(n-1)gt)/(ltp_(n-1),p_(n-1)gt)`</p>
             <p>`b_n = (ltxp_(n-1),p_(n-2)gt)/(ltp_(n-2),p_(n-2)gt)`</p>
+          </div>
+          <p>Note that `p_0, ..., p_n` are all monic polynomials.</p>
+          <div class="box">
+            <p>`p_n` is the monic polynomial of degree `n` with the smallest norm</p>
+            <div class="" id="collapseLegendreSmallestNorm">
+              <p>Suppose `q(x)` is the monic degree `n` polynomial with the smallest norm</p>
+              <p>`q in Pi_n` (set of polynomials of degree `n`), so `q` is a linear combination of `p_0, ..., p_n`</p>
+              <div class="math">
+                <p>`q(x) = p_n(x) - sum_(i=0)^(n-1)c_ip_i`</p>
+              </div>
+              <p>The best approximation in `Pi_(n-1)` of `p_n`, call it `g`, minimizes `norm(p_n-g)`</p>
+              <p>So in this case, `g = sum_(i=0)^(n-1)c_ip_i`</p>
+              <p>From an earlier result,</p>
+              <div class="math">
+                <p>`p_n-sum_(i=0)^(n-1)c_ip_i bot Pi_(n-1)`</p>
+                <p>`ltp_n-sum_(i=0)^(n-1)c_ip_i,p_jgt = 0` for all `j = 0, ..., n-1`</p>
+                <p>`ltp_n,p_jgt-sum_(i=0)^(n-1)c_iltp_i,p_jgt = 0`</p>
+              </div>
+              <div class="math">
+                <p>`-sum_(i=0)^(n-1)c_iltp_i,p_jgt = 0`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#collapseLegendreSmallestNorm">Proof</a>
+          </div>
+          <p>At the beginning of the section, we mentioned that we can't use calculus to study best approximation under the `oo`-norm. So if we want to find a best approximation under the `oo`-norm, then we need another approach.</p>
+          <p>Let `f` be a polynomial of degree `n`. Consider the interval `[-1,1]` and the norm `norm(f)_(oo) = max_(x in [-1,1]) abs(f(x))` for `f in C[-1,1]`. What is the best approximation among `Pi_(n-1)` under the `oo`-norm?</p>
+          <p>If `g in Pi_(n-1)` is the best approximation, then `g` minimizes `norm(f-g)_(oo)`. Well,</p>
+          <div class="math">
+            <p>`norm(f-g)_(oo) = max_(x in [-1,1])abs(f(x)-g(x))`</p>
+          </div>
+          <p>`f(x)-g(x)` is a polynomial of degree `n`. Recall that the monic degree `n` Chebyshev polynomial minimizes `max_(x in [-1,1]) abs(p(x))` among all monic degree `n` polynomials `p`. So we can use Chebyshev polynomials to minimize `max_(x in [-1,1])abs(f(x)-g(x))` if `f(x)-g(x)` is monic.</p>
+          <p>We can write `f` as:</p>
+          <div class="math">
+            <p>`f(x) = a_0 + ... + a_nx^n`</p>
+          </div>
+          <p>Then</p>
+          <div class="math">
+            <p>`f(x)-g(x) = b_0 + ... + b_nx^n`</p>
+          </div>
+          <p>Since `f` has degree `n` and `g` has degree `n-1`, `a_n = b_n`.</p>
+          <p>So the monic version of `f(x)-g(x)` is `(f(x)-g(x))/b_n`.</p>
+          <div class="math">
+            <p>`max_(x in [-1,1]) abs(f(x)-g(x)) = (max_(x in [-1,1]) abs((f(x)-g(x))/b_n))abs(b_n)`</p>
+          </div>
+          <p>which is minimized when `(f(x)-g(x))/b_n` is the monic degree `n` Chebyshev polynomial. Then we can solve for `g(x) = f(x)-b_n*T_n/2^(n-1)`.</p>
+          <div class="box">
+            <p>For `f(x) = 4x^3-2x^2+3x-5`, find the best approximation in `Pi_2` under `norm(f)_(oo) = max_(x in [-1,1]) abs(f(x))`</p>
+            <div class="math">
+              <p>`g(x) = f(x)-4*(T_3(x))/2^2`</p>
+              <p>`g(x) = 4x^3-2x^2+3x-5-4*(4x^3-3x)/4`</p>
+              <p>`g(x) = 4x^3-2x^2+3x-5-4x^3+3x`</p>
+              <p>`g(x) = -2x^2+6x-5`</p>
+            </div>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
