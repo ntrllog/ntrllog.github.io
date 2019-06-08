@@ -94,12 +94,12 @@
             <li><p>relative error ` = abs(x - fl(x))/abs(x)`</p></li>
           </ul>
           <p>Errors are bad, but unavoidable. So it would be helpful to know how bad the relative error could be for any number we want to store.</p>
-          <p>Let's say we want to store the number `x` (which is not `0`) on an `n`-digit chopping computer (a computer that stores at most `n` digits and uses the chopping method). Written in scientific notation,</p>
+          <p>Let's say we want to store the number `x` (which is not `0`) on an `n`-digit chopping computer (a computer that stores at most `n` digits and uses the chopping method). Written in scientific notation:</p>
           <div class="math">
             <p>`x = +- 0.d_1\ d_2\ d_3\ ... xx 10^a`</p>
             <p>where `d_i` is the `i^(th)` digit of the mantissa of `x`</p>
           </div>
-          <p>Since this computer uses chopping, it would only store the first `n` digits of the mantissa. Written in scientific notation,</p>
+          <p>Since this computer uses chopping, it would only store the first `n` digits of the mantissa.</p>
           <div class="math">
             <p>`fl(x) = +- 0.d_1\ d_2\ d_3\ ...\ d_n xx 10^a`</p>
           </div>
@@ -111,7 +111,7 @@
             <p>` = (0.obrace(00...0)^n\ d_(n+1)\ d_(n+2)\ ...)/(0.d_1\ d_2\ d_3\ ...)`</p>
           </div>
           <p>To find out the worst our error could be, we want to make it as large as possible. We do that by making the numerator as big as possible (by letting `d_(n+1) = d_(n+2) = ... = 9`) and making the denominator as small as possible (by letting `d_1 = 1` `color(red)(text(*))` and `d_2 = d_3 = ... = 0`).</p>
-          <p>`color(red)(text(*))``d_1` cannot be `0` because of the way numbers are written in scientific notation. You wouldn't write something like `0.083 xx 10^3`; it would be `0.83 xx 10^2`.</p>
+          <p>`color(red)(text(*))``d_1` cannot be `0` because of the way numbers are written in scientific notation. We wouldn't write something like `0.083 xx 10^3`; it would be `0.83 xx 10^2`.</p>
           <div class="math">
             <p>`le (0.obrace(00...0)^(n-1)1color(red)(text(*)))/(0.100)`</p>
             <p>` = 0.obrace(0...0)^(n-2)1`</p>
@@ -171,7 +171,7 @@
             <div class="math">
               <p>`x * y * z = color(red)((x * y)) * z`</p>
               <p>the computer does `x*y` first, then multiplies that with `z`</p>
-              <p>`= fl(color(red)(fl(fl(x)*fl(y)))*fl(z))`</p>
+              <p>`fl(color(red)(fl(fl(x)*fl(y)))*fl(z))`</p>
             </div>
           </div>
           <p>We've established that there are errors in storing numbers. And performing operations with "wrong" numbers will lead to numbers that are "more wrong". But how much error could there be when doing arithmetic operations?</p>
@@ -186,19 +186,19 @@
             <p>`color(red)(text(*))` Recall that the formula for relative error is `abs(fl(x)-x)/abs(x)`</p>
             <div class="math">
               <p>`fl(x) = x(1 + delta_1)`</p>
-              <p>`=> fl(x) = x + xdelta_1`</p>
-              <p>`=> fl(x) - x = xdelta_1`</p>
-              <p>`=> (fl(x) - x)/x = delta_1`</p>
-              <p>`=> abs(fl(x)-x)/abs(x) = abs(delta_1)`</p>
+              <p>`fl(x) = x + xdelta_1`</p>
+              <p>`fl(x) - x = xdelta_1`</p>
+              <p>`(fl(x) - x)/x = delta_1`</p>
+              <p>`abs(fl(x)-x)/abs(x) = abs(delta_1)`</p>
             </div>
             <p>so `abs(delta_1)` is the relative error (similarly for `abs(delta_2)`)</p>
           </div>
           <p>So multiplying those two values would result in:</p>
           <div class="math">
             <p>`fl(fl(x)*fl(y))`</p>
-            <p>`= fl(x(1+delta_1)*y(1+delta_2))`</p>
-            <p>`= (x(1+delta_1)*y(1+delta_2))(1+delta_3)`</p>
-            <p>`= xy(1 + delta)`</p>
+            <p>`fl(x(1+delta_1)*y(1+delta_2))`</p>
+            <p>`(x(1+delta_1)*y(1+delta_2))(1+delta_3)`</p>
+            <p>`xy(1 + delta)`</p>
             <p>where `abs(delta)` is the relative error</p>
             <p>and `(1 + delta) = (1 + delta_1)(1 + delta_2)(1 + delta_3)`</p>
             <p>`= 1 + delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3`</p>
@@ -206,16 +206,16 @@
           <p>So how big is the relative error?</p>
           <div class="math">
             <p>`1 + delta = 1 + delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3`</p>
-            <p>`=> delta = delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3`</p>
-            <p>`=> abs(delta) = abs(delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3)`</p>
-            <p>`=> abs(delta) le abs(delta_1) + abs(delta_2) + abs(delta_3) + abs(delta_1delta_2) + abs(delta_1delta_3) + abs(delta_2delta_3) + abs(delta_1delta_2delta_3)` (by triangle inequality)</p>
+            <p>`delta = delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3`</p>
+            <p>`abs(delta) = abs(delta_1 + delta_2 + delta_3 + delta_1delta_2 + delta_1delta_3 + delta_2delta_3 + delta_1delta_2delta_3)`</p>
+            <p>`abs(delta) le abs(delta_1) + abs(delta_2) + abs(delta_3) + abs(delta_1delta_2) + abs(delta_1delta_3) + abs(delta_2delta_3) + abs(delta_1delta_2delta_3)` (by triangle inequality)</p>
           </div>
           <p>In the previous section, we defined `epsilon` to be the largest possible relative error. So all of these relative errors are smaller than `epsilon`, i.e. `abs(delta_1), abs(delta_2), abs(delta_3) le epsilon`</p>
           <div class="math">
             <p>`abs(delta) le abs(delta_1) + abs(delta_2) + abs(delta_3) + abs(delta_1delta_2) + abs(delta_1delta_3) + abs(delta_2delta_3) + abs(delta_1delta_2delta_3)`</p>
-            <p>`=> abs(delta) le epsilon + epsilon + epsilon + epsilon^2 + epsilon^2 + epsilon^2 + epsilon^3`</p>
-            <p>`= 3epsilon + 3epsilon^2 + epsilon^3`</p>
-            <p>`= 3epsilon + O(epsilon^2) = O(epsilon)`</p>
+            <p>`abs(delta) le epsilon + epsilon + epsilon + epsilon^2 + epsilon^2 + epsilon^2 + epsilon^3`</p>
+            <p>`abs(delta) le 3epsilon + 3epsilon^2 + epsilon^3`</p>
+            <p>`abs(delta) le 3epsilon + O(epsilon^2) = O(epsilon)`</p>
           </div>
           <p>So <strong>multiplying two numbers will lead to error, but it will be at most `3` times as bad as the worst error in storing a number.</strong></p>
           <div class="box">
@@ -225,9 +225,9 @@
           <p>Now, let's suppose we wanted to subtract two numbers `x` and `y`.</p>
           <div class="math">
             <p>`fl(fl(x)-fl(y)) = (x(1+delta_1) - y(1+delta_2))(1+delta_3)`</p>
-            <p>`= (x - y + xdelta_1 - ydelta_2)(1 + delta_3)`</p>
-            <p>`= (x - y)(1 + (xdelta_1)/(x-y) - (ydelta_2)/(x-y))(1 + delta_3)`</p>
-            <p>`= (x - y)(1 + delta)`</p>
+            <p>`(x - y + xdelta_1 - ydelta_2)(1 + delta_3)`</p>
+            <p>`(x - y)(1 + (xdelta_1)/(x-y) - (ydelta_2)/(x-y))(1 + delta_3)`</p>
+            <p>`(x - y)(1 + delta)`</p>
             <p>where `(1 + delta) = (1 + (xdelta_1)/(x-y) - (ydelta_2)/(x-y))(1 + delta_3)`</p>
             <p>`=> delta = delta_3 + (xdelta_1)/(x-y) - (ydelta_2)/(x-y) + delta_3((xdelta_1)/(x-y) - (ydelta_2)/(x-y))`</p>
           </div>
@@ -236,7 +236,7 @@
             <p>Example: For `n = 5` (a `5`-digit rounding computer), let's subtract `x = 1` and `y = 1.00001`. (The exact solution is `1 - 1.00001 = -0.00001`)</p>
             <p>`fl(1) = 1` and `fl(1.00001) = 1.0000 = 1`</p>
             <p>So `fl(1) - fl(1.00001) = 0`</p>
-            <p>Relative error = `abs(text(exact) - text(approximate))/abs(exact) = abs(-0.00001 - 0)/abs(-0.00001) = 1`</p>
+            <p>Relative error = `abs(text(exact) - text(approximate))/abs(text(exact)) = abs(-0.00001 - 0)/abs(-0.00001) = 1`</p>
             <p>This means there is `100%` error.</p>
           </div>
           <p><strong>1) Errors become slightly larger every arithmetic operation</strong>.</p>
