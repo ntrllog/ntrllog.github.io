@@ -491,6 +491,7 @@
           </div>
           <p>Since we're interested in finding the root of `f(x)`, we can use `x = r` where `r` is a root to get:</p>
           <div class="math">
+            <p>`f(r) = f(x_n) + f'(x_n)(r-x_n) + (f''(xi_n))/2(r-x_n)^2`</p>
             <p>`0 = f(x_n) + f'(x_n)(r-x_n) + (f''(xi_n))/2(r-x_n)^2`</p>
             <p>`r = x_n - f(x_n)/(f'(x_n)) - (f''(xi_n))/(2f'(x_n))(r-x_n)^2`</p>
           </div>
@@ -557,7 +558,7 @@
             <p>To prove the second convergence result, we have to show that:</p>
             <ol>
               <li><p>`x_n` is decreasing, i.e. `x_n lt ... lt x_3 lt x_2 lt x_1 lt x_0`</p></li>
-              <li><p>every approximation will be to the right of `r`, i.e. `x_n in [r,oo)`</p></li>
+              <li><p>every approximation will be to the right of `r`, i.e. `x_n ge r` for `n ge 1`</p></li>
               <li><p>a decreasing sequence bounded from below has to converge to `s le r`</p></li>
               <li><p>if `x_n -> s` then `s` is a root</p></li>
               <li><p>`s` is actually `r` (the root is unique)</p>
@@ -580,13 +581,13 @@
           <div class="box">
             <p>`2`. every approximation will be to the right of `r`</p>
             <div class="collapse" id="collapseNewton2">
-              <p>To show that every approximation will be to the right of `r`, we have to show that `x_n > r` for `n ge 1`. To get an equation with `x_n` (or `x_(n+1)`) and `r`, we can look at the error equation.</p>
-              <p>We have `x_(n+1) - r = e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2`</p>
-              <p>`(e_n)^2 gt 0` since it is a square</p>
+              <p>To show that every approximation will be to the right of `r`, we have to show that `x_n ge r` for `n ge 1`. To get an equation with `x_n` and `r`, we can look at the error equation.</p>
+              <p>We have `x_n - r = e_n = (f''(xi_(n-1))/(2f'(x_(n-1))(e_(n-1)^2`</p>
+              <p>`(e_(n-1)^2 ge 0` since it is a square</p>
               <p>We also assumed `f'' > 0` & `f' > 0`</p>
-              <p>So we have `e_(n+1) = (f''(xi_n))/(2f'(x_n))(e_n)^2 gt 0`</p>
-              <p>But `e_(n+1)` also equals `x_(n+1) - r`, so `x_(n+1) - r gt 0 => x_(n+1) gt r`</p>
-              <p>By assumption, `x_0 gt r`. From `1`., we have that `x_n` is decreasing. (Note that `x_0 ge x_n` because `x_n` is decreasing.) But if we keep decreasing and `x_(n+1) gt r` (`x_(n+1)` is <em>still</em> to the right of `r`), then that must mean all the approximations between `x_0` and `x_(n+1)` have to be to the right of `r`</p>
+              <p>So we have `e_n = (f''(xi_(n-1))/(2f'(x_(n-1))(e_(n-1)^2 ge 0`</p>
+              <p>But `e_n` also equals `x_n - r`, so `x_n - r ge 0 => x_n ge r`</p>
+              <p>By assumption, `x_0 gt r`. From `1`., we have that `x_n` is decreasing. (Note that `x_0 ge x_n` because `x_n` is decreasing.) But if we keep decreasing and `x_n ge r` (`x_n` is <em>still</em> to the right of `r`), then that must mean all the approximations between `x_0` and `x_n` have to be to the right of `r`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewton2">Proof</a>
           </div>
