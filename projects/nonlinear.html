@@ -282,7 +282,7 @@
             <img class="img-fluid" src="../pictures/nonlinear/root_algorithm_0.5.jpg">
           </div>
           <p>Now we have two choices for what our new interval `[a_1, b_1]` could be: `[a_0, c_0]` or `[c_0, b_0]`. The IVT doesn't tell us if there's a root between `a_0` and `c_0`, but it does guarantee that there is a root between `c_0` and `b_0`. So the new interval `[a_1, b_1]` should be `[c_0, b_0]`.</p>
-          <p>And this process of dividing the interval in half repeats until the interval is small enough.</p>
+          <p>And this process of dividing the interval in half repeats until the interval is small enough. This process is called the <b>bisection method</b>.</p>
           <h3 id="errorbisection">Error of the Bisection Method</h3>
           <p>The thing is, we're looking for a number, but we end up with an interval (two numbers). So how do we get our answer? We could just pick some number between that interval. At this point, the interval is really small, so our approximation should be close to the actual solution. But how much error is there?</p>
           <div class="math">
@@ -311,7 +311,6 @@
             <li><p>Pick a new (smaller) interval such that either `f(a_0)` and `f(c_0)` have different signs or `f(c_0)` and `f(b_0)` have different signs</p></li>
             <li><p>Repeat the steps for that new (smaller) interval</p></li>
           </ol>
-          <p>As the steps suggest, the name of this algorithm is the <b>bisection method</b>.</p>
           <h3 id="convergencebisection">Convergence of the Bisection Method</h3>
           <p>The bisection method generates a sequence of approximations:</p>
           <div class="math">
@@ -320,9 +319,24 @@
           </div>
           <p>If the actual solution is `r`, then what we want to say is that `color(blue)(lim_(n->oo) c_n = r)`. In words, the more times we do the algorithm, the more approximations we will get and the closer those approximations will be to the actual solution `r`.</p>
           <p>Another way to say that is that the difference (i.e. error) between the approximation we get and the actual solution gets closer and closer to `0`. Generally, it might not be guaranteed to happen, but for the bisection method, it is true that the more times we do the algorithm, the closer it will get to `0`.</p>
-          <p>Previously, we found that `abs(r - c_n) le abs(b_n - a_n)/2`. Well that means `abs(r - c_0) le abs(b_0 - a_0)/2`. And also, `abs(r - c_1) le abs(b_1 - a_1)/2`.</p>
-          <p>But what is `abs(b_1 - a_1)`? Thinking back to the steps of the algorithm, `[a_1,b_1]` represented the new interval after splitting `[a_0,b_0]` in half. So `[a_1,b_1]` is really half of `[a_0,b_0]`. Which means `abs(b_1 - a_1) = abs(b_0 - a_0)/2`.</p>
-          <p>Putting all that together, `abs(r - c_1) le abs(b_1 - a_1)/2 = (abs(b_0 - a_0)/2)/2 = 1/2^2 (b_0 - a_0)`</p>
+          <p>Previously, we found that:</p>
+          <div class="math">
+            <p>`abs(r - c_n) le abs(b_n - a_n)/2`</p>
+          </div>
+          <p>Well that means:</p>
+          <div class="math">
+            <p>`abs(r - c_0) le abs(b_0 - a_0)/2`.</p>
+            <p>and</p>
+            <p>`abs(r - c_1) le abs(b_1 - a_1)/2`.</p>
+          </div>
+          <p>But what is `abs(b_1 - a_1)`? Thinking back to the steps of the algorithm, `[a_1,b_1]` represented the new interval after splitting `[a_0,b_0]` in half. So `[a_1,b_1]` is really half of `[a_0,b_0]`. Which means</p>
+          <div class="math">
+            <p>`abs(b_1 - a_1) = abs(b_0 - a_0)/2`.</p>
+          </div>
+          <p>Putting all that together:</p>
+          <div class="math">
+            <p>`abs(r - c_1) le abs(b_1 - a_1)/2 = (abs(b_0 - a_0)/2)/2 = 1/2^2 (b_0 - a_0)`</p>
+          </div>
           <p>Generalizing that idea, we can see that:</p>
           <div class="math">
             <p>`abs(r - c_0) le 1/2^1 (b_0 - a_0)`</p>
