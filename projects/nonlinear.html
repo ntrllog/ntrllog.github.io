@@ -51,6 +51,7 @@
         <a class="dropdown-item" href="#errorhermite">Error of Hermite Interpolation</a>
         <a class="dropdown-item" href="#splineinterpolation">Spline Interpolation</a>
         <a class="dropdown-item" href="#bestapproximation">Solving Nonlinear Equations: Best Approximation</a>
+        <a class="dropdown-item" href="twodimensions">Interpolation in Two Dimensions</a>
       </div>
     </div>
     <div class="container line-height">
@@ -64,11 +65,11 @@
           <h2 id="numbersstore">A Numbers Store Stores Numbers</h2>
           <p>How does a computer store numbers? Vaguely, we could describe it as putting each digit in a space somewhere in the computer's memory. So `100` would need `3` spaces`color(red)(text(*))`. This seems like an easy and obvious idea until we get to numbers like `pi`, which has an infinite number of digits. Does this mean we need an infinite amount of memory to store `pi`? But computers don't have infinite memory, so what happens then?</p>
           <p>`color(red)(text(*)`Computers work in binary, so things are a little bit different than this.</p>
-          <p><strong>Computers store a number by keeping as much of it as it can, and then throwing away the rest.</strong> So if a computer can only store at most `8` digits, then it would store `pi` as `3.1415926`. But complications arise when we're dealing with really big or really small numbers. For example, `0.00000000000000045` would be stored as `0.0000000`, which is just `0`. This is a problem because `0.00000000000000045` isn't equal to `0`, but it would be treated as such. A similar problem occurs for `1000000000000000`, which would be stored as `10000000`, which is much much smaller.</p>
+          <p><strong>Computers store a number by keeping as much of it as they can and then throwing away the rest.</strong> So if a computer can only store at most `8` digits, then it would store `pi` as `3.1415926`. But complications arise when we're dealing with really big or really small numbers. For example, `0.00000000000000045` would be stored as `0.0000000`, which is just `0`. This is a problem because `0.00000000000000045` isn't equal to `0`, but it would be treated as such. A similar problem occurs for `1000000000000000`, which would be stored as `10000000`, which is much much smaller.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/comic_storing.jpg">
           </div>
-          <p>This suggests needing a smarter way to represent the numbers. Enter, scientific notation. With scientific notation, we can represent `0.00000000000000045` as `0.45 xx 10^(-16)` and `1000000000000000` as `1 xx 10^15`. Then we would only need to store the `45` and the `-16` for `0.45 xx 10^(-16)`. And the `1` and the `15` for `1 xx 10^15`.</p>
+          <p>This suggests needing a smarter way to represent the numbers. Enter scientific notation. With scientific notation, we can represent `0.00000000000000045` as `0.45 xx 10^(-16)` and `1000000000000000` as `1 xx 10^15`. Then we would only need to store the `45` and the `-16` for `0.45 xx 10^(-16)`. And the `1` and the `15` for `1 xx 10^15`.</p>
           <div class="box">
             <p>In these examples, the `45` and the `1` are called the "mantissa" and the `-16` and the `15` are called the "exponents".</p>
             <p>Single-precision computers use 32 bits (4 bytes) to store a number:</p>
@@ -2089,22 +2090,37 @@
           <p>Note that `p_0, ..., p_n` are all monic polynomials.</p>
           <div class="box">
             <p>`p_n` is the monic polynomial of degree `n` with the smallest norm</p>
-            <div class="" id="collapseLegendreSmallestNorm">
-              <p>Suppose `q(x)` is the monic degree `n` polynomial with the smallest norm</p>
+            <div class="collapse" id="collapseLegendreSmallestNorm">
+              <p>Suppose `q` is the monic degree `n` polynomial with the smallest norm</p>
               <p>`q in Pi_n` (set of polynomials of degree `n`), so `q` is a linear combination of `p_0, ..., p_n`</p>
               <div class="math">
-                <p>`q(x) = p_n(x) - sum_(i=0)^(n-1)c_ip_i`</p>
+                <p>`q = p_n - sum_(i=0)^(n-1)c_ip_i`</p>
               </div>
-              <p>The best approximation in `Pi_(n-1)` of `p_n`, call it `g`, minimizes `norm(p_n-g)`</p>
-              <p>So in this case, `g = sum_(i=0)^(n-1)c_ip_i`</p>
-              <p>From an earlier result,</p>
+              <p>So</p>
               <div class="math">
-                <p>`p_n-sum_(i=0)^(n-1)c_ip_i bot Pi_(n-1)`</p>
+                <p>`norm(q) = norm(p_n - sum_(i=0)^(n-1)c_ip_i)`</p>
+              </div>
+              <p>Since this norm is a minimum, we have:</p>
+              <div class="math">
+                <p>`p_n - sum_(i=0)^(n-1)c_ip_i bot Pi_(n-1)`</p>
                 <p>`ltp_n-sum_(i=0)^(n-1)c_ip_i,p_jgt = 0` for all `j = 0, ..., n-1`</p>
                 <p>`ltp_n,p_jgt-sum_(i=0)^(n-1)c_iltp_i,p_jgt = 0`</p>
               </div>
+              <p>Since `p_n` is orthogonal to `p_j`, `ltp_n,p_jgt = 0`. So we have:</p>
               <div class="math">
                 <p>`-sum_(i=0)^(n-1)c_iltp_i,p_jgt = 0`</p>
+              </div>
+              <p>Again, `p_i` and `p_j` are orthogonal to each other, so `ltp_i,p_jgt = 0`. However, `ltp_j,p_jgt != 0`. So the only terms remaining are the diagonal entries:</p>
+              <div class="math">
+                <p>`c_jltp_j,p_jgt = 0` for `j = 0, ..., n-1`</p>
+              </div>
+              <p>In fact, `ltp_j,p_jgt = 1`</p>
+              <div class="math">
+                <p>`c_j = 0` for `j = 0, ..., n-1`</p>
+              </div>
+              <p>Going back to our `q = p_n-sum_(i=0)^(n-1)c_ip_i`, plugging in `c_i = 0`, we get:</p>
+              <div class="math">
+                <p>`q = p_n`</p>
               </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseLegendreSmallestNorm">Proof</a>
@@ -2139,6 +2155,7 @@
               <p>`g(x) = -2x^2+6x-5`</p>
             </div>
           </div>
+          <h3 id="twodimensions">Interpolation in Two Dimensions</h3>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
