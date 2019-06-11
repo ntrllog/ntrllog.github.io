@@ -582,10 +582,10 @@
             <p>`2`. every approximation will be to the right of `r`</p>
             <div class="collapse" id="collapseNewton2">
               <p>To show that every approximation will be to the right of `r`, we have to show that `x_n ge r` for `n ge 1`. To get an equation with `x_n` and `r`, we can look at the error equation.</p>
-              <p>We have `x_n - r = e_n = (f''(xi_(n-1)))/(2f'(x_(n-1))(e_(n-1))^2)`</p>
+              <p>We have `x_n - r = e_n = (f''(xi_(n-1)))/(2f'(x_(n-1)))(e_(n-1))^2`</p>
               <p>`(e_(n-1))^2 ge 0` since it is a square</p>
               <p>We also assumed `f'' gt 0` &amp; `f' gt 0`</p>
-              <p>So we have `e_n = (f''(xi_(n-1)))/(2f'(x_(n-1))(e_(n-1))^2) ge 0`</p>
+              <p>So we have `e_n = (f''(xi_(n-1)))/(2f'(x_(n-1)))(e_(n-1))^2 ge 0`</p>
               <p>But `e_n` also equals `x_n - r`, so `x_n - r ge 0 => x_n ge r`</p>
               <p>By assumption, `x_0 gt r`. From `1`., we have that `x_n` is decreasing. (Note that `x_0 ge x_n` because `x_n` is decreasing.) But if we keep decreasing and `x_n ge r` (`x_n` is <em>still</em> to the right of `r`), then that must mean all the approximations between `x_0` and `x_n` have to be to the right of `r`</p>
             </div>
