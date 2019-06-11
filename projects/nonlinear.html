@@ -543,23 +543,23 @@
             </div>
           </div>
           <p>From this, we can see that Newton's method (generally) converges faster than the bisection method. The convergence of Newton's method is described as "quadratic convergence" because of the power `2`.</p>
-          <p>But this doesn't mean that Newton's method <em>always</em> converges faster than the bisection method. It's possible that Newton's method won't converge at all (when `f' = 0` and/or `f''` doesn't exist). However, there are some theorems that guarantee the convergence of Newton's method.</p>
-          <p><strong>Let's suppose `f'(x)`,`f''(x)` are continuous around `x = r` and `f'(r) != 0`. Then it turns out that if we start with an intial guess close enough to `r`, we can get `x_n -> r` (i.e. the `n^(th)` approximation will approach `r`).</strong></p>
+          <p>But this doesn't mean that Newton's method <em>always</em> converges faster than the bisection method. It's possible that Newton's method won't converge at all (when `f' = 0` or `f''` doesn't exist). However, there are some theorems that guarantee the convergence of Newton's method.</p>
+          <p><strong>Let's suppose `f'(x)`,`f''(x)` are continuous around `x = r` and `f'(r) != 0`. Then it turns out that if we start with an initial guess close enough to `r`, we can get `x_n -> r` (i.e. the `n^(th)` approximation will approach `r`).</strong></p>
           <p><strong>Another convergence result is that if `f''(x) > 0` (`f` is concave up) in the interval `[r, oo)` and `f'(x) > 0` (`f` is increasing) in the interval `[r,oo)`, then `x_0 in [r,oo)` implies Newton's method will converge to `r`.</strong></p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/concaveup_increasing.jpg">
           </div>
-          <p>This is an example where `f'' > 0` and `f' > 0`.</p>
+          <p>This is an example where `f'' gt 0` and `f' gt 0`.</p>
           <div class="math">
             <img class="img-fluid" src="../pictures/nonlinear/concaveup_increasing_convergence.jpg">
           </div>
-          <p>We can see that if we continue, we will eventually hit `r`. This is what the second convergence result is saying. It's important to note that we have to start at an `x_0` to the right of `r`, i.e. `x_0 > r`.</p>
+          <p>We can see that if we continue, we will eventually hit `r`. This is what the second convergence result is saying. It's important to note that we have to start at an `x_0` to the right of `r`, i.e. `x_0 gt r`.</p>
           <div class="box">
             <p>To prove the second convergence result, we have to show that:</p>
             <ol>
               <li><p>`x_n` is decreasing, i.e. `x_n lt ... lt x_3 lt x_2 lt x_1 lt x_0`</p></li>
               <li><p>every approximation will be to the right of `r`, i.e. `x_n ge r` for `n ge 1`</p></li>
-              <li><p>a decreasing sequence bounded from below has to converge to `s le r`</p></li>
+              <li><p>a decreasing sequence bounded from below has to converge to `s ge r`</p></li>
               <li><p>if `x_n -> s` then `s` is a root</p></li>
               <li><p>`s` is actually `r` (the root is unique)</p>
             </ol>
@@ -569,9 +569,9 @@
             <div class="collapse" id="collapseNewton1">
               <p>To show that `x_n` is decreasing, we have to show that `x_(n+1) lt x_n`, which means we need an equation with `x_(n+1)` and `x_n`. So we look at the iterative formula.</p>
               <p>We have `x_(n+1) = x_n - f(x_n)/(f'(x_n))`</p>
-              <p>Since `f' > 0`, `f(r) = 0`, and `x_n > r`, we get that `f(x_n) > 0`</p>
-              <p>Also, since `f' > 0`, we get that `f'(x_n) > 0`</p>
-              <p>So `f(x_n)/(f'(x_n)) > 0`</p>
+              <p>Since `f' gt 0`, `f(r) = 0`, and `x_n gt r`, we get that `f(x_n) gt 0`</p>
+              <p>Also, since `f' gt 0`, we get that `f'(x_n) gt 0`</p>
+              <p>So `f(x_n)/(f'(x_n)) gt 0`</p>
               <p>Rearranging terms, we get `x_n - x_(n+1) = f(x_n)/(f'(x_n)) gt 0`</p>
               <p>`x_n - x_(n+1) gt 0 => x_n gt x_(n+1)`</p>
               <p>In words, `x_(n+1)` is obtained by getting `x_n` and taking away a part of it. If you take away a part of the original amount, then the amount you end up with will always be less than the original amount.</p>
@@ -582,17 +582,17 @@
             <p>`2`. every approximation will be to the right of `r`</p>
             <div class="collapse" id="collapseNewton2">
               <p>To show that every approximation will be to the right of `r`, we have to show that `x_n ge r` for `n ge 1`. To get an equation with `x_n` and `r`, we can look at the error equation.</p>
-              <p>We have `x_n - r = e_n = (f''(xi_(n-1))/(2f'(x_(n-1))(e_(n-1)^2`</p>
-              <p>`(e_(n-1)^2 ge 0` since it is a square</p>
-              <p>We also assumed `f'' > 0` & `f' > 0`</p>
-              <p>So we have `e_n = (f''(xi_(n-1))/(2f'(x_(n-1))(e_(n-1)^2 ge 0`</p>
+              <p>We have `x_n - r = e_n = (f''(xi_(n-1)))/(2f'(x_(n-1))(e_(n-1))^2)`</p>
+              <p>`(e_(n-1))^2 ge 0` since it is a square</p>
+              <p>We also assumed `f'' gt 0` &amp; `f' gt 0`</p>
+              <p>So we have `e_n = (f''(xi_(n-1)))/(2f'(x_(n-1))(e_(n-1))^2) ge 0`</p>
               <p>But `e_n` also equals `x_n - r`, so `x_n - r ge 0 => x_n ge r`</p>
               <p>By assumption, `x_0 gt r`. From `1`., we have that `x_n` is decreasing. (Note that `x_0 ge x_n` because `x_n` is decreasing.) But if we keep decreasing and `x_n ge r` (`x_n` is <em>still</em> to the right of `r`), then that must mean all the approximations between `x_0` and `x_n` have to be to the right of `r`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewton2">Proof</a>
           </div>
           <div class="box">
-            <p>`3`. a decreasing sequence bounded from below has to converge to `s le r`</p>
+            <p>`3`. a decreasing sequence bounded from below has to converge to `s ge r`</p>
             <div class="collapse" id="collapseNewton3">
               <p>If every approximation is to the right of `r`, then we will never go below (to the left of) `r` (from `2`.)</p>
                 <p>But we also can't be jumping randomly either because `x_n` is decreasing (from `1`.)</p>
@@ -618,20 +618,28 @@
             <p>`5`.`s` is actually `r`</p>
             <div class="collapse" id="collapseNewton5">
               <p>What we want to show is that `s = r`. We can do this by showing `s-r = 0`, which means we need an equation with `s-r`.</p>
-              <p>Using the Mean Value Theorem (described later in the story) on the interval between `s` and `r` we get: `f(s) = f(r) + f'(alpha)(s-r)` for some `alpha` between `s` and `r`</p>
+              <p>Using the Mean Value Theorem (described later in the story) on the interval between `s` and `r` we get:</p>
+	      <div class="math">
+                <p>`f(s) = f(r) + f'(alpha)(s-r)`</p>
+                <p>for some `alpha` between `s` and `r`</p>
+              </div>
               <p>From `4`., `s` is a root, so `f(s) = 0`. Also, `f(r)` is a root by definition</p>
-              <p>`0 = 0 + f'(alpha)(s-r)`</p>
-              <p>`f'(alpha) != 0` since `f' > 0`, so we can divide both sides by `f'(alpha)`</p>
-              <p>`s - r = 0 => s = r`</p>
+              <div class="math">
+                <p>`0 = 0 + f'(alpha)(s-r)`</p>  
+              </div>
+              <p>`f'(alpha) != 0` since `f' gt 0`, so we can divide both sides by `f'(alpha)`</p>
+              <div class="math">
+                <p>`s - r = 0 => s = r`</p>
+              </div>
               <p>Note: this proves that Newton's method converges to a <em>unique</em> root</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#collapseNewton5">Proof</a>
           </div>
-          <p>We proved that Newton's method converges on the interval `[r,oo)` when `f'' > 0` and `f' > 0`. We can take a similar approach to prove that Newton's method converges:</p>
+          <p>We proved that Newton's method converges on the interval `[r,oo)` when `f'' gt 0` and `f' gt 0`. We can take a similar approach to prove that Newton's method converges:</p>
           <ul>
             <li><p>on the interval `[r,oo)` when `f'' lt 0` and `f' lt 0`</p></li>
-            <li><p>on the interval `(-oo,r]` when `f'' > 0` and `f' lt 0`</p></li>
-            <li><p>on the interval `(-oo,r]` when `f'' lt 0` and `f' > 0`</p></li>
+            <li><p>on the interval `(-oo,r]` when `f'' gt 0` and `f' lt 0`</p></li>
+            <li><p>on the interval `(-oo,r]` when `f'' lt 0` and `f' gt 0`</p></li>
           </ul>
           <div class="box">
             <p><b>The story thus far:</b> Newton's method approximates a root by repeatedly drawing tangent lines until the root of the tangent line matches the root of the function. It has to do more function evaluations per iteration than the bisection method, but it converges faster than the bisection method.</p>
