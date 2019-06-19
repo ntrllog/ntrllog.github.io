@@ -19,6 +19,32 @@
     <link href="styles.css" rel="stylesheet">
   </head>
   <body>
+    <div class="dropdown">
+      <button onclick="showMenu()" class="dropbtn">ToC</button>
+      <div class="dropdown-content" id="dropDownMenu">
+        <a class="dropdown-item" href="#findingainverse">Finding `A^(-1)`</a>
+        <a class="dropdown-item" href="#triangularsystems">Triangular Systems</a>
+        <a class="dropdown-item" href="#cholesky">Cholesky Decomposition</a>
+        <a class="dropdown-item" href="#bandedmatrices">Banded Matrices</a>
+        <a class="dropdown-item" href="#iterativeoverview">Iterative Methods: Overview</a>
+        <a class="dropdown-item" href="#jacobi">Iterative Methods: Jacobi</a>
+        <a class="dropdown-item" href="#gaussseidel">Iterative Methods: Gauss-Seidel</a>
+        <a class="dropdown-item" href="#vectornorms">Vector Norms</a>
+        <a class="dropdown-item" href="#convergenceiterative">Convergence of Iterative Methods</a>
+        <a class="dropdown-item" href="#matrixnorms">Matrix Norms</a>
+        <a class="dropdown-item" href="#conditionnumbers">Condition Numbers</a>
+        <a class="dropdown-item" href="#perturbinga">Perturbing `A`</a>
+        <a class="dropdown-item" href="#errorestimates">Error Estimates</a>
+        <a class="dropdown-item" href="#floatingpoint">Floating Point Arithmetic</a>
+        <a class="dropdown-item" href="#gaussian">Gaussian Elimination</a>
+        <a class="dropdown-item" href="#leastsquares">Least Squares Problem</a>
+        <a class="dropdown-item" href="#qr">QR Decomposition (by Reflectors)</a>
+        <a class="dropdown-item" href="#singularvalue">Singular Value Decomposition</a>
+        <a class="dropdown-item" href="#powermethod">Power Method</a>
+        <a class="dropdown-item" href="#inversepowermethod">Inverse Power Method</a>
+        <a class="dropdown-item" href="#shiftinvert">Shift-and-Invert</a>
+      </div>
+    </div>
     <div class="container line-height">
       <div class="row">
         <div class="col-12">
@@ -36,7 +62,7 @@
             <p>`[[1, 4, 1],[8, 2, 0],[5, 6, 2]][[x_1],[x_2],[x_3]] = [[24],[32],[49]]`</p>
           </div>
           <p>Of course, we could try plugging in random values for x and hope that they work. But that would take forever. Even if we did it with a computer, it would be impractical to do so all the time.</p>
-          <h2>Finding `A^-1`</h2>
+          <h2 id="findingainverse">Finding `A^-1`</h2>
           <p>A <i>slightly</i> better approach would be to "isolate" the `x`. As from elementary algebra, we could solve for `x` in `5x = 10` by dividing both sides by `5`. So, for `Ax = b`, why not "divide" both sides by `A`? (More formally known as taking the inverse). There are some special cases in which it is impossible to take the inverse of `A`, so for simplicity, we avoid those cases and assume it is possible, i.e., `A` is "invertible".</p>
           <p>In theory, the answer really is that simple. Multiply both sides (on the left) by the inverse of `A` (denoted by `A^-1`) to get `x = A^-1b`. Done. In practice, though, this process is actually pretty complicated and time-consuming, <i>especially</i> when done by hand. In fact, doing it by hand is so nightmarish, let's assume we have a computer program that inverts and multiplies matrices for us. It turns out that even with a computer doing millions of operations in mere milliseconds, <b>inverting a matrix and then multiplying is relatively time-consuming</b>.</p>
           <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do less operations. Inverting an `n xx n` matrix is complicated (for me to know), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2` matrix: `8` operations, `4 xx 4` matrix: `64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. That would mean `1,000,000^3` operations.)</p>
@@ -45,7 +71,7 @@
             <p><b>Time complexity of finding `A^-1`:</b> `n^3`</p>
             <p><b>Assumptions about `A`:</b> invertible</p>
           </div>
-          <h2>Triangular Systems</h2>
+          <h2 id="triangularsystems">Triangular Systems</h2>
           <p>Let's assume `A` can be "split up" into two matrices: one lower-triangular matrix (denoted by `L`) and one upper-triangular matrix (denoted by `U`). So `A = LU:`</p>
           <div class="math">
             <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[vdots, vdots, ddots, vdots],[a_(n,1), a_(n,2), ..., a_(n,n)]] = [[l_(1,1), 0, ..., 0],[l_(2,1), l_(2,2), 0, vdots],[vdots, vdots, ddots, 0],[l_(n,1), l_(n,2), ..., l_(n,n)]] [[u_(1,1), u_(1,2), ..., u_(1,n)],[0, u_(2,2), ..., u_(2,n)],[vdots, 0, ddots, vdots],[0, ..., 0, u_(n,n)]]`.</p>
@@ -147,7 +173,7 @@
             <p><b>Time complexity of forward and back substitution:</b> `n^2`</p>
             <p><b>Assumptions about `A`:</b> invertible</p>
           </div>
-          <h2>Cholesky Decomposition</h2>
+          <h2 id="cholesky">Cholesky Decomposition</h2>
           <p>Splitting `A` into 2 different matrices is nice, but we currently don't know exactly how to do so. Fortunately, there's an easier way to split up `A` and still take advantage of forward and back sub. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
           <div class="box">
 	          <p>Note: `T` means matrix transpose.</p>
@@ -194,7 +220,7 @@
             <p><b>Time complexity of Cholesky decomposition:</b> `n^3`</p>
             <p><b>Assumptions about `A`:</b> invertible, positive definite</p>
           </div>
-          <h2>Banded Matrices</h2>
+          <h2 id="bandedmatrices">Banded Matrices</h2>
           <p>Things get better if `A` has a bunch of `0`'s (if `A` has a lot of `0`'s, it is called "sparse".) Much like most matrices have a Cholesky factor, most matrices are also large and sparse. A specific type of sparse matrix - a banded matrix - actually allows us to perform Cholesky decomposition faster.</p>
           <p>(For those keeping track, all the assumptions we've made about `A` up to this point are that `A` is invertible, `A` is positive definite (can be split into `R^TR`) and banded (sparseness is implied). Again, `A` sounds super specific, but these type of matrices show up a lot apparently.)</p>
           <p>This is an example of a banded matrix: (notice the "band" of numbers across the diagonal and the `0`'s)</p>
@@ -247,14 +273,14 @@
             <p><b>Time complexity of Cholesky decomposition with banded matrices:</b> `ns^2`</p>
             <p><b>Assumptions about `A`:</b> invertible, positive definite, banded</p>
           </div>
-          <h2>Iterative Methods: Overview</h2>
+          <h2 id="iterativeoverview">Iterative Methods: Overview</h2>
           <p>Cholesky decomposition with banded matrices is nice. But it's only fast when the matrices are banded, which isn't always going to be the case. However, let's consider a different scenario. Let's suppose that we have such a giant matrix, that it takes a day or something to complete. If we stopped our program while it was in the middle of doing Cholesky, we would end up with nothing. It would be nice to be able to stop early and see if the answer we have so far is close to the real answer. That's what iterative methods allow us to do.</p>
           <p>Iterative methods start with an initial guess, `x^((0))`. Then they modify the guess to get a new guess, `x^((1)).` This repeats until the guess is (hopefully) close to the real answer.</p>
           <p>This probably seems like an unusual way of solving `Ax = b.` We're starting with some random guess and we end up with something that's not exactly the answer. It's also possible that we just keep guessing and never actually get close to the answer. But there are some advantages of using iterative methods. As mentioned before, we can stop early and get some sort of answer. <b>More importantly, iterative methods become fast when matrices are really large and sparse. And they don't need to be banded for this to work.</b></p>
           <div class="box">
             <p><b>The story thus far:</b> One way of approaching the `Ax = b` problem is to solve for the exact solution (e.g. by Cholesky decomposition). Another way of approaching the problem is to <i>approximate</i> the solution instead of getting the exact solution. This is sometimes faster and more applicable to general matrices.</p>
           </div>
-          <h2>Iterative Methods: Jacobi</h2>
+          <h2 id="jacobi">Iterative Methods: Jacobi</h2>
           <p>So we start with an initial guess - either a random guess or an educated one - and get a new guess. How do we get the new guess?</p>
           <p>Let's look at `Ax = b`.</p>
           <div class="math">
@@ -303,7 +329,7 @@
             <p>`[[0, a_(1,2), 0],[a_(2,1), 0, 0],[0, 0, a_(3,3)]] [[x_1],[x_2],[x_3]] = [[b_1],[b_2],[b_3]]`</p>
           </div>
           <p>Now, there are only `s` elements per row. So we only need to do `ns` operations in total. Recall that Cholesky decomposition on a banded matrix also took roughly `ns` operations (`ns^2` operations). <b>But it was only that fast when the matrix was banded. Here, with iterative methods, we achieved `ns` time without needing the matrix to be banded.</b></p>
-          <h2>Iterative Methods: Gauss-Seidel</h2>
+          <h2 id="gaussseidel">Iterative Methods: Gauss-Seidel</h2>
           <p>The Gauss-Seidel method is pretty similar to the Jacobi method, but it is slightly smarter. Recall the equation for Jacobi:</p>
           <div class="math">
             <p>`x_i^((k+1)) = (b_i - sum_(j != i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
@@ -332,7 +358,7 @@
             <p><b>Time complexity of Jacobi/Gauss-Seidel:</b> `n^2` for full matrices, `n` for sparse matrices (`ns` if the sparseness depends on the size of the matrix)</p>
             <p><b>Assumptions about `A`:</b> invertible</p>
           </div>
-          <h2>Vector Norms</h2>
+          <h2 id="vectornorms">Vector Norms</h2>
           <p>Since we're getting approximate answers, it's important to know how close our answer `x^((k))` is to the real answer `x`. Because `x^((k))` and `x` are vectors, we need to define a notion of distance between vectors.</p>
           <p>Vector norms are used to measure lengths of vectors. `norm(x)` is the length of `x`. One example of a norm is the "`2`-norm" which is:</p>
           <div class="math">
@@ -351,7 +377,7 @@
             <p>Another type of norm is the 1-norm:</p>
             <p>`norm(x)_1 = abs(x_1) + abs(x_2) + ... + abs(x_n)`</p>
           </div>
-          <h2>Convergence of Iterative Methods</h2>
+          <h2 id="convergenceiterative">Convergence of Iterative Methods</h2>
           <p>Iterative methods (at least Jacobi and Gauss-Seidel anyway) can be summarized by the notion of "additive splitting". That is, we can rewrite `A` as `A = M - N` where `M` and `N` are two matrices (and `M` is invertible).</p>
           <p>The problem then becomes:</p>
           <div class="math">
@@ -479,7 +505,7 @@
           <div class="box">
             <p><b>The story thus far:</b> Iterative methods can be written in matrix form as `x = (M^(-1)N)x + b`. From that equation, we derived the equation representing how far away our current guess is to the real answer: `e^((k+1)) = (M^(-1)N)e^((k))`. If `e^((k+1))` goes to `0` as we keep guessing, then that means we're getting closer to the real answer. One way to find out if `e^((k+1))` will go to `0` is to look at the spectral radius of `G = M^(-1)N`. If it is less than `1`, then `e^((k+1))` will eventually go to `0`. One way to find out if the spectral radius is less than `1` is to look at each row sum of `G` and see if the maximum row sum is less than `1`.</p>
           </div>
-          <h2>Matrix Norms</h2>
+          <h2 id="matrixnorms">Matrix Norms</h2>
           <p>Matrix norms allow us to measure the "length" of a matrix, much like vector norms measure the "length" of a vector.</p>
           <p>One type of matrix norm is the Frobenius norm:</p>
           <div class="math">
@@ -499,7 +525,7 @@
           </div>
           <p>One useful result that will be used is `norm(Ax)_p le norm(A)_pnorm(x)_p`.</p>
           <p>From this point on, <i>matrix</i> norms without a subscript are assumed to be the induced norm.</p>
-          <h2>Condition Numbers</h2>
+          <h2 id="conditionnumbers">Condition Numbers</h2>
           <p>And now back to our regularly scheduled programming: solving `Ax = b`. Except with a few changes (pun intended).</p>
           <p>In real life, `b` is usually obtained by some measurement. In other words, `b` is a vector that contains measured quantities. As a result, there is the possibility that we have measurement error. For example, you might record something as 5.25 miles when it is really 5.250432 miles. So we really don't have `b`; we have `hat(b)` where:</p>
           <div class="math">
@@ -631,7 +657,7 @@
           <div class="box">
             <p><b>The story thus far:</b> When it comes to solving `Ax = b`, we actually never know `b` perfectly. Because `b` is obtained from collecting measurements, `b` is subject to measurement error. Therefore, we're actually trying to solve `Ax = b + deltab` where `deltab` is the error. We could still solve for `x`, but it will be for `Ax = b + deltab`, not `Ax = b`. So we hope that the answer we get is close enough to the true answer to be useful. The condition number of `A` determines whether `deltab` is an issue or if it's small enough to not affect the problem.</p>
           </div>
-          <h2>Perturbing `A`</h2>
+          <h2 id="perturbinga">Perturbing `A`</h2>
           <p>In the previous section, we assumed that we knew `A` perfectly. Like `b`, `A` is also obtained from measurements, so it is also possible to have measurement error in `A`. Now we look at not knowing `A` perfectly but knowing `b` perfectly.</p>
           <div class="math">
             <p>`(A + deltaA)x = b`</p>
@@ -673,7 +699,7 @@
           <div class="box">
             <p><b>The story thus far:</b> Like for `b`, we never know `A` perfectly. (However, we assumed for this section we knew `b` perfectly.) So the problem becomes `(A + deltaA)x = b` where `deltaA` is the error in `A`. Also like for `b`, the condition number of `A` determines whether `deltaA` makes our answer still close enough to the true answer or completely off from the true answer.</p>
           </div>
-          <h2>Error Estimates</h2>
+          <h2 id="errorestimates">Error Estimates</h2>
           <p>An a priori error estimate is an estimate made about the potential error of our solution before solving for the solution. In other words, we are getting a feel for how accurate our solution will be so that once we do get our solution, we can determine whether it is accurate or not.</p>
           <p>This what we've been doing so far.</p>
           <p>An a posteriori estimate is the opposite: first we get our solution; then we analyze how accurate it is. That is what we'll do in this section.</p>
@@ -708,7 +734,7 @@
             <p>What's happening here is that we got our solution `hat(x)` and the residual was really small (.01%). But after analyzing our error, our solution could be off by as much as `.4%`.</p>
           </div>
           <p>It takes `n^2` time to calculate `hat(r)`.</p>
-          <h2>Floating Point Arithmetic</h2>
+          <h2 id="floatingpoint">Floating Point Arithmetic</h2>
           <p>So far, the only errors that have been mentioned were measurement errors. There is another source of errors, and that is in how a computer stores numbers.</p>
           <p>Computers don't store numbers exactly the way in which we type them. It's impossible for some numbers, like `pi` since it has infinitely many digits. Because of storage limitation, computers store only a certain number of digits.</p>
           <div class="box">
@@ -759,7 +785,7 @@
           <div class="box">
             <p><b>The story thus far:</b> Errors show up everywhere in solving `Ax = b`, from using iterative methods to get approximate solutions to using approximate data for `A` and `b` to computer storage limitations. When we get our solution, we want to know that the errors from any or all of these sources of errors don't make our solution completely incorrect. Two conditions for being able to trust our solution are: 1) having a small condition number `kappa(A)` and 2) verifying that the algorithm we're using to solve `Ax = b` is backward stable.</p>
           </div>
-          <h2>Gaussian Elimination</h2>
+          <h2 id="gaussian">Gaussian Elimination</h2>
           <p>Gaussian elimination is the first method that linear algebra students are taught for solving `Ax = b`. However, with all the errors mentioned before, no one actually ever uses this method. Analyzing Gaussian elimination does produce a significant result though.</p>
           <p>The basic idea is to turn the matrix `A` into an upper-triangular matrix in order to do back substitution.</p>
           <div class="box">
@@ -840,7 +866,7 @@
           <div class="box">
             <p>To summarize: Gaussian elimination is the age-old algorithm used to solve `Ax = b`. It involves performing row operations to change `Ax = b` into `Ux = y`. What's going on under the hood is that we're decomposing `A` into two matrices `L` and `U`. Gaussian elimination can be performed on any invertible matrix `A`, so that means <i>any</i> invertible matrix `A` can be decomposed into `LU`. In the Triangular Systems section, we said that we didn't have a way of finding `L` and `U`. Now we do.</p>
           </div>
-          <h2>Least Squares Problem</h2>
+          <h2 id="leastsquares">Least Squares Problem</h2>
           <p>Up to this point, `A` has been a square matrix (`n xx n`). However, it is possible for `A` to be an `n xx m` matrix where `n != m`.</p>
           <div class="math">
             <p>`[[a_(1,1), a_(1,2)],[a_(2,1), a_(2,2)],[a_(3,1), a_(3,2)]][[x_1],[x_2]] = [[b_1],[b_2],[b_3]]`</p>
@@ -909,7 +935,7 @@
           <div class="box">
             <p>Thanks to <a href="http://setosa.io/ev/eigenvectors-and-eigenvalues/" target="_blank">Victor and Lewis</a> for their visual explanation, which helped me come up with this.</p>
           </div>
-          <h2>`QR` Decomposition (by Reflectors)</h2>
+          <h2 id="qr">`QR` Decomposition (by Reflectors)</h2>
           <p>From `(A^TA)x = A^Tb`, we could theoretically do `x = (A^TA)^(-1)A^Tb`. But then we would be back again at the very beginning of this whole story. Because taking inverses of matrices is bad, we're gonna instead find a more efficient way to solve this problem.</p>
           <p>Similar to the Cholesky decomposition, `QR` decomposition breaks `A` into `2` matrices, namely, `Q` and `R`. <b>If `A` is an `n xx m` matrix where `n > m`, then `A = QR` where `Q` is an `n xx n` orthogonal* matrix and `R` is an `n xx m` matrix. Specifically, `R = [[color(blue)(hat(R))],[color(red)(0)]]` where `hat(R)` is an `m xx m` upper triangular matrix.</b></p>
           <div class="math">
@@ -1020,7 +1046,7 @@
           <div class="box">
             <p><b>The story thus far:</b> When `A` is a square `n xx n` matrix, we can use the techniques mentioned near the beginning of the story, like Cholesky decomposition or iterative methods to solve the problem. Those methods don't really work when `A` is `n xx m` though. Solving `Ax = b` when `A` is not a square matrix is known as the least squares problem. One way of solving the least squares problem is doing `QR` decomposition.</p>
           </div>
-          <h2>Singular Value Decomposition</h2>
+          <h2 id="singularvalue">Singular Value Decomposition</h2>
           <p><i>"This is the single most important thing in all of matrix analysis." -Professor Alex Cloninger</i></p>
           <p>`QR` decomposition only works in some situations*. A more powerful method that works in all(?) situations is singular value decomposition (SVD).</p>
           <div class="box">
@@ -1103,7 +1129,7 @@
           <div class="box">
             <p>Note: From here on, I use `A`, but most of the time, it's referring to `A^TA` or `A A^T`.</p>
           </div>
-          <h2>Power Method</h2>
+          <h2 id="powermethod">Power Method</h2>
           <p>First, some terminology. `(lambda, v)` is an eigenpair of `A` if `Av = lambdav`. If `A` has eigenpairs `(lambda_i, v_i)`, then, by convention, we order them such that `abs(lambda_1) > abs(lambda_2) > ... > abs(lambda_n)`. `lambda_1` is considered the dominant eigenvalue.</p>
           <p>Not only does the determinant method not work for big matrices, it only gives us the eigenvalues. We have to do a completely different method to find the eigenvectors. The power method gives us both the eigenvalues and eigenvectors (i.e. eigenpairs) at the same time. (The power method actually gives us the dominant eigenvalue. Variations of the power method give us all the eigenvalues.)</p>
           <p>There is a restriction for the power method though. It only works when `A` is semisimple: all the eigenvalues are distinct.</p>
@@ -1161,7 +1187,7 @@
             </div>
             <p>So our guess for the eigenvalue is `4.4` and the eigenvector would be `[[4.4],[1]]`.</p>
           </div>
-          <h2>Inverse Power Method</h2>
+          <h2 id="inversepowermethod">Inverse Power Method</h2>
           <p>The power method gives us one eigenvalue, namely the dominant one. But we still need to find the rest of the eigenvalues. It turns out that <b>if `(lambda,v)` is an eigenpair of `A`, then `(1/lambda,v)` is an eigenpair of `A^(-1)`.</b> This allows us to find the smallest eigenvalue of `A`. <b>If `lambda^(text(*))` is the largest eigenvalue of `A^(-1)`, then `1/lambda^(text(*))` is the smallest eigenvalue of `A`.</b></p>
           <div class="box">
             <p>Example: `A = [[10,1],[1,2]]`. What is the smallest eigenvalue? We start with a guess `q^((0)) = [[1],[1]]`.</p>
@@ -1177,7 +1203,7 @@
             </div>
             <p>Unfortunately, the numbers are getting ugly, but our guess for the eigenvalue is `0.53` and the eigenvector would be `[[-0.12],[1]]` as `k` gets large. But this is for `A^(-1)`. The eigenvalue of `A` is `1/0.53 ~~ 1.88` and the eigenvector is the same.</p>
           </div>
-          <h2>Shift-and-Invert</h2>
+          <h2 id="shiftinvert">Shift-and-Invert</h2>
           <p>So we have the largest and the smallest eigenvalues of `A`. But we still need the rest. It turns out that <b>if `(lambda,v)` is an eigenpair of `A`, then `(lambda-rho,v)` is an eigenpair of `A - rhoI`.</b></p>
           <div class="math">
             <img class="img-fluid" src="../pictures/lin_alg/shift_invert_1.png">
@@ -1218,6 +1244,25 @@
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
+    <script>
+      function showMenu() {
+        document.getElementById("dropDownMenu").classList.toggle("show");
+      }
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   </body>
 </html>
