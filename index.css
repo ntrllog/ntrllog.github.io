@@ -28,6 +28,10 @@ nav, .jumbotron {
   font-size: 150%;
 }
 
+.strike {
+  text-decoration: line-through;
+}
+
 .flex-evenly {
   display: flex;
   align-items: center;
