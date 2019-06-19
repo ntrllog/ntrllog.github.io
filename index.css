@@ -1,158 +1,46 @@
-html {
+html, body {
   height: 100%;
-  width: 100%;
+  background-color: #160421;
+  color: #00ffe5;
+  font-family: "Cabin Sketch";
 }
 
-body {
-  background: url("./pictures/triangles-download.png");
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: cyan;
-  overflow: hidden;
-  width: 100%;
+.navbar-toggler {
+  background-color: white;
+}
+
+nav, .jumbotron {
+  background-color: #160421;
+}
+
+.navbar a {
+  color: #00ffe5;
+  font-family: "Finger Paint";
+}
+
+.jumbotron {
+  border-radius: 0px !important;
+  text-align: center;
   height: 100%;
 }
 
-.scene {
-  width: 100%;
-  transform: rotate(-35deg) skew(20deg,10deg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.content {
-  display: flex;
-}
-
-.navbox {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-right: 10px;
-  font-family: 'Cabin Sketch', cursive;
+.jumbotron p {
   font-size: 150%;
 }
 
-a {
-  color: cyan;
-  text-decoration: none;
-}
-
-a:hover {
-  color: white;
-  text-decoration: none;
-}
-
-.ln {
-  color: white;
-  font-size: 1000%;
-  font-family: 'Londrina Outline', cursive;
-  text-shadow: -1px 1px lightgray,
-               -2px 2px lightgray,
-			         -3px 3px lightgray,
-			         -4px 4px lightgray,
-			         -5px 5px lightgray,
-			         -6px 6px lightgray,
-			         -7px 7px lightgray,
-			         -8px 8px lightgray,
-			         -9px 9px lightgray,
-			       -10px 10px lightgray;
-}
-
-.ln:hover {
-  text-decoration: underline;
-}
-
-.contact {
+.flex-evenly {
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 40px;
-  left: 50px;
-  font-family: 'Finger Paint', cursive;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
-.contact a {
-  margin-bottom: 10px;
+.flex-center {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#name {
-  font-size: 200%;
-}
-
-.modal-header, .modal-body, .modal-footer {
-  background: #2b5876;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #4e4376, #2b5876);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #4e4376, #2b5876); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  color: white;
-}
-
-.hvr-sweep-to-left {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  position: relative;
-  -webkit-transition-property: color;
-  transition-property: color;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-}
-.hvr-sweep-to-left:before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #2098D1;
-  -webkit-transform: scaleX(0);
-  transform: scaleX(0);
-  -webkit-transform-origin: 100% 50%;
-  transform-origin: 100% 50%;
-  -webkit-transition-property: transform;
-  transition-property: transform;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-timing-function: ease-out;
-  transition-timing-function: ease-out;
-}
-.hvr-sweep-to-left:hover:before, .hvr-sweep-to-left:focus:before, .hvr-sweep-to-left:active:before {
-  -webkit-transform: scaleX(1);
-  transform: scaleX(1);
-}
-
-.hvr-underline-from-left {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  position: relative;
-  overflow: hidden;
-}
-.hvr-underline-from-left:before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: 0;
-  right: 100%;
-  bottom: 0;
-  background: #2098D1;
-  height: 4px;
-  -webkit-transition-property: right;
-  transition-property: right;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-timing-function: ease-out;
-  transition-timing-function: ease-out;
-}
-.hvr-underline-from-left:hover:before, .hvr-underline-from-left:focus:before, .hvr-underline-from-left:active:before {
-  right: 0;
+.container p {
+  font-size: 125%;
 }

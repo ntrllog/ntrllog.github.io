@@ -15,65 +15,117 @@
     <meta name="description" content="Hey, it's a website! -Alan Lam">
     <meta name="google-site-verification" content="jeqDMsOGLrV7OcaFvE75t5FgxqZlFgwdlnhWERrv-8w" />
     <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Finger+Paint|Londrina+Outline|Ubuntu" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
     <link rel="shortcut icon" type="image/png" href="./pictures/favicon.ico"/>
     <link href="index.css" rel="stylesheet">
   </head>
   <body>
-    <div class="scene">
-      <div class="content">
-        <div class="navbox">
-          <a class="hvr-sweep-to-left" href="https://aln.netlify.com/comics">comics</a>
-          <a class="hvr-sweep-to-left" href="projects/projects.html">projects</a>
-          <a class="hvr-sweep-to-left" href="writings.html">writings</a>
-          <a class="hvr-sweep-to-left" href="" data-toggle="modal" data-target="#resume">résumé</a>
-        </div>
-        <a href="" class="ln animated pulse infinite slow" data-toggle="modal" data-target="#about">ln</a>
+    <nav class="navbar navbar-expand-md navbar-light">
+      <a class="navbar-brand" href="https://aln.netlify.com"><img class="img-fluid" src="./pictures/logo_colored.png" width="50" height="50"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#about" style="color: #00ffe5;">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#comics" style="color: #00ffe5;">Comics</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#projects" style="color: #00ffe5;">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#writings" style="color: #00ffe5;">Writings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#resume" style="color: #00ffe5;">Resume</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="jumbotron">
+      <h1 style="font-size: 500%;">I'm Alan Lam</h1>
+      <p>coder, math person, educator, writer</p>
+      <div class="flex-evenly">
+        <a href="https://github.com/alan-lam" target="_blank"><i class="fab fa-github fa-3x"></i></a>
+        <a href="https://www.linkedin.com/in/ntrllog/" target="_blank"><i class="fab fa-linkedin fa-3x"></i></a>
       </div>
     </div>
-    <div class="contact">
-      <a class="hvr-underline-from-left" href="" id="name" data-toggle="modal" data-target="#about">alan lam [ntrllog]</a>
-      <p>alanlam00 [at] gmail [dot] com</p>
-      <a class="hvr-underline-from-left" href="https://github.com/alan-lam" target="_blank">github</a>
-      <a class="hvr-underline-from-left" href="https://www.linkedin.com/in/ntrllog/" target="_blank">linkedin</a>
+    <div class="container">
+      <h2 id="about" style="text-align: center;">About</h2>
+      <div class="row">
+        <div class="col-md-9">
+          <p>I'm a <a class="link" href="https://i.pinimg.com/originals/17/85/dc/1785dc0172e27e5b634ed5c96f43e69b.jpg" target="_blank">mild-mannered</a> senior at UCSD. I'm pursuing a major in Math-Computer Science and a minor in Math Education. Oh, did I say I was <a class="link" href="https://www.gocomics.com/calvinandhobbes/2014/04/28?utm_source=ch_twitter&utm_medium=SocialMarketing&utm_campaign=scheduled" target="_blank">mild mannered</a>?</p>
+          <p>Every now and then, I like to come up with sarcastic or ironic things to say. But certainly not both.</p>
+        </div>
+        <div class="col-md-3">
+          <img class="img-fluid" src="./pictures/self.jpg">
+        </div>
+      </div>
     </div>
-    <div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">About Me</h5>
+    <div class="container">
+      <h2 id="comics">Random Tidbits</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <img class="img-fluid" src="./pictures/random_tidbits.png">
+        </div>
+        <div class="col-md-8">
+          <a href="https://aln.netlify.com/comics">https://aln.netlify.com/comics</a>
+          <p>This is my webcomic of random things. They're mostly geek-humor(ish) things that revolve around math, computer science, and the English language. The style and presentation are also heavily inspired by Randall Munroe's xkcd. I only do these when — what I call — my "sarcastic switch" is triggered.</p>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h2 id="projects" style="text-align: center;">Projects</h2>
+      <div class="row">
+        <div class="col">
+          <p>Because I have a minor in Math education, I'm interested in education. Or is it supposed to be the other way around? Either way, I'm interested in using technology to spread the availability of educational tools and resources. One of them was inspired by a high school teacher (for whom I apprenticed) who wanted a pi quiz that tested more digits. Two of them are study tools that were created out of my dislike of textbooks that assume the reader has strong background knowledge.</p>
+        </div>
+        <div class="col">
+          <div class="flex-center">
+            <a href="projects/projects.html">https://aln.netlify.com/projects</a>
           </div>
-          <div class="modal-body">
-            <p>Hi, I'm Alan. A <a class="link" href="https://i.pinimg.com/originals/17/85/dc/1785dc0172e27e5b634ed5c96f43e69b.jpg" target="_blank">mild-mannered</a> 4th year student at UCSD. A <a class="link" href="https://www.gocomics.com/calvinandhobbes/2014/04/28?utm_source=ch_twitter&utm_medium=SocialMarketing&utm_campaign=scheduled" target="_blank">mild-mannered</a> Math-Computer Science major with a Math Education minor.<br>Every now and then, I like to come up with sarcastic or ironic things to say. But certainly not both.</p>
-            <div style="text-align: center;">
-              <img class="img-fluid" src="./pictures/favicon.ico">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+        <div class="col">
+          <p>I'm also interested in mobile development for Android and iOS. I taught myself Android programming with several of Udacity's free Android courses. From there, I made several small apps that I (and probably only I) use to help make my life a little bit easier. I learned iOS programming while serving as an Instructor Aide for Program Your Future. I'll (probably won't) be the first to tell you that iOS programming is frustrating without any actual iOS devices.</p>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h2 id="writings" style="text-align: right;">Writings</h2>
+      <div class="row">
+        <div class="col-md-8">
+          <a href="writings.html">https://aln.netlify.com/writings</a>
+          <p>This is my collection of creative writing pieces. It could be considered a blog I suppose. Most of them are creative nonfiction accounts of my thoughts and experiences — again, revolving around math, computer science, and the English language — but some are fictional pieces I wrote hoping I could be a best-selling author.</p>
+        </div>
+        <div class="col-md-4">
+          <div class="flex-center">
+            <img class="img-fluid" src="./pictures/writings.png">
           </div>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="resume" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Résumés</h5>
-          </div>
-          <div class="modal-body">
-            <p><a href="resume.html" target="_blank">Version 1</a></p>
-            <p><a href="resume_2.html" target="_blank">Version 2</a></p>
-            <p><a href="https://resume.github.io/?alan-lam" target="_blank">GitHub Version (not created by me)</a></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-          </div>
+    <div class="container">
+      <h2 id="resume" style="text-align: center;">Resume</h2>
+      <div class="row">
+        <div class="col-md">
+          <a href="resume.html" target="_blank">Resume 1</a>
+          <p>This is my software engineering resume.</p>
+        </div>
+        <div class="col-md">
+          <a href="resume_2.html" target="_blank">Resume 2</a>
+          <p>This resume is more education focused. I just really like LaTeX-style resumes/CV's that math people use.</p>
+        </div>
+        <div class="col-sm">
+          <a href="https://resume.github.io/?alan-lam">GitHub Resume</a>
+          <p>This resume is generated by <a href="https://resume.github.com" target="_blank">https://resume.github.io</a></p>
         </div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
