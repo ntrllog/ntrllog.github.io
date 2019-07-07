@@ -42,6 +42,10 @@ nav, .jumbotron {
   align-items: center;
 }
 
+.container {
+  padding-top: 100px;
+}
+
 .container p {
   font-size: 125%;
 }
