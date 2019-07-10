@@ -37,6 +37,7 @@
         <div class="col-sm-3">
           <h6>Computer Science</h6>
           <ul>
+            <li><a href="#matlab_first_language">MATLAB as a First Programming Language</a></li>
             <li><a href="#recursion_as_settings">Recursion as Settings</a></li>
             <li><a href="#students_as_processors">Students as Processors</a></li>
             <li><a href="#binary_search">Binary Search</a></li>
@@ -116,6 +117,19 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="matlab_first_language">.</p>
+          <div class="post">
+            <h4 class="title">MATLAB as a First Programming Language</h4>
+            <h6 class="date">July 10, 2019</h6>
+            <p>Java. C. C++. Python. Javascript. Those who taught themselves computer programming likely wondered which programming language to learn first. Those who are looking to teach themselves computer programming are likely asking the same thing.</p>
+            <p>What's interesting is that among all the names of languages that get thrown out there, MATLAB isn't one of them. Well, as it's pretty much only used in the engineering fields, maybe it's not so surprising.</p>
+            <p>MATLAB is pretty different from the other "conventional" languages (like the ones mentioned above). Those differences, however, kind of make MATLAB a nice first language to learn.</p>
+            <div class="collapse" id="collapseMATLABFirstLanguage">
+              <p><strong>In MATLAB, indices start at 1.</strong> So if we have <code>vec = [5,4,7]</code>, <code>vec(1)</code> would be equal to 5. And the third element would be <code>vec(3)</code>. Using 1-based indexing makes accessing elements in vectors/arrays/lists more intuitive. It's a bit weird to beginning programmers to access the second element by <code>vec(1)</code>, where the index doesn't match the position you're looking for.</p>
+              <p><strong>In MATLAB, function headers are defined as: <code>function [output] = functionName(input)</code>.</strong> Having the variable for the return value in the header makes it a bit clearer the function is going to "return" the output value. It's easier to see this in MATLAB than it is in Java (<code>public int functionName()</code>) or even Python (<code>def functionName:</code>). I would even argue that it makes the concept of return clearer.</p>
+            </div>
+            <a class="btn toggle-text" data-toggle="collapse" href="#collapseMATLABFirstLanguage"><span>Read more</span><span class="hidden">Read less</span></a>
+          </div>
           <p id="closest_point">.</p>
           <div class="post">
             <h4 class="title">Closest Point</h4>
@@ -140,9 +154,9 @@
           <div class="post">
             <h4 class="title">If Then If Then</h4>
             <h6 class="date">April 28, 2019</h6>
-            <p><span class="green">If f is a differentiable function and f'(x<sub>0</sub>) &lt; 0</span>, <span class="blue">then there exists some number r > 0</span> so that <span class="blue">if x is in [x<sub>0</sub>, x<sub>0</sub>+r]</span>, <span class="blue">then f(x) &lt; f(x<sub>0</sub>)</span>.</p>
+            <p><span class="green">If f is a differentiable function and f'(x<sub>0</sub>) &lt; 0</span>, <span class="blue">then there exists some number r &gt; 0</span> so that <span class="blue">if x is in [x<sub>0</sub>, x<sub>0</sub>+r]</span>, <span class="blue">then f(x) &lt; f(x<sub>0</sub>)</span>.</p>
             <p>For the longest time, I had trouble wrapping my head around proving a statement of the form "If _, then if _, then _." Naturally, I thought you had to assume the <span class="green">green</span> part was true and <em>show</em> that the <span class="blue">blue</span> part was true.</p>
-            <p><span class="green">If f is a differentiable function and f'(x<sub>0</sub>) &lt; 0</span>, <span class="blue">then there exists some number r > 0</span> so that <span class="red">if x is in [x<sub>0</sub>, x<sub>0</sub>+r]</span>, <span class="purple">then f(x) &lt; f(x<sub>0</sub>)</span>.</p>
+            <p><span class="green">If f is a differentiable function and f'(x<sub>0</sub>) &lt; 0</span>, <span class="blue">then there exists some number r &gt; 0</span> so that <span class="red">if x is in [x<sub>0</sub>, x<sub>0</sub>+r]</span>, <span class="purple">then f(x) &lt; f(x<sub>0</sub>)</span>.</p>
             <p>It's not really intuitive to assume the <span class="green">green</span> <em>and</em> <span class="blue">blue</span> statements are true (and then assume the <span class="red">red</span> part is true and show that the <span class="purple">purple</span> part is true) because that's not typically what you do with if-then statements.</p>
             <p>But then it all made sense when I said, "<span class="green">If I'm right</span>, <span class="blue">then</span> [<span class="blue">there exists a possibility</span> so that] <span class="red">if I do this</span>, <span class="purple">then it should work</span>."</p>
           </div>
@@ -668,7 +682,7 @@
           <div class="post">
             <h4 class="title">Learning How to Code (Part 2)</h4>
             <h6 class="date">July 26, 2018</h6>
-            <p>That's not to say that learning programming languages is pointless. Just that computer science knowledge/expertise shouldn't be measured by the number or popularity of languages one knows. (Except for Matlab and HTML/CSS. Those aren't "real" programming languages. According to jokes anyways lol.)</p>
+            <p>That's not to say that learning programming languages is pointless. Just that computer science knowledge/expertise shouldn't be measured by the number or popularity of languages one knows. (Except for MATLAB and HTML/CSS. Those aren't "real" programming languages. According to jokes anyways lol.)</p>
             <div class="collapse" id="collapseLearningHowToCodeP2">
               <p>Especially with the high school students, most of whom having had significant programming experience (is that grammatically correct? I suspect not.), getting through a module/quest has been very easy because they easily understood what was going on. While one other student has said Racket was easier than imperative programming languages, I think they were getting it not because of the "easiness" of Racket, but because of something else. (I still don't think Racket is easier than imperative programming languages, but that's my heavily biased — and somewhat stubborn — opinion.)</p>
               <p>Because of something else. What is that something else? It lies in (one of) the goal(s) of Morugamu, which aims to teach computer science without the computer. It sounds weird, doesn't it? Maybe because learning computer science seems to be associated with learning how to work/talk with computers or knowing how to code in a dozen programming languages. But knowing how to do those things requires something more basic. Ah, there's that "something" again.</p>
