@@ -1,7 +1,7 @@
 body {
   width: 100%;
   font-family: 'Gentium Basic', serif;
-  font-size: 120%;
+  font-size: 125%;
 }
 
 #pdf {
@@ -17,6 +17,7 @@ body {
 
 .header {
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .header p {
@@ -37,11 +38,6 @@ body {
 
 .underline {
   border-bottom: 1px solid black;
-}
-
-.box {
-  padding-left: 3px;
-  padding-right: 3px;
 }
 
 .col-sm-8 {
