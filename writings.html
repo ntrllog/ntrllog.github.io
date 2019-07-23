@@ -57,6 +57,7 @@
         <div class="col-sm-3">
           <h6>Math</h6>
           <ul>
+            <li><a href="#the_clock_problem">The Clock Problem</a></li>
             <li><a href="#closest_point">Closest Point</a></li>
             <li><a href="#ifthenifthen">If Then If Then</a></li>
             <li><a href="#fair_rations">Fair Rations</a></li>
@@ -118,6 +119,34 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="the_clock_problem">.</p>
+          <div class="post">
+            <h4 class="title">The Clock Problem</h4>
+            <h6 class="date">July 23, 2019</h6>
+            <p>Have you ever wondered when the hands of a clock overlap so that they're exactly on top of each other? Me too! (Wait, did you say no? I mean, me neither!)</p>
+            <p>It's very tempting to say that the hands overlap at 1:05, 2:10, 3:15, ... and so on. But if you think about it, the hands aren't going to overlap exactly at, say, 10:50 because the hour hand would be closer to the 11 at this time. So does this mean they actually don't overlap exactly at 1:05, 2:10, 3:15, ... ?</p>
+            <div class="collapse" id="collapseClockProblem">
+              <p>Let's set up the problem more formally. Assuming the hands move smoothly and continuously, if we begin at 12:00, when's the next time the hour and minute hands will overlap?</p>
+              <p>It will be easier to think about this problem in terms of distances. The hands will overlap if they have traveled the same distance from the 12:00 point. Because the distances they have travelled vary depending on how many minutes have passed, we can represent their distances as functions of time, e.g. d_h(t) and d_m(t) where t is the number of minutes after 12:00.</p>
+              <p>So this means we're looking for a t such that d_h(t) = d_m(t). In words, we're looking for the number of minutes that will go by until the hour hand and minute hand have travelled the same distance.</p>
+              <p>The minute hand makes one full revolution around the clock in 60 minutes. Which means after t minutes, the minute hand will travel a distance of t/60. <strong>So d_m(t) = t/60 is the function that represents the distance the minute hand has travelled after t minutes.</strong></p>
+              <p>The hour hand makes one full revolution around the clock in 720 minutes (It takes 60 minutes to reach an hour; since there are 12 hours, it will take 60*12 = 720 minutes.) So d_h(t) = t/720 is the function that represents the distance the hour hand has travelled after t minutes. Well, almost.</p>
+              <p>The hour hand and minute hand won't overlap between 12:00 and 1:00. This means, when it's 1:00, the hour hand will have travelled 1/12 of the way when the minute hand is back at the 12:00 mark again. <strong>So d_h(t) = t/720 + 1/12 is the function that represents the distance the hour hand has travelled after t minutes.</strong></p>
+              <p>Now that we have equations for d_h(t) and d_m(t), we can set them equal to each other to solve for t.</p>
+              <p>d_h(t) = d_m(t)</p>
+              <p>t/720 + 1/12 = t/60</p>
+              <p>11t/720 = 1/12</p>
+              <p>11t = 60</p>
+              <p>t = 60/11</p>
+              <p>So after 60/11 minutes, or about 5 minutes and 27 seconds, the hands will overlap at 1:05:24.</p>
+              <p>To generalize this, we can redefine d_h(t) to account for the distance it has travelled when the minute hand reaches the 12:00 mark. <strong>Then it would be d_h(t,s) = t/720 + s/12, where s is the number of hours after 12:00.</strong></p>
+              <p>For s = 2, the hands will overlap at 2:10:55.</p>
+              <p>For s = 10, the hands will overlap at 10:54:33.</p>
+              <p>For s = 11, the hands will overlap at 12:00</p>
+              <p>This leads to another interesting result: <strong>the hands of a clock overlap only 11 times in a 12-hour period.</strong></p>
+            </div>
+            <a class="btn toggle-text" data-toggle="collapse" href="#collapseClockProblem"><span>Read more</span><span class="hidden">Read less</span></a>
+          </div>
           <p id="infinity">.</p>
           <div class="post">
             <h4 class="title">Infinity</h4>
