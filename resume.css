@@ -1,5 +1,6 @@
 body {
   font-family: 'Montserrat', sans-serif;
+  font-size: 118%;
 }
 
 #pdf {
@@ -17,6 +18,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+h1 {
+  font-size: 400%;
 }
 
 .vertical-bar {
