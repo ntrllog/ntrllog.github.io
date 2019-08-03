@@ -5,9 +5,10 @@ body {
 
 #pdf {
   position: absolute;
-  right: 70px;
-  top: 20px;
+  right: 30px;
+  top: 10px;
   color: black;
+  z-index: 2;
 }
 
 .container {
