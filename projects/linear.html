@@ -51,7 +51,7 @@
           <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
           <h1>Numerical Analysis: A Linear Algebra Story</h1>
           <hr>
-          <p>Shortcut to this page: <a href="lin_alg.html">aln.netlify.com/lin_alg</a></p>
+          <p>Shortcut to this page: <a href="linear.html">aln.netlify.com/linear</a></p>
           <p>Linear algebra is all about solving `Ax = b,` where, usually, `A` is an `n xx n` matrix, `x` is an `n xx 1` matrix, and `b` is an `n xx 1` matrix. Specifically, given `A` and `b,` find `x`. In other words, if the problem is</p>
           <div class="math">
             <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[vdots, vdots, ddots, vdots],[a_(n,1), a_(n,2), ..., a_(n,n)]] [[x_1], [x_2], [vdots], [x_n]] = [[b_1], [b_2], [vdots], [b_n]]`</p>
@@ -188,7 +188,7 @@
           <div class="box">
             <p>Let `A = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]]`</p>
             <div class="math">
-              <img class="img-fluid" src="../pictures/lin_alg/find_cholesky_factor.gif">
+              <img class="img-fluid" src="../pictures/linear/find_cholesky_factor.gif">
             </div>
             <p>So `A = R^TR = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]] = [[1, 0, 0],[-2, 2, 0],[-1, 3, 3]] [[1, -2, -1],[0, 2, 3],[0, 0, 3]]`</p>
           </div>
@@ -205,11 +205,11 @@
           </div>
           <p>Let's see long it takes to find `R`.</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/analyze_cholesky_1.gif">
+            <img class="img-fluid" src="../pictures/linear/analyze_cholesky_1.gif">
           </div>
           <p>For the first column of `R`, we're doing operations on about `n^2/2` numbers in `R^T` (remember lower- and upper-triangular matrices have about `n^2/2` numbers).</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/analyze_cholesky_2.gif">
+            <img class="img-fluid" src="../pictures/linear/analyze_cholesky_2.gif">
           </div>
           <p>For the second column of `R`, we're also doing operations on about `n^2/2` numbers in `R^T`.</p>
           <p>This pattern repeats for all `n` columns of `R`. For each column, we're doing operations on <i>about</i> `n^2` numbers. Since there are `n` columns, we're doing operations on about `n*n^2 = n^3` numbers.</p>
@@ -232,13 +232,13 @@
           <p>Recall the process for finding `R` if `A` is not banded:</p>
           <div class="math">
             <!-- <p>`[[2, 1, 4, 9, 3],[1, 2, 1, 3, 2],[5, 1, 4, 1, 2],[3, 8, 1, 2, 1],[6, 8, 9, 1, 2]] = [[r_(1,1), 0, 0, 0, 0],[r_(1,2), r_(2,2), 0, 0, 0],[r_(1,3), r_(2,3), r_(3,3), 0, 0],[r_(1,4), r_(2,4), r_(3,4), r_(4,4), 0],[r_(1,5), r_(2,5), r_(3,5), r_(4,5), r_(5,5)]] [[r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)],[0, r_(2,2), r_(2,3), r_(2,4), r_(2,5)],[0, 0, r_(3,3), r_(3,4), r_(3,5)],[0, 0, 0, r_(4,4), r_(4,5)],[0, 0, 0, 0, r_(5,5)]]`</p> -->
-            <img class="img-fluid" src="../pictures/lin_alg/find_r_nonbanded.gif">
+            <img class="img-fluid" src="../pictures/linear/find_r_nonbanded.gif">
           </div>
           <p>Notice how we have to go through all the rows of `A` to calculate `r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)`</p>
           <p>Now let's see what happens when `A` is banded:</p>
           <div class="math">
             <!-- <p>`[[2, 1, 0, 0, 0],[1, 2, 1, 0, 0],[0, 1, 2, 1, 0],[0, 0, 1, 2, 1],[0, 0, 0, 1, 2]] = [[r_(1,1), 0, 0, 0, 0],[r_(1,2), r_(2,2), 0, 0, 0],[r_(1,3), r_(2,3), r_(3,3), 0, 0],[r_(1,4), r_(2,4), r_(3,4), r_(4,4), 0],[r_(1,5), r_(2,5), r_(3,5), r_(4,5), r_(5,5)]] [[r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)],[0, r_(2,2), r_(2,3), r_(2,4), r_(2,5)],[0, 0, r_(3,3), r_(3,4), r_(3,5)],[0, 0, 0, r_(4,4), r_(4,5)],[0, 0, 0, 0, r_(5,5)]]`</p> -->
-            <img class="img-fluid" src="../pictures/lin_alg/find_r_banded.gif">
+            <img class="img-fluid" src="../pictures/linear/find_r_banded.gif">
           </div>
           <p>We only need to go through the first `2` rows of `A`. Why is that? Let's look at the `3^(rd)` row where we solve for the value of `r_(1,3)`. The equation is</p>
           <div class="math">
@@ -252,11 +252,11 @@
           <div class="box">
             <p>*A visual for the above statement:</p>
             <div class="math">
-              <img class="img-fluid" src="../pictures/lin_alg/analyze_cholesky_additional_1.gif">
+              <img class="img-fluid" src="../pictures/linear/analyze_cholesky_additional_1.gif">
               <p>There are `n` rows.</p>
-              <img class="img-fluid" src="../pictures/lin_alg/analyze_cholesky_additional_2.gif">
+              <img class="img-fluid" src="../pictures/linear/analyze_cholesky_additional_2.gif">
               <p>There are `s` numbers in each row.</p>
-              <img class="img-fluid" src="../pictures/lin_alg/analyze_cholesky_additional_3.gif">
+              <img class="img-fluid" src="../pictures/linear/analyze_cholesky_additional_3.gif">
               <p>Each number requires `s` previous numbers for the calculation</p>
             </div>
           </div>
@@ -321,7 +321,7 @@
           </div>
           <p>How long does it take? Let's first look at how it performs on a full matrix.</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/analyze_jacobi_full.gif">
+            <img class="img-fluid" src="../pictures/linear/analyze_jacobi_full.gif">
           </div>
           <p>There are `n` rows. For each row, we have to multiply and add `n` numbers. So there are `n^2` operations in total.</p>
           <p>Doesn't seem to be too great. But what about if `A` was sparse? (with about `s` nonzero numbers per row)</p>
@@ -584,7 +584,7 @@
               <p>`[[1, 2],[3, 4]][[x_1],[x_2]] = [[b_1],[b_2]]`</p>
               <p>`x_1 + 2x_2 = b_1`</p>
               <p>`3x_1 + 4x_2 = b_2`</p>
-              <img class="img-fluid" src="../pictures/lin_alg/well_condition_graph.gif">
+              <img class="img-fluid" src="../pictures/linear/well_condition_graph.gif">
               <p>Notice that by moving the blue line up slightly (adding `deltab` to `b`), the solution only changes slightly.</p>
             </div>
             <p>This is an example of an ill conditioned system:</p>
@@ -592,7 +592,7 @@
               <p>`[[1, 2],[3, 5.6]][[x_1],[x_2]] = [[b_1],[b_2]]`</p>
               <p>`x_1 + 2x_2 = b_1`</p>
               <p>`3x_1 + 5.6x_2 = b_2`</p>
-              <img class="img-fluid" src="../pictures/lin_alg/ill_condition_graph.gif">
+              <img class="img-fluid" src="../pictures/linear/ill_condition_graph.gif">
               <p>Notice that by moving the blue line up slightly (adding `deltab` to `b`), the solution changes drastically.</p>
             </div>
           </div>
@@ -884,36 +884,36 @@
           <p>Let's look at this visually. We'll start with the case when `A` is a `2xx2` matrix.</p>
           <p>The matrix `A` can be represented as two vectors (the columns of `A`)</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/least_squares_1.png">
+            <img class="img-fluid" src="../pictures/linear/least_squares_1.png">
           </div>
           <p>The range of `A`, `R(A)`, is the shaded area in blue between the vectors of `A` (this comes from the fact that the range of `A` is the span of the columns of `A` i.e. the column space of `A`)</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/least_squares_2.png">
+            <img class="img-fluid" src="../pictures/linear/least_squares_2.png">
           </div>
           <p>If `b` lies in the shaded region, then `Ax = b` (which means we can find an `x` that satisfies that equation.) If `b` doesn't lie in the shaded region, then it is impossible to find an `x` such that `Ax = b`.</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/least_squares_3.png">
+            <img class="img-fluid" src="../pictures/linear/least_squares_3.png">
           </div>
           <p>In the least squares problem, `A` has more rows than columns, so let's say it is `3xx2`.</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/least_squares_4.png">
+            <img class="img-fluid" src="../pictures/linear/least_squares_4.png">
           </div>
           <p>So for `Ax = b`, since `A` only has `2` columns, `x` must have `2` rows and `b` must have `3` rows. This means that we must somehow find an `x` in `2` dimensions to reach a `b` in `3` dimensions. This is why we can't solve the least squares problem perfectly, as mentioned at the beginning.</p>
           <p>The best we can do is the find the solution in `2` dimensions that is as close as possible to `b` in `3` dimensions. This can be done by dropping a straight line down to the `2` dimension area.</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/least_squares_5.png">
+            <img class="img-fluid" src="../pictures/linear/least_squares_5.png">
           </div>
           <p>The solution, denoted by `y`, is the vector pointing to where the line drops. That line is a vector representing the difference between `b` and `y`.</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/least_squares_6.png">
+            <img class="img-fluid" src="../pictures/linear/least_squares_6.png">
           </div>
           <p>This would be the vector in `2` dimensions with the shortest distance to the `b`. We could choose any other vector and it would be farther `b` than `y`.</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/least_squares_7.png">
+            <img class="img-fluid" src="../pictures/linear/least_squares_7.png">
           </div>
           <p>That could be seen by looking at right triangles.</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/least_squares_8.png">
+            <img class="img-fluid" src="../pictures/linear/least_squares_8.png">
           </div>
           <p>No matter what we choose for point `C`, the distance from point `A` to `B` (a straight line) will always be the shortest (i.e. always be longer than `BC`).</p>
           <p>Going back to the statement before all the visuals, solving the least squares problem means making `norm(b-y)_2` as small as possible. From the visuals, we see that it is as small as possible when we take the vector pointing to the straight line dropped from `b`. The straight line is perpendicular to `R(A)`. More formally:</p>
@@ -1206,11 +1206,11 @@
           <h2 id="shiftinvert">Shift-and-Invert</h2>
           <p>So we have the largest and the smallest eigenvalues of `A`. But we still need the rest. It turns out that <b>if `(lambda,v)` is an eigenpair of `A`, then `(lambda-rho,v)` is an eigenpair of `A - rhoI`.</b></p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/shift_invert_1.png">
+            <img class="img-fluid" src="../pictures/linear/shift_invert_1.png">
           </div>
           <p>We can shift the interval down by `rho` to get:</p>
           <div class="math">
-            <img class="img-fluid" src="../pictures/lin_alg/shift_invert_2.png">
+            <img class="img-fluid" src="../pictures/linear/shift_invert_2.png">
           </div>
           <p>Now, `lambda_i` is the smallest eigenvalue and we can use the inverse power method to get the eigenvalue of `A`. Doing the inverse power method on the shifted `A` would result in the largest eigenvalue, `lambda`, of `(A-rhoI)^(-1)`. Then `1/lambda` would be the largest eigenvalue of `A-rhoI`.</p>
           <div class="box">
