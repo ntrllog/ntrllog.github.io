@@ -35,14 +35,6 @@ nav, .jumbotron {
   justify-content: space-evenly;
 }
 
-#self {
-  -webkit-transform:rotate(270deg);
-  -moz-transform: rotate(270deg);
-  -ms-transform: rotate(270deg);
-  -o-transform: rotate(270deg);
-  transform: rotate(270deg);
-}
-
 .flex-center {
   height: 100%;
   display: flex;
