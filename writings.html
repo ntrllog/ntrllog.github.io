@@ -37,6 +37,7 @@
         <div class="col-sm-3">
           <h6>Computer Science</h6>
           <ul>
+            <li><a href="#the_answer's_not_in_the_code">The Answer's Not in the Code</a></li>
             <li><a href="#software_developers_empathy">Why Software Developers Need to Learn Empathy (as well as Coding)</a></li>
             <li><a href="#learning_cs_beginner">Learning CS (A Few Words from Beginners)</a></li>
             <li><a href="#matlab_first_language">MATLAB as a First Programming Language</a></li>
@@ -121,6 +122,26 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="the_answer's_not_in_the_code">.</p>
+          <div class="post">
+            <h4 class="title">The Answer's Not in the Code</h4>
+            <h6 class="date">September 8, 2019</h6>
+            <p>As a programmer, I don't really think about user interfaces a lot. Heck, we navigate through our computers by typing cryptic commands into a simple black window with no buttons. Our only goal is to get the program working. Making it look nice is some graphic designer's job. Even though programmers can get by without knowing a single thing about graphic design, it's still worthwhile to know a thing or two about user interfaces.</p>
+            <div class="collapse" id="collapseNotInTheCode">
+              <p>I recently redesigned one of my past Android apps that played audio.</p>
+              <img class="img-fluid" src="">
+              <p>It used a ListView as the root layout and utilized a custom ArrayAdapter to populate the list. (I know, I know. RecyclerViews are much better. I didn't know at the time.) It doesn't look like an audio player, but I actually put an OnClickListener on each list item itself.</p>
+              <p>I wanted to redesign the app,  not because the UI was bad, but because I wanted a button that would show the lyrics to a particular song. And I wanted play/stop functionality within the app. Again, I'm not a graphic designer, so my thought was just to keep the same ListView implementation, but just add 2 buttons to each list item. Not too hard right?</p>
+              <img class="img-fluid" src=""> 
+              <p>Yeah it wasn't too hard at all. But the bugs that came with it were headache inducing. If I pushed the play button, the button would change to the stop icon, which was fine. But when I scrolled up and down, random buttons would change icons randomly. Buttons that had a play icon before going off the screen would have a stop icon when coming back onto the screen. And buttons that had a stop icon before would have a play icon when coming back.</p>
+              <p>This was because I was setting each button's icon in the ArrayAdapter's getView() method, which seemed like the only logical place to do so. The problem is that the View and position that are passed into the getView() method are relative to what's on the screen. Meaning that if the song that is currently playing is at position=1, then when I scroll up or down, it won't be at position=1 anymore. However, my code is programmed to have the stop button on the View at position=1, because the song that is currently playing used to be at position=1. So when I scroll up or down, whichever song ends up being at position=1 will have the stop button instead.</p>
+              <p>I could've kept track of each button's state in some custom class or database or whatever and used that to update the buttons. But I thought about what the students were doing in an iOS App Production class. They were creating different user interfaces for a rock-paper-scissors game. So that inspired me to try a different user interface instead.</p>
+              <img class="img-fluid" src=""> 
+              <p>The result was nice on several levels. Not only did I completely avoid that bug, but I also had a slightly better user interface. Namely, bigger buttons. And only 2 buttons, so no tapping the wrong play button.</p>
+              <p>When there's a bug, sometimes the answer isn't just adding more code to patch up the holes. Sometimes, the answer lies in the design.</p>
+            </div>
+            <a class="btn toggle-text" data-toggle="collapse" href="#collapseNotInTheCode"><span>Read more</span><span class="hidden">Read less</span></a>
+          </div>
           <p id="software_developers_empathy">.</p>
           <div class="post">
             <h4 class="title">Why Software Developers Need to Learn Empathy (as well as Coding)</h4>
