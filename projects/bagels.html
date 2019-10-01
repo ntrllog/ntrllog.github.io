@@ -146,6 +146,16 @@
       }
       */
       document.getElementById("1").autofocus = true;
+
+      /* add keypress listeners to each input */
+      for (var i = 1; i < 11; i++) {
+        document.getElementById(""+i).addEventListener("keypress", function (evt) {
+          /* only allow numbers and backspace to be pressed */
+          if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
+            evt.preventDefault();
+          }
+        });
+      }
     </script>
   </body>
  </html>
