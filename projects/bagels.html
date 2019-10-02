@@ -49,7 +49,7 @@
       }
     </style>
   </head>
-  <body>
+  <body onload="brython()">
     <div class="container">
       <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
       <h1>Bagels</h1>
@@ -149,6 +149,8 @@
         <input type="number">
       </div>
     </div>
+
+    <!-- JavaScript -->
     <script>
       /* change difficulty
       var length = document.getElementById("difficultyInput").value;
@@ -170,5 +172,11 @@
         });
       }
     </script>
+
+    <!-- Brython -->
+    <script type="text/python">
+    </script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.7.5/brython.min.js"></script>
   </body>
  </html>
