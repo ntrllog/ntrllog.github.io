@@ -43,6 +43,10 @@
         -webkit-appearance: none;
         margin: 0;
       }
+
+      .notes-area {
+        margin-bottom: 50px;
+      }
     </style>
   </head>
   <body>
@@ -136,6 +140,14 @@
           </table>
         </div>
       </div>
+      <h3>Notes</h3>
+      <p>Use this area to make notes about possible values for what each digit could be.</p>
+      <div class="notes-area">
+        <input type="number">
+        <input type="number">
+        <input type="number">
+        <input type="number">
+      </div>
     </div>
     <script>
       /* change difficulty
@@ -145,6 +157,7 @@
         inputs[index].maxLength = length;
       }
       */
+
       document.getElementById("1").autofocus = true;
 
       /* add keypress listeners to each input */
