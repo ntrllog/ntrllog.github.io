@@ -81,8 +81,8 @@
             <a class="btn" data-toggle="collapse" href="#permutationproof">Proof</a>
           </div>
           <div class="box">
-            <p>Intuitively, there are `n+1` choices for the first digit, `n` choices for the second digit, `n-1` choices for the third digit, ..., all the way down to `1` choice for the last digit</p>
-            <p>So there are `(n+1)*n*(n-1)*...*1` ways to order the elements</p>
+            <p>Intuitively, there are `n` choices for the first digit, `n-1` choices for the second digit, `n-2` choices for the third digit, ..., all the way down to `1` choice for the last digit</p>
+            <p>So there are `n*(n-1)*(n-2)*...*1 = n!` ways to order the elements</p>
           </div>
           <p>Which means you had to go through `4! = 24` orderings before getting the right password.</p>
           <h2 id="combinations">Combinations</h2>
