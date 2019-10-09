@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+    -->
+    <title>Alan Lam | Combinatorics</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
+    <link href="styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="dropdown">
+      <button onclick="showMenu()" class="dropbtn">ToC</button>
+      <div class="dropdown-content" id="dropDownMenu">
+        <a class="dropdown-item" href="#permutations">Permutations</a>
+        <a class="dropdown-item" href="#combinations">Combinations</a>
+        <a class="dropdown-item" href="#words">Words</a>
+        <a class="dropdown-item" href="#choiceproblems">Choice Problems</a>
+        <a class="dropdown-item" href="#multisets">Multisets</a>
+        <a class="dropdown-item" href="#poker">Counting Poker Hands</a>
+        <a class="dropdown-item" href="#compositions">Compositions</a>
+        <a class="dropdown-item" href="#setpartitions">Set Partitions</a>
+      </div>
+    </div>
+    <div class="container line-height">
+      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+      <div class="row">
+        <div class="col-12">
+          <h1>Combinatorics</h1>
+          <hr>
+          <p>Shortcut to this page: <a href="nonlinear.html">aln.netlify.com/comb</a></p>
+          <h2 id="permutations">Permutations</h2>
+          <p>Let's suppose you're trying to break into someone's phone. You know the password is 4 digits and you know what the 4 digits are, but you don't know the order of the digits. What do you do?</p>
+          <p>You would probably try every single possible order of digits until you find the right one. Let's say the digits are `1`,`2`,`3`,`4`. Well, some of the possible orders are:</p>
+          <div class="math">
+            <p>`1`,`2`,`3`,`4`</p>
+            <p>`2`,`3`,`1`,`4`</p>
+            <p>`4`,`1`,`3`,`2`</p>
+            <p>`2`,`4`,`1`,`3`</p>
+            <p>`3`,`2`,`4`,`1`</p>
+          </div>
+          <p>All the possible orders are called permutations. <strong>Given a set `S` of objects, a permutation of `S` is a way to put all elements of `S` in order</strong>.</p>
+          <div class="box">
+            <p>For `S = {1,2,3}`, all the permutations are:</p>
+            <div class="math">
+              <p>`1,2,3`</p>
+              <p>`1,3,2`</p>
+              <p>`2,1,3`</p>
+              <p>`2,3,1`</p>
+              <p>`3,1,2`</p>
+              <p>`3,2,1`</p>
+            </div>
+          </div>
+          <p>Suppose you're lucky and you do end up getting the right order for the password. Suppose you're unlucky and it happens to be the very last possible order left to try. How many orderings did you have to go through?</p>
+          <div class="box">
+            <p>`n! = n*(n-1)*(n-2)*...*3*2*1`</p>
+            <p>`5! = 5*4*3*2*1`</p>
+          </div>
+          <div class="box">
+            <p>If `S` has `n gt 0` elements, then there are `n!` permutations of the elements in `S`</p>
+            <div class="collapse" id="permutationproof">
+              <p>For a set of size `1`, there's only `1` way to order all the elements. `1 = 1!` so the statement holds for the base case</p>
+              <p>Suppose the statement is true for a set of size `n`</p>
+              <p>Let `S` be a set of size `n+1`</p>
+              <p>We could pick any random element of `S` and put that in the first spot</p>
+              <p>Now, `S` has `n` elements</p>
+              <p>Since the statement is true for a set of size `n`, there are `n!` ways to order the remaining elements in `S`</p>
+              <p>There were `n+1` choices for the random element in the first spot</p>
+              <p>So the total number of ways to order the elements is `(n+1)*n! = (n+1)!`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#permutationproof">Proof</a>
+          </div>
+          <div class="box">
+            <p>Intuitively, there are `n+1` choices for the first digit, `n` choices for the second digit, `n-1` choices for the third digit, ..., all the way down to `1` choice for the last digit</p>
+            <p>So there are `(n+1)*n*(n-1)*...*1` ways to order the elements</p>
+          </div>
+          <p>Which means you had to go through `4! = 24` orderings before getting the right password.</p>
+          <h2 id="combinations">Combinations</h2>
+          <h2 id="words">Words</h2>
+          <h2 id="choiceproblems">Choice Problems</h2>
+          <h2 id="multisets">Multisets</h2>
+          <h2 id="poker">Poker</h2>
+          <h2 id="compositions">Compositions</h2>
+          <h2 id="setpartitions">Set Partitions</h2>
+        </div> <!-- col -->
+      </div> <!-- row -->
+    </div> <!-- container -->
+    <script>
+      function showMenu() {
+        document.getElementById("dropDownMenu").classList.toggle("show");
+      }
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
