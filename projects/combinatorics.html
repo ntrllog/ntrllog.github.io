@@ -67,7 +67,7 @@
             <p>`5! = 5*4*3*2*1`</p>
           </div>
           <div class="box">
-            <p>If `S` has `n gt 0` elements, then there are `n!` permutations of the elements in `S`</p>
+            <p>Theorem: If `S` has `n gt 0` elements, then there are `n!` permutations of the elements in `S`</p>
             <div class="collapse" id="permutationproof">
               <p>For a set of size `1`, there's only `1` way to order all the elements. `1 = 1!` so the statement holds for the base case</p>
               <p>Suppose the statement is true for a set of size `n`</p>
@@ -86,6 +86,42 @@
           </div>
           <p>Which means you had to go through `4! = 24` orderings before getting the right password.</p>
           <h2 id="combinations">Combinations</h2>
+          <p>For phone passwords, the order in which you type the digits matter. But what if the order didn't matter? How many ways would there be to order elements now?</p>
+          <p>Let's suppose you're arranging flowers. You have `2` red flowers and `1` yellow flower. How many ways can we arrange them? Previously, we saw that if we have `n` elements, there are `n!` ways to arrange them. Here, we have `3` elements, so there are `3! = 6` ways to arrange them. All the possible orderings are:</p>
+          <div class="math">
+            <p>`R RY`</p>
+            <p>`R RY`</p>
+            <p>`YR R`</p>
+            <p>`YR R`</p>
+            <p>`RYR`</p>
+            <p>`RYR`</p>
+          </div>
+          <p>But some of the orderings are repeated. This is because the `2` red flowers are technically different flowers, but the order in which they appear doesn't matter; the result is the same. So we have to divide out the commonalities. In this case, since there are `2` red flowers and, therefore, `2!` ways to order them, we divide the total number of ways to arrange all the elements by `2!`.</p>
+          <div class="math">
+            <p>`(3!)/(2!) = 3`</p>
+            <p>`R RY`</p>
+            <p>`YR R`</p>
+            <p>`RYR`</p>
+          </div>
+          <div class="box">
+            <p>If we have `10` red flowers and `5` yellow flowers, then the total number of ways to arrange them is</p>
+            <div class="math">
+              <p>`(15!)/(10!5!)`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>If we have `r` red flowers, `y` yellow flowers, and `b` blue flowers, then the total number of ways to arrange them is</p>
+            <div class="math">
+              <p>`((r+y+b)!)/(r!y!b!)`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Theorem: Say we have `n` objects which have one of `k` different types. Objects of the same type are considered identical. Label the types with numbers `1,2,...,k` and let `a_i` be the number of objects of type `i`. Then the number of ways to arrange the `n` objects is `(n!)/(a_1!a_2!...a_k!)`</p>
+          </div>
+          <div class="box">
+            <p><strong>The multinomial coefficient is `((n),((a_1,a_2,...,a_k))) = (n!)/(a_1!a_2!...a_k!)`</strong></p>
+            <p><strong>The binomial coefficient is the multinomial coefficient for `k=2`, which is `((n),((a_1,a_2)))`</strong>. It's often denoted by `((n),(a_1))` instead because we know `a_2 = n - a_1`</p>
+          </div>
           <h2 id="words">Words</h2>
           <h2 id="choiceproblems">Choice Problems</h2>
           <h2 id="multisets">Multisets</h2>
