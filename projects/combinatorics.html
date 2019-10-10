@@ -79,8 +79,6 @@
               <p>So the total number of ways to order the elements is `(n+1)*n! = (n+1)!`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#permutationproof">Proof</a>
-          </div>
-          <div class="box">
             <p>Intuitively, there are `n` choices for the first digit, `n-1` choices for the second digit, `n-2` choices for the third digit, ..., all the way down to `1` choice for the last digit</p>
             <p>So there are `n*(n-1)*(n-2)*...*1 = n!` ways to order the elements</p>
           </div>
@@ -123,6 +121,79 @@
             <p><strong>The binomial coefficient is the multinomial coefficient for `k=2`, which is `((n),((a_1,a_2)))`</strong>. It's often denoted by `((n),(a_1))` instead because we know `a_2 = n - a_1`</p>
           </div>
           <h2 id="words">Words</h2>
+          <p>Sometimes, it's easier to count things by using some sort of encoding.</p>
+          <p><strong>A word is a finite ordered sequence whose entries are drawn from some set `A`, called the alphabet. The length of a word is the number of entries it has</strong>. Entries may be repeated. An empty sequence `O/` is a word of length `0`</p>
+          <div class="box">
+            <p>The alphabet is `A = {a,b}`</p>
+            <p>The words of length `le 2` are:</p>
+            <div class="math">
+              <p>`O/`</p>
+              <p>`a`</p>
+              <p>`b`</p>
+              <p>`aa`</p>
+              <p>`ab`</p>
+              <p>`ba`</p>
+              <p>`bb`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Theorem: If `|A| = n`, then the number of words of length `k` is `n^k`</p>
+            <p>Since there are `n` choices for each spot and there are `k` spots, there are `ubrace(n*n*...*n)_k = n^k` words of length `k`</p>
+          </div>
+          <div class="box">
+            <p>`[n] = {1,2,...,n}`</p>
+          </div>
+          <div class="box">
+            <p>The number of subsets of `[n]` is `2^n`</p>
+            <div class="collapse" id="subsetwordproof">
+              <p>Let `S sube [n]`</p>
+              <p>Define a word `w_s` of length `n` in the alphabet `{0,1}` as follows:</p>
+              <p>Let `i in [n]`</p>
+              <p>If `i in S`, then the `i^(th)` entry of `w_s = 1`</p>
+              <p>If `i notin S`, then the `i^(th)` entry of `w_s = 0`</p>
+              <p>We have a function `f:{text(subset ) S text( of ) [n]} rarr {text(word of length ) n text( in alphabet ) {0,1}}`</p>
+              <p>We can define another function `g:{text(words of length ) n text( in ) {0,1}} rarr {text(subset of ) [n]}` to be the inverse of `f`</p>
+              <p>This means `f` is bijective</p>
+              <p>So `|{text(subsets of )[n]}| = |{text(words of length )n text( in ) {0,1}}| = 2^n`</p>
+              <div class="box">
+                <p>If `n = 5` and `S = {1,3,4}`, then the word associated with `S` is `10110`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#subsetwordproof">Proof</a>
+            <p>The general idea is that any element is either in `S` or not in `S`</p>
+          </div>
+          <div class="box">
+            <p>How many pairs of subsets `S,T sube [n]` satisfy `S sube T`?</p>
+            <p>A similar idea applies here: any element is</p>
+            <ol>
+              <li>in `S` and in `T`</li>
+              <li>not in `S` but in `T`</li>
+              <li>not in `S` and not in `T`</li>
+            </ol>
+            <p>There are `3` choices for each of the `n` elements, so there are `3^n` total possibilities</p>
+            <p>We could define a function `f:{text(pairs of subsets ) S,T sube [n] s.t. S sube T} rarr {text(words of length ) n text( in ) {text(in ) S, text( not in ) S text( but in ) T, text( not in ) S text( and not in ) T}}`</p>
+          </div>
+          <div class="box">
+            <p>For `n ge k` where `n` is a nonnegative integer, the <strong>falling factorial is `(n)_k = n*(n-1)*(n-2)*...*(n-k+1)`</strong></p>
+            <p>`(6)_3 = 6*5*4`</p>
+            <p>`(6)_6 = 6*5*4*3*2*1`</p>
+          </div>
+          <div class="box">
+            <p>Theorem: If `|A| = n ge k`, then there are `(n)_k` words of length `k` in `A` that do not have repeating entries</p>
+            <div class="collapse" id="repeatingentriesproof">
+              <p>Let `sigma = a_1a_2...a_ka_(k+1)...a_n` be a permutation of `A`</p>
+              <p>The first `k` entries make up a word with no repeating entries</p>
+              <p>Since there are `n!` permutations, we have `n!` words with no repeating entries</p>
+              <p>But there are repeated words since the last `(n-k)` entries can be ordered in any way</p>
+              <p>So there are `(n!)/((n-k)!) = (n*(n-1)*...*(n-k+1)*(n-k)!)/((n-k)!) = (n)_k` words with no repeating entries</p>
+              <p>For example, let `A = {1,2,3,4,5}` and `k=3`</p>
+              <p>Let `sigma = 31254`</p>
+              <p>The first `k` entries are `312`, which is a word of length `k` with no repeating entries</p>
+              <p>So that is contained in `31254`</p>
+              <p>But that same word is also contained in `31245`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#repeatingentriesproof">Proof</a>
+          </div>
           <h2 id="choiceproblems">Choice Problems</h2>
           <h2 id="multisets">Multisets</h2>
           <h2 id="poker">Poker</h2>
