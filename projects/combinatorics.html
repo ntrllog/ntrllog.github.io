@@ -193,8 +193,40 @@
               <p>But that same word is also contained in `31245`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#repeatingentriesproof">Proof</a>
+            <p>Intuitively, there are `n` choices for the first digit, `n-1` choices for the second digit, ..., `n-k+1` choices for the `k^(th)` digit</p>
           </div>
           <h2 id="choiceproblems">Choice Problems</h2>
+          <p>Sometimes, counting problems are solved by looking at the number of ways to choose things. In the flower example, we can look at it as, "how many ways are there to choose `r` red flowers and `y` yellow flowers?"</p>
+          <p>We saw earlier that the number of subsets of a set of size `n` is `2^n`. We could look at how many of those subsets are of size `k`.</p>
+          <div class="box">
+            <p>Theorem: The number of `k`-element subsets of `[n]` is `((n),(k)) = (n!)/(k!(n-k)!)`</p>
+            <div class="collapse" id="kelementsubsets">
+              <p>We can associate subsets of `[n]` with words of length `n` in `{0,1}`</p>
+              <p>The number of `k`-element subsets of `[n]` is the number of words of length `n` in `{0,1}` that have exactly `k` `1`'s</p>
+              <p>For such words, there are `k` ways to arrange the `1`'s and `n-k` ways to arrange the `0`'s</p>
+              <p>Which gives us `(n!)/(k!(n-k)!) = ((n),(k))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#kelementsubsets">Proof</a>
+          </div>
+          <div class="box">
+            <p>Corollary: `sum_(k=0)^n ((n),(k)) = 2^n`</p>
+            <div class="collapse" id="sumofsubsets">
+              <p>`sum_(k=0)^n ((n),(k))` is the number of ways to choose subsets of size `0`, `1`, `2`, ..., `n`</p>
+              <p>Well, that should make up all the possible subsets</p>
+              <p>Before, we showed that the total number of subsets is `2^n`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#sumofsubsets">Proof</a>
+          </div>
+          <div class="box">
+            <p>Pascal's Identity: For any `k ge 0`, `((n),(k-1)) + ((n),(k)) = ((n+1),(k))`</p>
+            <div class="collapse" id="pascalsidentity">
+              <p>`((n+1),(k))` is the number of `k`-element subsets of `[n+1]`</p>
+              <p>We could split those subsets up into two categories: subsets of size `k` that contain `n+1` and subsets of size `k` that don't contain `n+1`</p>
+              <p>The subsets of size `k` that don't contain `n+1` are actually the subsets of size `k` of `[n]`, so that gives us `((n),(k))`</p>
+              <p>If we look at the subsets of size `k` that do contain `n+1` and remove `n+1` from each subset, we end up with the number of subsets of size `k-1` of `[n]`, which gives us `((n),(k-1))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#pascalsidentity">Proof</a>
+          </div>
           <h2 id="multisets">Multisets</h2>
           <h2 id="poker">Poker</h2>
           <h2 id="compositions">Compositions</h2>
