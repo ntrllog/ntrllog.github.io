@@ -222,8 +222,17 @@
             <div class="collapse" id="pascalsidentity">
               <p>`((n+1),(k))` is the number of `k`-element subsets of `[n+1]`</p>
               <p>We could split those subsets up into two categories: subsets of size `k` that contain `n+1` and subsets of size `k` that don't contain `n+1`</p>
+              <div class="math">
+                <img class="img-fluid" src="../pictures/combinatorics/pascal_1.jpg">
+              </div>
               <p>The subsets of size `k` that don't contain `n+1` are actually the subsets of size `k` of `[n]`, so that gives us `((n),(k))`</p>
+              <div class="math">
+                <img class="img-fluid" src="../pictures/combinatorics/pascal_2.jpg">
+              </div>
               <p>If we look at the subsets of size `k` that do contain `n+1` and remove `n+1` from each subset, we end up with the number of subsets of size `k-1` of `[n]`, which gives us `((n),(k-1))`</p>
+              <div class="math">
+                <img class="img-fluid" src="../pictures/combinatorics/pascal_3.jpg">
+              </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#pascalsidentity">Proof</a>
           </div>
