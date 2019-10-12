@@ -40,16 +40,9 @@
           <hr>
           <p>Shortcut to this page: <a href="nonlinear.html">aln.netlify.com/comb</a></p>
           <h2 id="permutations">Permutations</h2>
-          <p>Let's suppose you're trying to break into someone's phone. You know the password is 4 digits and you know what the 4 digits are, but you don't know the order of the digits. What do you do?</p>
-          <p>You would probably try every single possible order of digits until you find the right one. Let's say the digits are `1`,`2`,`3`,`4`. Well, some of the possible orders are:</p>
-          <div class="math">
-            <p>`1`,`2`,`3`,`4`</p>
-            <p>`2`,`3`,`1`,`4`</p>
-            <p>`4`,`1`,`3`,`2`</p>
-            <p>`2`,`4`,`1`,`3`</p>
-            <p>`3`,`2`,`4`,`1`</p>
+          <div class="box">
+            <p>Given a set `S` of objects, a <b>permutation</b> of `S` is a way to put all elements of `S` in order</p>
           </div>
-          <p>All the possible orders are called permutations. <strong>Given a set `S` of objects, a permutation of `S` is a way to put all elements of `S` in order</strong>.</p>
           <div class="box">
             <p>For `S = {1,2,3}`, all the permutations are:</p>
             <div class="math">
@@ -60,11 +53,6 @@
               <p>`3,1,2`</p>
               <p>`3,2,1`</p>
             </div>
-          </div>
-          <p>Suppose you're lucky and you do end up getting the right order for the password. Suppose you're unlucky and it happens to be the very last possible order left to try. How many orderings did you have to go through?</p>
-          <div class="box">
-            <p>`n! = n*(n-1)*(n-2)*...*3*2*1`</p>
-            <p>`5! = 5*4*3*2*1`</p>
           </div>
           <div class="box">
             <p>Theorem: If `S` has `n gt 0` elements, then there are `n!` permutations of the elements in `S`</p>
@@ -82,9 +70,7 @@
             <p>Intuitively, there are `n` choices for the first digit, `n-1` choices for the second digit, `n-2` choices for the third digit, ..., all the way down to `1` choice for the last digit</p>
             <p>So there are `n*(n-1)*(n-2)*...*1 = n!` ways to order the elements</p>
           </div>
-          <p>Which means you had to go through `4! = 24` orderings before getting the right password.</p>
           <h2 id="combinations">Combinations</h2>
-          <p>For phone passwords, the order in which you type the digits matter. But what if the order didn't matter? How many ways would there be to order elements now?</p>
           <p>Let's suppose you're arranging flowers. You have `2` red flowers and `1` yellow flower. How many ways can we arrange them? Previously, we saw that if we have `n` elements, there are `n!` ways to arrange them. Here, we have `3` elements, so there are `3! = 6` ways to arrange them. All the possible orderings are:</p>
           <div class="math">
             <p>`R RY`</p>
@@ -122,7 +108,9 @@
           </div>
           <h2 id="words">Words</h2>
           <p>Sometimes, it's easier to count things by using some sort of encoding.</p>
-          <p><strong>A word is a finite ordered sequence whose entries are drawn from some set `A`, called the alphabet. The length of a word is the number of entries it has</strong>. Entries may be repeated. An empty sequence `O/` is a word of length `0`</p>
+          <div class="box">
+            <p>A <b>word</b> is a finite ordered sequence whose entries are drawn from some set `A`, called the alphabet. The <b>length</b> of a word is the number of entries it has. Entries may be repeated. An empty sequence `O/` is a word of length `0`</p>
+          </div>
           <div class="box">
             <p>The alphabet is `A = {a,b}`</p>
             <p>The words of length `le 2` are:</p>
@@ -196,7 +184,6 @@
             <p>Intuitively, there are `n` choices for the first digit, `n-1` choices for the second digit, ..., `n-k+1` choices for the `k^(th)` digit</p>
           </div>
           <h2 id="choiceproblems">Choice Problems</h2>
-          <p>Sometimes, counting problems are solved by looking at the number of ways to choose things. In the flower example, we can look at it as, "how many ways are there to choose `r` red flowers and `y` yellow flowers?"</p>
           <p>We saw earlier that the number of subsets of a set of size `n` is `2^n`. We could look at how many of those subsets are of size `k`.</p>
           <div class="box">
             <p>Theorem: The number of `k`-element subsets of `[n]` is `((n),(k)) = (n!)/(k!(n-k)!)`</p>
