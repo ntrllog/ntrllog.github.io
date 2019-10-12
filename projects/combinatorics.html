@@ -26,8 +26,8 @@
         <a class="dropdown-item" href="#combinations">Combinations</a>
         <a class="dropdown-item" href="#words">Words</a>
         <a class="dropdown-item" href="#choiceproblems">Choice Problems</a>
-        <a class="dropdown-item" href="#multisets">Multisets</a>
         <a class="dropdown-item" href="#poker">Counting Poker Hands</a>
+        <a class="dropdown-item" href="#multisets">Multisets</a>
         <a class="dropdown-item" href="#compositions">Compositions</a>
         <a class="dropdown-item" href="#setpartitions">Set Partitions</a>
       </div>
@@ -223,6 +223,37 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#pascalsidentity">Proof</a>
           </div>
+          <h2 id="poker">Counting Poker Hands</h2>
+          <div class="box">
+            <p>Four of a Kind: `4` of the `5` cards have the same value</p>
+            <p>There are `13` choices for the value that is the same</p>
+            <p>There are `48` choices for the `5^(th)` card</p>
+            <p>Total number of ways to get a four of a kind: `13*48`</p>
+          </div>
+          <div class="box">
+            <p>Full House: `3` cards have the same value and `2` cards have the same value</p>
+            <p>There are `13` choices for the value of the triple</p>
+            <p>There are `12` choices for the value of the pair</p>
+            <p>There are `((4),(3))` choices for the suits of the triple</p>
+            <p>There are `((4),(2))` choices for the suits of the pair</p>
+            <p>Total number of ways to get a full house: `13*12*((4),(3))*((4),(2))`</p>
+          </div>
+          <div class="box">
+            <p>Two Pair: `2` cards have the same value, `2` cards have the same value, `1` card has a different value</p>
+            <p>There are `((13),(2))` choices for the value of one pair</p>
+            <p>There are `((4),(2))` choices for suits of one pair</p>
+            <p>There are `((4),(2))` choices for suits of other pair</p>
+            <p>There are `44` choices for the leftover card</p>
+            <p>Total number of ways to get a two pair: `((13),(2))*((4),(2))*((4),(2))*44`</p>
+          </div>
+          <div class="box">
+            <p>Straight: `5` cards can be put in consecutive order by values</p>
+            <p>To pick values, we only need to know what the largest possible values are</p>
+            <p>The `5^(th)` card can be `5`, `6`, `7`, `8`, `9`, `10`, `J`, `Q`, `K`, or `A`</p>
+            <p>There are `10` choices for the `5^(th)` card</p>
+            <p>There are `4^5` choices for the suits of each card</p>
+            <p>Total number of ways to get a straight: `10*4^5`</p>
+          </div>
           <h2 id="multisets">Multisets</h2>
           <p>Multisets are like subsets except the elements can be repeated.</p>
           <div class="box">
@@ -288,38 +319,63 @@
             <p>`x_1^(a_1)x_2^(a_2)...x_n^(a_n)` is a multiset of `{x_1,x_2,...,x_n}` where `x_i` is chosen `a_i` times</p>
             <p>The total number of products `x_1^(a_1)*...*x_n^(a_n)` with `a_1 + ... + a_n = d` is the number of multisets of size `d` of a set of size `n`, which is `((n+d-1),(d))`</p>
           </div>
-          <h2 id="poker">Counting Poker Hands</h2>
-          <div class="box">
-            <p>Four of a Kind: `4` of the `5` cards have the same value</p>
-            <p>There are `13` choices for the value that is the same</p>
-            <p>There are `48` choices for the `5^(th)` card</p>
-            <p>Total number of ways to get a four of a kind: `13*48`</p>
-          </div>
-          <div class="box">
-            <p>Full House: `3` cards have the same value and `2` cards have the same value</p>
-            <p>There are `13` choices for the value of the triple</p>
-            <p>There are `12` choices for the value of the pair</p>
-            <p>There are `((4),(3))` choices for the suits of the triple</p>
-            <p>There are `((4),(2))` choices for the suits of the pair</p>
-            <p>Total number of ways to get a full house: `13*12*((4),(3))*((4),(2))`</p>
-          </div>
-          <div class="box">
-            <p>Two Pair: `2` cards have the same value, `2` cards have the same value, `1` card has a different value</p>
-            <p>There are `((13),(2))` choices for the value of one pair</p>
-            <p>There are `((4),(2))` choices for suits of one pair</p>
-            <p>There are `((4),(2))` choices for suits of other pair</p>
-            <p>There are `44` choices for the leftover card</p>
-            <p>Total number of ways to get a two pair: `((13),(2))*((4),(2))*((4),(2))*44`</p>
-          </div>
-          <div class="box">
-            <p>Straight: `5` cards can be put in consecutive order by values</p>
-            <p>To pick values, we only need to know what the largest possible values are</p>
-            <p>The `5^(th)` card can be `5`, `6`, `7`, `8`, `9`, `10`, `J`, `Q`, `K`, or `A`</p>
-            <p>There are `10` choices for the `5^(th)` card</p>
-            <p>There are `4^5` choices for the suits of each card</p>
-            <p>Total number of ways to get a straight: `10*4^5`</p>
-          </div>
           <h2 id="compositions">Compositions</h2>
+          <div class="box">
+            <p>A <b>weak composition</b> of `n` into `k` parts is a `k`-tuple `(a_1,a_2,...,a_k)` such that each `a_i ge 0` and `a_1 + a_2 + ... + a_k = n`</p>
+            <p>A <b>composition</b> is the same except each `a_i gt 0`</p>
+            <p>`k` is the number of parts</p>
+          </div>
+          <div class="box">
+            <p>A weak composition is like putting `n` identical balls into `k` distinct boxes</p>
+            <p>A composition is an assignment that is surjective, i.e. every box has at least `1` ball</p>
+          </div>
+          <div class="box">
+            <p>Theorem: The number of weak compositions of `n` into `k` parts is `((n+k-1),(n))`</p>
+            <div class="collapse" id="weakcomposition">
+              <p>There is a bijection between weak compositions of `n` into `k` parts and `n`-element multisets of `[k]`</p>
+              <p>Given a weak composition `(a_1,...,a_k)`, we get a multiset that has the `i^(th)` element `a_i` times</p>
+              <p>Since `a_1 + ... + a_k = n`, this is an `n`-element multiset of `[k]`</p>
+              <p>Given an `n`-element multiset of `[k]`, let `a_i` be the number of times that `i` appears in the multiset</p>
+              <p>Then we end up with a weak composition `(a_1,...,a_k)` of `n`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#weakcomposition">Proof</a>
+            <div class="box">
+              <p>`((n+k-1),(n)) = ((n+k-1),(n+k-1-n)) = ((n+k-1),(k-1))`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>How many ways are there to distribute `20` identical pieces of candy to `4` different children?</p>
+            <p>This can be seen as a weak composition of `20` into `4` parts</p>
+            <p>`((23),(20))`</p>
+          </div>
+          <div class="box">
+            <p>How many ways can we distribute all the candy so that no child is candyless?</p>
+            <p>First, we can give each child `1` piece of candy</p>
+            <p>Now, we have `16` pieces of candy leftover which can be distributed in any way</p>
+            <p>So this can be seen as a weak composition of `16` into `4` parts</p>
+            <p>`((19),(16))`</p>
+            <p>Since each child has at least `1` candy, this is also a composition of `20` into `4` parts</p>
+          </div>
+          <div class="box">
+            <p>Corollary: The number of compositions of `n` into `k` parts is `((n-1),(n-k))`</p>
+            <p>Generalizing the previous example, there is a bijection between compositions of `n` into `k` parts and weak compositions of `n-k` into `k` parts</p>
+            <div class="box">
+              <p>`(((n-k)+k-1),(n-k)) = ((n-1),(n-k)) = ((n-1),(n-1-(n-k))) = ((n-1),(k-1))`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Corollary: The number of compositions of `n` into any number of parts is `2^(n-1)`</p>
+            <div class="collapse" id="varyingcompositions">
+              <p>The possible number of parts for a composition of `n` ranges from `k = 1` to `k = n`</p>
+              <p>So the total number of compositions possible is</p>
+              <div class="math">
+                <p>`sum_(k=1)^n((n-1),(k-1))`</p>
+                <p>`= sum_(k=0)^(n-1)((n-1),(k))`</p>
+              </div>
+              <p>Well, that is the formula for the number of subsets of `[n-1]`, which is `2^(n-1)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#varyingcompositions">Proof</a>
+          </div>
           <h2 id="setpartitions">Set Partitions</h2>
         </div> <!-- col -->
       </div> <!-- row -->
