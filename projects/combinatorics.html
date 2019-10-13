@@ -377,6 +377,111 @@
             <a class="btn" data-toggle="collapse" href="#varyingcompositions">Proof</a>
           </div>
           <h2 id="setpartitions">Set Partitions</h2>
+          <div class="box">
+            <p>Let `X` be a set. A <b>partition</b> of `X` is an unordered collection of nonempty subsets `X_1,...,X_k` such that every element of `X` belongs to exactly one subset</p>
+            <p>An <b>ordered partition</b> of `X` is the same except each subset has an order</p>
+            <p>Each subset is a <b>block</b> of the partition</p>
+          </div>
+          <div class="box">
+            <p>A partition is like putting `n` distinct elements into `k` identical boxes</p>
+          </div>
+          <div class="box">
+            <p>There are `5` partitions of `X = {1,2,3}`:</p>
+            <div class="math">
+              <p>`k = 1:`</p>
+              <p>`{{1,2,3}}`</p>
+              <p>`k = 2:`</p>
+              <p>`{{1},{2,3}}`</p>
+              <p>`{{2},{1,3}}`</p>
+              <p>`{{3},{1,2}}`</p>
+              <p>`k = 3:`</p>
+              <p>`{{1},{2},{3}}`</p>
+            </div>
+            <p>For an unordered collection of subsets, `{{3},{1,2}}` and `{{1,2},{3}}` are the same</p>
+          </div>
+          <div class="box">
+            <p>How many ways are there to distribute `20` different pieces of candy to `4` identical children so that no child is candyless?</p>
+            <p>This can be seen as a partition of `[20]` into `4` blocks</p>
+          </div>
+          <div class="box">
+            <p>Let `S(n,k)` be the number of partitions of a set of size `n` into `k` blocks</p>
+            <p>These are called <b>Stirling numbers of the second kind</b></p>
+            <p>`S(0,0) = 1` and `S(n,k) = 0` if `k gt n`</p>
+          </div>
+          <div class="box">
+            <p>`S(n,1) = 1`</p>
+            <p>`n` pieces into `1` block: put all pieces into the block</p>
+            <p>`S(n,n) = 1`</p>
+            <p>`n` pieces into `n` blocks: put each piece in each block</p>
+            <p>`S(n,2) = 2^(n-1)-1`</p>
+            <p>`n` pieces into `2` blocks:</p>
+            <ul>
+              <li>can't have `O/` or the whole set `implies 2^n-2` pieces</li>
+              <li>the order of each block doesn't matter `implies` divide by `2`</li>
+              <li>`(2^n-2)/2 = 2^(n-1)-1`</li>
+            </ul>
+            <p>`S(n,n-1) = ((n),(2))`</p>
+            <p>`n` pieces into `n-1` blocks: one block must have `2` pieces, choose `2` elements to be in the same block</p>
+          </div>
+          <div class="box">
+            <p>Theorem: If `k le n`, then `S(n,k) = S(n-1,k-1) + k*S(n-1,k)`</p>
+            <div class="collapse" id="stirlingrecursive">
+              <p>Consider two kinds of partitions of `[n]`</p>
+              <p>The first kind is partitions where `n` is in its own block</p>
+              <div class="math">
+                <img class="img-fluid" src="../pictures/combinatorics/stirling_1.jpg">
+              </div>
+              <p>Removing that block, we end up with a partition of `n-1` into `k-1` blocks, which is `S(n-1,k-1)`</p>
+              <p>The second kind of partition is the partitions where `n` is not in its own block</p>
+              <div class="math">
+                <img class="img-fluid" src="../pictures/combinatorics/stirling_2.jpg">
+              </div>
+              <p>Removing `n` from each partition, we end up with a partition of `n-1` into `k` blocks</p>
+              <p>But by doing so, we can't reconstruct the original situation because we don't know which block it came from</p>
+              <p>There are `k` blocks we could put `n` in `implies k` different ways to reconstruct the original situation</p>
+              <p>So the number of partitions is `k*S(n-1,k)`</p>
+              <p>Adding up both types of partitions gives us all the partitions of `[n]`</p>
+              <div class="math">
+                <img class="img-fluid" src="../pictures/combinatorics/stirling_3.jpg">
+              </div>
+              <p></p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#stirlingrecursive">Proof</a>
+          </div>
+          <div class="box">
+            <p>From before, `S(n,2) = 2^(n-1)-1`</p>
+            <p>`S(n,2) = S(n-1,1) + 2*S(n-1,2)`</p>
+            <p>`= 1 + 2*S(n-1,2)`</p>
+            <p>`= 1 + 2*(2^(n-2)-1)`</p>
+            <p>`= 1 + 2^(n-1)-2`</p>
+            <p>`= 2^(n-1)-1`</p>
+          </div>
+          <div class="box">
+            <p>The <b>Bell numbers</b> are the number of partitions of `[n]` into any number of blocks</p>
+            <p>`B(n) = sum_(k=0)^nS(n,k)`</p>
+            <p>`B(0) = 1`</p>
+          </div>
+          <div class="box">
+            <p>Theorem: `B(n+1) = sum_(i=0)^n ((n),(i)) B(i)`</p>
+            <div class="collapse" id="bellnumbers">
+              <p>Separate all the partitions of `[n+1]` based on the number of elements in the block that contains `n+1`</p>
+              <p>Consider those partitions where the block containing `n+1` is of size `j`</p>
+              <p>For the block containing `n+1`, there are `n` numbers to choose from and `j-1` spots, so there are `((n),(j-1))` ways to generate such a block</p>
+              <p>Now, there are `n+1-j` elements remaining</p>
+              <p>For the other blocks not containing `n+1`, they can be generated by looking at the number of partitions of `[n+j-1]`, i.e. `B(n+j-1)`</p>
+              <p>So the number of partitions where the block containing `n+1` is of size `j` is `((n),(j-1)) B(n+1-j)`</p>
+              <p>The possible sizes of blocks containing `n+1` range from `1` to `n+1`</p>
+              <div class="math">
+                <p>`sum_(j=1)^(n+1) ((n),(j-1)) B(n+1-j)`</p>
+                <p>set `i = j-1`</p>
+                <p>`sum_(i=0)^n ((n),(i)) B(n-i)`</p>
+                <p>set `k = n-i`</p>
+                <p>`sum_(k=0)^n ((n),(n-k)) B(k)`</p>
+                <p>`sum_(k=0)^n ((n),(k)) B(k)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#bellnumbers">Proof</a>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
