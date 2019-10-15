@@ -30,6 +30,7 @@
         <a class="dropdown-item" href="#multisets">Multisets</a>
         <a class="dropdown-item" href="#compositions">Compositions</a>
         <a class="dropdown-item" href="#setpartitions">Set Partitions</a>
+        <a class="dropdown-item" href="#integerpartitions">Integer Partitions</a>
       </div>
     </div>
     <div class="container line-height">
@@ -387,7 +388,7 @@
             <p>Each subset is a <b>block</b> of the partition</p>
           </div>
           <div class="box">
-            <p>A set partition is like putting `n` distinct elements into `k` identical boxes</p>
+            <p>A set partition is like putting `n` distinct balls into `k` identical boxes</p>
           </div>
           <div class="box">
             <p>There are `5` partitions of `X = {1,2,3}`:</p>
@@ -485,6 +486,61 @@
               </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#bellnumbers">Proof</a>
+          </div>
+          <h2 id="integerpartitions">Integer Partitions</h2>
+          <div class="box">
+            <p>A <b>partition</b> of `n` is a sequence of nonnegative integers `lambda_1 ge lambda_2 ge ... ge lambda_k ge 0` such that `lambda_1 + lambda_2 + ... + lambda_k = n`</p>
+            <p>`lambda = (lambda_1, lambda_2, ..., lambda_k)` is a partition</p>
+            <p>`|lambda| = lambda_1 + lambda_2 + ... + lambda_k`</p>
+            <p>`l(lambda) = ` number of positive `lambda_i`</p>
+          </div>
+          <div class="box">
+            <p>An integer partition is like putting `n` identical balls into `k` identical boxes</p>
+          </div>
+          <div class="box">
+            <p>`p(n) = ` number of partitions of `n`</p>
+            <p>`p_k(n) = ` number of partitions of `n` such that `l(lambda) = k` (has `k` parts)</p>
+          </div>
+          <div class="box">
+            <p>`p(5) = 7`</p>
+            <div class="math">
+              <p>`(5)`</p>
+              <p>`(4,1)`</p>
+              <p>`(3,2)`</p>
+              <p>`(3,1,1)`</p>
+              <p>`(2,2,1)`</p>
+              <p>`(2,1,1,1)`</p>
+              <p>`(1,1,1,1,1)`</p>
+            </div>
+          </div>
+          <p>Partitions can be represented using <b>Young diagrams</b>. The `i^(th)` row has `lambda_i` boxes.</p>
+          <div class="box">
+            <p>`lambda = (4,2,1)`</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/combinatorics/young_421.png">
+            </div>
+          </div>
+          <div class="box">
+            <p>The <b>transpose</b> (or <b>conjugate</b>) of a partition `lambda` is the partition `lambda^T` whose Young diagram is `Y(lambda)` flipped across the main diagonal</p>
+            <p>`(lambda^T)^T = lambda`</p>
+            <p>`lambda_i^T = {j|lambda_j ge i}`</p>
+          </div>
+          <div class="box">
+            <p>`lambda^T = (3,2,1,1)`</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/combinatorics/young_3211.png">
+            </div>
+          </div>
+          <div class="box">
+            <p>`lambda` is <b>self-conjugate</b> if `lambda = lambda^T`</p>
+          </div>
+          <div class="box">
+            <p>Some self-conjugate partitions are `(4,3,2,1)`, `(5,1,1,1,1)`, `(4,2,1,1)`</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/combinatorics/young_4321.png">
+              <img class="img-fluid" src="../pictures/combinatorics/young_51111.png">
+              <img class="img-fluid" src="../pictures/combinatorics/young_4211.png">
+            </div>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
