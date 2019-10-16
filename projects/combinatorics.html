@@ -40,6 +40,24 @@
           <h1>Combinatorics</h1>
           <hr>
           <p>Shortcut to this page: <a href="nonlinear.html">aln.netlify.com/comb</a></p>
+          <div class="box">
+            <p>Theorem: There are `2^n` subsets of a set of size `n`</p>
+            <div class="collapse" id="subsetinduction">
+              <p>For a set with `0` elements, the only subset is `O/`, which is consistent with `2^0 = 1` so the statement holds for the base case</p>
+              <p>Suppose the statement is true for a set of size `n`</p>
+              <p>Let `S` be a set of size `n+1`</p>
+              <p>Fix any `x in S` and consider `S' = S\\{x}`</p>
+              <p>Since `S'` has `n` elements, there are `2^n` subsets</p>
+              <p>Every subset of `S` either contains `x` or it doesn't contain `x`</p>
+              <p>The subsets that don't contain `x` are in `S'`, which has `2^n` subsets</p>
+              <p>So there are `2^n` subsets that don't contain `x`</p>
+              <p>The subsets that do contain `x` can be obtained by adding `x` to each subset that doesn't contain `x`</p>
+              <p>So there are `2^n` subsets that do contain `x`</p>
+              <p>The total number of subsets of `S` is the number of subsets containing `x` plus the number of the subsets not containing `x`</p>
+              <p>So the total number of subsets of `S` is `2^n + 2^n = 2^(n+1)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#subsetinduction">Proof</a>
+          </div>
           <h2 id="permutations">Permutations</h2>
           <div class="box">
             <p>Given a set `S` of objects, a <b>permutation</b> of `S` is a way to put all elements of `S` in order</p>
