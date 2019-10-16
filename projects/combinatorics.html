@@ -148,6 +148,26 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#productprime">Proof</a>
           </div>
+          <div class="box">
+            <p>Let `f` be a function so that `f(0)=1`, `f(1)=2`, and `f(n+1)=f(n-1)+2f(n)` for `n ge 1`. `f(n) le 3^n` for `n ge 0`</p>
+            <div class="collapse" id="functioninduction">
+              <p>Let `P(n)` be the statement that `f(n) le 3^n` for `n ge 0`</p>
+              <p>For `n=0`, `f(0) = 1 le 3^0 = 1`</p>
+              <p>For `n=1`, `f(1) = 2 le 3^1 = 3`</p>
+              <p>So `P(0)` and `P(1)` are true</p>
+              <p>Suppose `P(n)` is true. Want to show that `P(n+1)` is true, i.e. `f(n+1) le 3^(n+1)` for `n ge 0`</p>
+              <div class="math">
+                <p>`f(n+1) = f(n-1)+2f(n)`</p>
+                <p>`le 3^(n-1) + 2*3^n`</p>
+                <p>`= 3^(n-1) + 3^n + 3^n`</p>
+                <p>`le 3^n + 3^n + 3^n`</p>
+                <p>`= 3*3^n`</p>
+                <p>`= 3^(n+1)`</p>
+              </div>
+              <p>So `P(n+1)` is true</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#functioninduction">Proof</a>
+          </div>
           <h2 id="permutations">Permutations</h2>
           <div class="box">
             <p>Given a set `S` of objects, a <b>permutation</b> of `S` is a way to put all elements of `S` in order</p>
