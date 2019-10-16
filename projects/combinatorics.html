@@ -113,6 +113,41 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#polynomialinduction">Proof</a>
           </div>
+          <div class="box">
+            <p>Every positive integer can be written as `2^rm` where `r ge 0` and `m` is an odd integer</p>
+            <div class="collapse" id="twonm"</p>
+              <p>Let `P(n)` be the statement that `n` can be written as `2^rm` where `r ge 0` and `m` is odd</p>
+              <p>For `n=1`, `1 = 2^0*1 = 1` so `P(1)` is true</p>
+              <p>Suppose `P(1), ..., P(n)` is true. Want to show `P(n+1)` is true, i.e. `n+1` can be written as `2^rm` where `r ge 0` and `m` is odd</p>
+              <p>Suppose `n+1` is odd. Then pick `r=0` and pick `m = n+1` so `P(n+1)` is true</p>
+              <p>Suppose `n+1` is even</p>
+              <p>Then it can be written as `n+1 = 2k` for some integer `1 le k le n`</p>
+              <p>Since `k` is a positive integer, it can be written as `2^rm` where `r ge 0` and `m` is odd</p>
+              <div class="math">
+                <p>`n+1 = 2k`</p>
+                <p>`= 2*2^rm`</p>
+                <p>`= 2^(r+1)m`</p>
+              </div>
+              <p>`m` is odd and `r ge 0 implies r+1 ge 0` so `k+1` can be written as a power of `2` multiplied by an odd number</p>
+              <p>So `P(n+1)` is true</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#twonm">Proof</a>
+          </div>
+          <div class="box">
+            <p>Every integer `n ge 2` can be written as a product of prime numbers</p>
+            <div class="collapse" id="productprime">
+              <p>Let `P(n)` be the statement that `n` can be written as a product of prime numbers</p>
+              <p>For `n=2`, `2` is a product of `2`, which is a prime number so `P(2)` is true</p>
+              <p>Suppose `P(2), ..., P(n)` is true. Want to show `P(n+1)` is true, i.e. `n+1` can be written as a product of prime numbers</p>
+              <p>Suppose `n+1` is prime. Then it is a product of itself so `P(n+1)` is true</p>
+              <p>Suppose `n+1` is not prime</p>
+              <p>Then `n+1` can be written as `n+1 = a*b` for integers `a,b` where `2 le a,b le n`</p>
+              <p>Since `2 le a,b le n`, `a` and `b` can be written as products of prime numbers</p>
+              <p>So `n+1` is a product of prime numbers</p>
+              <p>So `P(n+1)` is true</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#productprime">Proof</a>
+          </div>
           <h2 id="permutations">Permutations</h2>
           <div class="box">
             <p>Given a set `S` of objects, a <b>permutation</b> of `S` is a way to put all elements of `S` in order</p>
@@ -133,7 +168,7 @@
             <div class="collapse" id="permutationproof">
               <p>Let `P(n)` be the statement that if `S` has `n gt 0` elements, then there are `n!` permutations of the elements of `S`</p>
               <p>For a set of size `1`, there's only `1` way to order all the elements. `1 = 1!` so `P(1)` is true</p>
-              <p>Suppose `P(n)` is true. Want to show `P(n+1)` is true, i.e. if `S` has `n+1` elements, then there are (n+1)! permutations of the elements in `S`</p>
+              <p>Suppose `P(n)` is true. Want to show `P(n+1)` is true, i.e. if `S` has `n+1` elements, then there are `(n+1)!` permutations of the elements in `S`</p>
               <p>Let `S` be a set of size `n+1`</p>
               <p>We could pick any random element of `S` and put that in the first spot</p>
               <p>Now, `S` has `n` elements</p>
