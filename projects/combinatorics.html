@@ -22,6 +22,7 @@
     <div class="dropdown">
       <button onclick="showMenu()" class="dropbtn">ToC</button>
       <div class="dropdown-content" id="dropDownMenu">
+        <a class="dropdown-item" href="#induction">Induction</a>
         <a class="dropdown-item" href="#permutations">Permutations</a>
         <a class="dropdown-item" href="#combinations">Combinations</a>
         <a class="dropdown-item" href="#words">Words</a>
@@ -40,11 +41,13 @@
           <h1>Combinatorics</h1>
           <hr>
           <p>Shortcut to this page: <a href="nonlinear.html">aln.netlify.com/comb</a></p>
+          <h2 id="induction">Induction</h2>
           <div class="box">
             <p>Theorem: There are `2^n` subsets of a set of size `n`</p>
             <div class="collapse" id="subsetinduction">
-              <p>For a set with `0` elements, the only subset is `O/`, which is consistent with `2^0 = 1` so the statement holds for the base case</p>
-              <p>Suppose the statement is true for a set of size `n`</p>
+              <p>Let `P(n)` be the statement that there are `2^n` subsets of a set of size `n`</p>
+              <p>For a set with `0` elements, the only subset is `O/`, which is consistent with `2^0 = 1` so `P(0)` is true</p>
+              <p>Suppose `P(n)` is true. Want to show `P(n+1)` is true, i.e. there are `2^(n+1)` subsets of a set of size `n+1`</p>
               <p>Let `S` be a set of size `n+1`</p>
               <p>Fix any `x in S` and consider `S' = S\\{x}`</p>
               <p>Since `S'` has `n` elements, there are `2^n` subsets</p>
@@ -55,8 +58,60 @@
               <p>So there are `2^n` subsets that do contain `x`</p>
               <p>The total number of subsets of `S` is the number of subsets containing `x` plus the number of the subsets not containing `x`</p>
               <p>So the total number of subsets of `S` is `2^n + 2^n = 2^(n+1)`</p>
+              <p>So `P(n+1)` is true</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#subsetinduction">Proof</a>
+          </div>
+          <div class="box">
+            <p>`sum_(i=0)^n i = (n*(n+1))/2`</p>
+            <div class="collapse" id="sumnaturals">
+              <p>Let `P(n)` be the statement `sum_(i=0)^n i = (n*(n+1))/2`</p>
+              <p>For `n=0`, `sum_(i=0)^0 i = 0` and `(0*(0+1))/2 = 0` so `P(0)` is true</p>
+              <p>Suppose `P(n)` is true. Want to show `P(n+1)` is true, i.e. `sum_(i=0)^(n+1) i = ((n+1)(n+2))/2`</p>
+              <div class="math">
+                <p>`sum_(i=0)^(n+1) i = sum_(i=0)^n i + (n+1)`</p>
+                <p>`= (n*(n+1))/2 + (n+1)`</p>
+                <p>`= (n^2 + n)/2 + (2(n+1))/2`</p>
+                <p>`= (n^2 + n)/2 + (2n + 2)/2`</p>
+                <p>`= (n^2 + 3n + 2)/2`</p>
+                <p>`= ((n+1)(n+2))/2`</p>
+              </div>
+              <p>So `P(n+1)` is true</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#sumnaturals">Proof</a>
+          </div>
+          <div class="box">
+            <p>`4n lt 2^n` for `n ge 5`</p>
+            <div class="collapse" id="fourn">
+              <p>Let `P(n)` be the statement `4n lt 2^n` for `n ge 5`</p>
+              <p>For `n=0`, `4*0 = 0 lt 2^0 = 1` so `P(0)` is true</p>
+              <p>Suppose `P(n)` is true. Want to show `P(n+1)` is true, i.e. `4n+4 lt 2^(n+1)` for `n ge 5`</p>
+              <div class="math">
+                <p>`2^(n+1) = 2*2^n`</p>
+                <p>`= 2^n + 2^n`</p>
+                <p>`gt 4n + 4n`</p>
+                <p>`gt 4n + 4` (since `n ge 5`)</p>
+              </div>
+              <p>So `P(n+1)` is true</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#fourn">Proof</a>
+          </div>
+          <div class="box">
+            <p>Every polynomial in `x` is a linear combination of `1, x-1, (x-1)^2, (x-1)^3, ...`</p>
+            <div class="collapse" id="polynomialinduction">
+              <p>Let `P(n)` be the statement that every polynomial of degree `n` in `x` is a linear combination of the powers of `x-1`</p>
+              <p>For `n=0`, the polynomial of degree `0` is a constant `c`, which is a linear combination of `1` (`c = c*1`) so `P(0)` is true</p>
+              <p>Suppose `P(0), P(1), P(2), ... P(n)` is true. Want to show `P(n+1)` is true, i.e. every polynomial of degree `n+1` in `x` is a linear combination of the powers of `x-1`</p>
+              <p>Let `f(x)` be a polynomial of degree `n+1`</p>
+              <p>Let `alpha` be the leading coefficient of `f`</p>
+              <p>Consider `g(x) = f(x) - alpha*(x-1)^(n+1)`</p>
+              <p>`g(x)` is a polynomial of degree `le n` so it is a linear combination of the powers of `x-1`</p>
+              <p>`f(x) = g(x) + alpha*(x-1)^(n+1)`</p>
+              <p>`alpha*(x-1)^(n+1)` is also a linear combination of the powers of `x-1`</p>
+              <p>So `f(x)` is a linear combination of the powers of `x-1`</p>
+              <p>So `P(n+1)` is true</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#polynomialinduction">Proof</a>
           </div>
           <h2 id="permutations">Permutations</h2>
           <div class="box">
@@ -76,14 +131,16 @@
           <div class="box">
             <p>Theorem: If `S` has `n gt 0` elements, then there are `n!` permutations of the elements in `S`</p>
             <div class="collapse" id="permutationproof">
-              <p>For a set of size `1`, there's only `1` way to order all the elements. `1 = 1!` so the statement holds for the base case</p>
-              <p>Suppose the statement is true for a set of size `n`</p>
+              <p>Let `P(n)` be the statement that if `S` has `n gt 0` elements, then there are `n!` permutations of the elements of `S`</p>
+              <p>For a set of size `1`, there's only `1` way to order all the elements. `1 = 1!` so `P(1)` is true</p>
+              <p>Suppose `P(n)` is true. Want to show `P(n+1)` is true, i.e. if `S` has `n+1` elements, then there are (n+1)! permutations of the elements in `S`</p>
               <p>Let `S` be a set of size `n+1`</p>
               <p>We could pick any random element of `S` and put that in the first spot</p>
               <p>Now, `S` has `n` elements</p>
-              <p>Since the statement is true for a set of size `n`, there are `n!` ways to order the remaining elements in `S`</p>
+              <p>So there are `n!` ways to order the remaining elements in `S`</p>
               <p>There were `n+1` choices for the random element in the first spot</p>
               <p>So the total number of ways to order the elements is `(n+1)*n! = (n+1)!`</p>
+              <p>So `P(n+1)` is true</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#permutationproof">Proof</a>
             <p>Intuitively, there are `n` choices for the first digit, `n-1` choices for the second digit, `n-2` choices for the third digit, ..., all the way down to `1` choice for the last digit</p>
@@ -178,7 +235,7 @@
               <li>not in `S` and not in `T`</li>
             </ol>
             <p>There are `3` choices for each of the `n` elements, so there are `3^n` total possibilities</p>
-            <p>We could define a function `f:{text(pairs of subsets ) S,T sube [n] s.t. S sube T} rarr {text(words of length ) n text( in ) {text(in ) S, text( not in ) S text( but in ) T, text( not in ) S text( and not in ) T}}`</p>
+            <p>`f:{text(pairs of subsets ) S,T sube [n] s.t. S sube T} rarr {text(words of length ) n text( in ) {text(in ) S, text( not in ) S text( but in ) T, text( not in ) S text( and not in ) T}}`</p>
           </div>
           <div class="box">
             <p>For `n ge k` where `n` is a nonnegative integer, the <b>falling factorial</b> is `(n)_k = n*(n-1)*(n-2)*...*(n-k+1)`</p>
@@ -193,11 +250,13 @@
               <p>Since there are `n!` permutations, we have `n!` words with no repeating entries</p>
               <p>But there are repeated words since the last `(n-k)` entries can be ordered in any way</p>
               <p>So there are `(n!)/((n-k)!) = (n*(n-1)*...*(n-k+1)*(n-k)!)/((n-k)!) = (n)_k` words with no repeating entries</p>
-              <p>For example, let `A = {1,2,3,4,5}` and `k=3`</p>
-              <p>Let `sigma = 31254`</p>
-              <p>The first `k` entries are `312`, which is a word of length `k` with no repeating entries</p>
-              <p>So that is contained in `31254`</p>
-              <p>But that same word is also contained in `31245`</p>
+              <div class="box">
+                <p>Let `A = {1,2,3,4,5}` and `k=3`</p>
+                <p>Let `sigma = 31254`</p>
+                <p>The first `k` entries are `312`, which is a word of length `k` with no repeating entries</p>
+                <p>So that is contained in `31254`</p>
+                <p>But that same word is also contained in `31245`</p>
+              </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#repeatingentriesproof">Proof</a>
             <p>Intuitively, there are `n` choices for the first digit, `n-1` choices for the second digit, ..., `n-k+1` choices for the `k^(th)` digit</p>
