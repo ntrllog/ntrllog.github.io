@@ -1,6 +1,6 @@
 body {
   font-family: 'Montserrat', sans-serif;
-  font-size: 119%;
+  font-size: 120%;
 }
 
 #pdf {
@@ -9,10 +9,6 @@ body {
   top: 10px;
   color: black;
   z-index: 2;
-}
-
-.container {
-  margin-top: 20px;
 }
 
 .flex-center {
@@ -45,11 +41,18 @@ h1 {
 }
 
 @media print {
+  body {
+    font-size: 100%;
+  }
   a {
     color: black;
     text-decoration: underline;
   }
   .print-hide {
     display: none;
+  }
+  .horizontal-bar {
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 }
