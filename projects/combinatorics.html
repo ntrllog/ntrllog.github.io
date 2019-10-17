@@ -22,6 +22,7 @@
     <div class="dropdown">
       <button onclick="showMenu()" class="dropbtn">ToC</button>
       <div class="dropdown-content" id="dropDownMenu">
+        <a class="dropdown-item" href="#formulas">Formulas</a>
         <a class="dropdown-item" href="#induction">Induction</a>
         <a class="dropdown-item" href="#permutations">Permutations</a>
         <a class="dropdown-item" href="#combinations">Combinations</a>
@@ -41,6 +42,17 @@
           <h1>Combinatorics</h1>
           <hr>
           <p>Shortcut to this page: <a href="nonlinear.html">aln.netlify.com/comb</a></p>
+          <h2 id="formulas">Formulas</h2>
+          <div class="box">
+            <p>Number of subsets: `sum_(k=0)^n ((n),(k)) = 2^n`</p>
+            <p>Pascal's Identity: `((n),(k)) + ((n),(k-1)) = ((n+1),(k))`</p>
+            <p>Number of `k`-element multisets: `((n+k-1),(k))`</p>
+            <p>Number of weak compositions into `k` parts: `((n+k-1),(n))`</p>
+            <p>Number of compositions into `k` parts: `((n-1),(n-k))`</p>
+            <p>Number of compositions into all possible parts: `2^(n-1)`</p>
+            <p>Stirling numbers: `S(n) = S(n-1,k-1) + k*S(n-1,k)`</p>
+            <p>Bell numbers: `B(n+1) = sum_(i=0)^n ((n),(i))B(i)`</p>
+          </div>
           <h2 id="induction">Induction</h2>
           <div class="box">
             <p>Theorem: There are `2^n` subsets of a set of size `n`</p>
