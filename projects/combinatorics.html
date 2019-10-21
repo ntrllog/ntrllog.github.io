@@ -50,7 +50,7 @@
             <p>Number of weak compositions into `k` parts: `((n+k-1),(n))`</p>
             <p>Number of compositions into `k` parts: `((n-1),(n-k))`</p>
             <p>Number of compositions into all possible parts: `2^(n-1)`</p>
-            <p>Stirling numbers: `S(n,k) = S(n-1,k-1) + k*S(n-1,k)`</p>
+            <p>Number of set partitions into `k` blocks: `S(n,k) = S(n-1,k-1) + k*S(n-1,k)`</p>
             <p>Bell numbers: `B(n+1) = sum_(i=0)^n ((n),(i))B(i)`</p>
           </div>
           <h2 id="induction">Induction</h2>
@@ -566,7 +566,7 @@
             <p>`S(n,2) = 2^(n-1)-1`</p>
             <p>`n` pieces into `2` blocks:</p>
             <ul>
-              <li>can't have `O/` or the whole set `implies 2^n-2` pieces</li>
+              <li>can't have `O/` or the whole set `implies 2^n-2` complementary subsets</li>
               <li>the order of each block doesn't matter `implies` divide by `2`</li>
               <li>`(2^n-2)/2 = 2^(n-1)-1`</li>
             </ul>
