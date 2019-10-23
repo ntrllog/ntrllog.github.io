@@ -825,8 +825,56 @@
                 <li>five `9's` and one `7`: `6` ways to do this</p>
                 <li>four `9's` and two `8's`: `((6),(2))=15` ways to do this</p>
               </ul>
+              <p>`color(red)(900000-(1+6+6+((6),(2))))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-18">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.19: How many ways are there to select an `11`-member soccer team and a `5`-member basketball team from a class of `30` students if</p>
+            <p>(a) nobody can be on `2` teams</p>
+            <p>(b) any number of students can be on both teams</p>
+            <p>(c) at most one student can be on both teams?</p>
+            <div class="collapse" id="q3-19">
+              <p>(a) First, pick `11` students for the soccer team: `((30),(11))`</p>
+              <p>From the remaining `19` students, pick `5` of them to be on the basketball team: `((19),(5))`</p>
+              <p>`color(red)(((30),(11))*((19),(5)))`</p>
+              <p>(b) First, pick `11` students for the soccer team: `((30),(11))`</p>
+              <p>Since we can have students on both teams, we can pick `5` students for the basketball team from the same set of `30` students: `((30),(5))`</p>
+              <p>`color(red)(((30),(11))*((30),(5)))`</p>
+              <p>(c) It is valid to have a situation where no student is on both teams. This is part (a): `((30),(11))*((19),(5))`</p>
+              <p>The (only) other valid situation is to have `1` student on both teams</p>
+              <p>First, pick `10` students for the soccer team: `((30),(10))`</p>
+              <p>(the `11^(th)` spot is reserved for the student who is on both teams)</p>
+              <p>From the remaining `20` students, pick `4` of them to be on the basketball team: `((20),(4))`</p>
+              <p>(the `4^(th)` spot is reserved for the student who is on both teams)</p>
+              <p>From the remaining `16` students, pick `1` of them to be on both teams: `16`</p>
+              <p>`color(red)(((30),(11))*((19),(5)) + ((30),(10))*((20),(4))*16)`</p>
+              <p>Alternatively, first pick the student who will be on both teams: `30`</p>
+              <p>From the remaining `29` students, pick `10` of them to be on the soccer team: `((29),(10))`</p>
+              <p>From the remaining `19` students, pick `4` of them to be on the basketball team: `((19),(4))`</p>
+              <p>`color(red)(((30),(11))*((19),(5)) + 30*((29),(10))*((19),(4)))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-19">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.20: Suppose all cars have license plates consisting of `6` numerical digits only. How many license plates have only `1` digit that occur more than once and that digit occurs exactly `3` times? For example, `404824`.</p>
+            <div class="collapse" id="q3-20">
+              <p>Pick the digit that will occur `3` times: `10` choices</p>
+              <p>From the `6` positions, pick `3` of them to be the places where the repeated digit will be: `((6),(3))`</p>
+              <p>The rest of the digits have to be distinct since there is only `1` digit that occurs more than once</p>
+              <p>The fourth digit, regardless of position, has `9` choices</p>
+              <p>The fifth digit, regardless of position, has `8` choices</p>
+              <p>The sixth digit, regardless of position, has `7` choices</p>
+              <p>`color(red)(10*((6),(3))*9*8*7)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-20">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.23: In how many different ways can we place `8` identical rooks on a chess board so that no two of them attack each other?</p>
+            <div class="collapse" id="q3-23">
+              <p>`color(red)(n!)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-23">Answer</a>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
