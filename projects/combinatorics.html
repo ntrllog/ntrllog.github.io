@@ -373,7 +373,7 @@
           <div class="box">
             <p>Four of a Kind: `4` of the `5` cards have the same value</p>
             <p>There are `13` choices for the value that is the same</p>
-            <p>There are `48` choices for the `5^(th)` card</p>
+            <p>There are `48` choices for the fifth card</p>
             <p>Total number of ways to get a four of a kind: `13*48`</p>
           </div>
           <div class="box">
@@ -395,8 +395,8 @@
           <div class="box">
             <p>Straight: `5` cards can be put in consecutive order by values</p>
             <p>To pick values, we only need to know what the largest possible values are</p>
-            <p>The `5^(th)` card can be `5`, `6`, `7`, `8`, `9`, `10`, `J`, `Q`, `K`, or `A`</p>
-            <p>There are `10` choices for the `5^(th)` card</p>
+            <p>The fifth card can be `5`, `6`, `7`, `8`, `9`, `10`, `J`, `Q`, `K`, or `A`</p>
+            <p>There are `10` choices for the fifth card</p>
             <p>There are `4^5` choices for the suits of each card</p>
             <p>Total number of ways to get a straight: `10*4^5`</p>
           </div>
@@ -417,7 +417,7 @@
               <p>`{3,3,3}`</p>
             </div>
             <p>Are these all the possible multisets? How can we be sure?</p>
-            <p>Let's add `1` to the `2^(nd)` element and add `2` to the `3^(rd)` element.</p>
+            <p>Let's add `1` to the second element and add `2` to the third element.</p>
             <div class="math">
               <p>`{1,1,1} rarr {1,2,3}`</p>
               <p>`{1,1,2} rarr {1,2,4}`</p>
@@ -727,7 +727,7 @@
             <div class="collapse" id="q3-6">
               <p>Problem is the same as counting the number of four-digit positive integers divisible by `3` since `6` is divisible by `3`</p>
               <p>There are `9999-1000+1 = 9000` four-digit positive integers</p>
-              <p>Every `3^(rd)` number is divisible by `3 implies 1/3` of the `9000` four-digit positive integers are divisble by `3`</p>
+              <p>Every third number is divisible by `3 implies 1/3` of the `9000` four-digit positive integers are divisble by `3`</p>
               <p>`color(red)(3000)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-6">Answer</a>
@@ -736,19 +736,19 @@
             <p>3.7: How many five-digit positive integers are there that contain the digit `9` and are divisible by `3`?</p>
             <div class="collapse" id="q3-7">
               <p>There are `99999-10000+1 = 90000` five-digit positive integers</p>
-              <p>Every `3^(rd)` number is divisible by `3 implies 1/3*90000 = 30000` five-digit positive integers are divisible by `3`</p>
+              <p>Every third number is divisible by `3 implies 1/3*90000 = 30000` five-digit positive integers are divisible by `3`</p>
               <p>Now count how many of those don't contain a `9` and subtract from the total number of five-digit positive integers divisible by `3`</p>
-              <p>There are `8` choices for the `1^(st)` digit</p>
-              <p>There are `9` choices for the `2^(nd)` digit</p>
-              <p>There are `9` choices for the `3^(rd)` digit</p>
-              <p>There are `9` choices for the `4^(th)` digit</p>
-              <p>The `5^(th)` digit depends on what the first `4` digits sum up to</p>
+              <p>There are `8` choices for the first  digit</p>
+              <p>There are `9` choices for the second digit</p>
+              <p>There are `9` choices for the third digit</p>
+              <p>There are `9` choices for the fourth digit</p>
+              <p>The fifth digit depends on what the first `4` digits sum up to</p>
               <ul>
-                <li>if the sum mod `3` equals `0`, then the `5^(th)` digit can be `0`, `3`, or `6`</p>
-                <li>if the sum mod `3` equals `1`, then the `5^(th)` digit can be `2`, `5`, or `8`</p>
-                <li>if the sum mod `3` equals `2`, then the `5^(th)` digit can be `1`, `4`, or `7`</p>
+                <li>if the sum mod `3` equals `0`, then the fifth digit can be `0`, `3`, or `6`</p>
+                <li>if the sum mod `3` equals `1`, then the fifth digit can be `2`, `5`, or `8`</p>
+                <li>if the sum mod `3` equals `2`, then the fifth digit can be `1`, `4`, or `7`</p>
               </ul>
-              <p>There are `3` choices for the `5^(th)` digit</p>
+              <p>There are `3` choices for the fifth digit</p>
               <p>`color(red)(30000-(8*9*9*9*3))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-7">Answer</a>
@@ -760,7 +760,7 @@
               <p>Total number of ways to list digits: `(7!)/(2!)`</p>
               <p>Consecutive positions: combine the `2's` into one `2`, then there are `6!` ways to list the digits</p>
               <p>`color(red)((7!)/(2!) - 6!)`</p>
-              <p>Alternatively, for counting the consecutive positions, there are `6` positions where the `2's` could go, then there are `5!` ways to rearrange the remaining digits `implies 6*5! = 6!`</p>
+              <p>Alternatively, there are `6` positions where the `2's` could go, then there are `5!` ways to rearrange the remaining digits `implies 6*5! = 6!`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-8">Answer</a>
           </div>
@@ -796,8 +796,19 @@
             <div class="collapse" id="q3-12">
               <p>Count the number of ways to do this where he starts and finishes in the same city and subtract from the total number of ways to visit `4` cities `5` times each</p>
               <p>Consider a random permutation of cities</p>
-              <p>Total number of ways: there are `20!` ways to rearrange them and there are `4` sets of `5` duplicate cities `implies (20!)/(5!5!5!5!)`</p>
-              <p>Start and finish in the same city: choose `1` city that will be the start and finish. There are `18!` ways to rearrange the cities and there are `3` sets of `5` duplicate cities and `1` set of `3` duplicate cities. There are `4` choices for the cities that are fixed at the start and end `implies 4*(18!)/(5!5!5!3!)`</p>
+              <p>Total number of ways:
+              <ul>
+                <li>There are `20!` ways to rearrange them</li>
+                <li>But there are `4` sets of `5` duplicate cities</li>
+                <li>`implies (20!)/(5!5!5!5!)`</li>
+              </ul>
+              <p>Start and finish in the same city:</p>
+              <ul>
+                <li>Choose `1` city that will be the start and finish</li>
+                <li>There are `18!` ways to rearrange the cities</li>
+                <li>But there are `3` sets of `5` duplicate cities and `1` set of `3` duplicate cities</li>
+                <li>There are `4` choices for the cities that are fixed at the start and end</li>
+                <li>`implies 4*(18!)/(5!5!5!3!)`</li>
               <p>`color(red)((20!)/(5!5!5!5!) - 4*(18!)/(5!5!5!3!))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-12">Answer</a>
@@ -872,9 +883,197 @@
           <div class="box">
             <p>3.23: In how many different ways can we place `8` identical rooks on a chess board so that no two of them attack each other?</p>
             <div class="collapse" id="q3-23">
-              <p>`color(red)(n!)`</p>
+              <p>Place a rook on any row/column: `8` choices</p>
+              <p>There are `7` remaining rows/columns for the next rook</p>
+              <p>There are `6` remaining rows/columns for the next rook</p>
+              <p>`vdots`</p>
+              <p>There is `1` remaining row/column for the last rook</p>
+              <p>`color(red)(8!)`</p>
+              <p>Alternatively, place the `8` rooks in such a way so that none of them are attacking each other (e.g. place them all along a diagonal)</p>
+              <p>There are `8!` ways to rearrange them and still have them not attacking each other</p>
+              <p>(swapping two rows/columns will ensure that they are still not attacking each other)</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-23">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.25: How many `3`-digit positive integers contain `2` (but not `3`) different digits?</p>
+            <div class="collapse" id="q3-25">
+              <p>Count the number of `3`-digit positive integers that contain only `1` different digit and the number of `3`-digit positive integers that contain `3` different digits and subtract both from the total number of `3`-digit positive integers</p>
+              <p>Total number of `3`-digit positive integers: `999-100+1 = 900`</p>
+              <p>`3`-digit positive integers with only `1` different digit:</p>
+              <ul>
+                <li>`1` different digit means all `3` digits are the same and there are `10` of these</li>
+              </ul>
+              <p>`3`-digit positive integers with `3` different digits:</p>
+              <ul>
+                <li>There are `9` choices for the first digit (can't be `0`)</li>
+                <li>There are `9` choices for the second digit (can't be the first digit but can be `0`)</li>
+                <li>There are `8` choices for the third digit</li>
+              </ul>
+              <p>`color(red)(900-10-9*9*8)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-25">Answer</a>
+          </div>
+          <div class="box">
+            <p>(?) 3.27: How many subsets does `[n]` have that contain exactly one of the elements `1` and `2`?</p>
+            <div class="collapse" id="q3-27">
+              <p>Consider the subsets of `{3,4,...,n}`</p>
+              <p>There are `n-2` elements `implies 2^(n-2)` subsets</p>
+              <p>For each subset, there are `2` choices: put a `1` or put a `2`</p>
+              <p>`color(red)(2*2^(n-2) = 2^(n-1))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-27">Answer</a>
+          </div>
+          <div class="box">
+            <p>(?) 3.28: How many subsets does `[n]` have that contain at least one of the elements `1` and `2`?</p>
+            <div class="collapse" id="q3-28">
+              <p>Count the number of subsets that don't contain `1` and `2` and subtract from the total number of subsets of `[n]`</p>
+              <p>Total number of subsets: `2^n`</p>
+              <p>Subsets that don't contain `1` and `2`:</p>
+              <ul>
+                <li>There is only `1` choice for the elements `1` and `2`: not in the subset</li>
+                <li>For the rest of the elements (`3, 4, ..., n`), there are `2` choices: in the subset or not in the subset</li>
+                <li>`implies 2^(n-2)`</p>
+              </ul>
+              <p>`color(red)(2^n-2^(n-2))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-28">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.29: How many `3`-digit positive integers start and end with an even digit?</p>
+            <div class="collapse" id="q3-29">
+              <p>There are `4` choices for the first digit (can't be `0`)</p>
+              <p>There are `10` choices for the second digit</p>
+              <p>There are `5` choices for the third digit</p>
+              <p>`color(red)(4*10*5)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-29">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.30: How many `4`-digit positive integers are there in which all digits are different?</p>
+            <div class="collapse" id="q3-30">
+              <p>There are `9` choices for the first digit (can't be `0`)</p>
+              <p>There are `9` choices for the second digit</p>
+              <p>There are `8` choices for the third digit</p>
+              <p>There are `7` choices for the fourth digit</p>
+              <p>`color(red)(9*9*8*7)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-30">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.31: How many `4`-digit positive integers are there that contain the digit `1`?</p>
+            <div class="collapse" id="q3-31">
+              <p>Count the number of `4`-digit positive integers that don't contain the digit `1` and subtract from the total number of `4`-digit positive integers</p>
+              <p>Total number of `4`-digit positive integers: `9999-1000+1 = 9000`</p>
+              <p>Don't contain `1`:</p>
+              <ul>
+                <li>There are `8` choices for the first digit (can't be `0` or `1`)</li>
+                <li>There are `9` choices for the second digit (can't be `1`)</li>
+                <li>There are `9` choices for the third digit (can't be `1`)</li>
+                <li>There are `9` choices for the fourth digit (can't be `1`)</li>
+              </ul>
+              <p>`color(red)(9000-8*9*9*9)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-31">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.32: How many `3`-digit numbers are there in which the sum of the digits is even?</p>
+            <div class="collapse" id="q3-32">
+              <p>There are `4` situations where the sum of the digits is even:</p>
+              <ul>
+                <li>All digits are even</li>
+                <li>even odd odd</li>
+                <li>odd even odd</li>
+                <li>odd odd even</li>
+              </ul>
+              <p>For the case where all digits are even:</p>
+              <ul>
+                <li>There are `4` choices for the first digit (can't be `0`)</li>
+                <li>There are `5` choices for the second digit</li>
+                <li>There are `5` choices for the third digit</li> 
+                <li>`implies 4*5*5 = 100`</li>
+              </ul>
+              <p>For even odd odd:</p>
+              <ul>
+                <li>There are `4` choices for the first digit (can't be `0`)</li>
+                <li>There are `5` choices for the second digit</li>
+                <li>There are `5` choices for the third digit</li>
+                <li>`implies 4*5*5 = 100`</li>
+              </ul>
+              <p>For odd even odd:</p>
+              <ul>
+                <li>There are `5` choices for the first digit (can't be `0`)</li>
+                <li>There are `5` choices for the second digit</li>
+                <li>There are `5` choices for the third digit</li>
+                <li>`implies 5*5*5 = 125`</li>
+              </ul>
+              <p>For odd odd even:</p>
+              <ul>
+                <li>There are `5` choices for the first digit (can't be `0`)</li>
+                <li>There are `5` choices for the second digit</li>
+                <li>There are `5` choices for the third digit</li>
+                <li>`implies 5*5*5 = 125`</li>
+              </ul>
+              <p>`color(red)(100+100+125+125 = 450)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-32">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.33: In how many ways can the elements of `[n]` be permuted if</p>
+            <p>(a) `1` is to precede `2` and `3` is to precede `4`</p>
+            <p>(b) `1` is to precede both `2` and `3`?</p>
+            <div class="collapse" id="q3-33">
+              <p>(a) Consider the set `[4]`</p>
+              <p>There are `6` situations where this happens:</p>
+              <ul>
+                <li>`1234`</li>
+                <li>`1324`</li>
+                <li>`1342`</li>
+                <li>`3214`</li>
+                <li>`3124`</li>
+                <li>`3142`</li>
+              </ul>
+              <p>Now consider adding `5`</p>
+              <p>There are `5` choices where it could be placed for each of the `6` situations</p>
+              <p>Now consider adding `6`</p>
+              <p>There are `6` choices where it could be placed for each of the `6` situations</p>
+              <p>`vdots`</p>
+              <p>Now consider adding `n`</p>
+              <p>There are `n` choices where it could be placed for each of the `6` situations</p>
+              <p>`color(red)(6*(n)_(n-4) = 6*n*(n-1)*...*6*5)`</p>
+              <p>(b) Consider the set `[3]`</p>
+              <p>There are `2` situations where this happens:</p>
+              <ul>
+                <li>`123`</li>
+                <li>`132`</li>
+              </ul>
+              <p>Now consider adding `4`</p>
+              <p>There are `4` choices where it could be placed for each of the `2` situations</p>
+              <p>`vdots`</p>
+              <p>Now consider adding `n`</p>
+              <p>There are `n` choices where it could be placed for each of the `2` situations</p>
+              <p>`color(red)(2*(n)_(n-2) = 2*n*(n-1)*...*5*4)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-33">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.37: A student needs to work `5` days in January. He does not want to work on more than `1` Sunday. In how many ways can he select his `5` working days? (Assume that January has `5` Sundays.)</p>
+            <div class="collapse" id="q3-37">
+              <p>There are two situations:</p>
+              <ul>
+                <li>None of the days is Sunday</li>
+                <li>One of the days is Sunday</li>
+              </ul>
+              <p>For the case where none of the days is Sunday, there are `26` days to choose from: `((26),(5))`</p>
+              <p>For the case where one of the days is Sunday:</p>
+              <ul>
+                <li>Pick `4` days that aren't Sunday: `((26),(4))`</li>
+                <li>There are `5` positions for the Sunday (e.g. Sunday can be the first day, second day, ..., fifth day)</li>
+                <li>`implies 5*((26),(4))`</li>
+              </ul>
+              <p>`color(red)(((26),(5))+5*((26),(4)))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-37">Answer</a>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
