@@ -1075,6 +1075,58 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-37">Answer</a>
           </div>
+          <div class="box">
+            <p>(?) 3.38: A host invites `n` couples to a party. She wants to ask a subset of the `2n` guests to give a speech, but she does not want to ask both members of any couple to give speeches. In how many ways can she proceed?</p>
+            <div class="collapse" id="q3-38">
+              <p>For each of the `n` couples there are `3` options:</p>
+              <ul>
+                <li>no person speaks</li>
+                <li>partner `1` speaks</li>
+                <li>partner `2` speaks</li>
+              </ul>
+              <p>`color(red)(3^n)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-38">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.40: How many different ways can we select ordered pairs `(A,B)` of subsets of `[n]` so that `A nn B != O/`?</p>
+            <div class="collapse" id="q3-40">
+              <p>Count the number of ways to pick ordered pairs `(A,B)` such that `A nn B = O/` and subtract from the total number of ways to select ordered pairs `(A,B)`</p>
+              <p>Total number of ways to pick ordered pairs `(A,B)`:</p>
+              <img class="img-fluid" src="../pictures/combinatorics/q3-40a.jpg">
+              <p>Any element in `[n]` can be:</p>
+              <ul>
+                <li>`in A` and `in B`</li>
+                <li>`in A` and `notin B`</li>
+                <li>`notin A` and `in B`</li>
+                <li>`notin A` and `notin B`</li>
+              </ul>
+              <p>`4^n` ways</p>
+              <p>For the case where `A nn B = O/`:</p>
+              <img class="img-fluid" src="../pictures/combinatorics/q3-40b.jpg">
+              <p>Any element can be:</p>
+              <ul>
+                <li>`in A and notin B`</li>
+                <li>`notin A and in B`</li>
+                <li>`notin A and notin B`</li>
+              </ul>
+              <p>`3^n` ways</p>
+              <p>`color(red)(4^n-3^n)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-40">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.41: How many different ways are there to select three subsets `A`,`B`, and `C` of `[n]` so that `A sube C`, `B sube C` and `A nn B != O/`?</p>
+            <div class="collapse" id="q3-41">
+              <p>Count the number of way to pick subsets so that `A nn B = O/` and subtract from the total number of ways to pick subsets</p>
+              <p>Total number of ways to pick subsets:</p>
+              <img class="img-fluid" src="../pictures/combinatorics/q3-41a.jpg">
+              <p>Any element in `[n]` can be:</p>
+              <ul>
+              </ul>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-41">Answer</a>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
