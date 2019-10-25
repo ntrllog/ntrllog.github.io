@@ -33,6 +33,8 @@
         <a class="dropdown-item" href="#compositions">Compositions</a>
         <a class="dropdown-item" href="#setpartitions">Set Partitions</a>
         <a class="dropdown-item" href="#integerpartitions">Integer Partitions</a>
+        <a class="dropdown-item" href="#binomialtheorem">Binomial Theoerem</a> 
+        <a class="dropdown-item" href="#multinomialtheorem">Multinomial Theoerem</a> 
         <a class="dropdown-item" href="#practiceproblems">Practice Problems</a>
       </div>
     </div>
@@ -733,6 +735,109 @@
               <p>So `mu_i = 2lambda_i - 2i + 1 ge 2lambda_(i+1)-2(i+1)+1 = mu_(i+1)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#odddistinct">Proof</a>
+          </div>
+          <h2 id="binomialtheorem">Binomial Theorem</h2>
+          <p>The binomial theorem provides a formula for expanding powers of `x+y`.</p>
+          <div class="math">
+            <p>`(x+y)^2 = x^2 + 2xy + y^2`</p>
+            <p>`(x+y)^3 = x^3 + 3x^2y + 3xy^2 + y^3`</p>
+            <p>`(x+y)^n = ?`</p>
+          </div>
+          <div class="box">
+            <p>Theorem: For `n ge 0`, `(x+y)^n = sum_(i=0)^n ((n),(i)) x^iy^(n-i)`</p>
+            <div class="collapse" id="binomialproof">
+              <p>Consider the expansion `(x+y)^n = ubrace((x+y)(x+y)...(x+y))_n`</p>
+              <p>In terms of FOIL, multiply in the following manner:</p>
+              <p>FFF...F (`x*x*x*...*x`)</p>
+              <p>FFF...L (`x*x*x*...*y`)</p>
+              <p>FFF...LF (`x*x*x*...*y*x`)</p>
+              <p>FFF...LFF (`x*x*x*...*y*x*x`)</p>
+              <p>`vdots`</p>
+              <p>And repeat until all possible terms have been multiplied (`2^n` times)</p>
+              <p>Some terms will be repeated. For example, FFF...L (`x*x*x*...*y`) and FFLF...F (`x*x*y*x*...*x`) both have `n-1` `x's` and `1` `y`</p>
+              <p>The number of repeated terms is the number of ways to create a term that has that form</p>
+              <p>The form of each term will be `i` `x's` and `n-i` `y's`</p>
+              <p>Which gives us `((n),(i))` ways to create `x^iy^(n-i)`</p>
+              <p>To get the final answer, we sum up all the products</p>
+              <p>The sum goes from `0` to `n` because we have situations where `x` appears `0` times and `x` appears `n` times</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#binomialproof">Proof</a>
+          </div>
+          <p>There are several identities that can be obtained by substituting values for `x` and `y`.</p>
+          <div class="box">
+            <p>Let `x=y=1`</p>
+            <p>Then we get `2^n = sum_(i=0)^n ((n),(i))`, which was proven earlier</p>
+          </div>
+          <div class="box">
+            <p>Let `x=-1`, `y=1`</p>
+            <p>Then we get `0 = sum_(i=0)^n (-1)^i((n),(i))`</p>
+            <p>There's an interesting result when we expand the sum:</p>
+            <div class="math">
+              <p>`((n),(0))-((n),(1))+((n),(2))-((n),(3))+...+(-1)^n((n),(n)) = 0`</p>
+              <p>`((n),(0))+((n),(2))+... = ((n),(1))+((n),(3))+...`</p>
+              <p>`sum_(i text( even)) ((n),(i)) = sum_(i text( odd)) ((n),(i))`</p>
+            </div>
+            <p>This means the number of subsets with even size equals the number of subsets with odd size</p>
+            <p>So there are `(2^n)/2 = 2^(n-1)` subsets with even size (and likewise for subsets with odd size)</p>
+          </div>
+          <p>We can also obtain another identity by taking the derivative.</p>
+          <div class="box">
+            <p>Applying `(del)/(delx)`, we get</p>
+            <div class="math">
+              <p>`n(x+y)^(n-1) = sum_(i=0)^n i ((n),(i))x^(i-1)y^(n-i)`</p>
+              <p>`= sum_(i=1)^n i ((n),(i)) x^(i-1)y^(n-i)`</p>
+            </div>
+            <p>Setting `x=y=1`, we get `n2^(n-1)=sum_(i=1)^n i ((n),(i))`</p>
+            <p>The right-hand side counts the number of ways to pick a subset of `[n]` and an element in that subset</p>
+            <div class="math">
+              <p>`|{(x,S)|S sube [n], x in S}|`</p>
+            </div>
+            <p>First, pick a subset `S` of size `i`: `((n),(i))` ways to to this</p>
+            <p>Then, pick an element `x` in `S`: `i` ways to to this</p>
+            <div class="box">
+              <p>This is like picking members to be in a group, then picking a leader</p>
+            </div>
+            <p>The left-hand side tells a similar story</p>
+            <p>First, pick an element `x` to put in the subset `S`: `n` ways to do this</p>
+            <p>Then, pick the remaining elements to put in the subset `S`: `2^(n-1)` ways to do this</p>
+            <div class="box">
+              <p>This is like picking a leader, then the group members</p>
+            </div>
+          </div>
+          <h2 id="multinomialtheorem">Multinomial Theorem</h2>
+          <p>The multinomial theorem is a generalization of the binomial theorem.</p>
+          <div class="box">
+            <p>For `n,k ge 0`,</p>
+            <div class="math">
+              <p>`(x_1+x_2+...+x_k)^n = sum_(((a_1,a_2,...,a_k))) ((n),((a_1, a_2, ..., a_k))) x_1^(a_1)x_2^(a_2)...x_k^(a_k)`</p>
+            </div>
+            <p>where `a_i ge 0` and `a_1 + ... + a_k = n`</p>
+            <p>The proof is similar to the proof for the binomial theorem</p>
+            <p>The number of times `x_1^(a_1)x_2^(a_2)...x_k^(a_k)` appears is equal to the number of ways to choose each `x_i` exactly `a_i` times, which is `((n),((a_1,a_2,...,a_k)))`</p>
+          </div>
+          <div class="box">
+            <p>Example: `(x_1+x_2+x_3)^3`</p>
+            <div class="math">
+              <p>`= ((3),((3,0,0)))x_1^3 + ((3),((0,3,0)))x_2^3 + ((3),((0,0,3)))x_3^3`</p>
+              <p>`+ ((3),((2,1,0)))x_1^2x_2 + ((3),((2,0,1)))x_1^2x_3 + ((3),((1,2,0)))x_1x_2^2`</p>
+              <p>`+ ((3),((0,2,1)))x_2^2x_3 + ((3),((1,0,2)))x_1x_3^2 + ((3),((0,1,2)))x_2x_3^2`</p>
+              <p>`+ ((3),((1,1,1)))x_1x_2x_3`</p>
+              <p>`= x_1^3+x_2^3+x_3^3+3x_1^2x_2+3x_1^2x_3+3x_1x_2^2+3x_2^2x_3+3x_1x_3^2+3x_2x_3^2+6x_1x_2x_3`<p>
+            </div>
+          </div>
+          <div class="box">
+            <p>`k^n = sum_(((a_1,...,a_k))) ((n),((a_1,...,a_k)))`</p>
+            <div class="collapse" id="multiidentity1">
+              <p>Set `x_1 = x_2 = ... = x_k = 1`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#multiidentity1">Proof</a>
+          </div>
+          <div class="box">
+            <p>`0 = sum_(((a_1,...,a_k))) (1-k)^(a_1) ((n),((a_1,...,a_k)))`</p>
+            <div class="collapse" id="multiidentity2">
+              <p>Set `x_1 = 1-k`, `x_2 = ... = x_k = 1`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#multiidentity2">Proof</a>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
