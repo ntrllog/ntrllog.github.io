@@ -478,7 +478,7 @@
           <div class="box">
             <p>Theorem: The number of weak compositions of `n` into `k` parts is `((n+k-1),(n))`</p>
             <div class="collapse" id="weakcomposition">
-              <p>There is a bijection between weak compositions of `n` into `k` parts and `n`-element multisets of `[k]`</p>
+              <p>Claim: There is a bijection between weak compositions of `n` into `k` parts and `n`-element multisets of `[k]`</p>
               <p>Given a weak composition `(a_1,...,a_k)`, we get a multiset that has the `i^(th)` element `a_i` times</p>
               <p>Since `a_1 + ... + a_k = n`, this is an `n`-element multiset of `[k]`</p>
               <p>Given an `n`-element multiset of `[k]`, let `a_i` be the number of times that `i` appears in the multiset</p>
@@ -679,14 +679,60 @@
           </div>
           <div class="box">
             <p>`lambda` is <b>self-conjugate</b> if `lambda = lambda^T`</p>
-          </div>
-          <div class="box">
             <p>Some self-conjugate partitions are `(4,3,2,1)`, `(5,1,1,1,1)`, `(4,2,1,1)`</p>
             <div class="math">
               <img class="img-fluid" src="../pictures/combinatorics/young_4321.png">
               <img class="img-fluid" src="../pictures/combinatorics/young_51111.png">
               <img class="img-fluid" src="../pictures/combinatorics/young_4211.png">
             </div>
+          </div>
+          <div class="box">
+            <p>Theorem: The number of partitions `lambda` of `n` with `l(lambda) le k` equals the number of partitions `mu` of `n` with `mu_i le k`</p>
+            <p>Example: `n=5, k=2`</p>
+            <div class="math">
+              <div class="row">
+                <div class="col-sm">
+                  <p>`(5)`</p>
+                  <p>`(4,1)`</p>
+                  <p>`(3,2)`</p>
+                </div>
+                <div class="col-sm">
+                  <p>`(1,1,1,1,1)`</p>
+                  <p>`(2,1,1,1)`</p>
+                  <p>`(2,2,1)`</p>
+                </div>
+              </div>
+            </div>
+            <div class="collapse" id="partitionslek">
+              <p>Notice that taking the transpose of `lambda` gives us `mu`</p>
+              <p>Claim: There is a bijection between `A = {text(partitions ) lambda text( of ) n text( with ) l(lambda) le k}` and `B = {text(partitions ) mu text( of ) n text( such that ) mu_i le k}`</p>
+              <p>Let `f:A rarr B` be a function defined to be `f(lambda) = lambda^T`</p>
+              <p>Since `(lambda^T)^T = lambda`, `f circ f` is the identity function</p>
+              <p>So `|A| = |B|`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#partitionslek">Proof</a>
+          </div>
+          <div class="box">
+            <p>Theorem: The number of self-conjugate partitions `lambda` of `n` equals the number of partitions `mu` of `n` with only odd and distinct parts</p>
+            <div class="collapse" id="odddistinct">
+              <p>Start with a Young diagram of `lambda`</p>
+              <p>Take the boxes of the first row and column and put them all in a row</p>
+              <p>Make that row the first row of `mu`</p>
+              <p>Repeat this for all the rows/columns of the `lambda`</p>
+              <p>Informally, peel off the outer layer of `lambda` and straighten it out to become a row in `mu`</p>
+              <p>This process is reversible, so there is a bijection</p>
+              <p>Informally, fold the row of `mu` in half and make it the outer layer of `lambda`</p>
+              <p>Since `lambda` is self-conjugate, there are an odd number of parts in the `i^(th)` row and column</p>
+              <p>`mu_i = lambda_i-(i-1) + lambda_i^T - (i-1) - 1`</p>
+              <p>The `i^(th)` row of `mu` is the `i^(th)` row of `lambda` minus the boxes to the left plus the `i^(th)` rows of `lambda^T` minus the boxes from the top minus `1` for the box in the top-left corner</p>
+              <p>`mu_i = 2lambda_i - 2i + 1`</p>
+              <p>Claim: `mu_1 gt mu_2 gt ...`</p>
+              <p>`mu_i = 2lambda_i - 2i + 1`</p>
+              <p>`mu_(i+1) = 2lambda_(i+1) - 2(i+1) + 1`</p>
+              <p>Since `lambda` is a partition, `lambda_i ge lambda_(i+1)`</p>
+              <p>So `mu_i = 2lambda_i - 2i + 1 ge 2lambda_(i+1)-2(i+1)+1 = mu_(i+1)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#odddistinct">Proof</a>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
