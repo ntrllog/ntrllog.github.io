@@ -1123,9 +1123,136 @@
               <img class="img-fluid" src="../pictures/combinatorics/q3-41a.jpg">
               <p>Any element in `[n]` can be:</p>
               <ul>
+                <li>`in A and in B`</li>
+                <li>`in A and notin B`</li>
+                <li>`notin A and in B`</li>
+                <li>`notin A and notin B and in C`</li>
+                <li>`notin A and notin B and notin C`</li>
               </ul>
+              <p>`5^n` ways</p>
+              <p>For the case where `A nn B = O/`:</p>
+              <img class="img-fluid" src="../pictures/combinatorics/q3-41b.jpg">
+              <p>Any element in `[n]` can be:</p>
+              <ul>
+                <li>`in A and notin B`</li>
+                <li>`notin A and in B`</li>
+                <li>`notin A and notin B and in C`</li>
+                <li>`notin A and notin B and notin C`</li>
+              </ul>
+              <p>`4^n` ways</p>
+              <p>`color(red)(5^n-4^n)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-41">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.42: A two-day math conference has `n` participants. Some of the participants give a talk on Saturday, some others give a talk on Sunday. Nobody gives more than one talk, and there may be some people who do not give a talk at all. At the end of the conference, a few talks are selected to be included in a book. In how many different ways is this all possible if there is at least one talk selected for inclusion in the book?</p>
+            <div class="collapse" id="q3-42">
+              <p>Count the number of ways for people to give talks without any of them being included in the book and subtract from the total number of ways for people to give talks</p>
+              <p>Total number of ways for people to give talks:</p>
+              <p>There are `5` situations for each person:</p>
+              <ul>
+                <li>don't give a talk at all</li>
+                <li>give a talk on Saturday</li>
+                <li>give a talk on Sunday</li>
+                <li>be included in the book as a Saturday speaker</li>
+                <li>be included in the book as a Sunday speaker</li>
+              </ul>
+              <p>`5^n` ways</p>
+              <p>For the case where no talk is selected to be in the book, there are `3` situations for each person:</p>
+              <ul>
+                <li>don't give a talk at all</li>
+                <li>give a talk on Saturday</li>
+                <li>give a talk on Sunday</li>
+              </ul>
+              <p>`3^n` ways</p>
+              <p>`color(red)(5^n-3^n)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-42">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.43: A group organizing a faculty-student tennis match must match `4` faculty volunteers to `4` of the `13` students who volunteered to be in the match. In how many ways can they do this?</p>
+            <div class="collapse" id="q3-43">
+              <p>The first faculty volunteer has `13` students from which to choose</p>
+              <p>The second faculty volunteer has `12` students from which to choose</p>
+              <p>The third faculty volunteer has `11` students from which to choose</p>
+              <p>The fourth faculty volunteer has `10` students from which to choose</p>
+              <p>`color(red)(13*12*11*10)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-43">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.45: A student will study `26` hours in preparation for an exam. She will do this in the course of `6` consecutive days. On each of these days, she will study either `4` hours, `5` hours, or `6` hours. In how many different ways is this possible?</p>
+            <div class="collapse" id="q3-45">
+              <p>Let `a` be the number of days she studies for `4` hours</p>
+              <p>Let `b` be the number of days she studies for `5` hours</p>
+              <p>Let `c` be the number of days she studies for `6` hours</p>
+              <p>`a+b+c = 6`</p>
+              <p>`4a+5b+6c = 26`</p>
+              <p>`implies b + 2c = 2`</p>
+              <p>So `b = 2, c = 0, a = 4` (`5` hours for `2` days and `4` hours for `4` days)</p>
+              <p>or</p>
+              <p>`b = 0, c = 1, a = 5` (`6` hours for `1` day and `4` hours for `5` days)</p>
+              <p>For the case where she studies for `4` hours for `4` days and `5` hours for `2` days:</p>
+              <ul>
+                <li>There are `6` days to choose from and `4` of them could be for the `4` hours</li>
+                <li>`((6),(4)) = 15`</li>
+                <li>Alternatively, there are `6` days to choose from and `2` of them could be for the `5` hours</li>
+                <li>`((6),(2)) = 15`</li>
+              </ul>
+              <p>For the case where she studies for `4` hours for `5` days and `6` hours for `1` day:</p>
+              <ul>
+                <li>There are `6` days to choose from and `5` of them could be for the `4` hours</li>
+                <li>`((6),(5)) = 6`</li>
+                <li>Alternatively, there are `6` days to choose from and `1` of them could be for the `6` hours</li>
+                <li>`((6),(1)) = 6`</li>
+              </ul>
+              <p>`color(red)(15+6 = 21)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-45">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.46: Andy and Brenda throw `4` dice at the same time. If at least `1` of the `4` shows a six, then Andy wins, if not then Brenda. Who has a greater chance of winning?</p>
+            <div class="collapse" id="q3-46">
+              <p>Calculate Brenda's chance of winning by counting the number of possibilities where none of the dice show a six</p>
+              <p>Total number of possibilities:</p>
+              <ul>
+                <li>Each die has `6` possible outcomes `implies 6^4`</li>
+              </ul>
+              <p>None of them show a six:</p>
+              <ul>
+                <li>Each die has `5` possible outcomes `implies 5^4`</li>
+              </ul>
+              <p>Brenda has a `(5^4)/(6^4) = 625/1296` chance of winning</p>
+              <p>Andy has a `671/1296` chance of winning</p>
+              <p>`color(red)(text(Andy))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-46">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.49: A class is attended by `n` sophomores, `n` juniors, and `n` seniors. In how many ways can these students form `n` groups of `3` people each if each group is to contain a sophomore, a junior, and a senior?</p>
+            <div class="collapse" id="q3-49">
+              <p>For the first sophomore, there are `n` choices of juniors and `n` choices of seniors</p>
+              <p>For the second sophomore, there are `n-1` choices of juniors and `n-1` choices of seniors</p>
+              <p>For the third sophomore, there are `n-2` choices of juniors and `n-2` choices of seniors</p>
+              <p>`vdots`</p>
+              <p>For the last sophomore, there is `1` choice for the junior and `1` choice for the senior</p>
+              <p>`color(red)(n!*n!)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-49">Answer</a>
+          </div>
+          <div class="box">
+            <p>3.50: The NFL consists of `32` teams. These teams are first divided into `2` conferences, the American Conference and the National Conference, each of which consists of `16` teams. Then each conference is divided into `4` divisions of `4` teams each. Each division has a distinct name. In how many ways can this be done?</p>
+            <div class="collapse" id="q3-50">
+              <p>There are a total of `8` divisions</p>
+              <p>There are `((32),(4))` choices for the first division</p>
+              <p>There are `((28),(4))` choices for the second division</p>
+              <p>There are `((24),(4))` choices for the third division</p>
+              <p>`vdots`</p>
+              <p>There are `((8),(4))` choices for the seventh division</p>
+              <p>There are `((4),(4))` choices for the eighth division</p>
+              <p>`color(red)(((32),(4))*((28),(4))*((24),(4))*...*((8),(4))*((4),(4)))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q3-50">Answer</a>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
