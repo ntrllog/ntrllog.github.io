@@ -56,7 +56,9 @@
             <p>Number of compositions into `k` parts: `((n-1),(n-k))`</p>
             <p>Number of compositions into all possible parts: `2^(n-1)`</p>
             <p>Number of set partitions into `k` blocks: `S(n,k) = S(n-1,k-1) + k*S(n-1,k)`</p>
-            <p>Bell numbers: `B(n+1) = sum_(i=0)^n ((n),(i))B(i)`</p>
+            <p>Number of all set partitions: `B(n+1) = sum_(i=0)^n ((n),(i))B(i)`</p>
+            <p>Binomial Theorem: `(x+y)^n = sum_(i=0)^n ((n),(i)) x^iy^(n-i)`</p>
+            <p>Multinomial Theorem: `(x_1+x_2+...+x_k)^n = sum_(((a_1,a_2,...,a_k))) ((n),((a_1, a_2, ..., a_k))) x_1^(a_1)x_2^(a_2)...x_k^(a_k)`</p>
           </div>
           <h2 id="induction">Induction</h2>
           <div class="box">
@@ -924,8 +926,43 @@
             <p>Intuitively, if a formal power series has no constant term, then its product with any other power series will always be a sum of powers of `x`, which can never be equal to `1`</p>
           </div>
           <div class="box">
-            <p>Let `A(x),B(x)` be formal power series such that `[x^0]A(x) != 0`</p>
+            <p>Let `A(x),B(x)` be formal power series such that `[x^0]A(x) = 0`</p>
             <p>The <b>composition</b> `(B circ A)(x) = B(A(x))` is defined by `sum_(n ge 0) b_nA(x)^n`</p>
+          </div>
+          <div class="box">
+            <p>Let `A(x) = x^d` where `d gt 0` and `B(x) = sum_(n ge 0) x^n`</p>
+            <p>`B(A(x)) = sum_(n ge 0) (x^d)^n = sum_(n ge 0) x^(dn)`</p>
+            <p>We can substitute this into the identity `(1-x)sum_(n ge 0) x^n = 1` to get a new identity:</p>
+            <p>`(1-x^d)sum_(n ge 0) x^(dn) = 1 implies 1/(1-x^d) = sum_(n ge 0) x^(dn)`</p>
+          </div>
+          <div class="box">
+            <p>The <b>derivative</b> of `A`, written as `DA` or `A'`, is defined by `sum_(n ge 0) na_nx^(n-1) = sum_(n ge 0) (n+1)a_(n+1)x^n`</p>
+          </div>
+          <div class="box">
+            <p>`D(A+B) = DA + DB`</p>
+            <p>`D(A*B) = (DA)*B + A*(DB)` (product rule for derivatives)</p>
+            <p>`D(B circ A) = (DA)(DB circ A)` (chain rule)</p>
+            <p>`D(A^(-1)) = -(DA)/A^2`</p>
+            <p>`D(A^n) = n(DA)A^(n-1)`</p>
+          </div>
+          <div class="box">
+            <p>`1/(1-x) = sum_(n ge 0) x^n`</p>
+            <p>Derivative: `1/(1-x)^2 = sum_(n ge 0) nx^(n-1) = sum_(n ge 0) (n+1)x^n`</p>
+            <p>It is possible to simplify `sum_(n ge 0) nx^n`:</p>
+            <div class="math">
+              <p>`sum_(n ge 0) nx^n = x sum_(n ge 1) nx^(n-1)`</p>
+              <p>`= x sum_(n ge 0) (n+1)x^n`</p>
+              <p>`= x*1/(1-x)^2`</p>
+              <p>`= x/(1-x)^2`</p>
+            </div>
+            <p>or</p>
+            <div class="math">
+              <p>`sum_(n ge 0) nx^n = sum_(n ge 0) (n+1)x^n - sum_(n ge 0) x^n`</p>
+              <p>`= 1/(1-x)^2 - 1/(1-x)`</p>
+              <p>`= (1-(1-x))/(1-x)^2`</p>
+              <p>`= x/(1-x)^2`</p>
+            </div>
+            <p>In either case, we get the identity `(1-x)^2 sum_(n ge 0) nx^n = x`</p>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
