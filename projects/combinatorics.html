@@ -33,8 +33,9 @@
         <a class="dropdown-item" href="#compositions">Compositions</a>
         <a class="dropdown-item" href="#setpartitions">Set Partitions</a>
         <a class="dropdown-item" href="#integerpartitions">Integer Partitions</a>
-        <a class="dropdown-item" href="#binomialtheorem">Binomial Theoerem</a> 
-        <a class="dropdown-item" href="#multinomialtheorem">Multinomial Theoerem</a> 
+        <a class="dropdown-item" href="#binomialtheorem">Binomial Theoerem</a>
+        <a class="dropdown-item" href="#multinomialtheorem">Multinomial Theoerem</a>
+        <a class="dropdown-item" href="#formalpowerseries">Formal Power Series</a>
         <a class="dropdown-item" href="#practiceproblems">Practice Problems</a>
       </div>
     </div>
@@ -44,7 +45,8 @@
         <div class="col-12">
           <h1>Combinatorics</h1>
           <hr>
-          <p>Shortcut to this page: <a href="nonlinear.html">aln.netlify.com/comb</a></p>
+          <p>(or as I like to call it, combinatrix)</p>
+          <p>Shortcut to this page: <a href="combinatorics.html">aln.netlify.com/comb</a></p>
           <h2 id="formulas">Formulas</h2>
           <div class="box">
             <p>Number of subsets: `sum_(k=0)^n ((n),(k)) = 2^n`</p>
@@ -782,7 +784,7 @@
           </div>
           <p>We can also obtain another identity by taking the derivative.</p>
           <div class="box">
-            <p>Applying `(del)/(delx)`, we get</p>
+            <p>Applying `del/(delx)`, we get</p>
             <div class="math">
               <p>`n(x+y)^(n-1) = sum_(i=0)^n i ((n),(i))x^(i-1)y^(n-i)`</p>
               <p>`= sum_(i=1)^n i ((n),(i)) x^(i-1)y^(n-i)`</p>
@@ -845,6 +847,85 @@
               <p>Apply `del/(delx_1)` and set `x_1 = ... = x_k = 1`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#multiidentity3">Proof</a>
+          </div>
+          <h2 id="formalpowerseries">Formal Power Series</h2>
+          <div class="box">
+            <p>A <b>formal power series</b> (in variable `x`) is an expression of the form `sum_(n=0)^(oo) a_nx^n = A(x)` where `a_n` are scalars</p>
+            <p>Alteratively, it can be written as `sum_(n ge 0) a_nx^n`</p>
+            <p>Let `[x^n]A(x)` be the coefficient of `x^n` (so in this case, `[x^n]A(x) = a_n`)</p>
+          </div>
+          <div class="box">
+            <p>Two power series are equal if and only if all of their coefficients match</p>
+            <p>`A(x) = B(x)` if and only if `a_n = b_n` for all `n`</p>
+          </div>
+          <div class="box">
+            <p>`A(x)+B(x) = sum_(n ge 0) (a_n+b_n)x^n`</p>
+            <p>`A(x)B(x) = sum_(n ge 0) c_nx^n` where `c_n = sum_(i=0)^n a_ib_(n-i)color(red)(text(*))`</p>
+            <p>`color(red)(text(*))`the powers have to add up to `n`</p>
+            <p>Addition and multiplication are both commutative and associative</p>
+            <p>`A(x)+B(x) = B(x)+A(x)`</p>
+            <p>`A(x)+[B(x)+C(x)] = [A(x)+B(x)]+C(x)`</p>
+            <p>`A(x)B(x) = B(x)A(x)`</p>
+            <p>`A(x)[B(x)C(x)] = [A(x)B(x)]C(x)`</p>
+          </div>
+          <div class="box">
+            <p>Let `A(x) = B(x) = sum_(n ge 0) x^n`</p>
+            <p>`A(x)+B(x) = sum_(n ge 0) 2x^n`</p>
+            <p>`A(x)B(x) = sum_(n ge 0) (n+1)x^n`</p>
+            <p>In the multiplication, `c_n = sum_(i=0)^n a_ib_(n-i) = sum_(i=0)^n 1 = n+1`</p>
+          </div>
+          <div class="box">
+            <p>`A(x)` is <b>invertible</b> if there exists `B(x)` such that `A(x)B(x) = 1`</p>
+            <p>Then `B(x) = A(x)^(-1) = 1/(A(x))`</p>
+          </div>
+          <div class="box">
+            <p>`A(x) = sum_(n ge 0) x^n`, `B(x) = 1-x`</p>
+            <p>`A(x)B(x) = sum_(n ge 0) c_nx^n` where `c_n = sum_(i=0)^n a_ib_(n-i)`</p>
+            <p>If `n=0`, then `c_0 = a_0b_0 = 1`</p>
+            <p>If `n=1`, then `c_1 = a_0b_1 + a_1b_0 = (1)(-1) + (1)(1) = 0`</p>
+            <p>If `n ge 2`, then `c_n = 0` since `B(x)` has no degree `ge 2` term</p>
+            <p>So `c_n = 1` when `n=0` and `c_n = 0` when `n gt 0` `implies A(x)B(x) = sum_(n ge 0) c_nx^n = 1`</p>
+            <p>This means `sum_(n ge 0) x^n` is invertible with inverse `1-x`</p>
+            <p>We can also see that their product is equal to `1` by manually multiplying them:</p>
+            <div class="math">
+              <p>`(1+x+x^2+x^3+...)(1-x)`</p>
+              <p>`= 1+x+x^2+x^3+...`</p>
+              <p>`\ \ \ \ \ \ \ \ -x-x^2-x^3-...`</p>
+              <p>`= 1`</p>
+            </div>
+            <div class="box">
+              <p>`(sum_(n ge 0) x^n)(1-x) = 1`</p>
+              <p>`implies sum_(n ge 0) x^n = 1/(1-x)`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Theorem: `A(x)` is invertible if and only if `[x^0]A(x) != 0`</p>
+            <p>A formal power series is invertible if and only if the constant term is nonzero</p>
+            <div class="collapse" id="fpsinvertible">
+              <p>`(lArr)`Suppose `[x^0]A(x) != 0`. Want to show `A(x)` is invertible</p>
+              <p>Consider `B(x) = sum_(n ge 0) b_nx^n` and try to pick `b_n` so that `A(x)B(x) = 1`</p>
+              <p>Expanding out the equation `A(x)B(x) = 1` and matching coefficients, we get:</p>
+              <div class="math">
+                <p>`a_0b_0 = 1`</p>
+                <p>`(a_1b_0 + a_0b_1)x = 0x`</p>
+                <p>`(a_2b_0 + a_1b_1 + a_0b_2)x^2 = 0x^2`</p>
+                <p>`vdots`</p>
+              </div>
+              <p>Using this system of equations, we can try to find `b_n`</p>
+              <div class="math">
+                <p>`a_0b_0 = 1 implies b_0 = 1/a_0`</p>
+                <p>`a_1b_0+a_0b_1 = 0 implies b_1 = -(a_1b_0)/a_0 = -a_1/(a_0)^2`</p>
+                <p>`a_2b_0+a_1b_1+a_0b_2 = 0 implies b_2 = -(a_2b_0+a_1b_1)/a_0`</p>
+              </div>
+              <p>At each stage, it is possible to find `b_(n+1)` since it is in terms of `b_0,...,b_n`</p>
+              <p>`(implies)`If the constant term is `0`, then the equation `a_0b_0 = 1` has no solution `implies` cannot find `b_n` `implies` `A(x)` is not invertible</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#fpsinvertible">Proof</a>
+            <p>Intuitively, if a formal power series has no constant term, then its product with any other power series will always be a sum of powers of `x`, which can never be equal to `1`</p>
+          </div>
+          <div class="box">
+            <p>Let `A(x),B(x)` be formal power series such that `[x^0]A(x) != 0`</p>
+            <p>The <b>composition</b> `(B circ A)(x) = B(A(x))` is defined by `sum_(n ge 0) b_nA(x)^n`</p>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
