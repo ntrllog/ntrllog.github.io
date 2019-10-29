@@ -36,6 +36,8 @@
         <a class="dropdown-item" href="#binomialtheorem">Binomial Theoerem</a>
         <a class="dropdown-item" href="#multinomialtheorem">Multinomial Theoerem</a>
         <a class="dropdown-item" href="#formalpowerseries">Formal Power Series</a>
+        <a class="dropdown-item" href="#binomialtheoremgeneral">Binomial Theoerem (General)</a>
+        <a class="dropdown-item" href="#ordinarygeneratingfunctions">Ordinary Generating Functions</a>
         <a class="dropdown-item" href="#practiceproblems">Practice Problems</a>
       </div>
     </div>
@@ -964,6 +966,34 @@
             </div>
             <p>In either case, we get the identity `(1-x)^2 sum_(n ge 0) nx^n = x`</p>
           </div>
+          <h2 id="binomialtheoremgeneral">Binomial Theorem (General)</h2>
+          <div class="box">
+            <p>Let `m` be a real number and `k ge 0` be an integer</p>
+            <p>`((m),(0))=1`</p>
+            <p>`((m),(k)) = (m(m-1)(m-2)...(m-k+1))/(k!)`</p>
+          </div>
+          <div class="box">
+            <p>Theorem: `(1+x)^m = sum_(n ge 0) ((m),(n)) x^n`</p>
+          </div>
+          <div class="box">
+            <p>`m=1`</p>
+            <p>From before,</p>
+            <div class="math">
+              <p>`1/(1-x) = sum_(n ge 0) x^n`</p>
+            </div>
+            <p>Substituting `-x` for `x`,</p>
+            <div class="math">
+              <p>`1/(1+x) = sum_(n ge 0) (-1)^nx^n`</p>
+            </div>
+            <p>From the binomial theorem: `(1+x)^(-1) = sum_(n ge 0) ((-1),(n))x^n`</p>
+            <div class="math">
+              <p>`((-1),(n)) = ((-1)(-2)(-3)...(-1-n+1))/(n!)`</p>
+              <p>`= ((-1)^n n!)/(n!)`</p>
+              <p>`= (-1)^n`</p>
+            </div>
+            <p>So the equation obtained from the binomial theorem matches the one from the formal power series</p>
+          </div>
+          <h2 id="ordinarygeneratingfunctions">Ordinary Generating Functions</h2>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
             <p>3.1: How many functions are there from `[n]` to `[n]` that are not one-to-one?</p>
