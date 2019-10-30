@@ -261,10 +261,13 @@
           <h2 id="words">Words</h2>
           <p>Sometimes, it's easier to count things by using some sort of encoding.</p>
           <div class="box">
-            <p>A <b>word</b> is a finite ordered sequence whose entries are drawn from some set `A`, called the alphabet. The <b>length</b> of a word is the number of entries it has. Entries may be repeated. An empty sequence `O/` is a word of length `0`</p>
+            <p>A <b>word</b> is a finite ordered sequence whose entries are drawn from some set `A`, called the alphabet</p>
+            <p>The <b>length</b> of a word is the number of entries it has</p>
+            <p>Entries may be repeated</p>
+            <p>An empty sequence `O/` is a word of length `0`</p>
           </div>
           <div class="box">
-            <p>The alphabet is `A = {a,b}`</p>
+            <p>Consider the alphabet `A = {a,b}`</p>
             <p>The words of length `le 2` are:</p>
             <div class="math">
               <p>`O/`</p>
@@ -883,7 +886,8 @@
             <p>Then `B(x) = A(x)^(-1) = 1/(A(x))`</p>
           </div>
           <div class="box">
-            <p>`A(x) = sum_(n ge 0) x^n`, `B(x) = 1-x`</p>
+            <p>An example of an invertible formal power series:</p>
+            <p>Let `A(x) = sum_(n ge 0) x^n`, `B(x) = 1-x`</p>
             <p>`A(x)B(x) = sum_(n ge 0) c_nx^n` where `c_n = sum_(i=0)^n a_ib_(n-i)`</p>
             <p>If `n=0`, then `c_0 = a_0b_0 = 1`</p>
             <p>If `n=1`, then `c_1 = a_0b_1 + a_1b_0 = (1)(-1) + (1)(1) = 0`</p>
@@ -898,6 +902,7 @@
               <p>`= 1`</p>
             </div>
             <div class="box">
+              <p>From this result, we get an identity:</p>
               <p>`(sum_(n ge 0) x^n)(1-x) = 1`</p>
               <p>`implies sum_(n ge 0) x^n = 1/(1-x)`</p>
             </div>
@@ -948,7 +953,7 @@
             <p>`D(A^n) = n(DA)A^(n-1)`</p>
           </div>
           <div class="box">
-            <p>`1/(1-x) = sum_(n ge 0) x^n`</p>
+            <p>From before, `1/(1-x) = sum_(n ge 0) x^n`. We can use this identity to get a new identity</p>
             <p>Derivative: `1/(1-x)^2 = sum_(n ge 0) nx^(n-1) = sum_(n ge 0) (n+1)x^n`</p>
             <p>It is possible to simplify `sum_(n ge 0) nx^n`:</p>
             <div class="math">
@@ -967,6 +972,7 @@
             <p>In either case, we get the identity `(1-x)^2 sum_(n ge 0) nx^n = x`</p>
           </div>
           <h2 id="binomialtheoremgeneral">Binomial Theorem (General)</h2>
+          <p>The previous binomial theorem only considered nonnegative powers. Here, we consider real-numbered powers</p>
           <div class="box">
             <p>Let `m` be a real number and `k ge 0` be an integer</p>
             <p>`((m),(0))=1`</p>
@@ -976,7 +982,7 @@
             <p>Theorem: `(1+x)^m = sum_(n ge 0) ((m),(n)) x^n`</p>
           </div>
           <div class="box">
-            <p>`m=1`</p>
+            <p>Consider `-1` as a power: `m=-1`</p>
             <p>From before,</p>
             <div class="math">
               <p>`1/(1-x) = sum_(n ge 0) x^n`</p>
@@ -985,6 +991,7 @@
             <div class="math">
               <p>`1/(1+x) = sum_(n ge 0) (-1)^nx^n`</p>
             </div>
+            <p>Using the binomial theorem, we should get the same result</p>
             <p>From the binomial theorem: `(1+x)^(-1) = sum_(n ge 0) ((-1),(n))x^n`</p>
             <div class="math">
               <p>`((-1),(n)) = ((-1)(-2)(-3)...(-1-n+1))/(n!)`</p>
@@ -992,6 +999,46 @@
               <p>`= (-1)^n`</p>
             </div>
             <p>So the equation obtained from the binomial theorem matches the one from the formal power series</p>
+          </div>
+          <div class="box">
+            <p>Consider any negative power: `m=-d` where `d gt 0` is an integer</p>
+            <p>We could try to see what it evaluates to without using the binomial theorem, but it gets pretty complicated</p>
+            <div class="math">
+              <p>`(1+x)^(-d) = (1/(1+x))^d`</p>
+              <p>`= (sum_(n ge 0) (-1)^nx^n)^d`</p>
+            </div>
+            <p>Using the binomial theorem: `(1+x)^(-d) = sum_(n ge 0) ((-d),(n)) x^n`</p>
+            <div class="math">
+              <p>`((-d),(n)) = ((-d)(-d-1)(-d-2)...(-d-n+1))/(n!)`</p>
+              <p>`= (-1)^n((d)(d+1)(d+2)...(d+n-1))/(n!)`</p>
+              <p>`= (-1)^n((d-1)!(d)(d+1)...(d+n-1))/((d-1)!n!)`</p>
+              <p>`= (-1)^n((d+n-1)!)/((d-1)!n!)`</p>
+              <p>`= (-1)^n((d+n-1),(n))`</p>
+            </div>
+            <p>So `(1+x)^(-d) = 1/(1+x)^d = sum_(n ge 0) (-1)^n((d+n-1),(n))x^n`</p>
+            <p>If we substitute `-x` for `x`, we get `(1-x)^(-d) = 1/(1-x)^d = sum_(n ge 0) (-1)^n((d+n-1),(n))(-x)^n = sum_(n ge 0) ((d+n-1),(n))x^n`</p>
+          </div>
+          <div class="box">
+            <p>Consider a fractional power: `m=1/2`</p>
+            <p>`(1+x)^(1/2)` is a formal power series whose square is `(1+x)`</p>
+            <p>Using the binomial theorem: `(1+x)^(1/2) = sum_(n ge 0) ((1/2),(n))x^n`</p>
+            <div class="math">
+              <p>`((1/2),(n)) = ((1/2)(-1/2)(-3/2)...(-1/2-n+1))/(n!)`</p>
+              <p>`= (-1)^(n-1)((1/2)(1/2)(3/2)(5/2)...((2n-1)/2))/(n!)`</p>
+              <p>`= (-1)^(n-1)(3*5*7*...*2n-1)/(2^n n!)`</p>
+            </div>
+            <p>which doesn't really simplify further</p>
+            <p>However, this means we've found the square root of a formal power series</p>
+            <div class="math">
+              <p>`(sum_(n ge 0) ((1/2),(n))x^n)^2 = 1+x`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Given a quadratic equation, `A(x)t^2+B(x)t+C(x) = 0` where `A(x),B(x),C(x)` are formal power series, the solutions `t` are given by the quadratic formula</p>
+            <div class="math">
+              <p>`t = (-B(x) +- sqrt((B(x))^2-4A(x)C(x)))/(2A(x))`</p>
+            </div>
+            <p>if `A(x)` is invertible</p>
           </div>
           <h2 id="ordinarygeneratingfunctions">Ordinary Generating Functions</h2>
           <h2 id="practiceproblems">Practice Problems</h2>
