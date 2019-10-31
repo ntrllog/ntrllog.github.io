@@ -106,7 +106,7 @@
             <div class="collapse" id="fourn">
               <p>Let `P(n)` be the statement `4n lt 2^n` for `n ge 5`</p>
               <p>For `n=0`, `4*0 = 0 lt 2^0 = 1` so `P(0)` is true</p>
-              <p>Suppose `P(n)` is true. Want to show `P(n+1)` is true, i.e. `4n+4 lt 2^(n+1)` for `n ge 5`</p>
+              <p>Suppose `P(n)` is true. Want to show `P(n+1)` is true, i.e. `4n+4 lt 2^(n+1)`</p>
               <div class="math">
                 <p>`2^(n+1) = 2*2^n`</p>
                 <p>`= 2^n + 2^n`</p>
@@ -176,7 +176,7 @@
               <p>For `n=0`, `f(0) = 1 le 3^0 = 1`</p>
               <p>For `n=1`, `f(1) = 2 le 3^1 = 3`</p>
               <p>So `P(0)` and `P(1)` are true</p>
-              <p>Suppose `P(n)` is true. Want to show that `P(n+1)` is true, i.e. `f(n+1) le 3^(n+1)` for `n ge 0`</p>
+              <p>Suppose `P(n)` is true. Want to show that `P(n+1)` is true, i.e. `f(n+1) le 3^(n+1)`</p>
               <div class="math">
                 <p>`f(n+1) = f(n-1)+2f(n)`</p>
                 <p>`le 3^(n-1) + 2*3^n`</p>
@@ -1041,6 +1041,135 @@
             <p>if `A(x)` is invertible</p>
           </div>
           <h2 id="ordinarygeneratingfunctions">Ordinary Generating Functions</h2>
+          <div class="box">
+            <p>Given a sequence of numbers `a_0, a_1, a_2, ...`, the <b>ordinary generating function</b> (ogf) is `A(x) = sum_(n ge 0) a_nx^n`</p>
+          </div>
+          <h3>Linear Recurrence Relations</h3>
+          <div class="box">
+            <p>A sequence `a_0,a_1,...` satisfies a <b>linear recurrence relation</b> (of order `d`) if there exist scalars `c_1, c_2, ..., c_d` such that `c_d != 0` and for all `n ge d`, `a_n = c_1a_(n-1)+c_2a_(n-2)+...+c_da_(n-d)`</p>
+            <p>`d` is the minimum number of initial conditions that must be specified in order to find `a_n`</p>
+          </div>
+          <div class="box">
+            <p>An example of a linear recurrence relation is the Fibonacci numbers</p>
+            <p>`1,1,2,3,5,8,13,21,...`</p>
+            <p>The relation is `a_n = a_(n-1)+a_(n-2)` for `n ge 2`</p>
+            <p>It satisifes a linear recurrence relation of order `2` where `c_1=c_2=1`</p>
+          </div>
+          <p>The goal is to find closed formulas for `a_n`</p>
+          <div class="box">
+            <p>Consider the case when `d=1`</p>
+            <p>Then we have `a_n = c_1a_(n-1)` for `n ge 1`</p>
+            <div class="math">
+              <p>`a_1=c_1a_0`</p>
+              <p>`a_2=c_1a_1=c_1^2a_0`</p>
+              <p>`a_3=c_1a_2=c_1^3a_0`</p>
+              <p>`vdots`</p>
+              <p>`a_n=c_1^na_0`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Consider the case when `d=2`</p>
+            <p>Then we have `a_n = c_1a_(n-1)+c_2a_(n-2)` for `n ge 2`</p>
+            <div class="box">
+              <p>The <b>characteristic polynomial</b> of this recurrence relation is defined to be `t^2-c_1t-c_2`</p>
+              <p>The roots `r_1,r_2` are given by `(c_1 +- sqrt(c_1^2+4c_2))/2`</p>
+              <p>It can be factored as `t^2-c_1t-c_2 = (t-r_1)(t-r_2)`</p>
+            </div>
+            <div class="box">
+              <p>Theorem: If `r_1 != r_2`, then there are constants `alpha_1,alpha_2` such that `a_n = alpha_1r_1^n+alpha_2r_2^n` for all `n`</p>
+              <div class="collapse" id="ogfconstants">
+                <p>Given `a_0, a_1, ...`, create the ordinary generating function `A(x) = sum_(n ge 0)a_nx^n`</p>
+                <p>`A(x) = a_0 + a_1x + sum_(n ge 2)a_nx^n`</p>
+                <p>(the recurrence is only valid for `n ge 2` so we have to take out the first two terms in order to make the substitution below)</p>
+                <p>From above, `a_n = c_1a_(n-1)+c_2a_(n-2)`, so</p>
+                <div class="math">
+                  <p>`A(x) = a_0 + a_1x + sum_(n ge 2)(c_1a_(n-1)+c_2a_(n-2))x^n`</p>
+                  <p>`= a_0 + a_1x + c_1sum_(n ge 2)a_(n-1)x^n+c_2sum_(n ge 2)a_(n-2)x^n`</p>
+                </div>
+                <p>The last two summations are almost the same as `A(x)`</p>
+                <div class="math">
+                  <p>`sum_(n ge 2)a_(n-1)x^n=xsum_(n ge 2)a_(n-1)x^(n-1)=x(a_1x+a_2x^2+a_3x^3+...)=x(A(x)-a_0)`</p>
+                  <p>`sum_(n ge 2)a_(n-2)x^n=x^2sum_(n ge 2)a_(n-2)x^(n-2)=x^2sum_(n ge 0)a_nx^n=x^2A(x)`</p>
+                </div>
+                <p>Plugging these two back into `A(x)`, we get</p>
+                <div class="math">
+                  <p>`A(x) = a_0+a_1x+c_1x(A(x)-a_0)+c_2x^2A(x)`</p>
+                  <p>`= a_0+a_1x+c_1xA(x)-c_1a_0x+c_2x^2A(x)`</p>
+                </div>
+                <p>Now we gather all the `A(x)`'s onto one side</p>
+                <div class="math">
+                  <p>`A(x)-c_1xA(x)-c_2x^2A(x)=a_0+a_1x-a_0c_1x`</p>
+                  <p>`A(x)(1-c_1x-c_2x^2)=a_0+a_1x-a_0c_1x`</p>
+                </div>
+                <p>We can divide both sides by `(1-c_1x-c_2x^2)` since it is invertible (because there is a constant term)</p>
+                <div class="math">
+                  <p>`A(x)=(a_0+a_1x-a_0c_1x)/(1-c_1x-c_2x^2)`</p>
+                </div>
+                <p>We can factor the bottom by using `t^2-c_1t-c_2 = (t-r_1)(t-r_2)` and plugging in `1/x` for `t`</p>
+                <div class="math">
+                  <p>`x^(-2)-c_1x^(-1)-x_2=(1/x-r_1)(1/x-r_2)`</p>
+                </div>
+                <p>To make it look like `1-c_1x-c_2x^2`, we multiply by `x^2`</p>
+                <div class="math">
+                  <p>`1-c_1x-c_2x^2=(1-r_1x)(1-r_2x)`</p>
+                </div>
+                <p>Knowing that the denominator can be factored, we can use partial fraction decomposition to get</p>
+                <div class="math">
+                  <p>`A(x)=(a_0+a_1x-a_0c_1x)/(1-c_1x-c_2x^2)=alpha_1/(1-r_1x)+alpha_2/(1-r_2x)`</p>
+                  <p>for some constants `alpha_1,alpha_2`</p>
+                </div>
+                <p>Both of those terms are geometric series, so we can write</p>
+                <div class="math">
+                  <p>`A(x)=alpha_1/(1-r_1x)+alpha_2/(1-r_2x)=alpha_1sum_(n ge 0)(r_1x)^n+alpha_2sum_(n ge 0)(r_2x)^n`</p>
+                  <p>`= alpha_1sum_(n ge 0) r_1^nx^n + alpha_2sum_(n ge 0) r_2^nx^n`</p>
+                </div>
+                <p>The coefficient of `x^n` on the left-hand side is `a_n`</p>
+                <p>The coefficient of `x^n` on the right-hand side is `alpha_1r_1^n+alpha_2r_2^n`</p>
+                <p>So `a_n = alpha_1r_1^n+alpha_2r_2^n`</p>
+              </div>
+              <a class="btn" data-toggle="collapse" href="#ogfconstants">Proof</a>
+              <p>To solve for `alpha_1,alpha_2`, plug in `n=0,1`</p>
+              <div class="math">
+                <p>`a_0=alpha_1+alpha_2`</p>
+                <p>`a_1=alpha_1r_1+alpha_2r_2`</p>
+                <p>(`a_0` and `a_1` are part of the numbers in the sequence that is given)</p>
+              </div>
+            </div>
+            <div class="box">
+              <p>This can be seen with the Fibonacci numbers</p>
+              <p>They are defined by `a_n = a_(n-1)+a_(n-2)`, so the characteristic polynomial is `t^2-t-1`</p>
+              <p>The roots are `r_1 = (1+sqrt(5))/2` and `r_2 = (1-sqrt(5))/2`</p>
+              <p>According to the theorem, there exist `alpha_1, alpha_2` such that `a_n = alpha_1((1+sqrt(5))/2)^n+alpha_2((1-sqrt(5))/2)^n`</p>
+              <p>To find `alpha_1,alpha_2`, plug in `n=0,1`</p>
+              <div class="math">
+                <p>`1=alpha_1+alpha_2`</p>
+                <p>`1=alpha_1((1+sqrt(5))/2)+alpha_2((1-sqrt(5))/2)`</p>
+              </div>
+              <p>Solving this system of equations, we get</p>
+              <div class="math">
+                <p>`alpha_1=(1+sqrt(5))/(2sqrt(5))`</p>
+                <p>`alpha_2=-(1-sqrt(5))/(2sqrt(5))`</p>
+              </div>
+              <p>So `a_n = (1+sqrt(5))/(2sqrt(5))((1+sqrt(5))/2)^n-(1-sqrt(5))/(2sqrt(5))((1-sqrt(5))/2)^n`</p>
+              <div class="math">
+                <p>`= 1/sqrt(5)((1+sqrt(5))/2)^(n+1)-1/sqrt(5)((1-sqrt(5))/2)^(n+1)`</p>
+              </div>
+            </div>
+            <div class="box">
+              <p>Theorem: If `r_1=r_2`, then there are constants `alpha_1,alpha_2` such that `a_n = alpha_1r_1^n+nalpha_2r_1^n`</p>
+            </div>
+            <p>So for the case when `d=2`, there are theorems that gives us a closed formula for `a_n`</p>
+          </div>
+          <div class="box">
+            <p>For general `d`, we have `a_n=c_1a_(n-1)+c_2a_(n-2)+...+c_da_(n-d)` for `n ge d`</p>
+            <p>The characteristic polynomial is `t^d-c_1t^(d-1)-c_2t^(d-2)-...-c_d = (t-r_1)(t-r_2)...(t-r_d)`</p>
+            <p>If all `r_1,r_2,...,r_d` are different, then there exist constants `alpha_1,alpha_2,...,alpha_d` such that `a_n=alpha_1r_1^n+alpha_2r_2^n+...+alpha_dr_d^n`</p>
+            <p>What if some roots are the same?</p>
+            <div class="box">
+              <p>Example: `d=5`, `r_1=r_2=r_3`, `r_4=r_5`, `r_1 != r_4`</p>
+              <p>Then there exist constants `alpha_1,alpha_2,alpha_3,alpha_4,alpha_5` such that `a_n=alpha_1r_1^n+nalpha_2r_1^n+n^2alpha_3r_1^n+alpha_4r_4^n+nalpha_5r_4^n`</p>
+            </div>
+          </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
             <p>3.1: How many functions are there from `[n]` to `[n]` that are not one-to-one?</p>
