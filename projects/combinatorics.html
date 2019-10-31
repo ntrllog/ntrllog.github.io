@@ -1170,6 +1170,28 @@
               <p>Then there exist constants `alpha_1,alpha_2,alpha_3,alpha_4,alpha_5` such that `a_n=alpha_1r_1^n+nalpha_2r_1^n+n^2alpha_3r_1^n+alpha_4r_4^n+nalpha_5r_4^n`</p>
             </div>
           </div>
+          <h3>Combinatorial Interpretation</h3>
+          <p>We can think of `a_n` as counting the number of "structures" on the set `[n]`</p>
+          <div class="box">
+            <p>If `a_n = n!`, then `a_n` is the number of ways to order the elements in `[n]`</p>
+            <p>If `b_n = 2^n`, then `b_n` is the number of ways to pick a subset of `[n]`</p>
+            <p>`A(x)=sum_(n ge 0) a_nx^n` is an ogf encoding the number of orderings</p>
+            <p>`B(x)=sum_(n ge 0) b_nx^n` is an ogf encoding the number of subsets</p>
+          </div>
+          <div class="box">
+            <p>`a_n+b_n` is the number of ways of putting structure `alpha` on the set `[n]` or putting structure `beta` on the set `[n]`</p>
+            <p>So in the above example, `a_n+b_n=n!+2^n` is the number of ways to pick either an ordering of the elements of `[n]` or a subset of `[n]`</p>
+            <p>`a_n+a_n=2n!` can be thought of as the number of ways of letting either person `1` to order the elements of `[n]` or person `2` to order the elements of `[n]`</p>
+            <p>`(A+B)(x)` is an ogf encoding the number of choices of picking an ordering or a subset</p>
+          </div>
+          <div class="box">
+            <p>`A(x)B(x) = sum_(n ge 0) c_nx^n` where `c_n = sum_(i=0)^n a_ib_(n-i)`</p>
+            <p>`c_n=a_ib_(n-i)` is the number of ways to put structure `alpha` on `{1,...,i}` and to put structure `beta` on `{i+1,...,n}`</p>
+            <p>So `c_n` is the number of ways of splitting `[n]` into two consecutive pieces and putting `alpha` on the first piece and putting `beta` on the second piece</p>
+          </div>
+          <div class="box">
+            <p>A class has `n` days. We want to split the course into two portions, where the first portion is theory and the second portion is labs. One of the theory lectures is given by a guest lecturer and two of the lab days are carried out by the guest lecturer. How many ways are there to design the course?</p>
+          </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
             <p>3.1: How many functions are there from `[n]` to `[n]` that are not one-to-one?</p>
