@@ -856,24 +856,38 @@
             <a class="btn" data-toggle="collapse" href="#multiidentity3">Proof</a>
           </div>
           <h2 id="formalpowerseries">Formal Power Series</h2>
+          <p>A formal power series is a way to encode a sequence of numbers as an algebraic object. The numbers are the coefficients of some (infinite) polynomial.</p>
           <div class="box">
             <p>A <b>formal power series</b> (in variable `x`) is an expression of the form `sum_(n=0)^(oo) a_nx^n = A(x)` where `a_n` are scalars</p>
             <p>Alteratively, it can be written as `sum_(n ge 0) a_nx^n`</p>
-            <p>Let `[x^n]A(x)` be the coefficient of `x^n` (so in this case, `[x^n]A(x) = a_n`)</p>
+            <p>Let `[x^n]A(x) = a_n` be the coefficient of `x^n`</p>
           </div>
+          <p>Some special cases of formal power series are polynomials and scalars. Polynomials are formal power series where all the terms after a certain point are zero. Scalars are formal power series where `a_0` is a scalar and the rest of the terms are zero.</p>
           <div class="box">
             <p>Two power series are equal if and only if all of their coefficients match</p>
-            <p>`A(x) = B(x)` if and only if `a_n = b_n` for all `n`</p>
+            <p>`A(x) = B(x)` if and only if `[x^n]A(x) = a_n = b_n = [x^n]B(x)` for all `n`</p>
           </div>
           <div class="box">
-            <p>`A(x)+B(x) = sum_(n ge 0) (a_n+b_n)x^n`</p>
-            <p>`A(x)B(x) = sum_(n ge 0) c_nx^n` where `c_n = sum_(i=0)^n a_ib_(n-i)color(red)(text(*))`</p>
-            <p>`color(red)(text(*))`the powers have to add up to `n`</p>
-            <p>Addition and multiplication are both commutative and associative</p>
-            <p>`A(x)+B(x) = B(x)+A(x)`</p>
-            <p>`A(x)+[B(x)+C(x)] = [A(x)+B(x)]+C(x)`</p>
-            <p>`A(x)B(x) = B(x)A(x)`</p>
-            <p>`A(x)[B(x)C(x)] = [A(x)B(x)]C(x)`</p>
+            <p>Let `A(x) = sum_(n ge 0) a_nx^n` and `B(x) = sum_(n ge 0) b_nx^n`</p>
+            <p>The sum of two formal power series is</p>
+            <div class="math">
+              <p>`A(x)+B(x) = sum_(n ge 0) (a_n+b_n)x^n`</p>
+            </div>
+            <p>The product of two formal power series is</p>
+            <div class="math">
+              <p>`A(x)B(x) = sum_(n ge 0) c_nx^n` where `c_n = sum_(i=0)^n a_ib_(n-i)`</p>
+              <p>the powers have to add up to `n`</p>
+            </div>
+            <p>Addition and multiplication are both commutative</p>
+            <div class="math">
+              <p>`A(x)+B(x) = B(x)+A(x)`</p>
+              <p>`A(x)B(x) = B(x)A(x)`</p>
+            </div>
+            <p>and associative</p>
+            <div class="math">
+              <p>`A(x)+[B(x)+C(x)] = [A(x)+B(x)]+C(x)`</p>
+              <p>`A(x)[B(x)C(x)] = [A(x)B(x)]C(x)`</p>
+            </div>
           </div>
           <div class="box">
             <p>Let `A(x) = B(x) = sum_(n ge 0) x^n`</p>
@@ -903,8 +917,10 @@
             </div>
             <div class="box">
               <p>From this result, we get an identity:</p>
-              <p>`(sum_(n ge 0) x^n)(1-x) = 1`</p>
-              <p>`implies sum_(n ge 0) x^n = 1/(1-x)`</p>
+              <div class="math">
+                <p>`(sum_(n ge 0) x^n)(1-x) = 1`</p>
+                <p>`sum_(n ge 0) x^n = 1/(1-x)`</p>
+              </div>
             </div>
           </div>
           <div class="box">
@@ -926,7 +942,11 @@
                 <p>`a_1b_0+a_0b_1 = 0 implies b_1 = -(a_1b_0)/a_0 = -a_1/(a_0)^2`</p>
                 <p>`a_2b_0+a_1b_1+a_0b_2 = 0 implies b_2 = -(a_2b_0+a_1b_1)/a_0`</p>
               </div>
-              <p>At each stage, it is possible to find `b_(n+1)` since it is in terms of `b_0,...,b_n`</p>
+              <p>At each stage, it is possible to find `b_(n+1)` since it is in terms of `b_0,...,b_n`. More formally, we can do so using induction. Suppose we have solved for `b_0, ..., b_n`. At each stage, we have</p>
+              <div class="math">
+                <p>`a_(n+1)b_0 + ... + a_0b_(n+1) = 0`</p>
+              </div>
+              <p>So we can solve for `b_(n+1) = -(a_(n+1)b_0 + ...)/a_0`</p>
               <p>`(implies)`If the constant term is `0`, then the equation `a_0b_0 = 1` has no solution `implies` cannot find `b_n` `implies` `A(x)` is not invertible</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#fpsinvertible">Proof</a>
@@ -935,29 +955,64 @@
           <div class="box">
             <p>Let `A(x),B(x)` be formal power series such that `[x^0]A(x) = 0`</p>
             <p>The <b>composition</b> `(B circ A)(x) = B(A(x))` is defined by `sum_(n ge 0) b_nA(x)^n`</p>
+            <div class="box">
+              <p>It looks like we're taking the sum of infinitely many things, so how is this operation well defined, i.e. how are we going to get an answer if it looks like we're adding infinitely many things?</p>
+              <p>Since `A(x)` has no constant term, we have</p>
+              <div class="math">
+                <p>`A(x) = a_1x + a_2x^2 + ...`</p>
+              </div>
+              <p>What happens when we take powers of `A(x)`? For `A(x)^2`, there is no constant term. There is also no linear term.</p>
+              <div class="math">
+                <p>`A(x)^2 = a_1^2x^2 + 2a_2a_1x^3 + ...`</p>
+              </div>
+              <p>Claim: `[x^i]A(x)^n = 0` for `i lt n`</p>
+              <p>Expanding `sum_(n ge 0) b_nA(x)^n`, we get</p>
+              <div class="math">
+                <p>`b_0 + b_1A(x) + b_2A(x)^2 + b_3A(x)^3 + ...`</p>
+                <p>`= b_0`</p>
+                <p>`+ b_1a_1x + b_1a_2x^2 + b_1a_3x^3 + ...`</p>
+                <p>`+ b_2a_1^2x^2 + b_2 2a_2a_1x^3 + ...`</p>
+              </div>
+              <p>To get the coefficient of `x^n`, we only have to do a finite amount of additions. For example,</p>
+              <div class="math">
+                <p>The coefficient of `x^0` is `b_0`</p>
+                <p>The coefficient of `x^1` is `b_1a_1x`</p>
+                <p>The coefficient of `x^2` is `b_1a_2x^2 + b_2a_1^2x^2`</p>
+              </div>
+              <p>So we will get an answer from doing this operation</p>
+              <p>If `A(x)` had a constant term, then we would end up having to do an infinite amount of additions</p>
+            </div>
           </div>
           <div class="box">
             <p>Let `A(x) = x^d` where `d gt 0` and `B(x) = sum_(n ge 0) x^n`</p>
             <p>`B(A(x)) = sum_(n ge 0) (x^d)^n = sum_(n ge 0) x^(dn)`</p>
             <p>We can substitute this into the identity `(1-x)sum_(n ge 0) x^n = 1` to get a new identity:</p>
-            <p>`(1-x^d)sum_(n ge 0) x^(dn) = 1 implies 1/(1-x^d) = sum_(n ge 0) x^(dn)`</p>
+            <div class="math">
+              <p>`(1-x^d)sum_(n ge 0) x^(dn) = 1`</p>
+              <p>`1/(1-x^d) = sum_(n ge 0) x^(dn)`</p>
+            </div>
           </div>
           <div class="box">
             <p>The <b>derivative</b> of `A`, written as `DA` or `A'`, is defined by `sum_(n ge 0) na_nx^(n-1) = sum_(n ge 0) (n+1)a_(n+1)x^n`</p>
           </div>
           <div class="box">
+            <p>The familiar rules for derivatives apply to formal power series as well</p>
             <p>`D(A+B) = DA + DB`</p>
-            <p>`D(A*B) = (DA)*B + A*(DB)` (product rule for derivatives)</p>
+            <p>`D(A*B) = (DA)*B + A*(DB)` (product rule)</p>
             <p>`D(B circ A) = (DA)(DB circ A)` (chain rule)</p>
             <p>`D(A^(-1)) = -(DA)/A^2`</p>
             <p>`D(A^n) = n(DA)A^(n-1)`</p>
           </div>
           <div class="box">
-            <p>From before, `1/(1-x) = sum_(n ge 0) x^n`. We can use this identity to get a new identity</p>
-            <p>Derivative: `1/(1-x)^2 = sum_(n ge 0) nx^(n-1) = sum_(n ge 0) (n+1)x^n`</p>
+            <p>From before, `1/(1-x) = sum_(n ge 0) x^n`. We can use this identity to get a new identity by taking the derivative:</p>
+            <div class="math">
+              <p>`1/(1-x)^2 = sum_(n ge 0) nx^(n-1) = sum_(n ge 0) (n+1)x^n`</p>
+            </div>
+          </div>
+          <div class="box">
             <p>It is possible to simplify `sum_(n ge 0) nx^n`:</p>
             <div class="math">
-              <p>`sum_(n ge 0) nx^n = x sum_(n ge 1) nx^(n-1)`</p>
+              <p>`sum_(n ge 0) nx^n = x sum_(n ge 1) nx^(n-1)` (we can pull out an `x` because there's no constant term)</p>
               <p>`= x sum_(n ge 0) (n+1)x^n`</p>
               <p>`= x*1/(1-x)^2`</p>
               <p>`= x/(1-x)^2`</p>
@@ -969,10 +1024,13 @@
               <p>`= (1-(1-x))/(1-x)^2`</p>
               <p>`= x/(1-x)^2`</p>
             </div>
-            <p>In either case, we get the identity `(1-x)^2 sum_(n ge 0) nx^n = x`</p>
+            <p>In either case, we get the identity</p>
+            <div class="math">
+              <p>`(1-x)^2 sum_(n ge 0) nx^n = x`</p>
+            </div>
           </div>
           <h2 id="binomialtheoremgeneral">Binomial Theorem (General)</h2>
-          <p>The previous binomial theorem only considered nonnegative powers. Here, we consider real-numbered powers</p>
+          <p>The previous binomial theorem only considered nonnegative powers. Here, we consider real-numbered powers.</p>
           <div class="box">
             <p>Let `m` be a real number and `k ge 0` be an integer</p>
             <p>`((m),(0))=1`</p>
