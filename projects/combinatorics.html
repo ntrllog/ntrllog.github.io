@@ -1380,43 +1380,45 @@
               <p>`= (1+x+x^(1+1)+x^(1+1+1)+...)(1+x^2+x^(2+2)+x^(2+2+2)+...)`</p>
             </div>
             <p>Multiplying these two expressions, we get the following table:</p>
-            <table>
-              <tr>
-                <td></td>
-                <td>`1`</td>
-                <td>`x^1`</td>
-                <td>`x^(1+1)`</td>
-                <td>`x^(1+1+1)`</td>
-              </tr>
-              <tr>
-                <td>`1`</td>
-                <td>`1`</td>
-                <td>`x^1`</td>
-                <td>`x^(1+1)`</td>
-                <td>`x^(1+1+1)`</td>
-              </tr>
-              <tr>
-                <td>`x^2`</td>
-                <td>`x^2`</td>
-                <td>`x^(1+2)`</td>
-                <td>`x^(1+1+2)`</td>
-                <td>`x^(1+1+1+2)`</td>
-              </tr>
-              <tr>
-                <td>`x^(2+2)`</td>
-                <td>`x^(2+2)`</td>
-                <td>`x^(1+2+2)`</td>
-                <td>`x^(1+1+2+2)`</td>
-                <td>`x^(1+1+1+2+2)`</td>
-              </tr>
-              <tr>
-                <td>`x^(2+2+2)`</td>
-                <td>`x^(2+2+2)`</td>
-                <td>`x^(1+2+2+2)`</td>
-                <td>`x^(1+1+2+2+2)`</td>
-                <td>`x^(1+1+1+2+2+2)`</td>
-              </tr>
-            </table>
+            <div style="display: flex; justify-content: center;">
+              <table>
+                <tr>
+                  <td></td>
+                  <td>`1`</td>
+                  <td>`x^1`</td>
+                  <td>`x^(1+1)`</td>
+                  <td>`x^(1+1+1)`</td>
+                </tr>
+                <tr>
+                  <td>`1`</td>
+                  <td>`1`</td>
+                  <td>`x^1`</td>
+                  <td>`x^(1+1)`</td>
+                  <td>`x^(1+1+1)`</td>
+                </tr>
+                <tr>
+                  <td>`x^2`</td>
+                  <td>`x^2`</td>
+                  <td>`x^(1+2)`</td>
+                  <td>`x^(1+1+2)`</td>
+                  <td>`x^(1+1+1+2)`</td>
+                </tr>
+                <tr>
+                  <td>`x^(2+2)`</td>
+                  <td>`x^(2+2)`</td>
+                  <td>`x^(1+2+2)`</td>
+                  <td>`x^(1+1+2+2)`</td>
+                  <td>`x^(1+1+1+2+2)`</td>
+                </tr>
+                <tr>
+                  <td>`x^(2+2+2)`</td>
+                  <td>`x^(2+2+2)`</td>
+                  <td>`x^(1+2+2+2)`</td>
+                  <td>`x^(1+1+2+2+2)`</td>
+                  <td>`x^(1+1+1+2+2+2)`</td>
+                </tr>
+              </table>
+            </div>
             <p>The result is that the exponents are partitions where are parts are `le 2`. The coefficient of `x^n` is the number of partitions of `n` where all parts are `le k`, i.e. `p_(le k)(n)`</p>
             <p>For `k=3`, we have</p>
             <div class="math">
@@ -1431,8 +1433,88 @@
             <div class="math">
               <p>`p_(le oo)(n) = p(n)`</p>
             </div>
-            <p>which is the number of partitions of `n`</p>
-            <p>So `sum_(n ge 0)p(n)x^n = prod_(i=1)^(oo) 1/(1-x^i) = (1+x+x^2+x^3+...)(1+x^2+x^4+x^6+...)(1+x^3+x^6+x^9+...)`</p>
+            <p>which is the number of partitions of `n` where all parts are `le oo`, which is the same as the number of partitions of `n`</p>
+            <p>So we have</p>
+            <div class="math">
+              <p>`sum_(n ge 0)p(n)x^n = prod_(i=1)^(oo) 1/(1-x^i) = 1/((1-x)(1-x^2)(1-x^3)...)`</p>
+            </div>
+            <div class="box">
+              <p>It looks like we're taking the product of infinitely many things. So how is this well defined, i.e. how do we get an answer? Expanding the product, we get</p>
+              <div class="math">
+                <p>`1/((1-x)(1-x^2)(1-x^3)...) = (1+x+x^2+x^3+...)(1+x^2+x^4+x^6+...)(1+x^3+x^6+x^9+...)`</p>
+              </div>
+              <p>To multiply it all out, we choose one term from each set of parentheses and multiply all the terms together. We do this for all powers of `x`</p>
+              <p>For `x^0`, we're forced to pick all `1`'s from each set of parentheses so the product will be `1`</p>
+              <p>For `x^1`, we have to pick one `x` from the first set of parentheses and `1`'s from the rest</p>
+              <p>For `x^2`, we have to pick an `x^2` from a set of parentheses and `1`'s from the rest</p>
+              <p>For `x^3`, we have to pick an `x^3` or `x` and `x^2` and `1`'s from the rest</p>
+              <p>This process repeats infinitely, but each step only requires a finite amount of multiplications to calculate the coefficient of `x^n`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Let `p_(text(odd))(n)` be the number of partitions of `n` where all parts are odd</p>
+            <p>Let `p_(text(dist))(n)` be the number of partitions of `n` where all parts are distinct</p>
+            <div style="display: flex; justify-content: center;">
+              <table>
+                <tr>
+                  <td>`n`</td>
+                  <td>`p_(text(odd))(n)`</td>
+                  <td>`p_(text(dist))(n)`</td>
+                </tr>
+                <tr>
+                  <td>`1`</td>
+                  <td>`(1)`</td>
+                  <td>`(1)`</td>
+                </tr>
+                <tr>
+                  <td>`2`</td>
+                  <td>`(1,1)`</td>
+                  <td>`(2)`</td>
+                </tr>
+                <tr>
+                  <td>`3`</td>
+                  <td>`(3)`,`(1,1,1)`</td>
+                  <td>`(3)`,`(2,1)`</td>
+                </tr>
+                <tr>
+                  <td>`4`</td>
+                  <td>`(3,1)`,`(1,1,1,1)`</td>
+                  <td>`(4)`,`(3,1)`</td>
+                </tr>
+                <tr>
+                  <td>`5`</td>
+                  <td>`(5)`,`(3,1,1)`,`(1,1,1,1,1)`</td>
+                  <td>`(5)`,`(4,1)`,`(3,2)`</td>
+                </tr>
+              </table>
+            </div>
+            <p>We can use generating functions to show that these two are the same number</p>
+            <p>Theorem: `p_(text(odd))(n)` = `p_(text(dist))(n)`</p>
+            <div class="collapse" id="odddistinctpartitions">
+              <p>Using generating functions, the goal is to show that `sum_(n ge 0)p_(text(odd))(n)x^n = sum_(n ge 0)p_(text(dist))(n)x^n`</p>
+              <p>From the previous example, we have</p>
+              <div class="math">
+                <p>`sum_(n ge 0)p_(text(odd))(n)x^n = (1/(1-x))(1/(1-x^3))(1/(1-x^5))...`</p>
+              </div>
+              <p>For `p_(text(dist))(n)x^n`, we can only use unique exponents, so we have</p>
+              <div class="math">
+                <p>`sum_(n ge 0)p_(text(dist))(n)x^n = (1+x)(1+x^2)(1+x^3)(1+x^4)...`</p>
+              </div>
+              <p>`1+x^k` can be rewritten as</p>
+              <div class="math">
+                <p>`1+x^k = (1-x^(2k))/(1-x^k)`</p>
+              </div>
+              <p>So `p_(text(dist))(n)x^n` can be rewritten as</p>
+              <div class="math">
+                <p>`sum_(n ge 0)p_(text(dist))(n)x^n = (1-x^2)/(1-x)*(1-x^4)/(1-x^2)*(1-x^6)/(1-x^3)*(1-x^8)/(1-x^4)*...`</p>
+              </div>
+              <p>All the terms in the numerator will cancel out the terms in the denominator with even exponents. What's left is the odd terms</p>
+              <div class="math">
+                <p>`= 1/(1-x)*1/(1-x^3)*1/(1-x^5)*...`</p>
+                <p>`= sum_(n ge 0)p_(text(odd))(n)x^n`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#odddistinctpartitions">Proof</a>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">

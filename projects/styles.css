@@ -7,7 +7,7 @@ body {
   text-align: justify;
 }
 
-/* nonlinear, lin_alg */
+/* nonlinear, lin_alg, comb */
 .line-height {
   line-height: 2;
 }
@@ -36,7 +36,7 @@ body {
   text-align: center;
 }
 
-/* nonlinear, lin_alg */
+/* nonlinear, lin_alg, comb */
 .dropdown {
   position: fixed;
   float: right;
@@ -44,7 +44,7 @@ body {
   z-index: 2;
 }
 
-/* nonlinear, lin_alg */
+/* nonlinear, lin_alg, comb */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -55,28 +55,28 @@ body {
   right: 0;
 }
 
-/* nonlinear, lin_alg */
+/* nonlinear, lin_alg, comb */
 .dropdown-content a:hover {
   background-color: #ddd
 }
 
-/* nonlinear, lin_alg */
+/* nonlinear, lin_alg, comb */
 .show {
   display: block;
 }
 
-/* nonlinear, lin_alg */
+/* nonlinear, lin_alg, comb */
 .dropbtn {
   background-color: gray;
   color: white;
 }
 
-/* nonlinear, lin_alg */
+/* nonlinear, lin_alg, comb */
 .dropbtn:hover, .dropbtn:focus {
   background-color: #2980B9;
 }
 
-/* nonlinear, lin_alg, cs_notes */
+/* nonlinear, lin_alg, cs_notes, comb */
 .box {
   padding-left: 10px;
   padding-right: 10px;
@@ -84,13 +84,13 @@ body {
   margin-bottom: 30px;
 }
 
-/* nonlinear, lin_alg */
+/* nonlinear, lin_alg, comb */
 .math {
   text-align: center;
   margin-bottom: 10px;
 }
 
-/* nonlinear, lin_alg, c, cpp, java, python */
+/* nonlinear, lin_alg, comb, c, cpp, java, python */
 h2 {
   margin-top: 30px;
 }
@@ -101,18 +101,18 @@ h2 {
   justify-content: space-evenly;
 }
 
-/* nonlinear, lin_alg, c, cpp, java, python */
+/* nonlinear, lin_alg, comb c, cpp, java, python */
 .btn {
   border-color: black;
   margin-bottom: 5px;
 }
 
-/* nonlinear, lin_alg, c, cpp, java, python */
+/* nonlinear, lin_alg, comb, c, cpp, java, python */
 .btn:focus, .btn:active {
   box-shadow: none !important;
 }
 
-/* nonlinear */
+/* nonlinear, comb */
 td {
   border: 1px solid lightgray;
   text-align: center;
