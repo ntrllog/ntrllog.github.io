@@ -38,6 +38,7 @@
         <a class="dropdown-item" href="#formalpowerseries">Formal Power Series</a>
         <a class="dropdown-item" href="#binomialtheoremgeneral">Binomial Theoerem (General)</a>
         <a class="dropdown-item" href="#ordinarygeneratingfunctions">Ordinary Generating Functions</a>
+        <a class="dropdown-item" href="#catalannumbers">Catalan Numbers</a>
         <a class="dropdown-item" href="#practiceproblems">Practice Problems</a>
       </div>
     </div>
@@ -65,6 +66,8 @@
             <p>Binomial Theorem (General): `(1+x)^m = ((m),(n))x^n`</p>
             <p>`((-d),(n)) = (-1)^n((d+n-1),(n))`</p>
             <p>`(1+x)^(-d) = sum_(n ge 0) (-1)^n((d+n-1),(n))x^n`</p>
+            <p>Catalan numbers: `C_n = 1/(n+1) ((2n),(n))`</p>
+            <p>Catalan numbers (recurrence): `C_n = sum_(i = 0)^(n-1)C_iC_(n-1-i)`</p>
           </div>
           <h2 id="induction">Induction</h2>
           <div class="box">
@@ -1285,6 +1288,7 @@
             </div>
           </div>
           <h3>Combinatorial Interpretation</h3>
+          <p>Ordinary generating functions sometimes make counting things easier.</p>
           <p>We can think of `a_n` as counting the number of "structures" on the set `[n]`.</p>
           <div class="box">
             <p>If `a_n = n!`, then `a_n` is the number of ways to order the elements in `[n]`</p>
@@ -1516,6 +1520,128 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#odddistinctpartitions">Proof</a>
           </div>
+          <h2 id="catalannumbers">Catalan Numbers</h2>
+          <p>Catalan numbers can be used to count a lot of things. One way to view them is the number of ways to balance `n` pairs of parentheses.</p>
+          <div class="box">
+            <p>Let `C_n` be the number of ways to write a balanced expression using `n` pairs of parentheses</p>
+            <p>For example, for `n=3`</p>
+            <div class="math">
+              <p>`()()()`</p>
+              <p>`(())()`</p>
+              <p>`((()))`</p>
+              <p>`(()())`</p>
+              <p>`()(())`</p>
+            </div>
+            <p>`C_n` is also the same as the number of words with `n` left parentheses and `n` right parentheses such that every initial segment has at least as many `(` as `)`</p>
+            <p>`C_n` is also the same as the number of sequences of `n` counts of `+1`'s and `n` counts of `-1`'s such that every initial partial sum is `ge 0`</p>
+          </div>
+          <p>There is some kind of recursive structure to these parentheses. For example, we can have a balanced pair of parentheses and put another pair of balanced parentheses inside. We can use this recursive structure to obtain a recurrence relation. It turns out that the recurrence relation will be nonlinear</p>
+          <div class="box">
+            <p>Lemma: If `n ge 0`, then `C_n = sum_(i = 0)^(n-1)C_iC_(n-1-i) = C_0C_(n-1)+C_1C_(n-2)+...+C_(n-1)C_0`</p>
+            <div class="collapse" id="catalanproof">
+              <p>Every expression starts with a `(` and is matched by some `)`</p>
+              <p>In between those `()`, we can put another set of balanced parentheses</p>
+              <ul>
+                <li>Let `i` be the number of pairs inside</li>
+                <li>We can put up to `n-1` pairs of parentheses inside</li>
+                <li>Then there are `C_i` choices for `0 le i le n-1`</li>
+              </ul>
+              <p>After the `)`, we can put another set of balanced parentheses</p>
+              <ul>
+                <li>After putting `i` pairs inside the initial balanced parentheses, we have `n-(i+1) = n-1-i` pairs leftover</li>
+                <li>Then there are `C_(n-1-i)` choices</li>
+              </ul>
+              <p>These choices are independent of each other, so there are `C_iC_(n-1-i)` total choices<p>
+              <p>Since `i` can go from `0` to `n-1`, we have `sum_(i = 0)^(n-1)C_iC_(n-1-i)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#catalanproof">Proof</a>
+          </div>
+          <p>So we have a recurrence relation for the Catalan numbers. Now we can try to find a closed formula for `C_n` using generating functions. In this case, we can define the generating function `C(x) = sum_(n ge 0) C_nx^n` where `C_0 = 1`</p>
+          <div class="box">
+            <p>We start by multiplying both sides of the recurrence relation by `x^n`</p>
+            <div class="math">
+              <p>`C_nx^n = sum_(i = 0)^(n-1)C_iC_(n-1-i)x^n`</p>
+            </div>
+            <p>And then summing over all positive `n`</p>
+            <div class="math">
+              <p>`sum_(n gt 0)C_nx^n = sum_(n gt 0) sum_(i = 0)^(n-1)C_iC_(n-1-i)x^n`</p>
+            </div>
+            <p>The left-hand side is `C(x)` without the `n=0` term (which is `C_0 = 1`), so the left-hand side evaluates to `C(x)-1`</p>
+            <p>The right-hand side looks like the result of multiplying two generating functions</p>
+            <p>`C(x)^2 = sum_(n ge 0) (sum_(i=0)^nC_iC_(n-i))x^n` by the definition of multiplying two generating functions</p>
+            <p>`sum_(n gt 0) sum_(i = 0)^(n-1)C_iC_(n-1-i)x^n` almost looks like `C(x)^2`. We can manipulate it so that it does</p>
+            <p>Since `n gt 0`, we can pull out an `x` from `C(x)^2`</p>
+            <div class="math">
+              <p>`x sum_(n gt 0) sum_(i=0)^(n-1)C_iC_(n-1-i)x^(n-1)`</p>
+            </div>
+            <p>Then we can re-index to get</p>
+            <div class="math">
+              <p>`x sum_(n ge 0) sum_(i=0)^n C_iC_(n-i)x^n`</p>
+              <p>`= xC(x)^2`</p>
+            </div>
+            <p>So the right-hand side evaluates to `xC(x)^2`</p>
+            <p>Which gives us</p>
+            <div class="math">
+              <p>`C(x)-1=xC(x)^2`</p>
+              <p>`xC(x)^2-C(x)+1=0`</p>
+            </div>
+            <p>This tells us that `C(x)` is a solution to a quadratic equation `xt^2-t+1=0`. We can use the quadratic formula to solve for `t = C(x)`, which gives us</p>
+            <div class="math">
+              <p>`t = (1 +- sqrt(1-4x))/(2x)`</p>
+            </div>
+            <p>There are two possibilities for `t = C(x)`:</p>
+            <ol>
+              <li>`C(x) = (1 + sqrt(1-4x))/(2x) implies 2xC(x) = 1 + sqrt(1-4x)`</li>
+              <li>`C(x) = (1 - sqrt(1-4x))/(2x) implies 2xC(x) = 1 - sqrt(1-4x)`</li>
+            </ol>
+            <p>There's only one correct choice for `C(x)`, so which one do we pick? Looking at `2xC(x)`, whatever `C(x)` is, when we multiply it with `2x`, there will be no constant term. So `1+sqrt(1-4x)` must not have a constant term either</p>
+            <p>The constant term of `1+sqrt(1-4x)` is `1` plus whatever the constant term of `sqrt(1-4x)` is, which we can find by using the binomial theorem:</p>
+            <div class="math">
+              <p>`(1-4x)^(1/2) = sum_(n ge 0) ((1/2),(n)) (-4x)^n`</p>
+            </div>
+            <p>The constant term appears when `n=0`, so `((1/2),(0))=1` is the constant term</p>
+            <ol>
+              <li>The constant term of `1 + sqrt(1-4x)` is `2`</li>
+              <li>The constant term of `1 - sqrt(1-4x)` is `0`</li>
+            </ol>
+            <p>So `C(x) = (1-sqrt(1-4x))/(2x)`</p>
+            <p>To simplify this, we can use the binomial theorem (again):</p>
+            <div class="math">
+              <p>`(1-4x)^(1/2) = sum_(n ge 0) ((1/2),(n))(-4x)^n`</p>
+            </div>
+            <p>We can simplify this by expanding `((1/2),(n))`:</p>
+            <div class="math">
+              <p>`((1/2),(n)) = ((1/2)(-1/2)(-3/2)...(1/2-n+1))/(n!)`</p>
+            </div>
+            <p>So we have</p>
+            <div class="math">
+              <p>`sum_(n ge 0) ((1/2),(n))(-4x)^n = sum_(n ge 0) ((1/2)(-1/2)(-3/2)...(1/2-n+1))/(n!) (-4)^n x^n`</p>
+              <p>`= sum_(n ge 0) (1/2)^n (1(-1)(-3)...(1-2n+2))/(n!) (-4)^n x^n`</p>
+              <p>`= sum_(n ge 0) (-2)^n (1(-1)(-3)...(-2n+3))/(n!) x^n`</p>
+              <p>`= -sum_(n ge 0) 2^n (1*1*3*...*(2n-3))/(n!) x^n`</p>
+              <p>`= -sum_(n ge 0) 2^n (1*1*3*...*(2n-3))/(n!) * (2*4*6*...*(2n-2))/(2*4*6*...*(2n-2)) x^n`</p>
+              <p>`= -sum_(n ge 0) 2^n ((2n-2)!)/(n!) * 1/(2*4*6*...*(2n-2)) x^n`</p>
+              <p>`= -sum_(n ge 0) 2 ((2n-2)!)/(n!) * 1/(1*2*3*...*(n-1)) x^n`</p>
+              <p>`= -2sum_(n ge 0) ((2n-2)!)/(n!(n-1)!) x^n`</p>
+            </div>
+            <p>So `(1-4x)^(1/2) = -2sum_(n ge 0) ((2n-2)!)/(n!(n-1)!) x^n`</p>
+            <p>Since we're looking for `C(x)`,</p>
+            <div class="math">
+              <p>`C(x) = (1-(1-4x)^(1/2))/(2x)`</p>
+              <p>`= 1/(2x)(1-(1-4x)^(1/2))`</p>
+              <p>`= 1/(2x)(1+2sum_(n ge 0) ((2n-2)!)/(n!(n-1)!) x^n)`</p>
+              <p>`= 1/(2x)(1-1+2sum_(n ge 1) ((2n-2)!)/(n!(n-1)!) x^n)` (taking out the constant term)</p>
+              <p>`= sum_(n ge 1) ((2n-2)!)/(n!(n-1)!) x^(n-1)`</p>
+              <p>`= sum_(n ge 1) ((2(n-1))!)/(n!(n-1)!) x^(n-1)`</p>
+              <p>`= sum_(n ge 0) ((2n)!)/((n+1)!n!) x^n`</p>
+            </div>
+            <p>So `C(x) = sum_(n ge 0) ((2n)!)/((n+1)!n!) x^n` and `C_n = ((2n)!)/((n+1)!n!)`, which looks like a binomial coefficient after pulling out `1/(n+1)`:</p>
+            <div class="math">
+              <p>`C_n = 1/(n+1)((2n)!)/(n!n!)`</p>
+              <p>`= 1/(n+1)((2n),(n))`</p>
+            </div>
+          </div>
+          <!--
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
             <p>3.1: How many functions are there from `[n]` to `[n]` that are not one-to-one?</p>
@@ -2207,6 +2333,7 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#q5-32">Answer</a>
           </div>
+          -->
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
