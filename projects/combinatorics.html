@@ -1641,7 +1641,67 @@
               <p>`= 1/(n+1)((2n),(n))`</p>
             </div>
           </div>
-          <!--
+          <div class="box">
+            <p>Other Catalan objects for `n=3`</p>
+            <p>1) The number of ways to apply binary operation `text(*)` to `n+1` inputs</p>
+            <div class="math">
+              <p>`a text(*) (b text(*) (c text(*) d))`</p>
+              <p>`a text(*) ((b text(*) c) text(*) d)`</p>
+              <p>`(a text(*) b) text(*) (c text(*) d)`</p>
+              <p>`((a text(*) b) text(*) c) text(*) d`</p>
+              <p>`(a text(*) (b text(*) c)) text(*) d`</p>
+            </div>
+            <div class="box">
+              <p>(Look at 2) first)
+              <p>Let `alpha_n` be the number of ways to apply binary operation `text(*)` to `n+1` inputs</p>
+              <p>There's a bijection between 1) and 2)</p>
+              <p>Place a `text(*)` inside each node</p>
+              <p>From the bottom, combine leaves into one expression with `text(*)`</p>
+              <div class="math">
+                <img class="img-fluid" src="../pictures/combinatorics/startrees.jpg">
+              </div>
+              <p>To go the other way, start with the outermost `text(*)` and make that the root</p>
+              <p>Make the left and right part subtrees</p>
+              <p>So `alpha_n = beta_n = C_n`</p>
+            </div>
+            <p>2) The number of rooted binary trees with `n+1` leaves</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/combinatorics/binarytrees.png">
+            </div>
+            <div class="box">
+              <p>Let `beta_n` be the number of ways to form a rooted binary tree with `n+1` leaves</p>
+              <p>Remove the root to form two trees (left and right)</p>
+              <p>The left part has `i` leaves, so there are `beta_(i-1)` ways to do this</p>
+              <p>The right part has `n+1-i` leaves, so there are `beta_(n-i)` ways to do this</p>
+              <p>The left part needs to have at least one leaf and the right part also needs to have at least one leaf, so `1 le i le n`</p>
+              <p>`beta_n = sum_(i=1)^n B_(i-1)B_(n-i) = sum_(i=0)^(n-1)B_iB_(n-1-i)`</p>
+              <p>So `beta_n` satisifies the same recurrence as the Catalan numbers</p>
+            </div>
+            <p>3) The number of forward paths from `(0,0)` to `(n,n)` which do not go above the line `x=y`</p>
+            <div class="math">
+              <img class="img-fluid" src="../pictures/combinatorics/forwardpaths.png">
+            </div>
+            <div class="box">
+              <p>Let `gamma_n` be the number of forward paths from `(0,0)` to `(n,n)` which do not go above the line `x=y`</p>
+              <p>There is a bijection between 3) and the Catalan numbers</p>
+              <p>A right step corresponds to a `(` and a step up corresponds to a `)`</p>
+              <p>So `gamma_n = C_n`</p>
+              <p>The forward paths also satisify the recurrence relation</p>
+              <p>Given a path, let `i` be the smallest positive value such that `(i,i)` is on `x=y`</p>
+              <p>Chop the path into two pieces</p>
+              <p>The first piece is the path from `(0,0)` to `(i,i)` which does not touch `x=y` except at the endpoints</p>
+              <ul>
+                <li>If we remove the first and last steps, we end up with the path `(1,0)` to `(i,i-1)` which does not go above `x=y+1`</li>
+                <li>If we shift by `(-1,0)`, we get a path from `(0,0)` to `(i-1,i-1)` not going above `x=y`, for which there are `gamma_(i-1)` paths</li>
+              </ul>
+              <p>The second piece is the path from `(i,i)` to `(n,n)`</p>
+              <ul>
+                <li>This is the same as the path from `(0,0)` to `(n-i,n-i)`, for which there are `gamma_(n-i)` paths</li>
+              </ul>
+              <p>So the total number of paths is `gamma_n = sum_(i=1)^ngamma_(i-1)gamma_(n-i) = sum_(i=0)^(n-1)gamma_(i)gamma_(n-1-i)`</p>
+              <p>`gamma_n` satisifies the same recurrence as the Catalan numbers</p>
+            </div>
+          </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
             <p>3.1: How many functions are there from `[n]` to `[n]` that are not one-to-one?</p>
@@ -2333,7 +2393,6 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#q5-32">Answer</a>
           </div>
-          -->
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
