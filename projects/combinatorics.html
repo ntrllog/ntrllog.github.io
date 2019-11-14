@@ -1520,6 +1520,61 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#odddistinctpartitions">Proof</a>
           </div>
+          <h3>Composition of Ordinary Generating Functions</h3>
+          <p>We compose ordinary generating functions when we want to break up `[n]` into consecutive intervals, apply a structure on each interval, and then apply another structure on a subset of those intervals.</p>
+          <div class="box">
+            <p>Let `a_n` be the number of structures of type `alpha` on a set of size `n`. Let `a_0 = 0`</p>
+            <p>Let `h_n` be the number of ways to break `[n]` into consecutive intervals and place structure `alpha` on each interval</p>
+            <p>The generating functions are `A(x) = sum_(n ge 0) a_nx^n` and `H(x) = sum_(n ge 0) h_nx^n`</p>
+            <p>Theorem: `H(x) = 1/(1-A(x))`</p>
+            <div class="collapse" id="composeogf">
+              <p>`A(x)^k` is the ordinary generating function for the number of ways to break up `[n]` into `k` consecutive intervals and place structure `alpha` on each piece</p>
+              <p>This is counted by `h_n` when we sum over all `k`</p>
+              <p>So `H(x) = sum_(k ge 0) A(x)^k = 1/(1-A(x))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#composeogf">Proof</a>
+          </div>
+          <div class="box">
+            <p>Example: There are `n` soldiers in a line and we want to split the line at several places to form teams of soldiers. Also, we want to assign a leader to each team. How many ways are there to do this?</p>
+            <p>Let `a_n` be the number of ways to pick a leader from `n` people. Then `a_n = n`</p>
+            <p>`A(x) = sum_(n ge 0) a_nx^n = sum_(n ge 0)nx^n = x/(1-x)^2`</p>
+            <p>The answer is given by `h_n`</p>
+            <div class="math">
+              <p>`H(x) = 1/(1-A(x)) = 1/(1-x/(1-x)^2)`</p>
+              <p>`= (1-x)^2/((1-x)^2-x)`</p>
+              <p>`= (1-2x+x^2)/(1-3x+x^2)`</p>
+            </div>
+            <p>Using partial fractions, we get</p>
+            <div class="math">
+              <p>`h_n = 1/sqrt(5)((3+sqrt(5))/2)^n-1/sqrt(5)((3-sqrt(5))/2)^n`</p>
+            </div>
+          </div>
+          <p>So far, we broke `[n]` into consecutive intervals and applied a structure to each interval. Now we apply another structure on a subset of those intervals.</p>
+          <div class="box">
+            <p>Let `b_n` be the number of structures of type `beta` on a set of size `n`</p>
+            <p>The generating function is `B(x) = sum_(n ge 0) b_nx^n`</p>
+            <p>Now let `h_n` be the number of ways to break `[n]` into consecutive intervals, place structure `alpha` on each interval, then place structure `beta` on a subset of intervals</p>
+            <p>Theorem: `H(x) = B(A(x))`</p>
+            <div class="collapse" id="composeogf2">
+              <p>`b_kA(x)^k` is the ordinary generating function for the number of ways to break up `[n]` into `k` consecutive intervals, place structure `alpha` on each piece, and then place structure `beta` on the `k` pieces</p>
+              <p>This is counted by `h_n` when we sum over all `k`</p>
+              <p>So `H(x) = sum_(k ge 0) b_kA(x)^k = B(A(x))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#composeogf2">Proof</a>
+          </div>
+          <div class="box">
+            <p>Going back to the soldier example, suppose we want to additionally pick some of the teams for night duty. How many ways are there to do this?</p>
+            <p>Let `b_n` be the number of ways to pick some teams for night duty. This is the same as picking a subset, so `b_n = 2^n`</p>
+            <p>`B(x) = sum_(n ge 0) b_nx^n = sum_(n ge 0) 2^nx^n = sum_(n ge 0) (2x)^n = 1/(1-2x)`</p>
+            <p>From before, `A(x) = x/(1-x)^2`</p>
+            <p>The number of ways to do this is counted by `h_n`</p>
+            <div class="math">
+              <p>`H(x) = B(A(x)) = 1/(1-(2x)/(1-x)^2)`</p>
+              <p>`= (1-x)^2/((1-x)^2-2x)`</p>
+              <p>`= (1-2x+x^2)/(1-4x+x^2)`</p>
+            </div>
+            <p>Using partial fractions, we would get our answer</p>
+          </div>
           <h2 id="catalannumbers">Catalan Numbers</h2>
           <p>Catalan numbers can be used to count a lot of things. One way to view them is the number of ways to balance `n` pairs of parentheses.</p>
           <div class="box">
