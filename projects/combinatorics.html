@@ -67,8 +67,11 @@
             <p>Binomial Theorem (General): `(1+x)^m = ((m),(n))x^n`</p>
             <p>`((-d),(n)) = (-1)^n((d+n-1),(n))`</p>
             <p>`(1+x)^(-d) = sum_(n ge 0) (-1)^n((d+n-1),(n))x^n`</p>
+            <p>Product of ogf: `A(x)B(x) = sum_(n ge 0)(sum_(i=0)^na_ib_(n-i))x^n`</p>
+            <p>Composition of ogf: `B(A(x)) = sum_(n ge 0) b_nA(x)^n`</p>
             <p>Catalan numbers: `C_n = 1/(n+1) ((2n),(n))`</p>
             <p>Catalan numbers (recurrence): `C_n = sum_(i = 0)^(n-1)C_iC_(n-1-i)`</p>
+            <p>Product of egf: `A(x)B(x) = sum_(n ge 0)(sum_(i=0)^n((n),(i))a_ib_(n-i))x^n/(n!)`</p>
           </div>
           <h2 id="induction">Induction</h2>
           <div class="box">
@@ -1762,6 +1765,13 @@
           <p>Exponential generating functions are similar to ordinary generating functions. They're still formal power series, but they encode sequences differently. As such, the interpretations of operations, such as multiplication and composition, have different meanings and can be used for different applications of problems.</p>
           <p>For example, when using ordinary generating functions, we were constrained to consecutive intervals. But it may be more natural to form groups where the elements are not consecutive. Exponential generating functions give us a way to do that.</p>
           <div class="box">
+            <p>Given a sequence `a_0, a_1, a_2, ...`, the exponential generating function (egf) is</p>
+            <div class="math">
+              <p>`A(x) = sum_(n ge 0) a_n/(n!)x^n`</p>
+            </div>
+            <p>When `a_n=1` for all `n`, we use `e^x` to denote `sum_(n ge 0) 1/(n!)x^n`</p>
+          </div>
+          <div class="box">
             <p>Taking the derivative (bringing down an `n`) is like shifting the sequence by one</p>
             <div class="math">
               <p>`A(x) = sum_(n ge 0) a_n/(n!)x^n`</p>
@@ -1772,16 +1782,9 @@
             </div>
           </div>
           <div class="box">
-            <p>Given a sequence `a_0, a_1, a_2, ...`, the exponential generating function (egf) is</p>
-            <div class="math">
-              <p>`A(x) = sum_(n ge 0) a_n/(n!)x^n`</p>
-            </div>
-            <p>When `a_n=1` for all `n`, we use `e^x` to denote `sum_(n ge 0) 1/(n!)x^n`</p>
-          </div>
-          <div class="box">
             <p>Suppose we have a sequence defined by `a_0 = 1` and `a_n = n(a_(n-1)-n+2)` for `n ge 1`</p>
             <p>Let's try to encode it as an ordinary generating function</p>
-            <p>So let `A(x) = sum_(n ge 0)a_nx^n`</p>
+            <p>So let `A(x) = sum_(n ge 0)a_nx^n` be the ogf</p>
             <p>Multiplying the recurrence by `x^n` and summing over all `n ge 1`, we get</p>
             <div class="math">
               <p>`sum_(n ge 1)a_nx^n = sum_(n ge 1)(na_(n-1)-n^2+2n)x^n`</p>
@@ -1791,6 +1794,119 @@
               <p>`A(x)-a_0 = x^2A'(x) + sum_(n ge 1)(-n^2+2n)x^n`</p>
             </div>
             <p>Now we have a differential equation, which would be too complicated to deal with</p>
+            <p>Instead, let's try to encode this sequence as an exponential generating function</p>
+            <p>So let `A(x) = sum_(n ge 0) a_n/(n!)x^n` be the egf</p>
+            <p>We could substitute in the recurrence after changing the summation to `n ge 1` (by pulling out the constant term)</p>
+            <div class="math">
+              <p>`A(x) = sum_(n ge 0)a_n/(n!)x^n`</p>
+              <p>`= a_0 + sum_(n ge 1)a_n/(n!)x^n`</p>
+              <p>`= 1 + sum_(n ge 1)(na_(n-1)-n(n-2))/(n!)x^n`</p>
+              <p>`= 1 + sum_(n ge 1)(na_(n-1))/(n!)x^n - sum_(n ge 1)(n(n-2))/(n!)x^n`</p>
+              <p>`= 1 + sum_(n ge 1)a_(n-1)/((n-1)!)x^n - sum_(n ge 1)(n-2)/((n-1)!)x^n`</p>
+              <p>`= 1 + xsum_(n ge 1)a_(n-1)/((n-1)!)x^(n-1) - xsum_(n ge 1)(n-2)/((n-1)!)x^(n-1)`</p>
+              <p>`= 1 + xsum_(n ge 0)a_n/(n!)x^n - xsum_(n ge 0)(n-1)/(n!)x^n`</p>
+              <p>`= 1 + xA(x) - xsum_(n ge 0)n/(n!)x^n + xsum_(n ge 0) 1/(n!)x^n`</p>
+              <p>`= 1 + xA(x) - xsum_(n ge 1)1/((n-1)!)x^n + xe^x`</p>
+              <p>`= 1 + xA(x) - x^2sum_(n ge 1)1/((n-1)!)x^(n-1) + xe^x`</p>
+              <p>`= 1 + xA(x) - x^2sum_(n ge 0)1/(n!)x^n + xe^x`</p>
+              <p>`= 1 + xA(x) - x^2e^x + xe^x`</p>
+            </div>
+            <p>So we have</p>
+            <div class="math">
+              <p>`A(x) = 1 + xA(x) - x^2e^x + xe^x`</p>
+              <p>`A(x) - xA(x) = 1 - x^2e^x + xe^x`</p>
+              <p>`A(x)(1-x) = 1 - x^2e^x + xe^x`</p>
+              <p>`A(x) = (1 - x^2e^x + xe^x)/(1-x)`</p>
+              <p>`= 1/(1-x) + ((x-x^2)e^x)/(1-x)`</p>
+              <p>`= 1/(1-x) + (x(1-x)e^x)/(1-x)`</p>
+              <p>`= 1/(1-x) + xe^x`</p>
+              <p>`= sum_(n ge 0)x^n + xsum_(n ge 0)1/(n!)x^n`</p>
+              <p>`= sum_(n ge 0)x^n + sum_(n ge 0)1/(n!)x^(n+1)`</p>
+            </div>
+            <p>Normally for ordinary generating functions, we would get our answer `a_n` by looking at the coefficient of `x^n`. However, with exponential generating functions, we have `sum_(n ge 0)a_n/(n!)x^n`. So the summations have to be in that form before we can extract the coefficient</p>
+            <div class="math">
+              <p>`A(x) = sum_(n ge 0)x^n + sum_(n ge 0)1/(n!)x^(n+1)`</p>
+              <p>`= sum_(n ge 0)(n!)/(n!)x^n + sum_(n ge 1)1/((n-1)!)x^n`</p>
+              <p>`= sum_(n ge 0)(n!)/(n!)x^n + sum_(n ge 1)n/(n!)x^n`</p>
+              <p>`= 1 + sum_(n ge 1)(n!)/(n!)x^n + sum_(n ge 1)n/(n!)x^n`</p>
+              <p>`= 1 + sum_(n ge 1)(n!+n)/(n!)x^n`</p>
+            </div>
+            <p>So `a_n = n!+n`</p>
+          </div>
+          <div class="box">
+            <p>Let `A(x) = sum_(n ge 0)a_n/(n!)x^n` and `B(x) = sum_(n ge 0) b_n/(n!)x^n`</p>
+            <p>Lemma: `A(x)B(x) = sum_(n ge 0) c_n/(n!)x^n` where `c_n = sum_(i=0)^n ((n),(i)) a_ib_(n-i)`</p>
+            <div class="collapse" id="productegf">
+              <p>The coefficient of `x^n` in `A(x)B(x)` is `sum_(i=0)^na_i/(i!)b_(n-i)/((n-i)!)` by the definition of multiplying two power series</p>
+              <p>But it is also equal to `c_n/(n!)`</p>
+              <div class="math">
+                <p>`c_n/(n!) = sum_(i=0)^n(a_ib_(n-i))/(i!(n-i)!)`</p>
+                <p>`c_n = sum_(i=0)^n(n!a_ib_(n-i))/(i!(n-i)!)`</p>
+                <p>`c_n = sum_(i=0)^n((n),(i))a_ib_(n-i)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#productegf">Proof</a>
+          </div>
+          <div class="box">
+            <p>Let `a_n` be the number of structures of type `alpha` on a set of size `n`</p>
+            <p>Let `b_n` be the number of structures of type `beta` on a set of size `n`</p>
+            <p>Then `((n),(i))a_ib_(n-i)` is the number of ways to pick a subset `S sube [n]` of size `i`, putting structure `alpha` on `S`, and putting structure `beta` on `[n]\\S`</p>
+            <p>So `c_n` is the number of ways to pick subsets (possibly empty) of `[n]`, putting structure `alpha` on `S`, and putting structure `beta` on `[n]\\S`</p>
+          </div>
+          <div class="box">
+            <p>Example: There are `n` football players and we want to split them up into two groups. Both groups will be assigned an ordering, but the each player in the second group also gets to choose one of three colors for their uniforms. How many ways are there to do this?</p>
+            <p>Let `alpha` be the ways to order a set. So `a_n = n!`</p>
+            <p>Let `beta` be the ways to order a set and assign a color to each element. So `b_n = 3^n n!`</p>
+            <p>`A(x) = sum_(n ge 0)a_n/(n!)x^n = sum_(n ge 0)x^n = 1/(1-x)`</p>
+            <p>`B(x) = sum_(n ge 0)b_n/(n!)x^n = sum_(n ge 0)3^nx^n = 1/(1-3x)`</p>
+            <p>`C(x) = A(x)B(x) = 1/(1-x)*1/(1-3x)`</p>
+            <p>Using partial fractions, we get</p>
+            <div class="math">
+              <p>`1/(1-x)*1/(1-3x) = (3/2)/(1-3x)-(1/2)/(1-x)`</p>
+              <p>`= 3/2sum_(n ge 0)3^nx^n - 1/2sum_(n ge 0)x^n`</p>
+              <p>`= 3/2sum_(n ge 0)(3^n n!)/(n!)x^n - 1/2sum_(n ge 0)(n!)/(n!)x^n`</p>
+            </div>
+            <p>So `c_n = 3/2 3^n n! - 1/2 n!`</p>
+          </div>
+          <div class="box">
+            <p>There's a trick for getting rid of odd/even terms of a formal power series `A(x) = sum_(n ge 0)a_nx^n`</p>
+            <p>To get rid of all odd terms, add `A(-x)` and divide the sum by `2`:</p>
+            <div class="math">
+              <p>`A(x)+A(-x) = sum_(n ge 0)a_nx^n + sum_(n ge 0)(-1)^na_nx^n`</p>
+            </div>
+            <p>When `n` is odd, the terms will cancel each other out, so there are only even terms leftover</p>
+            <p>When `n` is even, the terms will be added, so we need to divide by `2`</p>
+            <div class="math">
+              <p>`(A(x)+A(-x))/2 = sum_(n ge 0)a_(2n)x^(2n)`</p>
+            </div>
+            <p>To get rid of all even terms, subtract `A(-x)` and divide the difference by `2`:</p>
+            <div class="math">
+              <p>`A(x)-A(-x) = sum_(n ge 0)a_nx^n - sum_(n ge 0)(-1)^na_nx^n`</p>
+            </div>
+            <p>When `n` is even, the terms will cancel each other out, so there are only odd terms leftover</p>
+            <p>When `n` is odd, the terms will be added, so we need to divide by `2`</p>
+            <div class="math">
+              <p>`(A(x)-A(-x))/2 = sum_(n ge 0)a_(2n+1)x^(2n+1)`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Example: There are `n` distinguishable telephone poles and we want to paint each of them either red or blue. But the number of blue poles must be even. How many ways are there to do this?</p>
+            <p>Let `R(x)` be the egf for painting `n` poles red. There's only one way to paint `n` poles red, so `R(x) = 1/(n!)x^n = e^x`</p>
+            <p>Let `B(x)` be the egf for painting `n` poles blue. There's only one way to paint `n` poles blue if `n` is even and zero ways if `n` is odd, so `B(x) = 1/(2n!)x^(2n) = (e^x+e^(-x))/2`</p>
+            <div class="math">
+              <p>`sum_(n ge 0)c_n/(n!)x^n = R(x)B(x) = e^x((e^x+e^(-x))/2)`</p>
+              <p>`= (e^(2x)+1)/2`</p>
+              <p>`= 1/2e^(2x) + 1/2`</p>
+              <p>`= 1/2 sum_(n ge 0) 1/(n!)(2x)^n + 1/2`</p>
+              <p>`= 1/2 sum_(n ge 0) 2^n/(n!)x^n + 1/2`</p>
+              <p>`= sum_(n ge 0) 2^(n-1)/(n!)x^n + 1/2`</p>
+              <p>`= 1 + sum_(n ge 1) 2^(n-1)/(n!)x^n`</p>
+            </div>
+            <p>So `c_0 = 1` and `c_n = 2^(n-1)`</p>
+            <p>It's possible to get this answer without using generating functions</p>
+            <p>If we knew which poles were blue, then we automatically know which ones are red too</p>
+            <p>So all we need to do is pick a subset of even size of `n`</p>
+            <p>There are `2^(n-1)` subsets of even size of `n`</p>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
