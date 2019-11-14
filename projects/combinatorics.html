@@ -39,6 +39,7 @@
         <a class="dropdown-item" href="#binomialtheoremgeneral">Binomial Theoerem (General)</a>
         <a class="dropdown-item" href="#ordinarygeneratingfunctions">Ordinary Generating Functions</a>
         <a class="dropdown-item" href="#catalannumbers">Catalan Numbers</a>
+        <a class="dropdown-item" href="#exponentialgeneratingfunctions">Exponential Generating Functions</a>
         <a class="dropdown-item" href="#practiceproblems">Practice Problems</a>
       </div>
     </div>
@@ -1756,6 +1757,40 @@
               <p>So the total number of paths is `gamma_n = sum_(i=1)^ngamma_(i-1)gamma_(n-i) = sum_(i=0)^(n-1)gamma_(i)gamma_(n-1-i)`</p>
               <p>`gamma_n` satisifies the same recurrence as the Catalan numbers</p>
             </div>
+          </div>
+          <h2 id="exponentialgeneratingfunctions">Exponential Generating Functions</h2>
+          <p>Exponential generating functions are similar to ordinary generating functions. They're still formal power series, but they encode sequences differently. As such, the interpretations of operations, such as multiplication and composition, have different meanings and can be used for different applications of problems.</p>
+          <p>For example, when using ordinary generating functions, we were constrained to consecutive intervals. But it may be more natural to form groups where the elements are not consecutive. Exponential generating functions give us a way to do that.</p>
+          <div class="box">
+            <p>Taking the derivative (bringing down an `n`) is like shifting the sequence by one</p>
+            <div class="math">
+              <p>`A(x) = sum_(n ge 0) a_n/(n!)x^n`</p>
+              <p>`A(x) = a_0 + sum_(n ge 1) a_n/(n!)x^n`</p>
+              <p>`A'(x) = sum_(n ge 1) (na_n)/(n!)x^(n-1)`</p>
+              <p>`A'(x) = sum_(n ge 1) a_n/((n-1)!)x^(n-1)`</p>
+              <p>`A'(x) = sum_(n ge 0) a_(n+1)/(n!)x^n`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Given a sequence `a_0, a_1, a_2, ...`, the exponential generating function (egf) is</p>
+            <div class="math">
+              <p>`A(x) = sum_(n ge 0) a_n/(n!)x^n`</p>
+            </div>
+            <p>When `a_n=1` for all `n`, we use `e^x` to denote `sum_(n ge 0) 1/(n!)x^n`</p>
+          </div>
+          <div class="box">
+            <p>Suppose we have a sequence defined by `a_0 = 1` and `a_n = n(a_(n-1)-n+2)` for `n ge 1`</p>
+            <p>Let's try to encode it as an ordinary generating function</p>
+            <p>So let `A(x) = sum_(n ge 0)a_nx^n`</p>
+            <p>Multiplying the recurrence by `x^n` and summing over all `n ge 1`, we get</p>
+            <div class="math">
+              <p>`sum_(n ge 1)a_nx^n = sum_(n ge 1)(na_(n-1)-n^2+2n)x^n`</p>
+              <p>`A(x)-a_0 = sum_(n ge 1)na_(n-1)x^n + sum_(n ge 1)(-n^2+2n)x^n`</p>
+              <p>`A(x)-a_0 = xsum_(n ge 1)na_(n-1)x^(n-1) + sum_(n ge 1)(-n^2+2n)x^n`</p>
+              <p>`A(x)-a_0 = xsum_(n ge 0)na_nx^n + sum_(n ge 1)(-n^2+2n)x^n`</p>
+              <p>`A(x)-a_0 = x^2A'(x) + sum_(n ge 1)(-n^2+2n)x^n`</p>
+            </div>
+            <p>Now we have a differential equation, which would be too complicated to deal with</p>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <div class="box">
