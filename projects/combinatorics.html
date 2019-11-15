@@ -2599,6 +2599,116 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#q5-32">Answer</a>
           </div>
+          <div class="box">
+            <p>4.3: Prove that `2^(n-2)*n*(n-1) = sum_(k=2)^n k(k-1)((n),(k))` for all integers `n ge 2`</p>
+            <div class="collapse" id="q4-3">
+              <p>Start with the binomial theorem</p>
+              <div class="math">
+                <p>`(x+y)^n = sum_(k=2)^n((n),(k))x^ky^(n-k)`</p>
+              </div>
+              <p>Take the derivative (with respect to `x`) of both sides twice</p>
+              <div class="math">
+                <p>`n*(x+y)^(n-1) = sum_(k=2)^n((n),(k))kx^(k-1)y^(n-k)`</p>
+                <p>`n*(n-1)*(x+y)^(n-2) = sum_(k=2)^n((n),(k))k(k-1)x^(k-2)y^(n-k)`</p>
+              </div>
+              <p>Plug in `x=y=1`</p>
+              <div class="math">
+                <p>`n*(n-1)*2^(n-2) = sum_(k=2)^n((n),(k))k(k-1)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-3">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.4: Let `k,m,n` be nonnegative integers integers such that `k+m le n`. Prove that `((n),(m))*((n-m),(k)) = ((n),(k))((n-k),(m))`</p>
+            <div class="collapse" id="q4-4">
+              <p>The left-hand side is counting the number of ways to</p>
+              <ol>
+                <li>Pick `m` people to form a soccer team from a group of `n` people</li>
+                <li>Then pick `k` people from the remaining people (`n-m`) to form a basketball team</li>
+              </ol>
+              <p>The right-hand side is counting the number of ways to</p>
+              <ol>
+                <li>Pick `k` people to form a basketball team from a group of `n` people</li>
+                <li>Then pick `m` people from the remaining people (`n-k`) to form a soccer team</li>
+              </ol>
+              <p>Both are counting the number of ways to form an `m`-member soccer team and a `k`-member basketball team</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-4">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.8: Prove that for all positive integers `n`, the inequality `((2n),(n)) lt 4^n` holds</p>
+            <div class="collapse" id="q4-8">
+              <p>`((2n),(n))` is the number of `n`-element subsets of `[2n]`</p>
+              <p>`4^n = 2^(2n)` is the number of all subsets of `[2n]`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-8">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.9: How many subsets of `[n]` are larger than their complements?</p>
+            <div class="collapse" id="q4-9">
+              <p>Pair each subset with its complement</p>
+              <p>If `n` is odd:</p>
+              <ul>
+                <li>The two subsets in each pair will be different sizes, so there will be a larger subset in each pair</li>
+                <li>There are `2^(n-1)` pairs, so there are `color(red)(2^(n-1))` subsets larger than their complement</li>
+              </ul>
+              <p>If `n` is even:</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-9">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.17: Prove that `sum_(a_1+a_2+a_3=n)((n),((a_1,a_2,a_3)))=3^n`</p>
+            <div class="collapse" id="q4-17">
+              <p>Start with the multinomial theorem</p>
+              <div class="math">
+                <p>`sum_(a_1+a_2+a_3=n)((n),((a_1,a_2,a_3)))x_1^(a_1)x_2^(a_2)x_3^(a_3) = (x_1+x_2+x_3)^n`</p>
+              </div>
+              <p>Plug in `x_1=x_2=x_3=1`</p>
+              <div class="math">
+                <p>`sum_(a_1+a_2+a_3=n)((n),((a_1,a_2,a_3)))=3^n`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-17">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.18: Prove that `sum_(a_1+a_2+a_3=n)((n),((a_1,a_2,a_3)))(-1)^(a_2)=1`</p>
+            <div class="collapse" id="q4-18">
+              <p>Start with the multinomial theorem</p>
+              <div class="math">
+                <p>`sum_(a_1+a_2+a_3=n)((n),((a_1,a_2,a_3)))x_1^(a_1)x_2^(a_2)x_3^(a_3) = (x_1+x_2+x_3)^n`</p>
+              </div>
+              <p>Plug in `x_1=x_3=1`, `x_2=-1`</p>
+              <div class="math">
+                <p>`sum_(a_1+a_2+a_3=n)((n),((a_1,a_2,a_3)))(-1)^n=(1-1+1)^n`</p>
+                <p>`sum_(a_1+a_2+a_3=n)((n),((a_1,a_2,a_3)))(-1)^n=1`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-18">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.25: Find a closed form for `sum_(n=1)^(oo)nx^(n-1)`</p>
+            <div class="collapse" id="q4-25">
+              <p>Since there's an `n` dropped down from the exponent, it looks like we have to take the derivative of `sum_(n=0)^(oo)x^n = 1/(1-x)`</p>
+              <div class="math">
+                <p>`sum_(n=0)^(oo)x^n=1+sum_(n=1)^(oo)x^n`</p>
+              </div>
+              <p>Taking the derivative, we get</p>
+              <div class="math">
+                <p>`sum_(n=1)^(oo)nx^(n-1)`</p>
+              </div>
+              <p>After re-indexing, we get</p>
+              <div class="math">
+                <p>`sum_(n=0)^(oo)(n+1)x^n`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-25">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.26: Prove that `1/sqrt(1-4x) = sum_(n ge 0)((2n),(n))x^n`</p>
+            <div class="collapse" id="q4-26">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-26">Answer</a>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
