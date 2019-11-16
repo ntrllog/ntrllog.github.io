@@ -2740,6 +2740,16 @@
               <p>Let `C(x)` be the generating function for the number of ways to pay `n` dollars using only five-dollar bills</p>
               <p>Let `D(x)` be the generating function for the number of ways to pay `n` dollars using only one-dollar bills</p>
               <p>Then the product `B(x)C(x)D(x)` will be the number of ways to pay `n` dollars using those three types of bills</p>
+              <p>For `B(x)`, there are no ways to pay `n` dollars using only ten-dollar bills for `1 le n le 9`, `11 le n le 19`, ..., so</p>
+              <div class="math">
+                <p>`B(x) = 1+0x+0x^2+...+1x^10+0x^11+...+1x^20+...=1+x^10+x^20+...=1/(1-x^10)`</p>
+              </div>
+              <p>Similarly for `C(x)` and `D(x)`</p>
+              <div class="math">
+                <p>`C(x) = 1+x^5+x^10+...=1/(1-x^5)`</p>
+                <p>`D(x) = 1+x^1+x^2+...=1/(1-x)`</p>
+              </div>
+              <p>So `A(x)=B(x)C(x)D(x)=1/((1-x^10)(1-x^5)(1-x))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-7">Answer</a>
           </div>
