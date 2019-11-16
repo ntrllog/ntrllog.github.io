@@ -2714,6 +2714,35 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#q4-26">Answer</a>
           </div>
+          <div class="box">
+            <p>8.4: A child wants to walk up a stairway. At each step, she moves up either one or two stairs. Let `f(n)` be the number of ways she can reach the `n^(th)` stair. Let `F(x) = sum_(n ge 0)f_nx^n` be the generating function. Express `F(x)` as a rational function</p>
+            <div class="collapse" id="q8-4">
+              <p>She can reach the `n^(th)` step from either the `(n-1)^(st)` step or the `(n-2)^(nd)` step</p>
+              <p>So `f(n) = f(n-1) + f(n-2) implies f(n+2) = f(n+1) + f(n)`</p>
+              <p>Let `f(0)=1`</p>
+              <p>Multiply the recurrence by `x^(n+2)` and sum over all `n ge 0`</p>
+              <div class="math">
+                <p>`sum_(n ge 0)f(n+2)x^(n+2) = sum_(n ge 0)f(n+1)x^(n+2) + sum_(n ge 0)f(n)x^(n+2)`</p>
+                <p>`F(x)-f(0)-f(1)x = xsum_(n ge 0)f(n+1)x^(n+1) + x^2sum_(n ge 0)f(n)x^n`</p>
+                <p>`F(x)-1-x = x(F(x)-f(0)) + x^2F(x)`</p>
+                <p>`F(x)-1-x = xF(x)-x+x^2F(x)`</p>
+                <p>`F(x)-xF(x)-x^2F(x)=1`</p>
+                <p>`F(x)(1-x-x^2)=1`</p>
+                <p>`F(x)=1/(1-x-x^2)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-4">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.7: Let `a_n` be the number of ways to pay `n` dollars using ten-dollar bills, five-dollar bills, and one-dollar bills only. Find the ordinary generating function `A(x) = sum_(n ge 0)a_nx^n`</p>
+            <div class="collapse" id="q8-7">
+              <p>Let `B(x)` be the generating function for the number of ways to pay `n` dollars using only ten-dollar bills</p>
+              <p>Let `C(x)` be the generating function for the number of ways to pay `n` dollars using only five-dollar bills</p>
+              <p>Let `D(x)` be the generating function for the number of ways to pay `n` dollars using only one-dollar bills</p>
+              <p>Then the product `B(x)C(x)D(x)` will be the number of ways to pay `n` dollars using those three types of bills</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-7">Answer</a>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
