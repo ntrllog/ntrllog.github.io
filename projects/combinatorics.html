@@ -1909,6 +1909,7 @@
             <p>There are `2^(n-1)` subsets of even size of `n`</p>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
+          <h3>Chapter 3</h3>
           <div class="box">
             <p>3.1: How many functions are there from `[n]` to `[n]` that are not one-to-one?</p>
             <div class="collapse" id="q3-1">
@@ -2474,6 +2475,7 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-50">Answer</a>
           </div>
+          <h3>Chapter 5</h3>
           <div class="box">
             <p>5.19: What is the number of partitions of [8] into two blocks in which the two blocks do not have the same size?</p>
             <div class="collapse" id="q5-19">
@@ -2599,6 +2601,7 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#q5-32">Answer</a>
           </div>
+          <h3>Chapter 4</h3>
           <div class="box">
             <p>4.3: Prove that `2^(n-2)*n*(n-1) = sum_(k=2)^n k(k-1)((n),(k))` for all integers `n ge 2`</p>
             <div class="collapse" id="q4-3">
@@ -2796,6 +2799,101 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#q4-39">Answer</a>
           </div>
+          <div class="box">
+            <p>4.40: Prove that `3^n = sum_(k=0)^n2^k((n),(k))` for all positive integers `n`</p> 
+            <div class="collapse" id="q4-40">
+              <p>Start with the binomial theorem:</p>
+              <div class="math">
+                <p>`(x+y)^n = sum_(k=0)^n((n),(k))x^ky^(n-k)`</p>
+              </div>
+              <p>Plug in `x=2, y=1`:</p>
+              <div class="math">
+                <p>`(2+1)^n = sum_(k=0)^n((n),(k))2^k1^(n-k)`</p>
+                <p>`3^n = sum_(k=0)^n((n),(k))2^k`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-40">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.45: Prove that `sum_(k=0)^n((n),(k))2^k = (3^n+(-1)^n)/2` for all positive integers `n` and even `k`</p>
+            <div class="collapse" id="q4-45">
+              <p>(Refer to the trick for getting rid of even/odd terms of a formal power series in the egf section)</p>
+              <p>We can isolate the even terms by adding `sum_(k=0)^n((n),(k))(-2)^k` to `sum_(k=0)^n((n),(k))2^k`</p>
+              <div class="math">
+                <p>`sum_(k=0)^n((n),(k))2^k = ((n),(0))2^0 + ((n),(1))2^1 + ((n),(2))2^2 + ((n),(3))2^3 + ...`</p>
+                <p>`sum_(k=0)^n((n),(k))(-2)^k = ((n),(0))(-2)^0 + ((n),(1))(-2)^1 + ((n),(2))(-2)^2 + ((n),(3))(-2)^3 + ...`</p>
+              </div>
+              <p>Notice that the terms with odd exponents will cancel out after addition, leaving</p>
+              <div class="math">
+                <p>`2 + 2((n),(2))2^2 + 2((n),(4))2^4 + ...`</p>
+              </div>
+              <p>Dividing by `2` will give us</p>
+              <div class="math">
+                <p>`1 + ((n),(2))2^2 + ((n),(4))2^4 + ...`</p>
+                <p>`= sum_(k=0)^n((n),(k))2^k` for even `k`</p>
+              </div>
+              <p>Using the binomial theorem, we can simplify `sum_(k=0)^n((n),(k))2^k` and `sum_(k=0)^n((n),(k))(-2)^k`</p>
+              <div class="math">
+                <p>`sum_(k=0)^n((n),(k))2^k = (2+1)^n = 3^n`</p>
+                <p>`sum_(k=0)^n((n),(k))(-2)^k = (-2+1)^n = (-1)^n`</p>
+              </div>
+              <p>Adding those and dividing the sum by `2` gives us</p>
+              <div class="math">
+                <p>`(3^n+(-1)^n)/2`</p>
+              </div>
+              <p>which is equal to `sum_(k=0)^n((n),(k))2^k` for even `k` as shown at the beginning</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-45">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.46: Prove that `sum_(k=1)^n((n),(k))5^k = (6^n-(-4)^n)/2` for all positive integers `n` and odd `k`</p>
+            <div class="collapse" id="q4-46">
+              <p>(Refer to the trick for getting rid of even/odd terms of a formal power series in the egf section)</p>
+              <p>We can isolate the odd terms by subtracting `sum_(k=0)^n((n),(k))(-5)^k` from `sum_(k=0)^n((n),(k))5^k`</p>
+              <div class="math">
+                <p>`sum_(k=0)^n((n),(k))5^k = ((n),(0))5^0 + ((n),(1))5^1 + ((n),(2))5^2 + ((n),(3))5^3 + ...`</p>
+                <p>`sum_(k=0)^n((n),(k))(-5)^k = ((n),(0))(-5)^0 + ((n),(1))(-5)^1 + ((n),(2))(-5)^2 + ((n),(3))(-5)^3 + ...`</p>
+              </div>
+              <p>Notice that the terms with even exponents will cancel out after subtraction, leaving</p>
+              <div class="math">
+                <p>`2((n),(1))5^1 + 2((n),(3))5^3 + ...`</p>
+              </div>
+              <p>Dividing by `2` will give us</p>
+              <div class="math">
+                <p>`((n),(2))5^1 + ((n),(3))5^3 + ...`</p>
+                <p>`= sum_(k=1)^n((n),(k))5^k` for odd `k`</p>
+              </div>
+              <p>Using the binomial theorem, we can simplify `sum_(k=0)^n((n),(k))5^k` and `sum_(k=0)^n((n),(k))(-5)^k`</p>
+              <div class="math">
+                <p>`sum_(k=0)^n((n),(k))5^k = (5+1)^n = 6^n`</p>
+                <p>`sum_(k=0)^n((n),(k))(-5)^k = (-5+1)^n = (-4)^n`</p>
+              </div>
+              <p>Adding those and dividing the sum by `2` gives us</p>
+              <div class="math">
+                <p>`(6^n+(-4)^n)/2`</p>
+              </div>
+              <p>which is equal to `sum_(k=0)^n((n),(k))5^k` for odd `k` as shown at the beginning</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-46">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.49: What is the coefficient of `x^n` in the power series form of `root(3)(1-2x)`?</p>
+            <div class="collapse" id="q4-49">
+              <p>`root(3)(1-2x) = (1-2x)^(1/3)`</p>
+              <p>Start with the general binomial theorem:</p>
+              <div class="math">
+                <p>`(1+x)^m = sum_(n ge 0)((m),(n))x^n`</p>
+              </div>
+              <p>Plug in `x=-2x` and `m=1/3`</p>
+              <div class="math">
+                <p>`(1-2x)^(1/3) = sum_(n ge 0)((1/3),(n))(-2x)^n`</p>
+                <p>`(1-2x)^(1/3) = sum_(n ge 0)((1/3),(n))(-2)^nx^n`</p>
+              </div>
+              <p>So the coefficient of `x^n` is `color(red)(((1/3),(n))(-2)^n)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-49">Answer</a>
+          </div>
+          <h3>Chapter 8</h3>
           <div class="box">
             <p>8.4: A child wants to walk up a stairway. At each step, she moves up either one or two stairs. Let `f(n)` be the number of ways she can reach the `n^(th)` stair. Let `F(x) = sum_(n ge 0)f_nx^n` be the generating function. Express `F(x)` as a rational function</p>
             <div class="collapse" id="q8-4">
