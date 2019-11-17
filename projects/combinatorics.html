@@ -2695,7 +2695,7 @@
               </div>
               <p>Taking the derivative, we get</p>
               <div class="math">
-                <p>`sum_(n=1)^(oo)nx^(n-1) = 1/(1-x)^2`</p>
+                <p>`sum_(n=1)^(oo)nx^(n-1) = color(red)(1/(1-x)^2)`</p>
               </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q4-25">Answer</a>
@@ -2715,6 +2715,88 @@
             <a class="btn" data-toggle="collapse" href="#q4-26">Answer</a>
           </div>
           <div class="box">
+            <p>4.35: A school has `105` students and seven classes. If each student takes three classes, and each class is taken by the same number of students, how many students are taking each class?</p>
+            <div class="collapse" id="q4-35">
+              <p>Count the number of pairs `(x,c)` where `x` is a student and `c` is a class</p>
+              <p>There are `105*3 = 315` pairs</p>
+              <p>Distribute the pairs among `7` groups so that each group has the same number of pairs</p>
+              <p>So there are `color(red)(315/7 = 45)` students in each class</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-35">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.36: How many northeastern lattice paths are there from `(0,0)` to `(10,10)` that do not touch the point `(5,5)`, but do touch the point `(3,3)`?</p>
+            <div class="collapse" id="q4-36">
+              <p>Count the paths from `(0,0)` to `(3,3)`:</p>
+              <div class="math">
+                <p>`((6),(3)) = 20`</p>
+                <p>(`6` steps total, choose `3` to be right/up)</p>
+              </div>
+              <p>Count the paths from `(3,3)` to `(10,10)`</p>
+              <div class="math">
+                <p>`((14),(7)) = 3432`</p>
+              </div>
+              <p>Since we can't go through `(5,5)`, count the number of paths going through `(5,5)` and subtract from the total number of paths</p>
+              <p>Paths from `(3,3)` to `(5,5)`:</p>
+              <div class="math">
+                <p>`((4),(2)) = 6`</p>
+              </div>
+              <p>Paths from `(5,5)` to `(10,10)`</p>
+              <div class="math">
+                <p>`((10),(5)) = 252`</p>
+              </div>
+              <p>Paths from `(3,3)` to `(10,10)` that go through `(5,5)`:</p>
+              <div class="math">
+                <p>`((4),(2))*((10),(5)) = 1512`</p>
+              </div>
+              <p>Paths from `(3,3)` to `(10,10)` that don't go through `(5,5)`:</p>
+              <div class="math">
+                <p>`((14),(7))-((4),(2))*((10),(5)) = 1920`</p>
+              </div>
+              <p>Paths from `(0,0)` to `(10,10)` that don't go through `(5,5)`:</p>
+              <div class="math">
+                <p>`color(red)(((6),(3))*[((14),(7))-((4),(2))*((10),(5))]) = 38400`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-36">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.38: Prove that `((2n),(n)) = sum_(k=0)^n((n),(k))^2` for all positive integers `n`</p>
+            <div class="collapse" id="q4-38">
+              <p>Note that `((n),(k))^2 = ((n),(k))*((n),(k)) = ((n),(k))*((n),(n-k))`</p>
+              <p>The left-hand side is counting the number of ways to pick `n` people from a group of `2n` people</p>
+              <p>We could pick people another way by splitting the `2n` people into two groups of `n` people</p>
+              <p>Pick `k` people from the first group: `((n),(k))`</p>
+              <p>Now we have to pick `n-k` people from the second group: `((n),(n-k))`</p>
+              <p>Summing over all `k`, we get the result</p>
+              <div class="math">
+                <p>`((2n),(n)) = sum_(k=0)^n((n),(k))*((n),(n-k))`</p>
+                <p>`((2n),(n)) = sum_(k=0)^n((n),(k))*((n),(k))`</p>
+                <p>`((2n),(n)) = sum_(k=0)^n((n),(k))^2`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-38">Answer</a>
+          </div>
+          <div class="box">
+            <p>4.39: Prove that `n((2n-1),(n-1)) = sum_(k=1)^nk((n),(k))^2` for all positive integers `n`</p>
+            <div class="collapse" id="q4-39">
+              <p>Note that `((n),(k))^2 = ((n),(k))*((n),(k)) = ((n),(k))*((n),(n-k))`</p>
+              <p>The left-hand side is counting the number of ways to form a group of `n` people with a leader from a group of `2n` people</p>
+              <p>First, pick the leader from the `2n` people, then pick `n-1` people to form the group</p>
+              <p>We could pick people another way by splitting the `2n` people into two groups of `n` people and picking a leader from the first group</p>
+              <p>Pick `k` people from the first group: `((n),(k))`</p>
+              <p>Pick a leader from the first group: there are `k` choices</p>
+              <p>Now we have to pick `n-k` people from the second group: `((n),(n-k))`</p>
+              <p>Summing over all `k`, we get the result</p>
+              <div class="math">
+                <p>`n((2n-1),(n-1)) = sum_(k=1)^nk((n),(k))*((n),(n-k))`</p>
+                <p>`n((2n-1),(n-1)) = sum_(k=1)^nk((n),(k))*((n),(k))`</p>
+                <p>`n((2n-1),(n-1)) = sum_(k=1)^nk((n),(k))^2`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q4-39">Answer</a>
+          </div>
+          <div class="box">
             <p>8.4: A child wants to walk up a stairway. At each step, she moves up either one or two stairs. Let `f(n)` be the number of ways she can reach the `n^(th)` stair. Let `F(x) = sum_(n ge 0)f_nx^n` be the generating function. Express `F(x)` as a rational function</p>
             <div class="collapse" id="q8-4">
               <p>She can reach the `n^(th)` step from either the `(n-1)^(st)` step or the `(n-2)^(nd)` step</p>
@@ -2728,7 +2810,7 @@
                 <p>`F(x)-1-x = xF(x)-x+x^2F(x)`</p>
                 <p>`F(x)-xF(x)-x^2F(x)=1`</p>
                 <p>`F(x)(1-x-x^2)=1`</p>
-                <p>`F(x)=1/(1-x-x^2)`</p>
+                <p>`color(red)(F(x)=1/(1-x-x^2))`</p>
               </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-4">Answer</a>
@@ -2749,7 +2831,7 @@
                 <p>`C(x) = 1+x^5+x^10+...=1/(1-x^5)`</p>
                 <p>`D(x) = 1+x^1+x^2+...=1/(1-x)`</p>
               </div>
-              <p>So `A(x)=B(x)C(x)D(x)=1/((1-x^10)(1-x^5)(1-x))`</p>
+              <p>So `A(x)=B(x)C(x)D(x)=color(red)(1/((1-x^10)(1-x^5)(1-x)))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-7">Answer</a>
           </div>
