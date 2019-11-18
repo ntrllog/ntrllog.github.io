@@ -1385,7 +1385,7 @@
             <p>Another way to see how `sum_(n ge 0)p_(le 2)(n)x^n = 1/((1-x)(1-x^2))`:</p>
             <div class="math">
               <p>`1/((1-x)(1-x^2)) = (1+x+x^2+x^3+...)(1+x^2+x^4+x^6+...)`</p>
-              <p>`= (1+x+x^(1+1)+x^(1+1+1)+...)(1+x^2+x^(2+2)+x^(2+2+2)+...)`</p>
+              <p>`= (1+x^1+x^(1+1)+x^(1+1+1)+...)(1+x^2+x^(2+2)+x^(2+2+2)+...)`</p>
             </div>
             <p>Multiplying these two expressions, we get the following table:</p>
             <div style="display: flex; justify-content: center;">
@@ -2983,20 +2983,26 @@
           <div class="box">
             <p>8.9: Let `f(n)` be the number of subsets of `[n]` in which the distance of any two elements is at least three. Find the generating function of `f(n)`</p>
             <div class="collapse" id="q8-9">
+              <p>Consider a subset that satisfies the condition</p>
+              <p>If `n` is part of the subset, then `n-1` and `n-2` cannot be in the subset</p>
+              <p>So there would be `f(n-3)` ways to make this subset</p>
+              <p>If `n` is not part of the subset, then there would be `f(n-1)` ways to make this subset</p>
+              <p>So we get the recurrence `f(n) = f(n-3)+f(n-1)` for `n ge 3`</p>
+              <p>`f(0) = 1` (just the empty set)</p>
+              <p>`f(1) = 2` (the empty set and `{1}`)</p>
+              <p>`f(2) = 3` (the empty set, `{1}` and `{2}`)</p>
+              <p>Multiply the recurrence by `x^n` and sum over all `n ge 3`</p>
+              <div class="math">
+                <p>`sum_(n ge 3)f(n)x^n = sum_(n ge 3)f(n-3)x^n + sum_(n ge 3)f(n-1)x^n`</p>
+                <p>`F(x)-f(0)-f(1)x-f(2)x^2 = x^3sum_(n ge 3)f(n-3)x^(n-3) + xsum_(n ge 3)f(n-1)x^(n-1)`</p>
+                <p>`F(x)-1-2x-3x^2 = x^3F(x) + x(F(x)-f(0)-f(1)x)`</p>
+                <p>`F(x)-1-2x-3x^2 = x^3F(x) + xF(x)-x-2x^2`</p>
+                <p>`F(x)-x^3F(x)-xF(x) = 1+x+x^2`</p>
+                <p>`F(x)(1-x-x^3) = 1+x+x^2`</p>
+                <p>`F(x) = (1+x+x^2)/(1-x-x^3)`</p>
+              </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-9">Answer</a>
-          </div>
-          <div class="box">
-            <p>8.10: Find the ordinary generating function of the sequence `p_k(n)`. Recall that `p_k(n)` is the number of all partitions of `n` into exactly `k` parts</p>
-            <div class="collapse" id="q8-10">
-            </div>
-            <a class="btn" data-toggle="collapse" href="#q8-10">Answer</a>
-          </div>
-          <div class="box">
-            <p>8.15: Let `a_n` be the number of monotonic functions `f` from `[n]` to `[n]` such that `f(i) le i` for every `i in [n]`. Find a closed formula for `a_n`</p>
-            <div class="collapse" id="q8-15">
-            </div>
-            <a class="btn" data-toggle="collapse" href="#q8-15">Answer</a>
           </div>
           <div class="box">
             <p>8.22: Let `b(n)` be the number of compositions of `n` in which each part is an odd integer. Find a closed formula for `sum_(n ge 0)b(n)x^n`. Express `b(n)` by the numbers `f(n)` defined in Exercise `4`</p>
