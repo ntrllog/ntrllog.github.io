@@ -2895,6 +2895,28 @@
           </div>
           <h3>Chapter 8</h3>
           <div class="box">
+            <p>8.1: Find an explicit formula for `a_k` if `a_0=0` and `a_(k+1)=a_k+2^k` for `k ge 0`</p>
+            <div class="collapse" id="q8-1">
+              <div class="math">
+                <p>`a_1 = a_0 + 2^0 = 2^0`</p>
+                <p>`a_2 = a_1 + 2^1 = 2^0+2^1`</p>
+                <p>`a_3 = a_2 + 2^2 = 2^0+2^1+2^2`</p>
+                <p>`vdots`</p>
+                <p>`a_k = 2^0+2^1+2^2+...+2^(k-1) = sum_(i=0)^(k-1)2^i`</p>
+              </div>
+              <p>We can think of `sum_(i=0)^(k-1)2^i` as a binary digit with `k` `1`'s</p>
+              <div class="math">
+                <p>`ubrace(111...111)_k`</p>
+              </div>
+              <p>Adding `1` to that binary digit results in a `1` followed by `k` `0`'s, which is `2^k`</p>
+              <div class="math">
+                <p>`1ubrace(000...000)_k`</p>
+              </div>
+              <p>So `a_k = sum_(i=0)^(k-1)2^i = color(red)(2^k-1)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-1">Answer</a>
+          </div>
+          <div class="box">
             <p>8.4: A child wants to walk up a stairway. At each step, she moves up either one or two stairs. Let `f(n)` be the number of ways she can reach the `n^(th)` stair. Let `F(x) = sum_(n ge 0)f_nx^n` be the generating function. Express `F(x)` as a rational function</p>
             <div class="collapse" id="q8-4">
               <p>She can reach the `n^(th)` step from either the `(n-1)^(st)` step or the `(n-2)^(nd)` step</p>
@@ -2932,6 +2954,99 @@
               <p>So `A(x)=B(x)C(x)D(x)=color(red)(1/((1-x^10)(1-x^5)(1-x)))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-7">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.8: Find a simple, closed form for the generating function of the sequence defined by `a_n=n^2`. Hint: `n^2 = 2((n),(2))+n`</p>
+            <div class="collapse" id="q8-8">
+              <p>Multiply the recurrence by `x^n` and sum over all `n`:</p>
+              <div class="math">
+                <p>`sum_(n ge 0)a_nx^n = sum_(n ge 0)2((n),(2))x^n + sum_(n ge 0)nx^n`</p>
+              </div>
+              <p>Simplifying `((n),(2)) = (n*(n-1)*(n-2)!)/(2*(n-2)!) = (n(n-1))/2`, we get</p>
+              <div class="math">
+                <p>`A(x) = sum_(n ge 2)n(n-1)x^n + sum_(n ge 1)nx^n`</p>
+              </div>
+              <p>`sum_(n ge 2)n(n-1)x^n` looks like a double derivative and `sum_(n ge 1)nx^n` looks like a derivative</p>
+              <div class="math">
+                <p>`A(x) = sum_(n ge 0)a_nx^n = 1/(1-x)`</p>
+                <p>`A'(x) = sum_(n ge 1)na_nx^(n-1) = 1/(1-x)^2`</p>
+                <p>`A''(x) = sum_(n ge 2)a_n(n-1)x^(n-2) = 2/(1-x)^3`</p>
+              </div>
+              <p>Taking the derivatives and multiplying by `x` and `x^2` gives us</p>
+              <div class="math">
+                <p>`A(x) = (2x^2)/(1-x)^3 + x/(1-x)^2`</p>
+                <p>`= color(red)((x(x+1))/(1-x)^3)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-8">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.9: Let `f(n)` be the number of subsets of `[n]` in which the distance of any two elements is at least three. Find the generating function of `f(n)`</p>
+            <div class="collapse" id="q8-9">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-9">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.10: Find the ordinary generating function of the sequence `p_k(n)`. Recall that `p_k(n)` is the number of all partitions of `n` into exactly `k` parts</p>
+            <div class="collapse" id="q8-10">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-10">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.15: Let `a_n` be the number of monotonic functions `f` from `[n]` to `[n]` such that `f(i) le i` for every `i in [n]`. Find a closed formula for `a_n`</p>
+            <div class="collapse" id="q8-15">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-15">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.22: Let `b(n)` be the number of compositions of `n` in which each part is an odd integer. Find a closed formula for `sum_(n ge 0)b(n)x^n`. Express `b(n)` by the numbers `f(n)` defined in Exercise `4`</p>
+            <div class="collapse" id="q8-22">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-22">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.23: Find an explicit formula for `a_n` if `a_0=1` and `a_(n+1)=3a_n+2^n` if `n ge 0`</p>
+            <div class="collapse" id="q8-23">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-23">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.24: Find an explicit formula for `a_n` if `a_0=1,a_1=4` and `a_(n+2)=8a_(n+1)-16a_n` for `n ge 0`</p>
+            <div class="collapse" id="q8-24">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-24">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.25: A certain kind of insect population multiplies so that at the end of each year, its size is the double of its size a year before, plus `1000` more insects. Assuming that originally we released `50` insects, how many of them will we have at the end of the `n^(th)` year?
+            <div class="collapse" id="q8-25">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-25">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.34: Let `h_0=1`, and let `h_n` be the number of compositions of `n` into parts equal to `2` or `3`. Find a closed formula for `H(x)=sum_(n ge 0)h_nx^n`</p>
+            <div class="collapse" id="q8-34">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-34">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.35: Let `H_n` be the number of ways to tile a `1xxn` rectangle with `1xx1` tiles that are red or blue and `1xx2` tiles that are green, yellow, or white. Find a closed formula for `H(x)=sum_(n ge 0)h_nx^n`</p>
+            <div class="collapse" id="q8-35">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-35">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.36: Let `h_n` be the number of sequences of length `n` consisting of letters `A` and `B` in which there is no subsequence of two letters `A` in consecutive positions. Find a closed formula for `H(x)=sum_(n ge 0)h_nx^n`</p>
+            <div class="collapse" id="q8-36">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-36">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.49:</p>
+            <p>(a) Let `a_1,a_2,...,a_k` be nonnegative integers, and let `a(n)` be the number of compositions of `n` into `k` parts so that the `i^(th)` part is not larger than `a_i`. Find the ordinary generating function `A(x)=sum_(n ge 0)a(n)x^n`
+            <p>(b) Let `b(n)` be the number of compositions of `n` into `k+1` parts so that the `i^(th)` part is not larger than `a_i`, and there is no constraint on the last part. Find the ordinary generating function `B(x) = sum_(n ge 0)b(n)x^n`</p>
+            <div class="collapse" id="q8-49">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-49">Answer</a>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
