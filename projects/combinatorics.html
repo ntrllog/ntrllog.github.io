@@ -3019,8 +3019,21 @@
             <a class="btn" data-toggle="collapse" href="#q8-9">Answer</a>
           </div>
           <div class="box">
-            <p>8.22: Let `b(n)` be the number of compositions of `n` in which each part is an odd integer. Find a closed formula for `sum_(n ge 0)b(n)x^n`. Express `b(n)` by the numbers `f(n)` defined in Exercise `4`</p>
+            <p>8.22: Let `b(n)` be the number of compositions of `n` in which each part is an odd integer. Find a closed formula for `sum_(n ge 0)b(n)x^n`</p>
             <div class="collapse" id="q8-22">
+              <p>Since the number of parts is unspecified, this problem involves a composotion of generating functions</p>
+              <p>This is equivalent to splitting up `[n]` into intervals and covering each interval with a single tile of odd length</p>
+              <p>If the length of the interval is even, then there is no way to do this</p>
+              <p>If the length of the interval is odd, then there is one way to do this</p>
+              <div class="math">
+                <p>`a_n = {(1 text( if n odd)),(0 text( if n even)):}`</p>
+              </div>
+              <p>So `A(x)=x+x^3+x^5+... = x(1+x^2+x^4+...) = x/(1-x^2)`</p>
+              <p>So `B(x) = 1/(1-A(x))`</p>
+              <div class="math">
+                <p>`= 1/(1-x/(1-x^2))`</p>
+                <p>`= color(red)((1-x^2)/(1-x^2-x))`</p>
+              </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-22">Answer</a>
           </div>
