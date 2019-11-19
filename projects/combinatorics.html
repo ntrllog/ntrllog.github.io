@@ -3040,12 +3040,46 @@
           <div class="box">
             <p>8.24: Find an explicit formula for `a_n` if `a_0=1,a_1=4` and `a_(n+2)=8a_(n+1)-16a_n` for `n ge 0`</p>
             <div class="collapse" id="q8-24">
+              <p>We can use the characteristic polynomial `t^2-c_1t-c_2` where `c_1=8` and `c_2=-16`</p>
+              <div class="math">
+                <p>`t^2-8t+16=(t-4)(t-4)`</p>
+              </div>
+              <p>Since the roots are the same there exist `alpha_1,alpha_2` such that `a_n = alpha_1 4^n+alpha_2n4^n`</p>
+              <p>Plugging in `n=0,1`:</p>
+              <div class="math">
+                <p>`a_0 = 1 = alpha_1`</p>
+                <p>`a_1 = 4 = 4alpha_1 + 4alpha_2`</p>
+                <p>`implies alpha_1 = 1, alpha_2 = 0`</p>
+                <p>`implies a_n = color(red)(4^n)`</p>
+              </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-24">Answer</a>
           </div>
           <div class="box">
             <p>8.25: A certain kind of insect population multiplies so that at the end of each year, its size is the double of its size a year before, plus `1000` more insects. Assuming that originally we released `50` insects, how many of them will we have at the end of the `n^(th)` year?
             <div class="collapse" id="q8-25">
+              <p>The recurrence is `a_(n+1) = 2a_n + 1000` for `n ge 0` and `a_0=50`</p>
+              <p>Multiply the recurrence by `x^(n+1)` and sum over `n ge 0`:</p>
+              <div class="math">
+                <p>`sum_(n ge 0)a_(n+1)x^(n+1) = sum_(n ge 0)2a_nx^(n+1) + sum_(n ge 0)1000x^(n+1)`</p>
+                <p>`A(x)-a_0 = 2xsum_(n ge 0)a_nx^n + 1000xsum_(n ge 0)x^n`</p>
+                <p>`A(x)-50 = 2xA(x) + (1000x)/(1-x)`</p>
+                <p>`A(x)-2xA(x) = (1000x)/(1-x)+50`</p>
+                <p>`A(x)(1-2x) = (50+950x)/(1-x)`</p>
+                <p>`A(x) = (50+950x)/((1-2x)(1-x))`</p>
+              </div>
+              <p>Using partial fractions, we get:</p>
+              <div class="math">
+                <p>`(50+950x)/((1-2x)(1-x)) = alpha/(1-2x)+beta/(1-x)`</p>
+                <p>`50+950x = (1-x)alpha + (1-2x)beta`</p>
+                <p>`50+950x = alpha-alphax + beta-2betax`</p>
+                <p>`50+950x = (alpha+beta) + (-alpha-2beta)x`</p>
+                <p>`implies alpha=1050, beta=-1000`</p>
+                <p>`implies (50+950x)/((1-2x)(1-x)) = 1050/(1-2x)-1000/(1-x)`</p>
+                <p>`= 1050sum_(n ge 0)(2x)^n - 1000sum_(n ge 0)x^n`</p>
+                <p>`= 1050sum_(n ge 0)2^nx^n - 1000sum_(n ge 0)x^n`</p>
+              </div>
+              <p>So `a_n` is the coefficient of `x^n`, which is `color(red)(1050*2^n-1000)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-25">Answer</a>
           </div>
