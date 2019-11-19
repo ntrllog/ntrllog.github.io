@@ -2653,9 +2653,23 @@
               <p>If `n` is odd:</p>
               <ul>
                 <li>The two subsets in each pair will be different sizes, so there will be a larger subset in each pair</li>
-                <li>There are `2^(n-1)` pairs, so there are `color(red)(2^(n-1))` subsets larger than their complement</li>
+                <li>There are `2^(n-1)` unique pairs, so there are `color(red)(2^(n-1))` subsets larger than their complement</li>
               </ul>
-              <p>If `n` is even:</p>
+              <p>If `n` is even, then let `n = 2k`</p>
+              <p>`sum_(i=0)^(k-1)((n),(i))` counts the number of subsets that are larger than their complements</p>
+              <p>To get that summation, we could split the subsets of `[n]` into three groups:</p>
+              <ul>
+                <li>Subsets with size `0 le i le k-1`: `sum_(i=0)^(k-1)((n),(i))=((n),(1))+((n),(2))+...+((n),(k-1))`</li>
+                <li>Subsets with size `k=n/2`: `((n),(k))=((n),(n/2))`</p>
+                <li>Subsets with size `k+1 le i le n`: this is the "reverse" of `0 le i le k-1`, so it is also counted by `sum_(i=0)^(k-1)((n),(i))`</p>
+              </ul>
+              <p>So we have</p>
+              <div class="math">
+                <p>`2^n = ((n),(n/2))+2sum_(i=0)^(k-1)((n),(i))`</p>
+                <p>`2sum_(i=0)^(k-1)((n),(i)) = 2^n-((n),(n/2))`</p>
+                <p>`sum_(i=0)^(k-1)((n),(i)) = (2^n-((n),(n/2)))/2`</p>
+                <p>`sum_(i=0)^(k-1)((n),(i)) = color(red)(2^(n-1)-1/2((n),(n/2)))`</p>
+              </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q4-9">Answer</a>
           </div>
