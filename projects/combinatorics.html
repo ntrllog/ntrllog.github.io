@@ -3013,6 +3013,27 @@
           <div class="box">
             <p>8.23: Find an explicit formula for `a_n` if `a_0=1` and `a_(n+1)=3a_n+2^n` if `n ge 0`</p>
             <div class="collapse" id="q8-23">
+              <p>Multiply the recurrence by `x^(n+1)` and sum over all `n ge 0`:</p>
+              <div class="math">
+                <p>`sum_(n ge 0)a_(n+1)x^(n+1) = sum_(n ge 0)3a_nx^(n+1) + sum_(n ge 0)2^nx^(n+1)`</p>
+                <p>`A(x)-a_0 = 3xsum_(n ge 0)a_nx^n + xsum_(n ge 0)(2x)^n`</p>
+                <p>`A(x)-1 = 3xA(x)+x/(1-2x)`</p>
+                <p>`A(x)-3xA(x) = x/(1-2x)+1`</p>
+                <p>`A(x)(1-3x) = (1-x)/(1-2x)`</p>
+                <p>`A(x) = (1-x)/((1-2x)(1-3x))`</p>
+              </div>
+              <p>Using partial fractions, we get</p>
+              <div class="math">
+                <p>`(1-x)/((1-2x)(1-3x)) = alpha/(1-2x) + beta/(1-3x)`</p>
+                <p>`1-x = (1-3x)alpha + (1-2x)beta`</p>
+                <p>`1-x = alpha-3alphax + beta-2betax`</p>
+                <p>`1-x = (alpha+beta)+(-3alpha-2beta)x`</p>
+                <p>`implies alpha=-1, beta=2`</p>
+                <p>`implies (1-x)/((1-2x)(1-3x)) = -1/(1-2x) + 2/(1-3x)`</p>
+                <p>`= 2sum_(n ge 0)(3x)^n - sum_(n ge 0)(2x)^n`</p>
+                <p>`= 2sum_(n ge 0)3^nx^n - sum_(n ge 0)2^nx^n`</p>
+              </div>
+              <p>So `a_n` is the coefficient of `x^n`, which is `color(red)(2*3^n-2^n)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-23">Answer</a>
           </div>
