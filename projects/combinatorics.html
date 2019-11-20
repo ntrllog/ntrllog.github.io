@@ -3159,6 +3159,20 @@
           <div class="box">
             <p>8.36: Let `h_n` be the number of sequences of length `n` consisting of letters `A` and `B` in which there is no subsequence of two letters `A` in consecutive positions. Find a closed formula for `H(x)=sum_(n ge 0)h_nx^n`</p>
             <div class="collapse" id="q8-36">
+              <p>Consider the last letter of the sequence</p>
+              <p>If it is a `B`, then there are `h_(n-1)` ways to form this sequence</p>
+              <p>If it is an `A`, then there are `h_(n-2)` ways to form this sequence because the second to last letter must be a `B`</p>
+              <p>So we get the recurrence `h_n = h_(n-1) + h_(n-2)` where `h_0 = 1` and `h_1 = 2`</p>
+              <p>Multiply the recurrence by `x_n` and sum over all `n ge 2`:</p>
+              <div class="math">
+                <p>`sum_(n ge 2)h_nx^n = sum_(n ge 2)h_(n-1)x^n + sum_(n ge 2)h_(n-2)x^n`</p>
+                <p>`H(x)-h_0-h_1x = xsum_(n ge 2)h_(n-1)x^(n-1) + x^2sum_(n ge 2)h_(n-2)x^(n-2)`</p>
+                <p>`H(x)-1-2x = x(H(x)-h_0) + x^2H(x)`</p>
+                <p>`H(x)-1-2x = xH(x)-x + x^2H(x)`</p>
+                <p>`H(x)-xH(x)-x^2H(x) = 1+x`</p>
+                <p>`H(x)(1-x-x^2) = 1+x`</p>
+                <p>`H(x) = color(red)((1+x)/(1-x-x^2))`</p>
+              </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-36">Answer</a>
           </div>
@@ -3167,6 +3181,20 @@
             <p>(a) Let `a_1,a_2,...,a_k` be nonnegative integers, and let `a(n)` be the number of compositions of `n` into `k` parts so that the `i^(th)` part is not larger than `a_i`. Find the ordinary generating function `A(x)=sum_(n ge 0)a(n)x^n`
             <p>(b) Let `b(n)` be the number of compositions of `n` into `k+1` parts so that the `i^(th)` part is not larger than `a_i`, and there is no constraint on the last part. Find the ordinary generating function `B(x) = sum_(n ge 0)b(n)x^n`</p>
             <div class="collapse" id="q8-49">
+              <p>Since the number of parts is specified, this problem involves multiplying generating functions</p>
+              <p>(a) This problem is the same as splitting up `[n]` into `k` consecutive intervals such that the `i^(th)` interval has size `ge 1` and `le a_i`</p>
+              <p>So `A(x) = A_1(x)A_2(x)...A_k(x)` where `A_i(x)` encodes the conditions on the `i^(th)` interval</p>
+              <p>`A_i(x) = x + x^2 + ... + x^(a_i) = x(1+x+...+x^(a_i-1))`</p>
+              <p>So `A(x) = prod_(i=1)^k x(1+x+...+x^(a_i-1)) = color(red)(prod_(i=1)^k x(1-x^(a_i))/(1-x))`</p>
+              <p>(b) With the same constraints on `1 le i le k`, we have</p>
+              <div class="math">
+                <p>`B(x) = A_1(x)A_2(x)...A_k(x)A_(k+1)(x)`</p>
+              </div>
+              <p>Since there is no constraint for the `(k+1)^(st)` part, we have</p>
+              <div class="math">
+                <p>`A_(k+1) = x + x^2 + ... = x(1 + x + x^2 + ...) = x1/(1-x)`</p>
+              </div>
+              <p>So `B(x) = color(red)((xA(x))/(1-x))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-49">Answer</a>
           </div>
