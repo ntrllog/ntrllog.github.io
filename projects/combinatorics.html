@@ -1594,7 +1594,7 @@
             <p>`C_n` is also the same as the number of words with `n` left parentheses and `n` right parentheses such that every initial segment has at least as many `(` as `)`</p>
             <p>`C_n` is also the same as the number of sequences of `n` counts of `+1`'s and `n` counts of `-1`'s such that every initial partial sum is `ge 0`</p>
           </div>
-          <p>There is some kind of recursive structure to these parentheses. For example, we can have a balanced pair of parentheses and put another pair of balanced parentheses inside. We can use this recursive structure to obtain a recurrence relation. It turns out that the recurrence relation will be nonlinear</p>
+          <p>There is some kind of recursive structure to these parentheses. For example, we can have a balanced pair of parentheses and put another pair of balanced parentheses inside. We can use this recursive structure to obtain a recurrence relation. It turns out that the recurrence relation will be nonlinear.</p>
           <div class="box">
             <p>Lemma: If `n ge 0`, then `C_n = sum_(i = 0)^(n-1)C_iC_(n-1-i) = C_0C_(n-1)+C_1C_(n-2)+...+C_(n-1)C_0`</p>
             <div class="collapse" id="catalanproof">
@@ -1615,7 +1615,7 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#catalanproof">Proof</a>
           </div>
-          <p>So we have a recurrence relation for the Catalan numbers. Now we can try to find a closed formula for `C_n` using generating functions. In this case, we can define the generating function `C(x) = sum_(n ge 0) C_nx^n` where `C_0 = 1`</p>
+          <p>So we have a recurrence relation for the Catalan numbers. Now we can try to find a closed formula for `C_n` using generating functions. In this case, we can define the generating function `C(x) = sum_(n ge 0) C_nx^n` where `C_0 = 1`.</p>
           <div class="box">
             <p>We start by multiplying both sides of the recurrence relation by `x^n`</p>
             <div class="math">
@@ -1833,6 +1833,10 @@
             </div>
             <p>So `a_n = n!+n`</p>
           </div>
+          <p>The product of two exponential generating functions is similar to the product of two ordinary generating functions.</p>
+          <p>Let `alpha, beta` be structures on sets. Let `a_n` be the number of ways to do `alpha` on a set of size `n`. Let `b_n` be the number of ways to do `beta` on a set of size `n`. Let `c_n` be the number of ways to pick a subset `S sube [n]`, put `alpha` on `S` and put `beta` on `[n]\\S`.</p>
+          <p>Then `sum_(n ge 0)c_n/(n!)x^n = (sum_(n ge 0)a_n/(n!)x^n)(sum_(n ge 0)b_n/(n!)x^n)`.</p>
+          <p>More generally, we can handle more than two structures. If we had `k` structures, the product of their egf's is the egf for the number of ways to write `[n] = S_1 uu S_2 uu ... uu S_k` such that no subsets overlap and we put the `i^(th)` structure on `S_i`.</p>
           <div class="box">
             <p>Let `A(x) = sum_(n ge 0)a_n/(n!)x^n` and `B(x) = sum_(n ge 0) b_n/(n!)x^n`</p>
             <p>Lemma: `A(x)B(x) = sum_(n ge 0) c_n/(n!)x^n` where `c_n = sum_(i=0)^n ((n),(i)) a_ib_(n-i)`</p>
@@ -1908,6 +1912,50 @@
             <p>So all we need to do is pick a subset of even size of `n`</p>
             <p>There are `2^(n-1)` subsets of even size of `n`</p>
           </div>
+          <p>We can use the product of egf's to get an egf for the Stirling numbers.</p>
+          <div class="box">
+            <p>Define `a_n=1` if `n ge 0` and `a_0=0`</p>
+            <p>We can interpret this as counting the number of ways for a set to be nonempty</p>
+            <p>`A(x) = sum_(n ge 0)a_n/(n!)x^n = sum_(n ge 1)x^n/(n!) = e^x-1`</p>
+            <p>`A(x)^2 = sum_(n ge 0)c_n/(n!)x^n`</p>
+            <p>`c_n` is the number of ways to pick a subset `S sube [n]` such that `S != O/` and `[n]\\S != O/`</p>
+            <p>The Stirling numbers, `S(n,k)`, counted the number of ways to break up a set of size `n` into `k` nonempty pieces without regard to order. In this case, `k=2` and the order matters. `S` is like the first subset and `[n]\\S` is like the second subset. So this is ordered set partitions with two blocks</p>
+            <p>`c_n` is also the number of ordered set partitions of `[n]` into `2` blocks</p>
+            <p>The difference between ordered and unordered is a factor of `k!`</p>
+            <p>So `c_n = 2!S(n,2)`</p>
+            <p>Plugging that back into `A(x)^2`, we get</p>
+            <div class="math">
+              <p>`A(x)^2 = sum_(n ge 0)c_n/(n!)x^n = sum_(n ge 0)(2!S(n,2))/(n!)x^n`</p>
+            </div>
+            <p>But `A(x)^2` is also equal to `(e^x-1)^2`, so we get</p>
+            <div class="math">
+              <p>`sum_(n ge 0)(2!S(n,2))/(n!)x^n = (e^x-1)^2`</p>
+            </div>
+            <p>`(e^x-1)^2` is the exponential generating function for ordered set partitions into two blocks</p>
+            <p>Dividing by `2!`, we also get</p>
+            <div class="math">
+              <p>`sum_(n ge 0)(S(n,2))/(n!)x^n = (e^x-1)^2/(2!)`</p>
+            </div>
+            <p>`(e^x-1)^2/(2!)` is the exponential generating function for set partitions into two blocks, i.e., `S(n,2)`</p>
+            <p>For general `k`, if we take `A(x)^k`, then that would be counting the number of ways to break `[n]` into `k` nonempty subsets, which is exactly the number of ordered set partitions into `k` blocks</p>
+            <p>So more generally,</p>
+            <div class="math">
+              <p>`(e^x-1)^k = sum_(n ge 0)(k!S(n,k))/(n!)x^n`</p>
+              <p>`(e^x-1)^k/(k!) = sum_(n ge 0)(S(n,k))/(n!)x^n`</p>
+            </div>
+          </div>
+          <p>Using the exponential generating function for the Stirling numbers, we can also get one for the Bell numbers, `B(n) = sum_(k=0)^nS(n,k)`, which are the number of set partitions of `[n]`.</p>
+          <div class="box">
+            <p>The exponential generating function would be `sum_(n ge 0)(B(n))/(n!)x^n`</p>
+            <div class="math">
+              <p>`= sum_(n ge 0)1/(n!)[sum_(k ge 0)S(n,k)]x^n`</p>
+              <p>`= sum_(k ge 0)sum_(n ge 0)(S(n,k))/(n!)x^n`</p>
+              <p>`= sum_(k ge 0)(e^x-1)^k/(k!)`</p>
+              <p>`= e^(e^x-1)`</p>
+            </div>
+            <p>The last derivation is realized as the composition of `e^x` with `e^x-1`</p>
+          </div>
+          <p>The advantage of having formulas like these is that it makes taking products much simpler when the formulas are nice and compact, possibly leading to simplifications. It's pretty hard to work with a bunch of summations.</p> 
           <h2 id="practiceproblems">Practice Problems</h2>
           <h3>Chapter 3</h3>
           <div class="box">
