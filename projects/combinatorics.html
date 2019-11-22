@@ -51,6 +51,7 @@
           <hr>
           <p>(or as I like to call it, combinatrix)</p>
           <p>Shortcut to this page: <a href="combinatorics.html">aln.netlify.com/comb</a></p>
+          <p>Notes provided by Professor Steven Sam</p>
           <h2 id="formulas">Formulas</h2>
           <div class="box">
             <p>Number of subsets: `sum_(k=0)^n ((n),(k)) = 2^n`</p>
@@ -234,7 +235,7 @@
             <p>So there are `n*(n-1)*(n-2)*...*1 = n!` ways to order the elements</p>
           </div>
           <h2 id="combinations">Combinations</h2>
-          <p>Let's suppose you're arranging flowers. You have `2` red flowers and `1` yellow flower. How many ways can we arrange them? Previously, we saw that if we have `n` elements, there are `n!` ways to arrange them. Here, we have `3` elements, so there are `3! = 6` ways to arrange them. All the possible orderings are:</p>
+          <p>Let's suppose we're arranging flowers. We have `2` red flowers and `1` yellow flower. How many ways can we arrange them? Previously, we saw that if we have `n` elements, there are `n!` ways to arrange them. Here, we have `3` elements, so there are `3! = 6` ways to arrange them. All the possible orderings are:</p>
           <div class="math">
             <p>`R RY`</p>
             <p>`R RY`</p>
@@ -439,7 +440,7 @@
               <p>`{3,3,3}`</p>
             </div>
             <p>Are these all the possible multisets? How can we be sure?</p>
-            <p>Let's add `1` to the second element and add `2` to the third element.</p>
+            <p>Let's add `1` to the second element and add `2` to the third element</p>
             <div class="math">
               <p>`{1,1,1} rarr {1,2,3}`</p>
               <p>`{1,1,2} rarr {1,2,4}`</p>
@@ -452,7 +453,7 @@
               <p>`{2,3,3} rarr {2,4,5}`</p>
               <p>`{3,3,3} rarr {3,4,5}`</p>
             </div>
-            <p>Notice that we end up with all the subsets of size `3` of `[5]`. This leads to a more general result.</p>
+            <p>Notice that we end up with all the subsets of size `3` of `[5]`. This leads to a more general result</p>
           </div>
           <div class="box">
             <p>Theorem: The number of `k`-element multisets of a set of size `n` is `((n+k-1),(k))`</p>
@@ -576,26 +577,33 @@
             <p>How many ways are there to distribute `20` different pieces of candy to `4` identical children so that no child is candyless?</p>
             <p>This can be seen as a partition of `[20]` into `4` blocks</p>
           </div>
+          <p>Unfortunately, there's not really a nice formula for the number of set partitions of `[n]`. But we can still count them though.</p>
           <div class="box">
             <p>Let `S(n,k)` be the number of partitions of a set of size `n` into `k` blocks</p>
             <p>These are called <b>Stirling numbers of the second kind</b></p>
             <p>`S(0,0) = 1` and `S(n,k) = 0` if `k gt n`</p>
           </div>
+          <p>For some values of `k`, there actually are nice formulas.</p>
           <div class="box">
             <p>`S(n,1) = 1`</p>
-            <p>`n` pieces into `1` block: put all pieces into the block</p>
-            <p>`S(n,n) = 1`</p>
-            <p>`n` pieces into `n` blocks: put each piece in each block</p>
-            <p>`S(n,2) = 2^(n-1)-1`</p>
-            <p>`n` pieces into `2` blocks:</p>
-            <ul>
-              <li>can't have `O/` or the whole set `implies 2^n-2` complementary subsets</li>
-              <li>the order of each block doesn't matter `implies` divide by `2`</li>
-              <li>`(2^n-2)/2 = 2^(n-1)-1`</li>
-            </ul>
-            <p>`S(n,n-1) = ((n),(2))`</p>
-            <p>`n` pieces into `n-1` blocks: one block must have `2` pieces, choose `2` elements to be in the same block</p>
+            <p>This is `n` pieces into `1` block. The only way to do this is to put all the pieces into the block</p>
           </div>
+          <div class="box">
+            <p>`S(n,n) = 1`</p>
+            <p>This is `n` pieces into `n` blocks. The only way to do this is to put each piece in each block</p>
+          </div>
+          <div class="box">
+            <p>`S(n,2) = 2^(n-1)-1`</p>
+            <p>This is `n` pieces into `2` blocks</p>
+            <p>We can't put `O/` or the whole set in the blocks, so there are `2^n-2` complementary subsets</p>
+            <p>The order of the blocks don't matter, so there are `(2^n-2)/(2!) = 2^(n-1)-1` ways to do this</p>
+          </div>
+          <div class="box">
+            <p>`S(n,n-1) = ((n),(2))`</p>
+            <p>This is `n` pieces into `n-1` blocks</p>
+            <p>One block must have `2` pieces, so we choose `2` elements to be in the same block</p>
+          </div>
+          <p>For other values of `k`, there is a recurrence relation that allows us to calculate `S(n,k)`.</p>
           <div class="box">
             <p>Theorem: If `k le n`, then `S(n,k) = S(n-1,k-1) + k*S(n-1,k)`</p>
             <div class="collapse" id="stirlingrecursive">
@@ -622,13 +630,16 @@
             <a class="btn" data-toggle="collapse" href="#stirlingrecursive">Proof</a>
           </div>
           <div class="box">
-            <p>From before, `S(n,2) = 2^(n-1)-1`</p>
-            <p>`S(n,2) = S(n-1,1) + 2*S(n-1,2)`</p>
-            <p>`= 1 + 2*S(n-1,2)`</p>
-            <p>`= 1 + 2*(2^(n-2)-1)`</p>
-            <p>`= 1 + 2^(n-1)-2`</p>
-            <p>`= 2^(n-1)-1`</p>
+            <p>We can use this recurrence to verify that `S(n,2) = 2^(n-1)-1`</p>
+            <div class="math">
+              <p>`S(n,2) = S(n-1,1) + 2*S(n-1,2)`</p>
+              <p>`= 1 + 2*S(n-1,2)`</p>
+              <p>`= 1 + 2*(2^(n-2)-1)`</p>
+              <p>`= 1 + 2^(n-1)-2`</p>
+              <p>`= 2^(n-1)-1`</p>
+            </div>
           </div>
+          <p>The Stirling numbers counted the number of set partitions into blocks of specific sizes. To get the total number of set partitions of all sizes, we add them all up.</p>
           <div class="box">
             <p>The <b>Bell numbers</b> are the number of partitions of `[n]` into any number of blocks</p>
             <p>`B(n) = sum_(k=0)^nS(n,k)`</p>
@@ -878,6 +889,7 @@
             <p>Two power series are equal if and only if all of their coefficients match</p>
             <p>`A(x) = B(x)` if and only if `[x^n]A(x) = a_n = b_n = [x^n]B(x)` for all `n`</p>
           </div>
+          <h3>Addition and Multiplication of Formal Power Series</h3>
           <div class="box">
             <p>Let `A(x) = sum_(n ge 0) a_nx^n` and `B(x) = sum_(n ge 0) b_nx^n`</p>
             <p>The sum of two formal power series is</p>
@@ -901,11 +913,12 @@
             </div>
           </div>
           <div class="box">
-            <p>Let `A(x) = B(x) = sum_(n ge 0) x^n`</p>
+            <p>Example: Let `A(x) = B(x) = sum_(n ge 0) x^n`</p>
             <p>`A(x)+B(x) = sum_(n ge 0) 2x^n`</p>
             <p>`A(x)B(x) = sum_(n ge 0) (n+1)x^n`</p>
             <p>In the multiplication, `c_n = sum_(i=0)^n a_ib_(n-i) = sum_(i=0)^n 1 = n+1`</p>
           </div>
+          <h3>Invertibility of Formal Power Series</h3>
           <div class="box">
             <p>`A(x)` is <b>invertible</b> if there exists `B(x)` such that `A(x)B(x) = 1`</p>
             <p>Then `B(x) = A(x)^(-1) = 1/(A(x))`</p>
@@ -963,6 +976,7 @@
             <a class="btn" data-toggle="collapse" href="#fpsinvertible">Proof</a>
             <p>Intuitively, if a formal power series has no constant term, then its product with any other power series will always be a sum of powers of `x`, which can never be equal to `1`</p>
           </div>
+          <h3>Composition of Formal Power Series</h3>
           <div class="box">
             <p>Let `A(x),B(x)` be formal power series such that `[x^0]A(x) = 0`</p>
             <p>The <b>composition</b> `(B circ A)(x) = B(A(x))` is defined by `sum_(n ge 0) b_nA(x)^n`</p>
@@ -995,7 +1009,7 @@
             </div>
           </div>
           <div class="box">
-            <p>Let `A(x) = x^d` where `d gt 0` and `B(x) = sum_(n ge 0) x^n`</p>
+            <p>Example: Let `A(x) = x^d` where `d gt 0` and `B(x) = sum_(n ge 0) x^n`</p>
             <p>`B(A(x)) = sum_(n ge 0) (x^d)^n = sum_(n ge 0) x^(dn)`</p>
             <p>We can substitute this into the identity `(1-x)sum_(n ge 0) x^n = 1` to get a new identity:</p>
             <div class="math">
@@ -1003,6 +1017,7 @@
               <p>`1/(1-x^d) = sum_(n ge 0) x^(dn)`</p>
             </div>
           </div>
+          <h3>Derivative of Formal Power Series</h3>
           <div class="box">
             <p>The <b>derivative</b> of `A`, written as `DA` or `A'`, is defined by `sum_(n ge 0) na_nx^(n-1) = sum_(n ge 0) (n+1)a_(n+1)x^n`</p>
           </div>
@@ -1115,7 +1130,10 @@
           <h2 id="ordinarygeneratingfunctions">Ordinary Generating Functions</h2>
           <p>Ordinary generating functions are a way to encode a sequence of numbers as a formal power series.</p>
           <div class="box">
-            <p>Given a sequence of numbers `a_0, a_1, a_2, ...`, the <b>ordinary generating function</b> (ogf) is `A(x) = sum_(n ge 0) a_nx^n`</p>
+            <p>Given a sequence of numbers `a_0, a_1, a_2, ...`, the <b>ordinary generating function</b> (ogf) is</p>
+            <div class="math">
+              <p>`A(x) = sum_(n ge 0) a_nx^n`</p>
+            </div>
           </div>
           <h3>Linear Recurrence Relations</h3>
           <div class="box">
@@ -1315,7 +1333,7 @@
             <p>So `c_n` is the number of ways of splitting `[n]` into two consecutive pieces and putting `alpha` on the first piece and putting `beta` on the second piece</p>
           </div>
           <div class="box">
-            <p>A class has `n` days. We want to split the course into two portions, where the first portion is theory and the second portion is labs. One of the theory lectures is given by a guest lecturer and two of the lab days are carried out by the guest lecturer. How many ways are there to design the course?</p>
+            <p>Example: A class has `n` days. We want to split the course into two portions, where the first portion is theory and the second portion is labs. One of the theory lectures is given by a guest lecturer and two of the lab days are carried out by the guest lecturer. How many ways are there to design the course?</p>
             <p>Let `alpha` be picking the theory portion, `beta` be picking the lab portion</p>
             <p>So `a_i = i` is the number of ways to pick one theory day out of `i` days to be the guest speaker</p>
             <p>And `b_j = ((j),(2))` is the number of ways to pick two lab days out of `j` days to be the guest speaker</p>
@@ -1355,7 +1373,7 @@
             </div>
           </div>
           <div class="box">
-            <p>Let `p_(le k)(n)` be the number of integer partitions of `n` using `le k` parts</p>
+            <p>Example: Let `p_(le k)(n)` be the number of integer partitions of `n` using `le k` parts</p>
             <p>Note: After taking the transpose, `p_(le k)(n)` is also the number of integer partitions of `n` where all parts are `le k`</p>
             <p>We want a simple formula for `sum_(n ge 0) p_(le k)(n)x^n`</p>
             <p>For `k=1`, it is the number of partitions where all parts are `le 1`. To do this, we just repeat `1` `n` times</p>
@@ -1460,8 +1478,7 @@
             </div>
           </div>
           <div class="box">
-            <p>Let `p_(text(odd))(n)` be the number of partitions of `n` where all parts are odd</p>
-            <p>Let `p_(text(dist))(n)` be the number of partitions of `n` where all parts are distinct</p>
+            <p>Example: Let `p_(text(odd))(n)` be the number of partitions of `n` where all parts are odd and let `p_(text(dist))(n)` be the number of partitions of `n` where all parts are distinct</p>
             <div style="display: flex; justify-content: center;">
               <table>
                 <tr>
@@ -1526,10 +1543,8 @@
           </div>
           <h3>Composition of Ordinary Generating Functions</h3>
           <p>We compose ordinary generating functions when we want to break up `[n]` into consecutive intervals, apply a structure on each interval, and then apply another structure on a subset of those intervals.</p>
+          <p>`a_n` is the number of ways to apply structure `alpha` on a set of size `n` and `a_0=0`. `h_n` is the number of ways to break `[n]` into consecutive intervals and place structure `alpha` on each interval. The generating functions are `A(x) = sum_(n ge 0) a_nx^n` and `H(x) = sum_(n ge 0) h_nx^n`.</p>
           <div class="box">
-            <p>Let `a_n` be the number of structures of type `alpha` on a set of size `n`. Let `a_0 = 0`</p>
-            <p>Let `h_n` be the number of ways to break `[n]` into consecutive intervals and place structure `alpha` on each interval</p>
-            <p>The generating functions are `A(x) = sum_(n ge 0) a_nx^n` and `H(x) = sum_(n ge 0) h_nx^n`</p>
             <p>Theorem: `H(x) = 1/(1-A(x))`</p>
             <div class="collapse" id="composeogf">
               <p>`A(x)^k` is the ordinary generating function for the number of ways to break up `[n]` into `k` consecutive intervals and place structure `alpha` on each piece</p>
@@ -1553,11 +1568,9 @@
               <p>`h_n = 1/sqrt(5)((3+sqrt(5))/2)^n-1/sqrt(5)((3-sqrt(5))/2)^n`</p>
             </div>
           </div>
-          <p>So far, we broke `[n]` into consecutive intervals and applied a structure to each interval. Now we apply another structure on a subset of those intervals.</p>
+          <p>So far, we broke `[n]` into consecutive intervals and applied a structure to each interval. Now we apply another structure `beta` on a subset of those intervals.</p>
+          <p>`b_n` is the number of structures of type `beta` on a set of size `n`. The generating function is `B(x) = sum_(n ge 0) b_nx^n`. Now `h_n` is the number of ways to break `[n]` into consecutive intervals, place structure `alpha` on each interval, then place structure `beta` on a subset of intervals</p>
           <div class="box">
-            <p>Let `b_n` be the number of structures of type `beta` on a set of size `n`</p>
-            <p>The generating function is `B(x) = sum_(n ge 0) b_nx^n`</p>
-            <p>Now let `h_n` be the number of ways to break `[n]` into consecutive intervals, place structure `alpha` on each interval, then place structure `beta` on a subset of intervals</p>
             <p>Theorem: `H(x) = B(A(x))`</p>
             <div class="collapse" id="composeogf2">
               <p>`b_kA(x)^k` is the ordinary generating function for the number of ways to break up `[n]` into `k` consecutive intervals, place structure `alpha` on each piece, and then place structure `beta` on the `k` pieces</p>
@@ -1782,7 +1795,7 @@
             </div>
           </div>
           <div class="box">
-            <p>Suppose we have a sequence defined by `a_0 = 1` and `a_n = n(a_(n-1)-n+2)` for `n ge 1`</p>
+            <p>Example: Suppose we have a sequence defined by `a_0 = 1` and `a_n = n(a_(n-1)-n+2)` for `n ge 1`</p>
             <p>Let's try to encode it as an ordinary generating function</p>
             <p>So let `A(x) = sum_(n ge 0)a_nx^n` be the ogf</p>
             <p>Multiplying the recurrence by `x^n` and summing over all `n ge 1`, we get</p>
@@ -1833,6 +1846,7 @@
             </div>
             <p>So `a_n = n!+n`</p>
           </div>
+          <h3>Product of Exponential Generating Funtions</h3>
           <p>The product of two exponential generating functions is similar to the product of two ordinary generating functions.</p>
           <p>Let `alpha, beta` be structures on sets. Let `a_n` be the number of ways to do `alpha` on a set of size `n`. Let `b_n` be the number of ways to do `beta` on a set of size `n`. Let `c_n` be the number of ways to pick a subset `S sube [n]`, put `alpha` on `S` and put `beta` on `[n]\\S`.</p>
           <p>Then `sum_(n ge 0)c_n/(n!)x^n = (sum_(n ge 0)a_n/(n!)x^n)(sum_(n ge 0)b_n/(n!)x^n)`.</p>
@@ -1955,7 +1969,72 @@
             </div>
             <p>The last derivation is realized as the composition of `e^x` with `e^x-1`</p>
           </div>
-          <p>The advantage of having formulas like these is that it makes taking products much simpler when the formulas are nice and compact, possibly leading to simplifications. It's pretty hard to work with a bunch of summations.</p> 
+          <p>The advantage of having formulas like these is that it makes taking products much simpler when the formulas are nice and compact, possibly leading to simplifications. It's pretty hard to work with a bunch of summations.</p>
+          <p>While they are clean formulas, they are often difficult to work with, compared to the formulas obtained from ordinary generating functions, which are usually rational expressions that can be simplified by partial fraction decomposition and expressed as geometric series. Here, there's no easy way to see what the `n^(th)` coefficient of something like `e^(e^x-1)`.</p>
+          <h3>Compositions of Exponential Generating Functions</h3>
+          <p>Compositions of exponential generating functions are also similar to compositions of ordinary generating fucntions.</p>
+          <div class="box">
+            <p>Let `alpha, beta` be structures on sets</p>
+            <p>Let `a_n` be the number of ways to do `alpha` on a set of size `n` (assume `a_0=0`)</p>
+            <p>Define `h_n` to be the number of ways to pick a set partition on `[n]` into `k` blocks for some `k` and put structure `alpha` on each block</p>
+            <p>The egf's are `A(x)=sum_(n ge 0)a_n/(n!)x^n` and `H(x) = sum_(n ge 0)h_n/(n!)x^n`</p>
+            <p>Theorem: `H(x)=e^(A(x))`</p>
+            <div class="collapse" id="compositionegf">
+              <p>`A(x)^k` is the egf for the number of ways to write `[n] = S_1 uu S_2 uu ... uu S_k` such that the `S_i`'s don't overlap and put structure `alpha` on each `S_i`</p>
+              <p>Since now the order doesn't matter, we divide by `k!` to get `(A(x)^k)/(k!)`</p>
+              <p>Considering all `k`, we get `H(x) = sum_(k ge 0) (A(x)^k)/(k!) = e^(A(x))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#compositionegf">Proof</a>
+          </div>
+          <div class="box">
+            <p>Example: A bijection `f:S rarr S` is an involution if `f circ f = id_s`. Applying the function to one element twice results in the original element.</p>
+            <p>Let `h_n` be the number of involutions of a set of size `n`</p>
+            <p>Find a formula for `H(x) = sum_(n ge 0)h_n/(n!)x^n`</p>
+            <p>Involutions are built out of two pieces:</p>
+            <ul>
+              <li>elements that go to themselves</li>
+              <li>pairs of elements that get swapped</li>
+            </ul>
+            <p>So we can think of involutions as set partitions of `[n]` into blocks of size `1` or `2`<p>
+            <ul>
+              <li>elements in the `1`-block are elements that go to themselves</li>
+              <li>elements in the `2`-block are elements that get swapped</li>
+            </ul>
+            <p>Let `alpha` be the structure where we apply the identity function on an element or swap two elements</p>
+            <p>Then `a_1=a_2=1` and `a_n=0` otherwise</p>
+            <p>`A(x) = sum_(n ge 0)a_n/(n!)x^n`</p>
+            <div class="math">
+              <p>`= x + (x^2)/(2!)`</p>
+            </div>
+            <p>`H(x) = e^(A(x))`</p>
+            <div class="math">
+              <p>`= e^(x+(x^2)/(2!))`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Example: Let `h_n` be the number of ways to split up `n` people into nonempty groups and have each sit in a circle</p>
+            <p>Find a formula for `H(x) = sum_(n ge 0)h_n/(n!)x^n`</p>
+            <p>Let `alpha` be the number of ways to circularly order a set</p>
+            <p>There are `n!` ways to order people in a circle, but `n` rotations will be the same ordering</p>
+            <p>So `a_n = (n!)/n = (n-1)!` and `a_0=0`</p>
+            <p>`A(x) = sum_(n ge 0)a_n/(n!)x^n`</p>
+            <div class="math">
+              <p>`= sum_(n ge 1) ((n-1)!)/n!x^n`</p>
+              <p>`= sum_(n ge 1) (x^n)/n`</p>
+              <p>`= log(1/(1-x))`</p>
+            </div>
+            <p>`H(x) = e^(A(x))`</p>
+            <div class="math">
+              <p>`= e^(log(1/(1-x)))`</p>
+              <p>`= 1/(1-x)`</p>
+            </div>
+            <p>In fact, we can actually find a formula for the `h_n`</p>
+            <div class="math">
+              <p>`sum_(n ge 0)h_n/(n!)x^n = 1/(1-x) = sum_(n ge 0)x^n`</p>
+              <p>`h_n/(n!) = 1`</p>
+              <p>`h_n = n!`</p>
+            </div>
+          </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <h3>Chapter 3</h3>
           <div class="box">
