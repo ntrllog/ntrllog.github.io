@@ -1324,7 +1324,7 @@
             <p>In the above example, `a_n+b_n=n!+2^n` is the number of ways to pick either an ordering of the elements of `[n]` or a subset of `[n]`</p>
           </div>
           <div class="box">
-            <p>`a_n+a_n=2n!` can be thought of as the number of ways of letting either person `1` order the elements of `[n]` or person `2` order the elements of `[n]`</p>
+            <p>`a_n+a_n=(2n!)` can be thought of as the number of ways of letting either person `1` order the elements of `[n]` or person `2` order the elements of `[n]`</p>
           </div>
           <p>The product is putting two structures on the elements of `[n]` simultaneously.</p>
           <div class="box">
@@ -1847,7 +1847,7 @@
             <p>So `a_n = n!+n`</p>
           </div>
           <h3>Product of Exponential Generating Funtions</h3>
-          <p>The product of two exponential generating functions is similar to the product of two ordinary generating functions.</p>
+          <p>The product of two exponential generating functions can be thought of as putting a structure on a subset of `[n]` and putting another structure on the complement.</p>
           <p>Let `alpha, beta` be structures on sets. Let `a_n` be the number of ways to do `alpha` on a set of size `n`. Let `b_n` be the number of ways to do `beta` on a set of size `n`. Let `c_n` be the number of ways to pick a subset `S sube [n]`, put `alpha` on `S` and put `beta` on `[n]\\S`.</p>
           <p>Then `sum_(n ge 0)c_n/(n!)x^n = (sum_(n ge 0)a_n/(n!)x^n)(sum_(n ge 0)b_n/(n!)x^n)`.</p>
           <p>More generally, we can handle more than two structures. If we had `k` structures, the product of their egf's is the egf for the number of ways to write `[n] = S_1 uu S_2 uu ... uu S_k` such that no subsets overlap and we put the `i^(th)` structure on `S_i`.</p>
@@ -1909,8 +1909,8 @@
           </div>
           <div class="box">
             <p>Example: There are `n` distinguishable telephone poles and we want to paint each of them either red or blue. But the number of blue poles must be even. How many ways are there to do this?</p>
-            <p>Let `R(x)` be the egf for painting `n` poles red. There's only one way to paint `n` poles red, so `R(x) = 1/(n!)x^n = e^x`</p>
-            <p>Let `B(x)` be the egf for painting `n` poles blue. There's only one way to paint `n` poles blue if `n` is even and zero ways if `n` is odd, so `B(x) = 1/(2n!)x^(2n) = (e^x+e^(-x))/2`</p>
+            <p>Let `R(x)` be the egf for painting `n` poles red. There's only one way to paint `n` poles red, so `R(x) = sum_(n ge 0)1/(n!)x^n = e^x`</p>
+            <p>Let `B(x)` be the egf for painting `n` poles blue. There's only one way to paint `n` poles blue if `n` is even and zero ways if `n` is odd, so `B(x) = sum_(n ge 0)1/((2n!))x^(2n) = (e^x+e^(-x))/2`</p>
             <div class="math">
               <p>`sum_(n ge 0)c_n/(n!)x^n = R(x)B(x) = e^x((e^x+e^(-x))/2)`</p>
               <p>`= (e^(2x)+1)/2`</p>
