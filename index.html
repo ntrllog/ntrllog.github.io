@@ -14,113 +14,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Hey, it's a website! -Alan Lam">
     <meta name="google-site-verification" content="jeqDMsOGLrV7OcaFvE75t5FgxqZlFgwdlnhWERrv-8w" />
-    <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Finger+Paint|Londrina+Outline|Ubuntu" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Finger+Paint|" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
     <link rel="shortcut icon" type="image/png" href="./pictures/favicon.ico"/>
-    <link href="index.css" rel="stylesheet">
+    <style>
+      body {
+        overflow-x: hidden;
+        font-family: 'Cabin Sketch', cursive;
+        font-size: 150%;
+      }
+      img {
+        position: absolute;
+        top: 40px;
+        left: 50px;
+        width: 90px;
+      }
+      .home {
+        height: 100vh;
+        transform: rotate(-35deg) skew(20deg,10deg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .home p {
+        font-family: 'Finger Paint', cursive;
+        font-size: 600%;
+      }
+      .horizontal-bar {
+        border-bottom: 1px solid black;
+        margin-bottom: 50px;
+      }
+      .about-right {
+        text-align: right;
+      }
+      .contact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    </style>
   </head>
   <body>
-    <nav class="navbar fixed-top navbar-expand-md navbar-light">
-      <a class="navbar-brand" href="https://aln.netlify.com"><img class="img-fluid" src="./pictures/logo_colored.png" width="50" height="50"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="#about" style="color: #00ffe5;">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#comics" style="color: #00ffe5;">Comics</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#projects" style="color: #00ffe5;">Projects</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#writings" style="color: #00ffe5;">Writings</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#resume" style="color: #00ffe5;">Resume</a>
-          </li>
-        </ul>
+    <div class="container">
+      <a href="https://aln.netlify.com"><img src="pictures/logo.png"></a>
+      <div class="home">
+        <p>ln</p>
       </div>
-    </nav>
-    <div class="jumbotron">
-      <h1 style="font-size: 500%;">I'm Alan Lam</h1>
-      <p>coder, mathematician, educator, writer</p>
-      <hr>
-      <p>alanlam00 (at) gmail (dot) com</p>
-      <div class="flex-evenly">
-        <a href="https://github.com/alan-lam" target="_blank"><i class="fab fa-github fa-3x"></i></a>
-        <a href="https://www.linkedin.com/in/ntrllog/" target="_blank"><i class="fab fa-linkedin fa-3x"></i></a>
-      </div>
-    </div>
-    <div id="about" class="container">
-      <h2>About</h2>
-      <div class="row">
-        <div class="col-md-9">
-          <p>I'm a <a class="link" href="https://i.pinimg.com/originals/17/85/dc/1785dc0172e27e5b634ed5c96f43e69b.jpg" target="_blank">mild-mannered</a> senior at UC San Diego. I'm pursuing a major in Math-Computer Science and a minor in Math Education. Oh, did I say I was <a class="link" href="https://www.gocomics.com/calvinandhobbes/2014/04/28?utm_source=ch_twitter&utm_medium=SocialMarketing&utm_campaign=scheduled" target="_blank">mild mannered</a>? The only difference between me and Calvin is that I don't have an alter ego named Stupendous Man. And the stuffed tiger. I suppose you could say that I'm still a six-year-old kid at heart.</p>
-          <p>Every now and then, I like to come up with sarcastic or ironic things to say. But certainly not both.</p>
+      <div class="horizontal-bar"></div>
+      <div class="about">
+        <div>
+          <p>i'm alan.</p>
+          <p>i code. i math. i write. i teach.</p>
+          <p>i graduated from university of california san diego with a b.s. in math-computer science and a minor in math education.</p>
         </div>
-        <div class="col-md-3">
-          <img class="img-fluid" src="./pictures/self.jpg">
+        <div class="about-right">
+          <p>i enjoy making <a href="https://aln.netlify.com/apps" target="_blank">android apps</a> and <a href="https://aln.netlify.com/projects" target="_blank">educational resources</a> for math and computer science.</p>
+          <p>i also enjoy drawing <a href="https://aln.netlify.com/comics" target="_blank">comics</a> and writing <a href="writings.html" target="_blank">blog posts</a> when the inspiration finds me.</p>
+          <p>i'm interested in machine learning too.</p>
         </div>
-      </div>
-    </div>
-    <div id="comics" class="container">
-      <h2>Random Tidbits</h2>
-      <div class="row">
-        <div class="col-md-4">
-          <img class="img-fluid" src="./pictures/random_tidbits.png">
+        <div>
+          <p>i'm currently</p>
+          <ul>
+            <li>labeling all my songs by genre</li>
+            <li>transcribing my combinatorics notes</li>
+            <li>learning about TensorFlow and TensorFlow Lite</li>
+          </ul>
         </div>
-        <div class="col-md-8">
-          <a href="https://aln.netlify.com/comics">https://aln.netlify.com/comics</a>
-          <p>This is my webcomic of random things. They're mostly geek-humor(ish) things that revolve around math, computer science, and the English language. The style and presentation are heavily inspired by Randall Munroe's xkcd. I only do these when — what I call — my "sarcastic switch" is triggered.</p>
+        <div class="about-right">
+          <p>random facts about me:</p>
+          <ul dir="rtl">
+            <li>i memorized the lyrics to Wu Tang Forever, which is the longest song i have under my belt at 7 minutes</li>
+            <li>my favorite comics are Calvin and Hobbes, xkcd, Saturday Morning Breakfast Cereal, Garfield, FoxTrot, and Peanuts</li>
+          </ul>
         </div>
-      </div>
-    </div>
-    <div id="projects" class="container">
-      <h2>Projects</h2>
-      <div class="row">
-        <div class="col-md">
-          <a href="projects/projects.html">https://aln.netlify.com/projects</a>
-          <p>These are mostly educational resources I've created. Though there are some more software-oriented projects too.</p>
-        </div>
-      </div>
-    </div>
-    <div id="writings" class="container">
-      <h2>Writings</h2>
-      <div class="row">
-        <div class="col-md-8">
-          <a href="writings.html">https://aln.netlify.com/writings</a>
-          <p>This is my collection of creative writing pieces. It could be considered a blog I suppose. Most of them are creative nonfiction accounts of my thoughts and experiences — again, revolving around math, computer science, and the English language — but some are fictional pieces I wrote hoping I could be a best-selling author.</p>
-        </div>
-        <div class="col-md-4">
-          <div class="flex-center">
-            <img class="img-fluid" src="./pictures/writings.png">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="resume" class="container">
-      <h2>Resume</h2>
-      <div class="row">
-        <div class="col-md">
-          <a href="resume.html" target="_blank">Resume 1</a>
-          <p>This is my software-focused resume.</p>
-        </div>
-        <div class="col-md">
-          <a href="resume_2.html" target="_blank">Resume 2</a>
-          <p>This resume is more education focused. I just really like LaTeX-style resumes/CV's that math people use.</p>
-        </div>
-        <div class="col-sm">
-          <a href="https://resume.github.io/?alan-lam" target="_blank">GitHub Resume</a>
-          <p>This resume is generated by <a href="https://resume.github.com" target="_blank">https://resume.github.io</a></p>
-        </div>
-      </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      </div> <!-- about -->
+      <div class="horizontal-bar"></div>
+      <div class="contact">
+        <p>alanlam00 [at] gmail [dot] com</p>
+        <a href="resume.html" target="_blank">resume</a>
+        <a href="https://github.com/alan-lam" target="_blank">github</a>
+        <a href="https://linkedin.com/in/ntrllog" target="_blank">linkedin</a>
+      </div> <!-- contact -->
+    </div> <!-- container -->
   </body>
 </html>
