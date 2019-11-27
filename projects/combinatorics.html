@@ -41,6 +41,7 @@
         <a class="dropdown-item" href="#catalannumbers">Catalan Numbers</a>
         <a class="dropdown-item" href="#exponentialgeneratingfunctions">Exponential Generating Functions</a>
         <a class="dropdown-item" href="#lagrangeinversion">Lagrange Inversion</a>
+        <a class="dropdown-item" href="#inclusionexclusion">Inclusion-Exclusion</a>
         <a class="dropdown-item" href="#practiceproblems">Practice Problems</a>
       </div>
     </div>
@@ -2152,6 +2153,109 @@
             </div>
             <p>The coefficients of `A(x)=C(x)-1` are the same as those for `C(x)` except for the constant term</p>
             <p>So `[x^n]A(x) = [x^n]C(x)` for `n gt 0` `implies C_n = 1/(n)((kn),(n-1))`</p>
+          </div>
+          <h2 id="inclusionexclusion">Inclusion-Exclusion</h2>
+          <p>Inclusion-exclusion is used to count the size of a set that is made up of smaller sets, which may overlap with each other. This means we have to make sure that we don't overcount elements.</p>
+          <div class="box">
+            <p>Theorem: Let `A_1, A_2, ..., A_n` be finite sets. Then</p>
+            <div class="math">
+              <p>`|A_1 uu A_2 uu ... uu A_n| = sum_(j=1)^n(-1)^(j-1)sum_(1 le i_1 lt i_2 ... lt i_j le n)|A_(i_1) nn A_(i_2) ... nn A_(i_j)|`</p>
+            </div>
+            <div class="collapse" id="inclusionexclusionformula">
+              <p>We want every `x in A_1 uu ... uu A_n` to be counted exactly once</p>
+              <p>Let `S = {s_1, s_2, ..., s_k}` be all the indices such that `x in A_(s_1), ..., A_(s_k)`</p>
+              <p>`x` is only going to be counted by `(-1)^(j-1)|A_(i_1) nn ... nn A_(i_j)|` when all the `i_1, i_2, ..., i_j` are in `S` (otherwise `x` doesn't belong in the intersection)</p>
+              <p>So we have to look at all the possible ways of choosing indices in `S`</p>
+              <p>The number of times `x` is counted is</p>
+              <div class="math">
+                <p>`sum_(T sube S, T != O/) (-1)^(|T|-1) = sum_(i=1)^(|S|)((|S|),(i))(-1)^(i-1)`</p>
+              </div>
+              <p>We could simplify that by using the binomial theorem</p>
+              <p>When `x=-1,y=1` we get</p>
+              <div class="math">
+                <p>`0 = (1-1)^n = sum_(i=0)^n((n),(i))(-1)^i`</p>
+                <p>`= 1+sum_(i=1)^n((n),(i))(-1)^i`</p>
+              </div>
+              <p>So we have `0 = 1+sum_(i=1)^n((n),(i))(-1)^i`</p>
+              <div class="math">
+                <p>`-sum_(i=1)^n((n),(i))(-1)^i = 1`</p>
+                <p>`sum_(i=1)^n((n),(i))(-1)^(i-1) = 1`</p>
+              </div>
+              <p>which looks like the summation above</p>
+              <p>So the number of times `x` is counted is</p>
+              <div class="math">
+                <p>`sum_(i=1)^(|S|)((|S|),(i))(-1)^(i-1)=1`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#inclusionexclusionformula">Proof</a>
+            <p>`j` represents how many sets we consider at a time</p>
+            <p>the inner sum looks at the number of ways to intersect `j` sets</p>
+          </div>
+          <div class="box">
+            <p>Example: `n=2`</p>
+            <p>Starting with `j=1`, we take all possible subsets of size `1`:</p>
+            <div class="math">
+              <p>`|A_1 uu A_2| = color(red)(|A_1|+|A_2|)`</p>
+            </div>
+            <p>Then when `j=2`, we take all possible subsets of size `2`:</p>
+            <div class="math">
+              <p>`|A_1 uu A_2| = |A_1|+|A_2|color(red)(-|A_1 nn A_2|)`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Example: `n=4`</p>
+            <p>All possible subset of size `1`:</p>
+            <div class="math">
+              <p>`|A_1 uu A_2 uu A_3 uu A_4| = color(red)(|A_1|+|A_2|+|A_3|+|A_4|)`</p>
+            </div>
+            <p>All possible subset of size `2`:</p>
+            <div class="math">
+              <p>`|A_1 uu A_2 uu A_3 uu A_4| = |A_1|+|A_2|+|A_3|+|A_4|`</p>
+              <p>`color(red)(-|A_1 nn A_2| - |A_1 nn A_3| - |A_1 nn A_4| - |A_2 nn A_3| - |A_2 nn A_4| - |A_3 nn A_4|)`</p>
+            </div>
+            <p>All possible subset of size `3`:</p>
+            <div class="math">
+              <p>`|A_1 uu A_2 uu A_3 uu A_4| = |A_1|+|A_2|+|A_3|+|A_4|`</p>
+              <p>`-|A_1 nn A_2| - |A_1 nn A_3| - |A_1 nn A_4| - |A_2 nn A_3| - |A_2 nn A_4| - |A_3 nn A_4|`</p>
+              <p>`color(red)(+|A_1 nn A_2 nn A_3| + |A_1 nn A_2 nn A_4| + |A_1 nn A_3 nn A_4| + |A_2 nn A_3 nn A_4|)`</p>
+            </div>
+            <p>All possible subset of size `4`:</p>
+            <div class="math">
+              <p>`|A_1 uu A_2 uu A_3 uu A_4| = |A_1|+|A_2|+|A_3|+|A_4|`</p>
+              <p>`-|A_1 nn A_2| - |A_1 nn A_3| - |A_1 nn A_4| - |A_2 nn A_3| - |A_2 nn A_4| - |A_3 nn A_4|`</p>
+              <p>`+|A_1 nn A_2 nn A_3| + |A_1 nn A_2 nn A_4| + |A_1 nn A_3 nn A_4| + |A_2 nn A_3 nn A_4|`</p>
+              <p>`color(red)(-|A_1 nn A_2 nn A_3 nn A_4|)`</p>
+            </div>
+          </div>
+          <p>When proving things using inclusion-exclusion, we want to express our set as one that satisfies one of `n` conditions. Then each `A_i` is the set that only satisfies condition `i`. The union of all the `A_i`'s will be our original set.</p>
+          <div class="box">
+            <p>A bijection `f:S rarr S` is a derangement if `f(s)!=s` for all `s in S`</p>
+            <p>Theorem: The number of derangements of a set of size `n` is `sum_(i=0)^n(-1)^i(n!)/(i!)`</p>
+            <div class="collapse" id="derangement">
+              <p>It's easier to count the number of non-derangements and subtract from the total number of permutations</p>
+              <p>`f` is not a derangement if `f(1)=1` or `f(2)=2` or `...\ f(n) = n`</p>
+              <p>Let `A_i = {f:[n] rarr [n]|f(i)=i}`. So all the non-derangements are included in `A_1 uu A_2 uu ... uu A_n`</p>
+              <p>`A_1` is the set of all bijections such that `f(1)=1`. For `2,...,n` there are `(n-1)!` ways to assign values, so `|A_1|=(n-1)!`</p>
+              <p>By similar reasoning, `|A_2| = ... = |A_n| = (n-1)!`</p>
+              <p>`A_1 nn A_2` is the set of all bijections such that `f(1)=1` and `f(2)=2`. For `3,...,n` there are `(n-2)!` ways to assign values, so `|A_1 nn A_2| = (n-2)!`</p>
+              <p>In general, `|A_(i_1) nn ... nn A_(i_j)| = (n-j)!`</p>
+              <p>Since the union of all the `A_i`'s gives us the number of non-derangements, we can use inclusion-exclusion</p>
+              <div class="math">
+                <p>`|A_1 uu ... uu A_n| = sum_(j=1)^n(-1)^(j-1)sum_(1 le i_1 lt ... lt i_j le n)|A_(i_1) nn ... nn A_(i_j)|`</p>
+                <p>`= sum_(j=1)^n(-1)^(j-1)sum_(1 le i_1 lt ... lt i_j le n)(n-j)!`</p>
+                <p>`= sum_(j=1)^n(-1)^(j-1)((n),(j))(n-j)!`</p>
+                <p>`= sum_(j=1)^n(-1)^(j-1)(n!)/(j!)`</p>
+              </div>
+              <p>The number of derangements is the number of permutations minus the number of non-derangements, which is</p>
+              <div class="math">
+                <p>`n!-sum_(j=1)^n(-1)^(j-1)(n!)/(j!)`</p>
+                <p>`= n!+sum_(j=1)^n(-1)^j(n!)/(j!)`</p>
+                <p>`= sum_(j=0)^n(-1)^j(n!)/(j!)`</p>
+                <p>the last part can be seen as rewriting `n!` as `(n!)/(0!)`</p>
+              </div>
+              <p>Big idea: To be a non-derangement, it needs to satisfy (at least) one of `n` conditions. The set of non-derangements is the union of `n` simpler sets.</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#derangement">Proof</a>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <h3>Chapter 3</h3>
