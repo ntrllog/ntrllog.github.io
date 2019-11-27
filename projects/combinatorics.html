@@ -65,7 +65,7 @@
             <p>Number of set partitions into `k` blocks: `S(n,k) = S(n-1,k-1) + k*S(n-1,k)`</p>
             <p>Number of all set partitions: `B(n+1) = sum_(i=0)^n ((n),(i))B(i)`</p>
             <p>Binomial Theorem: `(x+y)^n = sum_(i=0)^n ((n),(i)) x^iy^(n-i)`</p>
-            <p>Multinomial Theorem: `(x_1+x_2+...+x_k)^n = sum_(((a_1,a_2,...,a_k))) ((n),((a_1, a_2, ..., a_k))) x_1^(a_1)x_2^(a_2)...x_k^(a_k)`</p>
+            <p>Multinomial Theorem: `(x_1+x_2+...+x_k)^n = sum_(a_1+a_2+...+a_k=n) ((n),((a_1, a_2, ..., a_k))) x_1^(a_1)x_2^(a_2)...x_k^(a_k)`</p>
             <p>`sum_(n ge 0) x^n = 1/(1-x)`</p>
             <p>Binomial Theorem (General): `(1+x)^m = sum_(n ge 0)((m),(n))x^n`</p>
             <p>`((-d),(n)) = (-1)^n((d+n-1),(n)) = (-1)^n((d+n-1),(d-1))`</p>
@@ -74,7 +74,13 @@
             <p>Composition of ogf: `B(A(x)) = sum_(n ge 0) b_nA(x)^n`</p>
             <p>Catalan numbers: `C_n = 1/(n+1) ((2n),(n))`</p>
             <p>Catalan numbers (recurrence): `C_n = sum_(i = 0)^(n-1)C_iC_(n-1-i)`</p>
+            <p>`sum_(n ge 0) x^n/(n!) = e^x`</p>
             <p>Product of egf: `A(x)B(x) = sum_(n ge 0)(sum_(i=0)^n((n),(i))a_ib_(n-i))x^n/(n!)`</p>
+            <p>Lagrange Inversion: If `A(x) = xG(A(x))`, then `[x^n]A(x) = 1/n[x^(n-1)](G(x)^n)`</p>
+            <ul>
+              <li>`G(x)` must have a nonzero constant term</li>
+            </ul>
+            <p>Inclusion-Exclusion: `|A_1 uu A_2 uu ... uu A_n| = sum_(j=1)^n(-1)^(j-1)sum_(1 le i_1 lt i_2 ... lt i_j le n)|A_(i_1) nn A_(i_2) ... nn A_(i_j)|`</p>
           </div>
           <h2 id="induction">Induction</h2>
           <div class="box">
@@ -2256,6 +2262,30 @@
               <p>Big idea: To be a non-derangement, it needs to satisfy (at least) one of `n` conditions. The set of non-derangements is the union of `n` simpler sets.</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#derangement">Proof</a>
+          </div>
+          <p>Formulas obtained from inclusion-exclusion will have alternating signs, which makes it hard to tell how big that quantity is. For example, is `sum_(i=0)^n(-1)^i(n!)/(i!)` a big or small number? It turns out that this specific formula (accidentally?) has another nice interpretation that can be obtained using calculus.</p>
+          <div class="box">
+            <p>Example: What percentage of permutations are derangements?</p>
+            <p>The answer is the number of derangements divided by the number of permutations, which is</p>
+            <div class="math">
+              <p>`1/(n!)sum_(j=0)^n(-1)^j(n!)/(j!)`</p>
+              <p>`= sum_(j=0)^n(-1)^j/(j!)`</p>
+            </div>
+            <p>From calculus,</p>
+            <div class="math">
+              <p>`e^x = sum_(i ge 0)x^i/(i!)`</p>
+            </div>
+            <p>`e^x` converges everywhere, so if we plug in a number for `x`, that series will converge</p>
+            <p>Also, the larger `n` gets, the closer we get to the value. So even though it's an infinite sum, large enough `n` will provide a good enough approximation</p>
+            <p>Plugging in `x=-1`, we get</p>
+            <div class="math">
+              <p>`e^(-1) = sum_(i ge 0)(-1)^i/(i!) ~~ sum_(i=0)^n(-1)^i/(i!)`</p>
+            </div>
+            <p>So the number of derangements is</p>
+            <div class="math">
+              <p>`= sum_(j=0)^n(-1)^j/(j!) ~~ 1/e ~~ 0.367...`</p>
+            </div>
+            <p>In a room with a lot of people, if we throw everyone's hat into a pile and randomly give everyone a hat, there's about a `37%` chance that no one will get their own hat back</p>
           </div>
           <h2 id="practiceproblems">Practice Problems</h2>
           <h3>Chapter 3</h3>
