@@ -7,8 +7,7 @@
        /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
       /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
      / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
-    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
-    -->
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_| -->
     <title>Alan Lam | Combinatorics</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -42,6 +41,7 @@
         <a class="dropdown-item" href="#exponentialgeneratingfunctions">Exponential Generating Functions</a>
         <a class="dropdown-item" href="#lagrangeinversion">Lagrange Inversion</a>
         <a class="dropdown-item" href="#inclusionexclusion">Inclusion-Exclusion</a>
+        <a class="dropdown-item" href="#mobiusinversion">Möbius Inversion</a>
         <a class="dropdown-item" href="#practiceproblems">Practice Problems</a>
       </div>
     </div>
@@ -2287,7 +2287,144 @@
             </div>
             <p>In a room with a lot of people, if we throw everyone's hat into a pile and randomly give everyone a hat, there's about a `37%` chance that no one will get their own hat back</p>
           </div>
+          <p>We can also use inclusion-exclusion to get a formula for the Stirling numbers. `S(n,k)` is the number of set partitions of `[n]` into `k` blocks. `k!S(n,k)` is the number of ordered set partitions of `[n]` into `k` blocks. It can also be thought of as the number of surjective functions from `[n]` to `[k]`.</p>
+          <div class="box">
+            <p>Theorem: `S(n,k) = 1/(k!)sum_(i=0)^k(-1)^i((k),(i))(k-i)^n` for `n ge k gt 0`</p>
+            <div class="collapse" id="stirlinginclusionexclusion">
+              <p>Count the number of non-surjective functions from `[n]` to `[k]` and subtract from the total number of functions from `[n]` to `[k]`</p>
+              <p>Being non-surjective means `1` is not in the image or `2` is not in the image or `...\ k` is not in the image</p>
+              <p>Define `A_i = {f:[n] rarr [k]|i` is not in the image of `f}` for `1 le i le k`</p>
+              <p>Then the set of non-surjective functions is the union of the `A_i`'s</p>
+              <p>`A_1` is all the functions where `1` is not in the image, which is the same as `{`functions `[n] rarr {2,3,...,k}}`</p>
+              <p>There are `(k-1)^n` such functions, so `|A_1| = (k-1)^n`</p>
+              <p>By similar reasoning, `|A_i| = (k-1)^n` for all `i`</p>
+              <p>`A_1 nn A_2 = {`functions `[n] rarr {3,4,...,k}}` so `|A_1 nn A_2| = (k-2)^n`</p>
+              <p>In general, `|A_(i_1) nn ... nn A_(i_j)| = (k-j)^n`</p>
+              <p>The number of non-surjective functions is</p>
+              <div class="math">
+                <p>`|A_1 uu ... uu A_k| = sum_(j=1)^k(-1)^(j-1)sum_(1 le i_1 lt ... lt i_j le k)|A_(i_1) nn ... nn A_(i_j)|`</p>
+                <p>`= sum_(j=1)^n(-1)^(j-1)sum_(1 le i_1 lt ... lt i_j le k)(k-j)^n`</p>
+                <p>`= sum_(j=1)^n(-1)^(j-1)((k),(j))(k-j)^n`</p>
+              </div>
+              <p>The number of surjective functions is the total number of functions minus the number of non-surjective functions, so we have</p>
+              <div class="math">
+                <p>`k!S(n,k) = k^n - sum_(j=1)^k(-1)^(j-1)((k),(j))(k-j)^n`</p>
+                <p>`k!S(n,k) = k^n + sum_(j=1)^k(-1)^j((k),(j))(k-j)^n`</p>
+                <p>`k!S(n,k) = sum_(j=0)^k(-1)^j((k),(j))(k-j)^n`</p>
+              </div>
+              <p>To get the Stirling numbers, divide by `k!`:</p>
+              <div class="math">
+                <p>`S(n,k) = 1/(k!)sum_(j=0)^k(-1)^j((k),(j))(k-j)^n`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#stirlinginclusionexclusion">Proof</a>
+          </div>
+          <h2 id="mobiusinversion">Möbius Inversion</h2>
+          <p>Möbius inversion deals with a different kind of overcounting. It usually shows up in number theory, but we can use it to count necklaces.</p>
+          <p>Let `A` be an alphabet of size `k`. We want to count the number of words of length `n` up to cyclic symmetry. The idea is that if we arrange the letters in a circle, each rotation would be considered the same word.</p>
+          <div class="box">
+            <p>For example, `a_1a_2a_3a_4 -= a_4a_1a_2a_3 -= a_3a_4a_1a_2 -= a_2a_3a_4a_1`</p>
+          </div>
+          <p>Because of the cyclic symmetry, we have to divide out the commonalities to get the number of unique arrangements. It seems like the number of symmetries is equal to the number of times we can shift it to get the same word back.</p>
+          <p>One idea is to divide the number of words of length `n` by the length of the word.</p>
+          <div class="math">
+            <p>`= k^n/n`</p>
+          </div>
+          <p>The problem with this idea is that not every word is overcounted equally.</p>
+          <div class="box">
+            <p>For example, `a_1a_1a_1a_1` is not overcounted four times; it is only overcounted once</p>
+          </div>
+          <p>The number of symmetries is actually equal to the number of times we can shift it. It's just not always equal to the length of the word.</p>
+          <div class="box">
+            <p>Given a word, its <b>period</b> is the least number of times we need to rotate it to get the original word back</p>
+            <p>Fact: the period always divides the length of the word</p>
+            <p>Let `omega(d)` be the number of words of period `d`</p>
+          </div>
+          <p>To count the number of necklaces, we can count the number of words with period `1, 2, ..., n`, dividing out the commonalities in each case.</p>
+          <div class="math">
+            <p>`#\ text(necklaces) = sum_(d|n)(omega(d))/d`</p>
+          </div>
+          <div class="box">
+            <p>The number of necklaces of length `4`</p>
+            <div class="math">
+              <p>`= (omega(1))/1 + (omega(2))/2 + (omega(4))/4`</p>
+              <p>`= k + (k(k-1))/2 + (k^4-k-(k(k-1)))/4`</p>
+            </div>
+            <div class="box">
+              <p>It's tempting to think that the number of words with period `4` is `n(n-1)(n-2)(n-3)`</p>
+              <p>But there are words with period `4` that don't have all distinct letters, such as `1312`</p>
+              <p>To count the number of words with period `4`, we count the total number of words of length `4` and subtract off words with period `1` and period `2`</p>
+              <p>If a word of length `4` doesn't have period `1` or period `2`, then it must have period `4`</p>
+              <p>This idea actually leads to another identity</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>The number of words of length `n` is the number of words with period `1, 2, ..., n`</p>
+            <div class="math">
+              <p>`k^n = sum_(d|n)omega(d)`</p>
+            </div>
+            <p>This is valid for any `n`, so this gives us a system of equations we can use to solve for each `omega(d)`</p>
+            <div class="box">
+              <p>For `n=4`:</p>
+              <div class="math">
+                <p>`k^4 = omega(4)+omega(2)+omega(1)`</p>
+                <p>`k^2 = omega(2)+omega(1)`</p>
+                <p>`k^1 = omega(1)`</p>
+              </div>
+              <p>Which gives us</p>
+              <div class="math">
+                <p>`omega(1) = k`</p>
+                <p>`omega(2) = k^2-omega(1) = k^2-k`</p>
+                <p>`omega(4) = k^4-omega(2)-omega(1) = k^4-k^2+k-k = k^4-k^2`</p>
+              </div>
+            </div>
+            <div class="box">
+              <p>For `n=6`:</p>
+              <div class="math">
+                <p>`k^6 = omega(6)+omega(3)+omega(2)+omega(1)`</p>
+                <p>`k^3 = omega(3)+omega(1)`</p>
+                <p>`k^2 = omega(2)+omega(1)`</p>
+                <p>`k^1 = omega(1)`</p>
+              </div>
+              <p>Which gives us</p>
+              <div class="math">
+                <p>`omega(1) = k`</p>
+                <p>`omega(2) = k^2-omega(1) = k^2-k`</p>
+                <p>`omega(3) = k^3-omega(1) = k^3-k`</p>
+                <p>`omega(6) = k^6-omega(3)-omega(2)-omega(1) = k^6-k^3+k-k^2+k-k = k^6-k^3-k^2+k`</p>
+                <p>
+              </div>
+            </div>
+          </div>
+          <p>We could use this system of equations to manually solve for `omega(d)` and calculate the number of necklaces that way. But it would be nicer to find a pattern for `omega(d)` and solve for it directly.</p>
+          <div class="box">
+            <p>For `n gt 1`, write `n` as a product of primes</p>
+            <p>The <b>Möbius function</b> is defined by</p>
+            <div class="math">
+              <p>`mu(n) = {(0\ text(if n is divisible by a square of some prime)), ((-1)^k\ text(if n is a product of k different primes)):}`</p>
+            </div>
+            <div class="box">
+              <p>`mu(12) = mu(2^2*3) = 0`</p>
+              <p>`mu(30) = mu(2*3*5) = (-1)^3 = -1`</p>
+              <p>`mu(8) = mu(2^3) = 0`</p>
+            </div>
+          </div>
+          <div class="box">
+            <p>Lemma: `sum_(d|n)mu(d) = 0` for `n gt 1`</p>
+            <div class="collapse" id="mobiuslemma">
+              <p>Consider the prime factorization of `n = p_1^(a_1)p_2^(a_2)...p_r^(a_r)`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#mobiuslemma">Proof</a>
+          </div>
+          <div class="box">
+            <p>Theorem: `omega(d) = sum_(e|d)mu(d/e)k^e` for any `d`</p>
+            <div class="collapse" id="mobiustheorem">
+              <p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#mobiustheorem">Proof</a>
+          </div>
           <h2 id="practiceproblems">Practice Problems</h2>
+          <!--
           <h3>Chapter 3</h3>
           <div class="box">
             <p>3.1: How many functions are there from `[n]` to `[n]` that are not one-to-one?</p>
@@ -3576,7 +3713,7 @@
               <p>So `B(x) = color(red)((xA(x))/(1-x))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-49">Answer</a>
-          </div>
+          </div> -->
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
