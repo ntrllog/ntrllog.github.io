@@ -3767,6 +3767,81 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-49">Answer</a>
           </div>
+          <h3>Chapter 7</h3>
+          <div class="box">
+            <p>7.3: How many positive integers `k le 210` are relatively prime to `210`?</p>
+            <div class="collapse" id="q7-3">
+              <p>We can count the number of integers that are not relatively prime to `210` and subtract that from `210`</p>
+              <p>An integer is not relatively prime to `210` if it is divisible by `2` or `3` or `5` or `7`</p>
+              <p>Let `A_2` be the set of integers divisible by `2`</p>
+              <p>Let `A_3` be the set of integers divisible by `3`</p>
+              <p>Let `A_5` be the set of integers divisible by `5`</p>
+              <p>Let `A_7` be the set of integers divisible by `7`</p>
+              <p>Then the set of all integers relatively prime to `210` are in the union `A_2 uu A_3 uu A_5 uu A_7`</p>
+              <p>By inclusion-exclusion, `|A_2 uu A_3 uu A_5 uu A_7|`</p>
+              <div class="math">
+                <p>`= |A_2| + |A_3| + |A_5| + |A_7|`</p>
+                <p>`- |A_2 nn A_3| - |A_2 nn A_5| - |A_2 nn A_7| - |A_3 nn A_5| - |A_3 nn A_7| - |A_5 nn A_7|`</p>
+                <p>`+ |A_2 nn A_3 nn A_5| + |A_2 nn A_3 nn A_7| + |A_2 nn A_5 nn A_7| + |A_3 nn A_5 nn A_7|`</p>
+                <p>`- |A_2 nn A_3 nn A_5 nn A_7|`</p>
+              </div>
+              <p>There are `210/2 = 105` integers divisible by `2`, so `|A_2| = 105`</p>
+              <p>There are `210/(2*3) = 35` integers divisible by `2` and `3`, so `|A_2 nn A_3| = 35`</p>
+              <p>(A number divisible by `2` and `3` is divisible by `6`)</p>
+              <p>There are `210/(2*3*5) = 7` integers divisible by `2` and `3` and `5`, so `|A_2 nn A_3 nn A_5| = 7`</p>
+              <p>So the number of integers not relatively prime to `210` is</p>
+              <div class="math">
+                <p>`105+70+42+30-35-21-15-14-10-6+7+5+3+2-1 = 162`
+              </div>
+              <p>The number of integers relatively prime to `210` is</p>
+              <div class="math">
+                <p>`210-162 = color(red)(48)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-3">Answer</a>
+          </div>
+          <div class="box">
+            <p>7.4: Let `m` be a positive integer. Denote by `phi(m)` the number of integers in `[m]` that are relatively prime to `m`. Let `p,q,r` be distinct prime numbers. Compute `phi(pqr)`</p>
+            <div class="collapse" id="q7-4">
+              <p>We can count the number of integers that are not relatively prime to `pqr` and subtract that from `pqr`</p>
+              <p>An integer is not relatively prime to `pqr` if it is divisible by `p` or `q` or `r`</p>
+              <p>Let `A_p` be the set of integers divisible by `p`</p>
+              <p>Let `A_q` be the set of integers divisible by `q`</p>
+              <p>Let `A_r` be the set of integers divisible by `r`</p>
+              <p>Then the set of all integers relatively prime to `pqr` are in the union `A_p uu A_q uu A_r`</p>
+              <p>By inclusion-exclusion, `|A_p uu A_q uu A_r|`</p>
+              <div class="math">
+                <p>`= |A_p| + |A_q| + |A_r| - |A_p nn A_q| - |A_p nn A_r| - |A_q nn A_r| + |A_p nn A_q nn A_r|`</p>
+                <p>`= qr + pr + pq - r - q - p + 1`</p>
+              </div>
+              <p>So the number of integers relatively prime to `pqr` is</p>
+              <div class="math">
+                <p>`color(red)(pqr - qr - pr - pq + r + q + p - 1) = (p-1)(q-1)(r-1)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-4">Answer</a>
+          </div>
+          <div class="box">
+            <p>7.13: Let `p = p_1p_2...p_n` be an `n`-permutation, and assume `n ge 3`. `i` is an excedence of `p` if `p_i gt i`. Compute the number of `n`-permutations whose excedence set contains at least one of `n-2` and `n-1`</p>
+            <div class="collapse" id="q7-13">
+              <p>Let `A_(n-1)` be the set of `n`-permutations whose excedence set contains only `n-1`</p>
+              <p>Let `A_(n-2)` be the set of `n`-permutations whose excedence set contains only `n-2`</p>
+              <p>Then the number of `n`-permutations whose excedence set contains at least one of `n-2` and `n-1` is the union `A_(n-1) uu A_(n-2)`</p>
+              <p>By inclusion-exclusion, `|A_(n-1) uu A_(n-2)|`</p>
+              <div class="math">
+                <p>`= |A_(n-1)| + |A_(n-2)| - |A_(n-1) nn A_(n-2)|`</p>
+              </div>
+              <p>For `n-1` to be an excedence, the number at the `(n-1)^(th)` spot has to be bigger than `n-1`. There is only one number (`n`) bigger than `n-1`, so there is only one choice for `p_(n-1)`. There are `n-1` remaining numbers for the rest of the spots, so `|A_(n-1)| = (n-1)!`</p>
+              <p>For `n-2` to be an excedence, the number at the `(n-2)^(nd)` spot has to be bigger than `n-2`. There are two numbers (`n` and `n-1`) bigger than `n-2`, so there are two choices for `p_(n-2)`. There are `n-1` remaining numbers for the rest of the spots, so `|A_(n-2)| = 2(n-1)!`</p>
+              <p>For `n-1` and `n-2` to be an excedence, the number at the `(n-1)^(th)` spot has to be bigger than `n-1` and the number at the `(n-2)^(nd)` spot has to be bigger than `n-2`. `p_(n-1)` is forced to be `n`, which forces `p_(n-2)` to be `n-1`. There are `n-2` remaining numbers for the rest of the spots, so `|A_(n-1) nn A_(n-2)| = (n-2)!`</p>
+              <p>So the number of `n`-permutations whose excedence set contains at least one of `n-2` and `n-1` is</p>
+              <div class="math">
+                <p>`(n-1)! + 2(n-1)! - (n-2)!`</p>
+                <p>`= color(red)(3(n-1)! - (n-2)!)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-13">Answer</a>
+          </div>
         </div> <!-- col -->
       </div> <!-- row -->
     </div> <!-- container -->
