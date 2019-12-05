@@ -2687,6 +2687,23 @@
             </div>
             <a class="btn" data-toggle="collapse" href="#mobiustheorem">Proof</a>
           </div>
+          <div class="box">
+            <p>We could verify that this theorem is consistent with the previous examples for `d=4` and `d=6`</p>
+            <div class="box">
+              <div class="math">
+                <p>`omega(4) = mu(4/1)k^1 + mu(4/2)k^2 + mu(4/4)k^4`</p>
+                <p>`= mu(2^2)k^1 + mu(2)k^2 + mu(1)k^4`</p>
+                <p>`= -k^2 + k^4`</p>
+              </div>
+            </div>
+            <div class="box">
+              <div class="math">
+                <p>`omega(6) = mu(6/1)k^1 + mu(6/2)k^2 + mu(6/3)k^3 + mu(6/6)k^6`</p>
+                <p>`= mu(2*3)k^1 + mu(3)k^2 + mu(2)k^3 + mu(1)k^6`</p>
+                <p>`= k - k^2 - k^3 + k^6`</p>
+              </div>
+            </div>
+          </div>
           <p>Counting necklaces is a specific case of Möbius inversion. Generally, we use Möbius inversion when we have a function that is a sum of another function, and we want to write it the other way around.</p>
           <div class="box">
             <p>Theorem: Let `f,g` be functions defined on positive integers. Assume that `f(n) = sum_(d|n)g(d)` for all `n ge 1`</p>
@@ -4085,3 +4102,4 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   </body>
 </html>
+
