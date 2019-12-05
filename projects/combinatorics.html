@@ -101,10 +101,10 @@
               <p>Every subset of `S` either contains `x` or it doesn't contain `x`</p>
               <p>The subsets that don't contain `x` are in `S'`, which has `2^n` subsets</p>
               <p>So there are `2^n` subsets that don't contain `x`</p>
-              <p>The subsets that do contain `x` can be obtained by adding `x` to each subset that doesn't contain `x`</p>
+              <p>The subsets that do contain `x` can be obtained by adding `x` to each of the `2^n` subsets that dont' contain `x`</p>
               <p>So there are `2^n` subsets that do contain `x`</p>
               <p>The total number of subsets of `S` is the number of subsets containing `x` plus the number of the subsets not containing `x`</p>
-              <p>So the total number of subsets of `S` is `2^n + 2^n = 2^(n+1)`</p>
+              <p>So the total number of subsets of `S` is `2^n + 2^n = 2*2^(n) = 2^(n+1)`</p>
               <p>So `P(n+1)` is true</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#subsetinduction">Proof</a>
@@ -175,7 +175,7 @@
                 <p>`= 2*2^rm`</p>
                 <p>`= 2^(r+1)m`</p>
               </div>
-              <p>`m` is odd and `r ge 0 implies r+1 ge 0` so `k+1` can be written as a power of `2` multiplied by an odd number</p>
+              <p>`m` is odd and `r ge 0 implies r+1 ge 0` so `n+1` can be written as a power of `2` multiplied by an odd number</p>
               <p>So `P(n+1)` is true</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#twonm">Proof</a>
@@ -196,7 +196,7 @@
             <a class="btn" data-toggle="collapse" href="#productprime">Proof</a>
           </div>
           <div class="box">
-            <p>Let `f` be a function so that `f(0)=1`, `f(1)=2`, and `f(n+1)=f(n-1)+2f(n)` for `n ge 1`. `f(n) le 3^n` for `n ge 0`</p>
+            <p>Let `f` be a function so that `f(0)=1`, `f(1)=2`, and `f(n+1)=f(n-1)+2f(n)` for `n ge 1`. Show that `f(n) le 3^n` for `n ge 0`</p>
             <div class="collapse" id="functioninduction">
               <p>Let `P(n)` be the statement that `f(n) le 3^n` for `n ge 0`</p>
               <p>For `n=0`, `f(0) = 1 le 3^0 = 1`</p>
@@ -220,7 +220,7 @@
             <p>Given a set `S` of objects, a <b>permutation</b> of `S` is a way to put all elements of `S` in order</p>
           </div>
           <div class="box">
-            <p>For `S = {1,2,3}`, all the permutations are:</p>
+            <p>Example: For `S = {1,2,3}`, all the permutations are:</p>
             <div class="math">
               <p>`1,2,3`</p>
               <p>`1,3,2`</p>
@@ -238,9 +238,9 @@
               <p>Suppose `P(n)` is true. Want to show `P(n+1)` is true, i.e., if `S` has `n+1` elements, then there are `(n+1)!` permutations of the elements in `S`</p>
               <p>Let `S` be a set of size `n+1`</p>
               <p>We could pick any random element of `S` and put that in the first spot</p>
+              <p>There are `n+1` choices for the random element in the first spot</p>
               <p>Now, `S` has `n` elements</p>
               <p>So there are `n!` ways to order the remaining elements in `S`</p>
-              <p>There were `n+1` choices for the random element in the first spot</p>
               <p>So the total number of ways to order the elements is `(n+1)*n! = (n+1)!`</p>
               <p>So `P(n+1)` is true</p>
             </div>
@@ -281,8 +281,19 @@
             <p>Theorem: Say we have `n` objects which have one of `k` different types. Objects of the same type are considered identical. Label the types with numbers `1,2,...,k` and let `a_i` be the number of objects of type `i`. Then the number of ways to arrange the `n` objects is `(n!)/(a_1!a_2!...a_k!)`</p>
           </div>
           <div class="box">
-            <p>The <b>multinomial coefficient</b> is `((n),((a_1,a_2,...,a_k))) = (n!)/(a_1!a_2!...a_k!)`</p>
-            <p>The <b>binomial coefficient</b> is the multinomial coefficient for `k=2`, which is `((n),((a_1,a_2)))`. It's often denoted by `((n),(a_1))` instead because we know `a_2 = n - a_1`</p>
+            <p>The <b>multinomial coefficient</b> is</p>
+            <div class="math">
+              <p>`((n),((a_1,a_2,...,a_k))) = (n!)/(a_1!a_2!...a_k!)`</p>
+            </div>
+            <p>The <b>binomial coefficient</b> is the multinomial coefficient for `k=2`, which is</p>
+            <div class="math">
+              <p>`((n),((a_1,a_2)))`</p>
+            </div>
+            <p>It's often denoted by</p>
+            <div class="math">
+              <p>`((n),(a_1))`</p>
+            </div>
+            <p>instead because we know `a_2 = n - a_1`</p>
           </div>
           <h2 id="words">Words</h2>
           <p>Sometimes, it's easier to count things by using some sort of encoding.</p>
@@ -293,7 +304,7 @@
             <p>An empty sequence `O/` is a word of length `0`</p>
           </div>
           <div class="box">
-            <p>Consider the alphabet `A = {a,b}`</p>
+            <p>Example: Consider the alphabet `A = {a,b}`</p>
             <p>The words of length `le 2` are:</p>
             <div class="math">
               <p>`O/`</p>
@@ -307,7 +318,11 @@
           </div>
           <div class="box">
             <p>Theorem: If `|A| = n`, then the number of words of length `k` is `n^k`</p>
-            <p>Since there are `n` choices for each spot and there are `k` spots, there are `ubrace(n*n*...*n)_k = n^k` words of length `k`</p>
+            <div class="collapse" id="numwords">
+              <p>There are `k` spots, and each spot has `n` choices of entries</p>
+              <p>So there are `ubrace(n*n*...*n)_k = n^k` words of length `k`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#numwords">Proof</a>
           </div>
           <div class="box">
             <p>`[n] = {1,2,...,n}`</p>
@@ -320,32 +335,51 @@
               <p>Let `i in [n]`</p>
               <p>If `i in S`, then the `i^(th)` entry of `w_s = 1`</p>
               <p>If `i notin S`, then the `i^(th)` entry of `w_s = 0`</p>
-              <p>We have a function `f:{text(subset ) S text( of ) [n]} rarr {text(word of length ) n text( in alphabet ) {0,1}}`</p>
-              <p>We can define another function `g:{text(words of length ) n text( in ) {0,1}} rarr {text(subset of ) [n]}` to be the inverse of `f`</p>
-              <p>This means `f` is bijective</p>
-              <p>So `|{text(subsets of )[n]}| = |{text(words of length )n text( in ) {0,1}}| = 2^n`</p>
               <div class="box">
                 <p>If `n = 5` and `S = {1,3,4}`, then the word associated with `S` is `10110`</p>
               </div>
+              <p>Define a function `f:{`subset `S` of `[n]} rarr {`word of length `n` in alphabet `{0,1}}`</p>
+              <p>We can define another function `g:{`words of length `n` in `{0,1}} rarr {`subset of `[n]}`</p>
+              <p>The process for converting a subset to a word is reversible, gives a unique result, and always gives a result with valid input</p>
+              <p>So `g` is the inverse of `f`, which means `f` is bijective</p>
+              <p>So `|{`subsets of `[n]}| = |{`words of length `n` in `{0,1}}| = 2^n`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#subsetwordproof">Proof</a>
             <p>The general idea is that any element is either in `S` or not in `S`</p>
           </div>
           <div class="box">
             <p>How many pairs of subsets `S,T sube [n]` satisfy `S sube T`?</p>
-            <p>A similar idea applies here: any element is</p>
-            <ol>
-              <li>in `S` and in `T`</li>
-              <li>not in `S` but in `T`</li>
-              <li>not in `S` and not in `T`</li>
-            </ol>
-            <p>There are `3` choices for each of the `n` elements, so there are `3^n` total possibilities</p>
-            <p>`f:{text(pairs of subsets ) S,T sube [n] s.t. S sube T} rarr {text(words of length ) n text( in ) {text(in ) S, text( not in ) S text( but in ) T, text( not in ) S text( and not in ) T}}`</p>
+            <div class="collapse" id="subsetpairsword">
+              <p>A similar idea applies here: any element is</p>
+              <ul>
+                <li>in `S` and in `T`</li>
+                <li>not in `S` but in `T`</li>
+                <li>not in `S` and not in `T`</li>
+              </ul>
+              <p>There are `3` choices for each of the `n` elements, so there are `3^n` total possibilities</p>
+              <p>In the context of words, the function would be</p>
+              <p>`f:{`pairs of subsets `S,T sube [n]` s.t. `S sube T} rarr {`words of length `n` in `{`in `S`, not in `S` but in `T`, not in `S` and not in `T}}`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#subsetpairsword">Proof</a>
           </div>
           <div class="box">
-            <p>For `n ge k` where `n` is a nonnegative integer, the <b>falling factorial</b> is `(n)_k = n*(n-1)*(n-2)*...*(n-k+1)`</p>
-            <p>`(6)_3 = 6*5*4`</p>
-            <p>`(6)_6 = 6*5*4*3*2*1`</p>
+            <p>For `n ge k` where `n` is a nonnegative integer, the <b>falling factorial</b> is</p>
+            <div class="math">
+              <p>`(n)_k = n*(n-1)*(n-2)*...*(n-k+1)`</p>
+            </div>
+            <div class="box">
+              <p>`(6)_3 = 6*5*4`</p>
+              <p>`(6)_6 = 6*5*4*3*2*1`</p>
+            </div>
+            <div class="box">
+              <p>There are `k` numbers being multiplied</p>
+              <p>This can be seen by:</p>
+              <div class="math">
+                <p>`(n)_k = n*(n-1)*(n-2)*...*(n-k+1)`</p>
+                <p>`= (n-0)*(n-1)*(n-2)*...*(n-(k-1))`</p>
+              </div>
+              <p>There are `k` numbers from `0` to `k-1`</p>
+            </div>
           </div>
           <div class="box">
             <p>Theorem: If `|A| = n ge k`, then there are `(n)_k` words of length `k` in `A` that do not have repeating entries</p>
@@ -354,7 +388,13 @@
               <p>The first `k` entries make up a word with no repeating entries</p>
               <p>Since there are `n!` permutations, we have `n!` words with no repeating entries</p>
               <p>But there are repeated words since the last `(n-k)` entries can be ordered in any way</p>
-              <p>So there are `(n!)/((n-k)!) = (n*(n-1)*...*(n-k+1)*(n-k)!)/((n-k)!) = (n)_k` words with no repeating entries</p>
+              <p>So there are</p>
+              <div class="math">
+                <p>`(n!)/((n-k)!) = (n*(n-1)*...*(n-k+1)*(n-k)!)/((n-k)!)`</p>
+                <p>`= n*(n-1)*...*(n-k+1)`</p>
+                <p>`= (n)_k`</p>
+              </div>
+              <p>words with no repeating entries</p>
               <div class="box">
                 <p>Let `A = {1,2,3,4,5}` and `k=3`</p>
                 <p>Let `sigma = 31254`</p>
@@ -388,7 +428,7 @@
             <a class="btn" data-toggle="collapse" href="#sumofsubsets">Proof</a>
           </div>
           <div class="box">
-            <p>Pascal's Identity: For any `k ge 0`, `((n),(k-1)) + ((n),(k)) = ((n+1),(k))`</p>
+            <p>Pascal's Identity: `((n),(k-1)) + ((n),(k)) = ((n+1),(k))` for any `k ge 0`</p>
             <div class="collapse" id="pascalsidentity">
               <p>`((n+1),(k))` is the number of `k`-element subsets of `[n+1]`</p>
               <p>We could split those subsets up into two categories: subsets of size `k` that contain `n+1` and subsets of size `k` that don't contain `n+1`</p>
@@ -403,39 +443,61 @@
               <div class="math">
                 <img class="img-fluid" src="../pictures/combinatorics/pascal_3.jpg">
               </div>
+              <p>These two sets don't overlap so there are `((n),(k))+((n),(k-1))` subsets of size `k` of `[n+1]`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#pascalsidentity">Proof</a>
           </div>
           <h2 id="poker">Counting Poker Hands</h2>
           <div class="box">
             <p>Four of a Kind: `4` of the `5` cards have the same value</p>
-            <p>There are `13` choices for the value that is the same</p>
-            <p>There are `48` choices for the fifth card</p>
-            <p>Total number of ways to get a four of a kind: `13*48`</p>
+            <p>How many four of a kinds are there?</p>
+            <div class="collapse" id="fourofakind">
+              <p>There are `13` choices for the value that is the same</p>
+              <p>There are `48` choices for the fifth card</p>
+              <p>Total number of ways to get a four of a kind: `13*48`</p>
+              <p>Alternatively,</p>
+              <p>There are `13` choices for the value that is the same</p>
+              <p>There are `12` choices for the value that is different</p>
+              <p>There are `4` choices for the suit of the different value</p>
+              <p>Total number of ways to get a four of a kind: `13*12*4`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#fourofakind">Answer</a>
           </div>
           <div class="box">
             <p>Full House: `3` cards have the same value and `2` cards have the same value</p>
-            <p>There are `13` choices for the value of the triple</p>
-            <p>There are `12` choices for the value of the pair</p>
-            <p>There are `((4),(3))` choices for the suits of the triple</p>
-            <p>There are `((4),(2))` choices for the suits of the pair</p>
-            <p>Total number of ways to get a full house: `13*12*((4),(3))*((4),(2))`</p>
+            <p>How many full houses are there?</p>
+            <div class="collapse" id="fullhouse">
+              <p>There are `13` choices for the value of the triple</p>
+              <p>There are `12` choices for the value of the pair</p>
+              <p>There are `((4),(3))` choices for the suits of the triple</p>
+              <p>There are `((4),(2))` choices for the suits of the pair</p>
+              <p>Total number of ways to get a full house: `13*12*((4),(3))*((4),(2))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#fullhouse">Answer</a>
           </div>
           <div class="box">
             <p>Two Pair: `2` cards have the same value, `2` cards have the same value, `1` card has a different value</p>
-            <p>There are `((13),(2))` choices for the value of one pair</p>
-            <p>There are `((4),(2))` choices for suits of one pair</p>
-            <p>There are `((4),(2))` choices for suits of other pair</p>
-            <p>There are `44` choices for the leftover card</p>
-            <p>Total number of ways to get a two pair: `((13),(2))*((4),(2))*((4),(2))*44`</p>
+            <p>How many two pairs are there?</p>
+            <div class="collapse" id="twopair">
+              <p>There are `((13),(2))` choices for the value of one pair</p>
+              <p>There are `((4),(2))` choices for suits of one pair</p>
+              <p>There are `((4),(2))` choices for suits of other pair</p>
+              <p>There are `44` choices for the leftover card</p>
+              <p>Total number of ways to get a two pair: `((13),(2))*((4),(2))*((4),(2))*44`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#twopair">Answer</a>
           </div>
           <div class="box">
             <p>Straight: `5` cards can be put in consecutive order by values</p>
-            <p>To pick values, we only need to know what the largest possible values are</p>
-            <p>The fifth card can be `5`, `6`, `7`, `8`, `9`, `10`, `J`, `Q`, `K`, or `A`</p>
-            <p>There are `10` choices for the fifth card</p>
-            <p>There are `4^5` choices for the suits of each card</p>
-            <p>Total number of ways to get a straight: `10*4^5`</p>
+            <p>How many straights are there?</p>
+            <div class="collapse" id="straight">
+              <p>To pick values, we only need to know what the largest possible values are</p>
+              <p>The fifth card can be `5`, `6`, `7`, `8`, `9`, `10`, `J`, `Q`, `K`, or `A`</p>
+              <p>There are `10` choices for the fifth card</p>
+              <p>There are `4^5` choices for the suits of each card</p>
+              <p>Total number of ways to get a straight: `10*4^5`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#straight">Answer</a>
           </div>
           <h2 id="multisets">Multisets</h2>
           <p>Multisets are like subsets except the elements can be repeated.</p>
@@ -1050,7 +1112,7 @@
           <p>A formal power series is a way to encode a sequence of numbers as an algebraic object. The numbers are the coefficients of some (infinite) polynomial.</p>
           <div class="box">
             <p>A <b>formal power series</b> (in variable `x`) is an expression of the form `sum_(n=0)^(oo) a_nx^n = A(x)` where `a_n` are scalars</p>
-            <p>Alteratively, it can be written as `sum_(n ge 0) a_nx^n`</p>
+            <p>Alternatively, it can be written as `sum_(n ge 0) a_nx^n`</p>
             <p>Let `[x^n]A(x) = a_n` be the coefficient of `x^n`</p>
           </div>
           <p>Some special cases of formal power series are polynomials and scalars. Polynomials are formal power series where all the terms after a certain point are zero. Scalars are formal power series where `a_0` is a scalar and the rest of the terms are zero.</p>
