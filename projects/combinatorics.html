@@ -32,6 +32,7 @@
         <a class="dropdown-item" href="#compositions">Compositions</a>
         <a class="dropdown-item" href="#setpartitions">Set Partitions</a>
         <a class="dropdown-item" href="#integerpartitions">Integer Partitions</a>
+        <a class="dropdown-item" href="#twelvefoldway">Twelvefold Way</a>
         <a class="dropdown-item" href="#binomialtheorem">Binomial Theoerem</a>
         <a class="dropdown-item" href="#multinomialtheorem">Multinomial Theoerem</a>
         <a class="dropdown-item" href="#formalpowerseries">Formal Power Series</a>
@@ -508,10 +509,6 @@
             <p>`k` is the number of parts</p>
           </div>
           <div class="box">
-            <p>A weak composition is like putting `n` identical balls into `k` distinct boxes</p>
-            <p>A composition is an assignment that is surjective, i.e., every box has at least `1` ball</p>
-          </div>
-          <div class="box">
             <p>Theorem: The number of weak compositions of `n` into `k` parts is `((n+k-1),(n))`</p>
             <div class="collapse" id="weakcomposition">
               <p>Claim: There is a bijection between weak compositions of `n` into `k` parts and `n`-element multisets of `[k]`</p>
@@ -529,14 +526,18 @@
           <div class="box">
             <p>How many ways are there to distribute `20` identical pieces of candy to `4` different children?</p>
             <p>This can be seen as a weak composition of `20` into `4` parts</p>
-            <p>`((23),(20))`</p>
+            <div class="math">
+              <p>`((23),(20))`</p>
+            </div>
           </div>
           <div class="box">
             <p>How many ways can we distribute all the candy so that no child is candyless?</p>
             <p>First, we can give each child `1` piece of candy</p>
             <p>Now, we have `16` pieces of candy leftover which can be distributed in any way</p>
             <p>So this can be seen as a weak composition of `16` into `4` parts</p>
-            <p>`((19),(16))`</p>
+            <div class="math">
+              <p>`((19),(16))`</p>
+            </div>
             <p>Since each child has at least `1` candy, this is also a composition of `20` into `4` parts</p>
           </div>
           <div class="box">
@@ -568,9 +569,6 @@
             <p>Let `X` be a set. A <b>partition</b> of `X` is an unordered collection of nonempty subsets `X_1,...,X_k` such that every element of `X` belongs to exactly one subset</p>
             <p>An <b>ordered partition</b> of `X` is the same except each subset has an order</p>
             <p>Each subset is a <b>block</b> of the partition</p>
-          </div>
-          <div class="box">
-            <p>A set partition is like putting `n` distinct balls into `k` identical boxes</p>
           </div>
           <div class="box">
             <p>There are `5` partitions of `X = {1,2,3}`:</p>
@@ -687,9 +685,6 @@
             <p>`l(lambda) = ` number of positive `lambda_i`</p>
           </div>
           <div class="box">
-            <p>An integer partition is like putting `n` identical balls into `k` identical boxes</p>
-          </div>
-          <div class="box">
             <p>`p(n) = ` number of partitions of `n`</p>
             <p>`p_k(n) = ` number of partitions of `n` such that `l(lambda) = k` (has `k` parts)</p>
           </div>
@@ -716,11 +711,11 @@
             <p>The <b>transpose</b> (or <b>conjugate</b>) of a partition `lambda` is the partition `lambda^T` whose Young diagram is `Y(lambda)` flipped across the main diagonal</p>
             <p>`(lambda^T)^T = lambda`</p>
             <p>`lambda_i^T = {j|lambda_j ge i}`</p>
-          </div>
-          <div class="box">
-            <p>`lambda^T = (3,2,1,1)`</p>
-            <div class="math">
-              <img class="img-fluid" src="../pictures/combinatorics/young_3211.png">
+            <div class="box">
+              <p>`lambda^T = (3,2,1,1)`</p>
+              <div class="math">
+                <img class="img-fluid" src="../pictures/combinatorics/young_3211.png">
+              </div>
             </div>
           </div>
           <div class="box">
@@ -779,6 +774,167 @@
               <p>So `mu_i = 2lambda_i - 2i + 1 ge 2lambda_(i+1)-2(i+1)+1 = mu_(i+1)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#odddistinct">Proof</a>
+          </div>
+          <h2 id="twelvefoldway">Twelvefold Way</h2>
+          <p>The twelvefold way considers all the ways to put `k` balls into `n` boxes. Putting balls into boxes can be thought of as a function `f:[k] rarr [n]`.</p>
+          <p>The balls and boxes can be distinguishable or indistinguishable. If the balls are distinguishable, each of them has a different color. If the balls are indistinguishable, they all have the same color. If the boxes are distinguishable, each box is labeled with a different number.</p>
+          <p>The function can be arbitrary, injective, or surjective. If the function is arbitrary, then there are no restrictions on which balls can go in which box. If the function is injective, then each box can have at most one ball (no box can have two or more balls). If the function is surjective, then each box has to have at least one ball.</p>
+          <p>Considering all the possible combinations, we get the following table:</p>
+          <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+            <table>
+              <tr>
+                <td>balls/boxes</td>
+                <td>`f` arbitrary</td>
+                <td>`f` injective</td>
+                <td>`f` surjective</td>
+              </tr>
+              <tr>
+                <td>distinguishable/distinguishable</td>
+                <td>`(1)`</td>
+                <td>`(2)`</td>
+                <td>`(3)`</td>
+              </tr>
+              <tr>
+                <td>indistinguishable/distinguishable</td>
+                <td>`(4)`</td>
+                <td>`(5)`</td>
+                <td>`(6)`</td>
+              </tr>
+              <tr>
+                <td>distinguishable/indistinguishable</td>
+                <td>`(7)`</td>
+                <td>`(8)`</td>
+                <td>`(9)`</td>
+              </tr>
+              <tr>
+                <td>indistinguishable/indistinguishable</td>
+                <td>`(10)`</td>
+                <td>`(11)`</td>
+                <td>`(12)`</td>
+              </tr>
+            </table>
+          </div>
+          <div class="box">
+            <p>`(1)`: balls and boxes are distinguishable; `f` is arbitrary</p>
+            <p>For each of the `k` balls, there are `n` choices for which box it can be put in</p>
+            <p>So there are `n^k` ways</p>
+          </div>
+          <div class="box">
+            <p>`(2)`: balls and boxes are distinguishable; `f` is injective</p>
+            <p>For the first ball, there are `n` choices of boxes</p>
+            <p>For the second ball, there are `n-1` choices of boxes</p>
+            <p>`vdots`</p>
+            <p>For the `k^(th)` ball, there is `(n-k+1)` choices of boxes</p>
+            <p>So there are `(n)_k = n(n-1)(n-2)...(n-k+1)` ways</p>
+          </div>
+          <div class="box">
+            <p>`(3)`: balls and boxes are distinguishable; `f` is surjective</p>
+            <p>Some boxes might have one ball. Some boxes might have more than one ball. But none of them are empty</p>
+            <p>This is like breaking up `[k]` into `n` blocks</p>
+            <p>The number of ways to do this are counted by the number of set partitions of `[k]` into `n` blocks, which is `S(k,n)`</p>
+            <p>Since the boxes are distinguishable, the order of the partitions matter</p>
+            <p>So there are `n!S(k,n)` ways</p>
+          </div>
+          <div class="box">
+            <p>`(4)`: balls are indistinguishable, boxes are distinguishable; `f` is arbitrary</p>
+            <p>Since the balls are indistinguishable, we're not concerned with which balls go to which box. We only need to know how many balls are in each box</p>
+            <p>Let `a_i` be the number of balls in box `i`</p>
+            <p>Then `a_1 + a_2 + ... a_n = k` where each `a_i ge 0`</p>
+            <p>This is a weak composition of `k` into `n` parts</p>
+            <p>So there are `((k+n-1),(k))` ways</p>
+          </div>
+          <div class="box">
+            <p>`(5)`: balls are indistinguishable, boxes are distinguishable; `f` is injective</p>
+            <p>Since the balls are indistinguishable, we're not concerned with which balls go to which box. We only need to know how many balls are in each box</p>
+            <p>Additionally, since each box can only get at most one ball, we only need to know which box gets a ball</p>
+            <p>This is like choosing a subset of `k` boxes that get a ball</p>
+            <p>So there are `((n),(k))` ways</p>
+          </div>
+          <div class="box">
+            <p>`(6)`: balls are indistinguishable, boxes are distinguishable; `f` is surjective</p>
+            <p>Since the balls are indistinguishable, we're not concerned with which balls go to which box. We only need to know how many balls are in each box</p>
+            <p>Let `a_i` be the number of balls in box `i`</p>
+            <p>Then `a_1 + a_2 + ... a_n = k` where each `a_i gt 0` since each box must have a ball</p>
+            <p>This is a composition of `k` into `n` parts</p>
+            <p>So there are `((k-1),(n-1))` ways</p>
+          </div>
+          <div class="box">
+            <p>`(7)`: balls are distinguishable, boxes are indistinguishable; `f` is arbitrary</p>
+            <p>Some boxes might have one ball. Some boxes might have more than one ball. Some boxes might be empty</p>
+            <p>This is like breaking up `[k]` into at most `n` blocks, since each box might not have a ball</p>
+            <p>So there are `sum_(i=1)^nS(k,i)` ways</p>
+          </div>
+          <div class="box">
+            <p>`(8)`: balls are distinguishable, boxes are indistinguishable; `f` is injective</p>
+            <p>Since the boxes are indistinguishable, we can rearrange the boxes in any order</p>
+            <p>Therefore, it doesn't matter where the balls go (putting the same ball in different boxes doesn't count as a separate ordering because we can just rearrange the boxes)</p>
+            <p>So there's really only one way to do this</p>
+            <p>However, since each box can have at most one ball, if there are more balls than boxes, then it is impossible</p>
+            <p>So the number of ways is `{(1\ if k le n),(0\ if k gt n):}`</p>
+          </div>
+          <div class="box">
+            <p>`(9)`: balls are distinguishable, boxes are indistinguishable; `f` is surjective</p>
+            <p>Some boxes might have one ball. Some boxes might have more than one ball. But none of them are empty</p>
+            <p>This is like breaking up `[k]` into exactly `n` blocks, since each box must have a ball</p>
+            <p>The number of ways to do this are counted by the number of set partitions of `[k]` into `n` blocks, which is `S(k,n)`</p>
+            <p>So there are `S(k,n)` ways</p>
+          </div>
+          <div class="box">
+            <p>`(10)`: balls and boxes are indistinguishable; `f` is arbitrary</p>
+            <p>Since the balls are indistinguishable, we're not concerned with which balls go to which box. We only need to know how many balls are in each box</p>
+            <p>Since the boxes are indistinguishable, we can rearrange them after we put the balls in them so that they're in decreasing order (with respect to the number of balls in each box)</p>
+            <p>This is like integer partitions of `k` into at most `n` parts, since each box might not have a ball</p>
+            <p>So there are `sum_(i=1)^np_i(k)` ways</p>
+          </div>
+          <div class="box">
+            <p>`(11)`: balls and boxes are indistinguishable; `f` is injective</p>
+            <p>Since the boxes are indistinguishable, we can rearrange the boxes in any order</p>
+            <p>Therefore, it doesn't matter where the balls go (it doesn't matter anyway since the balls are indistinguishable)</p>
+            <p>So there's really only one way to do this</p>
+            <p>However, since each box can have at most one ball, if there are more balls than boxes, then it is impossible</p>
+            <p>So the number of ways is `{(1\ if k le n),(0\ if k gt n):}`</p>
+          </div>
+          <div class="box">
+            <p>`(12)`: balls and boxes are indistinguishable; `f` is surjective</p>
+            <p>Since the balls are indistinguishable, we're not concerned with which balls go to which box. We only need to know how many balls are in each box</p>
+            <p>Since the boxes are indistinguishable, we can rearrange them after we put the balls in them so that they're in decreasing order (with respect to the number of balls in each box)</p>
+            <p>This is like integer partitions of `k` into exactly `n` parts, since each box must have a ball</p>
+            <p>So there are `p_n(k)` ways</p>
+          </div>
+          <p>So the twelvefold way table looks like:</p>
+          <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+            <table>
+              <tr>
+                <td>balls/boxes</td>
+                <td>`f` arbitrary</td>
+                <td>`f` injective</td>
+                <td>`f` surjective</td>
+              </tr>
+              <tr>
+                <td>distinguishable/distinguishable</td>
+                <td>`n^k`</td>
+                <td>`(n)_k`</td>
+                <td>`n!S(k,n)`</td>
+              </tr>
+              <tr>
+                <td>indistinguishable/distinguishable</td>
+                <td>`((k+n-1),(k))`</td>
+                <td>`((n),(k))`</td>
+                <td>`((k-1),(n-1))`</td>
+              </tr>
+              <tr>
+                <td>distinguishable/indistinguishable</td>
+                <td>`sum_(i=1)^nS(k,i)`</td>
+                <td>`{(1\ if k le n),(0\ if k gt n):}`</td>
+                <td>`S(k,n)`</td>
+              </tr>
+              <tr>
+                <td>indistinguishable/indistinguishable</td>
+                <td>`sum_(i=1)^np_i(k)`</td>
+                <td>`{(1\ if k le n),(0\ if k gt n):}`</td>
+                <td>`p_n(k)`</td>
+              </tr>
+            </table>
           </div>
           <h2 id="binomialtheorem">Binomial Theorem</h2>
           <p>The binomial theorem provides a formula for expanding powers of `x+y`.</p>
@@ -1033,14 +1189,14 @@
           <h3>Derivative of Formal Power Series</h3>
           <div class="box">
             <p>The <b>derivative</b> of `A`, written as `DA` or `A'`, is defined by `sum_(n ge 0) na_nx^(n-1) = sum_(n ge 0) (n+1)a_(n+1)x^n`</p>
-          </div>
-          <div class="box">
-            <p>The familiar rules for derivatives apply to formal power series as well</p>
-            <p>`D(A+B) = DA + DB`</p>
-            <p>`D(A*B) = (DA)*B + A*(DB)` (product rule)</p>
-            <p>`D(B circ A) = (DA)(DB circ A)` (chain rule)</p>
-            <p>`D(A^(-1)) = -(DA)/A^2`</p>
-            <p>`D(A^n) = n(DA)A^(n-1)`</p>
+            <div class="box">
+              <p>The familiar rules for derivatives apply to formal power series as well</p>
+              <p>`D(A+B) = DA + DB`</p>
+              <p>`D(A*B) = (DA)*B + A*(DB)` (product rule)</p>
+              <p>`D(B circ A) = (DA)(DB circ A)` (chain rule)</p>
+              <p>`D(A^(-1)) = -(DA)/A^2`</p>
+              <p>`D(A^n) = n(DA)A^(n-1)`</p>
+            </div>
           </div>
           <div class="box">
             <p>From before, `1/(1-x) = sum_(n ge 0) x^n`. We can use this identity to get a new identity by taking the derivative:</p>
