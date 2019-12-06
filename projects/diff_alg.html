@@ -29,7 +29,7 @@
       <div class="math">
         <p>`{(y'(t) = Ay(t)),(y(0)=C):}`</p>
       </div>
-      <p>and we want to find a solution to that system, i.e., we want to solve for `y(t)`. Before we begin, we need to introduce some concepts from calculus.</p>
+      <p>where `A` is an `nxxn` matrix and `C` is an `nxx1` vector, and we want to find a solution to that system, i.e., we want to solve for `y(t)`. Before we begin, we need to introduce some concepts from calculus.</p>
       <h2 id="calculus">Calclulus Stuff</h2>
       <div class="box">
         <p>The derivative of `e^(alphax)` is `alpha*e^(alphax)`.</p>
@@ -73,12 +73,12 @@
       </div>
       <p>So it is also true that</p>
       <div class="math">
-        <p>`e^(color(red)(At)) = sum_(i=0)^(oo)1/(i!)color(red)(At)^i`.</p>
+        <p>`e^(color(red)(At)) = sum_(i=0)^(oo)1/(i!)(color(red)(At))^i`.</p>
       </div>
       <p>We can rewrite `y(t) = Ce^(At)` to get</p>
       <div class="math">
         <p>`y(t) = e^(color(red)(At))C`</p>
-        <p>`= sum_(i=0)^(oo)1/(i!)color(red)(At)^iC`.</p>
+        <p>`= sum_(i=0)^(oo)1/(i!)(color(red)(At))^iC`.</p>
         <p>`= sum_(i=0)^(oo)1/(i!)A^it^iC`.</p>
         <p>`= sum_(i=0)^(oo)1/(i!)t^icolor(blue)(A^i)C`.</p>
       </div>
@@ -105,7 +105,7 @@
       <div class="math">
         <p>`= sum_(i=0)^(oo)1/(i!)t^icolor(blue)(lambda^i)C`.</p>
         <p>`= sum_(i=0)^(oo)1/(i!)lambda^it^iC`.</p>
-        <p>`= sum_(i=0)^(oo)1/(i!)color(red)(lambdat)^iC`.</p>
+        <p>`= sum_(i=0)^(oo)1/(i!)(color(red)(lambdat))^iC`.</p>
         <p>`= e^(color(red)(lambdat))C`</p>
         <p>(refer back to the last example in the second box in the <a href="#calculus">calculus stuff</a>)</p>
       </div>
@@ -144,7 +144,7 @@
       <p>Recall the two results we found:</p>
       <ol>
         <li>`y(t) = Ce^(lambdat)` is the easily computable solution if `C` is an eigenvector of `A`</li>
-        <li>`y(t) = c_1e^(lambda_1t)a_1 + c_2e^(lambda_2t)a_2 + ... + c_ke^(lambda_kt)a_k` if `C` is a linear combination of the eigenvectors of `A`</li>
+        <li>`y(t) = c_1e^(lambda_1t)a_1 + c_2e^(lambda_2t)a_2 + ... + c_ke^(lambda_kt)a_k` is the easily computable solution if `C` is a linear combination of the eigenvectors of `A`</li>
       </ol>
       <p>First, we should check if `C` is an eigenvector of `A`.</p>
       <p>`C` is an eigenvector of `A` if there exists a scalar `lambda` such that `AC = lambdaC`.</p>
@@ -172,7 +172,7 @@
       <p>Recall the two results we found:</p>
       <ol>
         <li>`y(t) = Ce^(lambdat)` is the easily computable solution if `C` is an eigenvector of `A`</li>
-        <li>`y(t) = c_1e^(lambda_1t)a_1 + c_2e^(lambda_2t)a_2 + ... + c_ke^(lambda_kt)a_k` if `C` is a linear combination of the eigenvectors of `A`</li>
+        <li>`y(t) = c_1e^(lambda_1t)a_1 + c_2e^(lambda_2t)a_2 + ... + c_ke^(lambda_kt)a_k` is the easily computable solution if `C` is a linear combination of the eigenvectors of `A`</li>
       </ol>
       <p>First, we should check if `C` is an eigenvector of `A`.</p>
       <p>`C` is an eigenvector of `A` if there exists a scalar `lambda` such that `AC = lambdaC`.</p>
@@ -237,19 +237,21 @@
       <div class="box">
         <p>For `C = [[-1],[2]]` to be a linear combination of `[[-3],[1]]` and `[[-1],[1]]`, there need to be numbers `c_1` and `c_2` such that `[[-1],[2]] = c_1[[-3],[1]] + c_2[[-1],[1]]`.</p>
         <p>This is equivalent to setting up the augmented matrix `[[-3, -1, |, -1], [1, 1, |, 2]]` and row reducing to find `c_1` and `c_2`.</p>
-        <p>To see why this is the case:</p>
-        <p>`[[-1],[2]] = c_1[[-3],[1]] + c_2[[-1],[1]]` is equivalent to</p>
-        <div class="math">
-          <p>`-3c_1 - c_2 = -1`</p>
-          <p>`c_1 + c_2 = 2`</p>
+        <div class="collapse" id="rowreducelc">
+          <p>`[[-1],[2]] = c_1[[-3],[1]] + c_2[[-1],[1]]` is equivalent to</p>
+          <div class="math">
+            <p>`-3c_1 - c_2 = -1`</p>
+            <p>`c_1 + c_2 = 2`</p>
+          </div>
+          <p>Now consider the equation</p>
+          <div class="math">
+            <p>`[[-3, -1], [1, 1]][[c_1],[c_2]] = [[-1],[2]]`</p>
+          </div>
+          <p>Notice that if we do the multiplication, we get the exact two equations above.</p>
+          <p>Also notice that solving for `c_1` and `c_2` requires setting up the augmented matrix and row reducing (that's how we've learned to solve these types of problems).</p>
+          <p>This is why we row reduce the augmented matrix when we want to find out if something is a linear combination of something.</p>
         </div>
-        <p>Now consider the equation</p>
-        <div class="math">
-          <p>`[[-3, -1], [1, 1]][[c_1],[c_2]] = [[-1],[2]]`</p>
-        </div>
-        <p>Notice that if we do the multiplication, we get the exact two equations above.</p>
-        <p>Also notice that solving for `c_1` and `c_2` requires setting up the augmented matrix and row reducing (that's how we've learned to solve these types of problems).</p>
-        <p>This is why we row reduce the augmented matrix when we want to find out if something is a linear combination of something.</p>
+        <a class="btn" data-toggle="collapse" href="#rowreducelc">Here's why</a>
       </div>
       <div class="math">
         <p>`[[-3, -1, |, -1], [1, 1, |, 2]] rarr [[1, 1, |, 2], [-3, -1, |, -1]] rarr [[1, 1, |, 2], [0, 2, |, 5]]`</p>
