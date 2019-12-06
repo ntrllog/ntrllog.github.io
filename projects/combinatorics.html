@@ -480,11 +480,18 @@
             <p>Two Pair: `2` cards have the same value, `2` cards have the same value, `1` card has a different value</p>
             <p>How many two pairs are there?</p>
             <div class="collapse" id="twopair">
-              <p>There are `((13),(2))` choices for the value of one pair</p>
+              <p>There are `((13),(2))` choices for the value of each pair</p>
               <p>There are `((4),(2))` choices for suits of one pair</p>
               <p>There are `((4),(2))` choices for suits of other pair</p>
               <p>There are `44` choices for the leftover card</p>
               <p>Total number of ways to get a two pair: `((13),(2))*((4),(2))*((4),(2))*44`</p>
+              <p>Alternatively,</p>
+              <p>There are `((13),(2))` choices for the value of each pair</p>
+              <p>There are `11` choices for the value of the different card</p>
+              <p>There are `((4),(2))` choices for suits of one pair</p>
+              <p>There are `((4),(2))` choices for suits of other pair</p>
+              <p>There are `4` choices for the suit of the different card</p>
+              <p>Total number of ways to get a two pair: `((13),(2))*11*((4),(2))*((4),(2))*4`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#twopair">Answer</a>
           </div>
@@ -548,22 +555,41 @@
             <a class="btn" data-toggle="collapse" href="#multisets">Proof</a>
           </div>
           <div class="box">
-            <p>Let `x`,`y`,`z` be variables. `deg(x^a,y^b,z^c) = a+b+c` and `a,b,c ge 0`</p>
-            <p>How many products have degree `d`?</p>
-            <div class="math">
-              <p>`d = 1:`</p>
-              <p>`x, y, z` (`3`)</p>
-              <p>`d = 2:`</p>
-              <p>`x^2, y^2, z^2, xy, xz, yz` (`6`)</p>
-              <p>`d = 3:`</p>
-              <p>`x^3, y^3, z^3, x^2y, x^2z, y^2x, y^2z, z^2x, z^2y, xyz` (`10`)</p>
+            <p>Let `x`,`y`,`z` be variables. The degree of the monomial `x^ay^bz^c` is `a+b+c` where `a,b,c ge 0`</p>
+            <p>How many monomials have degree `d`?</p>
+            <div class="box">
+              <p>There are `3` with degree `1`:</p>
+              <div class="math">
+                <p>`x,y,z`</p>
+              </div>
+              <p>There are `6` with degree `2`:</p>
+              <div class="math">
+                <p>`x^2,y^2,z^2,xy,xz,yz`</p>
+              </div>
+              <p>There are `10` with degree `3`:</p>
+              <div class="math">
+                <p>`x^3,y^3,z^3,x^2y,x^2z,y^2x,y^2z,z^2x,z^2y,xyz`</p>
+              </div>
             </div>
-            <p>`x^ay^bz^c` is a multiset of `{x,y,z}` where `x` appears `a` times, `y` appears `b` times, and `z` appears `c` times</p>
-            <p>So the total number of products is the number of multisets of size `d` of `{x,y,z}`, which is `((d+3-1),(d)) = ((d+2),(d))`</p>
-          </div>
-          <div class="box">
-            <p>`x_1^(a_1)*x_2^(a_2)*...*x_n^(a_n)` is a multiset of `{x_1,x_2,...,x_n}` where `x_i` is chosen `a_i` times</p>
-            <p>The total number of products `x_1^(a_1)*...*x_n^(a_n)` with `a_1 + ... + a_n = d` is the number of multisets of size `d` of a set of size `n`, which is `((n+d-1),(d))`</p>
+            <div class="collapse" id="multisetdegree">
+              <p>`x^ay^bz^c` is like a multiset of `{x,y,z}` where `x` appears `a` times, `y` appears `b` times, and `z` appears `c` times</p>
+              <p>Since they add up to `d`, there should be `d` total elements</p>
+              <p>So the total number of monomials is the number of multisets of size `d` of `{x,y,z}`, which is</p>
+              <div class="math">
+                <p>`((d+3-1),(d)) = ((d+2),(d))`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#multisetdegree">Answer</a>
+            <p>Let `x_1,x_2,...,x_n` be variables. How many monomials `x_1^(a_1)*x_2^(a_2)*...*x_n^(a_n)` are there with degree `d`?</p>
+            <div class="collapse" id="multisetdegreegeneral">
+              <p>`x_1^(a_1)*x_2^(a_2)*...*x_n^(a_n)` is like a multiset of `{x_1,x_2,...,x_n}` where each `x_i` is chosen `a_i` times</p>
+              <p>Since they add up to `d`, there should be `d` total elements</p>
+              <p>So the total number of monomials is the number of multisets of size `d` of `{x_1,x_2,...,x_n}`, which is</p>
+              <div class="math">
+                <p>`((n+d-1),(d))`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#multisetdegreegeneral">Answer</a>
           </div>
           <h2 id="compositions">Compositions</h2>
           <div class="box">
@@ -645,7 +671,7 @@
               <p>`k = 3:`</p>
               <p>`{{1},{2},{3}}`</p>
             </div>
-            <p>For an unordered collection of subsets, `{{3},{1,2}}` and `{{1,2},{3}}` are the same</p>
+            <p>For an unordered collection of subsets, `{{3},{1,2}}` and `{{1,2},{3}}` are the same (the order of the blocks doesn't matter)</p>
           </div>
           <div class="box">
             <p>How many ways are there to distribute `20` different pieces of candy to `4` identical children so that no child is candyless?</p>
@@ -660,22 +686,34 @@
           <p>For some values of `k`, there actually are nice formulas.</p>
           <div class="box">
             <p>`S(n,1) = 1`</p>
-            <p>This is `n` pieces into `1` block. The only way to do this is to put all the pieces into the block</p>
+            <div class="collapse" id="sn1">
+              <p>This is `n` pieces into `1` block. The only way to do this is to put all the pieces into the block</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#sn1">Proof</a>
           </div>
           <div class="box">
             <p>`S(n,n) = 1`</p>
-            <p>This is `n` pieces into `n` blocks. The only way to do this is to put each piece in each block</p>
+            <div class="collapse" id="snn">
+              <p>This is `n` pieces into `n` blocks. The only way to do this is to put each piece in each block</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#snn">Proof</a>
           </div>
           <div class="box">
             <p>`S(n,2) = 2^(n-1)-1`</p>
-            <p>This is `n` pieces into `2` blocks</p>
-            <p>We can't put `O/` or the whole set in the blocks, so there are `2^n-2` complementary subsets</p>
-            <p>The order of the blocks don't matter, so there are `(2^n-2)/(2!) = 2^(n-1)-1` ways to do this</p>
+            <div class="collapse" id="sn2">
+              <p>This is `n` pieces into `2` blocks</p>
+              <p>We can't put `O/` or the whole set in the blocks, so there are `2^n-2` complementary subsets</p>
+              <p>The order of the blocks don't matter, so there are `(2^n-2)/(2!) = 2^(n-1)-1` ways to do this</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#sn2">Proof</a>
           </div>
           <div class="box">
             <p>`S(n,n-1) = ((n),(2))`</p>
-            <p>This is `n` pieces into `n-1` blocks</p>
-            <p>One block must have `2` pieces, so we choose `2` elements to be in the same block</p>
+            <div class="collapse" id="snn-1">
+              <p>This is `n` pieces into `n-1` blocks</p>
+              <p>One block must have `2` pieces, so we choose `2` elements to be in the same block</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#snn-1">Proof</a>
           </div>
           <p>For other values of `k`, there is a recurrence relation that allows us to calculate `S(n,k)`.</p>
           <div class="box">
@@ -792,18 +830,20 @@
           </div>
           <div class="box">
             <p>Theorem: The number of partitions `lambda` of `n` with `l(lambda) le k` equals the number of partitions `mu` of `n` with `mu_i le k`</p>
-            <p>Example: `n=5, k=2`</p>
-            <div class="math">
-              <div class="row">
-                <div class="col-sm">
-                  <p>`(5)`</p>
-                  <p>`(4,1)`</p>
-                  <p>`(3,2)`</p>
-                </div>
-                <div class="col-sm">
-                  <p>`(1,1,1,1,1)`</p>
-                  <p>`(2,1,1,1)`</p>
-                  <p>`(2,2,1)`</p>
+            <div class="box">
+              <p>Example: `n=5, k=2`</p>
+              <div class="math">
+                <div class="row">
+                  <div class="col-sm">
+                    <p>`(5)`</p>
+                    <p>`(4,1)`</p>
+                    <p>`(3,2)`</p>
+                  </div>
+                  <div class="col-sm">
+                    <p>`(1,1,1,1,1)`</p>
+                    <p>`(2,1,1,1)`</p>
+                    <p>`(2,2,1)`</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -843,7 +883,7 @@
           <p>The balls and boxes can be distinguishable or indistinguishable. If the balls are distinguishable, each of them has a different color. If the balls are indistinguishable, they all have the same color. If the boxes are distinguishable, each box is labeled with a different number.</p>
           <p>The function can be arbitrary, injective, or surjective. If the function is arbitrary, then there are no restrictions on which balls can go in which box. If the function is injective, then each box can have at most one ball (no box can have two or more balls). If the function is surjective, then each box has to have at least one ball.</p>
           <p>Considering all the possible combinations, we get the following table:</p>
-          <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: center;">
             <table>
               <tr>
                 <td>balls/boxes</td>
@@ -877,6 +917,7 @@
               </tr>
             </table>
           </div>
+          <p>If the balls are distinguishable, then it is important to know which ball goes where. If the balls are indistinguishable, then we only need to know how many balls are in each box.</p>
           <div class="box">
             <p>`(1)`: balls and boxes are distinguishable; `f` is arbitrary</p>
             <p>For each of the `k` balls, there are `n` choices for which box it can be put in</p>
@@ -965,7 +1006,7 @@
             <p>So there are `p_n(k)` ways</p>
           </div>
           <p>So the twelvefold way table looks like:</p>
-          <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: center;">
             <table>
               <tr>
                 <td>balls/boxes</td>
