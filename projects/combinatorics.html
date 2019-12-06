@@ -64,7 +64,7 @@
             <p>Number of compositions into `k` parts: `((n-1),(n-k)) = ((n-1),(k-1))`</p>
             <p>Number of compositions into all possible parts: `2^(n-1)`</p>
             <p>Number of set partitions into `k` blocks: `S(n,k) = S(n-1,k-1) + k*S(n-1,k)`</p>
-            <p>Number of all set partitions: `B(n+1) = sum_(i=0)^n ((n),(i))B(i)`</p>
+            <p>Bell numbers: `B(n+1) = sum_(i=0)^n ((n),(i))B(i)` and `B(0)=1`</p>
             <p>Binomial Theorem: `(x+y)^n = sum_(i=0)^n ((n),(i)) x^iy^(n-i)`</p>
             <p>Multinomial Theorem: `(x_1+x_2+...+x_k)^n = sum_(a_1+a_2+...+a_k=n) ((n),((a_1, a_2, ..., a_k))) x_1^(a_1)x_2^(a_2)...x_k^(a_k)`</p>
             <p>`sum_(n ge 0) x^n = 1/(1-x)`</p>
@@ -74,7 +74,7 @@
             <p>Product of ogf: `A(x)B(x) = sum_(n ge 0)(sum_(i=0)^na_ib_(n-i))x^n`</p>
             <p>Composition of ogf: `B(A(x)) = sum_(n ge 0) b_nA(x)^n`</p>
             <p>Catalan numbers: `C_n = 1/(n+1) ((2n),(n))`</p>
-            <p>Catalan numbers (recurrence): `C_n = sum_(i = 0)^(n-1)C_iC_(n-1-i)`</p>
+            <p>Catalan numbers (recurrence): `C_n = sum_(i = 0)^(n-1)C_iC_(n-1-i)` and `C_0 = 1`</p>
             <p>`sum_(n ge 0) x^n/(n!) = e^x`</p>
             <p>Product of egf: `A(x)B(x) = sum_(n ge 0)(sum_(i=0)^n((n),(i))a_ib_(n-i))x^n/(n!)`</p>
             <p>Lagrange Inversion: If `A(x) = xG(A(x))`, then `[x^n]A(x) = 1/n[x^(n-1)](G(x)^n)`</p>
@@ -82,6 +82,7 @@
               <li>`G(x)` must have a nonzero constant term</li>
             </ul>
             <p>Inclusion-Exclusion: `|A_1 uu A_2 uu ... uu A_n| = sum_(j=1)^n(-1)^(j-1)sum_(1 le i_1 lt i_2 ... lt i_j le n)|A_(i_1) nn A_(i_2) ... nn A_(i_j)|`</p>
+            <p>Number of derangements: `sum_(i=0)^n(-1)^i(n!)/(i!)`</p>
             <p>Number of necklaces: `sum_(d|n)(omega(d))/d`</p>
             <ul>
               <li>`omega(d)` is the number of words with period `d`</li>
@@ -1840,7 +1841,7 @@
           </div>
           <p>There is some kind of recursive structure to these parentheses. For example, we can have a balanced pair of parentheses and put another pair of balanced parentheses inside. We can use this recursive structure to obtain a recurrence relation. It turns out that the recurrence relation will be nonlinear.</p>
           <div class="box">
-            <p>Lemma: If `n ge 0`, then `C_n = sum_(i = 0)^(n-1)C_iC_(n-1-i) = C_0C_(n-1)+C_1C_(n-2)+...+C_(n-1)C_0`</p>
+            <p>Lemma: If `n ge 0`, then `C_n = sum_(i = 0)^(n-1)C_iC_(n-1-i)`</p>
             <div class="collapse" id="catalanproof">
               <p>Every expression starts with a `(` and is matched by some `)`</p>
               <p>In between those `()`, we can put another set of balanced parentheses</p>
@@ -1908,6 +1909,20 @@
               <li>The constant term of `1 - sqrt(1-4x)` is `0`</li>
             </ol>
             <p>So `C(x) = (1-sqrt(1-4x))/(2x)`</p>
+            <div class="box">
+              <p>Alternatively, looking at `2xC(x) = 1-sqrt(1-4x)`, if we plug in `x=0` on the left-hand side, we get `0`. So plugging in `x=0` on the right-hand side should give us `0` too</p>
+              <div class="math">
+                <p>`1+sqrt(1-4*0)`</p>
+                <p>`= 1+sqrt(1)`</p>
+                <p>`= 1+1 = 2`</p>
+              </div>
+              <div class="math">
+                <p>`1-sqrt(1-4*0)`</p>
+                <p>`= 1-sqrt(1)`</p>
+                <p>`= 1-1 = 0`</p>
+              </div>
+              <p>So we pick the expression with the negative sign</p>
+            </div>
             <p>To simplify this, we can use the binomial theorem (again):</p>
             <div class="math">
               <p>`(1-4x)^(1/2) = sum_(n ge 0) ((1/2),(n))(-4x)^n`</p>
@@ -2752,7 +2767,7 @@
             <div class="collapse" id="q3-6">
               <p>Problem is the same as counting the number of four-digit positive integers divisible by `3` since `6` is divisible by `3`</p>
               <p>There are `9999-1000+1 = 9000` four-digit positive integers</p>
-              <p>Every third number is divisible by `3 implies 1/3` of the `9000` four-digit positive integers are divisble by `3`</p>
+              <p>Every third number is divisible by `3 implies 1/3` of the `9000` four-digit positive integers are divisible by `3`</p>
               <p>`color(red)(3000)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-6">Answer</a>
@@ -4049,6 +4064,7 @@
                 <p>`= |A_p| + |A_q| + |A_r| - |A_p nn A_q| - |A_p nn A_r| - |A_q nn A_r| + |A_p nn A_q nn A_r|`</p>
                 <p>`= qr + pr + pq - r - q - p + 1`</p>
               </div>
+              <p>which is the number of integers not relatively prime to `pqr`</p>
               <p>So the number of integers relatively prime to `pqr` is</p>
               <div class="math">
                 <p>`color(red)(pqr - qr - pr - pq + r + q + p - 1) = (p-1)(q-1)(r-1)`</p>
@@ -4076,6 +4092,162 @@
               </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q7-13">Answer</a>
+          </div>
+          <div class="box">
+            <p>7.15: How many partitions of `[n]` contain at least one of the singleton blocks `{1}` and `{n}`?</p>
+            <div class="collapse" id="q7-15">
+              <p>Let `A_1` be the set of partitions containing the singleton block `{1}`</p>
+              <p>Let `A_n` be the set of partitions containing the singleton block `{n}`</p>
+              <p>The set of partitions containing at least one of the singleton blocks is the union `A_1 uu A_n`</p>
+              <p>By inclusion-exclusion, `|A_1 uu A_n|`</p>
+              <div class="math">
+                <p>`= |A_1| + |A_n| - |A_1 nn A_n|`</p>
+              </div>
+              <p>For `A_1`, we put `1` in its own block. Then there are `n-1` numbers to put into blocks, which is counted by `S(n-1,k)`</p>
+              <p>For `A_1 nn A_n`, we put `1` and `n` in their own blocks. Then there `n-2` numbers to put into blocks, which is counted by `S(n-2,k)`</p>
+              <p>So the number of partitions that contain at least one of the singleton blocks `{1}` and `{n}` is</p>
+              <div class="math">
+                <p>`S(n-1,k) + S(n-1,k) - S(n-2,k)`</p>
+                <p>`= color(red)(2S(n-1,k) - S(n-2,k))`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-15">Answer</a>
+          </div>
+          <div class="box">
+            <p>7.17: How many compositions does `n` have in which neither the first nor the last entry is `1`?</p>
+            <div class="collapse" id="q7-17">
+              <p>Count the number of compositions that have a `1` in the first entry or a `1` in the last entry and subtract from the total number of compositions</p>
+              <p>Let `A_1` be the set of compositions that have a `1` in the first entry</p>
+              <p>Let `A_2` be the set of compositions that have a `1` in the last entry</p>
+              <p>Then the set of compositions in which the first or last entry is a `1` is the union `A_1 uu A_2`</p>
+              <p>By inclusion-exclusion, `|A_1 uu A_2|`</p>
+              <div class="math">
+                <p>`= |A_1| + |A_2| - |A_1 nn A_2|`</p>
+              </div>
+              <p>For `A_1`, since there is a `1` in the first entry, we have `k-1` spots remaining to decompose `n-1`. So there are `((n-1-1),(k-1-1)) = ((n-2),(k-2))` compositions</p>
+              <p>For `A_1 nn A_2`, since there is are `1`'s in the first and last entry, we have `k-2` spots remaining to decompose `n-2`. So there are `((n-2-1),(k-2-1)) = ((n-3),(k-3))` compositions</p>
+              <p>So the number of compositions in which the first or last entry is a `1` is</p>
+              <div class="math">
+                <p>`((n-2),(k-2)) + ((n-2),(k-2)) - ((n-3),(k-3))`</p>
+                <p>`= 2((n-2),(k-2)) - ((n-3),(k-3))`</p>
+              </div>
+              <p>The number of compositions in which neither the first nor last entry is `1` is</p>
+              <div class="math">
+                <p>`color(red)(((n-1),(k-1)) - 2((n-2),(k-2)) + ((n-3),(k-3)))`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-17">Answer</a>
+          </div>
+          <div class="box">
+            <p>7.20: Let `D(n)` be the number of derangements of a set of size `n`. Give a combinatorial proof of the identity `D(n+1) = n(D(n)+D(n-1))` for `n ge 1`</p>
+            <div class="collapse" id="q7-20">
+              <p>Consider the set `[n+1]`</p>
+              <p>Consider the number `n+1`. There are `n` choices for it</p>
+              <p>Suppose `n+1` is mapped to `i`</p>
+              <p>If `i` is not mapped to `n+1`, then we are now looking at derangements of a set of size `n`, which is `D(n)`</p>
+              <p>If `i` is mapped to `n+1`, then we are now looking at derangements of a set of size `n-1`, which is `D(n-1)`</p>
+              <p>So the number of derangements for a set of size `n+1` is `n(D(n)+D(n-1))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-20">Answer</a>
+          </div>
+          <div class="box">
+            <p>7.24: How many three-digit positive integers are divisible by at least one of six and seven?</p>
+            <div class="collapse" id="q7-24">
+              <p>Let `A_6` be the set of integers divisible by six</p>
+              <p>Let `A_7` be the set of integers divisible by seven</p>
+              <p>Then the set of integers divisible by six or seven is the union `A_6 uu A_7`</p>
+              <p>By inclusion-exclusion, `|A_6 uu A_7|`</p>
+              <div class="math">
+                <p>`= |A_6| + |A_7| - |A_6 nn A_7|`</p>
+              </div>
+              <p>There are `900/6 = 150` integers divisible by six, so `|A_6| = 150`</p>
+              <p>There are `lfloor900/7rfloor = 128` integers divisible by seven, so `|A_7| = 128`</p>
+              <p>There are `lfloor900/42rfloor = 21` integers divisible by six and seven, so `|A_6 nn A_7| = 21`</p>
+              <p>So the number of integers divisible by at least one of six and seven is</p>
+              <div class="math">
+                <p>`150 + 128 - 21 = color(red)(257)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-24">Answer</a>
+          </div>
+          <div class="box">
+            <p>7.25: How many two-digit positive integers are relatively prime to both two and three?</p>
+            <div class="collapse" id="q7-25">
+              <p>Count the number of integers not relatively prime to two or three and subtract from the total number of two-digit positive integers</p>
+              <p>Let `A_2` be the set of integers divisible by two</p>
+              <p>Let `A_3` be the set of integers divisible by three</p>
+              <p>Then the set of integers divisible by two or three is the union `A_2 uu A_3`</p>
+              <p>By inclusion-exclusion, `|A_2 uu A_3|`</p>
+              <div class="math">
+                <p>`= |A_2| + |A_3| - |A_2 nn A_3|`</p>
+              </div>
+              <p>There are `90/2 = 45` integers divisible by two, so `|A_2| = 45`</p>
+              <p>There are `90/3 = 30` integers divisible by three, so `|A_3| = 30`</p>
+              <p>There are `90/6 = 15` integers divisible by two and three, so `|A_2 nn A_3| = 15`</p>
+              <p>So the number of integers divisible by two or three is</p>
+              <div class="math">
+                <p>`45 + 30 - 15 = 60`</p>
+              </div>
+              <p>The number of two-digit positive integers that are relatively prime to both two and three is</p>
+              <div class="math">
+                <p>`90 - 60 = color(red)(30)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-25">Answer</a>
+          </div>
+          <div class="box">
+            <p>7.26: In how many ways can we list the digits `{1,1,2,2,3,4,5}` so that two identical digits are not in consecutive positions?</p>
+            <div class="collapse" id="q7-26">
+              <p>Count the number of arrangements that have consecutive `1`'s or consecutive `2`'s and subtract from the total number of arrangements</p>
+              <p>Let `A_1` be the set of arrangements that have consecutive `1`'s</p>
+              <p>Let `A_2` be the set of arrangements that have consecutive `2`'s</p>
+              <p>Then the set of arrangements that have consecutive `1`'s or consecutive `2`'s is the union `A_1 uu A_2`</p>
+              <p>By inclusion-exclusion, `|A_1 uu A_2|`</p>
+              <div class="math">
+                <p>`= |A_1| + |A_2| - |A_1 nn A_2|`</p>
+              </div>
+              <p>We can combine the two `1`'s into one `1` since they have to go together</p>
+              <p>Then there are `(6!)/(2!)` ways to arrange the numbers, so `|A_1| = (6!)/(2!)</p>
+              <p>We can also combine the two `2`'s into one `2` since they have to go together</p>
+              <p>Then there are `5!` ways to arrange the numbers, so `|A_1 nn A_2| = 5!`</p>
+              <p>So the number of arrangements that have consecutive `1`'s or consecutive `2`'s is</p>
+              <div class="math">
+                <p>`(6!)/(2!) + (6!)/(2!) - 5!`</p>
+                <p>`= 2(6!)/(2!) - 5!`</p>
+                <p>`= 6! - 5!`</p>
+              </div>
+              <p>The number of arrangements that don't have consecutive `1`'s and `2`'s is</p>
+              <div class="math">
+                <p>`color(red)(7! - 6! + 5!)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-26">Answer</a>
+          </div>
+          <div class="box">
+            <p>7.27: How many positive integers are there that are not larger than `1000` and are neither perfect squares nor perfect cubes?</p>
+            <div class="collapse" id="q7-27">
+              <p>Count the number of integers that are perfect squares or perfect cubes and subtract from the total number of integers</p>
+              <p>Let `A_2` be the set of perfect squares</p>
+              <p>Let `A_3` be the set of perfect cubes</p>
+              <p>Then the set of perfect squares or perfect cubes is the union `|A_2 uu A_3|`</p>
+              <p>By inclusion-exclusion, `|A_2 uu A_3|`</p>
+              <div class="math">
+                <p>`= |A_2| + |A_3| - |A_2 nn A_3|`</p>
+              </div>
+              <p>There are `lfloorsqrt(1000)rfloor = 31` perfect squares, so `|A_2| = 31`</p>
+              <p>There are `root(3)(1000) = 10` perfect cubes, so `|A_3| = 10`</p>
+              <p>A perfect square that is also a perfect cube is a number that has the form `(x^2)^3 = x^6`</p>
+              <p>There are `lfloorroot(6)(1000)rfloor = 3` numbers that are perfect squares and perfect cubes</p>
+              <p>So the number of integers that are perfect squares or perfect cubes is</p>
+              <div class="math">
+                <p>`31 + 10 - 3 = 38`</p>
+              </div>
+              <p>The number of integers that are neither perfect squares nor perfect cubes is</p>
+              <div class="math">
+                <p>`1000 - 38 = color(red)(962)`</p>
+              </div>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q7-27">Answer</a>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
