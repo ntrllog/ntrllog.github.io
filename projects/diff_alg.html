@@ -69,24 +69,24 @@
       <p>So suppose `C` is an eigenvector of `A`, i.e., `AC = lambdaC` for some scalar `lambda`.</p>
       <p>Recall that</p>
       <div class="math">
-        <p>`e^(color(red)(x)) = sum_(i=0)^(oo)1/(i!)color(red)(x)^i`.</p>
+        <p>`e^(color(red)(x)) = sum_(i=0)^(oo)1/(i!)color(red)(x)^i`</p>
       </div>
       <p>So it is also true that</p>
       <div class="math">
-        <p>`e^(color(red)(At)) = sum_(i=0)^(oo)1/(i!)(color(red)(At))^i`.</p>
+        <p>`e^(color(red)(At)) = sum_(i=0)^(oo)1/(i!)(color(red)(At))^i`</p>
       </div>
       <p>We can rewrite `y(t) = Ce^(At)` to get</p>
       <div class="math">
         <p>`y(t) = e^(color(red)(At))C`</p>
-        <p>`= sum_(i=0)^(oo)1/(i!)(color(red)(At))^iC`.</p>
-        <p>`= sum_(i=0)^(oo)1/(i!)A^it^iC`.</p>
-        <p>`= sum_(i=0)^(oo)1/(i!)t^icolor(blue)(A^i)C`.</p>
+        <p>`= sum_(i=0)^(oo)1/(i!)(color(red)(At))^iC`</p>
+        <p>`= sum_(i=0)^(oo)1/(i!)A^it^iC`</p>
+        <p>`= sum_(i=0)^(oo)1/(i!)t^icolor(blue)(A^i)C`</p>
       </div>
       <div class="box">
         <p>There's a result in linear algebra that `color(blue)(A^iC = lambda^iC)`.</p>
         <p>The proof isn't relevant, but I'll provide it.</p>
         <div class="collapse" id="powers">
-          <p>This is not a real proof because I'm only doing it for a specific case (when `i=2`), but it is generalizable.</p>
+          <p>This is not a real proof because this is for a specific case (when `i=2`), but it is generalizable.</p>
           <p>`A^2C = A AC`</p>
           <div class="math">
             <p>`= A(AC)`</p>
@@ -103,9 +103,9 @@
       </div>
       <p>So we can continue rewriting to get</p>
       <div class="math">
-        <p>`= sum_(i=0)^(oo)1/(i!)t^icolor(blue)(lambda^i)C`.</p>
-        <p>`= sum_(i=0)^(oo)1/(i!)lambda^it^iC`.</p>
-        <p>`= sum_(i=0)^(oo)1/(i!)(color(red)(lambdat))^iC`.</p>
+        <p>`= sum_(i=0)^(oo)1/(i!)t^icolor(blue)(lambda^i)C`</p>
+        <p>`= sum_(i=0)^(oo)1/(i!)lambda^it^iC`</p>
+        <p>`= sum_(i=0)^(oo)1/(i!)(color(red)(lambdat))^iC`</p>
         <p>`= e^(color(red)(lambdat))C`</p>
         <p>(refer back to the last example in the second box in the <a href="#calculus">calculus stuff</a>)</p>
       </div>
@@ -126,7 +126,6 @@
         <p>`= e^(At)(c_1a_1 + c_2a_2 + ... + c_ka_k)`</p>
         <p>`= c_1e^(At)a_1 + c_2e^(At)a_2 + ... + c_ke^(At)a_k`</p>
         <p>`= c_1e^(lambda_1t)a_1 + c_2e^(lambda_2t)a_2 + ... + c_ke^(lambda_kt)a_k`</p>
-        <p>(I can't, for my life, explain the last step at the moment, but just take it to be true for now)</p>
       </div>
       <p><strong>So we get that `y(t) = c_1e^(lambda_1t)a_1 + c_2e^(lambda_2t)a_2 + ... + c_ke^(lambda_kt)a_k`, which is also an easily computable solution</strong>.</p>
       <h2>Example 1</h2>
@@ -249,7 +248,7 @@
           </div>
           <p>Notice that if we do the multiplication, we get the exact two equations above.</p>
           <p>Also notice that solving for `c_1` and `c_2` requires setting up the augmented matrix and row reducing (that's how we've learned to solve these types of problems).</p>
-          <p>This is why we row reduce the augmented matrix when we want to find out if something is a linear combination of something.</p>
+          <p>This is why we row reduce the augmented matrix when we want to find out if something is a linear combination of something else.</p>
         </div>
         <a class="btn" data-toggle="collapse" href="#rowreducelc">Here's why</a>
       </div>
