@@ -2996,27 +2996,22 @@
             <a class="btn" data-toggle="collapse" href="#q3-25">Answer</a>
           </div>
           <div class="box">
-            <p>(?) 3.27: How many subsets does `[n]` have that contain exactly one of the elements `1` and `2`?</p>
+            <p>3.27: How many subsets does `[n]` have that contain exactly one of the elements `1` and `2`?</p>
             <div class="collapse" id="q3-27">
               <p>Consider the subsets of `{3,4,...,n}`</p>
               <p>There are `n-2` elements `implies 2^(n-2)` subsets</p>
               <p>For each subset, there are `2` choices: put a `1` or put a `2`</p>
-              <p>`color(red)(2*2^(n-2) = 2^(n-1))`</p>
+              <p>`2*2^(n-2) = color(red)(2^(n-1))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-27">Answer</a>
           </div>
           <div class="box">
-            <p>(?) 3.28: How many subsets does `[n]` have that contain at least one of the elements `1` and `2`?</p>
+            <p>3.28: How many subsets does `[n]` have that contain at least one of the elements `1` and `2`?</p>
             <div class="collapse" id="q3-28">
-              <p>Count the number of subsets that don't contain `1` and `2` and subtract from the total number of subsets of `[n]`</p>
-              <p>Total number of subsets: `2^n`</p>
-              <p>Subsets that don't contain `1` and `2`:</p>
-              <ul>
-                <li>There is only `1` choice for the elements `1` and `2`: not in the subset</li>
-                <li>For the rest of the elements (`3, 4, ..., n`), there are `2` choices: in the subset or not in the subset</li>
-                <li>`implies 2^(n-2)`</p>
-              </ul>
-              <p>`color(red)(2^n-2^(n-2))`</p>
+              <p>Consider the subsets of `{3,4,...,n}`</p>
+              <p>There are `n-2` elements `implies 2^(n-2)` subsets</p>
+              <p>For each subset, there are `3` choices: put a `1`, put a `2`, or put both</p>
+              <p>`color(red)(3*2^(n-2))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-28">Answer</a>
           </div>
@@ -3157,7 +3152,7 @@
             <a class="btn" data-toggle="collapse" href="#q3-37">Answer</a>
           </div>
           <div class="box">
-            <p>(?) 3.38: A host invites `n` couples to a party. She wants to ask a subset of the `2n` guests to give a speech, but she does not want to ask both members of any couple to give speeches. In how many ways can she proceed?</p>
+            <p>3.38: A host invites `n` couples to a party. She wants to ask a subset of the `2n` guests to give a speech, but she does not want to ask both members of any couple to give speeches. In how many ways can she proceed?</p>
             <div class="collapse" id="q3-38">
               <p>For each of the `n` couples there are `3` options:</p>
               <ul>
@@ -4037,6 +4032,30 @@
             <a class="btn" data-toggle="collapse" href="#q8-36">Answer</a>
           </div>
           <div class="box">
+            <p>8.39: Let `t_n` be the number of ways to arrange `n` books on two bookshelves so that each shelf receives at least one book. Find a closed formula for `t_n`</p>
+            <div class="collapse" id="q8-39">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-39">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.43: We divide a group of people into subgroups `A`, `B`, and `C`, and ask each subgroup to form a line. We also require that `A` have an odd number of people, and that `B` have an even number of people. How many ways are there to do this?</p>
+            <div class="collapse" id="q8-43">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-43">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.44: We select an odd number of people from a group of `n` people to serve on a committee. Then we select an even number from this committee to serve on a subcommittee. In how many different ways can we do this?</p>
+            <div class="collapse" id="q8-44">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-44">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.45: We select an odd number of people from a group of `n` people to serve on a committee. Then we select an even number from this committee to serve on a subcommittee. In how many different ways can we do this?</p>
+            <div class="collapse" id="q8-45">
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-45">Answer</a>
+          </div>
+          <div class="box">
             <p>8.49:</p>
             <p>(a) Let `a_1,a_2,...,a_k` be nonnegative integers, and let `a(n)` be the number of compositions of `n` into `k` parts so that the `i^(th)` part is not larger than `a_i`. Find the ordinary generating function `A(x)=sum_(n ge 0)a(n)x^n`
             <p>(b) Let `b(n)` be the number of compositions of `n` into `k+1` parts so that the `i^(th)` part is not larger than `a_i`, and there is no constraint on the last part. Find the ordinary generating function `B(x) = sum_(n ge 0)b(n)x^n`</p>
@@ -4144,12 +4163,12 @@
               <div class="math">
                 <p>`= |A_1| + |A_n| - |A_1 nn A_n|`</p>
               </div>
-              <p>For `A_1`, we put `1` in its own block. Then there are `n-1` numbers to put into blocks, which is counted by `S(n-1,k)`</p>
-              <p>For `A_1 nn A_n`, we put `1` and `n` in their own blocks. Then there `n-2` numbers to put into blocks, which is counted by `S(n-2,k)`</p>
+              <p>For `A_1`, we put `1` in its own block. Then there are `n-1` numbers to put into blocks, which is counted by `B(n-1)`</p>
+              <p>For `A_1 nn A_n`, we put `1` and `n` in their own blocks. Then there `n-2` numbers to put into blocks, which is counted by `B(n-2)`</p>
               <p>So the number of partitions that contain at least one of the singleton blocks `{1}` and `{n}` is</p>
               <div class="math">
-                <p>`S(n-1,k) + S(n-1,k) - S(n-2,k)`</p>
-                <p>`= color(red)(2S(n-1,k) - S(n-2,k))`</p>
+                <p>`B(n-1) + B(n-1) - B(n-2)`</p>
+                <p>`= color(red)(2B(n-1) - B(n-2))`</p>
               </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q7-15">Answer</a>
@@ -4165,16 +4184,18 @@
               <div class="math">
                 <p>`= |A_1| + |A_2| - |A_1 nn A_2|`</p>
               </div>
-              <p>For `A_1`, since there is a `1` in the first entry, we have `k-1` spots remaining to decompose `n-1`. So there are `((n-1-1),(k-1-1)) = ((n-2),(k-2))` compositions</p>
-              <p>For `A_1 nn A_2`, since there is are `1`'s in the first and last entry, we have `k-2` spots remaining to decompose `n-2`. So there are `((n-2-1),(k-2-1)) = ((n-3),(k-3))` compositions</p>
+              <p>For `A_1`, since there is a `1` in the first entry, the problem turns into compositions of `n-1`, of which there are `2^(n-1-1) = 2^(n-2)`</p>
+              <p>For `A_1 nn A_2`, since there is are `1`'s in the first and last entry, the problem turns into compositions of `n-2`, of which there are `2^(n-2-1) = 2^(n-3)`</p>
               <p>So the number of compositions in which the first or last entry is a `1` is</p>
               <div class="math">
-                <p>`((n-2),(k-2)) + ((n-2),(k-2)) - ((n-3),(k-3))`</p>
-                <p>`= 2((n-2),(k-2)) - ((n-3),(k-3))`</p>
+                <p>`2^(n-2) + 2^(n-2) - 2^(n-3)`</p>
+                <p>`= 2*2^(n-2) - 2^(n-3)`</p>
+                <p>`= 2^(n-1) - 2^(n-3)`</p>
               </div>
               <p>The number of compositions in which neither the first nor last entry is `1` is</p>
               <div class="math">
-                <p>`color(red)(((n-1),(k-1)) - 2((n-2),(k-2)) + ((n-3),(k-3)))`</p>
+                <p>`2^(n-1) - 2^(n-1) + 2^(n-3)`</p>
+                <p>`= color(red)(2^(n-3))`</p>
               </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#q7-17">Answer</a>
