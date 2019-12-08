@@ -209,7 +209,7 @@
         <p>`x_2` is a free variable, let it be equal to `1`</p>
         <p>`x_1 = -3x_2`.</p>
       </div>
-      <p>So the eigenvector `x` for the eigenvalue `1` is equal to</p>
+      <p>So an eigenvector `x` for the eigenvalue `1` is equal to</p>
       <div class="math">
         <p>`x = [[x_1],[x_2]] = [[-3x_2],[x_2]] = x_2[[-3],[1]] = [[-3],[1]]`</p>
       </div>
@@ -228,11 +228,11 @@
         <p>`z_2` is a free variable, let it be equal to `1`</p>
         <p>`z_1 = -z_2`.</p>
       </div>
-      <p>So the eigenvector `z` for the eigenvalue `-1` is equal to</p>
+      <p>So an eigenvector `z` for the eigenvalue `-1` is equal to</p>
       <div class="math">
         <p>`z = [[z_1],[z_2]] = [[-z_2],[z_2]] = z_2[[-1],[1]] = [[-1],[1]]`</p>
       </div>
-      <p>So the eigenvectors of `A` are `[[-3],[1]]` and `[[-1],[1]]`. Recall that the goal was to determine if `C = [[-1],[2]]` was a linear combination of the eigenvectors of `A`. To determine this, we need to row reduce yet again.</p>
+      <p>So two eigenvectors of `A` are `[[-3],[1]]` and `[[-1],[1]]`. Recall that the goal was to determine if `C = [[-1],[2]]` was a linear combination of the eigenvectors of `A`. To determine this, we need to row reduce yet again.</p>
       <div class="box">
         <p>For `C = [[-1],[2]]` to be a linear combination of `[[-3],[1]]` and `[[-1],[1]]`, there need to be numbers `c_1` and `c_2` such that `[[-1],[2]] = c_1[[-3],[1]] + c_2[[-1],[1]]`.</p>
         <p>This is equivalent to setting up the augmented matrix `[[-3, -1, |, -1], [1, 1, |, 2]]` and row reducing to find `c_1` and `c_2`.</p>
