@@ -350,18 +350,15 @@
           </div>
           <div class="box">
             <p>How many pairs of subsets `S,T sube [n]` satisfy `S sube T`?</p>
-            <div class="collapse" id="subsetpairsword">
-              <p>A similar idea applies here: any element is</p>
-              <ul>
-                <li>in `S` and in `T`</li>
-                <li>not in `S` but in `T`</li>
-                <li>not in `S` and not in `T`</li>
-              </ul>
-              <p>There are `3` choices for each of the `n` elements, so there are `3^n` total possibilities</p>
-              <p>In the context of words, the function would be</p>
-              <p>`f:{`pairs of subsets `S,T sube [n]` s.t. `S sube T} rarr {`words of length `n` in `{`in `S`, not in `S` but in `T`, not in `S` and not in `T}}`</p>
-            </div>
-            <a class="btn" data-toggle="collapse" href="#subsetpairsword">Proof</a>
+            <p>Any element in `[n]` is</p>
+            <ul>
+              <li>in `S` and in `T`</li>
+              <li>not in `S` but in `T`</li>
+              <li>not in `S` and not in `T`</li>
+            </ul>
+            <p>There are `3` choices for each of the `n` elements, so there are `3^n` total possibilities</p>
+            <p>In the context of words, the function would be</p>
+            <p>`f:{`pairs of subsets `S,T sube [n]` s.t. `S sube T} rarr {`words of length `n` in `{`in `S`, not in `S` but in `T`, not in `S` and not in `T}}`</p>
           </div>
           <div class="box">
             <p>For `n ge k` where `n` is a nonnegative integer, the <b>falling factorial</b> is</p>
@@ -571,15 +568,12 @@
                 <p>`x^3,y^3,z^3,x^2y,x^2z,y^2x,y^2z,z^2x,z^2y,xyz`</p>
               </div>
             </div>
-            <div class="collapse" id="multisetdegree">
-              <p>`x^ay^bz^c` is like a multiset of `{x,y,z}` where `x` appears `a` times, `y` appears `b` times, and `z` appears `c` times</p>
-              <p>Since they add up to `d`, there should be `d` total elements</p>
-              <p>So the total number of monomials is the number of multisets of size `d` of `{x,y,z}`, which is</p>
-              <div class="math">
-                <p>`((d+3-1),(d)) = ((d+2),(d))`</p>
-              </div>
+            <p>`x^ay^bz^c` is like a multiset of `{x,y,z}` where `x` appears `a` times, `y` appears `b` times, and `z` appears `c` times</p>
+            <p>Since they add up to `d`, there should be `d` total elements</p>
+            <p>So the total number of monomials is the number of multisets of size `d` of `{x,y,z}`, which is</p>
+            <div class="math">
+              <p>`((d+3-1),(d)) = ((d+2),(d))`</p>
             </div>
-            <a class="btn" data-toggle="collapse" href="#multisetdegree">Answer</a>
             <p>Let `x_1,x_2,...,x_n` be variables. How many monomials `x_1^(a_1)*x_2^(a_2)*...*x_n^(a_n)` are there with degree `d`?</p>
             <div class="collapse" id="multisetdegreegeneral">
               <p>`x_1^(a_1)*x_2^(a_2)*...*x_n^(a_n)` is like a multiset of `{x_1,x_2,...,x_n}` where each `x_i` is chosen `a_i` times</p>
@@ -685,35 +679,39 @@
           </div>
           <p>For some values of `k`, there actually are nice formulas.</p>
           <div class="box">
-            <p>`S(n,1) = 1`</p>
+            <p>`S(n,1)`</p>
             <div class="collapse" id="sn1">
               <p>This is `n` pieces into `1` block. The only way to do this is to put all the pieces into the block</p>
+              <p>`S(n,1) = 1`</p>
             </div>
-            <a class="btn" data-toggle="collapse" href="#sn1">Proof</a>
+            <a class="btn" data-toggle="collapse" href="#sn1">Formula</a>
           </div>
           <div class="box">
-            <p>`S(n,n) = 1`</p>
+            <p>`S(n,n)`</p>
             <div class="collapse" id="snn">
               <p>This is `n` pieces into `n` blocks. The only way to do this is to put each piece in each block</p>
+              <p>`S(n,n)=1`</p>
             </div>
-            <a class="btn" data-toggle="collapse" href="#snn">Proof</a>
+            <a class="btn" data-toggle="collapse" href="#snn">Formula</a>
           </div>
           <div class="box">
-            <p>`S(n,2) = 2^(n-1)-1`</p>
+            <p>`S(n,2)`</p>
             <div class="collapse" id="sn2">
               <p>This is `n` pieces into `2` blocks</p>
               <p>We can't put `O/` or the whole set in the blocks, so there are `2^n-2` complementary subsets</p>
               <p>The order of the blocks don't matter, so there are `(2^n-2)/(2!) = 2^(n-1)-1` ways to do this</p>
+              <p>`S(n,2) = 2^(n-1)-1`</p>
             </div>
-            <a class="btn" data-toggle="collapse" href="#sn2">Proof</a>
+            <a class="btn" data-toggle="collapse" href="#sn2">Formula</a>
           </div>
           <div class="box">
-            <p>`S(n,n-1) = ((n),(2))`</p>
+            <p>`S(n,n-1)`</p>
             <div class="collapse" id="snn-1">
               <p>This is `n` pieces into `n-1` blocks</p>
               <p>One block must have `2` pieces, so we choose `2` elements to be in the same block</p>
+              <p>`S(n,n-1) = ((n),(2))`</p>
             </div>
-            <a class="btn" data-toggle="collapse" href="#snn-1">Proof</a>
+            <a class="btn" data-toggle="collapse" href="#snn-1">Formula</a>
           </div>
           <p>For other values of `k`, there is a recurrence relation that allows us to calculate `S(n,k)`.</p>
           <div class="box">
@@ -783,8 +781,9 @@
             <p>A <b>partition</b> of `n` is a sequence of nonnegative integers `lambda_1 ge lambda_2 ge ... ge lambda_k ge 0` such that `lambda_1 + lambda_2 + ... + lambda_k = n`</p>
             <p>`lambda = (lambda_1, lambda_2, ..., lambda_k)` is a partition</p>
             <p>`|lambda| = lambda_1 + lambda_2 + ... + lambda_k`</p>
-            <p>`l(lambda) = ` number of positive `lambda_i`</p>
+            <p>`l(lambda)` is the length of the partition</p>
           </div>
+          <p>There are no nice formulas for the number of partitions, but we have a notation for it.</p>
           <div class="box">
             <p>`p(n) = ` number of partitions of `n`</p>
             <p>`p_k(n) = ` number of partitions of `n` such that `l(lambda) = k` (has `k` parts)</p>
@@ -849,10 +848,10 @@
             </div>
             <div class="collapse" id="partitionslek">
               <p>Notice that taking the transpose of `lambda` gives us `mu`</p>
-              <p>Claim: There is a bijection between `A = {text(partitions ) lambda text( of ) n text( with ) l(lambda) le k}` and `B = {text(partitions ) mu text( of ) n text( such that ) mu_i le k}`</p>
+              <p>Claim: There is a bijection between `A = {`partitions `lambda` of `n` with `l(lambda) le k}` and `B = {`partitions `mu` of `n` such that `mu_i le k}`</p>
               <p>Let `f:A rarr B` be a function defined to be `f(lambda) = lambda^T`</p>
-              <p>Since `(lambda^T)^T = lambda`, `f circ f` is the identity function</p>
-              <p>So `|A| = |B|`</p>
+              <p>Since `(lambda^T)^T = lambda`, `f circ f` is the identity function, which means it is its own inverse</p>
+              <p>So `f` is bijective `implies |A| = |B|`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#partitionslek">Proof</a>
           </div>
@@ -863,18 +862,28 @@
               <p>Take the boxes of the first row and column and put them all in a row</p>
               <p>Make that row the first row of `mu`</p>
               <p>Repeat this for all the rows/columns of the `lambda`</p>
-              <p>Informally, peel off the outer layer of `lambda` and straighten it out to become a row in `mu`</p>
+              <p>(Informally, peel off the outer layer of `lambda` and straighten it out to become a row in `mu`)</p>
               <p>This process is reversible, so there is a bijection</p>
-              <p>Informally, fold the row of `mu` in half and make it the outer layer of `lambda`</p>
+              <p>(Informally, fold the row of `mu` in half and make it the outer layer of `lambda`)</p>
               <p>Since `lambda` is self-conjugate, there are an odd number of parts in the `i^(th)` row and column</p>
-              <p>`mu_i = lambda_i-(i-1) + lambda_i^T - (i-1) - 1`</p>
-              <p>The `i^(th)` row of `mu` is the `i^(th)` row of `lambda` minus the boxes to the left plus the `i^(th)` rows of `lambda^T` minus the boxes from the top minus `1` for the box in the top-left corner</p>
-              <p>`mu_i = 2lambda_i - 2i + 1`</p>
+              <p>Now we show why they are distinct</p>
+              <p>We can come up with a formula for the length of the `i^(th)` row</p>
+              <p>The `i^(th)` row of `mu` is the `i^(th)` row of `lambda` minus the boxes to the left plus the `i^(th)` row of `lambda^T` minus the boxes from the top minus `1` for the box in the top-left corner</p>
+              <div class="math">
+                <p>`mu_i = lambda_i-(i-1) + lambda_i^T - (i-1) - 1`</p>
+                <p>`= 2lambda_i - 2i + 1`</p>
+              </div>
               <p>Claim: `mu_1 gt mu_2 gt ...`</p>
-              <p>`mu_i = 2lambda_i - 2i + 1`</p>
-              <p>`mu_(i+1) = 2lambda_(i+1) - 2(i+1) + 1`</p>
+              <div class="math">
+                <p>`mu_i = 2lambda_i - 2i + 1`</p>
+                <p>`mu_(i+1) = 2lambda_(i+1) - 2(i+1) + 1`</p>
+              </div>
               <p>Since `lambda` is a partition, `lambda_i ge lambda_(i+1)`</p>
-              <p>So `mu_i = 2lambda_i - 2i + 1 ge 2lambda_(i+1)-2(i+1)+1 = mu_(i+1)`</p>
+              <p>So</p>
+              <div class="math">
+                <p>`mu_i = 2lambda_i - 2i + 1`</p>
+                <p>`ge 2lambda_(i+1)-2i-1 = mu_(i+1)`</p>
+              </div>
             </div>
             <a class="btn" data-toggle="collapse" href="#odddistinct">Proof</a>
           </div>
@@ -1042,27 +1051,16 @@
           </div>
           <h2 id="binomialtheorem">Binomial Theorem</h2>
           <p>The binomial theorem provides a formula for expanding powers of `x+y`.</p>
-          <div class="math">
-            <p>`(x+y)^2 = x^2 + 2xy + y^2`</p>
-            <p>`(x+y)^3 = x^3 + 3x^2y + 3xy^2 + y^3`</p>
-            <p>`(x+y)^n = ?`</p>
-          </div>
           <div class="box">
-            <p>Theorem: For `n ge 0`, `(x+y)^n = sum_(i=0)^n ((n),(i)) x^iy^(n-i)`</p>
+            <p>Theorem: `(x+y)^n = sum_(i=0)^n ((n),(i)) x^iy^(n-i)` for `n ge 0`</p>
             <div class="collapse" id="binomialproof">
               <p>Consider the expansion `(x+y)^n = ubrace((x+y)(x+y)...(x+y))_n`</p>
-              <p>In terms of FOIL, multiply in the following manner:</p>
-              <p>FFF...F (`x*x*x*...*x`)</p>
-              <p>FFF...L (`x*x*x*...*y`)</p>
-              <p>FFF...LF (`x*x*x*...*y*x`)</p>
-              <p>FFF...LFF (`x*x*x*...*y*x*x`)</p>
-              <p>`vdots`</p>
-              <p>And repeat until all possible terms have been multiplied (`2^n` times)</p>
-              <p>Some terms will be repeated. For example, FFF...L (`x*x*x*...*y`) and FFLF...F (`x*x*y*x*...*x`) both have `n-1` `x's` and `1` `y`</p>
+              <p>Multiply the terms, considering all the possible choices in each set of parentheses</p>
+              <p>Some terms will be repeated. For example, `x*x*x*...*x*y` and `x*x*y*x*...*x` both have `n-1` `x's` and `1` `y`</p>
               <p>The number of repeated terms is the number of ways to create a term that has that form</p>
               <p>The form of each term will be `i` `x's` and `n-i` `y's`</p>
               <p>Which gives us `((n),(i))` ways to create `x^iy^(n-i)`</p>
-              <p>To get the final answer, we sum up all the products</p>
+              <p>To get the final answer, we sum up all the possible products</p>
               <p>The sum goes from `0` to `n` because we have situations where `x` appears `0` times and `x` appears `n` times</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#binomialproof">Proof</a>
@@ -1091,8 +1089,11 @@
               <p>`n(x+y)^(n-1) = sum_(i=0)^n i ((n),(i))x^(i-1)y^(n-i)`</p>
               <p>`= sum_(i=1)^n i ((n),(i)) x^(i-1)y^(n-i)`</p>
             </div>
-            <p>Setting `x=y=1`, we get `n2^(n-1)=sum_(i=1)^n i ((n),(i))`</p>
-            <p>The right-hand side counts the number of ways to pick a subset of `[n]` and an element in that subset</p>
+            <p>Setting `x=y=1`, we get</p>
+            <div class="math">
+              <p>`n2^(n-1)=sum_(i=1)^n i ((n),(i))`</p>
+            </div>
+            <p>The right-hand side counts the number of ways to pick a subset `S` of `[n]` and an element `x` in that subset:</p>
             <div class="math">
               <p>`|{(x,S)|S sube [n], x in S}|`</p>
             </div>
@@ -1172,7 +1173,7 @@
             <p>The product of two formal power series is</p>
             <div class="math">
               <p>`A(x)B(x) = sum_(n ge 0) c_nx^n` where `c_n = sum_(i=0)^n a_ib_(n-i)`</p>
-              <p>the powers have to add up to `n`</p>
+              <p>(the indices have to add up to `n`)</p>
             </div>
             <p>Addition and multiplication are both commutative</p>
             <div class="math">
@@ -1238,6 +1239,7 @@
                 <p>`a_0b_0 = 1 implies b_0 = 1/a_0`</p>
                 <p>`a_1b_0+a_0b_1 = 0 implies b_1 = -(a_1b_0)/a_0 = -a_1/(a_0)^2`</p>
                 <p>`a_2b_0+a_1b_1+a_0b_2 = 0 implies b_2 = -(a_2b_0+a_1b_1)/a_0`</p>
+                <p>`vdots`</p>
               </div>
               <p>At each stage, it is possible to find `b_(n+1)` since it is in terms of `b_0,...,b_n`. More formally, we can do so using induction. Suppose we have solved for `b_0, ..., b_n`. At each stage, we have</p>
               <div class="math">
@@ -1259,7 +1261,7 @@
               <div class="math">
                 <p>`A(x) = a_1x + a_2x^2 + ...`</p>
               </div>
-              <p>What happens when we take powers of `A(x)`? For `A(x)^2`, there is no constant term. There is also no linear term.</p>
+              <p>What happens when we take powers of `A(x)`? For `A(x)^2`, there is no constant term. There is also no linear term</p>
               <div class="math">
                 <p>`A(x)^2 = a_1^2x^2 + 2a_2a_1x^3 + ...`</p>
               </div>
@@ -1292,7 +1294,7 @@
           </div>
           <h3>Derivative of Formal Power Series</h3>
           <div class="box">
-            <p>The <b>derivative</b> of `A`, written as `DA` or `A'`, is defined by `sum_(n ge 0) na_nx^(n-1) = sum_(n ge 0) (n+1)a_(n+1)x^n`</p>
+            <p>The <b>derivative</b> of `A`, written as `DA` or `A'`, is defined by `sum_(n ge 1) na_nx^(n-1) = sum_(n ge 0) (n+1)a_(n+1)x^n`</p>
             <div class="box">
               <p>The familiar rules for derivatives apply to formal power series as well</p>
               <p>`D(A+B) = DA + DB`</p>
@@ -1305,13 +1307,13 @@
           <div class="box">
             <p>From before, `1/(1-x) = sum_(n ge 0) x^n`. We can use this identity to get a new identity by taking the derivative:</p>
             <div class="math">
-              <p>`1/(1-x)^2 = sum_(n ge 0) nx^(n-1) = sum_(n ge 0) (n+1)x^n`</p>
+              <p>`1/(1-x)^2 = sum_(n ge 1) nx^(n-1) = sum_(n ge 0) (n+1)x^n`</p>
             </div>
           </div>
           <div class="box">
             <p>It is possible to simplify `sum_(n ge 0) nx^n`:</p>
             <div class="math">
-              <p>`sum_(n ge 0) nx^n = x sum_(n ge 1) nx^(n-1)` (we can pull out an `x` because there's no constant term)</p>
+              <p>`sum_(n ge 0) nx^n = sum_(n ge 1)nx^n = x sum_(n ge 1) nx^(n-1)` (we can pull out an `x` because there's no constant term)</p>
               <p>`= x sum_(n ge 0) (n+1)x^n`</p>
               <p>`= x*1/(1-x)^2`</p>
               <p>`= x/(1-x)^2`</p>
@@ -1326,6 +1328,7 @@
             <p>In either case, we get the identity</p>
             <div class="math">
               <p>`(1-x)^2 sum_(n ge 0) nx^n = x`</p>
+              <p>`sum_(n ge 0) nx^n = x/(1-x)^2`</p>
             </div>
           </div>
           <h2 id="binomialtheoremgeneral">Binomial Theorem (General)</h2>
@@ -1409,13 +1412,19 @@
             </div>
           </div>
           <h3>Linear Recurrence Relations</h3>
+          <p>We can use ordinary generating functions to find closed formulas for linear recurrence relations.</p>
           <div class="box">
-            <p>A sequence `a_0,a_1,...` satisfies a <b>linear recurrence relation</b> (of order `d`) if there exist scalars `c_1, c_2, ..., c_d` such that `c_d != 0` and for all `n ge d`, `a_n = c_1a_(n-1)+c_2a_(n-2)+...+c_da_(n-d)`</p>
+            <p>A sequence `a_0,a_1,...` satisfies a <b>linear recurrence relation</b> (of order `d`) if there exist scalars `c_1, c_2, ..., c_d` such that `c_d != 0` and for all `n ge d`</p>
+            <div class="math">
+              <p>`a_n = c_1a_(n-1)+c_2a_(n-2)+...+c_da_(n-d)`</p>
+            </div>
             <p>`d` is the minimum number of initial conditions that must be specified in order to find `a_n`</p>
           </div>
           <div class="box">
             <p>An example of a linear recurrence relation is the Fibonacci numbers</p>
-            <p>`1,1,2,3,5,8,13,21,...`</p>
+            <div class="math">
+              <p>`1,1,2,3,5,8,13,21,...`</p>
+            </div>
             <p>The relation is `a_n = a_(n-1)+a_(n-2)` for `n ge 2`</p>
             <p>It satisifes a linear recurrence relation of order `2` where `c_1=c_2=1`</p>
           </div>
@@ -1444,7 +1453,7 @@
               <div class="math">
                 <p>`(c_1 +- sqrt(c_1^2+4c_2))/2`</p>
               </div>
-              <p>The characteristic polynomial can be factored as</p>
+              <p>So the characteristic polynomial can be factored as</p>
               <div class="math">
                 <p>`t^2-c_1t-c_2 = (t-r_1)(t-r_2)`</p>
               </div>
@@ -1463,7 +1472,7 @@
                   <p>`A(x) = a_0 + a_1x + sum_(n ge 2)(c_1a_(n-1)+c_2a_(n-2))x^n`</p>
                   <p>`= a_0 + a_1x + c_1sum_(n ge 2)a_(n-1)x^n+c_2sum_(n ge 2)a_(n-2)x^n`</p>
                 </div>
-                <p>The last two summations are almost the same as `A(x)`</p>
+                <p>The last two summations are almost the same as `A(x)`:</p>
                 <div class="math">
                   <p>`sum_(n ge 2)a_(n-1)x^n=xsum_(n ge 2)a_(n-1)x^(n-1)=x(a_1x+a_2x^2+a_3x^3+...)=x(A(x)-a_0)`</p>
                   <p>`sum_(n ge 2)a_(n-2)x^n=x^2sum_(n ge 2)a_(n-2)x^(n-2)=x^2sum_(n ge 0)a_nx^n=x^2A(x)`</p>
@@ -1473,20 +1482,20 @@
                   <p>`A(x) = a_0+a_1x+c_1x(A(x)-a_0)+c_2x^2A(x)`</p>
                   <p>`= a_0+a_1x+c_1xA(x)-c_1a_0x+c_2x^2A(x)`</p>
                 </div>
-                <p>Now we gather all the `A(x)`'s onto one side</p>
+                <p>Now we gather all the `A(x)`'s onto one side:</p>
                 <div class="math">
                   <p>`A(x)-c_1xA(x)-c_2x^2A(x)=a_0+a_1x-a_0c_1x`</p>
                   <p>`A(x)(1-c_1x-c_2x^2)=a_0+a_1x-a_0c_1x`</p>
                 </div>
-                <p>We can divide both sides by `(1-c_1x-c_2x^2)` since it is invertible (because there is a constant term)</p>
+                <p>We can divide both sides by `(1-c_1x-c_2x^2)` since it is invertible (because there is a constant term):</p>
                 <div class="math">
                   <p>`A(x)=(a_0+a_1x-a_0c_1x)/(1-c_1x-c_2x^2)`</p>
                 </div>
-                <p>We can factor the bottom by using `t^2-c_1t-c_2 = (t-r_1)(t-r_2)` and plugging in `1/x` for `t`</p>
+                <p>We can factor the bottom by using `t^2-c_1t-c_2 = (t-r_1)(t-r_2)` and plugging in `1/x` for `t`:</p>
                 <div class="math">
                   <p>`x^(-2)-c_1x^(-1)-x_2=(1/x-r_1)(1/x-r_2)`</p>
                 </div>
-                <p>To make it look like `1-c_1x-c_2x^2`, we multiply by `x^2`</p>
+                <p>To make it look like `1-c_1x-c_2x^2`, we multiply by `x^2`:</p>
                 <div class="math">
                   <p>`1-c_1x-c_2x^2=(1-r_1x)(1-r_2x)`</p>
                 </div>
@@ -1643,6 +1652,43 @@
               <p>`sum_(n ge 0)n(n-1)x^(n-2) = 2/(1-x)^3`</p>
               <p>`x^2/2sum_(n ge 0)n(n-1)x^(n-2) = x^2/2 2/(1-x)^3`</p>
               <p>`1/2sum_(n ge 0)n(n-1)x^n = x^2/(1-x)^3`</p>
+            </div>
+            <div class="box">
+              <p>We can get this answer without using generating functions</p>
+              <p>We can determine the class structure by knowing</p>
+              <ul>
+                <li>the day that the guest speaker speaks for the theory portion</li>
+                <li>the last day of the theory portion</li>
+                <li>the first day that the guest speaker leads the lab portion</li>
+                <li>the second day that the guest speaker leads the lab portion</li>
+              </ul>
+              <p>Let `a,b,c,d in [n]` be the days that these occur</p>
+              <p>Day `1` can be a day for the guest speaker</p>
+              <div class="math">
+                <p>`1 le a`</p>
+              </div>
+              <p>The last day of the theory portion can be any day after the guest speaker (including day `1`)</p>
+              <div class="math">
+                <p>`1 le a le b`</p>
+              </div>
+              <p>The first day that the guest speaker leads the lab portion cannot be day `1`</p>
+              <div class="math">
+                <p>`1 le a le b lt c`</p>
+              </div>
+              <p>The second day that the guest speaker leads the lab has to be different from the first</p>
+              <div class="math">
+                <p>`1 le a le b lt c lt d`</p>
+              </div>
+              <p>The second day that the guest speaker leads the lab can be the last day of the class</p>
+              <div class="math">
+                <p>`1 le a le b lt c lt d le n`</p>
+              </div>
+              <p>This is the same situation as</p>
+              <div class="math">
+                <p>`0 le a lt b lt c lt d le n`</p>
+              </div>
+              <p>So the problem becomes choosing `4` numbers from `n+1` numbers, which is `((n+1),(4))`</p>
+              <p>Note that `((n+1),(n-3)) = ((n+1),(n+1-n+3)) = ((n+1),(4))`</p>
             </div>
           </div>
           <div class="box">
@@ -1841,8 +1887,8 @@
               <p>`h_n = 1/sqrt(5)((3+sqrt(5))/2)^n-1/sqrt(5)((3-sqrt(5))/2)^n`</p>
             </div>
           </div>
-          <p>So far, we broke `[n]` into consecutive intervals and applied a structure to each interval. Now we apply another structure `beta` on a subset of those intervals.</p>
-          <p>`b_n` is the number of structures of type `beta` on a set of size `n`. The generating function is `B(x) = sum_(n ge 0) b_nx^n`. Now `h_n` is the number of ways to break `[n]` into consecutive intervals, place structure `alpha` on each interval, then place structure `beta` on a subset of intervals</p>
+          <p>So far, we broke `[n]` into consecutive intervals and applied a structure to each interval. We could apply another structure `beta` on a subset of those intervals.</p>
+          <p>`b_n` is the number of structures of type `beta` on a set of size `n`. The generating function is `B(x) = sum_(n ge 0) b_nx^n`. Now `h_n` is the number of ways to break `[n]` into consecutive intervals, place structure `alpha` on each interval, then place structure `beta` on a subset of those intervals.</p>
           <div class="box">
             <p>Theorem: `H(x) = B(A(x))`</p>
             <div class="collapse" id="composeogf2">
@@ -1864,6 +1910,18 @@
               <p>`= (1-2x+x^2)/(1-4x+x^2)`</p>
             </div>
             <p>Using partial fractions, we would get our answer</p>
+            <div class="box">
+              <p>We could get the answer without using generating functions</p>
+              <p>Each soldier could be</p>
+              <ul>
+                <li>the first soldier on a team for night duty</li>
+                <li>the first soldier on a team not assigned to night duty</li>
+                <li>not the first soldier on a team</li>
+              </ul>
+              <p>The only exception is the first soldier who only has two choices</p>
+              <p>So there are two choices for the first soldier and three choices for the rest of the `n-1` soldiers</p>
+              <p>The number of ways is `2*3^(n-1)`</p>
+            </div>
           </div>
           <h2 id="catalannumbers">Catalan Numbers</h2>
           <p>Catalan numbers can be used to count a lot of things. One way to view them is the number of ways to balance `n` pairs of parentheses.</p>
@@ -2033,7 +2091,7 @@
               <p>The left part has `i` leaves, so there are `beta_(i-1)` ways to do this</p>
               <p>The right part has `n+1-i` leaves, so there are `beta_(n-i)` ways to do this</p>
               <p>The left part needs to have at least one leaf and the right part also needs to have at least one leaf, so `1 le i le n`</p>
-              <p>`beta_n = sum_(i=1)^n B_(i-1)B_(n-i) = sum_(i=0)^(n-1)B_iB_(n-1-i)`</p>
+              <p>`beta_n = sum_(i=1)^n beta_(i-1)beta_(n-i) = sum_(i=0)^(n-1)beta_ibeta_(n-1-i)`</p>
               <p>So `beta_n` satisifies the same recurrence as the Catalan numbers</p>
             </div>
             <p>3) The number of forward paths from `(0,0)` to `(n,n)` which do not go above the line `x=y`</p>
@@ -2065,7 +2123,7 @@
           <p>Exponential generating functions are similar to ordinary generating functions. They're still formal power series, but they encode sequences differently. As such, the interpretations of operations, such as multiplication and composition, have different meanings and can be used for different applications of problems.</p>
           <p>For example, when using ordinary generating functions, we were constrained to consecutive intervals. But it may be more natural to form groups where the elements are not consecutive. Exponential generating functions give us a way to do that.</p>
           <div class="box">
-            <p>Given a sequence `a_0, a_1, a_2, ...`, the exponential generating function (egf) is</p>
+            <p>Given a sequence `a_0, a_1, a_2, ...`, the <b>exponential generating function</b> (egf) is</p>
             <div class="math">
               <p>`A(x) = sum_(n ge 0) a_n/(n!)x^n`</p>
             </div>
@@ -2122,18 +2180,17 @@
               <p>`= 1/(1-x) + xe^x`</p>
               <p>`= sum_(n ge 0)x^n + xsum_(n ge 0)1/(n!)x^n`</p>
               <p>`= sum_(n ge 0)x^n + sum_(n ge 0)1/(n!)x^(n+1)`</p>
+              <p>`= sum_(n ge 0)x^n + sum_(n ge 1)1/((n-1)!)x^n`</p>
             </div>
             <p>Normally for ordinary generating functions, we would get our answer `a_n` by looking at the coefficient of `x^n`. However, with exponential generating functions, we have `sum_(n ge 0)a_n/(n!)x^n`. So the summations have to be in that form before we can extract the coefficient</p>
             <div class="math">
-              <p>`A(x) = sum_(n ge 0)x^n + sum_(n ge 0)1/(n!)x^(n+1)`</p>
-              <p>`= sum_(n ge 0)(n!)/(n!)x^n + sum_(n ge 1)1/((n-1)!)x^n`</p>
               <p>`= sum_(n ge 0)(n!)/(n!)x^n + sum_(n ge 1)n/(n!)x^n`</p>
               <p>`= 1 + sum_(n ge 1)(n!)/(n!)x^n + sum_(n ge 1)n/(n!)x^n`</p>
               <p>`= 1 + sum_(n ge 1)(n!+n)/(n!)x^n`</p>
             </div>
             <p>So `a_n = n!+n`</p>
           </div>
-          <h3>Product of Exponential Generating Funtions</h3>
+          <h3>Product of Exponential Generating Functions</h3>
           <p>The product of two exponential generating functions can be thought of as putting a structure on a subset of `[n]` and putting another structure on the complement.</p>
           <p>Let `alpha, beta` be structures on sets. Let `a_n` be the number of ways to do `alpha` on a set of size `n`. Let `b_n` be the number of ways to do `beta` on a set of size `n`. Let `c_n` be the number of ways to pick a subset `S sube [n]`, put `alpha` on `S` and put `beta` on `[n]\\S`.</p>
           <p>Then `sum_(n ge 0)c_n/(n!)x^n = (sum_(n ge 0)a_n/(n!)x^n)(sum_(n ge 0)b_n/(n!)x^n)`.</p>
@@ -2208,10 +2265,12 @@
               <p>`= 1 + sum_(n ge 1) 2^(n-1)/(n!)x^n`</p>
             </div>
             <p>So `c_0 = 1` and `c_n = 2^(n-1)`</p>
-            <p>It's possible to get this answer without using generating functions</p>
-            <p>If we knew which poles were blue, then we automatically know which ones are red too</p>
-            <p>So all we need to do is pick a subset of even size of `n`</p>
-            <p>There are `2^(n-1)` subsets of even size of `n`</p>
+            <div class="box">
+              <p>We can get this answer without using generating functions</p>
+              <p>If we knew which poles were blue, then we automatically know which ones are red too</p>
+              <p>So all we need to do is pick a subset of even size of `n`</p>
+              <p>There are `2^(n-1)` subsets of even size of `n`</p>
+            </div>
           </div>
           <p>We can use the product of egf's to get an egf for the Stirling numbers.</p>
           <div class="box">
@@ -2220,10 +2279,8 @@
             <p>`A(x) = sum_(n ge 0)a_n/(n!)x^n = sum_(n ge 1)x^n/(n!) = e^x-1`</p>
             <p>`A(x)^2 = sum_(n ge 0)c_n/(n!)x^n`</p>
             <p>`c_n` is the number of ways to pick a subset `S sube [n]` such that `S != O/` and `[n]\\S != O/`</p>
-            <p>The Stirling numbers, `S(n,k)`, counted the number of ways to break up a set of size `n` into `k` nonempty pieces without regard to order. In this case, `k=2` and the order matters. `S` is like the first subset and `[n]\\S` is like the second subset. So this is ordered set partitions with two blocks</p>
-            <p>`c_n` is also the number of ordered set partitions of `[n]` into `2` blocks</p>
-            <p>The difference between ordered and unordered is a factor of `k!`</p>
-            <p>So `c_n = 2!S(n,2)`</p>
+            <p>The Stirling numbers, `S(n,k)`, counted the number of ways to break up a set of size `n` into `k` nonempty pieces without regard to order. In this case, `k=2` and the order matters. `S` is like the first subset and `[n]\\S` is like the second subset. So this is ordered set partitions with two blocks, the number of which is counted by `2!S(n,2)`</p>
+            <p>But `c_n` is also the number of ordered set partitions of `[n]` into `2` blocks. So `c_n = 2!S(n,2)`</p>
             <p>Plugging that back into `A(x)^2`, we get</p>
             <div class="math">
               <p>`A(x)^2 = sum_(n ge 0)c_n/(n!)x^n = sum_(n ge 0)(2!S(n,2))/(n!)x^n`</p>
@@ -2254,10 +2311,9 @@
               <p>`= sum_(k ge 0)(e^x-1)^k/(k!)`</p>
               <p>`= e^(e^x-1)`</p>
             </div>
-            <p>The last derivation is realized as the composition of `e^x` with `e^x-1`</p>
           </div>
           <p>The advantage of having formulas like these is that it makes taking products much simpler when the formulas are nice and compact, possibly leading to simplifications. It's pretty hard to work with a bunch of summations.</p>
-          <p>While they are clean formulas, they are often difficult to work with, compared to the formulas obtained from ordinary generating functions, which are usually rational expressions that can be simplified by partial fraction decomposition and expressed as geometric series. Here, there's no easy way to see what the `n^(th)` coefficient of something like `e^(e^x-1)`.</p>
+          <p>While they are clean formulas, they are often difficult to work with, compared to the formulas obtained from ordinary generating functions, which are usually rational expressions that can be simplified by partial fraction decomposition and expressed as geometric series. Here, there's no easy way to see what the `n^(th)` coefficient of something like `e^(e^x-1)` is.</p>
           <h3>Compositions of Exponential Generating Functions</h3>
           <p>We compose exponential generating functions when we want to break up `[n]` into blocks, apply a structure on each block, and then apply another structure on a set of those blocks.</p>
           <p>Let `alpha` be a structure on a set.</p>
@@ -2327,6 +2383,7 @@
           <p>Now let `h_n` be the number of ways to pick a set partition of `[n]`, put `alpha` on each block, and put `beta` on a set of blocks.</p>
           <div class="box">
             <p>Theorem: `H(x) = B(A(x))`</p>
+            <p>This is the generalized version of the theorem `H(x) = e^(A(x))` where `B(x) = sum_(n ge 0)1/(n!)x^n = e^x` (all the `b_i`'s are `1`)</p>
           </div>
           <h2 id="lagrangeinversion">Lagrange Inversion</h2>
           <p>The Lagrange inversion formula is a technique for extracting coefficients from a formal power series that satisifies a certain identity.</p>
