@@ -2850,7 +2850,7 @@
             <a class="btn" data-toggle="collapse" href="#q3-2">Answer</a>
           </div>
           <div class="box">
-            <p>3.3: A company has `20` employees, `12` males and `8` females. How many ways are there to form a committee of `5` employees that contains at least `1` male and `1` female?</p>
+            <p>3.3: A company has `20` employees, `12` males and `8` females. How many ways are there to form a committee of `5` employees that contains at least one male and one female?</p>
             <div class="collapse" id="q3-3">
               <p>Count the number of committees that have all males and all females and subtract both from the total number of ways to form a committee</p>
               <p>Total number of ways to form a committee: `((20),(5))`</p>
@@ -2861,22 +2861,22 @@
             <a class="btn" data-toggle="collapse" href="#q3-3">Answer</a>
           </div>
           <div class="box">
-            <p>3.6: How many five-digit positive integers are there with middle digit `6` that are divisible by `3`?</p>
+            <p>3.6: How many five-digit positive integers are there with middle digit `6` that are divisible by three?</p>
             <div class="collapse" id="q3-6">
-              <p>Problem is the same as counting the number of four-digit positive integers divisible by `3` since `6` is divisible by `3`</p>
+              <p>This problem is the same as counting the number of four-digit positive integers divisible by three since `6` is divisible by three</p>
               <p>There are `9999-1000+1 = 9000` four-digit positive integers</p>
-              <p>Every third number is divisible by `3 implies 1/3` of the `9000` four-digit positive integers are divisible by `3`</p>
+              <p>Every third number is divisible by three `implies 1/3` of the `9000` four-digit positive integers are divisible by three</p>
               <p>`color(red)(3000)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-6">Answer</a>
           </div>
           <div class="box">
-            <p>3.7: How many five-digit positive integers are there that contain the digit `9` and are divisible by `3`?</p>
+            <p>3.7: How many five-digit positive integers are there that contain the digit `9` and are divisible by three?</p>
             <div class="collapse" id="q3-7">
               <p>There are `99999-10000+1 = 90000` five-digit positive integers</p>
-              <p>Every third number is divisible by `3 implies 1/3*90000 = 30000` five-digit positive integers are divisible by `3`</p>
-              <p>Now count how many of those don't contain a `9` and subtract from the total number of five-digit positive integers divisible by `3`</p>
-              <p>There are `8` choices for the first  digit</p>
+              <p>Every third number is divisible by three `implies 1/3*90000 = 30000` five-digit positive integers are divisible by three</p>
+              <p>Now count how many of those don't contain a `9` and subtract from the total number of five-digit positive integers divisible by three</p>
+              <p>There are `8` choices for the first digit</p>
               <p>There are `9` choices for the second digit</p>
               <p>There are `9` choices for the third digit</p>
               <p>There are `9` choices for the fourth digit</p>
@@ -2896,43 +2896,44 @@
             <div class="collapse" id="q3-8">
               <p>Count the number of ways to list the digits where they are in consecutive positions and subtract from the total number of ways to list the digits</p>
               <p>Total number of ways to list digits: `(7!)/(2!)`</p>
-              <p>Consecutive positions: combine the `2's` into one `2`, then there are `6!` ways to list the digits</p>
+              <p>Consecutive positions: combine the `2`'s into one `2`, then there are `6!` ways to list the digits</p>
               <p>`color(red)((7!)/(2!) - 6!)`</p>
-              <p>Alternatively, there are `6` positions where the `2's` could go, then there are `5!` ways to rearrange the remaining digits `implies 6*5! = 6!`</p>
+              <p>Alternatively, there are `6` positions where the `2`'s could go, then there are `5!` ways to rearrange the remaining digits `implies 6*5! = 6!`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-8">Answer</a>
           </div>
           <div class="box">
-            <p>3.9: How many ways are there to list the digits `{1,1,2,2,3,4,5}` so that the two `1's` are in consecutive positions?</p>
+            <p>3.9: How many ways are there to list the digits `{1,1,2,2,3,4,5}` so that the two `1`'s are in consecutive positions?</p>
             <div class="collapse" id="q3-9">
-              <p>Combine the two `1's` together into one `1`, then there are `(6!)/(2!)` ways to list the digits</p>
+              <p>Combine the two `1`'s together into one `1`, then there are `(6!)/(2!)` ways to list the digits</p>
               <p>`color(red)((6!)/(2!))`</p>
-              <p>Alternatively, there are `6` positions where the `1's` could go, then there are `(5!)/(2!)` ways to rearrange the remaining digits `implies 6*(5!)/(2!) = (6!)/(2!)`</p>
+              <p>Alternatively, there are `6` positions where the `1`'s could go, then there are `(5!)/(2!)` ways to rearrange the remaining digits `implies 6*(5!)/(2!) = (6!)/(2!)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-9">Answer</a>
           </div>
           <div class="box">
-            <p>3.10: A cashier wants to work `5` days a week, but he wants to have at least one of Saturday and Sunday off. In how many ways can he choose the days he will work?</p>
+            <p>3.10: A cashier wants to work five days a week, but he wants to have at least one of Saturday and Sunday off. In how many ways can he choose the days he will work?</p>
             <div class="collapse" id="q3-10">
-              <p>Count the number of ways where he works on Saturday and Sunday and subtract from the total number of ways to choose the `5` days</p>
-              <p>Total number of ways to choose `5` days: `((7),(5))`</p>
+              <p>Count the number of ways where he works on Saturday and Sunday and subtract from the total number of ways to choose the five days</p>
+              <p>Total number of ways to choose five days: `((7),(5))`</p>
               <p>Works on Saturday and Sunday: `((5),(3))`</p>
               <p>`color(red)(((7),(5))-((5),(3)))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-10">Answer</a>
           </div>
           <div class="box">
-            <p>3.11: A car dealership employs `5` salespeople. Yesterday the dealership sold `7` cars. In how many different ways could this happen?</p>
+            <p>3.11: A car dealership employs five salespeople. Yesterday the dealership sold seven cars. In how many different ways could this happen?</p>
             <div class="collapse" id="q3-11">
               <p>This is a `7`-element multiset of `[5]`</p>
+              <p>Alternatively, it is also a weak composition of `7` into `5` parts</p>
               <p>`color(red)(((11),(7)))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-11">Answer</a>
           </div>
           <div class="box">
-            <p>3.12: A traveling agent has to visit `4` cities, each of them `5` times. In how many different ways can he do this if he is not allowed to start and finish in the same city?</p>
+            <p>3.12: A traveling agent has to visit four cities, each of them five times. In how many different ways can he do this if he is not allowed to start and finish in the same city?</p>
             <div class="collapse" id="q3-12">
-              <p>Count the number of ways to do this where he starts and finishes in the same city and subtract from the total number of ways to visit `4` cities `5` times each</p>
+              <p>Count the number of ways to do this where he starts and finishes in the same city and subtract from the total number of ways to visit four cities five times each</p>
               <p>Consider a random permutation of cities</p>
               <p>Total number of ways:
               <ul>
@@ -2952,7 +2953,7 @@
             <a class="btn" data-toggle="collapse" href="#q3-12">Answer</a>
           </div>
           <div class="box">
-            <p>3.14: A restaurant offers `5` soups, `10` main courses, and `6` desserts. Joe decided to order at most `1` soup, at most `1` main course, and at most `1` dessert. In how many ways can he do this?</p>
+            <p>3.14: A restaurant offers five soups, ten main courses, and six desserts. Joe decided to order at most one soup, at most one main course, and at most one dessert. In how many ways can he do this?</p>
             <div class="collapse" id="q3-14">
               <p>For each meal, not getting it is an option</p>
               <p>There are `6` choices for soup</p>
@@ -2969,10 +2970,10 @@
               <p>Total number of `6`-digit positive integers: `999999-100000+1 = 900000`</p>
               <p>There are `4` situations where the sum of the digits is more than `51`:</p>
               <ul>
-                <li>six `9's`: `1` way to do this</p>
-                <li>five `9's` and one `8`: `6` ways to do this</p>
-                <li>five `9's` and one `7`: `6` ways to do this</p>
-                <li>four `9's` and two `8's`: `((6),(2))=15` ways to do this</p>
+                <li>six `9`'s: `1` way to do this</p>
+                <li>five `9`'s and one `8`: `6` ways to do this</p>
+                <li>five `9`'s and one `7`: `6` ways to do this</p>
+                <li>four `9`'s and two `8`'s: `((6),(2))` ways to do this</p>
               </ul>
               <p>`color(red)(900000-(1+6+6+((6),(2))))`</p>
             </div>
@@ -3006,15 +3007,22 @@
             <a class="btn" data-toggle="collapse" href="#q3-19">Answer</a>
           </div>
           <div class="box">
-            <p>3.20: Suppose all cars have license plates consisting of `6` numerical digits only. How many license plates have only `1` digit that occur more than once and that digit occurs exactly `3` times? For example, `404824`.</p>
+            <p>3.20: Suppose all cars have license plates consisting of six numerical digits only. How many license plates have only one digit that occurs more than once and that digit occurs exactly three times? For example, `404824`.</p>
             <div class="collapse" id="q3-20">
-              <p>Pick the digit that will occur `3` times: `10` choices</p>
-              <p>From the `6` positions, pick `3` of them to be the places where the repeated digit will be: `((6),(3))`</p>
-              <p>The rest of the digits have to be distinct since there is only `1` digit that occurs more than once</p>
+              <p>Pick the digit that will occur three times: `10` choices</p>
+              <p>From the six positions, pick three of them to be the places where the repeated digit will be: `((6),(3))`</p>
+              <p>The rest of the digits have to be distinct since there is only one digit that occurs more than once</p>
               <p>The fourth digit, regardless of position, has `9` choices</p>
               <p>The fifth digit, regardless of position, has `8` choices</p>
               <p>The sixth digit, regardless of position, has `7` choices</p>
               <p>`color(red)(10*((6),(3))*9*8*7)`</p>
+              <p>Alternatively,</p>
+              <p>There are `10` choices for the digit that appears three times</p>
+              <p>There are `9` choices for the fourth digit</p>
+              <p>There are `8` choices for the fifth digit</p>
+              <p>There are `7` choices for the sixth digit</p>
+              <p>There are `(6!)/(3!)` ways to arrange the six digits</p>
+              <p>`color(red)(10*9*8*7*(6!)/(3!))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-20">Answer</a>
           </div>
@@ -3034,21 +3042,21 @@
             <a class="btn" data-toggle="collapse" href="#q3-23">Answer</a>
           </div>
           <div class="box">
-            <p>3.25: How many `3`-digit positive integers contain `2` (but not `3`) different digits?</p>
+            <p>3.25: How many three-digit positive integers contain two (but not three) different digits?</p>
             <div class="collapse" id="q3-25">
-              <p>Count the number of `3`-digit positive integers that contain only `1` different digit and the number of `3`-digit positive integers that contain `3` different digits and subtract both from the total number of `3`-digit positive integers</p>
-              <p>Total number of `3`-digit positive integers: `999-100+1 = 900`</p>
-              <p>`3`-digit positive integers with only `1` different digit:</p>
+              <p>Count the number of three-digit positive integers that contain only one different digit and the number of three-digit positive integers that contain three different digits and subtract both from the total number of three-digit positive integers</p>
+              <p>Total number of three-digit positive integers: `999-100+1 = 900`</p>
+              <p>three-digit positive integers with only one different digit:</p>
               <ul>
-                <li>`1` different digit means all `3` digits are the same and there are `10` of these</li>
+                <li>one different digit means all three digits are the same and there are `9` of these</li>
               </ul>
-              <p>`3`-digit positive integers with `3` different digits:</p>
+              <p>three-digit positive integers with three different digits:</p>
               <ul>
                 <li>There are `9` choices for the first digit (can't be `0`)</li>
                 <li>There are `9` choices for the second digit (can't be the first digit but can be `0`)</li>
                 <li>There are `8` choices for the third digit</li>
               </ul>
-              <p>`color(red)(900-10-9*9*8)`</p>
+              <p>`color(red)(900-9-9*9*8)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-25">Answer</a>
           </div>
@@ -3073,7 +3081,7 @@
             <a class="btn" data-toggle="collapse" href="#q3-28">Answer</a>
           </div>
           <div class="box">
-            <p>3.29: How many `3`-digit positive integers start and end with an even digit?</p>
+            <p>3.29: How many three-digit positive integers start and end with an even digit?</p>
             <div class="collapse" id="q3-29">
               <p>There are `4` choices for the first digit (can't be `0`)</p>
               <p>There are `10` choices for the second digit</p>
@@ -3083,7 +3091,7 @@
             <a class="btn" data-toggle="collapse" href="#q3-29">Answer</a>
           </div>
           <div class="box">
-            <p>3.30: How many `4`-digit positive integers are there in which all digits are different?</p>
+            <p>3.30: How many four-digit positive integers are there in which all digits are different?</p>
             <div class="collapse" id="q3-30">
               <p>There are `9` choices for the first digit (can't be `0`)</p>
               <p>There are `9` choices for the second digit</p>
@@ -3094,10 +3102,10 @@
             <a class="btn" data-toggle="collapse" href="#q3-30">Answer</a>
           </div>
           <div class="box">
-            <p>3.31: How many `4`-digit positive integers are there that contain the digit `1`?</p>
+            <p>3.31: How many four-digit positive integers are there that contain the digit `1`?</p>
             <div class="collapse" id="q3-31">
-              <p>Count the number of `4`-digit positive integers that don't contain the digit `1` and subtract from the total number of `4`-digit positive integers</p>
-              <p>Total number of `4`-digit positive integers: `9999-1000+1 = 9000`</p>
+              <p>Count the number of four-digit positive integers that don't contain the digit `1` and subtract from the total number of four-digit positive integers</p>
+              <p>Total number of four-digit positive integers: `9999-1000+1 = 9000`</p>
               <p>Don't contain `1`:</p>
               <ul>
                 <li>There are `8` choices for the first digit (can't be `0` or `1`)</li>
@@ -3110,9 +3118,9 @@
             <a class="btn" data-toggle="collapse" href="#q3-31">Answer</a>
           </div>
           <div class="box">
-            <p>3.32: How many `3`-digit numbers are there in which the sum of the digits is even?</p>
+            <p>3.32: How many three-digit numbers are there in which the sum of the digits is even?</p>
             <div class="collapse" id="q3-32">
-              <p>There are `4` situations where the sum of the digits is even:</p>
+              <p>There are four situations where the sum of the digits is even:</p>
               <ul>
                 <li>All digits are even</li>
                 <li>even odd odd</li>
@@ -3157,7 +3165,7 @@
             <p>(b) `1` is to precede both `2` and `3`?</p>
             <div class="collapse" id="q3-33">
               <p>(a) Consider the set `[4]`</p>
-              <p>There are `6` situations where this happens:</p>
+              <p>There are six situations where this happens:</p>
               <ul>
                 <li>`1234`</li>
                 <li>`1324`</li>
@@ -3167,35 +3175,35 @@
                 <li>`3142`</li>
               </ul>
               <p>Now consider adding `5`</p>
-              <p>There are `5` choices where it could be placed for each of the `6` situations</p>
+              <p>There are `5` choices where it could be placed for each of the six situations</p>
               <p>Now consider adding `6`</p>
-              <p>There are `6` choices where it could be placed for each of the `6` situations</p>
+              <p>There are `6` choices where it could be placed for each of the six situations</p>
               <p>`vdots`</p>
               <p>Now consider adding `n`</p>
-              <p>There are `n` choices where it could be placed for each of the `6` situations</p>
+              <p>There are `n` choices where it could be placed for each of the six situations</p>
               <p>`color(red)(6*(n)_(n-4) = 6*n*(n-1)*...*6*5)`</p>
               <p>(b) Consider the set `[3]`</p>
-              <p>There are `2` situations where this happens:</p>
+              <p>There are two situations where this happens:</p>
               <ul>
                 <li>`123`</li>
                 <li>`132`</li>
               </ul>
               <p>Now consider adding `4`</p>
-              <p>There are `4` choices where it could be placed for each of the `2` situations</p>
+              <p>There are `4` choices where it could be placed for each of the two situations</p>
               <p>`vdots`</p>
               <p>Now consider adding `n`</p>
-              <p>There are `n` choices where it could be placed for each of the `2` situations</p>
+              <p>There are `n` choices where it could be placed for each of the two situations</p>
               <p>`color(red)(2*(n)_(n-2) = 2*n*(n-1)*...*5*4)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q3-33">Answer</a>
           </div>
           <div class="box">
-            <p>3.37: A student needs to work `5` days in January. He does not want to work on more than `1` Sunday. In how many ways can he select his `5` working days? (Assume that January has `5` Sundays.)</p>
+            <p>3.37: A student needs to work five days in January. He does not want to work on more than one Sunday. In how many ways can he select his five working days? (Assume that January has five Sundays.)</p>
             <div class="collapse" id="q3-37">
               <p>There are two situations:</p>
               <ul>
-                <li>None of the days is Sunday</li>
-                <li>One of the days is Sunday</li>
+                <li>none of the days is Sunday</li>
+                <li>one of the days is Sunday</li>
               </ul>
               <p>For the case where none of the days is Sunday, there are `26` days to choose from: `((26),(5))`</p>
               <p>For the case where one of the days is Sunday:</p>
@@ -3282,7 +3290,7 @@
             <div class="collapse" id="q3-42">
               <p>Count the number of ways for people to give talks without any of them being included in the book and subtract from the total number of ways for people to give talks</p>
               <p>Total number of ways for people to give talks:</p>
-              <p>There are `5` situations for each person:</p>
+              <p>There are five situations for each person:</p>
               <ul>
                 <li>don't give a talk at all</li>
                 <li>give a talk on Saturday</li>
@@ -3291,7 +3299,7 @@
                 <li>be included in the book as a Sunday speaker</li>
               </ul>
               <p>`5^n` ways</p>
-              <p>For the case where no talk is selected to be in the book, there are `3` situations for each person:</p>
+              <p>For the case where no talk is selected to be in the book, there are three situations for each person:</p>
               <ul>
                 <li>don't give a talk at all</li>
                 <li>give a talk on Saturday</li>
@@ -3303,7 +3311,7 @@
             <a class="btn" data-toggle="collapse" href="#q3-42">Answer</a>
           </div>
           <div class="box">
-            <p>3.43: A group organizing a faculty-student tennis match must match `4` faculty volunteers to `4` of the `13` students who volunteered to be in the match. In how many ways can they do this?</p>
+            <p>3.43: A group organizing a faculty-student tennis match must match four faculty volunteers to four of the `13` students who volunteered to be in the match. In how many ways can they do this?</p>
             <div class="collapse" id="q3-43">
               <p>The first faculty volunteer has `13` students from which to choose</p>
               <p>The second faculty volunteer has `12` students from which to choose</p>
@@ -3314,29 +3322,32 @@
             <a class="btn" data-toggle="collapse" href="#q3-43">Answer</a>
           </div>
           <div class="box">
-            <p>3.45: A student will study `26` hours in preparation for an exam. She will do this in the course of `6` consecutive days. On each of these days, she will study either `4` hours, `5` hours, or `6` hours. In how many different ways is this possible?</p>
+            <p>3.45: A student will study `26` hours in preparation for an exam. She will do this in the course of six consecutive days. On each of these days, she will study either four hours, five hours, or six hours. In how many different ways is this possible?</p>
             <div class="collapse" id="q3-45">
-              <p>Let `a` be the number of days she studies for `4` hours</p>
-              <p>Let `b` be the number of days she studies for `5` hours</p>
-              <p>Let `c` be the number of days she studies for `6` hours</p>
-              <p>`a+b+c = 6`</p>
-              <p>`4a+5b+6c = 26`</p>
+              <p>Let `a` be the number of days she studies for four hours</p>
+              <p>Let `b` be the number of days she studies for five hours</p>
+              <p>Let `c` be the number of days she studies for six hours</p>
+              <p>Considering the conditions, we get the system of equations</p>
+              <div class="math">
+                <p>`a+b+c = 6`</p>
+                <p>`4a+5b+6c = 26`</p>
+              </div>
               <p>`implies b + 2c = 2`</p>
-              <p>So `b = 2, c = 0, a = 4` (`5` hours for `2` days and `4` hours for `4` days)</p>
+              <p>So `b = 2, c = 0, a = 4` (five hours for `2` days and four hours for `4` days)</p>
               <p>or</p>
-              <p>`b = 0, c = 1, a = 5` (`6` hours for `1` day and `4` hours for `5` days)</p>
-              <p>For the case where she studies for `4` hours for `4` days and `5` hours for `2` days:</p>
+              <p>`b = 0, c = 1, a = 5` (six hours for `1` day and four hours for `5` days)</p>
+              <p>For the case where she studies for four hours for `4` days and five hours for `2` days:</p>
               <ul>
-                <li>There are `6` days to choose from and `4` of them could be for the `4` hours</li>
+                <li>There are `6` days to choose from and `4` of them could be for the four hours</li>
                 <li>`((6),(4)) = 15`</li>
-                <li>Alternatively, there are `6` days to choose from and `2` of them could be for the `5` hours</li>
+                <li>Alternatively, there are `6` days to choose from and `2` of them could be for the five hours</li>
                 <li>`((6),(2)) = 15`</li>
               </ul>
-              <p>For the case where she studies for `4` hours for `5` days and `6` hours for `1` day:</p>
+              <p>For the case where she studies for four hours for `5` days and six hours for `1` day:</p>
               <ul>
-                <li>There are `6` days to choose from and `5` of them could be for the `4` hours</li>
+                <li>There are `6` days to choose from and `5` of them could be for the four hours</li>
                 <li>`((6),(5)) = 6`</li>
-                <li>Alternatively, there are `6` days to choose from and `1` of them could be for the `6` hours</li>
+                <li>Alternatively, there are `6` days to choose from and `1` of them could be for the six hours</li>
                 <li>`((6),(1)) = 6`</li>
               </ul>
               <p>`color(red)(15+6 = 21)`</p>
@@ -3344,7 +3355,7 @@
             <a class="btn" data-toggle="collapse" href="#q3-45">Answer</a>
           </div>
           <div class="box">
-            <p>3.46: Andy and Brenda throw `4` dice at the same time. If at least `1` of the `4` shows a six, then Andy wins, if not then Brenda. Who has a greater chance of winning?</p>
+            <p>3.46: Andy and Brenda throw four dice at the same time. If at least one of the four dice shows a six, then Andy wins, if not then Brenda. Who has a greater chance of winning?</p>
             <div class="collapse" id="q3-46">
               <p>Calculate Brenda's chance of winning by counting the number of possibilities where none of the dice show a six</p>
               <p>Total number of possibilities:</p>
@@ -3362,7 +3373,7 @@
             <a class="btn" data-toggle="collapse" href="#q3-46">Answer</a>
           </div>
           <div class="box">
-            <p>3.49: A class is attended by `n` sophomores, `n` juniors, and `n` seniors. In how many ways can these students form `n` groups of `3` people each if each group is to contain a sophomore, a junior, and a senior?</p>
+            <p>3.49: A class is attended by `n` sophomores, `n` juniors, and `n` seniors. In how many ways can these students form `n` groups of three people each if each group is to contain a sophomore, a junior, and a senior?</p>
             <div class="collapse" id="q3-49">
               <p>For the first sophomore, there are `n` choices of juniors and `n` choices of seniors</p>
               <p>For the second sophomore, there are `n-1` choices of juniors and `n-1` choices of seniors</p>
@@ -3374,7 +3385,7 @@
             <a class="btn" data-toggle="collapse" href="#q3-49">Answer</a>
           </div>
           <div class="box">
-            <p>3.50: The NFL consists of `32` teams. These teams are first divided into `2` conferences, the American Conference and the National Conference, each of which consists of `16` teams. Then each conference is divided into `4` divisions of `4` teams each. Each division has a distinct name. In how many ways can this be done?</p>
+            <p>3.50: The NFL consists of `32` teams. These teams are first divided into two conferences, the American Conference and the National Conference, each of which consists of sixteen teams. Then each conference is divided into four divisions of four teams each. Each division has a distinct name. In how many ways can this be done?</p>
             <div class="collapse" id="q3-50">
               <p>There are a total of `8` divisions</p>
               <p>There are `((32),(4))` choices for the first division</p>
