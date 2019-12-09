@@ -3400,7 +3400,7 @@
           </div>
           <h3>Chapter 5</h3>
           <div class="box">
-            <p>5.19: What is the number of partitions of [8] into two blocks in which the two blocks do not have the same size?</p>
+            <p>5.19: What is the number of partitions of `[8]` into two blocks in which the two blocks do not have the same size?</p>
             <div class="collapse" id="q5-19">
               <p>There are `3` situations where the two blocks do not have the same size:</p>
               <ul>
@@ -3415,7 +3415,7 @@
           <div class="box">
             <p>5.20: What is the number of compositions of `5` with a unique largest part?</p>
             <div class="collapse" id="q5-20">
-              <p>There are `5` types of compositions of `5` with a unique largest part:</p>
+              <p>There are five types of compositions of `5` with a unique largest part:</p>
               <ul>
                 <li>`(1,1,1,2)`: `4` permutations</li>
                 <li>`(1,1,3)`: `3` permutations</li>
@@ -3428,51 +3428,59 @@
             <a class="btn" data-toggle="collapse" href="#q5-20">Answer</a>
           </div>
           <div class="box">
-            <p>5.22: A student has to take `12` hours of classes a week. She must take at least `3` hours on Monday, at least `2` on Thursday, and at least `1` on Friday. In how many ways can she do this?</p>
+            <p>5.22: A student has to take twelve hours of classes a week. She must take at least three hours on Monday, at least two on Thursday, and at least one on Friday. In how many ways can she do this?</p>
             <div class="collapse" id="q5-22">
               <p>Let `a,b,c,d,e` be the number of hours she takes on Monday, Tuesday, Wednesday, Thursday, and Friday respectively</p>
-              <p>`a+3 + b + c + d+2 + e+1 = 12`</p>
-              <p>`a+b+c+d+e = 6`</p>
+              <div class="math">
+                <p>`a+3 + b + c + d+2 + e+1 = 12`</p>
+                <p>`a+b+c+d+e = 6`</p>
+              </div>
               <p>This is a weak composition of `6` into `5` parts</p>
               <p>`color(red)(((10),(6)))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q5-22">Answer</a>
           </div>
           <div class="box">
-            <p>5.23: Find the number of compositions of `10` into even parts</p>
+            <p>5.23: Find the number of compositions of ten into even parts</p>
             <div class="collapse" id="q5-23">
-              <p>`2x_1 + 2x_2 + ... + 2x_n = 10`</p>
-              <p>`2(x_1 + x_2 + ... + x_n) = 10`</p>
-              <p>`x_1 + x_2 + ... + x_n = 5`</p>
+              <div class="math">
+                <p>`2x_1 + 2x_2 + ... + 2x_n = 10`</p>
+                <p>`2(x_1 + x_2 + ... + x_n) = 10`</p>
+                <p>`x_1 + x_2 + ... + x_n = 5`</p>
+              </div>
               <p>This is the same problem as the number of compositions of `5` into integer parts</p>
               <p>`color(red)(2^(5-1) = 2^4 = 16)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q5-23">Answer</a>
           </div>
           <div class="box">
-            <p>5.24: Find the number of weak compositions of `25` into `5` odd parts</p>
+            <p>5.24: Find the number of weak compositions of `25` into five odd parts</p>
             <div class="collapse" id="q5-24">
               <p>`x_1 + x_2 + x_3 + x_4 + x_5 = 25` where `x_1, ..., x_5` are odd integers</p>
               <p>Let `x_i = 2y_i+1`</p>
-              <p>`2y_1+1 + 2y_2+1 + 2y_3+1 + 2y_4+1 + 2y_5+1 = 25`</p>
-              <p>`2(y_1 + y_2 + y_3 + y_4 + y_5) = 20`</p>
-              <p>`y_1 + y_2 + y_3 + y_4 + y_5 = 10`</p>
+              <div class="math">
+                <p>`2y_1+1 + 2y_2+1 + 2y_3+1 + 2y_4+1 + 2y_5+1 = 25`</p>
+                <p>`2(y_1 + y_2 + y_3 + y_4 + y_5) = 20`</p>
+                <p>`y_1 + y_2 + y_3 + y_4 + y_5 = 10`</p>
+              </div>
               <p>This is a weak composition of `10` into `5` parts</p>
               <p>`color(red)(((14),(10)))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q5-24">Answer</a>
           </div>
           <div class="box">
-            <p>5.25: A student has to take `8` hours of classes a week. He wants to have fewer hours on Friday than on Thursday. In how many ways can he do this?</p>
+            <p>5.25: A student has to take eight hours of classes a week. He wants to have fewer hours on Friday than on Thursday. In how many ways can he do this?</p>
             <div class="collapse" id="q5-25">
               <p>Let `a,b,c,d,e` be the number of hours he takes on Monday, Tuesday, Wednesday, Thursday, and Friday respectively</p>
               <p>`a+b+c+d+e = 8` where `d gt e`</p>
               <p>He could take `0, 1, 2, 3` hours on Friday</p>
               <p>Since he wants fewer hours on Friday than on Thursday, we add `e+1` hours to `d` to maintain the rule `d gt e` and to turn the problem into a weak composition problem</p>
-              <p>`e=0: a+b+c+(d+1)+0=8 implies a+b+c+d=7 implies ((10),(7))`</p>
-              <p>`e=1: a+b+c+(d+2)+1=8 implies a+b+c+d=5 implies ((8),(5))`</p>
-              <p>`e=2: a+b+c+(d+3)+2=8 implies a+b+c+d=3 implies ((6),(3))`</p>
-              <p>`e=3: a+b+c+(d+4)+3=8 implies a+b+c+d=1 implies ((4),(1))`</p>
+              <div class="math">
+                <p>`e=0: a+b+c+(d+1)+0=8 implies a+b+c+d=7 implies ((10),(7))`</p>
+                <p>`e=1: a+b+c+(d+2)+1=8 implies a+b+c+d=5 implies ((8),(5))`</p>
+                <p>`e=2: a+b+c+(d+3)+2=8 implies a+b+c+d=3 implies ((6),(3))`</p>
+                <p>`e=3: a+b+c+(d+4)+3=8 implies a+b+c+d=1 implies ((4),(1))`</p>
+              </div>
               <p>`color(red)(((10),(7))+((8),(5))+((6),(3))+((4),(1)))`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q5-25">Answer</a>
@@ -3483,10 +3491,10 @@
               <p>There are only two ways to have `n-2` blocks:</p>
               <ul>
                 <li>one block of size `3` and `n-3` singletons: `((n),(3))`</li>
-                <li>two blocks of size `2` and `n-4` singletons: `((n),(4))*((4),(2))*1/2` (choose `4` to be in the two blocks, then choose `2` to be in one of the blocks, the order of the blocks don't matter)</li>
+                <li>two blocks of size `2` and `n-4` singletons: `((n),(4))*((4),(2))*1/2` (choose four numbers to be in the two blocks, then choose two of those four numbers to be in one of the blocks, the order of the blocks don't matter)</li>
               </ul>
               <p>`color(red)(((n),(3))+((n),(4))*((4),(2))*1/2)`</p>
-              <p>Alternatively, for the two blocks of size `2`, we could choose `2` of them to be in one block, then choose another `2` to be in the other block: `((n),(2))*((n-2),(2))*1/2`</p>
+              <p>Alternatively, for the two blocks of size `2`, we could choose two numbers  to be in one block, then choose another two to be in the other block: `((n),(2))*((n-2),(2))*1/2`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q5-27">Answer</a>
           </div>
@@ -3507,9 +3515,9 @@
           <div class="box">
             <p>5.32: Let `F(n)` be the number of all partitions of `[n]` with no singleton blocks. Prove that `B(n) = F(n) + F(n+1)`</p>
             <div class="collapse" id="q5-32">
-              <p>`B(n)-F(n)` is the number of partitions of `[n]` where each partition has at least one block of size `1`</p>
+              <p>`B(n)-F(n)` is the number of partitions of `[n]` where each partition has at least one singleton</p>
               <p>Goal: Prove `B(n)-F(n) = F(n+1)`</p>
-              <p>Claim: There is a bijection between `A = {text(partitions of ) [n] text( such that there is at least one block with size ) 1}` and `B = {text(partitions of ) [n+1] text( such that every block has size ) gt 1}`</p>
+              <p>Claim: There is a bijection between `A = {`partitions of `[n]` such that there is at least one singleton`}` and `B = {`partitions of `[n+1]` such that every block has size `gt 1}`</p>
               <p>Let `f:A rarr B` be defined as follows:</p>
               <p>For a partition in `A`, add the singleton `{n+1}` and merge together all the singleton blocks into one block</p>
               <p>This produces an element in `B` because there are no singleton blocks, i.e., every block has size `gt 1`</p>
