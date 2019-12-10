@@ -3952,7 +3952,7 @@
           <div class="box">
             <p>8.22: Let `b(n)` be the number of compositions of `n` in which each part is an odd integer. Find a closed formula for `sum_(n ge 0)b(n)x^n`</p>
             <div class="collapse" id="q8-22">
-              <p>Since the number of parts is unspecified, this problem involves a composotion of generating functions</p>
+              <p>Since the number of parts is unspecified, this problem involves a composition of generating functions</p>
               <p>This is equivalent to splitting up `[n]` into intervals and covering each interval with a single tile of odd length</p>
               <p>If the length of the interval is even, then there is no way to do this</p>
               <p>If the length of the interval is odd, then there is one way to do this</p>
@@ -4040,6 +4040,32 @@
               <p>So `a_n` is the coefficient of `x^n`, which is `color(red)(1050*2^n-1000)`</p>
             </div>
             <a class="btn" data-toggle="collapse" href="#q8-25">Answer</a>
+          </div>
+          <div class="box">
+            <p>8.27: Find an explicit formula for the numbers `a_n` if `a_(n+1) = (n+1)a_n + 2(n+1)!` if `n ge 0` and `a_0 = 0`</p>
+            <div class="collapse" id="q8-27">
+              <p>Since there's an `(n+1)!`, we should probably use exponential generating functions</p>
+              <p>Let `A(x) = sum_(n ge 0)a_n/(n!)x^n`</p>
+              <p>Multiply both sides by `x^(n+1)/((n+1)!)` and sum over `n ge 0`</p>
+              <div class="math">
+                <p>`sum_(n ge 0)a_(n+1)/((n+1)!)x^(n+1) = sum_(n ge 0)((n+1)a_n)/((n+1)!)x^(n+1) + sum_(n ge 0)(2(n+1)!)/((n+1)!)x^(n+1)`</p>
+                <p>`A(x)-a_0 = sum_(n ge 0)a_n/(n!)x^(n+1) + sum_(n ge 0)2x^(n+1)`</p>
+                <p>`A(x) = xsum_(n ge 0)a_n/(n!)x^n + 2xsum_(n ge 0)x^n`</p>
+                <p>`A(x) = xA(x) = (2x)/(1-x)`</p>
+                <p>`A(x)-xA(x) = (2x)/(1-x)`</p>
+                <p>`A(x)(1-x) = (2x)/(1-x)`</p>
+                <p>`A(x) = (2x)/(1-x)^2`</p>
+                <p>`A(x) = 2x(1-x)^(-2)`</p>
+                <p>`A(x) = 2xsum_(n ge 0)((n+1),(n))x^n`</p>
+                <p>`A(x) = 2sum_(n ge 0)((n+1),(n))x^(n+1)`</p>
+                <p>`A(x) = 2sum_(n ge 1)((n),(n-1))x^n`</p>
+                <p>`A(x) = 2sum_(n ge 1)(n!)/((n-1)!1!)x^n`</p>
+                <p>`A(x) = 2sum_(n ge 1)(n*n!)/(n!)x^n`</p>
+                <p>`A(x) = 2sum_(n ge 0)(n*n!)/(n!)x^n`</p>
+              </div>
+              <p>So `color(red)(a_n = 2n(n!))`</p>
+            </div>
+            <a class="btn" data-toggle="collapse" href="#q8-27">Answer</a>
           </div>
           <div class="box">
             <p>8.34: Let `h_0=1`, and let `h_n` be the number of compositions of `n` into parts equal to `2` or `3`. Find a closed formula for `H(x)=sum_(n ge 0)h_nx^n`</p>
