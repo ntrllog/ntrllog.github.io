@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+    -->
+    <title>Alan Lam | JavaScript Notes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
+    <link href="styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+          <h1>JavaScript Notes</h1>
+          <hr>
+          <p>Shortcut to this page: <a href="js_notes.html">aln.netlify.com/js_notes</a></p>
+          <div class="box">
+            <h3>Let vs. Var</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">var</span> a <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;a&quot;</span>;
+<span style="color: #008800; font-weight: bold">var</span> a <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;b&quot;</span>;
+</pre></div>
+            <p>No error because the value of <code>a</code> will be overwritten</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">let</span> a <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;a&quot;</span>;
+<span style="color: #008800; font-weight: bold">let</span> a <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;b&quot;</span>;
+</pre></div>
+            <p>Will cause an error because <code>a</code> is declared twice</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">for</span> (<span style="color: #008800; font-weight: bold">var</span> i <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">3</span>; i<span style="color: #333333">++</span>) {
+}
+console.log(i); <span style="color: #888888">// will print 3</span>
+</pre></div>
+            <p>Variables declared with <code>var</code> are global (but local if declared inside a function)</p>
+          </div>
+        </div> <!-- col -->
+      </div> <!-- row -->
+    </div> <!-- container -->
+  </body>
+</html>
