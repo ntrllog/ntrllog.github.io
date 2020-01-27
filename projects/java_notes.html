@@ -188,7 +188,7 @@
             <p><code>Student</code> inherits <code>name</code> since it is public.</p>
             <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Person p <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Student<span style="color: #333333">();</span>
 </pre></div>
-            <p>Will not cause an error because "<code>Student</code> (right side) <em>is a</em> <code>Person</code> (left side)</p>
+            <p>Will not cause an error because "<code>Student</code> (right side) <em>is a</em> <code>Person</code> (left side)"</p>
             <p>Why do something like this? Imagine many subclasses extending from one superclass, and want to store subclass objects in an array. Could create multiple arrays for each sublcass type, but it's faster/easier to create one array of the superclass type and store all those objects into that one array.</p>
             <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Student s <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Person<span style="color: #333333">();</span>
 </pre></div>
