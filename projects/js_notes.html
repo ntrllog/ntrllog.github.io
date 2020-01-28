@@ -44,6 +44,40 @@ console.log(i); <span style="color: #888888">// will print 3</span>
             <p>Variables declared with <code>let</code> are local to its scope.</p>
           </div>
           <div class="box">
+            <h3>Objects</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> person <span style="color: #333333">=</span> {
+  name<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&quot;Big Tasty&quot;</span>,
+  sayHello() {
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #FF0000; background-color: #FFAAAA">`</span>Hello<span style="color: #333333">!</span> My name is ${<span style="color: #008800; font-weight: bold">this</span>.name}.<span style="color: #FF0000; background-color: #FFAAAA">`</span>;
+  }
+};
+</pre></div>
+            <p>Object with a function as a property.</p>
+          </div>
+          <div class="box">
+            <h3>Class Syntax</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">class</span> Book {
+  constructor(author) {
+    <span style="color: #008800; font-weight: bold">this</span>._author <span style="color: #333333">=</span> author;
+  }
+
+  get writer() {
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">this</span>._author;
+  }
+
+  set writer(updatedAuthor) {
+    <span style="color: #008800; font-weight: bold">this</span>._author <span style="color: #333333">=</span> updatedAuthor;
+  }
+}
+
+<span style="color: #008800; font-weight: bold">const</span> lol <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Book(<span style="background-color: #fff0f0">&#39;anonymous&#39;</span>);
+console.log(lol.writer);  <span style="color: #888888">// anonymous</span>
+lol.writer <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&#39;Big Tasty&#39;</span>;
+console.log(lol.writer);  <span style="color: #888888">// Big Tasty</span>
+</pre></div>
+            <p><code>class</code> declares a new function. The constructor is called when <code>new</code> is called.</p>
+          </div>
+          <div class="box">
             <h3>Object Mutation</h3>
             <h4>Const</h4>
             <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> a <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">2</span>, <span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">5</span>];
@@ -83,6 +117,9 @@ o.prop <span style="color: #333333">=</span> <span style="background-color: #fff
             <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> func <span style="color: #333333">=</span> num <span style="color: #333333">=&gt;</span> num;
 </pre></div>
             <p>If there is only 1 argument, then the parentheses can be omitted.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> getMousePosition <span style="color: #333333">=</span> (x, y) <span style="color: #333333">=&gt;</span> ({ x, y });
+</pre></div>
+            <p>A function that returns an object with properties <code>x</code> and <code>y</code>.</p>
           </div>
           <div class="box">
             <h3>Rest Parameter</h3>
@@ -172,6 +209,29 @@ console.log(greeting); <span style="color: #888888">// Hello, my name is Big Tas
 <span style="color: #888888">// I am 9 years old.</span>
 </pre></div>
             <p>Allows for multi-line strings and string interpolation.</p>
+          </div>
+          <div class="box">
+            <h3>Module Script</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;script </span><span style="color: #0000CC">type=</span><span style="background-color: #fff0f0">&quot;module&quot;</span> <span style="color: #0000CC">src=</span><span style="background-color: #fff0f0">&quot;math.js&quot;</span><span style="color: #007700">&gt;&lt;/script&gt;</span>
+</pre></div>
+            <p>Making a script a module allows for parts of JavaScript files to be imported/exported to other JavaScript files.</p>
+            <h4>Exporting</h4>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> add <span style="color: #333333">=</span> (x, y) <span style="color: #333333">=&gt;</span> x<span style="color: #333333">+</span>y;
+<span style="color: #008800; font-weight: bold">const</span> sub <span style="color: #333333">=</span> (x, y) <span style="color: #333333">=&gt;</span> x<span style="color: #333333">-</span>y;
+
+<span style="color: #008800; font-weight: bold">export</span> { add, sub };
+</pre></div>
+            <h4>Importing</h4>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> { add, sub } from <span style="background-color: #fff0f0">&#39;./math.js&#39;</span>;
+
+add(<span style="color: #0000DD; font-weight: bold">5</span>,<span style="color: #0000DD; font-weight: bold">3</span>);
+sub(<span style="color: #0000DD; font-weight: bold">5</span>,<span style="color: #0000DD; font-weight: bold">4</span>);
+</pre></div>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #333333">*</span> as myMathModule from <span style="background-color: #fff0f0">&#39;./math.js&#39;</span>;
+
+myMathModule.add(<span style="color: #0000DD; font-weight: bold">2</span>,<span style="color: #0000DD; font-weight: bold">3</span>);
+myMathModule.subtract(<span style="color: #0000DD; font-weight: bold">5</span>,<span style="color: #0000DD; font-weight: bold">3</span>);
+</pre></div>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
