@@ -23,7 +23,7 @@
       <div class="row">
         <div class="col-12">
           <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
-          <h1>JavaScript Notes</h1>
+          <h1>JavaScript (ES6) Notes</h1>
           <hr>
           <p>Shortcut to this page: <a href="js_notes.html">aln.netlify.com/js_notes</a></p>
           <div class="box">
@@ -31,16 +31,132 @@
             <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">var</span> a <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;a&quot;</span>;
 <span style="color: #008800; font-weight: bold">var</span> a <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;b&quot;</span>;
 </pre></div>
-            <p>No error because the value of <code>a</code> will be overwritten</p>
+            <p>No error because the value of <code>a</code> will be overwritten.</p>
             <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">let</span> a <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;a&quot;</span>;
 <span style="color: #008800; font-weight: bold">let</span> a <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;b&quot;</span>;
 </pre></div>
-            <p>Will cause an error because <code>a</code> is declared twice</p>
+            <p>Will cause an error because <code>a</code> is declared twice.</p>
             <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">for</span> (<span style="color: #008800; font-weight: bold">var</span> i <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">3</span>; i<span style="color: #333333">++</span>) {
 }
 console.log(i); <span style="color: #888888">// will print 3</span>
 </pre></div>
-            <p>Variables declared with <code>var</code> are global (but local if declared inside a function)</p>
+            <p>Variables declared with <code>var</code> are global (but local if declared inside a function).</p>
+            <p>Variables declared with <code>let</code> are local to its scope.</p>
+          </div>
+          <div class="box">
+            <h3>Object Mutation</h3>
+            <h4>Const</h4>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> a <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">2</span>, <span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">5</span>];
+a <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">2</span>, <span style="color: #0000DD; font-weight: bold">4</span>, <span style="color: #0000DD; font-weight: bold">6</span>]; <span style="color: #888888">// error</span>
+a[<span style="color: #0000DD; font-weight: bold">0</span>] <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">1</span>; <span style="color: #888888">// no error</span>
+</pre></div>
+            <p><code>const</code> prevents variables from being reassigned. But the object they're pointing to can change.</p>
+            <h4>Object.freeze</h4>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> o <span style="color: #333333">=</span> {
+    name<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&#39;Bob&#39;</span>
+}
+
+<span style="color: #007020">Object</span>.freeze(o);
+o.name <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&#39;Bobby&#39;</span>; <span style="color: #888888">// no error; ignored</span>
+o.prop <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&#39;Prop&#39;</span>; <span style="color: #888888">//no error; ignored</span>
+</pre></div>
+            <p><code>Object.freeze</code> prevents objects from being changed.</p>
+          </div>
+          <div class="box">
+            <h3>Arrow Functions</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> func <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">function</span>() {
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">9</span>;
+}
+</pre></div>
+            <p>Example of an anonymous function.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> func <span style="color: #333333">=</span> () <span style="color: #333333">=&gt;</span> {
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #0000DD; font-weight: bold">9</span>;
+}
+</pre></div>
+            <p>An anonymous function can be written using arrow function syntax.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> func <span style="color: #333333">=</span> () <span style="color: #333333">=&gt;</span> <span style="color: #0000DD; font-weight: bold">9</span>;
+</pre></div>
+            <p>If there is only a return statement, then it can be rewritten like above.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> func <span style="color: #333333">=</span> (num, mult) <span style="color: #333333">=&gt;</span> num<span style="color: #333333">*</span>mult;
+</pre></div>
+            <p>Arrow function with arguments.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> func <span style="color: #333333">=</span> num <span style="color: #333333">=&gt;</span> num;
+</pre></div>
+            <p>If there is only 1 argument, then the parentheses can be omitted.</p>
+          </div>
+          <div class="box">
+            <h3>Rest Parameter</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">function</span> howMany(...args) {
+  <span style="color: #008800; font-weight: bold">return</span> args.length;
+}
+console.log(howMany(<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">2</span>)); <span style="color: #888888">// 3</span>
+</pre></div>
+            <p>The rest parameter allows functions to take in a variable number of arguments, all of which are stored in an array.</p>
+          </div>
+          <div class="box">
+            <h3>Spread Operator</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> arr <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">6</span>, <span style="color: #0000DD; font-weight: bold">89</span>, <span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">45</span>];
+<span style="color: #008800; font-weight: bold">const</span> maximus <span style="color: #333333">=</span> <span style="color: #007020">Math</span>.max(...arr); <span style="color: #888888">// 89</span>
+</pre></div>
+            <p>The spread operator unpacks an array.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> arr <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">6</span>, <span style="color: #0000DD; font-weight: bold">89</span>, <span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">45</span>];
+<span style="color: #008800; font-weight: bold">const</span> a <span style="color: #333333">=</span> ...arr; <span style="color: #888888">// error</span>
+</pre></div>
+            <p>It only works in-place, like as an argument to a function.</p>
+          </div>
+          <div class="box">
+            <h3>Destructuring Assignment (Objects)</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> o <span style="color: #333333">=</span> {
+    name<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&#39;Bob&#39;</span>,
+    age<span style="color: #333333">:</span> <span style="color: #0000DD; font-weight: bold">9</span>
+};
+
+<span style="color: #008800; font-weight: bold">const</span> {name, age} <span style="color: #333333">=</span> o;
+</pre></div>
+            <p>Similar to Python's tuple unpacking. The variables are the properties of the object.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> o <span style="color: #333333">=</span> {
+    name<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&#39;Bob&#39;</span>,
+    age<span style="color: #333333">:</span> <span style="color: #0000DD; font-weight: bold">9</span>
+};
+
+<span style="color: #008800; font-weight: bold">const</span> {age<span style="color: #333333">:</span> userAge} <span style="color: #333333">=</span> o;
+
+console.log(userAge) <span style="color: #888888">// 9</span>
+</pre></div>
+            <p>The properties can be assigned to new variables.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> user <span style="color: #333333">=</span> {
+  johnDoe<span style="color: #333333">:</span> { 
+    age<span style="color: #333333">:</span> <span style="color: #0000DD; font-weight: bold">34</span>,
+    email<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&#39;johnDoe@freeCodeCamp.com&#39;</span>
+  }
+};
+
+<span style="color: #008800; font-weight: bold">const</span> { johnDoe<span style="color: #333333">:</span> { age, email }} <span style="color: #333333">=</span> user;
+
+<span style="color: #008800; font-weight: bold">const</span> { johnDoe<span style="color: #333333">:</span> { age<span style="color: #333333">:</span> userAge, email<span style="color: #333333">:</span> userEmail }} <span style="color: #333333">=</span> user;
+</pre></div>
+            <p>Accessing properties of nested objects.</p>
+            <p><code>johnDoe</code> is not a variable.</p>
+            <h4>In a Function Argument</h4>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> p <span style="color: #333333">=</span> ({ name, age, nationality, location }) <span style="color: #333333">=&gt;</span> {
+}
+</pre></div>
+            <p>An object passed into a function will automatically be destructured.</p>
+          </div>
+          <div class="box">
+            <h3>Destructuring Assignment (Arrays)</h3>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> [a, b] <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">2</span>, <span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">4</span>, <span style="color: #0000DD; font-weight: bold">5</span>, <span style="color: #0000DD; font-weight: bold">6</span>];
+console.log(a, b); <span style="color: #888888">// 1, 2</span>
+</pre></div>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> [a, b,, c] <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">2</span>, <span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">4</span>, <span style="color: #0000DD; font-weight: bold">5</span>, <span style="color: #0000DD; font-weight: bold">6</span>];
+console.log(a, b, c); <span style="color: #888888">// 1, 2, 4</span>
+</pre></div>
+            <p>The number of commas determines which value is grabbed.</p>
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">const</span> [a, b, ...arr] <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">2</span>, <span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">4</span>, <span style="color: #0000DD; font-weight: bold">5</span>, <span style="color: #0000DD; font-weight: bold">7</span>];
+console.log(a, b); <span style="color: #888888">// 1, 2</span>
+console.log(arr); <span style="color: #888888">// [3, 4, 5, 7]</span>
+</pre></div>
+            <p>The rest parameter can be used to get the rest of the list.</p>
           </div>
         </div> <!-- col -->
       </div> <!-- row -->
