@@ -36,10 +36,6 @@ h1 {
   justify-content: space-between;
 }
 
-.skills {
-  text-align: center;
-}
-
 @media print {
   body {
     font-size: 100%;
