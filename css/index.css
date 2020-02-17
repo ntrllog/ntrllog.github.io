@@ -11,6 +11,12 @@ img {
   width: 90px;
 }
 
+hr {
+  border: dotted lightgray;
+  border-bottom: 0;
+  width: 5%;
+}
+
 .home {
   height: 100vh;
   transform: rotate(-35deg) skew(20deg,10deg);
@@ -38,7 +44,10 @@ img {
 }
 
 .contact {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding-bottom: 50px;
+  text-align: center;
+}
+
+.contact a {
+  margin: 0 20px;
 }
