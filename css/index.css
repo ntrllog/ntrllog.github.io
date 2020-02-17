@@ -1,0 +1,44 @@
+body {
+  overflow-x: hidden;
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 125%;
+}
+
+img {
+  position: absolute;
+  top: 40px;
+  left: 50px;
+  width: 90px;
+}
+
+.home {
+  height: 100vh;
+  transform: rotate(-35deg) skew(20deg,10deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.home h1 {
+  font-family: 'Finger Paint', cursive;
+  font-size: 800%;
+}
+
+.about {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: 100px;
+}
+
+.about-right {
+  text-align: right;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
