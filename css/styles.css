@@ -2,25 +2,19 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
+/* comb, lin_alg, nonlinear */
+h2 {
+  margin-top: 30px;
+}
+
+/* projects, apps, comb, diff_alg, java_notes, js_notes, linear, nonlinear */
 .container {
   margin-top: 20px;
   text-align: justify;
 }
 
-/* nonlinear, lin_alg, comb */
-.line-height {
-  line-height: 2;
-}
-
-/* c, cpp, java, python */
-.content {
-  margin-bottom: 30px;
-  border: 2px solid black;
-  padding-left: 10px;
-}
-
 /* projects */
-.col-sm-12 {
+.project {
   border-top: 1px solid black;
   padding-top: 10px;
 }
@@ -36,7 +30,12 @@ body {
   text-align: center;
 }
 
-/* nonlinear, lin_alg, comb */
+/* comb, diff_alg, lin_alg, nonlinear */
+.line-height {
+  line-height: 2;
+}
+
+/* comb, lin_alg, nonlinear */
 .dropdown {
   position: fixed;
   float: right;
@@ -44,7 +43,7 @@ body {
   z-index: 2;
 }
 
-/* nonlinear, lin_alg, comb */
+/* comb, lin_alg, nonlinear */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -55,28 +54,28 @@ body {
   right: 0;
 }
 
-/* nonlinear, lin_alg, comb */
+/* comb, lin_alg, nonlinear */
 .dropdown-content a:hover {
   background-color: #ddd
 }
 
-/* nonlinear, lin_alg, comb */
+/* comb, lin_alg, nonlinear */
 .show {
   display: block;
 }
 
-/* nonlinear, lin_alg, comb */
+/* comb, lin_alg, nonlinear */
 .dropbtn {
   background-color: gray;
   color: white;
 }
 
-/* nonlinear, lin_alg, comb */
+/* comb, lin_alg, nonlinear */
 .dropbtn:hover, .dropbtn:focus {
   background-color: #2980B9;
 }
 
-/* nonlinear, lin_alg, cs_notes, comb */
+/* comb, java_notes, js_notes lin_alg, nonlinear */
 .box {
   padding-left: 10px;
   padding-right: 10px;
@@ -84,35 +83,30 @@ body {
   margin-bottom: 30px;
 }
 
-/* nonlinear, lin_alg, comb */
+/* comb, diff_alg, lin_alg, nonlinear */
 .math {
   text-align: center;
   margin-bottom: 10px;
 }
 
-/* nonlinear, lin_alg, comb, c, cpp, java, python */
-h2 {
-  margin-top: 30px;
-}
-
-/* nonlinear, lin_alg */
+/* lin_alg, nonlinear */
 .flex {
   display: flex;
   justify-content: space-evenly;
 }
 
-/* nonlinear, lin_alg, comb c, cpp, java, python */
+/* comb, lin_alg, nonlinear */
 .btn {
   border-color: black;
   margin-bottom: 5px;
 }
 
-/* nonlinear, lin_alg, comb, c, cpp, java, python */
+/* comb, lin_alg, nonlinear */
 .btn:focus, .btn:active {
   box-shadow: none !important;
 }
 
-/* nonlinear, comb */
+/* comb, nonlinear */
 td {
   border: 1px solid lightgray;
   text-align: center;

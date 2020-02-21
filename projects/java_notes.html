@@ -20,29 +20,27 @@
   </head>
   <body>
     <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
-          <h1>Java Notes</h1>
-          <hr>
-          <p>Shortcut to this page: <a href="java_notes.html">aln.netlify.com/java_notes</a></p>
-          <p>Notes provided by Professor Paul Cao</p>
-          <p>Note: reasons that mention "primitive" refer to memory models</p>
-          <div class="box">
-            <h3>Short Circuiting</h3>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">(</span>a <span style="color: #333333">||</span> b<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+      <h1>Java Notes</h1>
+      <hr>
+      <p>Shortcut to this page: <a href="java_notes.html">aln.netlify.com/java_notes</a></p>
+      <p>Notes provided by Professor Paul Cao</p>
+      <p>Note: reasons that mention "primitive" refer to memory models</p>
+      <div class="box">
+        <h3>Short Circuiting</h3>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">(</span>a <span style="color: #333333">||</span> b<span style="color: #333333">)</span> <span style="color: #333333">{</span>
 <span style="color: #333333">}</span>
 </pre></div>
-            <p>If <code>a</code> is true, then <code>b</code> won't be evaluated.</p>
-          </div>
-          <div class="box">
-            <h3>Member Variables</h3>
-            <p>Instance variables are member variables that are not static. Class variables are member variables that are static. (I think)</p>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> <span style="color: #333333">{</span>
+        <p>If <code>a</code> is true, then <code>b</code> won't be evaluated.</p>
+      </div>
+      <div class="box">
+        <h3>Member Variables</h3>
+        <p>Instance variables are member variables that are not static. Class variables are member variables that are static. (I think)</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> <span style="color: #333333">{</span>
     <span style="color: #333399; font-weight: bold">int</span> x<span style="color: #333333">;</span>
 <span style="color: #333333">}</span></pre></div>
-            <p>Member variables are automatically initialized to a "zero" value (e.g. 0 for ints, null for non-primitives).</p>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> <span style="color: #333333">{</span>
+        <p>Member variables are automatically initialized to a "zero" value (e.g. 0 for ints, null for non-primitives).</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> <span style="color: #333333">{</span>
     <span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">[]</span> a<span style="color: #333333">;</span>
 
     <span style="color: #008800; font-weight: bold">public</span> <span style="color: #0066BB; font-weight: bold">Test</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
@@ -51,41 +49,41 @@
     <span style="color: #333333">}</span>
 <span style="color: #333333">}</span>
 </pre></div>
-            <p>For the second error, a new array object was never created.</p>
-          </div>
-          <div class="box">
-            <h3>Ragged Arrays</h3>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">[][]</span> a <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> <span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">4</span><span style="color: #333333">][];</span>
+        <p>For the second error, a new array object was never created.</p>
+      </div>
+      <div class="box">
+        <h3>Ragged Arrays</h3>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">[][]</span> a <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> <span style="color: #333399; font-weight: bold">int</span><span style="color: #333333">[</span><span style="color: #0000DD; font-weight: bold">4</span><span style="color: #333333">][];</span>
 </pre></div>
-            <p>2d arrays where each array has a different length</p>
-          </div>
-          <div class="box">
-            <h3>For Each Loop</h3>
-            <p>The iterator is assigned the value of each item in the array. If it is an array of primitives, then the iterator is assigned a value. If it is an array of objects, then the iterator is assigned an address.</p>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">for</span> <span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> x <span style="color: #333333">:</span> a<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <p>2d arrays where each array has a different length</p>
+      </div>
+      <div class="box">
+        <h3>For Each Loop</h3>
+        <p>The iterator is assigned the value of each item in the array. If it is an array of primitives, then the iterator is assigned a value. If it is an array of objects, then the iterator is assigned an address.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">for</span> <span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> x <span style="color: #333333">:</span> a<span style="color: #333333">)</span> <span style="color: #333333">{</span>
     x <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">;</span>
 <span style="color: #333333">}</span></pre></div>
-            <p>Contents of <code>a</code> are unchanged because <code>x</code> is a primitive</p>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">for</span> <span style="color: #333333">(</span>Test t <span style="color: #333333">:</span> a<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <p>Contents of <code>a</code> are unchanged because <code>x</code> is a primitive</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">for</span> <span style="color: #333333">(</span>Test t <span style="color: #333333">:</span> a<span style="color: #333333">)</span> <span style="color: #333333">{</span>
     t<span style="color: #333333">.</span><span style="color: #0000CC">value</span> <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span><span style="color: #333333">;</span>
 <span style="color: #333333">}</span></pre></div>
-            <p>Objects in <code>a</code> are changed because <code>t</code> is pointing to the objects</p>
-          </div>
-          <div class="box">
-            <h3>Object Class</h3>
-            <p>All objects (that don't extend from a superclass) automatically extend from Java's <code>Object</code> class.</p>
-            <p>This is why all objects have an <code>equals</code> method and a <code>toString</code> method — among others.</p>
-            <p>The default implementation for the <code>equals</code> method is shallow comparison (==).</p>            
-          </div>
-          <div class="box">
-            <h3>Static</h3>
-            <p>Static variables and methods don't belong to an object; they belong to the class.</p>
-            <p>If a member variable is static, then all objects that are created share that variable. If a member variable is not static, then each object will have its own copy of the member variable.</p>
-            <p>A general rule for deciding whether a method should be static or not: if it needs to access an object's instance variable(s), then it should not be static.</p>
-          </div>
-          <div class="box">
-            <h3>References in Functions & Constructors</h3>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">test</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> x<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <p>Objects in <code>a</code> are changed because <code>t</code> is pointing to the objects</p>
+      </div>
+      <div class="box">
+        <h3>Object Class</h3>
+        <p>All objects (that don't extend from a superclass) automatically extend from Java's <code>Object</code> class.</p>
+        <p>This is why all objects have an <code>equals</code> method and a <code>toString</code> method — among others.</p>
+        <p>The default implementation for the <code>equals</code> method is shallow comparison (==).</p>            
+      </div>
+      <div class="box">
+        <h3>Static</h3>
+        <p>Static variables and methods don't belong to an object; they belong to the class.</p>
+        <p>If a member variable is static, then all objects that are created share that variable. If a member variable is not static, then each object will have its own copy of the member variable.</p>
+        <p>A general rule for deciding whether a method should be static or not: if it needs to access an object's instance variable(s), then it should not be static.</p>
+      </div>
+      <div class="box">
+        <h3>References in Functions & Constructors</h3>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">test</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> x<span style="color: #333333">)</span> <span style="color: #333333">{</span>
     x <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">10</span><span style="color: #333333">;</span>
 <span style="color: #333333">}</span>
 
@@ -95,8 +93,8 @@
     <span style="color: #888888">// x will still be 5</span>
 <span style="color: #333333">}</span>
 </pre></div>
-            <p>The <code>x</code> inside <code>test</code> is not the same as the <code>x</code> in <code>main</code> (because it is a primitive).</p>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> <span style="color: #333333">{</span>
+        <p>The <code>x</code> inside <code>test</code> is not the same as the <code>x</code> in <code>main</code> (because it is a primitive).</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> <span style="color: #333333">{</span>
     
     <span style="color: #333399; font-weight: bold">int</span> x<span style="color: #333333">;</span>
     
@@ -110,28 +108,28 @@
     <span style="color: #333333">}</span>
 <span style="color: #333333">}</span>
 </pre></div>
-            <p>Scope!</p>
-          </div>
-          <div class="box">
-            <h3>Override vs. Overload</h3>
-            <p>Override: method with same signature (name & parameters) and same return type (where the method is in the subclass)</p>
-            <ul>
-              <li><p>used to perform actions specific to the subclass</p></li>
-              <li><p>method resolution is done at runtime</p></li>
-            </ul>
-            <p>Overload: two or more methods have same name, different (number/type of) parameters</p>
-            <ul>
-              <li><p>used to perform same operation on different types of input</p></li>
-              <li><p>method resolution is done at compile time</p></li>
-            </ul>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Snake</span> <span style="color: #333333">{</span>
+        <p>Scope!</p>
+      </div>
+      <div class="box">
+        <h3>Override vs. Overload</h3>
+        <p>Override: method with same signature (name & parameters) and same return type (where the method is in the subclass)</p>
+        <ul>
+          <li><p>used to perform actions specific to the subclass</p></li>
+          <li><p>method resolution is done at runtime</p></li>
+        </ul>
+        <p>Overload: two or more methods have same name, different (number/type of) parameters</p>
+        <ul>
+          <li><p>used to perform same operation on different types of input</p></li>
+          <li><p>method resolution is done at compile time</p></li>
+        </ul>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Snake</span> <span style="color: #333333">{</span>
     <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">meth</span><span style="color: #333333">(</span>Snake s<span style="color: #333333">)</span> <span style="color: #333333">{</span>
         System<span style="color: #333333">.</span><span style="color: #0000CC">out</span><span style="color: #333333">.</span><span style="color: #0000CC">println</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;1&quot;</span><span style="color: #333333">);</span>
     <span style="color: #333333">}</span>
 <span style="color: #333333">}</span>
 </pre></div>
-            <br>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Cobra</span> <span style="color: #008800; font-weight: bold">extends</span> Snake <span style="color: #333333">{</span>
+        <br>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Cobra</span> <span style="color: #008800; font-weight: bold">extends</span> Snake <span style="color: #333333">{</span>
     <span style="color: #008800; font-weight: bold">public</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">meth</span><span style="color: #333333">(</span>Snake s<span style="color: #333333">)</span> <span style="color: #333333">{</span>
         System<span style="color: #333333">.</span><span style="color: #0000CC">out</span><span style="color: #333333">.</span><span style="color: #0000CC">println</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;2&quot;</span><span style="color: #333333">);</span>
     <span style="color: #333333">}</span>
@@ -141,8 +139,8 @@
     <span style="color: #333333">}</span>
 <span style="color: #333333">}</span>
 </pre></div>
-            <br>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">static</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">main</span><span style="color: #333333">(</span>String<span style="color: #333333">[]</span> args<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <br>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">static</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">main</span><span style="color: #333333">(</span>String<span style="color: #333333">[]</span> args<span style="color: #333333">)</span> <span style="color: #333333">{</span>
 
     Snake snake <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Snake<span style="color: #333333">();</span>
     Cobra cobra <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Cobra<span style="color: #333333">();</span>
@@ -162,19 +160,19 @@
 
 <span style="color: #333333">}</span>
 </pre></div>
-            <p>For the second set (<code>snake_ref_cobra.meth(...)</code>), at compile time, the compiler goes to the <code>Snake</code> class and checks if there is a method called <code>meth</code> that takes in a <code>Snake</code>. Since there is, at runtime, the program will execute the <code>meth</code> that takes in a <code>Snake</code>. This is what "method resolution is done at compile time" means.</p>
-            <p>The same happens for <code>cobra.meth(snake_ref_cobra)</code>. At compile time, the compiler goes to the <code>Cobra</code> class and checks if there is a method called <code>meth</code> that takes in a <code>Snake</code>.</p>
-          </div>
-          <div class="box">
-            <h3>Inheritance</h3>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">public <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Person</span> {
+        <p>For the second set (<code>snake_ref_cobra.meth(...)</code>), at compile time, the compiler goes to the <code>Snake</code> class and checks if there is a method called <code>meth</code> that takes in a <code>Snake</code>. Since there is, at runtime, the program will execute the <code>meth</code> that takes in a <code>Snake</code>. This is what "method resolution is done at compile time" means.</p>
+        <p>The same happens for <code>cobra.meth(snake_ref_cobra)</code>. At compile time, the compiler goes to the <code>Cobra</code> class and checks if there is a method called <code>meth</code> that takes in a <code>Snake</code>.</p>
+      </div>
+      <div class="box">
+        <h3>Inheritance</h3>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">public <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Person</span> {
 
     String name;
 
 }
 </pre></div>
-            <br>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Student</span> <span style="color: #008800; font-weight: bold">extends</span> Person <span style="color: #333333">{</span>
+        <br>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">public</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Student</span> <span style="color: #008800; font-weight: bold">extends</span> Person <span style="color: #333333">{</span>
 
     <span style="color: #333399; font-weight: bold">int</span> units<span style="color: #333333">;</span>
 
@@ -185,22 +183,22 @@
     <span style="color: #333333">}</span>
 <span style="color: #333333">}</span>
 </pre></div>
-            <p><code>Student</code> inherits <code>name</code> since it is public.</p>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Person p <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Student<span style="color: #333333">();</span>
+        <p><code>Student</code> inherits <code>name</code> since it is public.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Person p <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Student<span style="color: #333333">();</span>
 </pre></div>
-            <p>Will not cause an error because "<code>Student</code> (right side) <em>is a</em> <code>Person</code> (left side)"</p>
-            <p>Why do something like this? Imagine many subclasses extending from one superclass, and want to store subclass objects in an array. Could create multiple arrays for each sublcass type, but it's faster/easier to create one array of the superclass type and store all those objects into that one array.</p>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Student s <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Person<span style="color: #333333">();</span>
+        <p>Will not cause an error because "<code>Student</code> (right side) <em>is a</em> <code>Person</code> (left side)"</p>
+        <p>Why do something like this? Imagine many subclasses extending from one superclass, and want to store subclass objects in an array. Could create multiple arrays for each sublcass type, but it's faster/easier to create one array of the superclass type and store all those objects into that one array.</p>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Student s <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Person<span style="color: #333333">();</span>
 </pre></div>
-            <p>Will cause a compiler error. For example, if there wasn't a compiler error, <code>s.getUnits()</code> will cause a runtime error because a <code>Person</code> object doesn't have the <code>getUnits</code> method.</p>
-          </div>
-          <div class="box">
-            <h3>Protected</h3>
-            <p>Accessible to subclasses</p>
-          </div>
-          <div class="box">
-            <h3>This and Super</h3>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">public <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> {
+        <p>Will cause a compiler error. For example, if there wasn't a compiler error, <code>s.getUnits()</code> will cause a runtime error because a <code>Person</code> object doesn't have the <code>getUnits</code> method.</p>
+      </div>
+      <div class="box">
+        <h3>Protected</h3>
+        <p>Accessible to subclasses</p>
+      </div>
+      <div class="box">
+        <h3>This and Super</h3>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">public <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Test</span> {
 
     <span style="color: #007020">int</span> z;
 
@@ -215,11 +213,11 @@
 
 }
 </pre></div>
-            <p>Because constructors are called before variables are initialized?</p>
-          </div>
-          <div class="box">
-            <h3>Polymorphism</h3>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">public <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Snake</span> {
+        <p>Because constructors are called before variables are initialized?</p>
+      </div>
+      <div class="box">
+        <h3>Polymorphism</h3>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">public <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">Snake</span> {
     
     public boolean isHungry(<span style="color: #007020">int</span> x) {
         <span style="color: #008800; font-weight: bold">return</span> x <span style="color: #333333">&gt;=</span> <span style="color: #0000DD; font-weight: bold">4</span>;
@@ -239,38 +237,36 @@
     }
 }
 </pre></div>
-            <p>Behavior depends on object, not reference</p>
-          </div>
-          <div class="box">
-            <h3>Type Casting</h3>
-            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Snake var1 <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Cobra<span style="color: #333333">();</span>
+        <p>Behavior depends on object, not reference</p>
+      </div>
+      <div class="box">
+        <h3>Type Casting</h3>
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">Snake var1 <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Cobra<span style="color: #333333">();</span>
 <span style="color: #333333">((</span>Python<span style="color: #333333">)</span>var1<span style="color: #333333">).</span><span style="color: #0000CC">method2</span><span style="color: #333333">();</span>
 </pre></div>
-            <p>At compile time, the compiler only checks to see if there is some sort of relationship between the reference and the type cast. It doesn't matter which is the superclass and which is the subclass.</p>
-            <p>At runtime, there must be a "right is-a left" relationship when type casting, or else there will be a runtime error. <code>Cobra</code> is-a <code>Python</code> in this case.</p>
-          </div>
-          <div class="box">
-            <h3>Abstract Classes</h3>
-            <p>Don't want to create objects of that class (too generic)</p>
-            <p>Forces the children (subclasses) to override a method</p>
-          </div>
-          <div class="box">
-            <h3>Interfaces</h3>
-            <p>Java only allows extending from one superclass, so implementing an interface is kinda like extending from multiple superclasses.</p>
-            <p>Only have public abstract methods or public static final constants</p>
-            <p>The type of an object can be the type of the interface (e.g. <code>Comparable</code>). This means it can be an <code>instanceof</code> <code>Comparable</code>.</p>
-          </div>
-					<div class="box">
-					  <h3>Finding Midpoint (e.g. for binary search)</h3>
-						<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span> mid <span style="color: #333333">=</span> <span style="color: #333333">(</span>low<span style="color: #333333">+</span>high<span style="color: #333333">)/</span><span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">;</span>
+        <p>At compile time, the compiler only checks to see if there is some sort of relationship between the reference and the type cast. It doesn't matter which is the superclass and which is the subclass.</p>
+        <p>At runtime, there must be a "right is-a left" relationship when type casting, or else there will be a runtime error. <code>Cobra</code> is-a <code>Python</code> in this case.</p>
+      </div>
+      <div class="box">
+        <h3>Abstract Classes</h3>
+        <p>Don't want to create objects of that class (too generic)</p>
+        <p>Forces the children (subclasses) to override a method</p>
+      </div>
+      <div class="box">
+        <h3>Interfaces</h3>
+        <p>Java only allows extending from one superclass, so implementing an interface is kinda like extending from multiple superclasses.</p>
+        <p>Only have public abstract methods or public static final constants</p>
+        <p>The type of an object can be the type of the interface (e.g. <code>Comparable</code>). This means it can be an <code>instanceof</code> <code>Comparable</code>.</p>
+      </div>
+			<div class="box">
+				<h3>Finding Midpoint (e.g. for binary search)</h3>
+				<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span> mid <span style="color: #333333">=</span> <span style="color: #333333">(</span>low<span style="color: #333333">+</span>high<span style="color: #333333">)/</span><span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">;</span>
 </pre></div>
-            <p>Works most of the time, but leads to overflow when low and high are really large</p>
-						<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span> mid <span style="color: #333333">=</span> low <span style="color: #333333">+</span> <span style="color: #333333">((</span>high<span style="color: #333333">-</span>low<span style="color: #333333">)/</span><span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">);</span>
+        <p>Works most of the time, but leads to overflow when low and high are really large</p>
+				<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span> mid <span style="color: #333333">=</span> low <span style="color: #333333">+</span> <span style="color: #333333">((</span>high<span style="color: #333333">-</span>low<span style="color: #333333">)/</span><span style="color: #0000DD; font-weight: bold">2</span><span style="color: #333333">);</span>
 </pre></div>
-            <p>This is the better way to do it</p>
-					</div>
-        </div> <!-- col -->
-      </div> <!-- row -->
-    </div> <!-- container -->
+        <p>This is the better way to do it</p>
+			</div>
+    </div>
   </body>
 </html>
