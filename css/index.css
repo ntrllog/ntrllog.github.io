@@ -1,47 +1,53 @@
 body {
-  overflow-x: hidden;
   font-family: 'Cabin Sketch', cursive;
   font-size: 125%;
 }
 
-img {
+hr {
+  border: 5px dotted;
+  border-bottom: 0;
+  margin: 50px auto;
+  width: 5%;
+}
+
+/* front page */
+.logo {
   position: absolute;
   top: 40px;
   left: 50px;
   width: 90px;
 }
 
-.home {
+.front-page {
+  display: flex;
+  font-family: 'Finger Paint', cursive;
   height: 100vh;
-  transform: rotate(-35deg) skew(20deg,10deg);
+  justify-content: center;
+}
+
+.container-fluid {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 100px;
 }
 
-.home h1 {
-  font-family: 'Finger Paint', cursive;
-  font-size: 800%;
+.front-page p {
+  font-size: 10rem;
+  line-height: 1;
+  transform: rotate(-35deg) skew(20deg,10deg);
 }
 
-.about {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  margin-bottom: 100px;
-}
-
-.about-right {
+/* about section */
+.right-text {
   text-align: right;
 }
 
-.contact {
+/* contact section */
+.contact-section {
   padding-bottom: 50px;
   text-align: center;
 }
 
-.contact a {
+.contact-section a {
   margin: 0 20px;
 }
