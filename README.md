@@ -5,6 +5,4 @@
 Hey, it's a website!
 https://aln.netlify.com
 
-## Screenshots
-![Alt text](/pictures/home.png?raw=true)
-
+![](/pictures/home.png?raw=true)
