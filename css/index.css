@@ -35,9 +35,34 @@ hr {
   font-size: 10rem;
   line-height: 1;
   transform: rotate(-35deg) skew(20deg,10deg);
+  border: 1px solid #363636;
+  box-shadow: -3px 3px #363636,
+              -6px 6px #363636,
+              -9px 9px #363636,
+              -12px 12px #363636,
+              -15px 15px #363636,
+              -18px 18px #363636;
+}
+
+.front-page p:hover {
+  position: relative;
+  box-shadow: 0px 0px;
+  top: 18px;
 }
 
 /* about section */
+.center {
+  text-align: center;
+}
+
+.bigger {
+  font-size: 2em;
+}
+
+.big {
+  font-size: 1.5em;
+}
+
 .right-text {
   text-align: right;
 }
