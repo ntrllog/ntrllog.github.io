@@ -1,6 +1,6 @@
 body {
-  font-family: 'Cabin Sketch', cursive;
-  font-size: 125%;
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 170%;
 }
 
 hr {
@@ -56,23 +56,29 @@ hr {
 }
 
 .bigger {
-  font-size: 2em;
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 2.5rem;
 }
 
 .big {
-  font-size: 1.5em;
+  font-size: 2rem;
 }
 
-.right-text {
-  text-align: right;
+.about-section img {
+  width: 20%;
+  border-radius: 100%;
+  float: left;
+  margin-right: 40px;
 }
 
 /* contact section */
 .contact-section {
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 1.5rem;
   padding-bottom: 50px;
   text-align: center;
 }
 
 .contact-section a {
-  margin: 0 20px;
+  margin: 0 23px;
 }
