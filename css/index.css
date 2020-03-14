@@ -1,6 +1,7 @@
 body {
-  font-family: 'Nanum Pen Script', cursive;
-  font-size: 170%;
+  font-family: 'Ubuntu', cursive;
+  font-size: 125%;
+  line-height: 2;
 }
 
 hr {
@@ -57,7 +58,7 @@ hr {
 
 .bigger {
   font-family: 'Cabin Sketch', cursive;
-  font-size: 2.5rem;
+  font-size: 3rem;
 }
 
 .big {
