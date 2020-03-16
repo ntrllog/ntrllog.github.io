@@ -1,13 +1,12 @@
-body, .navbar {
+body {
   background-position: center;
   background-size: contain;
-  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("./pictures/writings/paper-2500942_960_720.jpg");
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("../pictures/writings/paper-2500942_960_720.jpg");
   overflow-x: hidden;
 }
 
 .banner {
   padding-top: 50px;
-  padding-bottom: 50px;
   padding-right: 10px;
   margin-bottom: 10px;
   font-family: 'Indie Flower', 'sans-serif';
@@ -15,13 +14,7 @@ body, .navbar {
   background-color: rgb(226, 226, 226);
 }
 
-.flex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.container {
+#page {
   margin-left: 15%;
 }
 
@@ -97,7 +90,7 @@ code {
 }
 
 @media screen and (max-width: 1024px) {
-  .container {
+  #page {
     margin-left: 0;
   }
 }
