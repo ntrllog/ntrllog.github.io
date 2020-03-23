@@ -48,7 +48,6 @@ h1 {
     display: none;
   }
   .horizontal-bar {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin: 5px 0;
   }
 }
