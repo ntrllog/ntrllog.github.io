@@ -1,5 +1,7 @@
 body {
-  font-family: 'Ubuntu', cursive;
+  background-color: #222831;
+  color: #00adb5;
+  font-family: 'Cabin Sketch', cursive;
   font-size: 125%;
   line-height: 2;
 }
@@ -7,16 +9,19 @@ body {
 hr {
   border: 5px dotted;
   border-bottom: 0;
+  color: #393e46;
   margin: 50px auto;
   width: 5%;
 }
 
 /* front page */
-.logo {
-  position: absolute;
-  top: 40px;
-  left: 50px;
-  width: 90px;
+.ln {
+  color: #00adb5;
+}
+
+.ln:hover {
+  color: #00adb5;
+  text-decoration: none;
 }
 
 .front-page {
@@ -36,13 +41,13 @@ hr {
   font-size: 10rem;
   line-height: 1;
   transform: rotate(-35deg) skew(20deg,10deg);
-  border: 1px solid #363636;
-  box-shadow: -3px 3px #363636,
-              -6px 6px #363636,
-              -9px 9px #363636,
-              -12px 12px #363636,
-              -15px 15px #363636,
-              -18px 18px #363636;
+  border: 1px solid #393e46;
+  box-shadow: -3px 3px #393e46,
+              -6px 6px #393e46,
+              -9px 9px #393e46,
+              -12px 12px #393e46,
+              -15px 15px #393e46,
+              -18px 18px #393e46;
 }
 
 .front-page p:hover {
@@ -52,12 +57,20 @@ hr {
 }
 
 /* about section */
+a {
+  color: #eeeeee;
+}
+
+a:hover {
+  color: #eeeeee;
+  text-decoration: none;
+}
+
 .center {
   text-align: center;
 }
 
 .bigger {
-  font-family: 'Cabin Sketch', cursive;
   font-size: 3rem;
 }
 
@@ -74,7 +87,6 @@ hr {
 
 /* contact section */
 .contact-section {
-  font-family: 'Cabin Sketch', cursive;
   font-size: 1.5rem;
   padding-bottom: 50px;
   text-align: center;

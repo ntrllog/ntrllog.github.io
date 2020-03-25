@@ -1,0 +1,15 @@
+body {
+  background-color: #222831;
+  color: #00adb5;
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 125%;
+  line-height: 2;
+}
+
+a {
+  color: #eeeeee;
+}
+
+a:hover {
+  color: #eeeeee;
+}
