@@ -58,3 +58,7 @@ a, a:hover {
   80% {box-shadow: 6px 6px #393e46;}
   100% {box-shadow: 3px 3px #393e46;}
 }
+
+.fab {
+  margin-right: 10px;
+}
