@@ -78,9 +78,9 @@ a:hover {
 }
 
 .about-section img {
-  width: 20%;
-  border-radius: 100%;
+  width: 150px;
   float: left;
+  border-radius: 100%;
   margin-right: 40px;
 }
 
