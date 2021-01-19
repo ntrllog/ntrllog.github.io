@@ -71,6 +71,7 @@
         <div class="col-sm-3">
           <h6>Math</h6>
           <ul>
+            <li><a href="#upper_bound_30">An Upper Bound for Project Euler 30</a></li>
             <li><a href="#diophantine_music_player">Diophantine Equations in a Music Player</a></li>
             <li><a href="#rotation_offset">Rotation Offset</a></li>
             <li><a href="#the_clock_problem">The Clock Problem</a></li>
@@ -79,7 +80,6 @@
             <li><a href="#fair_rations">Fair Rations</a></li>
             <li><a href="#manasa_and_stones">Manasa and Stones</a></li>
             <li><a href="#flatland_space_stations">Flatland Space Stations</a></li>
-            <li><a href="#math_in_cs">Math in CS</a></li>
             <li><a href="#mnemonic_devices">Mnemonic Devices</a></li>
             <li><a href="#writing_math_notes">Writing Math Notes</a></li>
             <li><a href="#emptying_the_cup">Emptying the Cup</a></li>
@@ -135,6 +135,18 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="upper_bound_30">.</p>
+          <div class="post">
+            <h4 class="title">An Upper Bound for Project Euler 30</h4>
+            <h6 class="date">January 18, 2021</h6>
+            <a href="https://projecteuler.net/problem=30" target="_blank">Project Euler Link</a>
+            <p>"Find the sum of all the numbers that can be written as the sum of fifth powers of their digits."</p>
+            <p>For example, a number that can be written as the sum of fifth powers of their digits is 4151 = 4<sup>5</sup> + 1<sup>5</sup> + 5<sup>5</sup> + 1<sup>5</sup>.</p>
+            <p>There is a point where the number becomes too big for the sum of its digits to match that number. 9 to the fifth power is a fairly big number, but adding a bunch of those would never result in something like 99999999999999999.</p>
+            <p>For 999,999 the sum is 354,294 = 9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>.</p>
+            <p>For 9,999,999 the sum is 413,343 = 9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>.</p>
+            <p>A 7-digit number produces a 6-digit sum, so the sum of its digits can never be equal to the number. Therefore, the upper bound has to be a 6-digit number.</p>
+          </div>
           <p id="diophantine_music_player">.</p>
           <div class="post">
             <h4 class="title">Diophantine Equations in a Music Player</h4>
@@ -382,7 +394,6 @@
           <div class="post">
             <h4 class="title">Closest Point</h4>
             <h6 class="date">May 12, 2019</h6>
-            <a href="#math_in_cs">#MathInCS</a>
             <p>So you have a set of equally-spaced points. The task is to find the 2 closest points to any random point that's given to you. For notation, let h be the space between 2 points and let z be the random point.</p>
             <p>For example, you could have a set of 5 points with a difference of h = 2 between each point: {2, 4, 6, 8, 10}. The closest points to z = 7 would be 6 and 8.</p>
             <p>For another example, you could have a set of 6 points with a difference of h = 3 between each point: {0, 3, 6, 9, 12, 15}. The closest points to z = 11 would be 9 and 12.</p>
@@ -412,8 +423,6 @@
           <div class="post">
             <h4 class="title">Fair Rations</h4>
             <h6 class="date">April 14, 2019 (last updated on April 15, 2019)</h6>
-            <a href="#math_in_cs">#MathInCS</a>
-            <br>
             <a href="https://www.hackerrank.com/challenges/fair-rations/problem" target="_blank">HackerRank link</a>
             <p>So there is a line of people who are getting bread. Some of them may or may not already have bread. When you give a loaf of bread to Person A, you also have to give a loaf either to the person directly in front of or directly behind Person A. The task is to find the lowest number of loaves you have to give out so that everyone in line has an even amount of loaves. (Or determine if it's not possible.)</p>
             <p>For example, we could have 2-5-7, which means that the first person has 2 loaves, the second person has 5 loaves, and the third person has 7 loaves. We could give out 1 loaf of bread to the second person and 1 loaf of bread to the person behind, which is the third person. Then it becomes 2-6-8. Everyone has an even number of loaves, and we had to distribute 2 loaves to get there.</p>
@@ -436,8 +445,6 @@
           <div class="post">
             <h4 class="title">Manasa and Stones</h4>
             <h6 class="date">April 14, 2019</h6>
-            <a href="#math_in_cs">#MathInCS</a>
-            <br>
             <a href="https://www.hackerrank.com/challenges/manasa-and-stones/problem" target="_blank">HackerRank link</a>
             <p>So there are a number of stones on a path that are numbered starting from 0. Each consecutive stone differs by one of two values. The task is to find out all the numbers the last stone could have.</p>
             <p>For example, we could have: 0 -> 2 -> 11 -> 13. The difference between each consecutive stone is either 2 or 9. Assuming there are a total of 4 stones, all the possible numbers the last stone could have are:  13, 6, 27, 20.</p>
@@ -470,8 +477,6 @@
           <div class="post">
             <h4 class="title">Flatland Space Stations</h4>
             <h6 class="date">April 13, 2019</h6>
-            <a href="#math_in_cs">#MathInCS</a>
-            <br>
             <a href="https://www.hackerrank.com/challenges/flatland-space-stations/problem" target="_blank">HackerRank link</a>
             <p>So there are some cities and some space stations on a route. For simplicity, they can be thought of as being lined up in a straight line, so that when you walk on that line, you will walk through a city or a space station. And every city and space station are 1 km apart from each other. The task is to find the longest distance between a city to the <em>nearest</em> space station.</p>
             <img class="img-fluid" src="pictures/writings/flatland_space_station/problem.jpg">
@@ -486,24 +491,6 @@
               <p>There are edge cases, but this is the main idea.</p>
             </div>
             <a class="btn toggle-text" data-toggle="collapse" href="#collapseFlatlandSpaceStations"><span>Read more</span><span class="hidden">Read less</span></a>
-          </div>
-          <p id="math_in_cs">.</p>
-          <div class="post">
-            <h4 class="title">Math in CS</h4>
-            <h6 class="date">April 13, 2019</h6>
-            <p>For some reason, there's this perceived notion that computer science and math are closely related. Some believe that you need to be good at math to do well in computer science. Or that doing well in computer science means that you're good at math. This isn't true. Ask a first-year computer science student how much math they use and how complicated the math is. Or learn programming and see for yourself. :)</p>
-            <p>I would like to present a different argument though: approaching computer science from a math perspective makes you a better problem solver. (So being good at math makes you better at solving some computer science problems.) And I don't mean simply finding a solution to a problem. I mean finding an optimal solution — or, at the very least, a better one than brute force — to a problem.</p>
-            <p>Here are some problems from HackerRank where I used math (or mathematical thinking/reasoning) to come up with a better solution than one that uses brute force.</p>
-            <ul>
-              <li><a href="#flatland_space_stations">Flatland Space Stations</a></li>
-              <li><a href="#manasa_and_stones">Manasa and Stones</a></li>
-              <li><a href="#fair_rations">Fair Rations</a></li>
-            </ul>
-            <p>These problems aren't necessarily difficult, but I think they present great opportunities to:</p>
-            <ul>
-              <li><p>use math rigorously to justify and explain why certain methods work</p></li>
-              <li><p>explore math (that you've learned) and apply it in ways not used in the classroom</p></li>
-            </ul>
           </div>
           <p id="mnemonic_devices">.</p>
           <div class="post">
