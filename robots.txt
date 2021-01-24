@@ -1,3 +1,0 @@
-User-agent: *
-Disallow: /comics/
-Disallow: /pictures/comics/

@@ -2,40 +2,41 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-/* comb, lin_alg, nonlinear */
 h2 {
   margin-top: 30px;
 }
 
-/* projects, apps, comb, diff_alg, java_notes, js_notes, linear, nonlinear */
+td {
+  border: 1px solid lightgray;
+  text-align: center;
+  padding: 10px;
+}
+
+.box {
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid black;
+  margin-bottom: 30px;
+}
+
+.btn {
+  border-color: black;
+  margin-bottom: 5px;
+}
+
+.btn:focus, .btn:active {
+  box-shadow: none !important;
+}
+
 .container {
   margin-top: 20px;
   text-align: justify;
 }
 
-/* projects */
-.project {
-  border-top: 1px solid black;
-  padding-top: 10px;
+.dark-right-border {
+  border-right: 1px solid black;
 }
 
-/* apps */
-.carousel {
-  background-color: black;
-  margin-bottom: 10px;
-}
-
-/* apps */
-.carousel-item {
-  text-align: center;
-}
-
-/* comb, diff_alg, lin_alg, nonlinear */
-.line-height {
-  line-height: 2;
-}
-
-/* comb, lin_alg, nonlinear */
 .dropdown {
   position: fixed;
   float: right;
@@ -43,7 +44,6 @@ h2 {
   z-index: 2;
 }
 
-/* comb, lin_alg, nonlinear */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -54,66 +54,38 @@ h2 {
   right: 0;
 }
 
-/* comb, lin_alg, nonlinear */
 .dropdown-content a:hover {
   background-color: #ddd
 }
 
-/* comb, lin_alg, nonlinear */
-.show {
-  display: block;
-}
-
-/* comb, lin_alg, nonlinear */
 .dropbtn {
   background-color: gray;
   color: white;
 }
 
-/* comb, lin_alg, nonlinear */
 .dropbtn:hover, .dropbtn:focus {
   background-color: #2980B9;
 }
 
-/* comb, java_notes, js_notes lin_alg, nonlinear */
-.box {
-  padding-left: 10px;
-  padding-right: 10px;
-  border: 1px solid black;
-  margin-bottom: 30px;
-}
-
-/* comb, diff_alg, lin_alg, nonlinear */
-.math {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* lin_alg, nonlinear */
 .flex {
   display: flex;
   justify-content: space-evenly;
 }
 
-/* comb, lin_alg, nonlinear */
-.btn {
-  border-color: black;
-  margin-bottom: 5px;
+.line-height {
+  line-height: 2;
 }
 
-/* comb, lin_alg, nonlinear */
-.btn:focus, .btn:active {
-  box-shadow: none !important;
-}
-
-/* comb, nonlinear */
-td {
-  border: 1px solid lightgray;
+.math {
   text-align: center;
-  padding: 10px;
+  margin-bottom: 10px;
 }
 
-/* nonlinear */
-.dark-right-border {
-  border-right: 1px solid black;
+.project {
+  border-top: 1px solid black;
+  padding-top: 10px;
+}
+
+.show {
+  display: block;
 }
