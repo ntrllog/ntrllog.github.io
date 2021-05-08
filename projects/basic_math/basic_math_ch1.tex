@@ -1,0 +1,2242 @@
+\documentclass[12pt]{article}
+\usepackage{amsthm, amsmath}
+
+\renewcommand{\baselinestretch}{2}
+
+\title{Chapter 1}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[theorem]
+
+\section{Numbers}
+\subsection{The Integers}
+\textbf{N1}. $0+a=a+0=a$ \\
+\textbf{N2}. $a+-(a)=0$ and $-a+a=0$
+\subsection{Rules for Addition}
+\textbf{Commutativity}: If $a$, $b$ are integers, then
+\begin{center}
+$a+b=b+a$.
+\end{center}
+\textbf{Associativity}: If $a$, $b$, $c$ are integers, then
+\begin{center}
+$(a+b)+c=a+(b+c)$.
+\end{center}
+\textbf{N3}. If $a+b=0$, then $b=-a$ and $a=-b$. \\
+\textbf{N4}. $a=-(-a)$ \\
+\textbf{N5}. $-(a+b)=-a-b$
+\begin{proof}
+If they are equal, then subtracting them should result in 0, i.e.,
+\begin{center}
+$-a-b-(-(a+b))=0$.
+\end{center}
+Subtracting them, we get
+\begin{align*}
+-a-b-(-(a+b))&=-a-b+(a+b) \\
+&=-a-b+a+b &\text{(associativity)} \\
+&=-a+a-b+b &\text{(commutativity)} \\
+&=0.
+\end{align*}
+\end{proof}
+\noindent \textbf{Rule}: If $a$, $b$ are positive integers, then $a+b$ is also a positive integer. \\
+\textbf{Rule}: If $a$, $b$ are negative integers, then $a+b$ is also a negative integer.
+\begin{proof}
+Let $a=-n$, $b=-m$ be negative integers, where $m$, $n$ are positive integers.
+\begin{center}
+$a+b=-n+-m=-(n+m)$
+\end{center}
+Since $n+m$ is positive (because $m$, $n$ are positive), $-(n+m)$ is negative.
+\end{proof}
+\subsection*{Exercises}
+Justify each step, using commutativity and associativity in proving the following identities. \\
+\\
+\noindent 1. $(a+b)+(c+d)=(a+d)+(b+c)$
+\begin{proof}
+\begin{align*}
+(a+b)+(c+d)&=a+b+c+d &\text{(associativity)} \\
+&=a+d+b+c &\text{(commutativity)} \\
+&=(a+d)+(b+c) &\text{(associativity)}
+\end{align*}
+\end{proof}
+\noindent 2. $(a+b)+(c+d)=(a+c)+(b+d)$
+\begin{proof}
+\begin{align*}
+(a+b)+(c+d)&=a+b+c+d &\text{(associativity)} \\
+&=a+c+b+d &\text{(commutativity)} \\
+&=(a+c)+(b+d) &\text{(associativity)}
+\end{align*}
+\end{proof}
+\noindent 3. $(a-b)+(c-d)=(a+c)+(-b-d)$
+\begin{proof}
+\begin{align*}
+(a-b)+(c-d)&=a-b+c-d &\text{(associativity)} \\
+&=a+c-b-d &\text{(commutativity)} \\
+&=(a+c)+(-b-d) &\text{(associativity)}
+\end{align*}
+\end{proof}
+\noindent 4. $(a-b)+(c-d)=(a+c)-(b+d)$
+\begin{proof}
+\begin{align*}
+(a-b)+(c-d)&=a-b+c-d &\text{(associativity)} \\
+&=a+c-b-d &\text{(commutativity)} \\
+&=a+c-(b+d) &\text{(N5)} \\
+&=(a+c)-(b+d) &\text{(associativity)}
+\end{align*}
+\end{proof}
+\noindent 5. $(a-b)+(c-d)=(a-d)+(c-b)$
+\begin{proof}
+\begin{align*}
+(a-b)+(c-d)&=a-b+c-d &\text{(associativity)} \\
+&=a-d+c-b &\text{(commutativity)} \\
+&=(a-d)+(c-b) &\text{(associativity)}
+\end{align*}
+\end{proof}
+\noindent 6. $(a-b)+(c-d)=-(b+d)+(a+c)$
+\begin{proof}
+\begin{align*}
+(a-b)+(c-d)&=a-b+c-d &\text{(associativity)} \\
+&=-b-d+a+c &\text{(commutativity)} \\
+&=(-b-d)+(a+c) &\text{(associativity)} \\
+&=-(b+d)+(a+c) &\text{(N5)}
+\end{align*}
+\end{proof}
+\noindent 7. $(a-b)+(c-d)=-(b+d)-(-a-c)$
+\begin{proof}
+\begin{align*}
+(a-b)+(c-d)&=a-b+c-d &\text{(associativity)} \\
+&=-b-d+a+c &\text{(commutativity)} \\
+&=-(b+d)+a+c &\text{(N5)} \\
+&=-(b+d)+(-(-a)+c) &\text{(N4)} \\
+&=-(b+d)-(-a-c) &\text{(N5)}
+\end{align*}
+\end{proof}
+\noindent 8. $((x+y)+z)+w=(x+z)+(y+w)$
+\begin{proof}
+\begin{align*}
+((x+y)+z)+w&=x+y+z+w &\text{(associativity)} \\
+&=x+z+y+w &\text{(commutativity)} \\
+&=(x+z)+(y+w) &\text{(associativity)}
+\end{align*}
+\end{proof}
+\noindent 9. $(x-y)-(z-w)=(x+w)-y-z$
+\begin{proof}
+\begin{align*}
+(x-y)-(z-w)&=(x-y)+(-z+w) &\text{(N5)} \\
+&=x-y-z+w &\text{(associativity)} \\
+&=x+w-y-z &\text{(commutativity)} \\
+&=(x+w)-y-z &\text{(associativity)}
+\end{align*}
+\end{proof}
+\noindent 10. $(x-y)-(z-w)=(x-z)+(w-y)$
+\begin{proof}
+\begin{align*}
+(x-y)-(z-w)&=(x-y)+(-z+w) &\text{(N5)} \\
+&=x-y-z+w &\text{(associativity)} \\
+&=x-z+w-y &\text{(commutativity)} \\
+&=(x-z)+(w-y) &\text{(associativity)}
+\end{align*}
+\end{proof}
+\noindent 11. Show that $-(a+b+c)=-a+(-b)+(-c)$.
+\begin{proof}
+If they are equal, then subtracting them should result in 0, \\
+i.e., $-a+(-b)+(-c)-(-(a+b+c))=0$. \\
+Subtracting them, we get
+\begin{align*}
+-a+(-b)+(-c)-(-(a+b+c))&=-a+(-b)+(-c)+(a+b+c) \\
+&=-a-b-c+a+b+c &\text{(associativity)} \\
+&=-a+a-b+b-c+c &\text{(commutativity)} \\
+&=0.
+\end{align*}
+\end{proof}
+\noindent 12. Show that $-(a-b-c)=-a+b+c$.
+\begin{proof}
+If they are equal, then subtracting them should result in 0, \\
+i.e., $-a+b+c-(-(a-b-c))=0$. \\
+Subtracting them, we get
+\begin{align*}
+-a+b+c-(-(a-b-c))&=-a+b+c+(a-b-c) \\
+&=-a+b+c+a-b-c &\text{(associativity)} \\
+&=-a+a+b-b+c-c &\text{(commutativity)} \\
+&=0.
+\end{align*}
+\end{proof}
+\noindent 13. Show that $-(a-b)=b-a$.
+\begin{proof}
+If they are equal, then subtracting them should result in 0, \\
+i.e., $b-a-(-(a-b))=0$. \\
+Subtracting them, we get
+\begin{align*}
+b-a-(-(a-b))&=b-a+(a-b) \\
+&=b-a+a-b &\text{(associativity)} \\
+&=b-b-a+a &\text{(commutativity)} \\
+&=0.
+\end{align*}
+\end{proof}
+\noindent Solve for $x$ in the following equations. \\
+\\
+\noindent 14. $-2+x=4$
+\begin{align*}
+x&=4+2 \\
+x&=6
+\end{align*}
+15. $2-x=5$
+\begin{align*}
+2&=5+x \\
+2-5&=x \\
+-3&=x
+\end{align*}
+16. $x-3=7$
+\begin{align*}
+x&=7+3 \\
+x&=10
+\end{align*}
+17. $-x+4=-1$
+\begin{align*}
+4&=-1+x \\
+1+4&=x \\
+5&=x
+\end{align*}
+18. $4-x=8$
+\begin{align*}
+4&=8+x \\
+-8+4&=x \\
+-4&=x
+\end{align*}
+19. $-5-x=-2$
+\begin{align*}
+-5&=-2+x \\
+-5+2&=x \\
+-3&=x
+\end{align*}
+20. $-7+x=-10$
+\begin{align*}
+x&=-10+7 \\
+x&=-3
+\end{align*}
+21. $-3+x=4$
+\begin{align*}
+x&=4+3 \\
+x&=7
+\end{align*}
+22. Prove the cancellation law for addition: If $a+b=a+c$, then $b=c$.
+\begin{proof}
+Let $a+b=a+c$. Subtracting $a$ from both sides, we get $b=c$.
+\end{proof}
+\noindent 23. Prove: If $a+b=a$, then $b=0$.
+\begin{proof}
+Let $a+b=a$. Subtracting $a$ from both sides, we get $b=0$.
+\end{proof}
+\subsection{Rules for Multiplication}
+\textbf{Commutativity}: $ab=ba$ \\
+\textbf{Associativity}: $(ab)c=a(bc)$ \\
+\textbf{N6}. $1a=a$ and $0a=0$ \\
+\textbf{Distributivity}:
+\begin{center}
+$a(b+c)=ab+ac$ \\
+$(b+c)a=ba+ca$
+\end{center}
+\textbf{N7}. $(-1)a=-a$
+\begin{proof}
+If they are equal, then subtracting them should result in 0, i.e., $(-1)a-(-a)=0$.
+Subtracting them, we get
+\begin{align*}
+(-1)a-(-a)&=(-1)a+a \\
+&=(-1)a+1a \\
+&=(-1+1)a &\text{(distributivity)} \\
+&=(0)a \\
+&=0.
+\end{align*}
+\end{proof}
+\noindent \textbf{N8}. $-(ab)=(-a)b$
+\begin{proof}
+If they are equal, then subtracting them should result in 0, i.e., $(-a)b-(-(ab))=0$. Subtracting them, we get
+\begin{align*}
+(-a)b-(-(ab))&=(-a)b+(ab) \\
+&=(-a)b+ab &\text{(associativity)} \\
+&=(-a+a)b &\text{(distributivity)} \\
+&=(0)b \\
+&=0.
+\end{align*}
+\end{proof}
+\noindent \textbf{N9}. $-(ab)=a(-b)$ \\
+\textbf{N10}. $(-a)(-b)=ab$ \\
+\textbf{N11}. $a^{m+n}=a^m+a^n$ \\
+\textbf{N12}. $(a^m)^n=a^{mn}$ \\
+\textbf{Formula}: $(a+b)^2=a^2+2ab+b^2$
+\begin{proof}
+\begin{align*}
+(a+b)^2&=(a+b)(a+b) \\
+&=(a+b)a+(a+b)b \\
+&=a^2+ab+ab+b^2 \\
+&=a^2+2ab+b^2
+\end{align*}
+\end{proof}
+\noindent \textbf{Formula}: $(a-b)^2=a^2-2ab+b^2$
+\begin{proof}
+\begin{align*}
+(a-b)^2&=(a-b)(a-b) \\
+&=(a-b)a+(a-b)(-b) \\
+&=a^2-ab+(-ab+b^2) \\
+&=a^2-ab-ab+b^2 \\
+&=a^2-2ab+b^2
+\end{align*}
+\end{proof}
+\noindent \textbf{Formula}: $(a+b)(a-b)=a^2-b^2$
+\begin{proof}
+\begin{align*}
+(a+b)(a-b)&=(a+b)a+(a+b)(-b) \\
+&=a^2+ab+(-ab-b^2) \\
+&=a^2+ab-ab-b^2 \\
+&=a^2-b^2
+\end{align*}
+\end{proof}
+\subsection*{Exercises}
+1. Express each of the following expressions in the form $2^m3^na^rb^s$, where $m$, $n$, $r$, $s$ are positive integers. \\
+\\
+\noindent a) $8a^2b^3(27a^4)(2^5ab)$
+\begin{align*}
+&=2^3a^2b^3(3^3a^4)(2^5ab) \\
+&=2^32^53^3a^2a^4ab^3b \\
+&=2^83^3a^7b^4
+\end{align*}
+b) $16b^3a^2(6ab^4)(ab)^3$
+\begin{align*}
+&=2^4b^3a^2(2\cdot3ab^4)(a^3b^3) \\
+&=2^42\cdot3a^2aa^3b^3b^4b^3 \\
+&=2^53a^6b^{10} \\
+\end{align*}
+c) $3^2(2ab)^3(16a^2b^5)(24b^2a)$
+\begin{align*}
+&=3^2(2^3a^3b^3)(2^4a^2b^5)(2^33b^2a) \\
+&=2^32^42^33^23a^3a^2ab^3b^5b^2 \\
+&=2^{10}3^3a^6b^{10}
+\end{align*}
+d) $24a^3(2ab^2)^3(3ab)^2$
+\begin{align*}
+&=2^33a^3(2^3a^3b^6)(3^2a^2b^2) \\
+&=2^32^33\cdot3^2a^3a^3a^2b^6b^2 \\
+&=2^63^3a^8b^8
+\end{align*}
+e) $(3ab)^2(27a^3b)(16ab^5)$
+\begin{align*}
+&=3^2a^2b^2(3^3a^3b)(2^4ab^5) \\
+&=2^43^23^3a^2a^3ab^2bb^5 \\
+&=2^43^5a^6b^8
+\end{align*}
+f) $32a^4b^5a^3b^2(6ab^3)^4$
+\begin{align*}
+&=2^5a^4b^5a^3b^2(2\cdot3ab^3)^4 \\
+&=2^5a^4b^5a^3b^2(2^43^4a^4b^{12}) \\
+&=2^52^43^4a^4a^3a^4b^5b^2b^{12} \\
+&=2^93^4a^{11}b^{19}
+\end{align*}
+2. Prove:
+\begin{center}
+$(a+b)^3=a^3+3a^2b+3ab^2+b^3$, \\
+$(a-b)^3=a^3-3a^2b+3ab^2-b^3$.
+\end{center}
+\begin{proof}
+\begin{align*}
+(a+b)^3&=(a+b)^2(a+b) \\
+&=(a^2+2ab+b^2)(a+b) \\
+&=(a^2+2ab+b^2)a+(a^2+2ab+b^2)b \\
+&=a^3+2a^2b+ab^2+a^2b+2ab^2+b^3 \\
+&=a^3+3a^2b+3ab^2+b^3 \\
+\\
+(a-b)^3&=(a-b)^2(a-b) \\
+&=(a^2-2ab+b^2)(a-b) \\
+&=(a^2-2ab+b^2)a+(a^2-2ab+b^2)(-b) \\
+&=a^3-2a^2b+ab^2+(-a^2b+2ab^2-b^3) \\
+&=a^3-2a^2b+ab^2-a^2b+2ab^2-b^3 \\
+&=a^3-3a^2b+3ab^2-b^3
+\end{align*}
+\end{proof}
+3. Obtain expansions for $(a+b)^4$ and $(a-b)^4$ similar to the expansions for $(a+b)^3$ and $(a-b)^3$ of the preceding exercises.
+\begin{align*}
+(a+b)^4&=(a+b)^3(a+b) \\
+&=(a^3+3a^2b+3ab^2+b^3)(a+b) \\
+&=(a^3+3a^2b+3ab^2+b^3)a+(a^3+3a^2b+3ab^2+b^3)b \\
+&=a^4+3a^3b+3a^2b^2+ab^3+a^3b+3a^2b^2+3ab^3+b^4 \\
+&=a^4+4a^3b+6a^2b^2+4ab^3+b^4 \\
+\\
+(a-b)^4&=(a-b)^3(a-b) \\
+&=(a^3-3a^2b+3ab^2-b^3)(a-b) \\
+&=(a^3-3a^2b+3ab^2-b^3)a+(a^3-3a^2b+3ab^2-b^3)(-b) \\
+&=a^4-3a^3b+3a^2b^2-ab^3+(-a^3b+3a^2b^2-3ab^3+b^4) \\
+&=a^4-3a^3b+3a^2b^2-ab^3-a^3b+3a^2b^2-3ab^3+b^4 \\
+&=a^4-4a^3b+6a^2b^2-4ab^3+b^4
+\end{align*}
+Expand the following expressions as sums of powers of $x$ multiplied by integers. These are in fact called polynomials. \\
+\\
+4. $(2-4x)^2$
+\begin{align*}
+&=(2-4x)(2-4x) \\
+&=(2-4x)2+(2-4x)(-4x) \\
+&=(4-8x)+(-8x+16x^2) \\
+&=4-8x-8x+16x^2 \\
+&=4-16x+16x^2
+\end{align*}
+5. $(1-2x)^2$
+\begin{align*}
+&=(1-2x)(1-2x) \\
+&=(1-2x)1+(1-2x)(-2x) \\
+&=(1-2x)+(-2x+4x^2) \\
+&=1-2x-2x+4x^2 \\
+&=1-4x+4x^2
+\end{align*}
+6. $(2x+5)^2$
+\begin{align*}
+&=(2x+5)(2x+5) \\
+&=(2x+5)2x+(2x+5)5 \\
+&=4x^2+10x+10x+25 \\
+&=4x^2+20x+25
+\end{align*}
+7. $(x-1)^2$
+\begin{align*}
+&=(x-1)(x-1) \\
+&=(x-1)x+(x-1)(-1) \\
+&=(x^2-x)+(-x+1) \\
+&=x^2-x-x+1 \\
+&=x^2-2x+1
+\end{align*}
+8. $(x+1)(x-1)$
+\begin{align*}
+&=(x+1)x+(x+1)(-1) \\
+&=(x^2+x)+(-x-1) \\
+&=x^2+x-x-1 \\
+&=x^2-1
+\end{align*}
+9. $(2x+1)(x+5)$
+\begin{align*}
+&=(2x+1)x+(2x+1)5 \\
+&=2x^2+x+10x+5 \\
+&=2x^2+11x+5
+\end{align*}
+10. $(x^2+1)(x^2-1)$
+\begin{align*}
+&=(x^2+1)x^2+(x^2+1)(-1) \\
+&=(x^4+x^2)+(-x^2-1) \\
+&=x^4+x^2-x^2-1 \\
+&=x^4-1
+\end{align*}
+11. $(1+x^3)(1-x^3)$
+\begin{align*}
+&=(1+x^3)1+(1+x^3)(-x^3) \\
+&=(1+x^3)+(-x^3-x^6) \\
+&=1+x^3-x^3-x^6 \\
+&=1-x^6
+\end{align*}
+12. $(x^2+1)^2$
+\begin{align*}
+&=(x^2+1)(x^2+1) \\
+&=(x^2+1)x^2+(x^2+1)1 \\
+&=x^4+x^2+x^2+1 \\
+&=x^4+2x^2+1
+\end{align*}
+13. $(x^2-1)^2$
+\begin{align*}
+&=(x^2-1)(x^2-1) \\
+&=(x^2-1)x^2+(x^2-1)(-1) \\
+&=(x^4-x^2)+(-x^2+1) \\
+&=x^4-x^2-x^2+1 \\
+&=x^4-2x^2+1
+\end{align*}
+14. $(x^2+2)^2$
+\begin{align*}
+&=(x^2+2)(x^2+2) \\
+&=(x^2+2)x^2+(x^2+2)2 \\
+&=x^4+2x^2+2x^2+4 \\
+&=x^4+4x^2+4
+\end{align*}
+15. $(x^2-2)^2$
+\begin{align*}
+&=(x^2-2)(x^2-2) \\
+&=(x^2-2)x^2+(x^2-2)(-2) \\
+&=(x^4-2x^2)+(-2x^2+4) \\
+&=x^4-2x^2-2x^2+4 \\
+&=x^4-4x^2+4
+\end{align*}
+16. $(x^3-4)^2$
+\begin{align*}
+&=(x^3-4)(x^3-4) \\
+&=(x^3-4)x^3+(x^3-4)(-4) \\
+&=(x^6-4x^3)+(-4x^3+16) \\
+&=x^6-4x^3-4x^3+16 \\
+&=x^6-8x^3+16
+\end{align*}
+17. $(x^3-4)(x^3+4)$
+\begin{align*}
+&=(x^3-4)x^3+(x^3-4)4 \\
+&=x^6-4x^3+4x^3-16 \\
+&=x^6-16
+\end{align*}
+18. $(2x^2+1)(2x^2-1)$
+\begin{align*}
+&=(2x^2+1)2x^2+(2x^2+1)(-1) \\
+&=(4x^4+2x^2)+(-2x^2-1) \\
+&=4x^4+2x^2-2x^2-1 \\
+&=4x^4-1
+\end{align*}
+19. $(-2+3x)(-2-3x)$
+\begin{align*}
+&=(-2+3x)(-2)+(-2+3x)(-3x) \\
+&=(4-6x)+(6x-9x^2) \\
+&=4-6x+6x-9x^2 \\
+&=4-9x^2
+\end{align*}
+20. $(x+1)(2x+5)(x-2)$
+\begin{align*}
+&=((x+1)2x+(x+1)5)(x-2) \\
+&=(2x^2+2x+5x+5)(x-2) \\
+&=(2x^2+7x+5)(x-2) \\
+&=(2x^2+7x+5)x+(2x^2+7x+5)(-2) \\
+&=(2x^3+7x^2+5x)+(-4x^2-14x-10) \\
+&=2x^3+7x^2+5x-4x^2-14x-10 \\
+&=2x^3+3x^2-9x-10
+\end{align*}
+21. $(2x+1)(1-x)(3x+2)$
+\begin{align*}
+&=((2x+1)1+(2x+1)(-x))(3x+2) \\
+&=((2x+1)+(-2x^2-x))(3x+2) \\
+&=(2x+1-2x^2-x)(3x+2) \\
+&=(x+1-2x^2)(3x+2) \\
+&=(x+1-2x^2)3x+(x+1-2x^2)2 \\
+&=3x^2+3x-6x^3+2x+2-4x^2 \\
+&=-6x^3-x^2+5x+2
+\end{align*}
+22. $(3x-1)(2x+1)(x+4)$
+\begin{align*}
+&=((3x-1)2x+(3x-1)1)(x+4) \\
+&=(6x^2-2x+3x-1)(x+4) \\
+&=(6x^2+x-1)(x+4) \\
+&=(6x^2+x-1)x+(6x^2+x-1)4 \\
+&=6x^3+x^2-x+24x^2+4x-4 \\
+&=6x^3+25x^2+3x-4
+\end{align*}
+23. $(-1-x)(-2+x)(1-2x)$
+\begin{align*}
+&=((-1-x)(-2)+(-1-x)x)(1-2x) \\
+&=((2+2x)+(-x-x^2))(1-2x) \\
+&=(2+2x-x-x^2)(1-2x) \\
+&=(2+x-x^2)(1-2x) \\
+&=(2+x-x^2)1+(2+x-x^2)(-2x) \\
+&=(2+x-x^2)+(-4x-2x^2+2x^3) \\
+&=2+x-x^2-4x-2x^2+2x^3 \\
+&=2x^3-3x^2-3x+2
+\end{align*}
+24. $(-4x+1)(2-x)(3+x)$
+\begin{align*}
+&=((-4x+1)2+(-4x+1)(-x))(3+x) \\
+&=(-8x+2+4x^2-x)(3+x) \\
+&=(-9x+2+4x^2)(3+x) \\
+&=(-9x+2+4x^2)3+(-9x+2+4x^2)x \\
+&=(-27x+6+12x^2)+(-9x^2+2x+4x^3) \\
+&=-27x+6+12x^2-9x^2+2x+4x^3 \\
+&=4x^3+3x^2-25x+6
+\end{align*}
+25. $(1-x)(1+x)(2-x)$
+\begin{align*}
+&=((1-x)1+(1-x)x)(2-x) \\
+&=(1-x+x-x^2)(2-x) \\
+&=(1-x^2)(2-x) \\
+&=(1-x^2)2+(1-x^2)(-x) \\
+&=(2-2x^2)+(-x+x^3) \\
+&=x^3-2x^2-x+2
+\end{align*}
+26. $(x-1)^2(3-x)$
+\begin{align*}
+&=(x-1)(x-1)(3-x) \\
+&=((x-1)x+(x-1)(-1))(3-x) \\
+&=((x^2-x)+(-x+1))(3-x) \\
+&=(x^2-x-x+1)(3-x) \\
+&=(x^2-2x+1)(3-x) \\
+&=(x^2-2x+1)3+(x^2-2x+1)(-x) \\
+&=(3x^2-6x+3)+(-x^3+2x^2-x) \\
+&=3x^2-6x+3-x^3+2x^2-x \\
+&=-x^3+5x^2-7x+3
+\end{align*}
+27. $(1-x)^2(2-x)$
+\begin{align*}
+&=(1-x)(1-x)(2-x) \\
+&=((1-x)1+(1-x)(-x))(2-x) \\
+&=((1-x)+(-x+x^2))(2-x) \\
+&=(1-x-x+x^2)(2-x) \\
+&=(1-2x+x^2)(2-x) \\
+&=(1-2x+x^2)2+(1-2x+x^2)(-x) \\
+&=(2-4x+2x^2)+(-x+2x^2-x^3) \\
+&=2-4x+2x^2-x+2x^2-x^3 \\
+&=-x^3+4x^2-5x+2
+\end{align*}
+28. $(1-2x)^2(3+4x)$
+\begin{align*}
+&=(1-2x)(1-2x)(3+4x) \\
+&=((1-2x)1+(1-2x)(-2x))(3+4x) \\
+&=((1-2x)+(-2x+4x^2))(3+4x) \\
+&=(1-2x-2x+4x^2)(3+4x) \\
+&=(1-4x+4x^2)(3+4x) \\
+&=(1-4x+4x^2)3+(1-4x+4x^2)4x \\
+&=(3-12x+12x^2+4x-16x^2+16x^3 \\
+&=16x^3-4x^2-8x+3
+\end{align*}
+29. $(2x+1)^2(2-3x)$
+\begin{align*}
+&=(2x+1)(2x+1)(2-3x) \\
+&=((2x+1)2x+(2x+1)1)(2-3x) \\
+&=(4x^2+2x+2x+1)(2-3x) \\
+&=(4x^2+4x+1)(2-3x) \\
+&=(4x^2+4x+1)2+(4x^2+4x+1)(-3x) \\
+&=(8x^2+8x+2)+(-12x^3-12x^2-3x) \\
+&=8x^2+8x+2-12x^3-12x^2-3x \\
+&=-12x^3-4x^2-5x+2
+\end{align*}
+30. The population of a city in 1910 was 50,000, and it doubles every 10 years. What will it be (a) in 1970 (b) in 1990 (c) in 2000? \\
+\\
+After 10 years (1920), the population will be $50,000\cdot2$. After 20 years (1930), the population will be $(50,000\cdot2)\cdot2=50,000\cdot2^2$. After 30 years (1940), the population will be $(50,000\cdot2^2)\cdot2=50,000\cdot2^3$. Continuing the pattern, we get \\
+(a) $50,000\cdot2^6=50,000\cdot64=3,200,000$ \\
+(b) $50,000\cdot2^8=50,000\cdot256=12,800,000$ \\
+(c) $50,000\cdot2^9=50,000\cdot512=25,600,000$ \\
+\\
+31. The population of a city in 1905 was 100,000, and it doubles every 25 years. What will it be after (a) 50 years (b) 100 years (c) 150 years? \\
+\\
+After 25 years, the population will be $100,000\cdot2$. After 50 years, the population will be $(100,000\cdot2)\cdot2=100,000\cdot2^2$. After 75 years, the population will be $(100,000\cdot2^2)\cdot2=100,000\cdot2^3$. Continuing the pattern, we get \\
+(a) $100,000\cdot2^2=100,000\cdot4=400,000$ \\
+(b) $100,000\cdot2^4=100,000\cdot16=1,600,000$ \\
+(c) $100,000\cdot2^6=100,000\cdot64=6,400,000$ \\
+\\
+32. The population of a city was 200 thousand in 1915, and it triples every 50 years. What will be the population \\
+a) in the year 2215? \hspace{2cm} b) in the year 2165? \\
+\\
+After 50 years (1965), the population will be $200,000\cdot3$. After 100 years (2015), the population will be $(200,000\cdot3)\cdot3=200,000\cdot3^2$. After 150 years (2065), the population will be $(200,000\cdot3^2)\cdot3=200,000\cdot3^3$. Continuing the pattern, we get \\
+a) $200,000\cdot3^6=200,000\cdot729=145,800,000$ \\
+b) $200,000\cdot3^5=200,000\cdot243=48,600,000$ \\
+\\
+33. The population of a city was 25,000 in 1870, and it triples every 40 years. What will it be \\
+a) in 1990? \hspace{5cm} b) in 2030? \\
+\\
+After 40 years (1910), the population will be $25,000\cdot3$. After 80 years (1950), the population will be $(25,000\cdot3)\cdot3=25,000\cdot3^2$. After 120 years (1990), the population will be $(25,000\cdot3^2)\cdot3=25,000\cdot3^3$. Continuing the pattern, we get \\
+a) $25,000\cdot3^3=25,000\cdot27=675,000$ \\
+b) $25,000\cdot3^4=25,000\cdot81=2,025,000$
+\subsection{Even and Odd Integers; Divisibility}
+\begin{theorem}
+Let $a$,$b$ be positive integers.\\
+If $a$ is even and $b$ is even, then $a+b$ is even. \\
+If $a$ is even and $b$ is odd, then $a+b$ is odd. \\
+If $a$ is odd and $b$ is even, then $a+b$ is odd. \\
+If $a$ is odd and $b$ is odd, then $a+b$ is even.
+\end{theorem}
+\begin{proof}
+(of second statement) Let $a$ be an even integer, $b$ be an odd integer. Then $a=2n$ and $b=2k+1$ for some integer $n$ and natural number $k$.
+\begin{align*}
+a+b&=2n+2k+1 \\
+&=2(n+k)+1 \\
+&=2m+1 &\text {(letting m=n+k)}
+\end{align*}
+Thus $a+b$ is odd.
+\end{proof}
+\begin{theorem}
+Let $a$ be a positive integer. If $a$ is even, then $a^2$ is even. If $a$ is odd, then $a^2$ is odd.
+\end{theorem}
+\begin{proof}
+Let $a$ be an even integer. Then $a=2n$ for some integer $n$.
+\begin{center}
+$a^2=(2n)^2=2n\cdot2n=2(2n^2)=2m$,
+\end{center}
+where $m=2n^2$. Thus $a^2$ is even. \\
+Now let $a$ be an odd integer. Then $a=2n+1$ for some natural number $n$.
+\begin{align*}
+a^2=(2n+1)^2&=4n^2+4n+1 \\
+&=2(2n^2+2n)+1 \\
+&=2m+1 &\text{where $k=2n^2+2n$}
+\end{align*}
+Thus, $a^2$ is odd.
+\end{proof}
+\begin{corollary}
+Let $a$ be a positive integer. If $a^2$ is even, then $a$ is even. If $a^2$ is odd, then $a$ is odd.
+\end{corollary}
+\begin{proof}
+Let $a^2$ be an even integer. $a$ cannot be odd, because the square of an odd number is odd. So $a$ must be even. \\
+Let $a^2$ be an odd integer. $a$ cannot be even, because the square of an even number is even. So $a$ must be odd.
+\end{proof}
+\subsection*{Exercises}
+1. Give the proofs for the cases of Theorem 1.4.1 which were not proved in the text. \\
+\\
+If $a$ is even and $b$ is even, then $a+b$ is even.
+\begin{proof}
+Let $a$, $b$ be even integers. Then $a=2n$ and $b=2k$ for integers $n$, $k$.
+\begin{align*}
+a+b&=2n+2k \\
+&=2(n+k) \\
+&=2m &\text{(letting m=n+k)}
+\end{align*}
+Thus $a+b$ is even.
+\end{proof}
+\noindent If $a$ is odd and $b$ is even, then $a+b$ is odd.
+\begin{proof}
+Let $a$ be an odd integer, $b$ be an even integer. Then $a=2n+1$ and $b=2k$ for some natural number $n$ and integer $k$.
+\begin{align*}
+a+b&=2n+1+2k \\
+&=2n+2k+1 \\
+&=2(n+k)+1 \\
+&=2m+1 &\text{(letting m=n+k)}
+\end{align*}
+Thus $a+b$ is odd.
+\end{proof}
+\noindent If $a$ is odd and $b$ is odd, then $a+b$ is even.
+\begin{proof}
+Let $a$, $b$ be odd integers. Then $a=2n+1$ and $b=2k+1$ for natural numbers $n$, $k$.
+\begin{align*}
+a+b&=2n+1+2k+1 \\
+&=2n+2k+2 \\
+&=2(n+k+1) \\
+&=2m &\text{(letting m=n+k+1)}
+\end{align*}
+Thus $a+b$ is even.
+\end{proof}
+\noindent 2. Prove: If $a$ is even and $b$ is any positive integer, then $ab$ is even.
+\begin{proof}
+Let $a$ be an even integer, $b$ be any positive integer. Then $a=2n$ for some integer $n$.
+\begin{center}
+$ab=2nb=2k$,
+\end{center}
+where $k=nb$. Thus $ab$ is even.
+\end{proof}
+\noindent 3. Prove: If $a$ is even, then $a^3$ is even.
+\begin{proof}
+Let $a$ be an even integer. Then $a=2n$ for some integer $n$.
+\begin{center}
+$a^3=(2n)^3=2^3n^3=2(2^2n^3)=2k$,
+\end{center}
+where $k=2^2n^3$. Thus $a^3$ is even.
+\end{proof}
+\noindent 4. Prove: If $a$ is odd, then $a^3$ is odd.
+\begin{proof}
+Let $a$ be an odd integer. Then $a=2n+1$ for some natural number n.
+\begin{align*}
+a^3&=(2n+1)^3 \\
+&=8n^3+12n^2+6n+1 \\
+&=2(4n^3+6n^2+3n)+1 \\
+&=2k+1
+\end{align*}
+where $k=4n^3+6n^2+3n$. Thus $a^3$ is odd.
+\end{proof}
+\noindent 5. Prove: If $n$ is even, then $(-1)^n=1$.
+\begin{proof}
+Let $n$ be an even integer. Then $n=2k$ for some integer $k$.
+\begin{center}
+$(-1)^n=(-1)^{2k}=((-1)^2)^k=1^k=1$
+\end{center}
+\end{proof}
+\noindent 6. Prove: If $n$ is odd, then $(-1)^n=-1$.
+\begin{proof}
+Let $n$ be an odd integer. Then $n=2k+1$ for some natural number $k$.
+\begin{center}
+$(-1)^n=(-1)^{2k+1}=((-1)^2)^k\cdot(-1)^1=1^k\cdot(-1)=1\cdot-1=-1$
+\end{center}
+\end{proof}
+\noindent 7. Prove: If $m$, $n$ are odd, then the product $mn$ is odd.
+\begin{proof}
+Let $m$, $n$ be odd integers. Then $m=2k+1$ and $n=2l+1$ for natural numbers $k$, $l$.
+\begin{align*}
+mn&=(2k+1)(2l+1) \\
+&=4kl+2k+2l+1 \\
+&=2(2kl+k+l)+1 \\
+&=2q
+\end{align*}
+where $q=2kl+k+l$. Thus $mn$ is odd.
+\end{proof}
+\noindent Find the largest power of 2 which divides the following integers. \\
+\\
+8. 16
+\begin{center}
+$16=2^4$
+\end{center}
+9. 24
+\begin{center}
+$24=2^3\cdot3$
+\end{center}
+10. 32
+\begin{center}
+$32=2^5$
+\end{center}
+11. 20
+\begin{center}
+$20=2^2\cdot5$
+\end{center}
+12. 50
+\begin{center}
+$50=2^1\cdot25$
+\end{center}
+13. 64
+\begin{center}
+$64=2^6$
+\end{center}
+14. 100
+\begin{center}
+$100=2^2\cdot25$
+\end{center}
+15. 36
+\begin{center}
+$36=2^2\cdot9$
+\end{center}
+\noindent Find the largest power of 3 which divides the following integers. \\
+\\
+16. 30
+\begin{center}
+$30=3^1\cdot10$
+\end{center}
+17. 27
+\begin{center}
+$27=3^3$
+\end{center}
+18. 63
+\begin{center}
+$63=3^2\cdot7$
+\end{center}
+19. 99
+\begin{center}
+$99=3^2\cdot11$
+\end{center}
+20. 60
+\begin{center}
+$60=3^1\cdot20$
+\end{center}
+21. 50
+\begin{center}
+$50=3^0\cdot50$
+\end{center}
+22. 42
+\begin{center}
+$42=3^1\cdot14$
+\end{center}
+23. 45
+\begin{center}
+$45=3^2\cdot5$
+\end{center}
+24. Let $a$, $b$ be integers. Define $a\equiv b$ (mod 5), which we read ``$a$ is congruent to $b$ modulo 5", to mean that $a-b$ is divisible by 5. Prove: If $a\equiv b$ (mod 5) and $x\equiv y$ (mod 5), then
+\begin{center}
+$a+x\equiv b+y$ (mod 5)
+\end{center}
+and
+\begin{center}
+$ax\equiv by$ (mod 5).
+\end{center}
+\begin{proof}
+We want to show that $a+x-(b+y)$ is divisible by 5, i.e., $a+x-(b+y)=5k$ for some integer $k$. \\
+Assume $a\equiv b$ (mod 5) and $x\equiv y$ (mod 5). Then $a-b=5m$ and $x-y=5n$ for integers $m$, $n$.
+\begin{align*}
+a-b+x-y&=a+x-b-y \\
+&=a+x-(b+y)
+\end{align*}
+Also,
+\begin{center}
+$a-b+x-y=5m+5n=5(m+n)$.
+\end{center}
+So,
+\begin{center}
+$a-b+x-y=a+x-(b+y)=5(m+n)$,
+\end{center}
+which means $a+x-(b+y)$ is divisible by 5, i.e., $a+x\equiv b+y$ (mod 5). \\
+\\
+For the second part, we want to show that $ax-by$ is divisible by 5, i.e., $ax-by=5k$ for some integer $k$. \\
+Assume $a\equiv b$ (mod 5) and $x\equiv y$ (mod 5). Then $a-b=5m$ and $x-y=5n$ for integers $m$, $n$.
+Multiplying both sides of $a-b=5m$ by $x$ gives us
+\begin{center}
+$x\cdot(a-b)=x\cdot5m$ \\
+$ax-bx=5mx$.
+\end{center}
+Multiplying both sides of $x-y=5n$ by $b$ gives us
+\begin{center}
+$b\cdot(x-y)=b\cdot5n$ \\
+$bx-by=5nb$.
+\end{center}
+Adding those two equations together gives us
+\begin{center}
+$ax-bx+bx-by=5mx+5nb$ \\
+$ax-by=5mx+5nb$.
+\end{center}
+which is equal to
+\begin{center}
+$ax-by=5(mx+nb)$.
+\end{center}
+So $ax-by$ is divisible by 5, i.e., $ax\equiv by$ (mod 5).
+\end{proof}
+25. Let $d$ be a positive integer. Let $a$, $b$ be integers. Define
+\begin{center}
+$a\equiv b$ (mod $d$)
+\end{center}
+to mean that $a-b$ is divisible by $d$. Prove that if $a\equiv b$ (mod $d$) and $x\equiv y$ (mod $d$), then
+\begin{center}
+$a+x\equiv b+y$ (mod $d$)
+\end{center}
+and
+\begin{center}
+$ax\equiv by$ (mod $d$).
+\end{center}
+\begin{proof}
+We want to show that $a+x-(b+y)$ is divisible by $d$, i.e., $a+x-(b+y)=dk$ for some integer $k$. \\
+Assume $a\equiv b$ (mod $d$) and $x\equiv y$ (mod $d$). Then $a-b=dm$ and $x-y=dn$ for integers $m$, $n$.
+\begin{align*}
+a-b+x-y&=a+x-b-y \\
+&=a+x-(b+y)
+\end{align*}
+Also,
+\begin{center}
+$a-b+x-y=dm+dn=d(m+n)$.
+\end{center}
+So,
+\begin{center}
+$a-b+x-y=a+x-(b+y)=d(m+n)$,
+\end{center}
+which means $a+x-(b+y)$ is divisible by $d$, i.e., $a+x\equiv b+y$ (mod $d$). \\
+\\
+For the second part, we want to show that $ax-by$ is divisible by $d$, i.e., $ax-by=dk$ for some integer $k$. \\
+Assume $a\equiv b$ (mod $d$) and $x\equiv y$ (mod $d$). Then $a-b=dm$ and $x-y=dn$ for integers $m$, $n$.
+Multiplying both sides of $a-b=dm$ by $x$ gives us
+\begin{center}
+$x\cdot(a-b)=x\cdot dm$ \\
+$ax-bx=dmx$.
+\end{center}
+Multiplying both sides of $x-y=dn$ by $b$ gives us
+\begin{center}
+$b\cdot(x-y)=b\cdot dn$ \\
+$bx-by=dnb$.
+\end{center}
+Adding those two equations together gives us
+\begin{center}
+$ax-bx+bx-by=dmx+dnb$ \\
+$ax-by=dmx+dnb$,
+\end{center}
+which is equal to
+\begin{center}
+$ax-by=d(mx+nb)$.
+\end{center}
+So $ax-by$ is divisible by $d$, i.e., $ax\equiv by$ (mod $d$).
+\end{proof}
+26. Assume that every positive integer can be written in one of the forms $3k$, $3k+1$, $3k+2$ for some integer $k$. Show that if the square of a positive integer is divisible by 3, then so is the integer.
+\begin{proof}
+Let $m$ be an integer that can be written in the form $3k$.
+\begin{center}
+$m^2=(3k)^2=9k^2=3(3k^2)$,
+\end{center}
+which is divisible by $3$. Since $m=3k$, $m$ is divisible by $3$ also. \\
+(The square of a positive integer is divisible by $3$, so we expect the integer to be divisible by $3$, which is the case here.) \\
+\\
+Let $m$ be an integer that can be written in the form $3k+1$.
+\begin{center}
+$m^2=(3k+1)^2=9k^2+6k+1=3(k^2+2k)+1$,
+\end{center}
+which is not divisible by $3$. Since $m=3k+1$, $m$ is not divisible by $3$. \\
+(The square of a positive integer is not divisible by $3$, so we do not expect the integer to be divisible by $3$, which is the case here.) \\
+\\
+Let $m$ be an integer that can be written in the form $3k+2$.
+\begin{center}
+$m^2=(3k+2)^2=9k^2+12k+4=3(3k^2+4k)+4$,
+\end{center}
+which is not divisible by $3$. Since $m=3k+2$, $m$ is not divisible by $3$. \\
+(The square of a positive integer is not divisible by $3$, so we do not expect the integer to be divisible by $3$, which is the case here.)
+\end{proof}
+\subsection{Rational Numbers}
+\textbf{Rule for cross-multiplying.} Let $m$, $n$, $r$, $s$ be integers and assume that $n\neq0$ and $s\neq0$. Then
+\begin{center}
+$\displaystyle \frac{m}{n}=\displaystyle \frac{r}{s}$ if and only if $ms=rn$.
+\end{center}
+\textbf{Cancellation rule for fractions.} Let $a$ be a non-zero integer. Let $m$, $n$ be integers, $n\neq0$. Then
+\begin{center}
+$\displaystyle \frac{am}{an}=\displaystyle \frac{m}{n}$.
+\end{center}
+\begin{proof}
+Using the cross-multiplying rule, if we can show that $(am)n=m(an)$, then $\displaystyle \frac{am}{an}=\displaystyle \frac{m}{n}$.
+\begin{align*}
+(am)n&=amn \\
+&=man \\
+&=(ma)n
+\end{align*}
+Since $(am)n=m(an)$, it must be true that $\displaystyle \frac{am}{an}=\displaystyle \frac{m}{n}$.
+\end{proof}
+\begin{theorem}
+Any positive rational number has an expression as a fraction in lowest form.
+\end{theorem}
+\begin{proof}
+Let $\displaystyle \frac{m}{n}$ be a positive rational number. Let $d$ be the greatest common divisor of $m$ and $n$. So
+\begin{center}
+$m=dr$ and $n=ds$
+\end{center}
+for positive integers $r$, $s$. Substituting for $m$, $n$ and simplifying, we get
+\begin{center}
+$\displaystyle \frac{m}{n}=\frac{dr}{ds}=\frac{r}{s}$.
+\end{center}
+Claim: $\displaystyle \frac{r}{s}$ is the lowest form. Suppose, for the sake of contradiction, that $\displaystyle \frac{r}{s}$ is not the lowest form. Let $e$ be the greatest common divisor of $r$ and $s$. (Note that $e>1$ since we're assuming that $\displaystyle \frac{r}{s}$ is not the lowest form.) Then $r=ex$ and $s=ey$ for integers $x$, $y$. This gives us
+\begin{center}
+$m=dr=dex$ and $n=ds=dey$,
+\end{center}
+which means that $de$ divides $m$ and $n$. But this is a contradiction because we assumed that $d$ was the greatest common divisor of $m$ and $n$ and $de>d$ (since $e>1$). So the assumption that $\displaystyle \frac{r}{s}$ is not the lowest form is incorrect, and the claim that $\displaystyle \frac{r}{s}$ is the lowest form must be true.
+\end{proof}
+\textbf{Rule}: $\displaystyle \frac{a}{d}+\displaystyle \frac{b}{d}=\displaystyle \frac{a+b}{d}$ \\
+\\
+\textbf{Formula}: $\displaystyle \frac{m}{n}+\displaystyle \frac{r}{s}=\displaystyle \frac{ms+rn}{ns}$ \\
+\\
+\textbf{Formula}: $\displaystyle \frac{m}{n}\cdot \displaystyle \frac{r}{s}=\displaystyle \frac{mr}{ns}$
+\begin{theorem}
+There is no positive rational number whose square is 2.
+\end{theorem}
+\begin{proof}
+Suppose, for the sake of contradiction, that there is a positive rational number whose square is 2. From Theorem 1.5.1, we can write it in lowest form as $\displaystyle \frac{m}{n}$. (Note that both $m$ and $n$ cannot be even because then it would not be in lowest form.) This means that
+\begin{center}
+$\displaystyle \bigg(\frac{m}{n}\bigg)^2=\displaystyle \frac{m^2}{n^2}=2$.
+\end{center}
+From this, we get
+\begin{center}
+$m^2=2n^2$.
+\end{center}
+From Corollary 2.1, since $m^2$ is even, $m$ must also be even. So we can write $m=2k$ for some integer $k$.
+\begin{center}
+$m^2=(2k)^2=4k^2$.
+\end{center}
+But also,
+\begin{center}
+$m^2=2n^2$.
+\end{center}
+So \begin{center}
+$2n^2=4k^2$.
+\end{center}
+Dividing both sides by 2, we get
+\begin{center}
+$n^2=2k^2$,
+\end{center}
+which means that $n^2$ is even and $n$ is even (by Corollary 2.1). So $m$ and $n$ are both even, but this is a contradiction because we assumed that $\displaystyle \frac{m}{n}$ was the lowest form (which it can't be if both $m$ and $n$ are even). So the assumption that there is a positive rational number whose square is 2 is incorrect, and the claim that there is no positive rational number whose square is 2 must be correct.
+\end{proof}
+\subsection*{Exercises}
+1. Solve for $a$ in the following equations. \\
+\\
+a) $2a=\displaystyle \frac{3}{4}$
+\begin{align*}
+\displaystyle \frac{2a}{1}&=\displaystyle \frac{3}{4} \\
+2a\cdot4&=3\cdot1 \\
+8a&=3 \\
+a&=\displaystyle \frac{3}{8}
+\end{align*}
+b) $\displaystyle \frac{3a}{5}=-7$
+\begin{align*}
+\displaystyle \frac{3a}{5}&=\displaystyle \frac{-7}{1} \\
+3a\cdot1&=-7\cdot5 \\
+3a&=-35 \\
+a&=-\displaystyle \frac{35}{3}
+\end{align*}
+c) $\displaystyle \frac{-5a}{2}=\displaystyle \frac{3}{8}$
+\begin{align*}
+-5a\cdot8&=3\cdot2 \\
+-40a&=6 \\
+a&=-\displaystyle \frac{6}{40} \\
+a&=-\displaystyle \frac{3\cdot2}{20\cdot2} \\
+a&=-\displaystyle \frac{3}{20} \\
+\end{align*}
+2. Solve for $x$ in the following equations. \\
+\\
+a) $3x-5=0$
+\begin{align*}
+3x&=5 \\
+x&=\displaystyle \frac{5}{3}
+\end{align*}
+b) $-2x+6=1$
+\begin{align*}
+-2x&=-5 \\
+x&=\displaystyle \frac{5}{2}
+\end{align*}
+c) $-7x=2$
+\begin{center}
+$x=-\displaystyle \frac{2}{7}$
+\end{center}
+3. Put the following fractions in lowest form. \\
+\\
+a) $\displaystyle \frac{10}{25}$
+\begin{center}
+$=\displaystyle \frac{2\cdot5}{5\cdot5}=\displaystyle \frac{2}{5}$
+\end{center}
+b) $\displaystyle \frac{3}{9}$
+\begin{center}
+$=\displaystyle \frac{1\cdot3}{3\cdot3}=\displaystyle \frac{1}{3}$
+\end{center}
+c) $\displaystyle \frac{30}{25}$
+\begin{center}
+$=\displaystyle \frac{6\cdot5}{5\cdot5}=\displaystyle \frac{6}{5}$
+\end{center}
+d) $\displaystyle \frac{50}{15}$
+\begin{center}
+$=\displaystyle \frac{10\cdot5}{3\cdot5}=\displaystyle \frac{10}{3}$
+\end{center}
+e) $\displaystyle \frac{45}{9}$
+\begin{center}
+$=\displaystyle \frac{5\cdot9}{1\cdot9}=\displaystyle \frac{5}{1}=5$
+\end{center}
+f) $\displaystyle \frac{62}{4}$
+\begin{center}
+$=\displaystyle \frac{31\cdot2}{2\cdot2}=\displaystyle \frac{31}{2}$
+\end{center}
+g) $\displaystyle \frac{23}{46}$
+\begin{center}
+$=\displaystyle \frac{1\cdot23}{2\cdot23}=\displaystyle \frac{1}{2}$
+\end{center}
+h) $\displaystyle \frac{16}{40}$
+\begin{center}
+$=\displaystyle \frac{2\cdot8}{5\cdot8}=\displaystyle \frac{2}{5}$
+\end{center}
+4. Let $a=m/n$ be a rational number expressed as a quotient of integers $m$, $n$ with $m\neq0$ and $n\neq0$. Show that there is a rational number $b$ such that $ab=ba=1$.
+\begin{proof}
+Let $b = n/m$. (Note that $b$ is a rational number because of this.)
+\begin{center}
+$ab=\displaystyle \frac{m}{n}\cdot \displaystyle \frac{n}{m} = 1$.
+\end{center}
+\begin{center}
+$ba=\displaystyle \frac{n}{m}\cdot \displaystyle \frac{m}{n} = 1$.
+\end{center}
+So $ab=ba=1$.
+\end{proof}
+\noindent 5. Solve for $x$ in the following equations. \\
+\\
+a) $2x-7=21$
+\begin{align*}
+2x&=28 \\
+x&=14
+\end{align*}
+b) $3(2x-5)=7$
+\begin{align*}
+6x-15&=7 \\
+6x&=22 \\
+x&=\displaystyle \frac{22}{6} \\
+x&=\displaystyle \frac{11\cdot2}{3\cdot2} \\
+x&=\displaystyle \frac{11}{3}
+\end{align*}
+c) $(4x-1)2=\displaystyle \frac{1}{4}$
+\begin{align*}
+8x-2&=\displaystyle \frac{1}{4} \\
+8x&=\displaystyle \frac{1}{4}+2 \\
+8x&=\displaystyle \frac{1}{4}+\displaystyle \frac{8}{4} \\
+\displaystyle \frac{8x}{1}&=\displaystyle \frac{9}{4} \\
+8x\cdot4&=9\cdot1 \\
+32x&=9\\
+x&=\displaystyle \frac{9}{32}
+\end{align*}
+d) $-4x+3=5x$
+\begin{align*}
+3&=9x \\
+\displaystyle \frac{3}{9}&=x \\
+\displaystyle \frac{3\cdot1}{3\cdot3}&=x \\
+\displaystyle \frac{1}{3}&=x
+\end{align*}
+e) $3x-2=-5x+8$
+\begin{align*}
+8x&=10 \\
+x&=\displaystyle \frac{10}{8} \\
+x&=\displaystyle \frac{2\cdot5}{2\cdot4} \\
+x&=\displaystyle \frac{5}{4} \\
+\end{align*}
+f) $3x+2=-3x+4$
+\begin{align*}
+6x&=2 \\
+x&=\displaystyle \frac{2}{6} \\
+x&=\displaystyle \frac{1\cdot2}{3\cdot2} \\
+x&=\displaystyle \frac{1}{3}
+\end{align*}
+g) $\displaystyle \frac{4x}{3}+1=3x$
+\begin{align*}
+\displaystyle \frac{4x}{3}&=3x-1 \\
+\displaystyle \frac{4x}{3}&=\displaystyle \frac{3x-1}{1} \\
+4x\cdot1&=3\cdot(3x-1) \\
+4x&=9x-3 \\
+-5x&=-3 \\
+x&=\displaystyle \frac{-3}{-5} \\
+x&=\displaystyle \frac{-1\cdot3}{-1\cdot5} \\
+x&=\displaystyle \frac{3}{5} \\
+\end{align*}
+h) $\displaystyle \frac{-3x}{2}+\displaystyle \frac{4}{3}=5x$
+\begin{align*}
+\displaystyle \frac{-3x\cdot3+2\cdot4}{2\cdot3}&=5x \\
+\displaystyle \frac{-9x+8}{6}&=5x \\
+\displaystyle \frac{-9x+8}{6}&=\displaystyle \frac{5x}{1} \\
+(-9x+8)\cdot1&=5x\cdot6 \\
+-9x+8&=30x \\
+8&=39x \\
+\displaystyle \frac{8}{39}&=x
+\end{align*}
+i) $\displaystyle \frac{2x-1}{3}+4x=10$
+\begin{align*}
+\displaystyle \frac{2x-1}{3}&=10-4x \\
+\displaystyle \frac{2x-1}{3}&=\displaystyle \frac{10-4x}{1} \\
+(2x-1)\cdot1&=3\cdot(10-4x) \\
+2x-1&=30-12x \\
+14x&=31 \\
+x&=\displaystyle \frac{31}{14}
+\end{align*}
+6. Solve for $x$ in the following equations. \\
+\\
+a) $2x-\displaystyle \frac{3}{7}=\displaystyle \frac{x}{5}+1$
+\begin{align*}
+2x-\displaystyle \frac{x}{5}&=1+\displaystyle \frac{3}{7} \\
+\displaystyle \frac{2x}{1}-\displaystyle \frac{x}{5}&=\displaystyle \frac{1}{1}+\displaystyle \frac{3}{7} \\
+\displaystyle \frac{10x-x}{5}&=\displaystyle \frac{7+3}{7} \\
+\displaystyle \frac{9x}{5}&=\displaystyle \frac{10}{7} \\
+9x\cdot7&=10\cdot5 \\
+63x&=50 \\
+x&=\displaystyle \frac{50}{63}
+\end{align*}
+b) $\displaystyle \frac{3}{4}x+5=-7x$
+\begin{align*}
+\displaystyle \frac{3x}{4}+7x&=-5 \\
+\displaystyle \frac{3x}{4}+\displaystyle \frac{7x}{1}&=-5 \\
+\displaystyle \frac{3x+28x}{4}&=-5 \\
+\displaystyle \frac{31x}{4}&=-\displaystyle \frac{5}{1} \\
+31x&=-20 \\
+x&=-\displaystyle \frac{20}{31}
+\end{align*}
+c) $\displaystyle \frac{-2}{13}x=3x-1$
+\begin{align*}
+\displaystyle \frac{-2}{13}x-3x&=-1 \\
+\displaystyle \frac{-2x}{13}-\displaystyle \frac{3x}{1}&=-1 \\
+\displaystyle \frac{-2x-39x}{13}&=-1 \\
+\displaystyle \frac{-2x-39x}{13}&=\displaystyle \frac{-1}{1} \\
+(-2x-39x)\cdot1&=-1\cdot13 \\
+-2x-39x&=-13 \\
+-41x&=-13 \\
+x&=\displaystyle \frac{-13}{-41} \\
+x&=\displaystyle \frac{-1\cdot13}{-1\cdot41} \\
+x&=\displaystyle \frac{13}{41}
+\end{align*}
+d) $\displaystyle \frac{4x}{3}+\displaystyle \frac{3}{4}=2x-5$
+\begin{align*}
+\displaystyle \frac{4x}{3}-2x&=-5-\displaystyle \frac{3}{4} \\
+\displaystyle \frac{4x}{3}-\displaystyle \frac{2x}{1}&=\displaystyle \frac{-5}{1}-\displaystyle \frac{3}{4} \\
+\displaystyle \frac{4x-6x}{3}&=\displaystyle \frac{-20-3}{4} \\
+\displaystyle \frac{-2x}{3}&=\displaystyle \frac{-23}{4} \\
+-2x\cdot4&=-23\cdot3 \\
+-8x&=-69 \\
+x&=\displaystyle \frac{-69}{-8} \\
+x&=\displaystyle \frac{-1\cdot69}{-1\cdot8} \\
+x&=\displaystyle \frac{69}{8} \\
+\end{align*}
+e) $\displaystyle \frac{4(1-3x)}{7}=2x-1$
+\begin{align*}
+\displaystyle \frac{4-12x}{7}&=2x-1 \\
+\displaystyle \frac{4-12x}{7}&=\displaystyle \frac{2x-1}{1} \\
+(4-12x)\cdot1&=(2x-1)\cdot7 \\
+4-12x&=14x-7 \\
+11&=26x \\
+\displaystyle \frac{11}{26}&=x
+\end{align*}
+f) $\displaystyle \frac{2-x}{3}=\displaystyle \frac{7}{8}x$
+\begin{align*}
+\displaystyle \frac{2-x}{3}&=\displaystyle \frac{7x}{8} \\
+(2-x)\cdot8&=7x\cdot3 \\
+16-8x&=21x \\
+16&=29x \\
+\displaystyle \frac{16}{29}&=x
+\end{align*}
+7. Let $n$ be a positive integer. By $n$ factorial, written $n!$, we mean the product
+\begin{center}
+$1\cdot2\cdot3\cdots n$
+\end{center}
+of the first $n$ positive integers. \\
+\\
+a) Find the value of $5!$, $6!$, $7!$, and $8!$.
+\begin{align*}
+5!&=1\cdot2\cdot3\cdot4\cdot5=120 \\
+6!&=1\cdot2\cdot3\cdot4\cdot5\cdot6=720 \\
+7!&=1\cdot2\cdot3\cdot4\cdot5\cdot6\cdot7=5,040 \\
+8!&=1\cdot2\cdot3\cdot4\cdot5\cdot6\cdot7\cdot8=40,320
+\end{align*}
+b) Define $0!=1$. Define the binomial coefficient
+\begin{center}
+$\displaystyle \binom{m}{n}=\displaystyle \frac{m!}{n!(m-n)!}$
+\end{center}
+for any natural numbers $m$, $n$ such that $n$ lies between 0 and $m$. Compute the binomial coefficients
+\begin{center}
+$\displaystyle \binom{3}{0}, \displaystyle \binom{3}{1}, \displaystyle \binom{3}{2}, \displaystyle \binom{3}{3}, \displaystyle \binom{4}{0}, \displaystyle \binom{4}{1}, \displaystyle \binom{4}{2}, \displaystyle \binom{4}{3}, \displaystyle \binom{4}{4}, \displaystyle \binom{5}{0}, \displaystyle \binom{5}{1}, \displaystyle \binom{5}{2}, \displaystyle \binom{5}{3}, \displaystyle \binom{5}{4}, \displaystyle \binom{5}{5}$.
+\end{center}
+\begin{center}
+$\displaystyle \binom{3}{0}=\displaystyle \frac{3!}{0!(3-0)!}=\displaystyle \frac{3!}{(1)(3)!}=\displaystyle \frac{1\cdot2\cdot3}{(1)(1\cdot2\cdot3)}=\displaystyle \frac{6}{6}=1$ \\
+~ \\
+$\displaystyle \binom{3}{1}=\displaystyle \frac{3!}{1!(3-1)!}=\displaystyle \frac{3!}{1!(2)!}=\displaystyle \frac{1\cdot2\cdot3}{(1)(1\cdot2)}=\displaystyle \frac{6}{2}=3$ \\
+~ \\
+$\displaystyle \binom{3}{2}=\displaystyle \frac{3!}{2!(3-2)!}=\displaystyle \frac{3!}{2!(1)!}=\displaystyle \frac{1\cdot2\cdot3}{(1\cdot2)(1)}=\displaystyle \frac{6}{2}=3$ \\
+~ \\
+$\displaystyle \binom{3}{3}=\displaystyle \frac{3!}{3!(3-3)!}=\displaystyle \frac{3!}{3!(0)!}=\displaystyle \frac{1\cdot2\cdot3}{(1\cdot2\cdot3)(1)}=\displaystyle \frac{6}{6}=1$ \\
+~ \\
+$\displaystyle \binom{4}{0}=\displaystyle \frac{4!}{0!(4-0)!}=\displaystyle \frac{4!}{0!(4)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4}{(1)(1\cdot2\cdot3\cdot4)}=\displaystyle \frac{24}{24}=1$ \\
+~ \\
+$\displaystyle \binom{4}{1}=\displaystyle \frac{4!}{1!(4-1)!}=\displaystyle \frac{4!}{1!(3)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4}{(1)(1\cdot2\cdot3)}=\displaystyle \frac{24}{6}=4$ \\
+~ \\
+$\displaystyle \binom{4}{2}=\displaystyle \frac{4!}{2!(4-2)!}=\displaystyle \frac{4!}{2!(2)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4}{(1\cdot2)(1\cdot2)}=\displaystyle \frac{24}{4}=6$ \\
+~ \\
+$\displaystyle \binom{4}{3}=\displaystyle \frac{4!}{3!(4-3)!}=\displaystyle \frac{4!}{3!(1)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4}{(1\cdot2\cdot3)(1)}=\displaystyle \frac{24}{6}=4$ \\
+~ \\
+$\displaystyle \binom{4}{4}=\displaystyle \frac{4!}{4!(4-4)!}=\displaystyle \frac{4!}{4!(0)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4}{(1\cdot2\cdot3\cdot4)(1)}=\displaystyle \frac{24}{24}=1$ \\
+~ \\
+$\displaystyle \binom{5}{0}=\displaystyle \frac{5!}{0!(5-0)!}=\displaystyle \frac{5!}{0!(5)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4\cdot5}{(1)(1\cdot2\cdot3\cdot4\cdot5)}=\displaystyle \frac{120}{120}=1$ \\
+~ \\
+$\displaystyle \binom{5}{1}=\displaystyle \frac{5!}{1!(5-1)!}=\displaystyle \frac{5!}{1!(4)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4\cdot5}{(1)(1\cdot2\cdot3\cdot4)}=\displaystyle \frac{120}{24}=5$ \\
+~ \\
+$\displaystyle \binom{5}{2}=\displaystyle \frac{5!}{2!(5-2)!}=\displaystyle \frac{5!}{2!(3)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4\cdot5}{(1\cdot2)(1\cdot2\cdot3)}=\displaystyle \frac{120}{12}=10$ \\
+~ \\
+$\displaystyle \binom{5}{3}=\displaystyle \frac{5!}{3!(5-3)!}=\displaystyle \frac{5!}{3!(2)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4\cdot5}{(1\cdot2\cdot3)(1\cdot2)}=\displaystyle \frac{120}{12}=10$ \\
+~ \\
+$\displaystyle \binom{5}{4}=\displaystyle \frac{5!}{4!(5-4)!}=\displaystyle \frac{5!}{4!(1)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4\cdot5}{(1\cdot2\cdot3\cdot4)(1)}=\displaystyle \frac{120}{24}=5$ \\
+~ \\
+$\displaystyle \binom{5}{5}=\displaystyle \frac{5!}{5!(5-5)!}=\displaystyle \frac{5!}{5!(0)!}=\displaystyle \frac{1\cdot2\cdot3\cdot4\cdot5}{(1\cdot2\cdot3\cdot4\cdot5)(1)}=\displaystyle \frac{120}{120}=1$ \\
+\end{center}
+c) Show that
+\begin{center}
+$\displaystyle \binom{m}{n}=\displaystyle \binom{m}{m-n}$.
+\end{center}
+\begin{proof}
+The left-hand side is equal to
+\begin{center}
+$\displaystyle \binom{m}{n}=\displaystyle \frac{m!}{n!(m-n)!}$.
+\end{center}
+The right-hand side is equal to
+\begin{align*}
+\displaystyle \binom{m}{m-n}&=\displaystyle \frac{m!}{(m-n)!(m-(m-n))!} \\
+&=\displaystyle \frac{m!}{(m-n)!(m-m+n)!} \\
+&=\displaystyle \frac{m!}{(m-n)!(n)!}
+\end{align*}
+Both sides are equal to the same equation, so $\displaystyle \binom{m}{n}=\displaystyle \binom{m}{m-n}$.
+\end{proof}
+d) Show that if $n$ is a positive integer at most equal to $m$, then
+\begin{center}
+$\displaystyle \binom{m}{n}+\displaystyle \binom{m}{n-1}=\displaystyle \binom{m+1}{n}$.
+\end{center}
+\begin{proof}
+We have that
+\begin{center}
+$\displaystyle \binom{m}{n}=\displaystyle \frac{m!}{n!(m-n)!}$
+\end{center}
+\begin{align*}
+\displaystyle \binom{m}{n-1}&=\displaystyle \frac{m!}{(n-1)!(m-(n-1))!} \\
+&=\displaystyle \frac{m!}{(n-1)!(m-n+1)!}
+\end{align*}
+Consider that $n\cdot(n-1)!=n!$ and $(m-n+1)\cdot(m-n)!=(m-n+1)!$. These are used to get the equation in the third line below. Consider that $m!\cdot(m+1)=(m+1)!$. This is used to get the equation in the last line below.
+\begin{align*}
+\displaystyle \binom{m}{n}+\displaystyle \binom{m}{n-1}&=\displaystyle \frac{m!}{n!(m-n)!}+\displaystyle \frac{m!}{(n-1)!(m-n+1)!} \\
+&=\displaystyle \frac{m-n+1}{m-n+1}\cdot\displaystyle \frac{m!}{n!(m-n)!}+\displaystyle \frac{m!}{(n-1)!(m-n+1)!}\cdot\displaystyle \frac{n}{n} \\
+&=\displaystyle \frac{m!(m-n+1)}{n!(m-n+1)!}+\displaystyle \frac{m!n}{n!(m-n+1)!} \\
+&=\displaystyle \frac{m!(m-n+1)+m!n}{n!(m-n+1)!} \\
+&=\displaystyle \frac{m!(m-n+1+n)}{n!(m-n+1)!} \\
+&=\displaystyle \frac{m!(m+1)}{n!(m-n+1)!} \\
+&=\displaystyle \frac{(m+1)!}{n!(m-n+1)!} \\
+&=\displaystyle \binom{m+1}{n}
+\end{align*}
+\end{proof}
+8. Prove that there is no positive rational number $a$ such that $a^3=2$.
+\begin{proof}
+Suppose, for the sake of contradiction, that there is a positive rational number $a$ such that $a^3=2$. We can write $a$ as a rational number in lowest form as $a=m/n$ where $m$, $n$ are positive integers. This means we have
+\begin{center}
+$a^3=\displaystyle \bigg(\frac{m}{n}\bigg)^3=\displaystyle \frac{m^3}{n^3}=2$.
+\end{center}
+From this, we get $m^3=2n^3$, which means $m^3$ is even. This also means that $m$ is even, so we can write $m=2k$ for some integer $k$.
+\begin{center}
+$m^3=(2k)^3=8k^3$
+\end{center}
+But also,
+\begin{center}
+$m^3=2n^3$.
+\end{center}
+So
+\begin{align*}
+2n^3&=8k^3 \\
+n^3&=4k^3 \\
+n^3&=2(2k^3),
+\end{align*}
+which means $n^3$ is even, which means that $n$ is even. However, this contradicts the fact that $a=m/n$ is a rational number in lowest form since $m$ and $n$ are both even. So the assumption that there is a positive rational number $a$ such that $a^3=2$ is incorrect.
+\end{proof}
+\noindent 9. Prove that there is no positive rational number $a$ such that $a^4=2$.
+\begin{proof}
+Suppose, for the sake of contradiction, that there is a positive rational number $a$ such that $a^4=2$. We can write $a$ as a rational number in lowest form as $a=m/n$ where $m$, $n$ are positive integers. This means we have
+\begin{center}
+$a^4=\displaystyle \bigg(\frac{m}{n}\bigg)^4=\displaystyle \frac{m^4}{n^4}=2$.
+\end{center}
+From this, we get $m^4=2n^4$, which means $m^4$ is even. This also means that $m$ is even, so we can write $m=2k$ for some integer $k$.
+\begin{center}
+$m^3=(2k)^4=16k^4$
+\end{center}
+But also,
+\begin{center}
+$m^3=2n^4$.
+\end{center}
+So
+\begin{align*}
+2n^4&=16k^4 \\
+n^4&=8k^4 \\
+n^4&=2(4k^4),
+\end{align*}
+which means $n^4$ is even, which means that $n$ is even. However, this contradicts the fact that $a=m/n$ is a rational number in lowest form since $m$ and $n$ are both even. So the assumption that there is a positive rational number $a$ such that $a^4=2$ is incorrect.
+\end{proof}
+\noindent 10. Prove that there is no positive rational number $a$ such that $a^2=3$. You may assume that a positive integer can be written in one of the forms $3k$, $3k+1$, $3k+2$ for some integer $k$. Prove that if the square of a positive integer is divisible by 3, then so is the integer. Then use a similar proof as for $\sqrt2$.
+\begin{proof}
+First, we prove the claim: if the square of a positive integer is divisible by 3, then so is the integer (this was proved in §1.4 Problem 26, but I'll reproduce it here). \\
+Let $m$ be an integer that can be written in the form $3k$.
+\begin{center}
+$m^2=(3k)^2=9k^2=3(3k^2)$,
+\end{center}
+which is divisible by $3$. Since $m=3k$, $m$ is divisible by $3$ also. \\
+(The square of a positive integer is divisible by $3$, so we expect the integer to be divisible by $3$, which is the case here.) \\
+\\
+Let $m$ be an integer that can be written in the form $3k+1$.
+\begin{center}
+$m^2=(3k+1)^2=9k^2+6k+1=3(k^2+2k)+1$,
+\end{center}
+which is not divisible by $3$. Since $m=3k+1$, $m$ is not divisible by $3$. \\
+(The square of a positive integer is not divisible by $3$, so we do not expect the integer to be divisible by $3$, which is the case here.) \\
+\\
+Let $m$ be an integer that can be written in the form $3k+2$.
+\begin{center}
+$m^2=(3k+2)^2=9k^2+12k+4=3(3k^2+4k)+4$,
+\end{center}
+which is not divisible by $3$. Since $m=3k+2$, $m$ is not divisible by $3$. \\
+(The square of a positive integer is not divisible by $3$, so we do not expect the integer to be divisible by $3$, which is the case here.) \\
+\\
+For the main proof, suppose, for the sake of contradiction, that there is a rational number $a$ such that $a^2=3$. We can write $a$ as a rational number in lowest form as $a=m/n$ where $m$, $n$ are positive integers. This means we have
+\begin{center}
+$a^2=\displaystyle \bigg(\frac{m}{n}\bigg)^2=\displaystyle \frac{m^2}{n^2}=3$.
+\end{center}
+From this, we get $m^2=3n^2$, which means $m^2$ is divisible by 3. From the claim above, $m$ is also divisible by 3, so we can write $m=3k$ for some integer $k$.
+\begin{center}
+$m^2=(3k)^2=9k^2$
+\end{center}
+But also,
+\begin{center}
+$m^2=3n^2$.
+\end{center}
+So
+\begin{align*}
+3n^2&=9k^2 \\
+n^2&=3k^2,
+\end{align*}
+which means $n^2$ is divisible by 3. From the claim earlier, this means $n$ is also divisible by 3. However, this contradicts the fact that $a=m/n$ is a rational number in lowest form since $m$ and $n$ are both divisible by 3. So the assumption that there is a positive rational number $a$ such that $a^2=3$ is incorrect.
+\end{proof}
+\noindent 11. a) Find a positive rational number, expressed as a decimal, whose square approximates 2 up to 3 decimals.
+\begin{center}
+$1.414^2=1.999396\approx2$
+\end{center}
+
+b) Same question, but with 4 decimals accuracy instead.
+\begin{center}
+$1.41419^2\approx1.999933\approx2$
+\end{center}
+12. a) Find a positive rational number, expressed as a decimal, whose square approximates 3 up to 2 decimals.
+\begin{center}
+$1.73^2=2.9929\approx3$
+\end{center}
+
+b) Same question but with 3 decimals instead.
+\begin{center}
+$1.732^2=2.999824\approx3$
+\end{center}
+13. Find a positive rational number, expressed as a decimal, whose square approximates 5 up to \\
+\\
+a) 2 decimals,
+\begin{center}
+$2.234^2=4.990756\approx5$
+\end{center}
+b) 3 decimals
+\begin{center}
+$2.2359^2=4.99924881\approx5$
+\end{center}
+14. Find a positive rational number whose cube approximates 2 up to \\
+\\
+a) 2 decimals,
+\begin{center}
+$1.258^3\approx1.9908\approx2$
+\end{center}
+b) 3 decimals.
+\begin{center}
+$1.2598^3\approx1.99942\approx2$
+\end{center}
+15. Find a positive rational number whose cube approximates 3 up to \\
+\\
+a) 2 decimals,
+\begin{center}
+$1.441^3\approx2.9922\approx3$
+\end{center}
+b) 3 decimals.
+\begin{center}
+$1.4422^3\approx2.99969\approx3$
+\end{center}
+16. A chemical substance decomposes in such a way that it halves every 3 min. If there are 6 grams (g) of the substance present at the beginning, how much will be left \\
+a) after 3 min? \hfill b) after 27 min? \hfill c) after 36 min? \\
+\\
+After 3 min, there will be $6\cdot \displaystyle \frac{1}{2}$ grams left. After 6 min, there will be $\bigg(6\cdot \displaystyle \frac{1}{2}\bigg)\cdot \displaystyle \frac{1}{2}=6\cdot \bigg(\displaystyle \frac{1}{2}\bigg)^2$ grams left. After 9 min, there will be $\bigg(6\cdot \bigg(\displaystyle \frac{1}{2}\bigg)^2\bigg)\cdot \displaystyle \frac{1}{2}=6\cdot \bigg(\displaystyle \frac{1}{2}\bigg)^3$ grams left. Continuing the pattern, we get \\
+\\
+a) $6\cdot \displaystyle \frac{1}{2}=3$ grams \\
+\\
+b) $6\cdot \bigg(\displaystyle \frac{1}{2}\bigg)^9=6\cdot \displaystyle \frac{1}{512}=\displaystyle \frac{6}{512}=\displaystyle \frac{3}{256}$ grams \\
+\\
+c) $6\cdot \bigg(\displaystyle \frac{1}{2}\bigg)^{12}=6\cdot \displaystyle \frac{1}{4,096}=\displaystyle \frac{6}{4,096}=\displaystyle \frac{3}{2,048}$ grams \\
+\\
+17. A chemical substance reacts in such a way that one third of the remaining substances decomposes every 15 min. If there are 15 g of the substance present at the beginning, how much will be left \\
+a) after 30 min? \hfill b) after 45 min? \hfill c) after 165 min? \\
+\\
+After 15 min, there will be $15\cdot \displaystyle \frac{1}{3}$ g left. After 30 min, there will be $\bigg(15\cdot \displaystyle \frac{1}{3}\bigg)\cdot \displaystyle \frac{1}{3}=15\cdot \bigg(\displaystyle \frac{1}{3}\bigg)^2$ g left. After 45 min, there will be $\bigg(15\cdot \bigg(\displaystyle \frac{1}{3}\bigg)^2\bigg)\cdot \displaystyle \frac{1}{3}=15\cdot \bigg(\displaystyle \frac{1}{3}\bigg)^3$ g left. Continuing the pattern, we get \\
+\\
+a) $15\cdot \bigg(\displaystyle \frac{1}{3}\bigg)^2=15\cdot \displaystyle \frac{1}{9}=\displaystyle \frac{15}{9}=\displaystyle \frac{5}{3}$ g \\
+\\
+b) $15\cdot \bigg(\displaystyle \frac{1}{3}\bigg)^3=15\cdot \displaystyle \frac{1}{27}=\displaystyle \frac{15}{27}=\displaystyle \frac{5}{9}$ g \\
+\\
+c) $15\cdot \bigg(\displaystyle \frac{1}{3}\bigg)^{11}=15\cdot \displaystyle \frac{1}{117,147}=\displaystyle \frac{15}{117,147}=\displaystyle \frac{5}{59,059}$ g \\
+\\
+18. A substance reacts in water in such a way that one-fourth of the undissolved part dissolves every 10 min. If you put 25 g of the substance in water at a given time, how much will be left after \\
+a) 10 min? \hfill b) 30 min? \hfill c) 50 min? \\
+\\
+After 10 min, there will be $25\cdot \displaystyle \frac{1}{4}$ g left. After 20 min, there will be $\bigg(25\cdot \displaystyle \frac{1}{4}\bigg)\cdot \displaystyle \frac{1}{4}=25\cdot \bigg(\displaystyle \frac{1}{4}\bigg)^2$ g left. After 30 min, there will be $\bigg(25\cdot \bigg(\displaystyle \frac{1}{4}\bigg)^2\bigg)\cdot \displaystyle \frac{1}{4}=25\cdot \bigg(\displaystyle \frac{1}{4}\bigg)^3$ g left. Continuing the pattern, we get \\
+\\
+a) $25\cdot \displaystyle \frac{1}{4}=\displaystyle \frac{25}{4}$ g \\
+\\
+b) $25\cdot \bigg(\displaystyle \frac{1}{4}\bigg)^3=25\cdot \displaystyle \frac{1}{64}=\displaystyle \frac{25}{64}$ g \\
+\\
+c) $25\cdot \bigg(\displaystyle \frac{1}{4}\bigg)^5=25\cdot \displaystyle \frac{1}{1024}=\displaystyle \frac{25}{1024}$ g \\
+\\
+19. You are testing the effect of a noxious substance on bacteria. Every 10 min, one-tenth of the bacteria which are still alive are killed. If the population of bacteria starts with $10^6$, how many bacteria are left after \\
+a) 10 min? \hfill b) 30 min? \hfill c) 50 min? \\
+d) Within which period of 10 min will half the bacteria be killed? \\
+e) Within which period of 10 min will 70\% of the bacteria be killed? \\
+f) Within which period of 10 min will 80\% of the bacteria be killed? \\
+Note: If one-tenth of those alive are killed, then nine-tenths remain. \\
+\\
+The calculation $10^6\cdot \displaystyle \frac{1}{10}$ represents the number of bacteria that have been \textit{killed} after 10 min. To calculate the number of bacteria \textit{remaining} after 10 min, we do $10^6\cdot \displaystyle \frac{9}{10}$. After 20 min, there will be $\bigg(10^6\cdot \displaystyle \frac{9}{10}\bigg)\cdot \displaystyle \frac{9}{10}=10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^2$ left. After 30 min, there will be $\bigg(10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^2\bigg)\cdot \displaystyle \frac{9}{10}=10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^3$ left. Continuing the pattern, we get \\
+\\
+a) $10^6\cdot \displaystyle \frac{9}{10}=\displaystyle \frac{10^6\cdot9}{10}=\displaystyle \frac{10}{10}\cdot \displaystyle \frac{9\cdot10^5}{1}=9\cdot10^5$ \\
+\\
+b) $10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^3=10^6\cdot \displaystyle \frac{729}{1000}=\displaystyle \frac{10^6\cdot729}{1000}=\displaystyle \frac{10^3}{10^3}\cdot \displaystyle \frac{729\cdot10^3}{1}=729\cdot10^3$ \\
+\\
+c) $10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^5=10^6\cdot \displaystyle \frac{59,049}{100,000}=\displaystyle \frac{10^6\cdot59,049}{100,000}=\displaystyle \frac{10^5}{10^5}\cdot \displaystyle \frac{10\cdot59,049}{1}=590,490$ \\
+\\
+When half of the bacteria are killed, half of the bacteria will be left $(10^6\cdot.5=500,000)$. Continuing the pattern from above, we get
+\begin{center}
+$10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^6=10^6\cdot \displaystyle \frac{9^6}{10^6}=9^6=531,441$
+$10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^7=10^6\cdot \displaystyle \frac{9^7}{10^7}=\displaystyle \frac{9^7}{10}\approx478,297$
+\end{center}
+d) Between 60 and 70 min \\
+\\
+When $70\%$ of the bacteria are killed, $30\%$ of the bacteria will be left $(10^6\cdot.3=300,000)$.
+\begin{center}
+$10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^{11}=10^6\cdot \displaystyle \frac{9^{11}}{10^{11}}=\displaystyle \frac{9^{11}}{10^5}\approx313,811$
+$10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^{12}=10^6\cdot \displaystyle \frac{9^{12}}{10^{12}}=\displaystyle \frac{9^{12}}{10^6}\approx282,430$
+\end{center}
+e) Between 110 and 120 min \\
+\\
+When $80\%$ of the bacteria are killed, $20\%$ of the bacteria will be left $(10^6\cdot.2=200,000)$. \\
+\begin{center}
+$10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^{15}=10^6\cdot \displaystyle \frac{9^{15}}{10^{15}}=\displaystyle \frac{9^{15}}{10^9}\approx205,891$
+$10^6\cdot \bigg(\displaystyle \frac{9}{10}\bigg)^{16}=10^6\cdot \displaystyle \frac{9^{16}}{10^{16}}=\displaystyle \frac{9^{16}}{10^{10}}\approx185,302$
+\end{center}
+f) Between 150 and 160 min \\
+\\
+20. A chemical pollutant is being emptied in a lake with 50,000 fishes. Every month, one-third of the fish still alive die from this pollutant. How many fish will be alive after \\
+a) 1 month? \hspace{3.5cm} b) 2 months? \\
+c) 4 months? \hspace{3.4cm} d) 6 months? \\
+(Give your answer to the nearest 100.) \\
+e) What is the first month when more than half the fish will be dead? \\
+f) During which month will $80\%$ of the fish be dead? \\
+Note: If one-third die, then two thirds remain. \\
+\\
+After one month, there will be $50,000\cdot \displaystyle \frac{2}{3}$ fish left. After two months, there will be $\bigg(50,000\cdot \displaystyle \frac{2}{3}\bigg)\cdot \displaystyle \frac{2}{3}=50,000\cdot \bigg(\displaystyle \frac{2}{3}\bigg)^2$ fish left. After three months, there will be $\bigg(50,000\cdot \bigg(\displaystyle \frac{2}{3}\bigg)^2\bigg)\cdot \displaystyle \frac{2}{3}=50,000\cdot \bigg(\displaystyle \frac{2}{3}\bigg)^3$ fish left. Continuing the pattern, we get \\
+\\
+a) $50,000\cdot \displaystyle \frac{2}{3}\approx33,300$ fish \\
+\\
+b) $50,000\cdot \bigg(\displaystyle \frac{2}{3}\bigg)^2=50,000\cdot \displaystyle \frac{4}{9}\approx22,200$ fish \\
+\\
+c) $50,000\cdot \bigg(\displaystyle \frac{2}{3}\bigg)^4=50,000\cdot \displaystyle \frac{16}{81}\approx9,900$ fish \\
+\\
+d) $50,000\cdot \bigg(\displaystyle \frac{2}{3}\bigg)^6=50,000\cdot \displaystyle \frac{64}{729}\approx4,400$ fish \\
+\\
+When more than half the fish are dead, less than half the fish are left $(50,000\cdot.5=25,000)$. From above, we get \\
+e) The second month \\
+\\
+When $80\%$ of the fish are dead, $20\%$ of the fish are left $(50,000\cdot.2=10,000)$.
+\begin{center}
+$50,000\cdot \bigg(\displaystyle \frac{2}{3}\bigg)^3=50,000\cdot \displaystyle \frac{8}{27}\approx14,800$ \\
+$50,000\cdot \bigg(\displaystyle \frac{2}{3}\bigg)^4=50,000\cdot \displaystyle \frac{16}{81}\approx9,900$
+\end{center}
+f) After the fourth month \\
+\\
+21. Every 10 years the population of a city is five-fourths of what it was 10 years before. How many years does it take \\
+a) before the population doubles? \hspace{1cm} b) before it triples? \\
+\\
+Let $x$ be the population of a city. The population doubles when $x\cdot2$ (and triples when $x\cdot3$). After 10 years, the population will be $x\cdot \displaystyle \frac{5}{4}=x\cdot1.25$. After 20 years, the population will be $\bigg(x\cdot \displaystyle \frac{5}{4}\bigg)\cdot \displaystyle \frac{5}{4}=x\cdot \displaystyle \frac{25}{16}=x\cdot1.5625$. After 30 years, the population will be $\bigg(x\cdot \displaystyle \frac{25}{16}\bigg)\cdot \displaystyle \frac{5}{4}=x\cdot \displaystyle \frac{125}{64}=x\cdot1.953125$. After 40 years, the population will be $\bigg(x\cdot \displaystyle \frac{125}{64}\bigg)\cdot \displaystyle \frac{5}{4}=x\cdot \displaystyle \frac{625}{256}=x\cdot2.44140625$. After 50 years, the population will be $\bigg(x\cdot \displaystyle \frac{625}{256}\bigg)\cdot \displaystyle \frac{5}{4}=x\cdot \displaystyle \frac{3125}{1024}\approx x\cdot3.052$. \\
+a) 40 years \\
+b) 50 years 
+\subsection{Multiplicative Inverses}
+\textbf{Cross-multiplication.} Let $a$, $b$, $c$, $d$ be rational numbers, and assume that $b\neq0$ and $d\neq0$.
+\begin{center}
+If $\displaystyle \frac{a}{b}=\displaystyle \frac{c}{d}$, then $ad=bc$. \\
+~ \\
+If $ad=bc$, then $\displaystyle \frac{a}{b}=\displaystyle \frac{c}{d}$.
+\end{center}
+\begin{proof}
+Suppose $\displaystyle \frac{a}{b}=\displaystyle \frac{c}{d}$. We can rewrite this equation as $ab^{-1}=cd^{-1}$. Multiplying both sides by $bd$, we get
+\begin{align*}
+bd\cdot ab^{-1}&=bd\cdot cd^{-1} \\
+db\cdot b^{-1}a&=bd\cdot d^{-1}c \\
+d1a&=b1c \\
+da&=bc \\
+ad&=bc.
+\end{align*}
+Suppose $ad=bc$. Multiplying both sides by $b^{-1}d^{-1}$, we get
+\begin{align*}
+b^{-1}d^{-1}\cdot ad&=b^{-1}d^{-1}\cdot bc \\
+b^{-1}d^{-1}\cdot da&=d^{-1}b^{-1}\cdot bc \\
+b^{-1}1a&=d^{-1}1c \\
+b^{-1}a&=d^{-1}c
+\end{align*}
+which can be rewritten as $\displaystyle \frac{a}{b}=\displaystyle \frac{c}{d}$.
+\end{proof}
+\textbf{Cancellation law for multiplication.} Let $a$ be a rational number $\neq0$.
+\begin{center}
+If $ab=ac$, then $b=c$.
+\end{center}
+\begin{proof}
+Multiplying both sides of $ab=ac$ by $a^{-1}$, we get
+\begin{align*}
+a^{-1}\cdot ab&=a^{-1}\cdot ac \\
+1b&=1c \\
+b&=c.
+\end{align*}
+\end{proof}
+\textbf{Cancellation law for quotients of rational numbers.} If $a$, $b$, $c$, $d$ are rational numbers and $a\neq0$, $c\neq0$, then
+\begin{center}
+$\displaystyle \frac{ab}{ac}=\displaystyle \frac{b}{c}$.
+\end{center}
+\begin{proof}
+Using the rule of cross-multiplication, if we can show that $abc=acb$, then $\displaystyle \frac{ab}{ac}=\displaystyle \frac{b}{c}$. By commutativity, $abc=acb$.
+\end{proof}
+\textbf{Formula}: $\displaystyle \frac{a}{b}+\displaystyle \frac{c}{d}=\displaystyle \frac{ad+bc}{bd}.$
+\subsection*{Exercises}
+1. Solve for $x$ in the following equations. \\
+\\
+a) $\displaystyle \frac{2x-1}{3x+2}=7$
+\begin{align*}
+2x-1&=7\cdot(3x+2) \\
+2x-1&=21x+14 \\
+-19x&=15 \\
+x&=\displaystyle \frac{15}{-19}
+\end{align*}
+b) $\displaystyle \frac{2-4x}{x+1}=\displaystyle \frac{3}{4}$
+\begin{align*}
+(2-4x)\cdot4&=3\cdot(x+1) \\
+8-16x&=3x+3 \\
+-19x&=-5 \\
+x&=\displaystyle \frac{-5}{-19} \\
+x&=\displaystyle \frac{5}{19} \\
+\end{align*}
+c) $\displaystyle \frac{x}{x+5}=\displaystyle \frac{5}{7}$
+\begin{align*}
+x\cdot7&=5\cdot(x+5) \\
+7x&=5x+25 \\
+2x&=25 \\
+x&=\displaystyle \frac{25}{2}
+\end{align*}
+d) $2x+5=\displaystyle \frac{3x-2}{7}$
+\begin{align*}
+(2x+5)\cdot7&=3x-2 \\
+14x+35&=3x-2 \\
+11x&=-37 \\
+x&=\displaystyle \frac{-37}{11}
+\end{align*}
+e) $\displaystyle \frac{1-2x}{3x+4}=-3$
+\begin{align*}
+1-2x&=-3\cdot(3x+4) \\
+1-2x&=-9x-12 \\
+7x&=-13 \\
+x&=\displaystyle \frac{-13}{7}
+\end{align*}
+f) $\displaystyle \frac{-2-5x}{-3x-4}=\displaystyle \frac{4}{-3}$
+\begin{align*}
+(-2-5x)\cdot-3&=4\cdot(-3x-4) \\
+6+15x&=-12x-16 \\
+27x&=-22 \\
+x&=\displaystyle \frac{-22}{27}
+\end{align*}
+g) $\displaystyle \frac{-2-7x}{4}+1=\displaystyle \frac{1-x}{5}$
+\begin{align*}
+\displaystyle \frac{-2-7x}{4}+\displaystyle \frac{4}{4}&=\displaystyle \frac{1-x}{5} \\
+\displaystyle \frac{2-7x}{4}&=\displaystyle \frac{1-x}{5} \\
+(2-7x)\cdot5&=(1-x)\cdot4 \\
+10-35x&=4-4x \\
+-31x&=-6 \\
+x&=\displaystyle \frac{6}{31}
+\end{align*}
+h) $\displaystyle \frac{3x+1}{4-2x}+\displaystyle \frac{7}{3}=0$
+\begin{align*}
+\displaystyle \frac{3x+1}{4-2x}&=-\displaystyle \frac{7}{3} \\
+(3x+1)\cdot3&=-7\cdot(4-2x) \\
+9x+3&=-28+14x \\
+-5x&=-31 \\
+x&=\displaystyle \frac{31}{5}
+\end{align*}
+i) $\displaystyle \frac{-2-4x}{3}=\displaystyle \frac{x-1}{4}+5$
+\begin{align*}
+\displaystyle \frac{-2-4x}{3}&=\displaystyle \frac{x-1}{4}+\displaystyle \frac{20}{4} \\
+\displaystyle \frac{-2-4x}{3}&=\displaystyle \frac{x+19}{4} \\
+(-2-4x)\cdot4&=(x+19)\cdot3 \\
+-8-16x&=3x+57 \\
+-19x&=65 \\
+x&=\displaystyle \frac{65}{-19}
+\end{align*}
+2. Prove the following relations. It is assumed that all values of $x$ and $y$ which occur are such that the denominators in the indicated fractions are not equal to 0. \\
+\\
+a) $\displaystyle \frac{1}{x+y}-\displaystyle \frac{1}{x-y}=\displaystyle \frac{-2y}{x^2-y^2}$
+\begin{proof}
+\begin{align*}
+\displaystyle \frac{1}{x+y}-\displaystyle \frac{1}{x-y}&=\displaystyle \frac{(x-y)\cdot1}{(x-y)\cdot(x+y)}-\displaystyle \frac{1\cdot(x+y)}{(x-y)\cdot(x+y)}\\
+&=\displaystyle \frac{x-y}{x^2-y^2}-\displaystyle \frac{x+y}{x^2-y^2} \\
+&=\displaystyle \frac{x-y-(x+y)}{x^2-y^2} \\
+&=\displaystyle \frac{x-y-x-y}{x^2-y^2} \\
+&=\displaystyle \frac{-2y}{x^2-y^2}
+\end{align*}
+\end{proof}
+\noindent b) $\displaystyle \frac{x^3-1}{x-1}=1+x+x^2$
+\begin{proof}
+To prove this, we use cross-multiplication.
+\begin{align*}
+\displaystyle \frac{x^3-1}{x-1}&=\displaystyle \frac{1+x+x^2}{1} \\
+(x^3-1)\cdot1&=(1+x+x^2)\cdot(x-1) \\
+x^3-1&=x+x^2+x^3-(1+x+x^2) \\
+x^3-1&=x+x^2+x^3-1-x-x^2 \\
+x^3-1&=x^3-1
+\end{align*}
+Thus, $(x^3-1)\cdot1=(1+x+x^2)\cdot(x-1)$. By the rule of cross-multiplication, it must be true that $\displaystyle \frac{x^3-1}{x-1}=\displaystyle \frac{1+x+x^2}{1}=1+x+x^2$.
+\end{proof}
+\noindent c) $\displaystyle \frac{x^4-1}{x-1}=1+x+x^2+x^3$
+\begin{proof}
+To prove this, we use cross-multiplication.
+\begin{align*}
+\displaystyle \frac{x^4-1}{x-1}&=\displaystyle \frac{1+x+x^2+x^3}{1} \\
+(x^4-1)\cdot1&=(1+x+x^2+x^3)\cdot(x-1) \\
+x^4-1&=x+x^2+x^3+x^4-(1+x+x^2+x^3) \\
+x^4-1&=x+x^2+x^3+x^4-1-x-x^2-x^3 \\
+x^4-1&=x^4-1
+\end{align*}
+Thus, $(x^4-1)\cdot1=(1+x+x^2+x^3)\cdot(x-1)$. By the rule of cross-multiplication, it must be true that $\displaystyle \frac{x^4-1}{x-1}=\displaystyle \frac{1+x+x^2+x^3}{1}=1+x+x^2+x^3$.
+\end{proof}
+\noindent d) $\displaystyle \frac{x^n-1}{x-1}=x^{n-1}+x^{n-2}+\cdots+x+1.$ Hint: Cross-multiply and cancel as much as possible.
+\begin{proof}
+To prove this, we use cross-multiplication.
+\begin{center}
+$\displaystyle \frac{x^n-1}{x-1}=\displaystyle \frac{x^{n-1}+x^{n-2}+\cdots+x+1}{1}$ \\
+$(x^n-1)\cdot1=(x^{n-1}+x^{n-2}+\cdots+x+1)\cdot(x-1)$ \\
+$x^n-1=(x^{n-1}+x^{n-2}+\cdots+x+1)\cdot x+(x^{n-1}+x^{n-2}+\cdots+x+1)\cdot-1$ \\
+$x^n-1=x^{n-1}\cdot x+x^{n-2}\cdot x+\cdots+x\cdot x+1\cdot x+(-x^{n-1}-x^{n-2}-\cdots-x-1)$ \\
+$x^n-1=x^{n-1+1}+x^{n-2+1}+\cdots+x^2+x-x^{n-1}-x^{n-2}-\cdots-x-1$ \\
+$x^n-1=x^n+x^{n-1}+\cdots+x^2+x-x^{n-1}-x^{n-2}-\cdots-x-1$ \\
+\end{center}
+Notice that $x^{n-1}+\cdots+x^2+x$ will cancel out with $-x^{n-1}-x^{n-2}-\cdots-x$, leaving us with
+\begin{center}
+$x^n-1=x^n-1$.
+\end{center}
+Thus, $(x^n-1)\cdot1=(x^{n-1}+x^{n-2}+\cdots+x+1)\cdot(x-1)$. By the rule of cross-multiplication, it must be true that $\displaystyle \frac{x^n-1}{x-1}=\displaystyle \frac{x^{n-1}+x^{n-2}+\cdots+x+1}{1}=x^{n-1}+x^{n-2}+\cdots+x+1$.
+\end{proof}
+\noindent 3. Prove the following relations. \\
+\\
+a) $\displaystyle \frac{1}{2x+y}+\displaystyle \frac{1}{2x-y}=\displaystyle \frac{4x}{4x^2-y^2}$
+\begin{proof}
+\begin{align*}
+\displaystyle \frac{1}{2x+y}+\displaystyle \frac{1}{2x-y}&=\displaystyle \frac{(2x-y)\cdot1}{(2x-y)\cdot(2x+y)}+\displaystyle \frac{1\cdot(2x+y)}{(2x-y)\cdot(2x+y)} \\
+&=\displaystyle \frac{2x-y}{4x^2-y^2}+\displaystyle \frac{2x+y}{4x^2-y^2} \\
+&=\displaystyle \frac{2x-y+2x+y}{4x^2-y^2} \\
+&=\displaystyle \frac{4x}{4x^2-y^2}
+\end{align*}
+\end{proof}
+\noindent b) $\displaystyle \frac{2x}{x+5}-\displaystyle \frac{3x+1}{2x+1}=\displaystyle \frac{x^2-14x-5}{2x^2+11x+5}$
+\begin{proof}
+\begin{align*}
+\displaystyle \frac{2x}{x+5}-\displaystyle \frac{3x+1}{2x+1}&=\displaystyle \frac{(2x+1)\cdot(2x)}{(2x+1)\cdot(x+5)}-\displaystyle \frac{(3x+1)\cdot(x+5)}{(2x+1)\cdot(x+5)} \\
+&=\displaystyle \frac{4x^2+2x}{2x^2+11x+5}-\displaystyle \frac{3x^2+16x+5}{2x^2+11x+5} \\
+&=\displaystyle \frac{4x^2+2x-3x^2-16x-5}{2x^2+11x+5} \\
+&=\displaystyle \frac{x^2-14x-5}{2x^2+11x+5}
+\end{align*}
+\end{proof}
+\noindent c) $\displaystyle \frac{1}{x+3y}+\displaystyle \frac{1}{x-3y}=\displaystyle \frac{2x}{x^2-9y^2}$
+\begin{proof}
+\begin{align*}
+\displaystyle \frac{1}{x+3y}+\displaystyle \frac{1}{x-3y}&=\displaystyle \frac{(x-3y)\cdot1}{(x-3y)\cdot(x+3y)}+\displaystyle \frac{1\cdot(x+3y)}{(x-3y)\cdot(x+3y)} \\
+&=\displaystyle \frac{x-3y}{x^2-9y^2}+\displaystyle \frac{x+3y}{x^2-9y^2} \\
+&=\displaystyle \frac{x-3y+x+3y}{x^2-9y^2} \\
+&=\displaystyle \frac{2x}{x^2-9y^2}
+\end{align*}
+\end{proof}
+\noindent d) $\displaystyle \frac{1}{3x-2y}+\displaystyle \frac{x}{x+y}=\displaystyle \frac{x+y+3x^2-2xy}{3x^2+xy-2y^2}$
+\begin{proof}
+\begin{align*}
+\displaystyle \frac{1}{3x-2y}+\displaystyle \frac{x}{x+y}&=\displaystyle \frac{(x+y)\cdot1}{(x+y)\cdot(3x-2y)}+\displaystyle \frac{x\cdot(3x-2y)}{(x+y)\cdot(3x-2y)} \\
+&=\displaystyle \frac{x+y}{3x^2+xy-2y^2}+\displaystyle \frac{3x^2-2xy}{3x^2+xy-2y^2} \\
+&=\displaystyle \frac{x+y+3x^2-2xy}{3x^2+xy-2y^2}
+\end{align*}
+\end{proof}
+\noindent 4. Prove the following relations. \\
+\\
+a) $\displaystyle \frac{x^3-y^3}{x-y}=x^2+xy+y^2$
+\begin{proof}
+To prove this, we use cross-multiplication.
+\begin{center}
+$\displaystyle \frac{x^3-y^3}{x-y}=\displaystyle \frac{x^2+xy+y^2}{1}$ \\
+$(x^3-y^3)\cdot1=(x^2+xy+y^2)\cdot(x-y)$ \\
+$x^3-y^3=x^3+x^2y+xy^2-x^2y-xy^2-y^3$ \\
+$x^3-y^3=x^3-y^3$
+\end{center}
+Thus, $(x^3-y^3)\cdot1=(x^2+xy+y^2)\cdot(x-y)$. By the rule of cross-multiplication, it must be true that $\displaystyle \frac{x^3-y^3}{x-y}=\displaystyle \frac{x^2+xy+y^2}{1}=x^2+xy+y^2$.
+\end{proof}
+\noindent b) $\displaystyle \frac{x^4-y^4}{x-y}=x^3+x^2y+xy^2+y^3$
+\begin{proof}
+To prove this, we use cross-multiplication.
+\begin{center}
+$\displaystyle \frac{x^4-y^4}{x-y}=\displaystyle \frac{x^3+x^2y+xy^2+y^3}{1}$ \\
+$(x^4-y^4)\cdot1=(x^3+x^2y+xy^2+y^3)\cdot(x-y)$ \\
+$x^4-y^4=x^4+x^3y+x^2y^2+xy^3-x^3y-x^2y^2-xy^3-y^4$ \\
+$x^4-y^4=x^4-y^4$
+\end{center}
+Thus, $(x^4-y^4)\cdot1=(x^3+x^2y+xy^2+y^3)\cdot(x-y)$. By the rule of cross-multiplication, it must be true that $\displaystyle \frac{x^4-y^4}{x-y}=\displaystyle \frac{x^3+x^2y+xy^2+y^3}{1}=x^3+x^2y+xy^2+y^3$.
+\end{proof}
+\noindent c) Let
+\begin{center}
+$x=\displaystyle \frac{1-t^2}{1+t^2}$
+and
+$y=\displaystyle \frac{2t}{1+t^2}$.
+\end{center}
+Show that $x^2+y^2=1$.
+\begin{proof}
+~
+\begin{align*}
+x^2=\bigg(\displaystyle \frac{1-t^2}{1+t^2}\bigg)^2&=\displaystyle \frac{1-t^2}{1+t^2}\cdot \displaystyle \frac{1-t^2}{1+t^2} \\
+&=\displaystyle \frac{(1-t^2)\cdot1+(1-t^2)\cdot(-t^2)}{(1+t^2)\cdot1+(1+t^2)\cdot t^2} \\
+&=\displaystyle \frac{1-t^2+(-t^2+t^4)}{1+t^2+t^2+t^4} \\
+&=\displaystyle \frac{1-2t^2+t^4}{1+2t^2+t^4}
+\end{align*}
+\begin{align*}
+y^2=\bigg(\displaystyle \frac{2t}{1+t^2}\bigg)^2&=\displaystyle \frac{2t}{1+t^2}\cdot \displaystyle \frac{2t}{1+t^2} \\
+&=\displaystyle \frac{4t^2}{(1+t^2)\cdot1+(1+t^2)\cdot t^2} \\
+&=\displaystyle \frac{4t^2}{1+t^2+t^2+t^4} \\
+&=\displaystyle \frac{4t^2}{1+2t^2+t^4}
+\end{align*}
+\begin{align*}
+x^2+y^2&=\displaystyle \frac{1-2t^2+t^4}{1+2t^2+t^4}+\displaystyle \frac{4t^2}{1+2t^2+t^4} \\
+&=\displaystyle \frac{1-2t^2+t^4+4t^2}{1+2t^2+t^4} \\
+&=\displaystyle \frac{1+2t^2+t^4}{1+2t^2+t^4} \\
+&=1
+\end{align*}
+\end{proof}
+\noindent 5. Prove the following relations. \\
+\\
+a) $\displaystyle \frac{x^3+1}{x+1}=x^2-x+1$
+\begin{proof}
+To prove this, we use cross-multiplication.
+\begin{center}
+$\displaystyle \frac{x^3+1}{x+1}=\displaystyle \frac{x^2-x+1}{1}$ \\
+$(x^3+1)\cdot1=(x^2-x+1)\cdot(x+1)$ \\
+$x^3+1=x^3-x^2+x+x^2-x+1$ \\
+$x^3+1=x^3+1$
+\end{center}
+Thus, $(x^3+1)\cdot1=(x^2-x+1)\cdot(x+1)$. By the rule of cross-multiplication, it must be true that $\displaystyle \frac{x^3+1}{x+1}=\displaystyle \frac{x^2-x+1}{1}=x^2-x+1$.
+\end{proof}
+\noindent b) $\displaystyle \frac{x^5+1}{x+1}=x^4-x^3+x^2-x+1$
+\begin{proof}
+To prove this, we use cross-multiplication.
+\begin{center}
+$\displaystyle \frac{x^5+1}{x+1}=\displaystyle \frac{x^4-x^3+x^2-x+1}{1}$ \\
+$(x^5+1)\cdot1=(x^4-x^3+x^2-x+1)\cdot(x+1)$ \\
+$x^5+1=x^5-x^4+x^3-x^2+x+x^4-x^3+x^2-x+1$ \\
+$x^5+1=x^5+1$
+\end{center}
+Thus, $(x^5+1)\cdot1=(x^4-x^3+x^2-x+1)\cdot(x+1)$. By the rule of cross-multiplication, it must be true that $\displaystyle \frac{x^5+1}{x+1}=\displaystyle \frac{x^4-x^3+x^2-x+1}{1}=x^4-x^3+x^2-x+1$.
+\end{proof}
+\noindent c) If $n$ is an odd integer, prove that
+\begin{center}
+$\displaystyle \frac{x^n+1}{x+1}=x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1$.
+\end{center}
+Hint: Cross-multiply.
+\begin{proof}
+To prove this, we use cross-multiplication.
+\begin{center}
+$\displaystyle \frac{x^n+1}{x+1}=\displaystyle \frac{x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1}{1}$ \\
+$(x^n+1)\cdot1=(x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1)\cdot(x+1)$ \\
+$x^n+1=(x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1)\cdot x+(x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1)\cdot1$ \\
+$x^n+1=x^{n-1}\cdot x-x^{n-2}\cdot x+x^{n-3}\cdot x-\cdots-x\cdot x+1\cdot x+x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1$ \\
+$x^n+1=x^{n-1+1}-x^{n-2+1}+x^{n-3+1}-\cdots-x^2+x+x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1$ \\
+$x^n+1=x^n-x^{n-1}+x^{n-2}-\cdots-x^2+x+x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1$
+\end{center}
+Notice that $-x^{n-1}+x^{n-2}-\cdots-x^2+x$ will cancel out with $x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x$, leaving us with
+\begin{center}
+$x^n+1=x^n+1$.
+\end{center}
+Thus, $(x^n+1)\cdot1=(x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1)\cdot(x+1)$. By the rule of cross-multiplication, it must be true that $\displaystyle \frac{x^n+1}{x+1}=\displaystyle \frac{x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1}{1}=x^{n-1}-x^{n-2}+x^{n-3}-\cdots-x+1$.
+\end{proof}
+\noindent 6. Assume that a particle moving with uniform speed on a straight line travels a distance of $\frac{5}{4}$ ft at a speed of $\frac{2}{5}$ ft/sec. What time did it take the particle to do that? \\
+\\
+Let $d=\frac{5}{4}$ be the distance the particle travels, $s=\frac{2}{5}$ be the speed at which the particle travels, $t$ be the time in seconds it takes the particle to do that. Using the distance formula (provided in the book), we have
+\begin{center}
+$d=st$ \\
+$\frac{5}{4}=\frac{2}{5}t$
+\end{center}
+Using cross-multiplication, we can find $t$:
+\begin{center}
+$\displaystyle \frac{5}{4}=\displaystyle \frac{2t}{5}$ \\
+$5\cdot5=2t\cdot4$ \\
+$25=8t$ \\
+$\displaystyle \frac{25}{8}=t$
+\end{center}
+So the particle took $\displaystyle \frac{25}{8}$ seconds. \\
+\\
+7. If a solid has uniform density $d$, occupies a volume $v$, and has mass $m$, then we have the formula
+\begin{center}
+$m=vd$.
+\end{center}
+Find the density if \\
+a) $m=\frac{3}{10}$ lb and $v=\frac{2}{3}$ in$^3$
+\begin{center}
+$\displaystyle \frac{3}{10}=\displaystyle \frac{2}{3}d$ \\
+$\displaystyle \frac{3}{10}=\displaystyle \frac{2d}{3}$ \\
+$3\cdot3=2d\cdot10$ \\
+$9=20d$ \\
+$\displaystyle \frac{9}{20}=d$
+\end{center}
+b) $m=6$ lb and $v=\frac{4}{3}$ in$^3$
+\begin{center}
+$6=\displaystyle \frac{4}{3}d$ \\
+$\displaystyle \frac{6}{1}=\displaystyle \frac{4d}{3}$ \\
+$6\cdot3=4d\cdot1$ \\
+$18=4d$ \\
+$\displaystyle \frac{18}{4}=d$ \\
+$\displaystyle \frac{9}{2}=d$
+\end{center}
+c) Find the volume if the mass is $15$ lb and the density is $\frac{2}{3}$ lb/in$^3$.
+\begin{center}
+$15=v\displaystyle \frac{2}{3}$ \\
+$\displaystyle \frac{15}{1}=\displaystyle \frac{2v}{3}$ \\
+$15\cdot3=2v\cdot1$ \\
+$45=2v$ \\
+$\displaystyle \frac{45}{2}=v$
+\end{center}
+8) Let $F$ denote temperature in degrees Fahrenheit, and $C$ the temperature in degrees centrigrade. Then $F$ and $C$ are related by the formula
+\begin{center}
+$C=\frac{5}{9}(F-32)$.
+\end{center}
+Find $C$ when $F$ is \\
+a) 0
+\begin{align*}
+C&=\displaystyle \frac{5}{9}(0-32) \\
+&=\displaystyle \frac{5}{9}(-32) \\
+&=\displaystyle \frac{5\cdot-32}{9} \\
+&=\displaystyle \frac{-160}{9}
+\end{align*}
+b) 50
+\begin{align*}
+C&=\displaystyle \frac{5}{9}(50-32) \\
+&=\displaystyle \frac{5}{9}(18) \\
+&=\displaystyle \frac{5\cdot18}{9} \\
+&=\displaystyle \frac{90}{9} \\
+&=10
+\end{align*}
+c) 99
+\begin{align*}
+C&=\displaystyle \frac{5}{9}(99-32) \\
+&=\displaystyle \frac{5}{9}(67) \\
+&=\displaystyle \frac{5\cdot67}{9} \\
+&=\displaystyle \frac{335}{9}
+\end{align*}
+d) 100
+\begin{align*}
+C&=\displaystyle \frac{5}{9}(100-32) \\
+&=\displaystyle \frac{5}{9}(68) \\
+&=\displaystyle \frac{5\cdot68}{9} \\
+&=\displaystyle \frac{340}{9}
+\end{align*}
+e) -40
+\begin{align*}
+C&=\displaystyle \frac{5}{9}(-40-32) \\
+&=\displaystyle \frac{5}{9}(-72) \\
+&=\displaystyle \frac{5\cdot-72}{9} \\
+&=\displaystyle \frac{-360}{9} \\
+&=-40
+\end{align*}
+9) Let $F$ and $C$ be as in Exercise 8. Find $F$ when $C$ is: \\
+a) 0
+\begin{center}
+$0=\displaystyle \frac{5}{9}(F-32)$ \\
+$0=\displaystyle \frac{5}{9}F-\displaystyle \frac{5}{9}\cdot32$ \\
+$0=\displaystyle \frac{5F}{9}-\displaystyle \frac{5\cdot32}{9}$ \\
+$0=\displaystyle \frac{5F}{9}-\displaystyle \frac{160}{9}$ \\
+$\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$160\cdot9=5F\cdot9$ \\
+$1440=45F$ \\
+$\displaystyle \frac{1440}{45}=F$ \\
+$32=F$
+\end{center}
+b) -10
+\begin{center}
+$-10=\displaystyle \frac{5}{9}(F-32)$ \\
+$-10=\displaystyle \frac{5}{9}F-\displaystyle \frac{5}{9}\cdot32$ \\
+$-10=\displaystyle \frac{5F}{9}-\displaystyle \frac{5\cdot32}{9}$ \\
+$-10=\displaystyle \frac{5F}{9}-\displaystyle \frac{160}{9}$ \\
+$-10+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$-\displaystyle \frac{90}{9}+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$\displaystyle \frac{70}{9}=\displaystyle \frac{5F}{9}$ \\
+$70\cdot9=5F\cdot9$ \\
+$630=45F$ \\
+$\displaystyle \frac{630}{45}=F$ \\
+$14=F$
+\end{center}
+c) -40
+\begin{center}
+$-40=\displaystyle \frac{5}{9}(F-32)$ \\
+$-40=\displaystyle \frac{5}{9}F-\displaystyle \frac{5}{9}\cdot32$ \\
+$-40=\displaystyle \frac{5F}{9}-\displaystyle \frac{5\cdot32}{9}$ \\
+$-40=\displaystyle \frac{5F}{9}-\displaystyle \frac{160}{9}$ \\
+$-40+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$-\displaystyle \frac{360}{9}+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$-\displaystyle \frac{200}{9}=\displaystyle \frac{5F}{9}$ \\
+$-200\cdot9=5F\cdot9$ \\
+$-1800=45F$ \\
+$\displaystyle \frac{-1800}{45}=F$ \\
+$-40=F$
+\end{center}
+d) 37
+\begin{center}
+$37=\displaystyle \frac{5}{9}(F-32)$ \\
+$37=\displaystyle \frac{5}{9}F-\displaystyle \frac{5}{9}\cdot32$ \\
+$37=\displaystyle \frac{5F}{9}-\displaystyle \frac{5\cdot32}{9}$ \\
+$37=\displaystyle \frac{5F}{9}-\displaystyle \frac{160}{9}$ \\
+$37+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$\displaystyle \frac{333}{9}+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$\displaystyle \frac{493}{9}=\displaystyle \frac{5F}{9}$ \\
+$493\cdot9=5F\cdot9$ \\
+$4437=45F$ \\
+$\displaystyle \frac{4437}{45}=F$ \\
+$98.6=F$
+\end{center}
+e) 40
+\begin{center}
+$40=\displaystyle \frac{5}{9}(F-32)$ \\
+$40=\displaystyle \frac{5}{9}F-\displaystyle \frac{5}{9}\cdot32$ \\
+$40=\displaystyle \frac{5F}{9}-\displaystyle \frac{5\cdot32}{9}$ \\
+$40=\displaystyle \frac{5F}{9}-\displaystyle \frac{160}{9}$ \\
+$40+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$\displaystyle \frac{360}{9}+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$\displaystyle \frac{520}{9}=\displaystyle \frac{5F}{9}$ \\
+$520\cdot9=5F\cdot9$ \\
+$4680=45F$ \\
+$\displaystyle \frac{4680}{45}=F$ \\
+$104=F$
+\end{center}
+f) 100
+\begin{center}
+$100=\displaystyle \frac{5}{9}(F-32)$ \\
+$100=\displaystyle \frac{5}{9}F-\displaystyle \frac{5}{9}\cdot32$ \\
+$100=\displaystyle \frac{5F}{9}-\displaystyle \frac{5\cdot32}{9}$ \\
+$100=\displaystyle \frac{5F}{9}-\displaystyle \frac{160}{9}$ \\
+$100+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$\displaystyle \frac{900}{9}+\displaystyle \frac{160}{9}=\displaystyle \frac{5F}{9}$ \\
+$\displaystyle \frac{1060}{9}=\displaystyle \frac{5F}{9}$ \\
+$1060\cdot9=5F\cdot9$ \\
+$9540=45F$ \\
+$\displaystyle \frac{9540}{45}=F$ \\
+$212=F$
+\end{center}
+10) In electricity theory, one denotes the current by $I$, the resistance by $R$, and the voltage by $E$. These are related by the formula
+\begin{center}
+$E=IR$
+\end{center}
+(with appropriate units). Find the resistance when the voltage and current are: \\
+a) $E=10, I=3$
+\begin{center}
+$10=3R$ \\
+$\displaystyle \frac{10}{3}=R$
+\end{center}
+b) $E=220, I=10$
+\begin{center}
+$220=10R$ \\
+$\displaystyle \frac{220}{10}=R$ \\
+$22=R$
+\end{center}
+11) A solution contains 35\% alcohol and 65\% water. If you start with 12 kilograms of solution, how much water must be added to make the percentage of alcohol equal to \\
+a) 20\% \hspace{4cm} b) 10\% \hspace{4cm} c) 5\% \\
+\\
+If we start with 12 kilograms of solution, then 4.2 kilograms of it is alcohol (35\% of 12) and 7.8 kilograms of it is water (65\% of 12). Let $x$ be the amount of water that is added. If we add more water, then the total amount of water in the solution will be $7.8+x$ and the total amount of solution will be $12+x$. The percentage of water can be found by $\displaystyle \frac{part}{whole}$:
+\begin{center}
+$\displaystyle \frac{7.8+x}{12+x}$.
+\end{center}
+a) We want the percentage of alcohol to be equal to 20\%, which means the percentage of water will be equal to 80\%, so we have
+\begin{center}
+$\displaystyle \frac{7.8+x}{12+x}=\displaystyle \frac{80}{100}$ \\
+$(7.8+x)\cdot100=80\cdot(12+x)$ \\
+$780+100x=960+80x$ \\
+$20x=180$ \\
+$x=9$
+\end{center}
+b) We want the percentage of alcohol to be equal to 10\%, which means the percentage of water will be equal to 90\%, so we have
+\begin{center}
+$\displaystyle \frac{7.8+x}{12+x}=\displaystyle \frac{90}{100}$ \\
+$(7.8+x)\cdot100=90\cdot(12+x)$ \\
+$780+100x=1080+90x$ \\
+$10x=300$ \\
+$x=30$
+\end{center}
+c) We want the percentage of alcohol to be equal to 5\%, which means the percentage of water will be equal to 95\%, so we have
+\begin{center}
+$\displaystyle \frac{7.8+x}{12+x}=\displaystyle \frac{95}{100}$ \\
+$(7.8+x)\cdot100=95\cdot(12+x)$ \\
+$780+100x=1140+95x$ \\
+$5x=360$ \\
+$x=72$
+\end{center}
+12. A plane travels 3,000 mi in 4 hr. When the wind is favorable, the plane averages 900 mph. When the wind is unfavorable, the plane averages 500 mph. During how many hours was the wind favorable? \\
+\\
+Let $x$ be the number of hours during which the wind was favorable. So $4-x$ is the number of hours during which the wind was unfavorable. Travelling at 900 mph for $x$ hours, the plane travels $900x$ mi when the wind is favorable. Travelling at 500 mph for $4-x$ hours, the plane travels $500(4-x)=2000-500x$ mi when the wind is unfavorable. Adding these two quantities should equal the total number of mi the plane travelled the whole time, i.e.,
+\begin{center}
+$900x+2000-500x=3000$ \\
+$400x=1000$ \\
+$x=\displaystyle \frac{1000}{400}$ \\
+$x=\displaystyle \frac{5}{2}$
+\end{center}
+So the wind was favorable for $\displaystyle \frac{5}{2}$ hours. \\
+13. Tickets for a performance sell at \$5.00 and \$2.00. The total amount collected was \$4,100, and there were 1,300 tickets in all. How many tickets of each price were sold? \\
+\\
+Let $x$ be the number of tickets that were sold at \$5.00. So the number of tickets that were sold at \$2.00 is $1300-x$. The amount collected from selling \$5.00 tickets is $5x$. The amount collected from selling \$2.00 tickets is $2(1300-x)=2600-2x$. The amount collected from selling both types of tickets should equal 4100.
+\begin{center}
+$5x+2600-2x=4100$ \\
+$3x=1500$ \\
+$x=500$
+\end{center}
+So 500 tickets were sold at \$5.00 and 800 tickets were sold at \$2.00. \\
+14. A salt solution contains 10\% salt and weighs 80 g. How much pure water must be added so that the percentage of salt drops to \\
+a) 4\%? \hspace{4cm} b) 6\%? \hspace{4cm} c) 8\%? \\
+\\
+If there are 80 g of the solution, then there are 8 g of salt (10\% of 80). So there are 72 g of pure water. Let $x$ be the amount of pure water that is added. If we add more water, then the total amount of water in the solution will be $72+x$ and the total amount of solution will be $80+x$. The percentage of water can be found by $\displaystyle \frac{part}{whole}$:
+\begin{center}
+$\displaystyle \frac{72+x}{80+x}$.
+\end{center}
+a) We want the percentage of salt to be equal to 4\%, which means the percentage of water will be equal to 96\%, so we have
+\begin{center}
+$\displaystyle \frac{72+x}{80+x}=\displaystyle \frac{96}{100}$ \\
+$(72+x)\cdot100=96\cdot(80+x)$ \\
+$7200+100x=7680+96x$ \\
+$4x=480$ \\
+$x=120$
+\end{center}
+b) We want the percentage of salt to be equal to 6\%, which means the percentage of water will be equal to 94\%, so we have
+\begin{center}
+$\displaystyle \frac{72+x}{80+x}=\displaystyle \frac{94}{100}$ \\
+$(72+x)\cdot100=94\cdot(80+x)$ \\
+$7200+100x=7520+96x$ \\
+$4x=320$ \\
+$x=80$
+\end{center}
+c) We want the percentage of salt to be equal to 8\%, which means the percentage of water will be equal to 92\%, so we have
+\begin{center}
+$\displaystyle \frac{72+x}{80+x}=\displaystyle \frac{92}{100}$ \\
+$(72+x)\cdot100=92\cdot(80+x)$ \\
+$7200+100x=7360+96x$ \\
+$4x=160$ \\
+$x=40$
+\end{center}
+15. How many kilograms of water must you add to 6 kg of pure alcohol to get a mixture containing \\
+a) 25\% alcohol? \hfill b) 20\% alcohol? \hfill c) 15\% alcohol? \\
+\\
+Let $x$ be the amount of water that is added. After adding water, the total amount of mixture will be $6+x$. The percentage of water can be found by $\displaystyle \frac{part}{whole}$:
+\begin{center}
+$\displaystyle \frac{x}{6+x}$.
+\end{center}
+a) We want the percentage of alcohol to be 25\%, which means the percentage of water will be equal to 75\%, so we have
+\begin{center}
+$\displaystyle \frac{x}{6+x}=\displaystyle \frac{75}{100}$ \\
+$x\cdot100=75\cdot(6+x)$ \\
+$100x=450+75x$ \\
+$25x=450$ \\
+$x=\displaystyle \frac{450}{25}$ \\
+$x=18$
+\end{center}
+b) We want the percentage of alcohol to be 20\%, which means the percentage of water will be equal to 80\%, so we have
+\begin{center}
+$\displaystyle \frac{x}{6+x}=\displaystyle \frac{80}{100}$ \\
+$x\cdot100=80\cdot(6+x)$ \\
+$100x=480+80x$ \\
+$20x=480$ \\
+$x=\displaystyle \frac{480}{20}$ \\
+$x=24$
+\end{center}
+c) We want the percentage of alcohol to be 15\%, which means the percentage of water will be equal to 85\%, so we have
+\begin{center}
+$\displaystyle \frac{x}{6+x}=\displaystyle \frac{85}{100}$ \\
+$x\cdot100=85\cdot(6+x)$ \\
+$100x=510+85x$ \\
+$15x=510$ \\
+$x=\displaystyle \frac{510}{15}$ \\
+$x=34$
+\end{center}
+16. A boat travels a distance of 500 mi, along two rivers, for 50 hr. The current goes in the same direction as the boat along the river, and then the boat averages 20 mph. The current goes in the opposite direction along the other river, and then the boat averages 8 mph. During how many hours was the boat on the first river? \\
+\\
+Let $x$ be the number of hours the boat travels on the first river. Then $50-x$ is the number of hours the boat travels on the other river. Travelling at 20 mph, the boat travels $20x$ mi on the first river. Travelling at 8 mph, the boat travels $8(50-x)=400-8x$ mi on the other river. Adding these two should equal the total number of mi the boat travels.
+\begin{center}
+$20x+400-8x=500$ \\
+$12x=100$ \\
+$x=\displaystyle \frac{100}{12}$ \\
+$x=\displaystyle \frac{25}{3}$
+\end{center}
+So the boat travels on the first river for $\displaystyle \frac{25}{3}$ hours. \\
+\\
+17. How much water must evaporate from a salt solution weighing 2 lb and containing 25\% salt, if the remaining mixture must contain \\
+a) 40\% salt? \hspace{5cm} b) 60\% salt? \\
+\\
+If 25\% of the 2 lb solution is salt, then 75\% of the solution is water. So there are 1.5 lb (75\% of 2) of water. Let $x$ be the amount of water that evaporates from the solution. The amount of solution left after $x$ lb of water evaporates is $2-x$. The amount of water left after $x$ lb of water evaporates is $1.5-x$. The percentage of water left can be found by $\displaystyle \frac{part}{whole}$:
+\begin{center}
+$\displaystyle \frac{1.5-x}{2-x}$.
+\end{center}
+a) If the remaining mixture contains 40\% salt, then it contains 60\% water.
+\begin{center}
+$\displaystyle \frac{1.5-x}{2-x}=\displaystyle \frac{60}{100}$ \\
+$(1.5-x)\cdot100=60\cdot(2-x)$ \\
+$150-100x=120-60x$ \\
+$30=40x$ \\
+$\displaystyle \frac{30}{40}=x$ \\
+$\displaystyle \frac{3}{4}=x$
+\end{center}
+So $\displaystyle \frac{3}{4}$ lb of water must evaporate for the remaining mixture to contain 40\% salt. \\
+b) If the remaining mixture contains 60\% salt, then it contains 40\% water.
+\begin{center}
+$\displaystyle \frac{1.5-x}{2-x}=\displaystyle \frac{40}{100}$ \\
+$(1.5-x)\cdot100=40\cdot(2-x)$ \\
+$150-100x=80-40x$ \\
+$70=60x$ \\
+$\displaystyle \frac{70}{60}=x$ \\
+$\displaystyle \frac{7}{6}=x$
+\end{center}
+So $\displaystyle \frac{7}{6}$ lb of water must evaporate for the remaining mixture to contain 60\% salt. \\
+\\
+18. The radiator of a car can contain 10 kg of liquid. If it is half full with a mixture having 60\% antifreeze and 40\% water, how much more water must be added so that the resulting mixture has only \\
+a) 40\% antifreeze? \hspace{3cm} b) 10\% antifreeze? \\
+Will it fit in the radiator? \\
+\\
+If the radiator is half full, then there are 5 kg of liquid. 3 kg of it is antifreeze (60\% of 5) and 2 kg of it is water (40\% of 5). Let $x$ be the amount of water that is added. The total amount of liquid after $x$ kg of water is added is $5+x$. The total amount of water after $x$ kg of water is added is $3+x$. The percentage of water can be found by $\displaystyle \frac{part}{whole}$:
+\begin{center}
+$\displaystyle \frac{2+x}{5+x}$.
+\end{center}
+a) If the resulting mixture has 40\% antifreeze, then it has 60\% water.
+\begin{center}
+$\displaystyle \frac{2+x}{5+x}=\displaystyle \frac{60}{100}$ \\
+$(2+x)\cdot100=(5+x)\cdot60$ \\
+$200+100x=300+60x$ \\
+$40x=100$ \\
+$x=\displaystyle \frac{100}{40}$ \\
+$x=\displaystyle \frac{5}{2}$
+\end{center}
+So $\displaystyle \frac{5}{2}$ kg of water must be added for the resulting mixture to have 40\% antifreeze. The resulting mixture will be $5+\displaystyle \frac{5}{2}=\displaystyle \frac{15}{2}=7.5$ kg, so it will fit in the radiator (since $7.5<10$). \\
+b) If the resulting mixture has 10\% antifreeze, then it has 90\% water.
+\begin{center}
+$\displaystyle \frac{2+x}{5+x}=\displaystyle \frac{90}{100}$ \\
+$(2+x)\cdot100=(5+x)\cdot90$ \\
+$200+100x=450+90x$ \\
+$10x=250$ \\
+$x=\displaystyle \frac{250}{10}$ \\
+$x=25$
+\end{center}
+So 25 kg of water must be added for the resulting mixture to have 10\% antifreeze. The resulting mixture will be $5+25=30$ kg, so it will not fit in the radiator (since $30>10$).
+\end{document}
