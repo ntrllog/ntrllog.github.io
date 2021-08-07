@@ -1,6 +1,7 @@
 body {
   font-family: 'Montserrat', sans-serif;
-  font-size: 120%;
+  font-size: 125%;
+  text-align: justify;
 }
 
 #pdf {
@@ -38,6 +39,11 @@ h1 {
 .flex-between {
   display: flex;
   justify-content: space-between;
+}
+
+.skill {
+  border: 1px solid gray;
+  padding: 0 2px;
 }
 
 @media print {
