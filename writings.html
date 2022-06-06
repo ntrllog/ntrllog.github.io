@@ -148,14 +148,14 @@
             <h6 class="date">August 27, 2021</h6>
             <a href="https://www.poshenloh.com/quadraticdetail/" target="_blank">Po-Shen Loh explains his discovery here.</a> (<a href="https://www.poshenloh.com/quadratic" target="_blank">simplified.</a>)
             <p>Rather than re-explaining his method, I want to go over the key insight that is the core of the method.</p>
-            <p>If two numbers add up to some number b, then those two numbers must be the same distance away from their average.</p>
+            <p>If two numbers add up to some number `b`, then those two numbers must be the same distance away from their average.</p>
             <div class="collapse" id="collapseEasierQuadratic">
-              <p>Suppose b=8. Well, two numbers that add up to 8 are 1 and 7, and their average is (1+7)/2=4. The distance between 1 and 4 is 3, and the distance between 7 and 4 is also 3. The two numbers (1 and 7) are the same distance (3) away from their average (4).</p>
-              <p>2 and 6 also add up 8, and their average is (2+6)/2=4. The distance between 2 and 4 is 2, and the distance between 6 and 4 is also 2. The two numbers (2 and 6) are the same distance (2) away from their average (4).</p>
+              <p>Suppose `b=8`. Well, two numbers that add up to `8` are `1` and `7`, and their average is `(1+7)/2=4`. The distance between `1` and `4` is `3`, and the distance between `7` and `4` is also `3`. The two numbers (`1` and `7`) are the same distance (`3`) away from their average (`4`).</p>
+              <p>`2` and `6` also add up `8`, and their average is `(2+6)/2=4`. The distance between `2` and `4` is `2`, and the distance between `6` and `4` is also `2`. The two numbers (`2` and `6`) are the same distance (`2`) away from their average (`4`).</p>
               <p>Imagine putting 8 apples on a weighing scale so that both sides are evenly balanced (so there would be 4 on each side). If you take away 1 apple from one side and put it on the other side, then one side will have 1 apple more and the other side will have 1 apple less. A painfully redundant sentence — I realize as I'm writing this — but the point is, one side will always be heavier by the <em>same</em> amount that the other side is lighter by.</p>
-              <p>When solving quadratics, like x<sup>2</sup>-8+12, we want to find two numbers that add up to 8* and multiply to 12. To avoid the guess-and-check route, we could choose the two numbers to be (4-u) and (4+u) where u is some number that we eventually solve for. Notice that (4-u)+(4+u)=8, so the two numbers definitely add up to 8. More importantly, notice that this embodies the statement I've been trying to explain: If two numbers add up to some number b, then those two numbers must be the same distance away from their average. Suppose u=3. Then the two numbers are 1 and 7. Suppose u=2. Then the two numbers are 2 and 6. Do these numbers look familiar?</p>
-              <p>Then we set (4-u)(4+u)=12. Once we find u, then our conditions are satisfied: two numbers that add up to 8 and multiply to 12. No guess and check!</p>
-              <p>*In Po-Shen Loh's method, for a quadratic x<sup>2</sup>+Bx+C, we want to find two numbers that add up to -B, not B.</p>
+              <p>When solving quadratics, like `x^2-8+12`, we want to find two numbers that add up to `8`* and multiply to `12`. To avoid the guess-and-check route, we could choose the two numbers to be `(4-u)` and `(4+u)` where `u` is some number that we eventually solve for. Notice that `(4-u)+(4+u)=8`, so the two numbers definitely add up to `8`. More importantly, notice that this embodies the statement I've been trying to explain: If two numbers add up to some number `b`, then those two numbers must be the same distance away from their average. Suppose `u=3`. Then the two numbers are `1` and `7`. Suppose `u=2`. Then the two numbers are `2` and `6`. Do these numbers look familiar?</p>
+              <p>Then we set `(4-u)(4+u)=12`. Once we find `u`, then our conditions are satisfied: two numbers that add up to `8` and multiply to `12`. No guess and check!</p>
+              <p>*In Po-Shen Loh's method, for a quadratic `x^2+Bx+C`, we want to find two numbers that add up to `-B`, not `B`.</p>
             </div>
             <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEasierQuadratic" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
           </div>
@@ -164,14 +164,14 @@
             <h4 class="title">An Upper Bound for Project Euler 40</h4>
             <h6 class="date">January 23, 2021</h6>
             <a href="https://projecteuler.net/problem=40" target="_blank">Project Euler Link</a>
-            <p>For Champernowne's constant: 0.123456789101112131415161718192021... . "If d<sub>n</sub> represents the n<sup>th</sup> digit of the fractional part, find the value of the following expression. d<sub>1</sub> × d<sub>10</sub> × d<sub>100</sub> × d<sub>1000</sub> × d<sub>10000</sub> × d<sub>100000</sub> × d<sub>1000000</sub>"</p>
-            <p>For 1 &le; i &le; 9, we append 9*1 = 9 digits.</p>
-            <p>For 10 &le; i &le; 99, we append 90*2 = 180 digits.</p>
-            <p>For 100 &le; i &le; 999, we append 900*3 = 2,700 digits.</p>
-            <p>For 1,000 &le; i &le; 9,999, we append 9,000*4 = 36,000 digits.</p>
-            <p>For 10,000 &le; i &le; 99,999, we append 90,000*5 = 450,000 digits.</p>
-            <p>At this point, there are 488,889 digits, which means we need 511,111 more digits.</p>
-            <p>Starting from 100,000, we will be appending 6 digits per number. So we only need to add ceil(511,111/6) = 85,186 more numbers from 100,000.</p>
+            <p>Champernowne's constant is defined as: `0.123456789101112131415161718192021...` . "If `d_n` represents the `n^(th)` digit of the fractional part, find the value of the following expression. `d_1 * d_10 * d_100 * d_1000 * d_10000 * d_100000 * d_1000000`"</p>
+            <p>For `1 le i le 9`, we append `9*1 = 9` digits.</p>
+            <p>For `10 le i le 99`, we append `90*2 = 180` digits.</p>
+            <p>For `100 le i le 999`, we append `900*3 = 2,700` digits.</p>
+            <p>For `1,000 le i le 9,999`, we append `9,000*4 = 36,000` digits.</p>
+            <p>For `10,000 le i le 99,999`, we append `90,000*5 = 450,000` digits.</p>
+            <p>At this point, we have appended `488,889` digits, which means we need to append `511,111` more digits.</p>
+            <p>Starting from `100,000`, we will be appending `6` digits per number. So we only need to add `text(ceil)((511,111)/6) = 85,186` more numbers from `100,000`.</p>
           </div>
           <p id="upper_bound_30">.</p>
           <div class="post">
@@ -179,10 +179,10 @@
             <h6 class="date">January 18, 2021</h6>
             <a href="https://projecteuler.net/problem=30" target="_blank">Project Euler Link</a>
             <p>"Find the sum of all the numbers that can be written as the sum of fifth powers of their digits."</p>
-            <p>For example, a number that can be written as the sum of fifth powers of their digits is 4151 = 4<sup>5</sup> + 1<sup>5</sup> + 5<sup>5</sup> + 1<sup>5</sup>.</p>
-            <p>There is a point where the number becomes too big for the sum of its digits to match that number. 9 to the fifth power is a fairly big number, but adding a bunch of those would never result in something like 99999999999999999.</p>
-            <p>For 999,999 the sum is 354,294 = 9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>.</p>
-            <p>For 9,999,999 the sum is 413,343 = 9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>+9<sup>5</sup>.</p>
+            <p>For example, a number that can be written as the sum of fifth powers of their digits is `4151 = 4^5 + 1^5 + 5^5 + 1^5`.</p>
+            <p>There is a point where the number becomes too big for the sum of its digits to match that number. `9` to the fifth power is a fairly big number, but adding a bunch of those would never result in something like `99999999999999999`.</p>
+            <p>For `999,999` the sum is `354,294 = 9^5+9^5+9^5+9^5+9^5+9^5`.</p>
+            <p>For `9,999,999` the sum is `413,343 = 9^5+9^5+9^5+9^5+9^5+9^5+9^5`.</p>
             <p>A 7-digit number produces a 6-digit sum, so the sum of its digits can never be equal to the number. Therefore, the upper bound has to be a 6-digit number.</p>
           </div>
           <p id="diophantine_music_player">.</p>
@@ -191,13 +191,13 @@
             <h6 class="date">December 6, 2020 (last updated on December 8, 2020)</h6>
             <p>A music player that shuffles songs would theoretically assign an equal probability (to be played next) to all songs. For me, the problem with this is that a song that has recently played can be picked again. This falls in line with the randomness of shuffling songs, but sometimes it's just too recent and I wanna hear something else.</p>
             <div class="collapse" id="collapseDiophantineMusicPlayer">
-              <p>This gave me the idea for a music player that shuffles songs with weighted probabilities. Songs that have never been played before have a higher chance to be picked next than songs that have been played already. For example, let's say we have 5 songs. At the beginning, all songs each have a 1/5 = 20% chance of being picked next. After a song is played, the remaining 4 songs could each have a 24% chance of being picked next and the song that just played has a 4% chance of being picked next. Or it could be 23% each for the 4 songs and 8% for the song that just played. Or it could be 21% and 16%. There are a few solutions, but the important thing is that the songs that haven't been played yet have a higher chance to be picked next than the songs that have just been played. (There would probably actually be infinitely many solutions if we consider non-integer probabilities, so for simplicity, we could look at only integer* probabilities.)</p>
+              <p>This gave me the idea for a music player that shuffles songs with weighted probabilities. Songs that have never been played before have a higher chance to be picked next than songs that have been played already. For example, let's say we have `5` songs. At the beginning, all songs each have a `1/5 = 20%` chance of being picked next. After a song is played, the remaining `4` songs could each have a `24%` chance of being picked next and the song that just played has a `4%` chance of being picked next. Or it could be `23%` each for the `4` songs and `8%` for the song that just played. Or it could be `21%` and `16%`. There are a few solutions, but the important thing is that the songs that haven't been played yet have a higher chance to be picked next than the songs that have just been played. (There would probably actually be infinitely many solutions if we consider non-integer probabilities, so for simplicity, we could look at only integer* probabilities.)</p>
               <p>So we have probabilities that work for our situation, but how do we find probabilities that work for the next song? What if we (undoubtedly) had more than 5 songs?</p>
-              <p>Going back to our situation earlier, let's say our music player just finished playing a song and is looking for the next song to play. We can model this situation using an equation: 4x + y = 100 (where x > y are positive<sup>†</sup> integers). Incidentally, this turns out to be a Diophantine equation where the integer solutions to the equations are the probabilties that we assign to the songs.</p>
-              <p>More generally, if we have n songs, then the Diophantine equation we're solving is (n-m)x + my = 100 where m is the number of songs that have been played already.</p>
-              <p>We could use the Euclidean algorithm to find solutions to these Diophantine equations, but if we're programming this, it would be much easier to start with y=1 and keep incrementing it until we find an integer for x.</p>
+              <p>Going back to our situation earlier, let's say our music player just finished playing a song and is looking for the next song to play. We can model this situation using an equation: `4x + y = 100` (where `x > y` are positive<sup>†</sup> integers). Incidentally, this turns out to be a Diophantine equation where the integer solutions to the equations are the probabilties that we assign to the songs.</p>
+              <p>More generally, if we have `n` songs, then the Diophantine equation we're solving is `(n-m)x + my = 100` where `m` is the number of songs that have been played already.</p>
+              <p>We could use the Euclidean algorithm to find solutions to these Diophantine equations, but if we're programming this, it would be much easier to start with `y=1` and keep incrementing it until we find an integer for `x`.</p>
               <p>*Unfortunately, by considering only integer probabilities, there are some sticky situations with giving equal probabilties to 3, 6, 7, ... unplayed songs. And it doesn't work for more than 100 songs.</p>
-              <p><sup>†</sup>For my music player, I'm also requiring y > 0 to allow songs that have been played to be played again, but Diophantine equations in general can have 0 as a solution.</p>
+              <p><sup>†</sup>For my music player, I'm also requiring `y > 0` to allow songs that have been played to be played again, but Diophantine equations in general can have `0` as a solution.</p>
             </div>
             <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiophantineMusicPlayer" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
           </div>
@@ -322,27 +322,27 @@
               <p><em>2) Yes, there are several applications of programming in psychology</em></p>
               <p>Here, I was just interested to see if they were "turned off" by programming after struggling through it.</p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ1" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ1" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
             <p><b>If so, what would you like to learn?</b></p>
             <div class="collapse" id="learningCSBeginnerQ2">
               <p><em>1) Java</em></p>
               <p><em>2) learn more languages</em></p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ2" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ2" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
             <p><b>Before taking the class, did you expect it to be easy or hard? Why?</b></p>
             <div class="collapse" id="learningCSBeginnerQ3">
               <p><em>1) Hard: Other people make computer science seem hard</em></p>
               <p><em>2) Hard: Other people say coding is hard, thought of self as not tech-savvy</em></p>
               <p>I just wanna say that while computer science is hard, any other subject could be just as difficult. I find it interesting that people are quick to say that computer science is hard, but I hardly hear people saying the same thing about biology, art, history, reading, writing, etc.</p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ3" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ3" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
             <p><b>There's this conception that people are naturally good at some subjects. For example, there are "math people". Do you agree with this idea after taking the class?</b></p>
             <div class="collapse" id="learningCSBeginnerQ4">
               <p><em>1) Yes, some people are naturally good at computer science</em></p>
               <p><em>2) No, anyone can learn. Yes to a certain extent because some people are naturally good, but people can work towards it. Coding is not purely math, it involves both math and some creativity, so it activates both hemispheres of the brain</em></p>
               <p>I do believe that some people are naturally good at some subjects. However, I also believe that anyone can learn anything if they want to. Just because someone isn't a "math person" doesn't mean they'll never understand math. Different subjects require different mindsets (i.e. ways of thinking) so recognizing this is a good first step.</p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ4" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ4" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
             <p><b>Was there a point when things started to suddenly make sense?</b></p>
             <div class="collapse" id="learningCSBeginnerQ5">
               <p><em>1) Yes, after learning in class and doing examples in MATLAB. Learned more in labs because putting concepts into practice</em></p>
@@ -350,7 +350,7 @@
               <p>Regarding computer science, I believe that there is a point where nothing makes sense at first, but everything "clicks" at a later time. I've personally experienced it for computer science and linear algebra. I struggled for the first 8 weeks of my first programming class, but around week 8, everything from day 1 just somehow suddenly made total sense to me. I didn't understand a thing about linear algebra (I got a C- or something in that class out of sheer luck) but after taking an upper div math course related to linear algebra 4 years later, most things in linear algebra suddenly makes total sense to me.</p>
               <p>These students seemed to have a slightly different experience than I did though. Especially with the first student, it seemed to be more of a repeated process of not understanding, then understanding each topic.</p> 
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ5" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ5" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
             <p><b>What did you do that helped you understand the concepts?</b></p>
             <div class="collapse" id="learningCSBeginnerQ6">
               <p><em>1) Do the homework assignments, go over clicker questions in lecture notes</em></p>
@@ -358,48 +358,50 @@
               <p>It probably goes without saying (but I'm gonna say it anyway!) that practice is invaluable. I particularly liked how the second student made small programs to try to understand the concepts, because reading code and writing code are completely different activities; knowing how to read code isn't enough.</p>
               <p>Regarding the lecture notes, these answers aren't contradictory because they were in different situations. The lecture notes for the first student were really helpful, with some explanations and lot of practice questions. The lecture notes for the second student were not that great. There was a lot of text, few (correct) specific examples, and a lot of general, abstract examples.</p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ6" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ6" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
             <p><b>Now that you've taken the class, do you feel comfortable helping others learn? What are some topics that you still feel "iffy" about?</b></p>
             <div class="collapse" id="learningCSBeginnerQ7">
               <p><em>1) For the most part. Still a little bit tough when things are combined together e.g. if statements inside while loops</em></p>
               <p><em>2) Yes, for basic Java. Classes and objects are still a little bit hard.</em></p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ7" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ7" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
             <p><b>What advice do you have to help other beginners learn programming?</b></p>
             <div class="collapse" id="learningCSBeginnerQ8">
               <p><em>1) Don't be afraid, practice, go over lecture notes</em></p>
               <p><em>2) Don't get overwhelmed even though everything looks scary at first, make small programs to practice concepts</em></p>
               <p>I was a bit surprised with these responses, probably because it's been so long since I've been a beginner first learning how to code. Personally, I forget that code can seem overwhelming, and I think it's really good advice for educators to keep in mind when working with students.</p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ8" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#learningCSBeginnerQ8" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
           </div>
           <p id="the_clock_problem">.</p>
           <div class="post">
             <h4 class="title">The Clock Problem</h4>
-            <h6 class="date">July 23, 2019</h6>
+            <h6 class="date">July 23, 2019 (last updated June 5, 2022)</h6>
             <p>Have you ever wondered when the hands of a clock overlap so that they're exactly on top of each other? Me too! (Wait, did you say no? I mean, me neither!)</p>
             <p>It's very tempting to say that the hands overlap at 1:05, 2:10, 3:15, ... and so on. But if you think about it, the hands aren't going to overlap exactly at, say, 10:50 because the hour hand would be closer to the 11 at this time. So does this mean they actually don't overlap exactly at 1:05, 2:10, 3:15, ... ?</p>
             <div class="collapse" id="collapseClockProblem">
-              <p>Let's set up the problem more formally. Assuming the hands move smoothly and continuously, if we begin at 12:00, when's the next time the hour and minute hands will overlap?</p>
-              <p>It will be easier to think about this problem in terms of distances. The hands will overlap if they have traveled the same distance from the 12:00 point. Because the distances they have travelled vary depending on how many minutes have passed, we can represent their distances as functions of time, e.g. d_h(t) and d_m(t) where t is the number of minutes after 12:00.</p>
-              <p>So this means we're looking for a t such that d_h(t) = d_m(t). In words, we're looking for the number of minutes that will go by until the hour hand and minute hand have travelled the same distance.</p>
-              <p>The minute hand makes one full revolution around the clock in 60 minutes. Which means after t minutes, the minute hand will travel a distance of t/60. <strong>So d_m(t) = t/60 is the function that represents the distance the minute hand has travelled after t minutes.</strong></p>
-              <p>The hour hand makes one full revolution around the clock in 720 minutes (It takes 60 minutes to reach an hour; since there are 12 hours, it will take 60*12 = 720 minutes.) So d_h(t) = t/720 is the function that represents the distance the hour hand has travelled after t minutes. Well, almost.</p>
-              <p>The hour hand and minute hand won't overlap between 12:00 and 1:00. This means, when it's 1:00, the hour hand will have travelled 1/12 of the way when the minute hand is back at the 12:00 mark again. <strong>So d_h(t) = t/720 + 1/12 is the function that represents the distance the hour hand has travelled after t minutes.</strong></p>
-              <p>Now that we have equations for d_h(t) and d_m(t), we can set them equal to each other to solve for t.</p>
-              <p>d_h(t) = d_m(t)</p>
-              <p>t/720 + 1/12 = t/60</p>
-              <p>11t/720 = 1/12</p>
-              <p>11t = 60</p>
-              <p>t = 60/11</p>
-              <p>So after 60/11 minutes, or about 5 minutes and 27 seconds, the hands will overlap at 1:05:27.</p>
-              <p>To generalize this for the n<sup>th</sup> time the hands overlap, we can redefine d_h(t) to account for the distance the hour hand has travelled when the minute hand reaches the 12:00 mark. <strong>Then it would be d_h(t,n) = t/720 + n/12, where n is the number of hours after 12:00.</strong></p>
-              <p>For n = 2, the hands will overlap at 2:10:55.</p>
-              <p>For n = 10, the hands will overlap at 10:54:33.</p>
-              <p>For n = 11, the hands will overlap at 12:00</p>
-              <p>This leads to another interesting result: <strong>the hands of a clock overlap only 11 times in a 12-hour period.</strong></p>
+              <p>Let's set up the problem more formally and start with an example. Assuming the hands move smoothly and continuously, if we begin at 12:00, when's the next time the hour and minute hands will overlap?</p>
+              <p>It will be easier to think about this problem in terms of angles. The hands will overlap if the angle between them and the 12:00 point is the same. Because the angle varies depending on how many minutes have passed, we can represent their angles as functions of time, e.g. `a_h(t)` and `a_m(t)` where `t` is the number of minutes after 12:00.</p>
+              <p>So this means we're looking for a `t` such that `a_h(t)` = `a_m(t)`. In words, we're looking for the number of minutes that will go by until the angle between the hour hand with the 12:00 point is equal to the angle between the minute hand and the 12:00 point.</p>
+              <p>Instead of using typical angle measurements (degrees, radians, etc.), we'll define an angle to be the proportion of the clock from the clock hand to the 12:00 point. The minute hand makes one full revolution around the clock in 60 minutes. Which means after `t` minutes, the minute hand will travel a distance of `t/60`. <strong>So `a_m(t) = t/60` is the function that represents the angle between the minute hand and the 12:00 point after `t` minutes.</strong></p>
+              <p>The hour hand makes one full revolution around the clock in 720 minutes (It takes 60 minutes to reach an hour; since there are 12 hours, it will take `60*12 = 720` minutes.) <strong>So `a_h(t) = t/720` is the function that represents the angle between the hour hand and the 12:00 point after `t` minutes.</strong></p>
+              <p>Now that we know what `a_h(t)` and `a_m(t)` are, we can set them equal to each other and get our answer. Well, not quite.</p>
+              <p>If the clock hands start out overlapping, then it takes at least 60 minutes for them to overlap again. The minute hand needs to go around the clock once to reach the hour hand again. That means we need to know how many minutes it takes for the angles to be equal <em>after the minute hand has gone around the clock once</em>. This can be represented by `a_h(t) + 1/12 = a_m(t)`. The `1/12` comes from the fact that the hour hand travels a distance of `1/12` in one hour, the time it takes the minute hand to go around the clock once.</p>
+              <p>Solving for `t`, we get:</p>
+              <p>`a_h(t) + 1/12 = a_m(t)`</p>
+              <p>`t/720 + 1/12 = t/60`</p>
+              <p>`1/12 = t/60-t/720`</p>
+              <p>`(11t)/720 = 1/12`</p>
+              <p>`11t = 60`</p>
+              <p>`t = 60/11`</p>
+              <p>So after `60/11` minutes, or about 5 minutes and 27 seconds, the hands will overlap at 1:05:27.</p>
+              <p>To generalize this for the `n^(th)` time the hands overlap, we need to recognize that this means the minute hand needs to go around the clock `n` times. So the generalized equation is `a_h(t) + n/12 = a_m(t)`.</p>
+              <p>For `n = 2`, the hands will overlap at 2:10:55.</p>
+              <p>For `n = 10`, the hands will overlap at 10:54:33.</p>
+              <p>For `n = 11`, the hands will overlap at 12:00.</p>
+              <p>This leads to another interesting result: the hands of a clock overlap only 11 times in a 12-hour period.</p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClockProblem" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClockProblem" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
           </div>
           <p id="infinity">.</p>
           <div class="post">
@@ -419,7 +421,7 @@
               <p><strong>In MATLAB, indices start at 1.</strong> So if we have <code>vec = [5,4,7]</code>, <code>vec(1)</code> would be equal to 5. And the third element would be <code>vec(3)</code>. Using 1-based indexing makes accessing elements in vectors/arrays/lists more intuitive. It's a bit weird to beginning programmers to access the second element by <code>vec(1)</code>, where the index doesn't match the position you're looking for.</p>
               <p><strong>In MATLAB, function headers are defined as: <code>function [output] = functionName(input)</code>.</strong> Having the variable for the return value in the header makes it a bit clearer the function is going to "return" the output value. It's easier to see this in MATLAB than it is in Java (<code>public int functionName()</code>) or even Python (<code>def functionName:</code>). I would even argue that it makes the concept of return clearer.</p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMATLABFirstLanguage" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMATLABFirstLanguage" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
           </div>
           <p id="closest_point">.</p>
           <div class="post">
@@ -438,7 +440,7 @@
               <p>9 + 3 = 12</p>
               <p>In the case of the second example, what we're doing is counting by 3's until we reach 11. 3 doesn't divide into 11 evenly, so there's going to be some remainder. This is why we subtract off the remainder from 11 to find out what the closest point was that was evenly divisible by 3.</p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClosestPoint" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClosestPoint" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
           </div>
           <p id="ifthenifthen">.</p>
           <div class="post">
@@ -470,7 +472,7 @@
               <img class="img-fluid" src="pictures/writings/even_odd.jpg">
               <p>It also turns out that adding even numbers with an even amount of odd numbers results in an even number. Adding even numbers with an odd amount of odd numbers results in an odd number. This is why we can distribute loaves if the total number is even, and we can't when the total number is odd.</p>
             </div>
-            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFairRations" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFairRations" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
           </div>
           <p id="manasa_and_stones">.</p>
           <div class="post">
@@ -1316,6 +1318,7 @@
     <a id="back2Top" title="Back to top" href="#">&#10148;</a>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"></script>
     <script>
       $('.hidden').removeClass('hidden').hide();
       $('.toggle-text').click(function() {
