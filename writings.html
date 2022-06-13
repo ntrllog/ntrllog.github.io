@@ -17,7 +17,7 @@
                                                |
                                           ____/
     -->
-    <title>Alan Lam | Creative Writings</title>
+    <title>ntrllog | Writings</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A collection of creative writing pieces">
@@ -70,6 +70,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Math</a>
         <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#rotation_offset_decrypt">Rotation Offset (Decrypting)</a></li>
           <li><a class="dropdown-item" href="#easier_quadratic">An Easier Way to Solve Quadratic Equations</a></li>
           <li><a class="dropdown-item" href="#upper_bound_40">An Upper Bound for Project Euler 40</a></li>
           <li><a class="dropdown-item" href="#upper_bound_30">An Upper Bound for Project Euler 30</a></li>
@@ -136,6 +137,14 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="writing_style">.</p>
+          <div class="post">
+            <h4 class="title">Rotation Offset (Decrypting)</h4>
+            <h6 class="date">June 12, 2022</h6>
+            <p>max minus value</p>
+            <p>plus offset modulus length</p>
+            <p>subtract from the max</p>
+          </div>
           <p id="writing_style">.</p>
           <div class="post">
             <h4 class="title">Writing Style</h4>
@@ -427,17 +436,17 @@
           <div class="post">
             <h4 class="title">Closest Point</h4>
             <h6 class="date">May 12, 2019</h6>
-            <p>So you have a set of equally-spaced points. The task is to find the 2 closest points to any random point that's given to you. For notation, let h be the space between 2 points and let z be the random point.</p>
-            <p>For example, you could have a set of 5 points with a difference of h = 2 between each point: {2, 4, 6, 8, 10}. The closest points to z = 7 would be 6 and 8.</p>
-            <p>For another example, you could have a set of 6 points with a difference of h = 3 between each point: {0, 3, 6, 9, 12, 15}. The closest points to z = 11 would be 9 and 12.</p>
-            <p>(Imagine you have a set of 100 equally-spaced points from —&pi; to &pi; and you want to find the closest points to z.)</p>
+            <p>So you have a set of equally-spaced points. The task is to find the `2` closest points to any random point that's given to you. For notation, let `h` be the space between `2` points and let `z` be the random point.</p>
+            <p>For example, you could have a set of `5` points with a difference of `h = 2` between each point: `{2, 4, 6, 8, 10}`. The closest points to `z = 7` would be `6` and `8`.</p>
+            <p>For another example, you could have a set of `6` points with a difference of `h = 3` between each point: `{0, 3, 6, 9, 12, 15}`. The closest points to `z = 11` would be `9` and `12`.</p>
+            <p>(Imagine you have a set of `100` equally-spaced points from `-pi` to `pi` and you want to find the closest points to `z`.)</p>
             <p>Solution:</p>
             <div class="collapse" id="collapseClosestPoint">
-              <p>To do this, we could do <code>z — z mod h</code> to get the left point, and then add h to get the right point.</p>
-              <p>7 — 7 mod 2 = 7 — 1 = 6</p>
-              <p>6 + 2 = 8</p>
-              <p>11 — 11 mod 3 = 11 — 2 = 9</p>
-              <p>9 + 3 = 12</p>
+              <p>To do this, we could do `z - (z text( mod ) h)` to get the left point, and then add `h` to get the right point.</p>
+              <p>`7 - (7 text( mod ) 2) = 7 - (1) = 6`</p>
+              <p>`6 + 2 = 8`</p>
+              <p>`11 - (11 text( mod ) 3) = 11 - (2) = 9`</p>
+              <p>`9 + 3 = 12`</p>
               <p>In the case of the second example, what we're doing is counting by 3's until we reach 11. 3 doesn't divide into 11 evenly, so there's going to be some remainder. This is why we subtract off the remainder from 11 to find out what the closest point was that was evenly divisible by 3.</p>
             </div>
             <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClosestPoint" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
@@ -446,9 +455,9 @@
           <div class="post">
             <h4 class="title">If Then If Then</h4>
             <h6 class="date">April 28, 2019</h6>
-            <p><span class="green">If f is a differentiable function and f'(x<sub>0</sub>) &lt; 0</span>, <span class="blue">then there exists some number r &gt; 0</span> so that <span class="blue">if x is in [x<sub>0</sub>, x<sub>0</sub>+r]</span>, <span class="blue">then f(x) &lt; f(x<sub>0</sub>)</span>.</p>
+            <p><span class="green">If `f` is a differentiable function and `f'(x_0) lt 0`</span>, <span class="blue">then there exists some number `r gt 0`</span> so that <span class="blue">if `x` is in `[x_0, x_0+r]`</span>, <span class="blue">then `f(x) lt f(x_0)`</span>.</p>
             <p>For the longest time, I had trouble wrapping my head around proving a statement of the form "If _, then if _, then _." Naturally, I thought you had to assume the <span class="green">green</span> part was true and <em>show</em> that the <span class="blue">blue</span> part was true.</p>
-            <p><span class="green">If f is a differentiable function and f'(x<sub>0</sub>) &lt; 0</span>, <span class="blue">then there exists some number r &gt; 0</span> so that <span class="red">if x is in [x<sub>0</sub>, x<sub>0</sub>+r]</span>, <span class="purple">then f(x) &lt; f(x<sub>0</sub>)</span>.</p>
+            <p><span class="green">If `f` is a differentiable function and `f'(x_0) lt 0`</span>, <span class="blue">then there exists some number `r gt 0`</span> so that <span class="red">if `x` is in `[x_0, x_0+r]`</span>, <span class="purple">then `f(x) lt f(x_0)`</span>.</p>
             <p>It's not really intuitive to assume the <span class="green">green</span> <em>and</em> <span class="blue">blue</span> statements are true (and then assume the <span class="red">red</span> part is true and show that the <span class="purple">purple</span> part is true) because that's not typically what you do with if-then statements.</p>
             <p>But then it all made sense when I said, "<span class="green">If I'm right</span>, <span class="blue">then</span> [<span class="blue">there exists a possibility</span> so that] <span class="red">if I do this</span>, <span class="purple">then it should work</span>."</p>
           </div>
@@ -479,28 +488,28 @@
             <h4 class="title">Manasa and Stones</h4>
             <h6 class="date">April 14, 2019</h6>
             <a href="https://www.hackerrank.com/challenges/manasa-and-stones/problem" target="_blank">HackerRank link</a>
-            <p>So there are a number of stones on a path that are numbered starting from 0. Each consecutive stone differs by one of two values. The task is to find out all the numbers the last stone could have.</p>
-            <p>For example, we could have: 0 -> 2 -> 11 -> 13. The difference between each consecutive stone is either 2 or 9. Assuming there are a total of 4 stones, all the possible numbers the last stone could have are:  13, 6, 27, 20.</p>
+            <p>So there are a number of stones on a path that are numbered starting from `0`. Each consecutive stone differs by one of two values. The task is to find out all the numbers the last stone could have.</p>
+            <p>For example, we could have: `0 -> 2 -> 11 -> 13`. The difference between each consecutive stone is either `2` or `9`. Assuming there are a total of `4` stones, all the possible numbers the last stone could have are:  `13`, `6`, `27`, `20`.</p>
             <p>Solution:</p>
             <div class="collapse" id="collapseManasaAndStones">
               <p>The brute force solution is to generate all the possible paths and then find the last number in each path.</p>
-              <p>How could we do better? Well, we know that one possible path is where the differences between each stone are all 2's. So the last stone would be 6.</p>
+              <p>How could we do better? Well, we know that one possible path is where the differences between each stone are all `2`'s. So the last stone would be `6`.</p>
               <img class="img-fluid" src="pictures/writings/manasas/first_path.png">
-              <p>Another possible path is where the differences are all 9's. So the last stone would be a 27.</p>
+              <p>Another possible path is where the differences are all `9`'s. So the last stone would be a `27`.</p>
               <img class="img-fluid" src="pictures/writings/manasas/last_path.jpg">
-              <p>So now the only options left are situations where [two differences are 2's and one difference is 9] and [two differences are 9's and one difference is 2]. (However, this doesn't mean that there are two paths left. There are actually 6 paths left because we don't know which stones have the difference of 2 and which stones have the difference of 9. For example, the differences could go [2 -> 2 -> 9] or [2 -> 9 -> 2] or [9 -> 2 -> 2].)</p>
-              <p>So how do we generalize this? First, notice that there are 3 differences between 4 stones. Generally, there are n-1 differences between n stones. Second, recall how we generated the first two paths: considering the situation where all the differences were the same. This is the same as multiplying the first difference n-1 times and multiplying the second difference n-1 times. This makes sense because if there are n-1 differences and each difference is the same number, then the last number is the result of multiplying the difference by the number of differences (n-1).</p>
+              <p>So now the only options left are situations where [two differences are `2`'s and one difference is `9`] and [two differences are `9`'s and one difference is `2`]. (However, this doesn't mean that there are two paths left. There are actually `6` paths left because we don't know which stones have the difference of `2` and which stones have the difference of `9`. For example, the differences could go `[2 -> 2 -> 9]` or `[2 -> 9 -> 2]` or `[9 -> 2 -> 2]`.)</p>
+              <p>So how do we generalize this? First, notice that there are `3` differences between `4` stones. Generally, there are `n-1` differences between `n` stones. Second, recall how we generated the first two paths: considering the situation where all the differences were the same. This is the same as multiplying the first difference `n-1` times and multiplying the second difference `n-1` times. This makes sense because if there are `n-1` differences and each difference is the same number, then the last number is the result of multiplying the difference by the number of differences (`n-1`).</p>
               <img class="img-fluid" src="pictures/writings/manasas/multiplying.jpg">
-              <p>Third, note that paths with differences like [2 -> 2-> 9], [2 -> 9 -> 2], and [9 -> 2 -> 2] all result in the last stone having the same number.</p>
+              <p>Third, note that paths with differences like `[2 -> 2-> 9]`, `[2 -> 9 -> 2]`, and `[9 -> 2 -> 2]` all result in the last stone having the same number.</p>
               <img class="img-fluid" src="pictures/writings/manasas/same_difference.jpg">
-              <p>This is because we're essentially adding all the possible combinations of 2's and 9's to get the last stone. Addition is commutative, meaning we can switch the order of the numbers and still get the same result. Recognizing this is crucial because this means we don't have to waste time generating paths that will give us the same result anyway.</p>
+              <p>This is because we're essentially adding all the possible combinations of `2`'s and `9`'s to get the last stone. Addition is commutative, meaning we can switch the order of the numbers and still get the same result. Recognizing this is crucial because this means we don't have to waste time generating paths that will give us the same result anyway.</p>
               <p>Combining these three points give us the following approach to solving the problem:</p>
               <img class="img-fluid" src="pictures/writings/manasas/algorithm.png">
-              <p>In words, we're considering all the possible combination of 2's and 9's for 3 differences (4 stones means there are 3 differences.)</p>
+              <p>In words, we're considering all the possible combination of `2`'s and `9`'s for `3` differences (`4` stones means there are `3` differences.)</p>
               <p><strong>In general, this algorithm considers all possible combinations of differences. Combinations because order doesn't matter.</strong></p>
-              <p>Note: There are 2<sup>n-1</sup> total possible paths (n-1 differences, 2 choices for each difference). If n is really big (i.e. there are a lot of stones) then the brute force approach would take a really long time. Also recall that some of those paths resulted in the same answer for the last stone, so it's also inefficient.</p>
-              <p>Second note: It's also no coincidence that there is a pattern in the last number of the last stone. Notice how each last number differs by 7 (e.g. 6 + 7 = 13, 13 + 7 = 20), which also happens to be the difference between the differences 2 and 9 (i.e. 9 — 2 = 7). This is because, as we're going down the table, we taking away a 2 and adding a 9 (i.e. doing 9 — 2), resulting in adding a 7.</p>
-              <p>Third note: I believe the number of stones always equals the number of unique last numbers, simply because there are n numbers between 0 and n-1. (We're trying to find the last stone when there are 0 differences of 9, 1 difference of 9, 2 differences of 9, ..., n-1 differences of 9.)</p>
+              <p>Note: There are `2^n-1` total possible paths (`n-1` differences, `2` choices for each difference). If `n` is really big (i.e. there are a lot of stones) then the brute force approach would take a really long time. Also recall that some of those paths resulted in the same answer for the last stone, so it's also inefficient.</p>
+              <p>Second note: It's also no coincidence that there is a pattern in the last number of the last stone. Notice how each last number differs by `7` (e.g. `6 + 7 = 13`, `13 + 7 = 20`), which also happens to be the difference between the differences `2` and `9` (i.e. `9 - 2 = 7`). This is because, as we're going down the table, we taking away a `2` and adding a 9 (i.e. doing `9 - 2`), resulting in adding a `7`.</p>
+              <p>Third note: I believe the number of stones always equals the number of unique last numbers, simply because there are n numbers between `0` and `n-1`. (We're trying to find the last stone when there are `0` differences of `9`, `1` difference of `9`, `2` differences of `9`, ..., `n-1` differences of `9`.)</p>
               <img class="img-fluid" src="pictures/writings/manasas/formula.jpg">
               <p>I'll be convinced if this equation is true. Unless my equation is wrong.</p>
             </div>
