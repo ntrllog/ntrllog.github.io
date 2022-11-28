@@ -1,0 +1,3034 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+                          _   _
+     _  _    _     _  _  | | | |   __     ____
+    | |/ \  | |_  | |/_| | | | |  /  \   /    \
+    | |   | |  _| |  /   | | | | | || | |  ||  |
+    | |   | | |_  | |    | | | | | || | |  ||  |
+    |_|   | |___| |_|    |_| |_|  \__/   \____/|
+                                               |
+                                          ____/
+    -->
+    <title>ntrllog | Machine Learning</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
+    <link href="../css/styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="dropdown">
+      <button onclick="showMenu()" class="dropbtn">ToC</button>
+      <div class="dropdown-content" id="dropDownMenu">
+        <a class="dropdown-item" href="#knn">KNN</a>
+        <a class="dropdown-item" href="#decisiontree">Decision Tree</a>
+        <a class="dropdown-item" href="#linearregression">Linear Regression</a>
+        <a class="dropdown-item" href="#logisticregression">Logistic Regression</a>
+        <a class="dropdown-item" href="#polynomialregression">Polynomial Regression</a>
+        <a class="dropdown-item" href="#randomforest">Random Forest</a>
+        <a class="dropdown-item" href="#kmeans">K-Means Clustering</a>
+        <a class="dropdown-item" href="#appendix">Appendix</a>
+      </div>
+    </div>
+    <div class="container line-height">
+      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+      <h1>Machine Learning</h1>
+      <hr>
+      <p>Shortcut to this page: <a href="ml.html">ntrllog.netlify.app/ml</a></p>
+      <p>Notes provided by Professor Mohammad Pourhomayoun</p>
+      <p>Machine learning is using a set of algorithms that can detect and extract patterns from data to make predictions on future data. The process of detecting and extracting patterns from data is called training (this is the "learning" in "machine learning"). A machine learning model is trained so that the model can make predictions on future data. The data used to train the model is called the training data and the data used to make predictions is called the testing data.</p>
+      <p>There are many different types of machine learning algorithms and this page will explore how some of them work.</p>
+      <h2 id="knn">KNN (K-Nearest Neighbors): Like a near neighbor, State Farm is there. And there. And there.</h2>
+      <p>Let's say we took the time to scour a <a href="https://www.timeanddate.com/weather/usa/los-angeles/historic" target="_blank">website</a> and collect some weather data for Los Angeles.</p>
+      <div class="row">
+        <div class="col-sm">
+          <table>
+            <tr>
+              <td>Humidity (%)</td>
+              <td>Temperature (&deg;F)</td>
+              <td>Sunny/Rainy</td>
+            </tr>
+            <tr>
+              <td>42</td>
+              <td>97</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>43</td>
+              <td>84</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>44</td>
+              <td>68</td>
+              <td>Rainy</td>
+            </tr>
+            <tr>
+              <td>94</td>
+              <td>54</td>
+              <td>Rainy</td>
+            </tr>
+            <tr>
+              <td>51</td>
+              <td>79</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>91</td>
+              <td>61</td>
+              <td>Rainy</td>
+            </tr>
+            <tr>
+              <td>39</td>
+              <td>84</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>47</td>
+              <td>95</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>96</td>
+              <td>55</td>
+              <td>Rainy</td>
+            </tr>
+            <tr>
+              <td>90</td>
+              <td>84</td>
+              <td>Rainy</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-sm">
+          <table>
+            <tr>
+              <td>Humidity (%)</td>
+              <td>Temperature (&deg;F)</td>
+              <td>Sunny/Rainy</td>
+            </tr>
+            <tr>
+              <td>60</td>
+              <td>84</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>61</td>
+              <td>79</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>61</td>
+              <td>68</td>
+              <td>Rainy</td>
+            </tr>
+            <tr>
+              <td>92</td>
+              <td>55</td>
+              <td>Rainy</td>
+            </tr>
+            <tr>
+              <td>26</td>
+              <td>77</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>92</td>
+              <td>61</td>
+              <td>Rainy</td>
+            </tr>
+            <tr>
+              <td>54</td>
+              <td>81</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>62</td>
+              <td>72</td>
+              <td>Sunny</td>
+            </tr>
+            <tr>
+              <td>94</td>
+              <td>61</td>
+              <td>Rainy</td>
+            </tr>
+            <tr>
+              <td>93</td>
+              <td>59</td>
+              <td>Rainy</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="knnweather"></div>
+      <p>It's easy to notice that sunny days (red) are mostly in the top left and rainy days (blue) are mostly in the bottom right. Now let's say someone gives us the temperature (86&deg;F) and humidity (59%) for a day and we have to guess whether it was rainy or sunny on that day (our lives depend on it!).</p>
+      <div id="knnweather2"></div>
+      <p>The temperature and humidity that the person gave us is plotted in green. Since it seems to be in red territory, we can guess that it was sunny on that day. &#128526;</p>
+      <p>This is the basic idea behind KNN classification. For any point that we are trying to figure out, we look at the points that are closest to it (neighbors) to see what it is similar to. We assume that data points for a particular result share the same characteristics. For example, sunny days tend to have high temperatures and low humidity while rainy days tend to have low temperatures and high humidity.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/knn_comic.png">
+      </div>
+      <h3>This letter is short for the word "okay". What is K?</h3>
+      <p>So looking at a point's neighbors allows us to make some guesses about that point. But how many neighbors do we need to look at, i.e., what should the value of `k` be?</p>
+      <p>Using just 1 neighbor (`k=1`) is not a good idea.</p>
+      <div id="knnweather3"></div>
+      <p>The green data point is actually a sunny day, but let's pretend we didn't know whether it was rainy or sunny. If we looked at just 1 of its closest neighbors, we would think it was rainy. But if we look at, say,  5 of its closest neighbors, then the story changes.</p>
+      <div id="knnweather4"></div>
+      <p>It's now closer to more sunny days than rainy days, so we would then correctly guess that it was sunny.</p>
+      <p>Having more neighbors can also lessen the impact of outliers. For example, the left-most blue point (44% humidity, 68&deg;F) could be considered an outlier since it is a rainy day with low humidity. But if we were to guess a random point in that general area (for example (40% humidity, 80&deg;F)), it would be closer to more sunny days than rainy days so that outlier doesn't really affect the outcome.</p>
+      <div id="knnweather5"></div>
+      <p>Using more neighbors seems to be better since our decision is based on more information. So should we just use a ton of neighbors everytime?</p>
+      <p>Let's suppose we only had information for 14 days instead of 20 and that significantly more of the days were sunny than rainy. The green point (80% humidity and 70&deg;F) is unknown and we're trying to figure out whether it is rainy or sunny. Given its characteristics (low temperature and high humidity), it looks like it should be rainy.</p>
+      <div id="knnweather6"></div>
+      <p>Using 1, 2, 3, 4, or 5 neighbors, we do see that it is closer to more rainy days than sunny days.</p>
+      <div id="knnweather7"></div>
+      <p>However, look what happens when we start using more than 6 neighbors.</p>
+      <div id="knnweather8"></div>
+      <p>Now it is "closer" to more sunny days than rainy days. And it will stay this way even as we use more neighbors. This happened because <strong>the dataset was unbalanced (there were significantly more sunny days than rainy days in the dataset)</strong>, so using more neighbors introduced a bias towards the more popular label.</p>
+      <p>So there is the possibility of using too few neighbors or too many neighbors. However, picking the right number of neighbors reliably is best done through trial and error.</p>
+      <h3>Euclidean Distance</h3>
+      <p>So far, we have just been looking at the graph to see which points were neighbors to a given point. But computers can't "see" graphs, so they need to actually calculate the distance between each pair of points to see which of them has the shortest distance. (The points with the shortest distance to the given point are its neighbors.)</p>
+      <p>The formula for calculating the distance between 2 points `(x_1,y_1), (x_2,y_2)` is</p>
+      <div class="math">
+        <p>`sqrt((x_1-x_2)^2+(y_1-y_2)^2)`</p>
+        <img class="img-fluid" src="../pictures/ml/knn_distance.png">
+      </div>
+      <p>So to find the nearest neighbor of a given point, the computer has to calculate the distance between it and all the other points in the dataset. Then it sorts the distances to find the top `k` shortest distances. From this point of view, using a small number of neighbors makes things faster because there are less distances to calculate and sort.</p>
+      <div class="box">
+        <p>Advantages of using a large `k`:</p>
+        <ul>
+          <li>ignores the effect of outliers</li>
+          <li>better decision making</li>
+        </ul>
+        <p>Advantages of using a small `k`:</p>
+        <ul>
+          <li>low computational complexity</li>
+          <li>no bias towards popular labels</li>
+        </ul>
+      </div>
+      <h4>Normalization</h4>
+      <p>A subtle thing to note about the weather data is that the scale of the units (percentage and degrees) was roughly similar. They both can theoretically range from 0-100. This is a good thing because there are some side effects of using units that aren't on a similar scale as each other.</p>
+      <p>To highlight this, we take a look at another dataset, which is completely made-up.</p>
+      <table>
+        <tr>
+          <td>Size (square feet)</td>
+          <td>Number of Bedrooms</td>
+          <td>Sold/Not Sold</td>
+        </tr>
+        <tr>
+          <td>3000</td>
+          <td>1</td>
+          <td>Sold</td>
+        </tr>
+        <tr>
+          <td>4000</td>
+          <td>2</td>
+          <td>Not Sold</td>
+        </tr>
+        <tr>
+          <td>5000</td>
+          <td>3</td>
+          <td>Sold</td>
+        </tr>
+        <tr>
+          <td>6000</td>
+          <td>4</td>
+          <td>Not Sold</td>
+        </tr>
+        <tr>
+          <td>7000</td>
+          <td>5</td>
+          <td>Not Sold</td>
+        </tr>
+      </table>
+      <p>The size of a house and the number of bedrooms it has are on completely different scales, with size in the thousands and number of bedrooms ranging from 1-5. So when we calculate distances between points, the number of bedrooms has a negligible impact on the distance. Consider this distance:</p>
+      <div class="math">
+        <p>`sqrt((3000-4000)^2+(1-2)^2)`</p>
+        <p>`= sqrt((-1000)^2+(-1)^2)`</p>
+        <p>`= sqrt(1,000,000+1)`</p>
+      </div>
+      <p>and this distance:</p>
+      <div class="math">
+        <p>`sqrt((3000-7000)^2+(1-5)^2)`</p>
+        <p>`= sqrt((-4000)^2+(-4)^2)`</p>
+        <p>`= sqrt(16,000,000+16)`</p>
+      </div>
+      <p>1,000,000 and 16,000,000 are really big numbers, so there's not much of a difference if we add 1 or 16 to them. This means that the effect of considering the number of bedrooms is practically negligible (we would get pretty much the same answer even if we didn't include the number of bedrooms in the calculation). It's like a millionaire finding a 20-dollar bill on the ground.</p>
+      <p>If the number of bedrooms is practically negligible, then KNN will — effectively — just look at the size of the house to predict whether or not it will be sold, which isn't what we want because we know the number of bedrooms should also have a significant impact. (&#127925; Why you got a 12 car garage? &#127925;) To prevent this, we can normalize the data so that the units are on the same scale.</p>
+      <p>One way to normalize data is to make the units on a scale from 0 to 1. We can do this by dividing each data point by the max value for that feature. In the housing dataset, the max size of a house is 7000 and the max number of bedrooms is 5, so we divide each size by 7000 and each number of bedrooms by 5.</p>
+      <table>
+        <tr>
+          <td>Size (square feet) [normalized]</td>
+          <td>Number of Bedrooms [normalized]</td>
+          <td>Sold/Not Sold</td>
+        </tr>
+        <tr>
+          <td>0.4</td>
+          <td>0.2</td>
+          <td>Sold</td>
+        </tr>
+        <tr>
+          <td>0.6</td>
+          <td>0.4</td>
+          <td>Not Sold</td>
+        </tr>
+        <tr>
+          <td>0.7</td>
+          <td>0.6</td>
+          <td>Sold</td>
+        </tr>
+        <tr>
+          <td>0.9</td>
+          <td>0.8</td>
+          <td>Not Sold</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>Not Sold</td>
+        </tr>
+      </table>
+      <p>The two distances calculated previously now become:</p>
+      <div class="math">
+        <p>`sqrt((0.4-0.6)^2+(0.2-0.4)^2)`</p>
+        <p>`= sqrt((-0.2)^2+(-0.2)^2)`</p>
+        <p>`= sqrt(0.04+0.04)`</p>
+      </div>
+      <p>and:</p>
+      <div class="math">
+        <p>`sqrt((0.4-1)^2+(0.2-1)^2)`</p>
+        <p>`= sqrt((-0.6)^2+(-0.8)^2)`</p>
+        <p>`= sqrt(0.36+0.64)`</p>
+      </div>
+      <p>Now the number of bedrooms has an impact on the distance.</p>
+      <h3>Advantages and Disadvantages of KNN</h3>
+      <div class="box">
+        <p>Advantages of KNN:</p>
+        <ul>
+          <li>simple and requires low computational complexity
+            <ul>
+              <li>all it's doing is calculating distances between points and then finding the shortest distances</li>
+            </ul>
+          </li>
+        </ul>
+        <p>Disadvantages of KNN:</p>
+        <ul>
+          <li>intensive when there are a lot of data points</li>
+          <li>choosing a good `k` is hard
+            <ul>
+              <li>most reliable way is through trial and error</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h2 id="decisiontree">Decision Tree</h2>
+      <p>Now we take a turn (but not into an iceberg) and look at people on the Titanic. Or at least 891 of them anyway. Green means the person survived and red means they didn't.</p>
+      <div id="decisiontreetitanic"></div>
+      <p>There are some negative ages, which means that the ages for those people are unknown.</p>
+      <p>There are some clear patterns in the data. For example, females had a higher survival chance than males did and younger (male) children had a higher survival chance than older (male) adults. <a href="https://en.wikipedia.org/wiki/Women_and_children_first" target="_blank">#BirkenheadDrill</a>. So if we chose a random person on the Titanic and tried to guess if they survived or not, a good start would be looking at age and gender. If they were female, they probably survived. If they were young, they probably survived. Of course, there were several males who survived and several older people who survived, but classifying based on gender and age is better than random guessing in this case.</p>
+      <p>We could also look at how fancy they were. The lower the number, the fancier. (&#127925; We flyin' first class... &#127925;)</p>
+      <div id="decisiontreetitanic2"></div>
+      <p>There's also a clear pattern here. Higher-class passengers tended to survive while lower-class passengers didn't. So in addition to looking at age and gender, we could also use passenger class to predict whether a randomly-chosen person on the Titanic survived or not. #PayToWin. Also, the same age pattern kind of appears here, more so for class 2 and 3.</p>
+      <p>Another feature there is data for is how many parents or children each passenger was travelling with. So if someone has a value of 3, then they could've been travelling with their parents and child or their three children.</p>
+      <div id="decisiontreetitanic3"></div>
+      <p>This time, there's not really a clear pattern. There's neither an increasing nor decreasing trend as we move between levels, i.e., the chance of survival for those travelling with 3 family members looks about the same as the chance of survival for those travelling with 2 or 1 family members. So looking at the number of family members someone was travelling with doesn't give us a good idea of survival chance.</p>
+      <p>So some useful features we found are age, gender, and passenger class, all of which we could use to predict whether someone survived or not. This could be represented using a tree, where first we check gender, then passenger class, then age.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/decision_tree.png" title="I am Groot!">
+      </div>
+      <p>Many things with this tree are arbitrary. Like which features to check and in what order. And what age to use as a threshold (e.g., 4). This tree is based on the manual visual analysis we did earlier, but how do we do this systematically (so that we can create a tree for any dataset) and reliably (so that the tree is actually able to predict correct results)?</p>
+      <p>First, we have to find out which features are important and which ones aren't. But what does "important" mean? In this case, a feature is important if it provides a good amount of information. For example, age, gender, and passenger class are important because they are all able to tell us whether a passenger survived. The number of family members is not important because it told us nothing about survival chance. But does age give us more information than gender? Or does gender give us more information than passenger class? We need a way to measure information.</p>
+      <h3>Information Theory</h3>
+      <p>There are two important concepts about information. The first is: <strong>the amount of information about an event has an inverse relationship to the probability of that event happening</strong>. This means that events that are likely to happen don't surprise us while events that don't happen often give us a lot of information. For example, "the sun will rise in the morning" doesn't give us a lot of information because we already know this will happen. However, "an eclipse will occur tomorrow" is news to us because it doesn't happen that often.</p>
+      <div class="box">
+        <p>For an event `x`, the concept can be represented mathematically as
+        <div class="math">
+          <p>`I(x) prop 1/(p(x))`</p>
+        </div>
+        <p>where `I(x)` represents the amount of information of `x` and `p(x)` is the probability of `x` happening.</p>
+      </div>
+      <p>The second important concept about information is: when two independent events happen, the joint probability of them is the product of their probabilities and <strong>the total information about them is the sum of their information</strong>.</p>
+      <p>For example, there is a `1/2` chance of flipping a coin and getting heads and there is a `1/2` chance of flipping a coin and getting tails. So the probability of getting a head on the first flip and then a tail on the second flip is `1/2*1/2=1/4`. Getting a head and getting a tail are two independent events because the result of the coin flip does not depend on what happened in the past flips.</p>
+      <p>Let's say a coin is flipped twice, but we don't know the results of the two flips. If we ask about the first flip, then we get `1` piece of information. If we ask about the second flip, then we get another `1` piece of information. So then we would have `1+1=2` pieces of information.</p>
+      <p>Let `p_1` be the probability of one (independent) event happening and `p_2` be the probability of another (independent) event happening. Let `I` be a function that represents the amount of information learned from an event happening. Then the information from these two events happening (`I(p_1 cdot p_2)`) is the sum of their information (`I(p_1)+I(p_2)`).</p>
+      <div class="math">
+        <p>`I(p_1 cdot p_2)=I(p_1)+I(p_2)`</p>
+      </div>
+      <p>So if there was a way to measure information, then it would have to turn products into sums. Luckily, the log function does just that.</p>
+      <div class="box">
+        <p>Log properties:</p>
+        <ul>
+          <li>`log(x cdot y) = log(x) + log(y)`</li>
+          <li>`log(1)=0`
+            <ul>
+              <li>Notice that represents the information function quite nicely. If the probability of an event is `1`, then it gives us no information at all.</li>
+            </ul>
+          </li>
+          <li>`log(1/x)=-log(x)`</li>
+        </ul>
+      </div>
+      <p>So a function that measures the information of an event should calculate the log of the probability of that event. Also, the amount of information about an event has an inverse relationship to the probability of that event happening (the first concept). Both of these lead to the formulation of the information function:</p>
+      <div class="math">
+        <p>`I(x)=log(1/(p(x)))=-log(p(x))`</p>
+      </div>
+      <h3>Entropy: "What is it?"</h3>
+      <p>There's a term for the amount of information we don't know. Entropy. It measures the amount of "uncertainty" of an event. That is, if an event occurred, how certain can we be that we will know the results of that event? If we're not really sure what the outcome will be, then there is high entropy. If we're certain enough to bet money on the outcome, then there is low entropy.</p>
+      <p>Another interpretation of entropy is that it represents expected information. When an event has occurred, then we "expect" to receive some information from the result. This is why the formula for entropy (denoted as `H`) is the expected value (denoted as `E`) of the information:</p>
+      <div class="math">
+        <p>`H(X) = E(I(X)) = sum_(x in chi) p(x) cdot I(x)`</p>
+        <p>`= -sum_(x in chi)p(x)log(p(x))`</p>
+        <p>where `chi` represents all the possible outcomes for event `X`</p>
+      </div>
+      <div class="box">
+        <p>Typically entropy uses log base 2, in which case the unit of measurement is 'bits' (8 bits = 1 byte). When the entropy is measured in bits, the interpretation is that it takes that many bits to inform someone of the outcome. For example, an entropy of 0 means that no bits are required to convey information (because the probability of that event happening was 1 so we didn't need to make space to store that information). An entropy of 1 means that 1 bit is required to convey the outcome. In the case of a coin flip, heads can be encoded as 1 and tails can be encoded as 0. Either result would require 1 bit to store it.</p>
+        <p>1 is the maximum value for entropy though I have yet to have an explanation why.</p>
+      </div>
+      <div class="box">
+        <p>If we have a fair coin (probability of heads is `1/2` and probability of tails is `1/2`) and an unfair coin (e.g., probability of heads is `7/10` and probability of tails is `3/10`), which coin is more predictable? Obviously, the unfair coin is more predictable since it is more likely to land on heads. We can prove this by calculating entropy.</p>
+        <p>There are only two possible outcomes for flipping a coin and the probabilities of those outcomes are both `1/2` for the fair coin. So the entropy of flipping a fair coin is</p>
+        <div class="math">
+          <p>`-sum_(x in X)p(x)log_2(p(x))`</p>
+          <p>`= -(0.5log_2(0.5)+0.5log_2(0.5))`</p>
+          <p>`= 1`</p>
+        </div>
+        <p>The entropy of flipping the unfair coin is</p>
+        <div class="math">
+          <p>`-sum_(x in X)p(x)log_2(p(x))`</p>
+          <p>`= -(0.7log_2(0.7)+0.3log_2(0.3))`</p>
+          <p>`~~ 0.88`</p>
+        </div>
+        <p>There is less entropy with flipping an unfair coin, which means there is less uncertainty with flipping an unfair coin. This makes sense because we know it is more likely to land on heads.</p>
+        <p>Also notice that there is an entropy of 1 when flipping a fair coin. This means that we are completely unsure of what the result will be, which makes sense because each result is equally likely.</p>
+      </div>
+      <h3>Information Gain</h3>
+      <p>If we gain information, then we reduce uncertainty. If we reduce entropy, then we gain information. Information gain is the measure of how much entropy is reduced.</p>
+      <h3>And Now, Back to Our Regularly Scheduled Programming</h3>
+      <p>Before the discussion on information theory, we needed a way to measure information so we could figure out which features of a dataset were important and which were more important than others so we could build a decision tree. Now we have a way to measure information — and lack thereof, a.k.a. entropy. So how do we use it to determine which features are important?</p>
+      <p>Let's go back to the titanic dataset and pretend that we knew nothing about it. We would have a hard time predicting survivability (again, forgetting everything that we just found out about the dataset). Now let's say we analyzed survivability by gender and found out that females were way more likely to survive than males. Now how hard would it be to predict survivability? Splitting the data by gender reduced uncertainty/entropy and increased information gain. So a feature is important if it reduces entropy.</p>
+      <p>This means that when deciding which features to put at the top of the decision tree (i.e., which features to check first), we should look for features that reduce entropy the most. If you were playing 20 questions, would you rather ask a question that provided you with more information or no information?</p>
+      <h3>Feature Finding</h3>
+      <p>Splitting the data by certain features can reduce entropy. The idea is that there is a certain amount of entropy before splitting the data, and after splitting the data, the entropy is lower. Some features will reduce the entropy more than others. To see this calculation in action, let's revisit the weather, but this time look at a different dataset.</p>
+      <table>
+        <tr>
+          <td>Temperature</td>
+          <td>Humidity</td>
+          <td>Windy</td>
+          <td>Label</td>
+        </tr>
+        <tr>
+          <td>high</td>
+          <td>low</td>
+          <td>yes</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>low</td>
+          <td>high</td>
+          <td>yes</td>
+          <td>rainy</td>
+        </tr>
+        <tr>
+          <td>high</td>
+          <td>low</td>
+          <td>no</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>high</td>
+          <td>high</td>
+          <td>yes</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>mild</td>
+          <td>mild</td>
+          <td>no</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>mild</td>
+          <td>high</td>
+          <td>no</td>
+          <td>rainy</td>
+        </tr>
+        <tr>
+          <td>low</td>
+          <td>mild</td>
+          <td>yes</td>
+          <td>rainy</td>
+        </tr>
+      </table>
+      <p>There are `7` samples, `4` of them are sunny and `3` of them are rainy. So the probability of a day being sunny is `4/7` and the probability of a day being rainy is `3/7`.</p>
+      <p>Calculating the entropy, we get:</p>
+      <div class="math">
+        <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
+        <p>`= -((4/7)log_2(4/7)+(3/7)log_2(3/7))`</p>
+        <p>`~~ 0.98`</p>
+      </div>
+      <div class="box">
+        <p>Splitting the data on a feature means dividing the data into subsets based on that feature. For example, splitting the data on wind means putting all the windy data in one group and putting all the non-windy data in another group. This allows us to see how much of an impact that feature has on the result. So if we find out that the probability of a sunny day is high in the windy group and low in the non-windy group, then that means wind has an impact on whether a day is sunny or not. If the probability is pretty much the same in both groups, then that means wind does not affect whether a day is sunny or not.</p>
+      </div>
+      <h4>&#127925; It's gettin' windy here &#127925;</h4>
+      <p>Now let's try splitting the data on wind. There are `4` windy days with `1` of them being sunny and `3` of them being rainy. So if a day is windy, then the probability of that day being sunny is `1/4` and the probability of that day being rainy is `3/4`. Calculating the entropy for windy days, we get:</p>
+      <div class="math">
+        <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
+        <p>`= -((1/4)log_2(1/4)+(3/4)log_2(3/4))`</p>
+        <p>`~~ 0.81`</p>
+      </div>
+      <p>There are `3` non-windy days with `2` of them being sunny and `1` of them being rainy. So if a day is not windy, the probability of that day being sunny is `2/3` and the probability of that day being rainy is `1/3`. Calculating the entropy for non-windy days, we get:</p>
+      <div class="math">
+        <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
+        <p>`= -((2/3)log_2(2/3)+(1/3)log_2(1/3))`</p>
+        <p>`~~ 0.91`</p>
+      </div>
+      <p>We have two entropies for each of the values of the wind feature. Getting their weighted average will give us the average entropy after splitting the data on wind.</p>
+      <div class="math">
+        <p>`E(H(X)) = sum_(x in chi)p(x)H(x)`</p>
+        <p>`= (4/7)(0.81)+(3/7)(0.91)`</p>
+        <p>`~~ 0.85`</p>
+      </div>
+      <p>So we went from an entropy of 0.98 to an entropy of 0.85 after splitting that data on wind. It's a slight decrease, but not by much. If we think about it, wind level generally doesn't tell us whether a day will be sunny or rainy.</p>
+      <h4>&#127925; It's gettin' humid here &#127925;</h4>
+      <p>Now let's try splitting the data on humidity. There are `3` high humid days with `0` of them being sunny and `3` of them being rainy. So if a day has high humidity, then the probability of that day being sunny is `0/3=0` and the probability of that day being rainy is `3/3=1`. Calculating the entropy for high humid days, we get:</p>
+      <div class="math">
+        <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
+        <p>`= -((0)log_2(0)+(1)log_2(1))`</p>
+        <p>`= 0`</p>
+      </div>
+      <p>At first glance, this may seem surprising. But looking at the dataset, every day with high humidity was rainy. So, according to this dataset, if a day has high humidity, it will always rain, so there is no uncertainty, hence the 0.</p>
+      <p>There are `2` mild humid days with `1` of them being sunny and `1` of them being rainy. So if a day has mild humidity, the probability of that day being sunny is `1/2` and the probability of that day being rainy is `1/2`. Calculating the entropy for mild humid days, we get:</p>
+      <div class="math">
+        <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
+        <p>`= -((1/2)log_2(1/2)+(1/2)log_2(1/2))`</p>
+        <p>`= 1`</p>
+      </div>
+      <p>Again, looking at the dataset, there was 1 mild humid sunny day and 1 mild humid rainy day. So if a day is mild humid, it can be either sunny or rainy. Maximum uncertainty.</p>
+      <p>There are `2` low humid days with `2` of them being sunny and `0` of them being rainy. So if a day has low humidity, the probability of that day being sunny is `2/2=1` and the probability of that day being rainy is `0/2=0`. Calculating the entropy for low humid days, we get:</p>
+      <div class="math">
+        <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
+        <p>`= -((1)log_2(1)+(0)log_2(0))`</p>
+        <p>`= 0`</p>
+      </div>
+      <p>Each time the day was low humid, it was sunny. So no uncertainty.</p>
+      <p>We have three entropies for each of the values of the humidity feature. Getting their weighted average will give us the average entropy after splitting the data on humidity.</p>
+      <div class="math">
+        <p>`E(H(X)) = sum_(x in chi)p(x)H(x)`</p>
+        <p>`= (3/7)(0)+(2/7)(1)+(2/7)(0)`</p>
+        <p>`~~ 0.28`</p>
+      </div>
+      <p>This was actually a big decrease in entropy (from 0.98 to 0.28). This means that splitting the data on humidity reduces uncertainty by a lot, i.e., humidity gives us a lot of information about whether a day will sunny or rainy. We saw this with real data back in the KNN section.</p>
+      <h4>&#127925; It's gettin' hot in here &#127925;</h4>
+      <p>Now let's try splitting the data on temperature. There are `3` high temperature days with `2` of them being sunny and `1` of them being rainy. So if a day has high temperature, then the probability of that day being sunny is `2/3` and the probability of that day being rainy is `1/3`. Calculating the entropy for high temperature days, we get:</p>
+      <div class="math">
+        <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
+        <p>`= -((2/3)log_2(2/3)+(1/3)log_2(1/3))`</p>
+        <p>`~~ 0.91`</p>
+      </div>
+      <p>There are `2` mild temperature days with `1` of them being sunny and `1` of them being rainy. So if a day has mild temperature, the probability of that day being sunny is `1/2` and the probability of that day being rainy is `1/2`. Calculating the entropy for mild temperature days, we get:</p>
+      <div class="math">
+        <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
+        <p>`= -((1/2)log_2(1/2)+(1/2)log_2(1/2))`</p>
+        <p>`= 1`</p>
+      </div>
+      <p>There are `2` low temperature days with `0` of them being sunny and `2` of them being rainy. So if a day has low temperature, the probability of that day being sunny is `0/2=0` and the probability of that day being rainy is `2/2=1`. Calculating the entropy for low temperature days, we get:</p>
+      <div class="math">
+        <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
+        <p>`= -((0)log_2(0)+(1)log_2(1))`</p>
+        <p>`= 0`</p>
+      </div>
+      <p>We have three entropies for each of the values of the temperature feature. Getting their weighted average will give us the average entropy after splitting the data on temperature.</p>
+      <div class="math">
+        <p>`E(H(X)) = sum_(x in chi)p(x)H(x)`</p>
+        <p>`= (3/7)(0.91)+(2/7)(1)+(2/7)(0)`</p>
+        <p>`~~ 0.67`</p>
+      </div>
+      <p>There was a big decrease (0.98 to 0.67), but not as big as the decrease from humidity. So temperature gives us a decent amount of information, but not as much as humidity. Which makes sense in real life because cold temperatures doesn't necessarily mean it's raining.</p>
+      <h3>Top of the Tree</h3>
+      <p>Humidity reduced entropy the most, so if we were building a decision tree to predict weather, the first feature to check would be humidity.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/decision_tree_2.png">
+      </div>
+      <p>Temperature had the second most entropy reduction, but that doesn't mean it should be the next feature to check after humidity. That's because the calculation was entropy reduction from the <em>starting entropy</em> (0.98). After splitting the data, we're no longer working with the original dataset (because we've split the data). So if we were to continue building the tree after mild humidity, the new starting entropy would be 1 (calculated previously when it was gettin' humid in here) and we would be looking to see which feature (temperature or wind) would reduce that entropy value more. The same would have to be done for low and high humidity. In this case, the entropy for low and high humidity are both 0, so there's no reduction possible (which means based on this feature alone, we are able to tell whether a day is rainy or sunny). But theoretically, the branches below the second level of the tree could be different. For example, for low humidity, the best feature to check next might be temperature, but for mild humidity, the best feature to check next might be wind.</p>
+      <h3>ID3 Algorithm</h3>
+      <p>This is an algorithm to systematically build a decision tree. It's basically what we did above.</p>
+      <ol>
+        <li>Calculate entropy after splitting the data on every feature</li>
+        <li>Select the feature that has the most entropy reduction</li>
+        <li>Split the data into subsets using that feature and make a decision tree node for that feature</li>
+        <li>Repeat with remaining features until
+          <ul>
+            <li>no features left or</li>
+            <li>all samples assigned to the same label (entropy is 0 for all nodes one level above all leaf nodes)</li>
+          </ul>
+        </li>
+      </ol>
+      <h3>Viewer Discretization Is Advised</h3>
+      <p>One thing that should be noted is that all the values for each feature were categorical values. They weren't numerical. For example, temperature was low, mild, high instead of 60, 75, 91. This is important because a decision tree shouldn't have branches for each numerical value. If the temperature is 90, then check this. If the temperature is 89, then check this. If the temperature is 88 ....</p>
+      <p>Let's say instead of low, mild, high for temperature, we had actual numerical values.</p>
+      <table>
+        <tr>
+          <td>Temperature</td>
+          <td>Humidity</td>
+          <td>Windy</td>
+          <td>Label</td>
+        </tr>
+        <tr>
+          <td>90</td>
+          <td>low</td>
+          <td>yes</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>60</td>
+          <td>high</td>
+          <td>yes</td>
+          <td>rainy</td>
+        </tr>
+        <tr>
+          <td>92</td>
+          <td>low</td>
+          <td>no</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>89</td>
+          <td>high</td>
+          <td>yes</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>70</td>
+          <td>mild</td>
+          <td>no</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>73</td>
+          <td>high</td>
+          <td>no</td>
+          <td>rainy</td>
+        </tr>
+        <tr>
+          <td>61</td>
+          <td>mild</td>
+          <td>yes</td>
+          <td>rainy</td>
+        </tr>
+      </table>
+      <p>Instead of building a decision tree for this dataset, we would want to first discretize the numerical values (i.e., convert the numbers into categories). Sorting the values first would help a lot.</p>
+      <table>
+        <tr>
+          <td>Temperature</td>
+          <td>Humidity</td>
+          <td>Windy</td>
+          <td>Label</td>
+        </tr>
+        <tr>
+          <td>92</td>
+          <td>low</td>
+          <td>no</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>90</td>
+          <td>low</td>
+          <td>yes</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>89</td>
+          <td>high</td>
+          <td>yes</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>73</td>
+          <td>high</td>
+          <td>no</td>
+          <td>rainy</td>
+        </tr>
+        <tr>
+          <td>70</td>
+          <td>mild</td>
+          <td>no</td>
+          <td>sunny</td>
+        </tr>
+        <tr>
+          <td>61</td>
+          <td>mild</td>
+          <td>yes</td>
+          <td>rainy</td>
+        </tr>
+        <tr>
+          <td>60</td>
+          <td>high</td>
+          <td>yes</td>
+          <td>rainy</td>
+        </tr>
+      </table>
+      <p>Now we need to define intervals/thresholds for what low, mild, and high temperatures are. Generally, the way to find the best threshold is to try every possible split to see which one minimizes entropy. However, there can sometimes be some more efficient ways to find the thresholds.</p>
+      <p>Looking at just temperature and label, we can notice that all days with temperature 89 and above are sunny and all days with temperature 61 and below are rainy. So we can decide that if a temperature is above 80, then it is considered high and if a temperature is below 65, then it is considered low.</p>
+      <h3>Advantages and Disadvantages of Decision Tree</h3>
+      <div class="box">
+        <p>Advantages of Decision Tree:</p>
+        <ul>
+          <li>easily interpretable by a human
+            <ul>
+              <li>it's easy to look at a tree and understand what it means and how to use it</li>
+            </ul>
+          </li>
+          <li>handles both numerical and categorical data</li>
+          <li>parametric algorithm
+            <ul>
+              <li>just need to use training data once to build the tree, then use the tree to make predictions
+                <ul>
+                  <li>unlike KNN which needs to have the training dataset everytime to calculate distances for every prediction</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <p>Disadvantages of Decision Tree:</p>
+        <ul>
+          <li>very prone to overfitting (see Overfitting section in Appendix)</li>
+          <li>heuristic training techniques (brute force, trial and error)
+            <ul>
+              <li>calculating entropy</li>
+              <li>finding thresholds for discretizing numerical data</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h2 id="linearregression">Linear Regression</h2>
+      <p>So far, the algorithms we have looked at only predict categories, like sunny/rainy, sold/not sold, survived/didn't survive. But it is also possible to predict numerical values, like how much something will cost or how much rainfall an area will get.</p>
+      <p>To start, we can look at some fake data for housing prices. In this case, we are only looking at one feature (square footage) and the price that the house sold for.</p>
+      <div id="linearregression1"></div>
+      <p>We can predict the price of houses based on their square footage by drawing a line ("linear" regression) through the data points that best fits the data. So if there is a house with 2000 square feet, then we can predict that it will cost around $1,250,000.</p>
+      <div id="linearregression2"></div>
+      <p>Of course, the question now is how do we draw the line that "best fits the data" (and what does best fit mean exactly?)</p>
+      <h3>Lining Them Up</h3>
+      <p>The equation of a line is `y=ax+b`.</p>
+      <p>`a` is the slope and it controls how "rotated" the line is.</p>
+      <div id="linearregression3"></div>
+      <p>`b` is the y-intercept and it controls where the line is placed.</p>
+      <div id="linearregression4"></div>
+      <p>From here on, we will rename some stuff so that the equation of the line is</p>
+      <div class="math">
+        <p>`y=ax+b`</p>
+        <p>`darr`</p>
+        <p>`h_theta(x)=theta_0+theta_1x`</p>
+      </div>
+      <p>There are infinitely many possible lines that can be drawn.</p>
+      <div id="linearregression5"></div>
+      <p>So which line best fits the data?</p>
+      <p>To create a line that will best fit the data points, we need to find values for `theta_0`, `theta_1` that will rotate and position the line so that it is as close as possible to <em>all</em> the data points.</p>
+      <p>More formally, the line needs to minimize the differences between the actual data points and our predictions. In other words, we want to minimize the error between all of the actual values and all of our predicted values.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/lr_error.png">
+      </div>
+      <div class="box">
+        <p>We are not minimizing error like what is shown below because we are only interested in minimizing error in the `y`-direction (not in the `x`- and `y`-direction). This is because the `y`-axis is the target value (what we are trying to predict).</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/lr_not_error.png">
+        </div>
+      </div>
+      <p>So the idea is that for every line that we can draw, there is going to be some error for each data point. We can add up all those errors to get the total error for that line. So each line we can draw will have a total error. The line with the smallest total error is the best line.</p>
+      <p>Mathematically, we can define a cost function `J` that represents the total error:</p>
+      <div class="math">
+        <p>`J(theta_0,theta_1)=1/(2m)sum_(i=1)^m(h_theta(x^((i)))-y^((i)))^2`</p>
+        <p>for `m` data points</p>
+        <p>(this is actually the total average error but it doesn't change things since it's still measuring amount of error)</p>
+      </div>
+      <div class="box">
+        <ul>
+          <li>Why is there a power of `2`?
+            <ul>
+              <li>The error between the actual value and the predicted value is `h_theta(x^((i)))-y^((i))`. This error can be negative if `h_theta(x^((i)))>y^((i))` (the predicted value is greater than the actual value), so we take the square of it to make it positive. We need positive values for errors so that we can get the total error.</li>
+              <li>Another nice side effect is that lines that don't fit the data very well are "penalized" more than lines that do. This is because large errors squared affect the total error more than small errors squared do.</li>
+            </ul>
+          </li>
+          <li>Why not use absolute value to get positive errors?
+            <ul>
+              <li>Minimizing a function involves taking the derivative of that function. So the function needs to be differentiable.</li>
+            </ul>
+          </li>
+          <li>What's with the `1/2`?
+            <ul>
+              <li>When we take the derivative of that function, the `2`s will cancel out, so it is there to make things cleaner.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <p>If we can find `theta_0`, `theta_1` such that `J(theta_0,theta_1)` is minimized (i.e., the total error is as small as possible), then we have found the values that will allow us to create the line `h_theta(x)=theta_0+theta_1x` that best fits the data.</p>
+      <h3>Gradient Descent</h3>
+      <p>It turns out that the graph of the cost function is bowl shaped.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/lr_cost_fn_graph.png">
+        <p>(image from <a href="https://www.youtube.com/watch?v=GtSf2T6Co80" target="_blank">Andrew Ng</a>)</p>
+      </div>
+      <p>Since the cost function represents total (average) error, the bottommost point of the graph is where the total (average) error is smallest.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/lr_cost_fn_graph2.png">
+      </div>
+      <p>Whatever `theta_0` and `theta_1` are at that point are the values that create the line `h_theta(x)=theta_0+theta_1x` that best fits the data.</p>
+      <p>To find the minimum of `J(theta_0,theta_1)`, we have to perform gradient descent. The idea of gradient descent is that we start at a random point and take small steps towards the lowest point of the graph until we reach it.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/lr_gd.png">
+      </div>
+      <p>So if we start at the dark blue point, the path it might take to get to the bottommost point might look like the above. And if we start at a different point, it could take a different path and reach a different point.</p>
+      <div class="box">
+        <p>A gradient is the vector version of slope. Its magnitude is the slope (scalar value).</p>
+        <p>Mathematically, we find the vector that points in the most negative direction and take a step in that direction.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/lr_gd2.png">
+        </div>
+        <p>This is called the negative gradient, which points in the direction of the greatest rate of reduction. Taking a step in this direction is the fastest way in which the function decreases.</p>
+      </div>
+      <p>Since the cost function is bowl shaped, there is only one minimum (the global minimum) so starting gradient descent at any point will always result in ending up at the same point (the minimum).</p>
+      <div class="box">
+        <p>Starting at a random point `(theta_0, theta_1)`, taking a step means updating `theta_0` and `theta_1` by doing:</p>
+        <div class="math">
+          <p>`theta_j = theta_j - alphadel/(deltheta_j)J(theta_0, theta_1)`</p>
+          <p>for `j=0,1`</p>
+        </div>
+        <p>Programmatically, there are two ways to implement this. The first way is to take both steps simultaneously:</p>
+        <div class="math">
+          <p>`text(temp)0 = theta_0 - alphadel/(deltheta_0)J(theta_0, theta_1)`</p>
+          <p>`text(temp)1 = theta_1 - alphadel/(deltheta_1)J(theta_0, theta_1)`</p>
+          <p>`theta_0 = text(temp)0`</p>
+          <p>`theta_1 = text(temp)1`</p>
+        </div>
+        <p>The second way is to take one step at a time:</p>
+        <div class="math">
+          <p>`text(temp)0 = theta_0 - alphadel/(deltheta_0)J(theta_0, theta_1)`</p>
+          <p>`theta_0 = text(temp)0`</p>
+          <p>`text(temp)1 = theta_1 - alphadel/(deltheta_1)J(theta_0, theta_1)`</p>
+          <p>`theta_1 = text(temp)1`</p>
+        </div>
+        <p>The first way is more efficient because it steps in the direction of `theta_0` and `theta_1` at the same time while the second way takes one step in `theta_0`, then in `theta_1`.</p>
+        <p>This is what it looks like from a 2D perspective.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/lr_gd_2d.gif">
+        </div>
+        <p>Gradient descent starts from a random point and keeps moving down until it reaches the bottom. Each step naturally gets smaller as it moves further down because the slope gets smaller as it moves down (note how `theta_j`'s updated value is dependent on the slope).</p>
+        <p>`alpha` is called the learning rate, which controls how big of a step to take. Choosing a value that's too small will take a long time.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/lr_gd_2d.png">
+          <p>(no animation)</p>
+        </div>
+        <p>Choosing a value that's too big may result in overstepping the minimum. (And in some cases, it may diverge.)</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/lr_gd_2d_2.gif">
+        </div>
+      </div>
+      <div class="box">
+        <p>So far we have the equation of a line that best fits the data:</p>
+        <div class="math">
+          <p>`h_theta(x)=theta_0+theta_1x`</p>
+        </div>
+        <p>the cost function that represents the total (average) error of a line:</p>
+        <div class="math">
+          <p>`J(theta_0,theta_1)=1/(2m)sum_(i=1)^m(h_theta(x^((i)))-y^((i)))^2`</p>
+        </div>
+        <p>and the formula for gradient descent:</p>
+        <div class="math">
+          <p>`theta_j=theta_j-alphadel/(deltheta_j)J(theta_0,theta_1)`</p>
+        </div>
+        <p>After plugging everything in we get:</p>
+        <div class="math">
+          <p>`theta_j=theta_j-alphadel/(deltheta_j)J(theta_0,theta_1)`</p>
+          <p>`=theta_j-alphadel/(deltheta_j)1/(2m)sum_(i=1)^m(h_theta(x^((i)))-y^((i)))^2`</p>
+          <p>`=theta_j-alphadel/(deltheta_j)1/(2m)sum_(i=1)^m(theta_0+theta_1x^((i))-y^((i)))^2`</p>
+          <p>`implies`</p>
+          <p>`theta_0=theta_0-alpha1/msum_(i=1)^mh_theta(x^((i)))-y^((i))`</p>
+          <p>`theta_1=theta_1-alpha1/msum_(i=1)^m(h_theta(x^((i)))-y^((i)))\cdotx^((i))`</p>
+        </div>
+      </div>
+      <p>Basically, with gradient descent, we start at a random `theta_0` and `theta_1` and keep moving until we hit the minimum. The values of `theta_0` and `theta_1` at that minimum point are the values that create the line that best fits the data. From a line-drawing perspective, we start with a random line, see how good it is, then use the calculations to find a better line.</p>
+      <p>All of this is only for one feature though (that's why it's a line). To do linear regression with more than one feature, we need to extend the idea to higher dimensions.</p>
+      <h3>Multiple Features</h3>
+      <p>Let's say we had two features to look at: square footage and number of bedrooms.</p>
+      <table>
+        <tr>
+          <td>size in square feet</td>
+          <td>number of bedrooms</td>
+          <td>price</td>
+        </tr>
+        <tr>
+          <td>1000</td>
+          <td>1</td>
+          <td>410,000</td>
+        </tr>
+        <tr>
+          <td>1200</td>
+          <td>2</td>
+          <td>600,000</td>
+        </tr>
+        <tr>
+          <td>1230</td>
+          <td>2</td>
+          <td>620,000</td>
+        </tr>
+        <tr>
+          <td>1340</td>
+          <td>3</td>
+          <td>645,000</td>
+        </tr>
+      </table>
+      <p>If we were to graph this, it would be in 3D.</p>
+      <div class="box">
+        <div id="linearregression6"></div>
+      </div>
+      <p>So the equation we would be looking for is:</p>
+      <div class="math">
+        <p>`h_theta(bb x)=theta_0+theta_1x_1+theta_2x_2`</p>
+        <p>where `x_1` and `x_2` represent square footage and number of bedrooms</p>
+      </div>
+      <p>Instead of looking for the best <em>line</em> that fits the data, we would be looking for the best <em>plane</em> that fits the data.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/lr_gd3.png">
+      </div>
+      <p>As we work with more features, the object that best fits the data increases in dimensionality.</p>
+      <div class="box">
+        <p>For `n` features, the equation of the object that best fits the data would be:</p>
+        <div class="math">
+          <p>`h_theta(bb x)=theta_0+theta_1x_1+theta_2x_2+...+theta_nx_n`</p>
+        </div>
+        <p>We could define `bb x` to be a vector that contains the values for each feature:</p>
+        <div class="math">
+          <p>`bb x=[[x_0],[x_1],[vdots],[x_n]]`</p>
+          <p>and `x_0=1`</p>
+        </div>
+        <p>and define `theta` to be a vector:</p>
+        <div class="math">
+          <p>`bb theta=[[theta_0],[theta_1],[vdots],[theta_n]]`</p>
+        </div>
+        <p>so that the generalizable equation that best fits the data would be:</p>
+        <div class="math">
+          <p>`h_theta(bb x)=bb theta^Tbb x`</p>
+        </div>
+        <p>The cost function is mostly the same:</p>
+        <div class="math">
+          <p>`J(bb theta)=J(theta_0,theta_1,...,theta_n)=1/(2m)sum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))^2`</p>
+        </div>
+        <p>and so is gradient descent:</p>
+        <div class="math">
+          <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))\cdotx_j^((i))`</p>
+        </div>
+      </div>
+      <div class="box">
+        <p>Notation: `bb x` (bold `x`) and `bb theta` (bold `theta`) are vectors.</p>
+      </div>
+      <div class="box">
+        <p>If the data isn't normalized, then gradient descent could take a long time. For example, if `theta_1` represented number of bedrooms and `theta_2` represented square footage, then the (contour) graph of the cost function could look like this:</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/lr_gd4.png">
+        </div>
+        <p>Normalizing would make the (contour) graph of the cost function more circular.</p>
+      </div>
+      <h2 id="logisticregression">Logistic Regression</h2>
+      <p>Although linear regression is used to predict continuous values, the ideas behind it can be used to build a classifier. Logistic regression is a classification technique that uses linear regression.</p>
+      <p>Let's say we had data where the labels can only be 0 or 1. For example, the `x`-axis could be tumor size and the `y`-axis could be whether or not the tumor is malignant (1 means yes and 0 means no).</p>
+      <div id="logisticregression1"></div>
+      <p>We could theoretically draw a line that best fits the data like so:</p>
+      <div id="logisticregression2"></div>
+      <p>However, since the output can only be 0 (not malignant) or 1 (malignant), the values on the line below `y=0` and above `y=1` are not relevant. For example, if the tumor size is 14, the output is 2. But what does 2 mean? In this simple example, we're assuming that large tumors are malignant, so we would want a size 14 tumor to output to 1 somehow. So we need something other than a straight line for this.</p>
+      <h3>Sigmoid Function</h3>
+      <p>There is a function called the sigmoid function that takes in any input and outputs a value between 0 and 1.</p>
+      <div class="math">
+        <p>`g(z)=1/(1+e^(-z))`</p>
+      </div>
+      <div id="logisticregression3"></div>
+      <div class="box">
+        <p>As `z` moves towards `oo`, the function approaches `1` (since `e^(-z)` approaches `0`). As `z` moves towards `-oo`, the function approaches `0` (since `e^(-z)` approaches `oo`).</p>
+      </div>
+      <p>We can apply the sigmoid function to our line to effectively transform our line to a curve.</p>
+      <div class="math">
+        <p>`h_theta(bb x)=bb theta^T bb x`</p>
+        <p>`g(z)=1/(1+e^(-z))`</p>
+        <p>`implies`</p>
+        <p>`g(bb theta^T bb x)=1/(1+e^(-bb theta^T bb x)`</p>
+      </div>
+      <p>This is what the graph looks like when we apply the sigmoid function to the line that best fit the tumor data.</p>
+      <div id="logisticregression4"></div>
+      <div class="box">
+        <p>The line that best fit the tumor data was `h_theta(x)=1/6x-1/3`. Applying the sigmoid function to that line, we get:</p>
+        <div class="math">
+          <p>`g(1/6x-1/3)=1/(1+e^(-(1/6x-1/3)))`</p>
+        </div>
+      </div>
+      <p>So after applying the sigmoid function to `h_theta`, the new `h_theta` will only output values between 0 and 1. The values should be interpreted as probabilities that inputs will have an output of 1 (e.g., `h_theta(x)=0.7` means that `x` has a 70% chance of being 1). Since we're building a classifier, we should define a threshold to convert those probabilities into categories. For example, if an input has a probability greater than 0.5, then we can classify it as 1.</p>
+      <div class="box">
+        <p>The threshold doesn't have to be fixed at 0.5. It can change depending on the situation. If we're predicting earthquakes, we want to minimize false alarms, so the threshold should be pretty high (e.g., greater than 0.8). We can reduce the threshold to make the model more sensitive or increase the threshold to make it less sensitive.</p>
+      </div>
+      <h3>All of This for Nothing?!</h3>
+      <p>This process of training a linear regression model, applying the sigmoid function to it, and then discretizing the output is generally not a good idea though as it can lead to poor results since the line that best fits the data (and thus the curve generated from that line) won't generally fit the data well to begin with.</p>
+      <p>So instead of turning a line into a curve, we should just make a good curve. The setup is still the same:</p>
+      <div class="math">
+        <p>`h_theta(x)=g(bb theta^T bb x)=1/(1+e^(-bb theta^T bb x))`</p>
+        <p>where `bb theta=[[theta_0],[theta_1],[vdots],[theta_n]]` and `bb x=[[x_0],[x_1],[vdots],[x_n]]`</p>
+      </div>
+      <p>To make the curve, we need to find the values of `bb theta`. And just like in linear regression, to find the values of `bb theta`, we need gradient descent!</p>
+      <h3>A New Cost Function</h3>
+      <p>We also need a new cost function. The cost function from before was:</p>
+      <div class="math">
+        <p>`J(bb theta)=J(theta_0,theta_1,...,theta_n)=1/(2m)sum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))^2`</p>
+      </div>
+      <p>Before, `h_theta(bb x^((i)))` was linear, so the cost function was a convex bowl. Now, `h_theta(bb x^((i)))` is not linear anymore since we're applying the sigmoid function to it. As a result, the cost function looks something like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/logistic_regression_cost_fn.png">
+      </div>
+      <p>It is not guaranteed that starting at any point will converge to the global minimum (it might hit one of the other local minimums instead). This is why we need a new cost function, which actually turns out to be:</p>
+      <div class="math">
+        <p>`J(bb theta)=J(theta_0,theta_1,...,theta_n)=-1/msum_(i=1)^m[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
+      </div>
+      <p>Gradient descent stays the same:</p>
+      <div class="math">
+        <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))\cdotx_j^((i))`</p>
+      </div>
+      <div class="box">
+        <p>Let's suppose for a single data point, `y=1`. Then the cost function will be:</p>
+        <div class="math">
+          <p>`-[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
+          <p>`=-[1*logh_theta(bb x^((i)))+(1-1)log(1-h_theta(bb x^((i))))]`</p>
+          <p>`=-logh_theta(bb x^((i)))`</p>
+        </div>
+        <p>and the graph of it will look something like:</p>
+        <div id="logisticregression5"></div>
+        <p>If we also predicted 1 (i.e., `h_theta(bb x^((i)))=1`), then the cost/error is 0 (i.e., `J(bb theta)=0`. But if we predicted 0, then the cost/error is infinite.</p>
+        <p>Now let's suppose for a single data point, `y=0`. Then the cost function will be:</p>
+        <div class="math">
+          <p>`-[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
+          <p>`=-[0*logh_theta(bb x^((i)))+(1-0)log(1-h_theta(bb x^((i))))]`</p>
+          <p>`=-log(1-h_theta(bb x^((i))))`</p>
+        </div>
+        <p>and the graph of it will look something like:</p>
+        <div id="logisticregression6"></div>
+        <p>If we also predicted 0 (i.e., `h_theta(bb x^((i)))=0`), then the cost/error is 0 (i.e., `J(bb theta)=0`. But if we predicted 1, then the cost/error is infinite.</p>
+      </div>
+      <h2 id="polynomialregression">Polynomial Regression</h2>
+      <p>Sometimes using a line isn't the best fit for the data.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/pr.png">
+      </div>
+      <p>In this case, using a quadratic model would fit the data better.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/pr_2.png">
+      </div>
+      <p>The same can happen for classification.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/pr_3.png">
+      </div>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/pr_4.png">
+      </div>
+      <p>This is usually the case because the output does not always have a linear relationship with the features.</p>
+      <div class="box">
+        <p>Some examples:</p>
+        <p>Linear regression with one feature:</p>
+        <div class="math">
+          <p>`h_theta(x)=theta_0+theta_1x`</p>
+        </div>
+        <p>Polynomial regression with one feature and order `2`:</p>
+        <div class="math">
+          <p>`h_theta(x)=theta_0+theta_1x+theta_2x^2`</p>
+        </div>
+        <p>Logistic regression with two features:</p>
+        <div class="math">
+          <p>`h_theta(x)=g(theta_0+theta_1x_1+theta_2x_2)`</p>
+        </div>
+        <p>Polynomial classifier with two features and order `2`:</p>
+        <div class="math">
+          <p>`h_theta(x)=g(theta_0+theta_1x_1+theta_2x_2+theta_3x_1^2+theta_4x_2^2+theta_5x_1x_2)`</p>
+        </div>
+      </div>
+      <div class="box">
+        <p>Increasing the order of the model essentially involves adding a new feature to the dataset. If we have a feature `x`, we could multiply each value by itself and put the results in a new column to have `x^2`.</p>
+        <p>Training a polynomial model is no different than training a linear model. This is because we can encode a polynomial equation as a linear equation. For example, if we have `h_theta(x)=theta_0+theta_1x+theta_2x^2`, we can let `x_2=x^2` so that the new equation becomes:</p>
+        <div class="math">
+          <p>`h_theta(x)=theta_0+theta_1x+theta_2x_2`</p>
+        </div>
+      </div>
+      <h2 id="randomforest">Random Forest</h2>
+      <p>(See the Ensemble Learning section in the appendix for more background.)</p>
+      <p>Back to classification! More specifically, back to decision trees! But this time instead of just one tree, there's a whole forest of them. It's an ensemble learning method, so it builds several decision trees and combines their results to make a prediction. Having one big and deep tree usually leads to poor results (since it's usually the result of overfitting), so having many small trees prevents that. It's like having more people solving a problem rather than just one.</p>
+      <p>In order for all of the trees to work well together, each tree should be different from each other. So each tree will train on a different randomly-generated subset of the training dataset and on a different randomly-generated subset of features.</p>
+      <p>After each tree makes a prediction, the results are tallied up and the category with the most votes wins.</p>
+      <p>A random forest is not the same as a bunch of decision trees. A decision tree uses the whole dataset when training, while each decision tree in a random forest uses a subset of the dataset and features when training. All the trees in a bunch of decision trees will look the same (each node will have the same feature), so they will all make the same mistakes. On the other hand, in a random forest, each tree is different so if one tree makes a mistake, the other trees will likely not make the same mistake.</p>
+      <p>Let's say we had a random forest with two trees:</p>
+      <div class="row">
+        <div class="col-sm">
+          <img class="img-fluid" src="../pictures/ml/random_forest.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <img class="img-fluid" src="../pictures/ml/decision_tree.png">
+        </div>
+      </div>
+      <p>If we predict the fate of an adult female with a 2nd class ticket, the top/left tree would predict that the person did not survive. However, the bottom/right tree would predict that the person did survive. If I wasn't lazy enough to make a third three, the majority of the results would determine the final prediction of the random forest.</p>
+      <h3>Advantages of Random Forest</h3>
+      <div class="box">
+        <ul>
+          <li>one of the most accurate classification algorithms</li>
+          <li>very robust to noise and overfitting</li>
+          <li>can handle big data with hundreds of features</li>
+          <li>can handle missing values</li>
+        </ul>
+      </div>
+      <h2 id="kmeans">K-Means Clustering</h2>
+      <p>Up to this point, all the datasets we've been looking at have been labeled, i.e., each sample in the training dataset had a classification (rainy/sunny, survived/not survived) or a value (price). In some situations, the dataset will be unlabeled (see the Unsupervised Learning section in the appendix for more background), so it would be more helpful to put similar samples together in groups to see what we can learn from the groupings.</p>
+      <p>Let's say we had some unlabeled data plotted:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/kmeans_1.png">
+      </div>
+      <p>To start, we pick 2 random points (centroids) and group all the points that are closest to that point:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/kmeans_2.png">
+      </div>
+      <p>Then we find the center of those points for each group and make them the new centroids. Then we repeat the process until things no longer change.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/kmeans.gif">
+      </div>
+      <p>So now we've divided the data into 2 clusters.</p>
+      <div class="box">
+        <p>K-Means Clustering algorithm:</p>
+        <ol>
+          <li>Set `K` random points as initial centroids</li>
+          <li>Assign each data sample to the cluster of the nearest centroid point</li>
+          <li>Update centroid locations to the mean/average location of the members of the cluster</li>
+          <li>Repeat until samples and centroids are stable</li>
+        </ol>
+        <p>Pseudocode:</p>
+        <p>Let `x^((i))` be the data sample at index `i`. Let `c^((i))` be the index of the cluster to which `x^((i))` is assigned. Let `mu_k` be the centroid of cluster `k`.</p>
+        <p>(If `x^((1))` is in cluster 5, then `c^((1))=5`)</p>
+        <p>Randomly initialize `K` cluster centroids `mu_1, mu_2, ..., mu_k`</p>
+        <p>Cluster assignments: assign `c^((i))` the index of the cluster centroid closest to `x^((i))`, i.e., `c^((i))=min_k||x^((i))-mu_k||^2`</p>
+        <p>Move centroids: assign `mu_k` the average of points assigned to cluster `k`</p>
+      </div>
+      <p>Picking random points as the starting centroid can make the process of clustering too long if the random points happened to be far away from the data points. So the data points themselves are usually chosen as the initial centroids to make sure they are close to the data.</p>
+      <p>If we are lucky, then the results will be good:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/kmeans_2.gif">
+      </div>
+      <p>But if we are unlucky, then the results will be bad:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/kmeans_3.gif">
+      </div>
+      <p>So picking random points can lead to random results. The best way to deal with this is to repeat the whole thing several times and select the best clustering results. But what does "best" mean?</p>
+      <h3>Another Cost Function</h3>
+      <p>In this case, "best" means that the total average distance from each data point to its cluster centroid is minimized. Each point should be pretty close to its cluster centroid. We can define the cost function to be:</p>
+      <div class="math">
+        <p>`J=1/msum_(i=1)^m||x^((i))-mu_(c^((i)))||^2`</p>
+        <p>where `mu_(c^((i)))` is the cluster centroid for `x^((i))`</p>
+      </div>
+      <p>So each time perform clustering, we calculate `J` and pick the clustering with the lowest `J`.</p>
+      <h3>Divide and Cluster</h3>
+      <p>Sometimes the data won't be so easily separable, but it would still be helpful to group the data into clusters. For product segmentation, it would be useful to categorize clothing into sizes, like small, medium, large:</p>
+      <div id="kmeans1"></div>
+      <h3>Every Cluster Begins With K</h3>
+      <p>In some situations, like product segmentation, we already know how many clusters we want to have. But for situations which we're not familiar with, the ideal number of clusters may vary depending on the situation. To see what the ideal value for `K` is, we could plot the number of clusters against the cost function to see the tradeoff.</p>
+      <div id="kmeans2"></div>
+      <p>In the orange case, there is not much reduction in error after 3 clusters, so we can apply the elbow rule and say 3 clusters is ideal.</p>
+      <h2 id="appendix">Appendix</h2>
+      <h3>A1) Accuracy: Is It Accurate?</h3>
+      <p>When the data is <em>unbalanced</em>, then no.</p>
+      <p>Suppose we had data where 99% of it had a "no" label. Let's say we built a classifier that always labels every input as "no". Technically, that classifier would have an accuracy of 99%.</p>
+      <p>One solution to this is to balance the data first. If there are a good amount of "yes" data, then some of the "no" data can be removed until the amount of each are roughly equal. If there are very few "yes" data, then the "yes" data can be duplicated.</p>
+      <h3>A2) Model Evaluation</h3>
+      <p>Generally, accuracy should be used to evaluate the correctness of a classification model (the higher the better) and error should be used to evaluate the correctness of a regression model (the lower the better).</p>
+      <h4>A2.1) Binary Classification</h4>
+      <p>However, as shown in the section above, accuracy is not always the best metric to use.</p>
+      <p>In binary classification, the data has two labels (1/0, true/false, etc.). One of the labels represents an event that is happening (e.g., an email is spam, a patient has cancer, it is raining). This is a positive label. The other label represents an event not happening (e.g., an email is not spam, a patient doesn't have cancer, it is not raining). This is a negative label.</p>
+      <p>Suppose we had some positive data (red) and negative data (blue) and a classifier that predicts everything on the left to be positive and everything on the right to be negative.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/model_evaluation_1.png">
+      </div>
+      <p>On both sides, there are some data that are misclassified. The misclassified ones on the left are negative samples that were predicted to be positive. These are called false positives (false alarms).</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/model_evaluation_2.png">
+        <p>false positives</p>
+      </div>
+      <p>The misclassified ones on the right are positive samples that were predicted to be negative. These are called false negatives.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/model_evaluation_3.png">
+        <p>false negatives</p>
+      </div>
+      <p>And of course, the ones that are correctly classified are called true positives and true negatives.</p>
+      <p>This can be succinctly represented in a confusion matrix:</p>
+      <table>
+        <tr>
+          <td colspan="2"></td>
+          <td colspan="2">Predicted Label</td>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td>Positive</td>
+          <td>Negative</td>
+        </tr>
+        <tr>
+          <td rowspan="2">Actual Label</td>
+          <td>Positive</td>
+          <td>TP</td>
+          <td>FN</td>
+        </tr>
+        <tr>
+          <td>Negative</td>
+          <td>FP</td>
+          <td>TN</td>
+        </tr>
+      </table>
+      <p>With these new terms, we can define accuracy as:</p>
+      <div class="math">
+        <p>`text(accuracy)=(TP+TN)/(TP+TN+FP+FN)`</p>
+        <p>(number of correct)/(total number of samples)</p>
+      </div>
+      <p>But as mentioned earlier, we are interested in other metrics besides accuracy.</p>
+      <h5>A2.1.1) Sensitivity</h5>
+      <p>True positive rate (TPR), aka sensitivity, is the percent of correct predictions for positive samples:</p>
+      <div class="math">
+        <p>`TPR=(TP)/(TP+FN)`</p>
+        <p>(number of correct positives)/(total number of positives)</p>
+      </div>
+      <p>Sensitivity is a measure of how well a model can detect something is happening.</p>
+      <h5>A2.1.2) Specificity</h5>
+      <p>True negative rate (TNR), aka specificity, is the percent of correct predictions for negative samples:</p>
+      <div class="math">
+        <p>`TNR=(TN)/(TN+FP)`</p>
+        <p>(number of correct negatives)/(total number of negatives)</p>
+      </div>
+      <p>Specificity is a measure of how well a model can rule out an event happening.</p>
+      <h5>A2.1.3) False Alarm Rate</h5>
+      <p>False positive rate (FPR), aka false alarm rate, is the percent of wrong predictions for negative samples:</p>
+      <div class="math">
+        <p>`FPR=(FP)/(TN+FP)`</p>
+        <p>(number of wrong negatives)/(total number of negatives)</p>
+      </div>
+      <p>It is also defined as:</p>
+      <div class="math">
+        <p>`FPR=1-text(specificity)`</p>
+      </div>
+      <h5>A2.1.4) Evaluation</h5>
+      <p>Let's go back to our classifier</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/model_evaluation_1.png">
+      </div>
+      <p>and move it to the right a bit.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/model_evaluation_4.png">
+      </div>
+      <p>Now, more positive samples will be correctly classified, so sensitivity will increase (the model will be more sensitive). But at the same time, more negative samples will be incorrectly classified, so specificity will decrease. As a result, there will also be more false alarms.</p>
+      <div class="math">
+        <p>`uarr text(sensitivity)=(TP)/text(all positives)`</p>
+        <p>`darr text(specificity)=(TN)/text(all negatives)`</p>
+        <p>`uarr text(false alarm rate)=(FP)/text(all negatives)`</p>
+      </div>
+      <p>In medical applications, it is usually preferred to have more sensitive models. If our model was predicting whether or not a patient cancer, it is important that the model is good at detecting positive samples. It is also very dangerous to have false negatives (i.e., the patient has cancer, but our model predicted no), so having a more sensitive model reduces the number of false negatives. While there will be more false alarms, more tests can be done to see if the patient actually has cancer.</p>
+      <p>Now let's move the classifier to the left a bit.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/model_evaluation_5.png">
+      </div>
+      <p>This time, fewer positive samples will be correctly classified, so it will be less sensitive. And more negative samples will be correctly classified, so specificity will be higher.</p>
+      <div class="math">
+        <p>`darr text(sensitivity)=(TP)/text(all positives)`</p>
+        <p>`uarr text(specificity)=(TN)/text(all negatives)`</p>
+        <p>`darr text(false alarm rate)=(FP)/text(all negatives)`</p>
+      </div>
+      <p>A less sensitive model is useful in situations where false alarms are very costly, like predicting natural disasters (we don't want to evacuate people when there's no need to).</p>
+      <h5>A2.1.5) ROC Curves</h5>
+      <p>ROC stands for "receiver operating characteristic". A ROC curve is basically a visual representation of a model's TPR and FPR.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/roc.png">
+      </div>
+      <p>This is an example of a model's ROC curve. As the model's TPR increases, so does the model's FPR.</p>
+      <p>With ROC curves, we can compare different models. Let's say each line represented the ROC curves of three classifiers (e.g., KNN, decision tree, and random forest).</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/roc_2.png">
+      </div>
+      <p>The model with the blue ROC curve is better because for a fixed FPR, it has the highest TPR.</p>
+      <p>Generally, the closer to the top-left corner, the better. In fact, a perfect model (100% accuracy) would have a ROC curve like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/roc_3.png">
+      </div>
+      <p>When the model has a 100% TPR, it has a 0% FPR.</p>
+      <p>The worst case would be like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/roc_4.png">
+      </div>
+      <p>In this case, the model's TPR is equal to its FPR, which means it is just like random guessing.</p>
+      <p>It is possible for a model to perform worse than random guessing (if this happens, you know you done messed up). The ROC curve would look something like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/roc_5.png">
+      </div>
+      <p>It is also possible for two models to have ROC curves like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/roc_6.png">
+      </div>
+      <p>Which model would be considered better in this case?</p>
+      <p>Another metric that is used to evaluate models (in the context of ROC curves) is Area Under Curve (AUC). It measures how much space is under the curve (the more the better). The AUC of a perfect model would be 1 (100%) and the AUC of the worst case would be 0.5 (50%).</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/roc_7.png">
+      </div>
+      <h4>A2.2) Regression</h4>
+      <p>For regression, root-mean-square error (RMSE) is usually used as the metric for error.</p>
+      <div class="math">
+        <p>`text(RMSE)=sqrt(1/nsum_(i=1)^n(y_i-hat y_i)^2`</p>
+        <p>where `y_i` is the actual value and `hat y_i` is the predicted value</p>
+        <p>(the errors are squared so the square root returns it to the original unit)</p>
+      </div>
+      <p>RMSE is the average error in prediction. So if a predicted value was 100,000 and we got an RMSE of 2300, then the actual value could be somewhere between 97,700 and 102,300.</p>
+      <h3>A3) Cross Validation</h3>
+      <p>When training/testing machine learning models, we split the data randomly into training and testing sets. The problem with this is that the results may be influenced by the split. For example, a model could have achieved high accuracy because the testing set happened to have a lot of easily predictable data.</p>
+      <p>To make sure this doesn't happen, we should split the data several times in different ways each time. Cross validation repeats the splitting procedure `k` times such that every data sample will be in the testing set at least one time (which means every data sample will be in the training set `k-1` times).</p>
+      <p>The steps are:</p>
+      <ol>
+        <li>Split the dataset randomly into `k` same-sized, non-overlapping sections, called "folds".
+          <ul>
+            <li>using `k=10` is a common value</li>
+          </ul>
+        </li>
+        <li>Use one of the folds as a testing set (the other `k-1` folds will be used for training).</li>
+        <li>Repeat step 2 until all `k` folds have been used for testing.</li>
+        <li>Calculate the average of all the accuracies/errors.
+          <ul>
+            <li>`text(accuracy)=(text(accuracy)_1 + ... + text(accuracy)_k)/k`</li>
+            <li>`text(RMSE)=(text(RMSE)_1 + ... + text(RMSE)_k)/k`</li>
+          </ul>
+        </li>
+      </ol>
+      <h3>A4) Normalization</h3>
+      <p>One type of normalization is to divide by the max for the feature (we did this in the KNN section). The result is that all the values get put in the range of 0 to 1. This type of normalization essentially makes one unit of distance in one feature equal to one unit of distance in the other feature.</p>
+      <p>Another type of normalization is to make the dataset have zero mean and unit standard deviation (z-score normalization). We can do this by subtracting each data point by the mean and dividing the difference by the standard deviation. (Disclaimer: the rest of this paragraph consists of claims based on my intuition, so I may be wrong.) This means that each data point now represents the number of standard deviations it is from the mean. While each feature can range from different values, all the data points essentially have the same units: distance from the mean. It's like having two sets of measurements, one in inches and one in centimeters, and converting both of them into "number of thumbs".</p>
+      <p>No matter which type of normalization is used, normalization should be done only on the training data. This is because testing data is considered "future data", so we theoretically don't have the data yet. The effects of normalizing the whole dataset can be seen below.</p>
+      <p>For z-score normalization, we would perform the following on each training data point `x`:</p>
+      <div class="math">
+        <p>`z=(x-m)/s`</p>
+        <p>where `m` and `s` are the mean and standard deviation of the training data</p>
+      </div>
+      <p>to obtain the normalized value `z`. Then for each testing data point `x'`, we use the same mean and standard deviation obtained from the training data to do the same thing</p>
+      <div class="math">
+        <p>`z'=(x'-m)/s`</p>
+      </div>
+      <p>to obtain the normalized value `z'`.</p>
+      <p>If we normalize the whole dataset before splitting, then information from the testing data will leak to the training data. Including the testing data will influence the mean and standard deviation, which will influence the training, i.e., the model will learn from both the training and testing data.</p>
+      <h3>A5) Feature Selection</h3>
+      <p>When training our models, we sometimes want to use only the important/relevant features to reduce training time and/or increase correctness.</p>
+      <p>One way is to find the features manually. We choose one feature and calculate accuracy using only that feature. Repeat for every feature until all features have been used. The features with the highest accuracies are the important features.</p>
+      <p>Another way is to use a decision tree. When building the decision tree, information gain is used to decide which features go on which levels of the tree. The features at the top of the tree are the important features.</p>
+      <p>Another way is to use linear/polynomial regression. Reminder: `h_theta(bb x)=theta_0+theta_1x_1+...+theta_nx_n`. The values for `theta_i` are the weights for each feature, i.e., they represent how much impact a feature has on the outcome. The features with the highest weights (with respect to absolute value) are the important features.</p>
+      <h3>A6) Overfitting</h3>
+      <p>Overfitting happens when the model learns too much. For example, it can learn from bad data (noise/randomness/outliers) that aren't representative of the data and become overly complex. This happens when</p>
+      <ul>
+        <li>there are too many features</li>
+        <li>the model is too complex (e.g., very high order polynomial or high `k` for KNN)</li>
+      </ul>
+      <p>These are some examples of overfitting:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/overfitting_1.png">
+      </div>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/overfitting_2.png">
+      </div>
+      <p>When overfitting happens, the model will have a really high accuracy on the training data, but have a low accuracy on the testing data. This is because it is very unlikely that the (testing) data will be distributed in such weird shapes.</p>
+      <h4>A6.1) Dimensionality Reduction</h4>
+      <p>If there are too many features, then we can reduce the number of features by keeping only the important features (see Feature Selection above). For example, if there are 20 features, we can keep 3 of them.</p>
+      <div class="math">
+        <p>`theta_0+theta_1x_1+...+theta_20x_20 rarr theta_0+theta_1x_1+theta_2x_2+theta_3x_3`</p>
+      </div>
+      <p>Some features may be redundant (e.g., size of house and number of bedrooms) or irrelevant (e.g., number of tiles), so including them increases the complexity of the model for no real benefit.</p>
+      <h4>A6.2) Regularization</h4>
+      <p>If we want to keep all the features, we can instead simplify the model by reducing the magnitude/values of `theta_i`. For example:</p>
+      <div class="math">
+        <p>`theta_0+theta_1x_1+theta_2x_2+theta_3x_3+theta_4x_1^2+theta_5x_2^2+theta_6x_2x_3+theta_7x_2x_3^2`</p>
+        <p>`rarr`</p>
+        <p>`theta_0+theta_1x_1+theta_2x_2+theta_3x_3+theta_4x_1^2+theta_6x_2x_3`</p>
+      </div>
+      <p>In the first overfitting example, we could set the `theta`s to zero for any terms of order 3 and order 4 so that it is a quadratic equation, which would fit the data and be a good model. Suppose the equation of the overfitting squiggle was:</p>
+      <div class="math">
+        <p>`h_theta(x)=theta_0+theta_1x+theta_2x^2+theta_3x^3+theta_4x^4`</p>
+      </div>
+      <p>We want to set `theta_3` and `theta_4` to zero (or as close to zero as possible). Since we want to minimize these values, we could include them in the cost function so that they are minimized as well.</p>
+      <div class="math">
+        <p>`J(theta)=1/(2m)sum_(i=1)^m (ubrace(h_theta(x^((i)))-y^((i)))_("error"))^2+ubrace(theta_3^2+theta_4^2)_("regularization")`</p>
+      </div>
+      <p>By minimizing the cost function, we are minimizing the error while also simultaneously minimizing the values of `theta_3` and `theta_4`.</p>
+      <p>More generally, we want to minimize all the `theta`s. The important ones will remain while the unimportant ones will be minimized.</p>
+      <div class="math">
+        <p>`J(theta)=1/(2m)sum_(i=1)^m (h_theta(x^((i)))-y^((i)))^2+lambdasum_(j=1)^ntheta_j^2`</p>
+      </div>
+      <p>`lambda` is the regularization parameter that controls the tradeoff between accuracy and simplicity. A higher `lambda` makes the model simpler by adding more penalty for bad values of `theta` (similar to the way squaring the errors adds more penalty). Larger values of `lambda` force the `theta`s to be really really small in order to keep the cost at a minimum. But if `lambda` is too large, then all of the `theta`s will be close to zero, which means the equation will become a straight line (`h_theta=theta_0`) and have low accuracy (underfitting). Lower values of `lambda` make the model more complex, but increases accuracy (if `lambda rarr 0`, then the only thing we're minimizing is error).</p>
+      <div class="box">
+        <p>Gradient descent:</p>
+        <div class="math">
+          <p>`theta_0=theta_0-alpha1/msum_(i=1)^m(h_theta(x^((i)))-y^((i)))x_0^((i))`</p>
+          <p>`theta_j=theta_j(1-alphalambda/m)-alpha1/msum_(i=1)^m(h_theta(x^((i)))-y^((i)))x_j^((i))`</p>
+          <p>for `j=1,2,...,n`</p>
+        </div>
+        <p>For linear regression, `h_theta(bb x)=theta^T bb x`.</p>
+        <p>For logistic regression, `h_theta(bb x)=1/(1+e^(-theta^T bb x))`.</p>
+      </div>
+      <h3>A7) Ensemble Learning</h3>
+      <p>In ensemble learning, a group of models (base learners) are used to make predictions, then the results from all of them are combined together to get the final result. Each model may have poor performance on their own, but when combined together, they could be very strong. #StrengthInNumbers.</p>
+      <p>It is very important that each model is different from each other, i.e., they produce different results. If they were all the same, then it would be equivalent to just using one model and there would be no point in using a group of models. But more importantly, they can cover each other's mistakes by being different. For example, if one model misclassified something but another model correctly classified it, then the second model would have the first model's back.</p>
+      <h4>A7.1) Bootstrapping</h4>
+      <p>In order to have the models be different from each other, the data they learn from has to be different for each model. Bootstrapping (or bootstrap sampling) generates training subsets by randomly sampling from the training dataset with replacement. From a dataset `S`, three subsets of size 8 can be created like below:</p>
+      <table>
+        <tr>
+          <td>Dataset `S`</td>
+          <td>`S_1`</td>
+          <td>`S_2`</td>
+          <td>`S_3`</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>7</td>
+          <td>9</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>4</td>
+          <td>3</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>5</td>
+          <td>9</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>5</td>
+          <td>9</td>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>8</td>
+          <td>10</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>9</td>
+          <td>7</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>2</td>
+          <td>4</td>
+          <td>7</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>8</td>
+          <td>6</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td>9</td>
+        </tr>
+        <tr>
+          <td>10</td>
+        </tr>
+      </table>
+      <p>Each of the training subsets may overlap with each other (because of randomness) and may have duplicates (because of replacement). Having duplicates can be a good thing though because one model will be very good at predicting the duplicates while another model will be very good at predicting different duplicates. For example, a model trained on `S_1` will be good at predicting 5s, `S_2` will be good at predicting 9s, and `S_3` will be good at predicting 1s. A model trained on `S_2` might misclassify a 1 because it never learned it, but `S_3` will cover it.</p>
+      <h3>A8) Unsupervised Learning</h3>
+      <p>In unsupervised learning, the data is unlabeled. This could be because the data is unfamiliar to us or there is too much data to label or we are just more interested in finding patterns among the data.</p>
+      <p>One of the goals of the <a href="https://en.wikipedia.org/wiki/Five-hundred-meter_Aperture_Spherical_Telescope" target="_blank">world's largest radio telescope</a> is to detect alien life. In collecting the data, we wouldn't know which signals are from aliens and which are just whatever is out there since we've never seen alien signals before.</p>
+      <p>This would be an example of anomaly detection, where we want to identify things that do not conform to an expected pattern.</p>
+      <p>If we were working with images, we could download hundreds of millions of images, but some of them may or may not be labeled. In this case, it would be way too much work to go through each picture and label them manually (if only there was something that would automatically do this for us!)</p>
+      <p>Sometimes, applying an unsupervised algorithm before applying a supervised algorithm can improve prediction results. Let's say we were trying to classify digits and we came across some digits that looked like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/unsupervised_1.png">
+      </div>
+      <p>To us, it's obvious which ones are the 3s and which one is the 8, but a computer might think that the left 3 and the 8 are more similar to each other since they are only several pixels different from each other. To avoid this, we can categorize the data first like so:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/unsupervised_2.png">
+      </div>
+      <p>And then apply a supervised algorithm on each category to make classification more accurate.</p>
+    </div>
+    <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+    <script>
+      function showMenu() {
+        document.getElementById("dropDownMenu").classList.toggle("show");
+      }
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+    </script>
+    <script>
+      // ------------------ KNN ------------------
+      Plotly.newPlot('knnweather', [{
+        x: [42, 43, 44, 94, 51, 91, 39, 47, 96, 90, 60, 61, 61, 92, 26, 92, 54, 62, 94, 93],
+        y: [97, 84, 68, 54, 79, 61, 84, 95, 55, 84, 84, 79, 68, 55, 77, 61, 81, 72, 61, 59],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue']
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Humidity (%)'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Temperature (\xB0F)'
+          }
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('knnweather2', [{
+        x: [42, 43, 44, 94, 51, 91, 39, 47, 96, 90, 60, 61, 61, 92, 26, 92, 54, 62, 94, 93, 59],
+        y: [97, 84, 68, 54, 79, 61, 84, 95, 55, 84, 84, 79, 68, 55, 77, 61, 81, 72, 61, 59, 86],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue', 'green']
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Humidity (%)'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Temperature (\xB0F)'
+          }
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('knnweather3', [{
+        x: [42, 43, 44, 94, 51, 91, 39, 47, 96, 90, 60, 61, 61, 92, 26, 92, 54, 62, 94, 93],
+        y: [97, 84, 68, 54, 79, 61, 84, 95, 55, 84, 84, 79, 68, 55, 77, 61, 81, 72, 61, 59],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue']
+        }
+      }, {
+        x: [62, 61],
+        y: [72, 68],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'blue']
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Humidity (%)'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Temperature (\xB0F)'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('knnweather4', [{
+        x: [42, 43, 44, 94, 51, 91, 39, 47, 96, 90, 60, 61, 61, 92, 26, 92, 54, 62, 94, 93],
+        y: [97, 84, 68, 54, 79, 61, 84, 95, 55, 84, 84, 79, 68, 55, 77, 61, 81, 72, 61, 59],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue']
+        }
+      }, {
+        x: [62, 61],
+        y: [72, 68],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'blue']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [62, 61],
+        y: [72, 79],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [62, 60],
+        y: [72, 84],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [62, 54],
+        y: [72, 81],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [62, 51],
+        y: [72, 79],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Humidity (%)'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Temperature (\xB0F)'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('knnweather5', [{
+        x: [42, 43, 44, 94, 51, 91, 39, 47, 96, 90, 60, 61, 61, 92, 26, 92, 54, 62, 94, 93, 40],
+        y: [97, 84, 68, 54, 79, 61, 84, 95, 55, 84, 84, 79, 68, 55, 77, 61, 81, 72, 61, 59, 80],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'red', 'blue', 'blue', 'red', 'blue', 'red', 'red', 'blue', 'blue', 'green']
+        }
+      }, {
+        x: [40, 39],
+        y: [80, 84],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [40, 43],
+        y: [80, 84],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [40, 44],
+        y: [80, 68],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'blue']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [40, 42],
+        y: [80, 97],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [40, 47],
+        y: [80, 95],
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Humidity (%)'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Temperature (\xB0F)'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('knnweather6', [{
+        x: [42, 43, 44, 51, 91, 39, 47, 60, 61, 61, 26, 92, 54, 62, 80],
+        y: [97, 84, 68, 79, 61, 84, 95, 84, 79, 68, 77, 61, 81, 72, 70],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'blue', 'red', 'blue', 'red', 'red', 'red', 'red', 'blue', 'red', 'blue', 'red', 'red', 'green']
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Humidity (%)'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Temperature (\xB0F)'
+          }
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('knnweather7', [{
+        x: [42, 43, 44, 51, 91, 39, 47, 60, 61, 61, 26, 92, 54, 62, 80],
+        y: [97, 84, 68, 79, 61, 84, 95, 84, 79, 68, 77, 61, 81, 72, 70],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'blue', 'red', 'blue', 'red', 'red', 'red', 'red', 'blue', 'red', 'blue', 'red', 'red', 'green']
+        }
+      }, {
+        x: [80, 91],
+        y: [70, 61],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'blue']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 92],
+        y: [70, 61],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'blue']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 62],
+        y: [70, 72],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 61],
+        y: [70, 68],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'blue']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 61],
+        y: [70, 79],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Humidity (%)'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Temperature (\xB0F)'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('knnweather8', [{
+        x: [42, 43, 44, 51, 91, 39, 47, 60, 61, 61, 26, 92, 54, 62, 80],
+        y: [97, 84, 68, 79, 61, 84, 95, 84, 79, 68, 77, 61, 81, 72, 70],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'blue', 'red', 'blue', 'red', 'red', 'red', 'red', 'blue', 'red', 'blue', 'red', 'red', 'green']
+        }
+      }, {
+        x: [80, 91],
+        y: [70, 61],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'blue']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 92],
+        y: [70, 61],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'blue']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 62],
+        y: [70, 72],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 61],
+        y: [70, 68],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'blue']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 61],
+        y: [70, 79],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 60],
+        y: [70, 84],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 54],
+        y: [70, 81],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }, {
+        x: [80, 51],
+        y: [70, 79],
+        mode: 'lines+markers',
+        marker: {
+          color: ['green', 'red']
+        },
+        line: {
+          color: 'orange'
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Humidity (%)'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Temperature (\xB0F)'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+    </script>
+    <script>
+      // ------------------ decision tree ------------------
+      let titanicAgeMaleSurvived = [-1, 34.0, 28.0, -1, -1, -1, 32.0, 0.83, 29.0, 23.0, -1, 12.0, 24.0, 27.0, 9.0, 1.0, 45.0, 3.0, 18.0, 26.0, 40.0, 16.0, 38.0, 19.0, 37.0, 3.0, 25.0, 25.0, 19.0, 30.0, 42.0, -1, -1, 0.92, 45.0, 2.0, 3.0, 25.0, 36.0, 21.0, 39.0, 3.0, 44.0, 32.0, 28.0, -1, 4.0, 34.0, 52.0, 49.0, 29.0, 48.0, 25.0, 9.0, -1, 26.0, 29.0, 36.0, 32.0, -1, 8.0, 17.0, 22.0, 32.0, 62.0, 36.0, 32.0, 60.0, 49.0, 35.0, 27.0, 42.0, 20.0, 80.0, 32.0, -1, 48.0, 56.0, 50.0, 20.0, 31.0, 36.0, 27.0, 31.0, -1, 35.0, 42.0, -1, 48.0, 27.0, 35.0, -1, 31.0, 6.0, 0.67, 20.0, 1.0, 11.0, 0.42, 27.0, 27.0, 1.0, -1, 0.83, 32.0, -1, 51.0, 4.0, 26.0];
+      let titanicAgeFemaleSurvived = [38.0, 26.0, 35.0, 27.0, 14.0, 4.0, 58.0, 55.0, -1, 15.0, 38.0, -1, -1, -1, 14.0, 3.0, 19.0, -1, 49.0, 29.0, 21.0, 5.0, 38.0, 29.0, 17.0, 30.0, -1, 17.0, 33.0, 23.0, 34.0, 21.0, -1, 32.5, -1, 29.0, 19.0, 22.0, 24.0, 22.0, 16.0, 40.0, -1, 1.0, 4.0, -1, 32.0, 19.0, 44.0, 58.0, -1, 16.0, 35.0, 31.0, 27.0, 32.0, 35.0, 5.0, 8.0, -1, 24.0, 29.0, -1, 30.0, 35.0, 50.0, 58.0, 35.0, 41.0, -1, 63.0, 35.0, 22.0, 26.0, 19.0, 50.0, -1, -1, -1, 17.0, 30.0, 24.0, 18.0, 26.0, 24.0, 31.0, 40.0, 30.0, 22.0, 36.0, 36.0, 31.0, 16.0, -1, -1, 41.0, 24.0, 24.0, 40.0, -1, 22.0, -1, -1, 60.0, -1, -1, 24.0, -1, 22.0, 42.0, 1.0, 35.0, 36.0, 17.0, 23.0, 24.0, 28.0, 33.0, 34.0, 18.0, 28.0, 19.0, -1, 42.0, 14.0, 24.0, 45.0, 28.0, 13.0, 5.0, -1, 50.0, 0.75, 33.0, 23.0, 2.0, 63.0, 35.0, 54.0, 16.0, 33.0, 54.0, 34.0, 36.0, 30.0, 44.0, 50.0, 2.0, -1, 7.0, 30.0, 22.0, 36.0, 19.0, 22.0, 48.0, 39.0, 36.0, 53.0, -1, 34.0, 39.0, 25.0, 39.0, 18.0, 52.0, -1, 24.0, 22.0, 40.0, -1, 24.0, 4.0, 21.0, 28.0, 24.0, 0.75, 23.0, 18.0, -1, -1, 40.0, 18.0, 15.0, 4.0, -1, 18.0, 45.0, 22.0, 24.0, 38.0, 27.0, 6.0, 30.0, -1, 29.0, 21.0, 30.0, 4.0, 48.0, 33.0, 36.0, 51.0, 54.0, 5.0, 43.0, 13.0, 17.0, 18.0, 49.0, 31.0, 31.0, 33.0, 52.0, 27.0, 62.0, 15.0, 39.0, 30.0, -1, 16.0, 18.0, 45.0, 24.0, 48.0, 42.0, 27.0, 47.0, 28.0, 15.0, 56.0, 25.0, 19.0];
+      let titanicAgeMaleNotSurvived = [22.0, 35.0, -1, 54.0, 2.0, 20.0, 39.0, 2.0, 35.0, -1, 19.0, -1, 40.0, 66.0, 28.0, 42.0, 21.0, -1, -1, -1, -1, 7.0, 21.0, 65.0, 28.5, 11.0, 22.0, 45.0, 4.0, -1, 19.0, 26.0, 32.0, 21.0, 26.0, 25.0, -1, -1, 22.0, 28.0, 16.0, -1, 24.0, 29.0, 20.0, 46.0, 26.0, 59.0, -1, 71.0, 34.0, -1, 21.0, 33.0, 37.0, 28.0, 38.0, 47.0, 22.0, 21.0, 70.5, 29.0, 24.0, 21.0, -1, 32.5, 54.0, -1, 45.0, 33.0, 20.0, 25.0, 23.0, 37.0, 16.0, 24.0, 19.0, 18.0, 19.0, 36.5, 42.0, 51.0, 55.5, 40.5, -1, 51.0, 30.0, -1, -1, 44.0, 26.0, 17.0, 1.0, -1, 28.0, 61.0, 4.0, 21.0, 56.0, 18.0, -1, 30.0, 36.0, -1, 9.0, -1, 40.0, 36.0, 19.0, -1, 42.0, 28.0, -1, 34.0, 45.5, 32.0, 24.0, 22.0, 30.0, -1, 42.0, 30.0, 27.0, 51.0, -1, 22.0, 20.5, 18.0, 29.0, 59.0, 24.0, 44.0, 19.0, 33.0, 29.0, 22.0, 30.0, 44.0, 54.0, -1, 62.0, 30.0, -1, 52.0, 40.0, 36.0, 16.0, -1, 37.0, -1, 7.0, 65.0, 28.0, 16.0, -1, 33.0, 22.0, 36.0, 24.0, -1, 23.5, 19.0, -1, 30.0, 28.0, 43.0, 54.0, 22.0, 27.0, -1, 61.0, 45.5, 38.0, 16.0, -1, 29.0, 45.0, 28.0, 25.0, 36.0, 42.0, 23.0, -1, 15.0, 25.0, -1, 28.0, 40.0, 29.0, 35.0, -1, 30.0, 18.0, 19.0, 22.0, 27.0, 20.0, 19.0, 32.0, -1, 18.0, 1.0, -1, 28.0, 22.0, 46.0, 23.0, 26.0, 28.0, 34.0, 51.0, 21.0, -1, -1, -1, 30.0, -1, 21.0, 29.0, 18.0, -1, -1, 17.0, 50.0, 64.0, 31.0, 20.0, 25.0, 36.0, -1, 30.0, -1, 65.0, -1, 34.0, 47.0, 48.0, -1, 38.0, -1, 56.0, -1, -1, 38.0, -1, 34.0, 29.0, 22.0, 9.0, -1, 50.0, 58.0, 30.0, -1, 21.0, 55.0, 71.0, 21.0, -1, -1, 24.0, 17.0, 18.0, 28.0, -1, 24.0, 47.0, -1, 32.0, 22.0, -1, -1, 40.5, -1, 39.0, 23.0, -1, 17.0, 45.0, -1, 50.0, 64.0, 33.0, 27.0, -1, 62.0, -1, -1, 40.0, 28.0, -1, 24.0, 19.0, -1, 16.0, 19.0, 54.0, 36.0, -1, 47.0, 22.0, -1, 35.0, 47.0, 37.0, 36.0, 49.0, -1, -1, -1, 44.0, 36.0, 30.0, -1, -1, 35.0, 34.0, 26.0, 27.0, 21.0, 21.0, 61.0, 57.0, 26.0, -1, 51.0, -1, 32.0, 31.0, -1, 20.0, 19.0, -1, -1, 21.0, 24.0, -1, 23.0, 58.0, 40.0, 47.0, 36.0, 32.0, 25.0, -1, 43.0, 31.0, 70.0, -1, 18.0, 24.5, 20.0, 14.0, 60.0, 25.0, 14.0, 19.0, 18.0, 25.0, 60.0, 52.0, 44.0, 49.0, 42.0, 25.0, 26.0, 39.0, -1, 29.0, 52.0, 19.0, -1, 33.0, 17.0, 34.0, 50.0, 20.0, 25.0, 11.0, -1, 23.0, 23.0, 28.5, -1, -1, 36.0, 24.0, 70.0, 16.0, 19.0, 31.0, 33.0, 23.0, 28.0, 18.0, 34.0, -1, 41.0, 16.0, -1, -1, 32.0, 24.0, 48.0, -1, 18.0, -1, -1, 29.0, -1, 25.0, 25.0, 8.0, 46.0, -1, 16.0, -1, 25.0, 39.0, 30.0, 34.0, 31.0, 39.0, 39.0, 26.0, 39.0, 35.0, 30.5, -1, 31.0, 43.0, 10.0, 38.0, 2.0, -1, -1, -1, 23.0, 18.0, 21.0, -1, 20.0, 16.0, 34.5, 17.0, 42.0, -1, 35.0, 28.0, 4.0, 74.0, -1, 41.0, 21.0, 24.0, 31.0, -1, 26.0, 33.0, 47.0, 20.0, 19.0, -1, 33.0, 28.0, 25.0, 27.0, 32.0];
+      let titanicAgeFemaleNotSurvived = [14.0, 31.0, 8.0, 18.0, 40.0, 27.0, 18.0, 16.0, 28.0, 14.5, 20.0, 17.0, 2.0, 47.0, -1, 9.0, 45.0, 50.0, -1, 24.0, 2.0, -1, -1, -1, 25.0, 29.0, 41.0, -1, 45.0, 24.0, 2.0, 26.0, 38.0, 45.0, 3.0, 31.0, 21.0, 20.0, -1, -1, 10.0, 28.0, 21.0, 22.0, -1, 25.0, 21.0, -1, 37.0, 30.0, 9.0, 11.0, -1, 29.0, -1, -1, 39.0, 26.0, 9.0, 41.0, 2.0, 18.0, 32.0, 43.0, -1, 18.0, 25.0, 48.0, 30.5, 57.0, -1, 30.0, 18.0, 6.0, 23.0, 9.0, 44.0, -1, 22.0, 39.0, -1];
+      let titanicAgePclass1Survived = [38.0, 35.0, 58.0, 28.0, -1, 49.0, -1, 38.0, 23.0, 23.0, 19.0, 22.0, -1, 45.0, 44.0, 58.0, 40.0, 31.0, 32.0, 38.0, 35.0, 37.0, -1, 30.0, 35.0, 58.0, 35.0, 63.0, 26.0, 19.0, -1, 50.0, 0.92, -1, 17.0, 30.0, 24.0, 18.0, 31.0, 40.0, 36.0, 16.0, -1, 41.0, 24.0, 22.0, 60.0, 24.0, 25.0, -1, 42.0, 35.0, 36.0, 23.0, 33.0, 28.0, 14.0, 4.0, 34.0, 52.0, 49.0, -1, 48.0, 25.0, 35.0, 54.0, 16.0, -1, 36.0, 54.0, 30.0, 44.0, 30.0, 22.0, 36.0, 17.0, 48.0, 39.0, 53.0, 36.0, 39.0, 39.0, 18.0, 60.0, 52.0, 49.0, 35.0, 27.0, 40.0, 42.0, 21.0, 80.0, 32.0, 24.0, 48.0, 56.0, 50.0, -1, 36.0, 27.0, 15.0, 31.0, 18.0, 35.0, 42.0, 22.0, 24.0, 48.0, 38.0, 27.0, 29.0, 35.0, -1, 21.0, 33.0, 36.0, 51.0, 43.0, 17.0, 49.0, 11.0, 33.0, 52.0, 62.0, 39.0, -1, 30.0, -1, 16.0, 45.0, 51.0, 48.0, 47.0, 56.0, 19.0, 26.0];
+      let titanicAgePclass2Survived = [14.0, 55.0, -1, 34.0, 3.0, 29.0, 21.0, 5.0, 29.0, 0.83, 17.0, 34.0, 32.5, 29.0, 40.0, 1.0, 32.0, 3.0, 35.0, 19.0, 8.0, 24.0, 50.0, 41.0, 42.0, -1, 24.0, 30.0, 22.0, 36.0, 2.0, 24.0, 40.0, 36.0, 17.0, 28.0, 3.0, 34.0, 18.0, 28.0, 19.0, 42.0, 24.0, 45.0, 28.0, 13.0, 50.0, 33.0, 23.0, 33.0, 34.0, 36.0, 50.0, 2.0, 7.0, 32.0, 19.0, -1, 8.0, 62.0, 34.0, 25.0, -1, 24.0, 22.0, 24.0, 4.0, 28.0, 18.0, 40.0, 31.0, 45.0, 27.0, 6.0, 30.0, 30.0, 4.0, 48.0, 0.67, 54.0, 31.0, 1.0, 0.83, 42.0, 27.0, 28.0, 25.0];
+      let titanicAgePclass3Survived = [26.0, 27.0, 4.0, -1, 15.0, 38.0, -1, -1, -1, 14.0, 19.0, -1, -1, 17.0, 32.0, 30.0, 29.0, -1, 33.0, 21.0, -1, -1, 12.0, 24.0, -1, 22.0, 24.0, 27.0, 16.0, 9.0, 1.0, 4.0, -1, 19.0, -1, 18.0, 26.0, 16.0, 27.0, 16.0, 5.0, -1, 29.0, 3.0, 25.0, 25.0, -1, 35.0, 19.0, 30.0, 22.0, -1, -1, 26.0, 31.0, -1, 45.0, -1, 3.0, -1, -1, -1, -1, 22.0, 1.0, 21.0, 24.0, 39.0, 44.0, 32.0, -1, -1, 5.0, 29.0, 0.75, 2.0, 63.0, 9.0, 26.0, 29.0, -1, 22.0, 22.0, 36.0, 32.0, -1, 32.0, -1, 20.0, -1, 0.75, 23.0, -1, 20.0, 18.0, 4.0, -1, -1, -1, -1, 31.0, 6.0, 20.0, 5.0, 13.0, 18.0, 1.0, 31.0, 0.42, 27.0, 27.0, 27.0, -1, 15.0, 32.0, 18.0, 24.0, 4.0, 15.0];
+      let titanicAgePclass1NotSurvived = [54.0, 19.0, 40.0, 28.0, 42.0, 65.0, 45.0, -1, 28.0, 46.0, 71.0, 21.0, 47.0, 24.0, 54.0, 37.0, 24.0, 51.0, -1, 61.0, 56.0, 50.0, -1, 44.0, 62.0, 52.0, 40.0, -1, 37.0, -1, -1, 2.0, 45.5, 38.0, 29.0, 45.0, -1, 22.0, 27.0, 50.0, 64.0, 30.0, 65.0, 47.0, 56.0, -1, 58.0, 55.0, 71.0, 25.0, 18.0, 47.0, -1, 45.0, 50.0, 64.0, 62.0, -1, 36.0, -1, 61.0, -1, 58.0, 47.0, 31.0, 60.0, 49.0, -1, 36.0, 70.0, 19.0, -1, 29.0, 46.0, -1, 39.0, -1, 38.0, 31.0, 33.0];
+      let titanicAgePclass2NotSurvived = [35.0, 66.0, 27.0, 32.0, 21.0, 34.0, 29.0, 21.0, 32.5, 25.0, 23.0, 18.0, 19.0, 36.5, 42.0, 51.0, 30.0, -1, 19.0, 24.0, 30.0, 42.0, 30.0, 27.0, 18.0, 59.0, 24.0, 44.0, 19.0, 33.0, 29.0, 54.0, 36.0, -1, 36.0, 30.0, 26.0, 43.0, 54.0, 28.0, 25.0, 36.0, 38.0, 29.0, 18.0, 46.0, 23.0, 34.0, -1, 30.0, 31.0, 36.0, 48.0, -1, 34.0, -1, 23.0, 27.0, 28.0, 54.0, 47.0, 37.0, 26.0, 57.0, 31.0, 24.0, 23.0, 32.0, 25.0, 70.0, -1, 60.0, 25.0, 52.0, 39.0, 52.0, 34.0, 50.0, 25.0, -1, 23.0, 23.0, 18.0, 57.0, 16.0, 39.0, 34.0, 39.0, 35.0, 31.0, 16.0, 28.0, 44.0, 21.0, 24.0, 28.0, 27.0];
+      let titanicAgePclass3NotSurvived = [22.0, 35.0, -1, 2.0, 20.0, 39.0, 14.0, 2.0, 31.0, 8.0, -1, -1, 21.0, 18.0, 40.0, -1, -1, -1, -1, 18.0, 7.0, 21.0, 28.5, 11.0, 22.0, 4.0, 19.0, 26.0, 16.0, 26.0, 25.0, -1, -1, 22.0, 16.0, -1, 24.0, 29.0, 20.0, 26.0, 59.0, -1, 28.0, -1, 33.0, 37.0, 28.0, 38.0, 14.5, 22.0, 20.0, 17.0, 21.0, 70.5, 2.0, -1, -1, 45.0, 33.0, 20.0, 47.0, 16.0, -1, 19.0, 9.0, 55.5, 40.5, -1, 30.0, -1, -1, 44.0, 26.0, 17.0, 1.0, 45.0, 28.0, 4.0, 21.0, 18.0, -1, 36.0, -1, 9.0, 40.0, 36.0, -1, 42.0, 28.0, -1, 34.0, 45.5, 2.0, 32.0, 24.0, 22.0, -1, 51.0, -1, 22.0, 20.5, -1, 29.0, -1, -1, 22.0, 30.0, 25.0, -1, 29.0, 30.0, 41.0, -1, -1, 16.0, 45.0, 7.0, 65.0, 28.0, 16.0, 33.0, 22.0, 24.0, 24.0, 23.5, 19.0, -1, 28.0, 22.0, 27.0, -1, 61.0, 16.0, -1, 42.0, 23.0, 15.0, 25.0, -1, 28.0, 40.0, 45.0, 35.0, -1, 30.0, 18.0, 19.0, 3.0, 20.0, 19.0, 32.0, -1, 1.0, -1, 28.0, 22.0, 31.0, 26.0, 21.0, 28.0, 20.0, 51.0, 21.0, -1, -1, -1, -1, 10.0, -1, 21.0, 29.0, 28.0, 18.0, -1, -1, 17.0, 21.0, 20.0, 25.0, -1, -1, -1, 34.0, -1, 38.0, -1, -1, 38.0, 22.0, 29.0, 22.0, 9.0, 50.0, -1, 30.0, -1, 21.0, 21.0, -1, -1, 24.0, 17.0, 21.0, -1, 37.0, 28.0, -1, 24.0, -1, 32.0, 22.0, -1, -1, 40.5, 39.0, -1, 17.0, 30.0, -1, 9.0, 11.0, 33.0, -1, -1, 40.0, -1, -1, 24.0, 19.0, 29.0, -1, 16.0, 19.0, -1, -1, 22.0, -1, 35.0, 47.0, -1, 36.0, 49.0, -1, -1, 44.0, 36.0, 30.0, 39.0, -1, -1, 35.0, 34.0, 26.0, 27.0, 21.0, 21.0, 26.0, -1, 51.0, 9.0, 32.0, 41.0, -1, 20.0, 2.0, 19.0, -1, -1, 21.0, 18.0, -1, 32.0, 40.0, 36.0, -1, 43.0, 18.0, 24.5, 43.0, -1, 20.0, 14.0, 14.0, 19.0, 18.0, 25.0, 44.0, 42.0, 18.0, 25.0, 26.0, 29.0, 19.0, -1, 33.0, 17.0, 20.0, 25.0, 11.0, 28.5, 48.0, -1, -1, 24.0, 16.0, 31.0, 33.0, 23.0, 28.0, 34.0, -1, 41.0, 16.0, 30.5, -1, 32.0, 24.0, 48.0, -1, 18.0, -1, -1, -1, 25.0, 25.0, 8.0, -1, -1, 25.0, 30.0, 30.0, 31.0, 18.0, 26.0, 39.0, 6.0, 30.5, 23.0, 43.0, 10.0, 2.0, -1, -1, -1, 23.0, 18.0, 21.0, -1, 20.0, 34.5, 17.0, 42.0, -1, 35.0, 4.0, 74.0, 9.0, -1, 41.0, -1, -1, 26.0, 47.0, 20.0, 19.0, -1, 33.0, 22.0, 25.0, 39.0, -1, 32.0];
+      let titanicAgeParch0Survived = [38.0, 26.0, 35.0, 14.0, 58.0, 55.0, -1, -1, 34.0, 15.0, 28.0, -1, -1, -1, -1, 14.0, 19.0, -1, 49.0, 29.0, -1, 21.0, 38.0, 29.0, 32.0, 30.0, 29.0, -1, 17.0, 33.0, 21.0, -1, -1, 32.5, 12.0, 24.0, 29.0, 22.0, 24.0, 27.0, 22.0, 16.0, 40.0, -1, 45.0, 32.0, 19.0, 44.0, 58.0, -1, 18.0, 26.0, 16.0, 40.0, 35.0, 31.0, 27.0, 32.0, 16.0, 38.0, 19.0, 35.0, -1, -1, 30.0, 35.0, 25.0, 35.0, 25.0, -1, 63.0, 19.0, 30.0, 42.0, 22.0, 26.0, 19.0, -1, -1, -1, -1, -1, 17.0, 30.0, 24.0, 26.0, 24.0, 30.0, 36.0, 36.0, -1, -1, 41.0, 45.0, 24.0, 40.0, -1, -1, -1, 60.0, -1, -1, 24.0, 25.0, -1, 22.0, 42.0, 35.0, 36.0, 17.0, 21.0, 23.0, 28.0, 39.0, 33.0, 44.0, 28.0, 19.0, 32.0, 28.0, -1, 42.0, 28.0, -1, 34.0, 52.0, 49.0, 29.0, -1, 50.0, 48.0, 23.0, 63.0, 25.0, 35.0, 54.0, 16.0, -1, 26.0, 29.0, 36.0, 54.0, 34.0, 36.0, 30.0, 50.0, 30.0, 32.0, 19.0, -1, 22.0, 22.0, 48.0, 36.0, 32.0, 62.0, 53.0, 36.0, -1, 34.0, 39.0, 32.0, 52.0, -1, 49.0, 35.0, 27.0, 40.0, -1, 42.0, 21.0, 80.0, 32.0, 28.0, 24.0, -1, 48.0, 56.0, 23.0, -1, 50.0, 20.0, -1, 31.0, 18.0, 27.0, 31.0, -1, -1, 18.0, 35.0, 45.0, 42.0, 22.0, 24.0, 48.0, 38.0, 27.0, 27.0, 30.0, -1, 29.0, 35.0, -1, 31.0, 30.0, 33.0, 20.0, 51.0, 5.0, 13.0, 17.0, 18.0, 49.0, 31.0, 27.0, 33.0, 27.0, -1, 62.0, 15.0, 32.0, -1, 30.0, -1, 51.0, 48.0, 42.0, 27.0, 28.0, 15.0, 19.0, 26.0];
+      let titanicAgeParch1Survived = [4.0, -1, 23.0, 34.0, -1, -1, 1.0, 1.0, 3.0, 37.0, 50.0, 58.0, 41.0, 35.0, 50.0, 40.0, 22.0, 31.0, 16.0, 2.0, 3.0, 22.0, 3.0, 34.0, 45.0, 13.0, 5.0, 0.75, 2.0, 9.0, 44.0, 2.0, 8.0, 39.0, 25.0, 39.0, 60.0, 24.0, 4.0, 20.0, 0.75, 18.0, 40.0, 36.0, 15.0, 4.0, -1, 6.0, 4.0, 6.0, 0.67, 43.0, 31.0, 0.42, 52.0, 27.0, 0.83, 39.0, 16.0, 18.0, 45.0, 4.0, 47.0, 56.0, 25.0];
+      let titanicAgeParch2Survived = [27.0, 3.0, 5.0, 17.0, 0.83, 23.0, 19.0, 9.0, 4.0, 5.0, 8.0, 24.0, 29.0, 3.0, 0.92, 18.0, 31.0, 24.0, 1.0, 36.0, 24.0, 18.0, 14.0, 4.0, 33.0, 33.0, -1, 7.0, 22.0, 36.0, 17.0, 18.0, 22.0, 24.0, 21.0, 48.0, 36.0, 1.0, 11.0, 1.0];
+      let titanicAgeParch3Survived = [24.0, 54.0, 24.0];
+      let titanicAgeParch4Survived = [];
+      let titanicAgeParch5Survived = [38.0];
+      let titanicAgeParch6Survived = [];
+      let titanicAgeParch0NotSurvived = [22.0, 35.0, -1, 54.0, 20.0, 14.0, 31.0, 35.0, -1, -1, 40.0, 66.0, 28.0, 42.0, 21.0, 18.0, 40.0, 27.0, -1, -1, -1, -1, 18.0, 21.0, 28.5, 22.0, 45.0, -1, 19.0, 26.0, 32.0, 21.0, 26.0, 25.0, -1, -1, 22.0, 28.0, -1, 24.0, 29.0, 20.0, 46.0, 59.0, -1, 71.0, 34.0, 28.0, -1, 33.0, 37.0, 28.0, 38.0, 47.0, 14.5, 22.0, 20.0, 17.0, 21.0, 70.5, 29.0, 21.0, -1, 32.5, -1, 45.0, 33.0, 20.0, 47.0, 25.0, 23.0, 37.0, 16.0, 24.0, 19.0, 18.0, 42.0, 51.0, 55.5, -1, 30.0, -1, 26.0, 17.0, -1, 28.0, 61.0, 21.0, 56.0, 50.0, 30.0, 36.0, -1, -1, 36.0, 19.0, -1, 24.0, 28.0, 34.0, 45.5, 32.0, 24.0, 22.0, 30.0, -1, 42.0, 30.0, 27.0, 51.0, -1, 22.0, 20.5, 18.0, 29.0, 59.0, 24.0, -1, 44.0, 19.0, 33.0, -1, 29.0, 22.0, 30.0, 44.0, 25.0, 54.0, -1, 62.0, 30.0, -1, 40.0, -1, 36.0, -1, 45.0, -1, 65.0, 28.0, 16.0, -1, 33.0, 22.0, 36.0, 24.0, 24.0, -1, 23.5, 19.0, -1, 30.0, 28.0, 54.0, 22.0, 27.0, 61.0, 45.5, 16.0, -1, 29.0, 45.0, 28.0, 25.0, 36.0, 42.0, 23.0, -1, 25.0, -1, 28.0, 38.0, 29.0, 35.0, -1, 30.0, 18.0, 19.0, 22.0, 20.0, 19.0, 32.0, -1, 18.0, -1, 28.0, 22.0, 31.0, 46.0, 23.0, 26.0, 21.0, 28.0, 20.0, 34.0, 51.0, 21.0, -1, -1, -1, -1, 30.0, -1, 21.0, 29.0, -1, -1, 17.0, 50.0, 31.0, 20.0, 25.0, -1, 30.0, -1, 65.0, -1, 34.0, 47.0, 48.0, -1, 38.0, -1, 56.0, -1, -1, 38.0, 22.0, -1, 34.0, 29.0, 22.0, -1, 50.0, 58.0, 30.0, -1, 21.0, 55.0, 71.0, 21.0, -1, -1, 24.0, 17.0, 21.0, -1, 37.0, 18.0, 28.0, -1, 24.0, 47.0, -1, 32.0, 22.0, -1, -1, 40.5, -1, 39.0, -1, 30.0, 45.0, -1, 50.0, 64.0, 27.0, -1, 62.0, -1, -1, 40.0, 28.0, -1, -1, 24.0, 19.0, -1, 16.0, 19.0, -1, 54.0, 36.0, -1, 47.0, 22.0, -1, 35.0, 47.0, 37.0, 49.0, -1, -1, -1, 44.0, 36.0, 30.0, -1, -1, 35.0, 26.0, 26.0, 27.0, 21.0, 21.0, 61.0, 57.0, 26.0, -1, 51.0, -1, 32.0, -1, 20.0, 19.0, -1, -1, 21.0, 18.0, 24.0, -1, 23.0, 40.0, 47.0, 36.0, 32.0, 25.0, -1, 43.0, 31.0, 70.0, -1, 18.0, 24.5, -1, 20.0, 19.0, 18.0, 25.0, 60.0, 52.0, 44.0, 42.0, 25.0, 26.0, 39.0, -1, 29.0, 52.0, 19.0, -1, 33.0, 17.0, 34.0, 50.0, 20.0, 25.0, 25.0, 11.0, -1, 23.0, 23.0, 28.5, -1, -1, 36.0, 24.0, 19.0, 31.0, 33.0, 23.0, 28.0, 18.0, 34.0, -1, 41.0, 16.0, -1, 30.5, -1, 32.0, 24.0, 48.0, 57.0, -1, 18.0, -1, -1, 29.0, 25.0, 25.0, 46.0, -1, 16.0, -1, 25.0, 39.0, 30.0, 34.0, 31.0, 39.0, 18.0, 39.0, 26.0, 39.0, 35.0, 30.5, -1, 23.0, 43.0, 38.0, -1, -1, -1, 23.0, 18.0, 21.0, -1, 20.0, 16.0, 34.5, 17.0, 42.0, 35.0, 74.0, 44.0, -1, 41.0, 21.0, 24.0, 31.0, -1, 26.0, 33.0, 47.0, 20.0, 19.0, -1, 33.0, 22.0, 28.0, 25.0, 27.0, 32.0];
+      let titanicAgeParch1NotSurvived = [2.0, 2.0, 8.0, 7.0, 65.0, 21.0, 24.0, 54.0, 19.0, 51.0, 44.0, 1.0, 4.0, 18.0, -1, 40.0, 42.0, 2.0, -1, 29.0, 52.0, 16.0, 37.0, 7.0, 26.0, 43.0, 38.0, 15.0, 45.0, 3.0, -1, 28.0, 18.0, -1, 23.0, 17.0, 33.0, 36.0, 34.0, 31.0, 32.0, 60.0, 14.0, 49.0, 18.0, 70.0, 16.0, 8.0, 30.0, 31.0, 2.0, 28.0, 9.0];
+      let titanicAgeParch2NotSurvived = [19.0, 11.0, 4.0, 16.0, 26.0, 2.0, -1, 9.0, 36.5, 40.5, -1, -1, 9.0, -1, 41.0, 2.0, -1, 27.0, 1.0, 10.0, 21.0, 36.0, 9.0, 25.0, 9.0, 11.0, -1, 9.0, 2.0, 58.0, 14.0, 25.0, -1, -1, 6.0, 10.0, -1, 4.0, -1, -1];
+      let titanicAgeParch3NotSurvived = [16.0, 48.0];
+      let titanicAgeParch4NotSurvived = [45.0, 40.0, 64.0, 29.0];
+      let titanicAgeParch5NotSurvived = [39.0, 39.0, 41.0, 39.0];
+      let titanicAgeParch6NotSurvived = [43.0];
+
+      Plotly.newPlot('decisiontreetitanic', [{
+        x: titanicAgeMaleSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: 'Male',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeMaleNotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: 'Male',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeFemaleSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: 'Female',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeFemaleNotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: 'Female',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Age'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Gender'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('decisiontreetitanic2', [{
+        x: titanicAgePclass1Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '1',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgePclass1NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '1',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgePclass2Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '2',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgePclass2NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '2',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgePclass3Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '3',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgePclass3NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '3',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Age'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Passenger Class'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('decisiontreetitanic3', [{
+        x: titanicAgeParch0Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '0',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch0NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '0',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch1Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '1',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch1NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '1',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch2Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '2',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch2NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '2',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch3Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '3',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch3NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '3',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch4Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '4',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch4NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '4',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch5Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '5',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch5NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '5',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch6Survived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '6',
+        marker: {
+          color: 'green'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }, {
+        x: titanicAgeParch6NotSurvived,
+        boxpoints: 'all',
+        jitter: 1,
+        pointpos: 0,
+        type: 'box',
+        name: '6',
+        marker: {
+          color: 'red'
+        },
+        fillcolor: 'rgba(255,255,255,0)',
+        line: {
+          color: 'rgba(255,255,255,0)'
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Age'
+          }
+        },
+        yaxis: {
+          title: {
+            text: '# of Parents or Children'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+    </script>
+    <script>
+      // ------------------ linear regression ------------------
+      Plotly.newPlot('linearregression1', [{
+        x: [600, 700, 750, 800, 980, 1000, 1100, 1130, 1190, 1200, 1260, 1400, 1410, 1490, 1520, 1700, 1740, 1770, 1850, 1950],
+        y: [150, 190, 480, 370, 480, 700, 430, 620, 880, 580, 780, 770, 900, 900, 810, 920, 1220, 1100, 1210, 1090],
+        mode: 'markers',
+        type: 'scatter'
+      }], {
+        xaxis: {
+          title: {
+            text: 'Square Footage'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Price (thousands of dollars)'
+          }
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('linearregression2', [{
+        x: [600, 700, 750, 800, 980, 1000, 1100, 1130, 1190, 1200, 1260, 1400, 1410, 1490, 1520, 1700, 1740, 1770, 1850, 1950],
+        y: [150, 190, 480, 370, 480, 700, 430, 620, 880, 580, 780, 770, 900, 900, 810, 920, 1220, 1100, 1210, 1090],
+        mode: 'markers',
+        type: 'scatter'
+      }, {
+        x: [276.919, 3000],
+        y: [0, 1984.966],
+        mode: 'lines',
+        type: 'scatter'
+      }], {
+        xaxis: {
+          title: {
+            text: 'Square Footage'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Price (thousands of dollars)'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('linearregression3', {
+        data: [{
+          x: [-1, 1],
+          y: [5, -5],
+          mode: 'lines'
+        }],
+        layout: {
+          xaxis: {
+            dtick: 1
+          },
+          yaxis: {
+            dtick: 1
+          },
+          sliders: [{
+            pad: {t: 30},
+            x: 0.05,
+            len: 0.95,
+            currentvalue: {
+              xanchor: 'right',
+              prefix: 'a: ',
+              font: {
+                color: '#888',
+                size: 20
+              }
+            },
+            transition: {duration: 500},
+            steps: [{
+              label: '-5',
+              method: 'animate',
+              args: [['slope-5'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '-4',
+              method: 'animate',
+              args: [['slope-4'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '-3',
+              method: 'animate',
+              args: [['slope-3'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '-2',
+              method: 'animate',
+              args: [['slope-2'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '-1',
+              method: 'animate',
+              args: [['slope-1'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '0',
+              method: 'animate',
+              args: [['slope0'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '1',
+              method: 'animate',
+              args: [['slope1'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '2',
+              method: 'animate',
+              args: [['slope2'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '3',
+              method: 'animate',
+              args: [['slope3'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '4',
+              method: 'animate',
+              args: [['slope4'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '5',
+              method: 'animate',
+              args: [['slope5'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }]
+          }]
+        },
+        config: {
+          responsive: true,
+          staticPlot: true
+        },
+        frames: [{
+          name: 'slope-5',
+          data: [{
+            x: [-1, 1],
+            y: [5, -5]
+          }]
+        }, {
+          name: 'slope-4',
+          data: [{
+            x: [-1, 1],
+            y: [4, -4]
+          }]
+        }, {
+          name: 'slope-3',
+          data: [{
+            x: [-1, 1],
+            y: [3, -3]
+          }]
+        }, {
+          name: 'slope-2',
+          data: [{
+            x: [-1, 1],
+            y: [2, -2]
+          }]
+        }, {
+          name: 'slope-1',
+          data: [{
+            x: [-1, 1],
+            y: [1, -1]
+          }]
+        }, {
+          name: 'slope0',
+          data: [{
+            x: [-1, 1],
+            y: [0, 0]
+          }]
+        }, {
+          name: 'slope1',
+          data: [{
+            x: [-1, 1],
+            y: [-1, 1]
+          }]
+        }, {
+          name: 'slope2',
+          data: [{
+            x: [-1, 1],
+            y: [-2, 2]
+          }]
+        }, {
+          name: 'slope3',
+          data: [{
+            x: [-1, 1],
+            y: [-3, 3]
+          }]
+        }, {
+          name: 'slope4',
+          data: [{
+            x: [-1, 1],
+            y: [-4, 4]
+          }]
+        }, {
+          name: 'slope5',
+          data: [{
+            x: [-1, 1],
+            y: [-5, 5]
+          }]
+        }]
+      });
+
+      Plotly.newPlot('linearregression4', {
+        data: [{
+          x: [-1, 10],
+          y: [-6, 5],
+          mode: 'lines'
+        }],
+        layout: {
+          xaxis: {
+            dtick: 1,
+            range: [-5, 5]
+          },
+          yaxis: {
+            dtick: 1,
+            range: [-5, 5]
+          },
+          sliders: [{
+            pad: {t: 30},
+            x: 0.05,
+            len: 0.95,
+            currentvalue: {
+              xanchor: 'right',
+              prefix: 'b: ',
+              font: {
+                color: '#888',
+                size: 20
+              }
+            },
+            transition: {duration: 500},
+            steps: [{
+              label: '-5',
+              method: 'animate',
+              args: [['y-5'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '-4',
+              method: 'animate',
+              args: [['y-4'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '-3',
+              method: 'animate',
+              args: [['y-3'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '-2',
+              method: 'animate',
+              args: [['y-2'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '-1',
+              method: 'animate',
+              args: [['y-1'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '0',
+              method: 'animate',
+              args: [['y0'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '1',
+              method: 'animate',
+              args: [['y1'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '2',
+              method: 'animate',
+              args: [['y2'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '3',
+              method: 'animate',
+              args: [['y3'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '4',
+              method: 'animate',
+              args: [['y4'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }, {
+              label: '5',
+              method: 'animate',
+              args: [['y5'], {
+                mode: 'immediate',
+                frame: {redraw: false, duration: 500},
+                transition: {duration: 500}
+              }]
+            }]
+          }]
+        },
+        config: {
+          responsive: true,
+          staticPlot: true
+        },
+        frames: [{
+          name: 'y-5',
+          data: [{
+            x: [0, 5],
+            y: [-5, 0]
+          }]
+        }, {
+          name: 'y-4',
+          data: [{
+            x: [-1, 5],
+            y: [-5, 1]
+          }]
+        }, {
+          name: 'y-3',
+          data: [{
+            x: [-2, 5],
+            y: [-5, 2]
+          }]
+        }, {
+          name: 'y-2',
+          data: [{
+            x: [-3, 5],
+            y: [-5, 3]
+          }]
+        }, {
+          name: 'y-1',
+          data: [{
+            x: [-4, 5],
+            y: [-5, 4]
+          }]
+        }, {
+          name: 'y0',
+          data: [{
+            x: [-5, 5],
+            y: [-5, 5]
+          }]
+        }, {
+          name: 'y1',
+          data: [{
+            x: [-5, 4],
+            y: [-4, 5]
+          }]
+        }, {
+          name: 'y2',
+          data: [{
+            x: [-5, 3],
+            y: [-3, 5]
+          }]
+        }, {
+          name: 'y3',
+          data: [{
+            x: [-5, 2],
+            y: [-2, 5]
+          }]
+        }, {
+          name: 'y4',
+          data: [{
+            x: [-5, 1],
+            y: [-1, 5]
+          }]
+        }, {
+          name: 'y5',
+          data: [{
+            x: [-5, 0],
+            y: [0, 5]
+          }]
+        }]
+      });
+
+      Plotly.newPlot('linearregression5', [{
+        x: [600, 700, 750, 800, 980, 1000, 1100, 1130, 1190, 1200, 1260, 1400, 1410, 1490, 1520, 1700, 1740, 1770, 1850, 1950],
+        y: [150, 190, 480, 370, 480, 700, 430, 620, 880, 580, 780, 770, 900, 900, 810, 920, 1220, 1100, 1210, 1090],
+        mode: 'markers',
+        type: 'scatter'
+      }, {
+        x: [276.919, 3000],
+        y: [0, 1984.966],
+        mode: 'lines',
+        type: 'scatter'
+      }, {
+        x: [290, 3000],
+        y: [0, 1800],
+        mode: 'lines',
+        type: 'scatter'
+      }, {
+        x: [250, 3000],
+        y: [0, 2200],
+        mode: 'lines',
+        type: 'scatter'
+      }, {
+        x: [190, 3000],
+        y: [0, 1900],
+        mode: 'lines',
+        type: 'scatter'
+      }], {
+        xaxis: {
+          title: {
+            text: 'Square Footage'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Price (thousands of dollars)'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('linearregression6', [{
+        x: [1000, 1200, 1230, 1340],
+        y: [1, 2, 2, 3],
+        z: [410000, 600000, 620000, 645000],
+        mode: 'markers',
+        type: 'scatter3d'
+      }], {
+        responsive: true,
+        scene: {
+          xaxis: {
+            title: 'Square Footage'
+          },
+          yaxis: {
+            title: '# of Bedrooms'
+          },
+          zaxis: {
+            title: 'Price'
+          }
+        }
+      });
+    </script>
+    <script>
+      // ------------------ logistic regression ------------------
+      let x = [-8, -7.5, -7, -6.5, -6, -5.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8];
+      let g = x.map(x => 1/(1 + Math.exp(-x)));
+      let x1 = [1, 2, 3, 4, 6, 7, 8, 9];
+      let g1 = x1.map(x => 1/(1 + Math.exp(-(x/6-1/3))));
+      let x2 = [...Array(1000).keys()].map(x => x/1000);
+      let y = x2.map(x => -1*Math.log(x));
+      let y2 = x2.map(x => -1*Math.log(1-x));
+
+      Plotly.newPlot('logisticregression1', [{
+        x: [1, 2, 3, 4, 6, 7, 8, 9],
+        y: [0, 0, 0, 0, 1, 1, 1, 1],
+        mode: 'markers',
+      }], {
+        yaxis: {
+          dtick: 1
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('logisticregression2', [{
+        x: [1, 2, 3, 4, 6, 7, 8, 9],
+        y: [0, 0, 0, 0, 1, 1, 1, 1],
+        mode: 'markers',
+      }, {
+        x: [0, 14],
+        y: [-1/3, 2],
+        mode: 'lines'
+      }], {
+        yaxis: {
+          dtick: 1
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('logisticregression3', [{
+        x: x,
+        y: g,
+        mode: 'lines',
+      }], {}, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('logisticregression4', [{
+        x: x1,
+        y: g1,
+        mode: 'lines',
+      }], {
+        yaxis: {
+          range: [0,1]
+        },
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('logisticregression5', [{
+        x: x2,
+        y: y,
+        mode: 'lines',
+      }], {
+        xaxis: {
+          dtick: 1,
+          range: [0,1],
+          title: {
+            text: 'h'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'J'
+          }
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('logisticregression6', [{
+        x: x2,
+        y: y2,
+        mode: 'lines',
+      }], {
+        xaxis: {
+          dtick: 1,
+          range: [0,1],
+          title: {
+            text: 'h'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'J'
+          }
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+    </script>
+    <script>
+      // ------------------ k-means ------------------
+      Plotly.newPlot('kmeans1', [{
+        x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+        y: [6, 6, 9, 20, 26, 37, 42, 44, 44, 48, 66, 69, 72, 78, 120, 134, 138, 141, 143, 168, 190, 195, 202, 209, 211, 238, 243, 245, 262, 266],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green']
+        }
+      }, {
+        x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+        y: [8, 43, 56, 63, 71, 75, 81, 86, 88, 102, 104, 122, 133, 143, 144, 156, 157, 173, 175, 176, 184, 195, 221, 227, 243, 256, 271, 275, 283, 285],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green']
+        }
+      }, {
+        x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+        y: [7, 9, 10, 20, 26, 27, 29, 43, 45, 68, 69, 80, 81, 86, 94, 112, 126, 136, 138, 141, 146, 149, 162, 201, 224, 263, 266, 276, 284, 286],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green']
+        }
+      }, {
+        x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+        y: [9, 13, 31, 61, 77, 77, 84, 99, 109, 113, 118, 123, 134, 136, 142, 143, 172, 180, 198, 216, 224, 231, 234, 244, 245, 249, 253, 254, 258, 303],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green']
+        }
+      }, {
+        x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+        y: [8, 12, 37, 40, 54, 78, 83, 90, 91, 91, 93, 96, 120, 128, 136, 153, 153, 157, 180, 182, 185, 190, 196, 217, 225, 251, 263, 281, 295, 298],
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+          color: ['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green']
+        }
+      }], {
+        xaxis: {
+          title: {
+            text: 'Sleeve Length'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Neck Length'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('kmeans2', [{
+        x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        y: [6, 4.9, 4.2, 3.8, 3.3, 2.9, 2.7, 2.5, 2.2, 2.1],
+        mode: 'lines+markers',
+        type: 'scatter'
+      }, {
+        x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        y: [6, 4, 2, 1.98, 1.96, 1.94, 1.92, 1.9, 1.88, 1.86],
+        mode: 'lines+markers',
+        type: 'scatter'
+      }], {
+        xaxis: {
+          title: {
+            text: 'Number of Clusters'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Cost Function'
+          }
+        },
+        showlegend: false
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
