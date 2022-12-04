@@ -1459,6 +1459,68 @@
         <img class="img-fluid" src="../pictures/ml/unsupervised_2.png">
       </div>
       <p>And then apply a supervised algorithm on each category to make classification more accurate.</p>
+      <h3>A9) Big Data</h3>
+      <p>Data science is currently a hot topic 🔥 because we have:</p>
+      <ul>
+        <li>new sources of data that did not exist before
+          <ul>
+            <li>social media, sensors, internet</li>
+          </ul>
+        </li>
+        <li>new capabilities to acquire, store, and process data
+          <ul>
+            <li>small and cheap sensors</li>
+            <li>cost of storage has dropped significantly</li>
+          </ul>
+        </li>
+        <li>new techniques in data analytics and processing</li>
+      </ul>
+      <p>Big data is any data that is expensive to manage or difficult to process. The three Vs of big data are volume, velocity, and variety. Volume: big data is usually large in size. Velocity: processing big data is time consuming. Variety: big data can come from different sources and in different formats.</p>
+      <h4>A9.1) Scalability</h4>
+      <p>In order to handle all this data, the machines and processes involved should be scalable, which means they should continue working as the amount of data grows.</p>
+      <h5>A9.1.1) Scaling Up</h5>
+      <p>Scaling up means increasing the resources (memory, CPU, disk size) for one machine. It can be very fast for medium-scale problems, but it requires expensive, specialized hardware and the resources will eventually hit a limit in the amount they can be upgraded.</p>
+      <h5>A9.1.2) Scaling Out</h5>
+      <p>Scaling out means adding more computers. All of them work in parallel so that the work is distributed among them. It is usually cheaper than scaling up and works for massive-scale problems, but network communication and the software to work with each other need to be handled properly.</p>
+      <h4>A9.2) MapReduce</h4>
+      <p>MapReduce is a programming model for processing big data with a parallel, distributed algorithm. It involves a map function, which processes the data and generates intermediate data that gets sent to a reduce function that takes in the intermediate data and produces the final output.</p>
+      <p>To see this in action, let's suppose we have millions of documents and we want to find the most common word across all of them. First, we distribute the documents among a bunch of computers to split the work.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/mapreduce_1.png">
+      </div>
+      <p>Then each computer runs a map function that returns a list of all the words and the number of times each word appears.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/mapreduce_2.png">
+      </div>
+      <p>Now we need to combine the results from all the documents so we add more computers and each one will be responsible for adding the counts for a single word. (With actual big data, each computer would be responsible for a set of words instead of just one word.)</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/mapreduce_3.png">
+      </div>
+      <p>Finally, each of these computers runs a reduce function that returns the word count of each word.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/mapreduce_4.png">
+      </div>
+      <div class="box">
+        <p>This is the general format of map and reduce functions.</p>
+        <pre>function map(in_key, in_value) {
+    return [(out_key, intermediate_value)];
+}</pre>
+        <pre>function reduce(out_key, [intermediate_values]) {
+    return [(out_key, out_value)];
+}</pre>
+        <p>In the above word-counting example:</p>
+        <ul>
+          <li>in_key: document id</li>
+          <li>in_value: document contents</li>
+          <li>intermediate_value(s): word counts before documents are combined</li>
+          <li>out_key: word</li>
+          <li>out_value: word count after documents are combined</li>
+        </ul>
+      </div>
+      <p>For MapReduce, all the data processed and produced is in the form of key-value pairs.</p>
+      <p>In the mapping stage, parallelism is achieved by using different computers to process the data simultaneously. These computers are called mappers. In the reducing stage, parallelism is achieved by using different computers to handle multiple keys simultaneously. These computers are called reducers.</p>
+      <p>Mappers create the keys and reducers don't (reducers only work with the keys).</p>
+      <p>All the mappers need to finish before the reducers can start doing their thing.</p>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
     <script>
