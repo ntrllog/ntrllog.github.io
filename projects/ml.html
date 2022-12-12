@@ -688,6 +688,7 @@
             </ul>
           </li>
           <li>handles both numerical and categorical data</li>
+          <li>(theoretically) works even with missing data*</li>
           <li>parametric algorithm
             <ul>
               <li>just need to use training data once to build the tree, then use the tree to make predictions
@@ -708,6 +709,13 @@
             </ul>
           </li>
         </ul>
+      </div>
+      <div class="box">
+        <p>*Let's bring back the tree:</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/decision_tree.png" title="I am Groot!">
+        </div>
+        <p>Will a 7-year old girl survive? Based on the tree, she will survive no matter what passenger class she is in. So even if there was no data for her passenger class, the tree could still (theoretically) make a prediction.</p>
       </div>
       <h2 id="linearregression">Linear Regression</h2>
       <p>So far, the algorithms we have looked at only predict categories, like sunny/rainy, sold/not sold, survived/didn't survive. But it is also possible to predict numerical values, like how much something will cost or how much rainfall an area will get.</p>
@@ -793,6 +801,7 @@
           <img class="img-fluid" src="../pictures/ml/lr_gd2.png">
         </div>
         <p>This is called the negative gradient, which points in the direction of the greatest rate of reduction. Taking a step in this direction is the fastest way in which the function decreases.</p>
+        <p>The gradient is a generalization of the concept of the derivative for functions of several variables.</p>
       </div>
       <p>Since the cost function is bowl shaped, there is only one minimum (the global minimum) so starting gradient descent at any point will always result in ending up at the same point (the minimum).</p>
       <div class="box">
@@ -820,7 +829,7 @@
         <div class="math">
           <img class="img-fluid" src="../pictures/ml/lr_gd_2d.gif">
         </div>
-        <p>Gradient descent starts from a random point and keeps moving down until it reaches the bottom. Each step naturally gets smaller as it moves further down because the slope gets smaller as it moves down (note how `theta_j`'s updated value is dependent on the slope).</p>
+        <p>Gradient descent starts from a random point and keeps moving down until it reaches the bottom. The bottom is where the slope is zero, so gradient descent will naturally stop (note how `theta_j`'s updated value is dependent on the slope). Each step naturally gets smaller as it moves further down because the slope gets smaller as it moves down (note how `theta_j`'s updated value is dependent on the slope).</p>
         <p>`alpha` is called the learning rate, which controls how big of a step to take. Choosing a value that's too small will take a long time.</p>
         <div class="math">
           <img class="img-fluid" src="../pictures/ml/lr_gd_2d.png">
@@ -944,7 +953,7 @@
       <div id="logisticregression2"></div>
       <p>However, since the output can only be 0 (not malignant) or 1 (malignant), the values on the line below `y=0` and above `y=1` are not relevant. For example, if the tumor size is 14, the output is 2. But what does 2 mean? In this simple example, we're assuming that large tumors are malignant, so we would want a size 14 tumor to output to 1 somehow. So we need something other than a straight line for this.</p>
       <h3>Sigmoid Function</h3>
-      <p>There is a function called the sigmoid function that takes in any input and outputs a value between 0 and 1.</p>
+      <p>Fortunately, there is a function called the sigmoid function that takes in any input and outputs a value between 0 and 1.</p>
       <div class="math">
         <p>`g(z)=1/(1+e^(-z))`</p>
       </div>
@@ -959,8 +968,9 @@
         <p>`implies`</p>
         <p>`g(bb theta^T bb x)=1/(1+e^(-bb theta^T bb x)`</p>
       </div>
-      <p>This is what the graph looks like when we apply the sigmoid function to the line that best fit the tumor data.</p>
+      <p>This is what the graph looks like when we apply the sigmoid function to the line that best fit the tumor data:</p>
       <div id="logisticregression4"></div>
+      <p>(It looks like a straight line, but I promise it's "sigmoidy".)</p>
       <div class="box">
         <p>The line that best fit the tumor data was `h_theta(x)=1/6x-1/3`. Applying the sigmoid function to that line, we get:</p>
         <div class="math">
@@ -986,7 +996,7 @@
       </div>
       <p>Before, `h_theta(bb x^((i)))` was linear, so the cost function was a convex bowl. Now, `h_theta(bb x^((i)))` is not linear anymore since we're applying the sigmoid function to it. As a result, the cost function looks something like this:</p>
       <div class="math">
-        <img class="img-fluid" src="../pictures/ml/logistic_regression_cost_fn.png">
+        <img class="img-fluid" src="../pictures/ml/logistic_regression_cost_fn.png" title="Rubin's vase probably fell down around here somewhere">
       </div>
       <p>It is not guaranteed that starting at any point will converge to the global minimum (it might hit one of the other local minimums instead). This is why we need a new cost function, which actually turns out to be:</p>
       <div class="math">
@@ -997,6 +1007,7 @@
         <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))\cdotx_j^((i))`</p>
       </div>
       <div class="box">
+        <p>Why does this cost function work?</p>
         <p>Let's suppose for a single data point, `y=1`. Then the cost function will be:</p>
         <div class="math">
           <p>`-[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
@@ -1005,7 +1016,7 @@
         </div>
         <p>and the graph of it will look something like:</p>
         <div id="logisticregression5"></div>
-        <p>If we also predicted 1 (i.e., `h_theta(bb x^((i)))=1`), then the cost/error is 0 (i.e., `J(bb theta)=0`. But if we predicted 0, then the cost/error is infinite.</p>
+        <p>If we also predicted 1 (i.e., `h_theta(bb x^((i)))=1`), then the cost/error is 0 (i.e., `J(bb theta)=0`). But if we predicted 0, then the cost/error is infinite.</p>
         <p>Now let's suppose for a single data point, `y=0`. Then the cost function will be:</p>
         <div class="math">
           <p>`-[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
@@ -1014,7 +1025,7 @@
         </div>
         <p>and the graph of it will look something like:</p>
         <div id="logisticregression6"></div>
-        <p>If we also predicted 0 (i.e., `h_theta(bb x^((i)))=0`), then the cost/error is 0 (i.e., `J(bb theta)=0`. But if we predicted 1, then the cost/error is infinite.</p>
+        <p>If we also predicted 0 (i.e., `h_theta(bb x^((i)))=0`), then the cost/error is 0 (i.e., `J(bb theta)=0`). But if we predicted 1, then the cost/error is infinite.</p>
       </div>
       <h2 id="polynomialregression">Polynomial Regression</h2>
       <p>Sometimes using a line isn't the best fit for the data.</p>
@@ -1087,7 +1098,7 @@
         </ul>
       </div>
       <h2 id="kmeans">K-Means Clustering</h2>
-      <p>Up to this point, all the datasets we've been looking at have been labeled, i.e., each sample in the training dataset had a classification (rainy/sunny, survived/not survived) or a value (price). In some situations, the dataset will be unlabeled (see the Unsupervised Learning section in the appendix for more background), so it would be more helpful to put similar samples together in groups to see what we can learn from the groupings.</p>
+      <p>Up to this point, all the datasets we've been looking at have been labeled, i.e., each sample in the training dataset had a classification (e.g., rainy/sunny, survived/not survived) or a value (e.g., price). In some situations, the dataset will be unlabeled (see the Unsupervised Learning section in the appendix for more background), so it would be more helpful to put similar samples together in groups to see what we can learn from the groupings.</p>
       <p>Let's say we had some unlabeled data plotted:</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/kmeans_1.png">
@@ -1381,7 +1392,7 @@
       <p>In ensemble learning, a group of models (base learners) are used to make predictions, then the results from all of them are combined together to get the final result. Each model may have poor performance on their own, but when combined together, they could be very strong. #StrengthInNumbers.</p>
       <p>It is very important that each model is different from each other, i.e., they produce different results. If they were all the same, then it would be equivalent to just using one model and there would be no point in using a group of models. But more importantly, they can cover each other's mistakes by being different. For example, if one model misclassified something but another model correctly classified it, then the second model would have the first model's back.</p>
       <h4>A7.1) Bootstrapping</h4>
-      <p>In order to have the models be different from each other, the data they learn from has to be different for each model. Bootstrapping (or bootstrap sampling) generates training subsets by randomly sampling from the training dataset with replacement. From a dataset `S`, three subsets of size 8 can be created like below:</p>
+      <p>In order to have the models be different from each other, the data they learn from has to be different for each model. Bootstrapping (or bootstrap sampling) generates training subsets by randomly sampling from the training dataset with replacement. For example, from a dataset `S`, three subsets of size 8 can be created like below:</p>
       <table>
         <tr>
           <td>Dataset `S`</td>
@@ -1447,8 +1458,7 @@
       <p>Each of the training subsets may overlap with each other (because of randomness) and may have duplicates (because of replacement). Having duplicates can be a good thing though because one model will be very good at predicting the duplicates while another model will be very good at predicting different duplicates. For example, a model trained on `S_1` will be good at predicting 5s, `S_2` will be good at predicting 9s, and `S_3` will be good at predicting 1s. A model trained on `S_2` might misclassify a 1 because it never learned it, but `S_3` will cover it.</p>
       <h3>A8) Unsupervised Learning</h3>
       <p>In unsupervised learning, the data is unlabeled. This could be because the data is unfamiliar to us or there is too much data to label or we are just more interested in finding patterns among the data.</p>
-      <p>One of the goals of the <a href="https://en.wikipedia.org/wiki/Five-hundred-meter_Aperture_Spherical_Telescope" target="_blank">world's largest radio telescope</a> is to detect alien life. In collecting the data, we wouldn't know which signals are from aliens and which are just whatever is out there since we've never seen alien signals before.</p>
-      <p>This would be an example of anomaly detection, where we want to identify things that do not conform to an expected pattern.</p>
+      <p>One of the goals of the <a href="https://en.wikipedia.org/wiki/Five-hundred-meter_Aperture_Spherical_Telescope" target="_blank">world's largest radio telescope</a> is to detect alien life. In collecting the data, we wouldn't know which signals are from aliens and which are just whatever is out there since we've never seen alien signals before. This would be an example of anomaly detection, where we want to identify things that do not conform to an expected pattern.</p>
       <p>If we were working with images, we could download hundreds of millions of images, but some of them may or may not be labeled. In this case, it would be way too much work to go through each picture and label them manually (if only there was something that would automatically do this for us!)</p>
       <p>Sometimes, applying an unsupervised algorithm before applying a supervised algorithm can improve prediction results. Let's say we were trying to classify digits and we came across some digits that looked like this:</p>
       <div class="math">
