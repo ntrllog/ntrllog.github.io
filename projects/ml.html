@@ -860,7 +860,7 @@
           <p>`=theta_j-alphadel/(deltheta_j)1/(2m)sum_(i=1)^m(theta_0+theta_1x^((i))-y^((i)))^2`</p>
           <p>`implies`</p>
           <p>`theta_0=theta_0-alpha1/msum_(i=1)^mh_theta(x^((i)))-y^((i))`</p>
-          <p>`theta_1=theta_1-alpha1/msum_(i=1)^m(h_theta(x^((i)))-y^((i)))\cdotx^((i))`</p>
+          <p>`theta_1=theta_1-alpha1/msum_(i=1)^m(h_theta(x^((i)))-y^((i)))cdotx^((i))`</p>
         </div>
       </div>
       <p>Basically, with gradient descent, we start at a random `theta_0` and `theta_1` and keep moving until we hit the minimum. The values of `theta_0` and `theta_1` at that minimum point are the values that create the line that best fits the data. From a line-drawing perspective, we start with a random line, see how good it is, then use the calculations to find a better line.</p>
@@ -932,7 +932,7 @@
         </div>
         <p>and so is gradient descent:</p>
         <div class="math">
-          <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))\cdotx_j^((i))`</p>
+          <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
         </div>
       </div>
       <div class="box">
@@ -1004,7 +1004,7 @@
       </div>
       <p>Gradient descent stays the same:</p>
       <div class="math">
-        <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))\cdotx_j^((i))`</p>
+        <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
       <div class="box">
         <p>Why does this cost function work?</p>
@@ -1492,8 +1492,21 @@
       <p>Scaling up means increasing the resources (memory, CPU, disk size) for one machine. It can be very fast for medium-scale problems, but it requires expensive, specialized hardware and the resources will eventually hit a limit in the amount they can be upgraded.</p>
       <h5>A9.1.2) Scaling Out</h5>
       <p>Scaling out means adding more computers. All of them work in parallel so that the work is distributed among them. It is usually cheaper than scaling up and works for massive-scale problems, but network communication and the software to work with each other need to be handled properly.</p>
-      <h4>A9.2) MapReduce</h4>
+      <h4>A9.2) Sampling</h4>
+      <p>If we have too much data to handle, the easy way out is to only use part of the data, but this isn't ideal because we are throwing away a large part of the data. Let's say we want to randomly sample the dataset anyway. How many samples would be enough?</p>
+      <p>We could plot the size of the training dataset against the error (see <a href="https://en.wikipedia.org/wiki/Learning_curve_(machine_learning)" target="_blank">learning curve</a> and <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank">bias-variance tradeoff</a>), which might look something like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/sampling_1.png">
+      </div>
+      <p>The error for the training dataset will always be lower than the error for the testing dataset because the model has already seen the data in the training dataset. Adding more data makes the training data more complex (less generalizable), so the training error will increase as the training dataset size increases. But more data also makes the model more experienced in predicting future data, so the testing error will decrease as the training dataset size increases.</p>
+      <p>Sometimes we could get something like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/sampling_2.png">
+      </div>
+      <p>This suggests that using more data samples won't help, so we could find out how many samples to use based on this.</p>
+      <h4>A9.3) MapReduce</h4>
       <p>MapReduce is a programming model for processing big data with a parallel, distributed algorithm. It involves a map function, which processes the data and generates intermediate data that gets sent to a reduce function that takes in the intermediate data and produces the final output.</p>
+      <h5>A9.3.1) Word Counting</h5>
       <p>To see this in action, let's suppose we have millions of documents and we want to find the most common word across all of them. First, we distribute the documents among a bunch of computers to split the work.</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/mapreduce_1.png">
@@ -1502,7 +1515,7 @@
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/mapreduce_2.png">
       </div>
-      <p>Now we need to combine the results from all the documents so we add more computers and each one will be responsible for adding the counts for a single word. (With actual big data, each computer would be responsible for a set of words instead of just one word.)</p>
+      <p>Now we need to combine the results from all the documents so we add more computers and each one will be responsible for adding the counts for a single word. (With actual big data, each computer would be responsible for a set of words instead of just one word.) This step is also called shuffling.</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/mapreduce_3.png">
       </div>
@@ -1526,11 +1539,227 @@
           <li>out_key: word</li>
           <li>out_value: word count after documents are combined</li>
         </ul>
+        <p>`text(documents) ubrace(rarr)_(text(map)) (text(word), text(count)_i) ubrace(rarr)_(text(shuffle)) (text(word), [text(count)_1, text(count)_2, ...]) ubrace(rarr)_(text(reduce)) (text(word), text(count))`</p>
       </div>
+      <h5>A9.3.2) General Notes</h5>
       <p>For MapReduce, all the data processed and produced is in the form of key-value pairs.</p>
       <p>In the mapping stage, parallelism is achieved by using different computers to process the data simultaneously. These computers are called mappers. In the reducing stage, parallelism is achieved by using different computers to handle multiple keys simultaneously. These computers are called reducers.</p>
       <p>Mappers create the keys and reducers don't (reducers only work with the keys).</p>
       <p>All the mappers need to finish before the reducers can start doing their thing.</p>
+      <p>The general flow is:</p>
+      <ol>
+        <li>Split big data into chunks and distribute among `n` computers</li>
+        <li>Each computer runs a map function to convert each entry into a key-value pair</li>
+        <li>Shuffle the key-value pairs so that pairs with common keys are combined
+          <ul>
+            <li>(common key, [value1, value2, ...])</li>
+          </ul>
+        </li>
+        <li>Distribute the shuffled results among `m` computers</li>
+        <li>Each computer runs a reduce function to convert each key-value pair into a single output</li>
+      </ol>
+      <h5>A9.3.3) SQL Inner Join</h5>
+      <p>Suppose we had two databases `R` (with columns `A`, `B`) and `S` (with columns `B`, `C`):</p>
+      <div class="row">
+        <div class="col-sm">
+          <table>
+            <tr>
+              <th>`A`</th>
+              <th>`B`</th>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>5</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-sm">
+          <table>
+            <tr>
+              <th>`B`</th>
+              <th>`C`</th>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>9</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>11</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>5</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <p>If we were to inner join `R` and `S`, the result would be:</p>
+      <table>
+        <tr>
+          <th>`A`</th>
+          <th>`B`</th>
+          <th>`C`</th>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>2</td>
+          <td>9</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>2</td>
+          <td>9</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>5</td>
+          <td>11</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>5</td>
+          <td>3</td>
+        </tr>
+      </table>
+      <p>Performing an inner join on two large tables can be very computationally intensive, so MapReduce can be used to parallelize the process. For each table, it can be divided up among several mappers and each mapper would do the following:</p>
+      <div class="math">
+        <p>`(a,b) rarr (text(key)=b,text(value)=(T,a))`</p>
+        <p>where `(a,b)` is a row in the table</p>
+        <p>and `T` represents which table the row is from</p>
+      </div>
+      <p>So after all the mappers are done, the result is:</p>
+      <div class="row">
+        <div class="col-sm">
+          <div class="math">
+            <p>`(2, (R, 6))`</p>
+            <p>`(2, (R, 12))`</p>
+            <p>`(5, (R, 7))`</p>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="math">
+            <p>`(2, (S, 9))`</p>
+            <p>`(5, (S, 11))`</p>
+            <p>`(5, (S, 3))`</p>
+            <p>`(9, (S, 5))`</p>
+          </div>
+        </div>
+      </div>
+      <p>And they are shuffled to get:</p>
+      <div class="math">
+        <p>`(2, {(R, 6),(R, 12),(S, 9)})`</p>
+        <p>`(5, {(R, 7),(S, 11),(S, 3)})`</p>
+        <p>`(9, {(S, 5)})`</p>
+      </div>
+      <p>Now these shuffled key-value pairs get sent to reducers and each reducer would do the following:</p>
+      <div class="math">
+        <p>`(b, {(T,a_1),(T,a_2),...,(T',c_1),(T',c_2),...}) rarr (a,b,c)`</p>
+        <p>where `a in {a_1,a_2,...}` and `c in {c_1,c_2,...}`</p>
+      </div>
+      <p>So after all the reducers are done, the result is:</p>
+      <div class="math">
+        <p>`(6,2,9)`</p>
+        <p>`(12,2,9)`</p>
+        <p>`(7,5,11)`</p>
+        <p>`(7,5,3)`</p>
+      </div>
+      <p>which is the result of performing an inner join on `R` and `S`.</p>
+      <div class="box">
+        <p>`text(tables) ubrace(rarr)_(text(map)) (b,(T,a_i)) ubrace(rarr)_(text(shuffle)) (b,{(T,a_1),(T,a_2),...(T',c_1),(T',c_2)}) ubrace(rarr)_(text(reduce)) (a_i,b,c_j)`</p>
+      </div>
+      <h5>A9.3.4) Matrix-Vector Multiplication</h5>
+      <p>Suppose we had an `mxxn` matrix `M` and an `nxx1` vector `V` where `m=2,n=3`:</p>
+      <div class="math">
+        <p>`M=[[2,3,6],[6,10,7]]`</p>
+        <p>`V=[[5],[9],[2]]`</p>
+      </div>
+      <p>If we were to multiply `M` with `V`, the result would be an `nxx1` vector:</p>
+      <div class="math">
+        <p>`[[49],[134]]`</p>
+      </div>
+      <p>If `M` is very large, then multiplying `M` with `V` can be very computationally intensive, so MapReduce can be used to parallelize the process. `M` is divided up among `n` mappers so that each mapper gets one column of `M`. Each mapper multiplies each element in the column with the corresponding element in `V` and produces the intermediate output:</p>
+      <div class="math">
+        <p>`((i,j),a_(i,j)) rarr (i,a_(i,j)cdotv_j)`</p>
+      </div>
+      <p>So after all the mappers are done, the result is:</p>
+      <div class="row">
+        <div class="col-sm">
+          <div class="math">
+            <p>Mapper 1:</p>
+            <p>`(1, 2cdot5)`</p>
+            <p>`(2, 6cdot5)`</p>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="math">
+            <p>Mapper 2:</p>
+            <p>`(1, 3cdot9)`</p>
+            <p>`(2, 10cdot9)`</p>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="math">
+            <p>Mapper 3:</p>
+            <p>`(1, 6cdot2)`</p>
+            <p>`(2, 7cdot2)`</p>
+          </div>
+        </div>
+      </div>
+      <p>And they are shuffled to get:</p>
+      <div class="math">
+        <p>`(1, {2cdot5,3cdot9,6cdot2})`</p>
+        <p>`(2, {6cdot5,10cdot9,7cdot2})`</p>
+      </div>
+      <p>Now these shuffled key-value pairs get sent to `m` reducers and each reducer adds all the values together. So after all the reducers are done, the result is:</p>
+      <div class="math">
+        <p>Reducer 1: `(1, 49)`</p>
+        <p>Reducer 2: `(2, 134)`</p>
+      </div>
+      <p>which is the result of multiplying `M` by `V`.</p>
+      <div class="box">
+        <p>`text(rows of matrix) ubrace(rarr)_(text(map)) (i,a_(i,j)cdotv_j) ubrace(rarr)_(text(shuffle)) (i,{a_(1,1)cdotv_1,a_(1,2)cdotv_2,...}) ubrace(rarr)_(text(reduce)) (i,a_(1,1)cdotv_1+a_(1,2)cdotv_2+...)`</p>
+      </div>
+      <h4>A9.4) Gradient Descent</h4>
+      <p>Let's bring back the formula for gradient descent:</p>
+      <div class="math">
+        <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
+      </div>
+      <p>If we had a dataset with 100 million samples, then that means we need to perform a summation over 100 million samples for <em>each</em> iteration of gradient descent, which can take a long time. So we can make some modifications to gradient descent to make it faster.</p>
+      <h5>A9.4.1) Stochastic Gradient Descent</h5>
+      <p>Instead of waiting for the summation over 100 million samples to finish before taking a step towards the minimum, stochastic gradient descent takes a step after calculating the cost for each data sample.</p>
+      <div class="math">
+        <p>`theta_j=theta_j-alpha(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
+      </div>
+      <p>So it calculates the error for one data sample and takes a step. Then it moves on the next data sample and takes a step. And so on until all the data samples have been used.</p>
+      <p>While regular gradient descent (aka batch gradient descent) takes a lot of time to make one good step, stochastic gradient descent takes little time to make one suboptimal step. And even though it's faster, it may never reach the minimum, but it can get close enough.</p>
+      <h5>A9.4.2) Mini-Batch Gradient Descent</h5>
+      <p>Batch gradient descent uses all the data samples to take a step and stochastic gradient descent uses only one data sample to take a step. Mini-batch gradient descent is something in between these two and uses `b` samples to take a step.</p>
+      <div class="math">
+        <p>`theta_j=theta_j-alpha1/bsum_(i=k)^(k+b-1)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
+      </div>
+      <h5>A9.4.3) MapReduce for Gradient Descent</h5>
+      <p>Yep, MapReduce is back. If we really want to use all the data samples with no modifications to gradient descent, then we can use MapReduce.</p>
+      <p>Let's say we had a dataset of 400,000 samples. We could distribute them among 4 mappers so that each mapper processes 100,000 samples when calculating the cost. Then a reducer would combine the results and add the costs together to get the overall cost.</p>
+      <div class="math">
+        <p>Mapper 1: `text(temp)_j^((1))=sum_(i=1)^(100000)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
+        <p>Mapper 2: `text(temp)_j^((2))=sum_(i=100001)^(200000)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
+        <p>Mapper 3: `text(temp)_j^((3))=sum_(i=200001)^(300000)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
+        <p>Mapper 4: `text(temp)_j^((4))=sum_(i=300001)^(400000)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
+        <p>Reducer: `theta_j=theta_j-alpha1/400000(text(temp)_j^((1))+text(temp)_j^((2))+text(temp)_j^((3))+text(temp)_j^((4)))`</p>
+      </div>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
     <script>
