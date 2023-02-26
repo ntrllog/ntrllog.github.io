@@ -10,9 +10,8 @@ a, a:hover {
   color: #eeeeee;
 }
 
-.row {
-  margin-top: 50px;
-  margin-bottom: 50px;
+td {
+  color: #00adb5;
 }
 
 .underline {
@@ -30,37 +29,6 @@ a, a:hover {
 .flex-between {
   display: flex;
   justify-content: space-between;
-}
-
-/* http://lea.verou.me/2014/01/smooth-state-animations-with-animation-play-state/ */
-
-.picture-box {
-  animation: box-shadow-animate 1s infinite;
-  animation-play-state: paused;
-  background-color: #393e46;
-  border: 1px solid black;
-  box-shadow: 18px 18px #393e46;
-}
-
-.picture-box:hover {
-  animation-play-state: running;
-  position: relative;
-  border: 2px solid #00adb5;
-  box-shadow: 3px 3px #393e46,
-              6px 6px #393e46,
-              9px 9px #393e46,
-              12px 12px #393e46,
-              15px 15px #393e46,
-              18px 18px #393e46;
-}
-
-@keyframes box-shadow-animate {
-  0% {box-shadow: 18px 18px #393e46;}
-  20% {box-shadow: 15px 15px #393e46;}
-  40% {box-shadow: 12px 12px #393e46;}
-  60% {box-shadow: 9px 9px #393e46;}
-  80% {box-shadow: 6px 6px #393e46;}
-  100% {box-shadow: 3px 3px #393e46;}
 }
 
 .fab {
