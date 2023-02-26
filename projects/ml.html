@@ -33,11 +33,29 @@
         <a class="dropdown-item" href="#knn">KNN</a>
         <a class="dropdown-item" href="#decisiontree">Decision Tree</a>
         <a class="dropdown-item" href="#linearregression">Linear Regression</a>
+        <a class="dropdown-item" href="#gradientdescent">Gradient Descent</a>
         <a class="dropdown-item" href="#logisticregression">Logistic Regression</a>
         <a class="dropdown-item" href="#polynomialregression">Polynomial Regression</a>
         <a class="dropdown-item" href="#randomforest">Random Forest</a>
         <a class="dropdown-item" href="#kmeans">K-Means Clustering</a>
+        <a class="dropdown-item" href="#ann">Artificial Neural Networks</a>
+        <a class="dropdown-item" href="#backpropagation">Backpropagation</a>
         <a class="dropdown-item" href="#appendix">Appendix</a>
+        <a class="dropdown-item" href="#aaccuracy">A1) Accuracy: Is It Accurate?</a>
+        <a class="dropdown-item" href="#amodelevaluation">A2) Model Evaluation</a>
+        <a class="dropdown-item" href="#acrossvalidation">A3) Cross Validation</a>
+        <a class="dropdown-item" href="#anormalization">A4) Normalization</a>
+        <a class="dropdown-item" href="#afeatureselection">A5) Feature Selection</a>
+        <a class="dropdown-item" href="#aoverfitting">A6) Overfitting</a>
+        <a class="dropdown-item" href="#adimensionalityreduction">A6.1) Dimensionality Reduction</a>
+        <a class="dropdown-item" href="#aregularization">A6.2) Regularization</a>
+        <a class="dropdown-item" href="#abiasandvariance">A7) Bias and Variance</a>
+        <a class="dropdown-item" href="#aensemblelearning">A8) Ensemble Learning</a>
+        <a class="dropdown-item" href="#abootstrapping">A8.1) Bootstrapping</a>
+        <a class="dropdown-item" href="#aunsupervisedlearning">A9) Unsupervised Learning</a>
+        <a class="dropdown-item" href="#abigdata">A10) Big Data</a>
+        <a class="dropdown-item" href="#amapreduce">A10.3) MapReduce</a>
+        <a class="dropdown-item" href="#agradientdescent">A10.4) Gradient Descent</a>
       </div>
     </div>
     <div class="container line-height">
@@ -701,7 +719,7 @@
         </ul>
         <p>Disadvantages of Decision Tree:</p>
         <ul>
-          <li>very prone to overfitting (see Overfitting section in Appendix)</li>
+          <li>very prone to overfitting (see "A6) Overfitting")</li>
           <li>heuristic training techniques (brute force, trial and error)
             <ul>
               <li>calculating entropy</li>
@@ -778,7 +796,7 @@
         </ul>
       </div>
       <p>If we can find `theta_0`, `theta_1` such that `J(theta_0,theta_1)` is minimized (i.e., the total error is as small as possible), then we have found the values that will allow us to create the line `h_theta(x)=theta_0+theta_1x` that best fits the data.</p>
-      <h3>Gradient Descent</h3>
+      <h3 id="gradientdescent">Gradient Descent</h3>
       <p>It turns out that the graph of the cost function is bowl shaped.</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/lr_cost_fn_graph.png">
@@ -1071,7 +1089,7 @@
         </div>
       </div>
       <h2 id="randomforest">Random Forest</h2>
-      <p>(See the Ensemble Learning section in the appendix for more background.)</p>
+      <p>(See "A8) Ensemble Learning" for more background.)</p>
       <p>Back to classification! More specifically, back to decision trees! But this time instead of just one tree, there's a whole forest of them. It's an ensemble learning method, so it builds several decision trees and combines their results to make a prediction. Having one big and deep tree usually leads to poor results (since it's usually the result of overfitting), so having many small trees prevents that. It's like having more people solving a problem rather than just one.</p>
       <p>In order for all of the trees to work well together, each tree should be different from each other. So each tree will train on a different randomly-generated subset of the training dataset and on a different randomly-generated subset of features.</p>
       <p>After each tree makes a prediction, the results are tallied up and the category with the most votes wins.</p>
@@ -1098,7 +1116,7 @@
         </ul>
       </div>
       <h2 id="kmeans">K-Means Clustering</h2>
-      <p>Up to this point, all the datasets we've been looking at have been labeled, i.e., each sample in the training dataset had a classification (e.g., rainy/sunny, survived/not survived) or a value (e.g., price). In some situations, the dataset will be unlabeled (see the Unsupervised Learning section in the appendix for more background), so it would be more helpful to put similar samples together in groups to see what we can learn from the groupings.</p>
+      <p>Up to this point, all the datasets we've been looking at have been labeled, i.e., each sample in the training dataset had a classification (e.g., rainy/sunny, survived/not survived) or a value (e.g., price). In some situations, the dataset will be unlabeled (see "A9) Unsupervised Learning" for more background), so it would be more helpful to put similar samples together in groups to see what we can learn from the groupings.</p>
       <p>Let's say we had some unlabeled data plotted:</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/kmeans_1.png">
@@ -1151,12 +1169,277 @@
       <p>In some situations, like product segmentation, we already know how many clusters we want to have. But for situations which we're not familiar with, the ideal number of clusters may vary depending on the situation. To see what the ideal value for `K` is, we could plot the number of clusters against the cost function to see the tradeoff.</p>
       <div id="kmeans2"></div>
       <p>In the orange case, there is not much reduction in error after 3 clusters, so we can apply the elbow rule and say 3 clusters is ideal.</p>
+      <h2 id="ann">Artificial Neural Networks</h2>
+      <p>Since we're training machines to learn from data, why not model them based on the best learning tool around? The human brain. Our brains are able to learn so many different things and respond to so many different inputs that it may seem impossible to try to replicate such a sophisticated system. Do we have to come up with different algorithms for each single thing the human body is capable of doing? After all, seeing an object and hearing sounds are completely different actions from each other, so why would a model that knows how to "see" necessarily know how to "hear"? Well, it turns out that only one general algorithm can be used to learn many different things.</p>
+      <div class="box">
+        <p>In the 90s, some experiments were done on rats where scientists disconnected the nerves from the rats' ears to their auditory cortex (the part of the brain responsible for processing audio signals) and connected the nerves from their eyes to their auditory cortex instead. (So the part of the brain that "listens" no longer received sounds, but received light instead.) For the first few days, the rats couldn't see or hear anything. But over time, the rats started reacting to light, which meant that the auditory cortex had learned to see. The same results occurred for the somatosensory cortex (the part of the brain responsible for processing things we feel physically) which had also learned to see. This suggested that there is a general structure to the brain that can process different types of data and that learning was more about what type of data is provided.</p>
+      </div>
+      <p>The way we try to mimic the brain is to try to simulate a neuron (nerve cell) and expand upon that to build a network of neurons. A neuron receives input through dendrites, processes the input in the nucleus, and transmits its output through axon terminals, which are connected to other neurons' dendrites. So the output of one neuron is the input to another neuron.</p>
+      <p>Artificially, it looks something like:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/nn_unit.png">
+      </div>
+      <p>`x_1`, `x_2`, `x_3` are the inputs to the neuron, which are passed to the model along with the weights `w_1`, `w_2`, `w_3`. The model calculates the linear combination of the inputs (`w_1x_1+w_2x_2+w_3x_3`) and passes it to the activation function `f`, which generates some output `y`. (So `y=f(w_1x_1+w_2x_2+w_3x_3)`.)</p>
+      <p>In addition to the weighted inputs, we can add another input that repesents bias.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/nn_unit_2.png">
+      </div>
+      <p>For simplicity, a generic `a` can be used to represent the activation function and the bias can be excluded visually (but included when training):</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/nn_unit_3.png">
+      </div>
+      <p>So that represents one neuron. A neural network consists of layers of neurons.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/nn.png">
+      </div>
+      <p>The input layer (also referred to as layer 0) receives and transfers the inputs without doing any computations on them. The last layer is called the output layer. All the layers in between are called the hidden layers. (In this example, there is only one hidden layer.) The connections from one node to another node are weighted connections, where the weight is represented by `w`. The notation reads:</p>
+      <div class="math">
+        <p>`w_(ij)^((l))`</p>
+        <p>where `i` is the node it's going to, `j` is the node it's coming from, and `l` is the layer it's going to.</p>
+      </div>
+      <div class="box">
+        <p>If we were to write out mathematically the value of each node, it would look like this:</p>
+        <div class="math">
+          <p>`a_1^((1))=g(w_(10)^((1))b^((1))+w_(11)^((1))x_1+w_(12)^((1))x_2+w_(13)^((1))x_3)`</p>
+          <p>`a_2^((1))=g(w_(20)^((1))b^((1))+w_(21)^((1))x_1+w_(22)^((1))x_2+w_(23)^((1))x_3)`</p>
+          <p>`a_3^((1))=g(w_(30)^((1))b^((1))+w_(31)^((1))x_1+w_(32)^((1))x_2+w_(33)^((1))x_3)`</p>
+          <p>`y=a_1^((2))=g(w_(10)^((2))b^((2))+w_(11)^((2))a_1^((1))+w_(12)^((2))a_2^((1))+w_(13)^((2))a_3^((1)))`</p>
+          <p>assuming `g` is the activation function</p>
+        </div>
+        <p>And this is just a network with 1 hidden layer. It gets messy quickly, so representing things using vectors keeps things compact.</p>
+        <div class="math">
+          <p>`bb a^((1))=[[a_1^((1))],[a_2^((1))],[a_3^((1))]]`</p>
+          <p>`bb W^((1))=[[w_(10)^((1)),w_(11)^((1)),w_(12)^((1)),w_(13)^((1))],[w_(20)^((1)),w_(21)^((1)),w_(22)^((1)),w_(23)^((1))],[w_(30)^((1)),w_(31)^((1)),w_(32)^((1)),w_(33)^((1))]]`</p>
+          <p>`bb x=[[b],[x_1],[x_2],[x_3]]`</p>
+        </div>
+        <p>So now the value of each node looks like this:</p>
+        <div class="math">
+          <p>`bb a^((1))=g(bb W^((1))bb x)`</p>
+          <p>`y=bb a^((2))=g(bb W^((2))bb a^((1)))`</p>
+        </div>
+        <p>
+      </div>
+      <p>A neural network with one node in the output layer will output just one thing (e.g., rainy or sunny). But a network can have multiple nodes in the output layer.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/nn_multiclass.png">
+      </div>
+      <p>This means the network will have multiple outputs. If we give a picture of a tree as input, the outputs can be whether the picture is of a tree or not, where the tree is, and the size of the tree. Or the outputs can be probabilities. If we have four possible types of outputs (e.g., cat, dog, horse, bird), each output can be the probability that it is each of those classes. So an output of `[[0.6],[0.4],[0],[0]]` would mean that there is a 60% chance that the image is of a cat and 40% chance that it is a dog.</p>
+      <h3>You've Activated My Function!</h3>
+      <p>The activation function should be nonlinear. (I believe using a linear function would be like making a line out of a line, i.e., there is no effect.) The simplest function to use is a step function.</p>
+      <p>Some popular choices include the logistic sigmoid function (yes, the same one back in logistic regression), the rectified linear unit (ReLU) function:</p>
+      <div id="nn1"></div>
+      <div class="math">
+        <p>`RELU(x) = {(0 if x < 0),(x if x >= 0):}`</p>
+      </div>
+      <p>and Softplus, which is the smooth approximation of ReLU:</p>
+      <div id="nn2"></div>
+      <div class="math">
+        <p>`text(Softplus)(x) = log(1+e^x)`</p>
+      </div>
+      <h3>Building Logical Operators</h3>
+      <div class="box">
+        <p>As a reminder, here's the sigmoid function:</p>
+        <div id="nn3"></div>
+        <p>Using this as the activation function (represented by `g`), we can simulate all of the binary operators, like logical not, and, or, nor, xor, etc.</p>
+        <p>The negation (logical not) operator outputs 1 for an input of 0 and outputs 0 for an input of 1. We can simulate the negation operator with the following neural network:</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_not.png">
+          <p>So `y=g(10-20x_1)`.</p>
+        </div>
+        <ul>
+          <li>If `x_1=1`, then the output is `y=g(10-20*1)=g(10-20)=g(-10)=0`.</li>
+          <li>If `x_1=0`, then the output is `y=g(10-20*0)=g(10-0)=g(10)=1`.</li>
+        </ul>
+        <p>The logical and operator takes in two inputs. If both of them are 1, then the output is 1. If at least one of the inputs is 0, then the output is 0.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_and.png">
+          <p>So `y=g(20x_1+20x_2-30)`.</p>
+        </div>
+        <ul>
+          <li>If `x_1=1` and `x_2=1`, then the output is `y=g(20*1+20*1-30)=g(40-30)=g(10)=1`.</li>
+          <li>If `x_1=1` and `x_2=0`, then the output is `y=g(20*1+20*0-30)=g(20-30)=g(-10)=0`.</li>
+          <li>If `x_1=0` and `x_2=1`, then the output is `y=g(20*0+20*1-30)=g(20-30)=g(-10)=0`.</li>
+          <li>If `x_1=0` and `x_2=0`, then the output is `y=g(20*0+20*0-30)=g(0-30)=g(-30)=0`.</li>
+        </ul>
+        <p>The logical or operator takes in two inputs. If both of them are 0, then the output is 0. If at least one of the inputs is 1, then the output is 1.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_or.png">
+          <p>So `y=g(20x_1+20x_2-10)`.</p>
+        </div>
+        <ul>
+          <li>If `x_1=1` and `x_2=1`, then the output is `y=g(20*1+20*1-10)=g(40-10)=g(30)=1`.</li>
+          <li>If `x_1=1` and `x_2=0`, then the output is `y=g(20*1+20*0-10)=g(20-10)=g(10)=1`.</li>
+          <li>If `x_1=0` and `x_2=1`, then the output is `y=g(20*0+20*1-10)=g(20-10)=g(10)=1`.</li>
+          <li>If `x_1=0` and `x_2=0`, then the output is `y=g(20*0+20*0-10)=g(0-10)=g(-10)=0`.</li>
+        </ul>
+        <p>The logical nand (not and) operator takes in two inputs. If both of them are 1, then the output is 0. If at least one of the inputs is 0, then the output is 1.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_nand.png">
+          <p>So `y=g(-20x_1-20x_2+30)`.</p>
+        </div>
+        <ul>
+          <li>If `x_1=1` and `x_2=1`, then the output is `y=g(-20*1-20*1+30)=g(-40+30)=g(-10)=0`.</li>
+          <li>If `x_1=1` and `x_2=0`, then the output is `y=g(-20*1-20*0+30)=g(-20+30)=g(10)=1`.</li>
+          <li>If `x_1=0` and `x_2=1`, then the output is `y=g(-20*0-20*1+30)=g(-20+30)=g(10)=1`.</li>
+          <li>If `x_1=0` and `x_2=0`, then the output is `y=g(-20*0-20*0+30)=g(0+30)=g(30)=1`.</li>
+        </ul>
+        <p>The logical nor (not or) operator takes in two inputs. If both of them are 0, then the output is 1. If at least one of the inputs is 1, then the output is 0.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_nor.png">
+          <p>So `y=g(-20x_1-20x_2+10)`.</p>
+        </div>
+        <ul>
+          <li>If `x_1=1` and `x_2=1`, then the output is `y=g(-20*1-20*1+10)=g(-40+10)=g(-30)=0`.</li>
+          <li>If `x_1=1` and `x_2=0`, then the output is `y=g(-20*1-20*0+10)=g(-20+10)=g(-10)=0`.</li>
+          <li>If `x_1=0` and `x_2=1`, then the output is `y=g(-20*0-20*1+10)=g(-20+10)=g(-10)=0`.</li>
+          <li>If `x_1=0` and `x_2=0`, then the output is `y=g(-20*0-20*0+10)=g(0+10)=g(10)=1`.</li>
+        </ul>
+        <p>Being able to simulate logical operators can come in handy for some classification problems. Consider this dataset:</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_xnor_classification.png">
+          <p>where we can interpret red being 1 and blue being 0.</p>
+        </div>
+        <p>It would be impossible to use a linear model to perform classification. It's possible to use a higher-order model, but it is much cleaner to use a logical operator in this case. Notice that when both inputs are the same number, then the output is 1. When both inputs are different numbers, then the output is 0. This is actually how the xnor (exclusive not or) operator works.</p>
+        <p>So `y=x_1text( XNOR )x_2`, which is equivalent to `(x_1text( AND )x_2)text( OR )(x_1text( NOR )x_2)`. We have the neural networks to simulate and, or, and nor already, so we can combine them to simulate xnor.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_xnor.png">
+        </div>
+        <ul>
+          <li>If `x_1=1` and `x_2=1`, then `a_1^((2))=1`, `a_2^((2))=0`, and `a_1^((3))=y=1`.</li>
+          <li>If `x_1=1` and `x_2=0`, then `a_1^((2))=0`, `a_2^((2))=0`, and `a_1^((3))=y=0`.</li>
+          <li>If `x_1=0` and `x_2=1`, then `a_1^((2))=0`, `a_2^((2))=0`, and `a_1^((3))=y=0`.</li>
+          <li>If `x_1=0` and `x_2=0`, then `a_1^((2))=0`, `a_2^((2))=1`, and `a_1^((3))=y=1`.</li>
+        </ul>
+      </div>
+      <h3>The Cost Function Is Back!</h3>
+      <p>When a neural network is trained, it tries to find the best structure. This means it tries to find the best weights to use to connect each of the nodes. To determine what is "best", we need to bring back the cost function that represents the error and minimize the function.</p>
+      <p>The cost function for neural networks turns out to be very similar to the cost function for logistic regression. This is because neural networks can be seen as an advanced version of logistic regression.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/nn.png">
+      </div>
+      <p>If we look at just the output layer of a neural network, we can see that it receives some inputs multiplied by some weights. Using the sigmoid function as the activation function, this is the same as logistic regression where the inputs are the features and the weights are the `theta`s.</p>
+      <div class="box">
+        <p>The inputs to logistic regression are the features themselves, while the inputs to the output layer of a neural network are the outputs from the previous layers, which aren't equal to the features at that point. In fact, the inputs to the output layer are new "features" that the neural network created to best learn and represent the data. So the hidden layers of a neural network can be seen as a feature learning process.</p>
+        <p>It's kind of like seeing a person with our eyes. The raw light that first reaches our eyes is like the input layer. Then as the light signals move through our brain, it processes them so that we see the silhouette of a person. Then they move on to the next layer so that we see a face. Then they move on to the final layer so that we recognize that the face belongs to our friend (or enemy if you roll that way).</p>
+      </div>
+      <p>The cost function for logistic regression is:</p>
+      <div class="math">
+        <p>`J(bb theta)=-1/msum_(i=1)^m[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
+      </div>
+      <p>The cost function for neural networks is:</p>
+      <div class="math">
+        <p>`J(bb W)=-1/msum_(i=1)^msum_(k=1)^K[y_k^((i))logh_W(bb x^((i)))_k+(1-y_k^((i)))log(1-h_W(bb x^((i))))_k]`</p>
+        <p>where `y^((i))` is the actual label for the `i^(th)` sample,</p>
+        <p>`h_W(x^((i)))` is the predicted label for the `i^(th)` sample,</p>
+        <p>`m` is the number of training samples,</p>
+        <p>`K` is the number of outputs</p>
+      </div>
+      <p>Overfitting can happen if the network is too complex. So we can add a regularization term to the cost function so that the weights are minimized as well:</p>
+      <div class="math">
+        <p>`lambda/(2m)sum_(l=1)^(L-1)sum_(i=1)^(s_l)sum_(j=1)^(s_l+1)(w_(ij)^((l)))^2`</p>
+      </div>
+      <p>The result is usually that some of the weights get minimized to zero, which removes a connection between nodes. So a neural network could end up looking like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/nn_regularization.png">
+      </div>
+      <div class="box">
+        <p>A neural network that is overfit is like a brain that overthinks. Having too many connections between neurons results in the brain being less effective and efficient, so the brain also does regularization to make it simpler. This is called <a href="https://en.wikipedia.org/wiki/Synaptic_pruning" target="_blank">synaptic pruning</a>.</p>
+      </div>
+      <h3 id="backpropagation">Backpropagation: I put my inputs, flip it and reverse it</h3>
+      <p>When building a neural network, we decide how many layers and nodes per layer to use. The part that gets learned by the machine is what weights to use. Backpropagation is a systematic way to train a neural network so it can learn the weights.</p>
+      <p>In the beginning, we start with random weights. One training sample is used as input and the generated output (denoted as `o`) is compared with the actual output (denoted as `y`). Using the cost function, the error is calculated between the generated output and the actual output, and this error is propagated backwards through the network to update the weights. And then this process is repeated for all training samples.</p>
+      <div class="box">
+        <p>For simplicity, we can assume that the cost function is `J=1/2(y-o)^2`. Also, we can assume that the activation function being used is the sigmoid function: `g(z)=1/(1+e^(-z))`. Then the gradient error would be</p>
+        <div class="math">
+          <p>`delta=(partialJ)/(partialz)=(y-o)o(1-o)`</p>
+          <p>(the `o(1-o)` term comes from the <a href="https://hausetutorials.netlify.app/posts/2019-12-01-neural-networks-deriving-the-sigmoid-derivative/" target="_blank">derivative of the sigmoid function</a>)</p>
+        </div>
+        <p>Then we use that gradient error to update the weights:</p>
+        <div class="math">
+          <p>`w_(ij)^((l))(text(new))=w_(ij)^((l))(text(old))+alphadeltaa_i^((l-1))`</p>
+          <p>where `alpha` is the learning rate*</p>
+        </div>
+        <p>All of this was just for the output layer. To calculate the gradient error for the hidden layers, we use a different equation:</p>
+        <div class="math">
+          <p>`delta_i^((l-1))=[sumw_(ji)^((l))delta_j^((l))]a_i^((l-1))(1-a_i^((l-1)))`</p>
+        </div>
+        <p>And to update the weights:</p>
+        <div class="math">
+          <p>`w_(ij)^((l))(text(new))=w_(ij)^((l))(text(old))+alphadelta_i^((l))a_i^((l-1))`</p>
+        </div>
+      </div>
+      <div class="box">
+        <p>*this learning rate is similar to the learning rate in gradient descent. In fact, backpropagation is a sort of different version of gradient descent (much like the output layer is a different version of logistic regression).</p>
+        <p>In gradient descent, we had this:</p>
+        <div class="math">
+          <p>`theta_j = theta_j - alphadel/(deltheta_j)J(theta_0, theta_1)`</p>
+        </div>
+        <p>where that formula was used to take steps towards the minimum of the cost function `J`.</p>
+        <p>In backpropagation, we have this:</p>
+        <div class="math">
+          <p>`w_(ij)^((l))(text(new))=w_(ij)^((l))(text(old))+alphadelta_i^((l))a_i^((l-1))`</p>
+        </div>
+        <p>It looks similar to taking steps, except we're tuning the weights. It's more like baking/cooking where we're adjusting how much of each ingredient is being added. We nudge the weights in the direction that minimizes error, so that's why we use the gradient error to update the weights.</p>
+      </div>
+      <div class="box">
+        <p>Backpropagation can be seen as an implementation of the chain rule for derivatives. By the chain rule:</p>
+        <div class="math">
+          <p>`f'(g(x))=f'(g(x))cdotg'(x)`</p>
+          <p>`f'(g(h(x)))=f'(g(h(x)))cdotg'(h(x))cdoth'(x)`</p>
+        </div>
+        <p>We can view each layer of a neural network as a function instead of a group of neurons:</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_chain_rule.png">
+        </div>
+        <p>When we calculate the gradient error `delta_i^((l))`, we are taking the derivative. So calculating the gradient error of each node in each layer can loosely be seen as "taking the derivative of the layer", which gives us:</p>
+        <div class="math">
+          <p>`f'(g(h(x)))cdotg'(h(x))cdoth'(x)`</p>
+        </div>
+      </div>
+      <div class="box">
+        <p>This is an example of backpropagation in action. We will use the sigmoid function `g(z)=1/(1+e^(-z))` as the activation function and use the learning rate `alpha=1`. Suppose we had this neural network with these weights: (biases excluded for simplicity)</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_backpropagation.png">
+        </div>
+        <p>For the training sample, suppose we have `x_1=0.35`, `x_2=0.9`, and `y=0.5`. Then</p>
+        <div class="math">
+          <p>`a_1^((1))=g(w_(11)^((1))x_1+w_(12)^((1))x_2)=g(0.1cdot0.35+0.8cdot0.9)~~0.68`</p>
+          <p>`a_2^((1))=g(w_(21)^((1))x_1+w_(22)^((1))x_2)=g(0.6cdot0.9+0.4cdot0.35)~~0.6637`</p>
+          <p>`o=a_1^((2))=g(w_(11)^((2))a_1^((1))+w_(12)^((2))a_2^((1)))=g(0.3cdot0.68+0.9cdot0.6637)~~0.69`</p>
+        </div>
+        <p>There is some error in the generated output (0.69) since the actual output should be 0.5. We calculate the gradient error to get:</p>
+        <div class="math">
+          <p>`delta=(y-o)o(1-o)=(0.5-0.69)cdot0.69cdot(1-0.69)=-0.0406`</p>
+        </div>
+        <p>Now we backpropagate the error to the second layer. We update the weights using the gradient error:</p>
+        <div class="math">
+          <p>`w_(11)^((2))(text(new))=w_(11)^((2))+alphadeltaa_1^((1))=0.3+1cdot-0.0406cdot0.68=0.272392`</p>
+          <p>`w_(12)^((2))(text(new))=w_(12)^((2))+alphadeltaa_2^((1))=0.9+1cdot-0.0406cdot0.6637=0.87305`</p>
+        </div>
+        <p>So now the neural network looks like this:</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_backpropagation_2.png">
+        </div>
+        <p>Now we backpropagate to the first layer:</p>
+        <div class="math">
+          <p>`delta_1^((1))=[w_(11)^((2))delta]a_1^((1))(1-a_1^((1)))=[0.3cdot-0.0406]cdot0.68cdot(1-0.68)=-0.00265`</p>
+          <p>`delta_2^((1))=[w_(12)^((2))delta]a_2^((1))(1-a_2^((1)))=[0.9cdot-0.0406]cdot0.6637cdot(1-0.6637)=-0.00815`</p>
+          <p>`w_(11)^((1))(text(new))=w_(11)^((1))+alphadelta_1^((1))x_1=0.1+1cdot-0.00265cdot0.35=0.099`</p>
+          <p>`w_(12)^((1))(text(new))=w_(12)^((1))+alphadelta_1^((1))x_2=0.8+1cdot-0.00265cdot0.9=0.7976`</p>
+          <p>`w_(21)^((1))(text(new))=w_(21)^((1))+alphadelta_2^((1))x_1=0.4+1cdot-0.00815cdot0.35=0.3971`</p>
+          <p>`w_(22)^((1))(text(new))=w_(22)^((1))+alphadelta_2^((1))x_2=0.6+1cdot-0.00815cdot0.9=0.5926`</p>
+        </div>
+        <p>So the neural network finally looks like this:</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/nn_backpropagation_3.png">
+        </div>
+      </div>
       <h2 id="appendix">Appendix</h2>
-      <h3>A1) Accuracy: Is It Accurate?</h3>
+      <h3 id="aaccuracy">A1) Accuracy: Is It Accurate?</h3>
       <p>When the data is <em>unbalanced</em>, then no.</p>
       <p>Suppose we had data where 99% of it had a "no" label. Let's say we built a classifier that always labels every input as "no". Technically, that classifier would have an accuracy of 99%.</p>
       <p>One solution to this is to balance the data first. If there are a good amount of "yes" data, then some of the "no" data can be removed until the amount of each are roughly equal. If there are very few "yes" data, then the "yes" data can be duplicated.</p>
-      <h3>A2) Model Evaluation</h3>
+      <h3 id="amodelevaluation">A2) Model Evaluation</h3>
       <p>Generally, accuracy should be used to evaluate the correctness of a classification model (the higher the better) and error should be used to evaluate the correctness of a regression model (the lower the better).</p>
       <h4>A2.1) Binary Classification</h4>
       <p>However, as shown in the section above, accuracy is not always the best metric to use.</p>
@@ -1298,7 +1581,7 @@
         <p>(the errors are squared so the square root returns it to the original unit)</p>
       </div>
       <p>RMSE is the average error in prediction. So if a predicted value was 100,000 and we got an RMSE of 2300, then the actual value could be somewhere between 97,700 and 102,300.</p>
-      <h3>A3) Cross Validation</h3>
+      <h3 id="acrossvalidation">A3) Cross Validation</h3>
       <p>When training/testing machine learning models, we split the data randomly into training and testing sets. The problem with this is that the results may be influenced by the split. For example, a model could have achieved high accuracy because the testing set happened to have a lot of easily predictable data.</p>
       <p>To make sure this doesn't happen, we should split the data several times in different ways each time. Cross validation repeats the splitting procedure `k` times such that every data sample will be in the testing set at least one time (which means every data sample will be in the training set `k-1` times).</p>
       <p>The steps are:</p>
@@ -1317,7 +1600,7 @@
           </ul>
         </li>
       </ol>
-      <h3>A4) Normalization</h3>
+      <h3 id="anormalization">A4) Normalization</h3>
       <p>One type of normalization is to divide by the max for the feature (we did this in the KNN section). The result is that all the values get put in the range of 0 to 1. This type of normalization essentially makes one unit of distance in one feature equal to one unit of distance in the other feature.</p>
       <p>Another type of normalization is to make the dataset have zero mean and unit standard deviation (z-score normalization). We can do this by subtracting each data point by the mean and dividing the difference by the standard deviation. (Disclaimer: the rest of this paragraph consists of claims based on my intuition, so I may be wrong.) This means that each data point now represents the number of standard deviations it is from the mean. While each feature can range from different values, all the data points essentially have the same units: distance from the mean. It's like having two sets of measurements, one in inches and one in centimeters, and converting both of them into "number of thumbs".</p>
       <p>No matter which type of normalization is used, normalization should be done only on the training data. This is because testing data is considered "future data", so we theoretically don't have the data yet. The effects of normalizing the whole dataset can be seen below.</p>
@@ -1332,12 +1615,12 @@
       </div>
       <p>to obtain the normalized value `z'`.</p>
       <p>If we normalize the whole dataset before splitting, then information from the testing data will leak to the training data. Including the testing data will influence the mean and standard deviation, which will influence the training, i.e., the model will learn from both the training and testing data.</p>
-      <h3>A5) Feature Selection</h3>
+      <h3 id="afeatureselection">A5) Feature Selection</h3>
       <p>When training our models, we sometimes want to use only the important/relevant features to reduce training time and/or increase correctness.</p>
       <p>One way is to find the features manually. We choose one feature and calculate accuracy using only that feature. Repeat for every feature until all features have been used. The features with the highest accuracies are the important features.</p>
       <p>Another way is to use a decision tree. When building the decision tree, information gain is used to decide which features go on which levels of the tree. The features at the top of the tree are the important features.</p>
       <p>Another way is to use linear/polynomial regression. Reminder: `h_theta(bb x)=theta_0+theta_1x_1+...+theta_nx_n`. The values for `theta_i` are the weights for each feature, i.e., they represent how much impact a feature has on the outcome. The features with the highest weights (with respect to absolute value) are the important features.</p>
-      <h3>A6) Overfitting</h3>
+      <h3 id="aoverfitting">A6) Overfitting</h3>
       <p>Overfitting happens when the model learns too much. For example, it can learn from bad data (noise/randomness/outliers) that aren't representative of the data and become overly complex. This happens when</p>
       <ul>
         <li>there are too many features</li>
@@ -1351,13 +1634,13 @@
         <img class="img-fluid" src="../pictures/ml/overfitting_2.png">
       </div>
       <p>When overfitting happens, the model will have a really high accuracy on the training data, but have a low accuracy on the testing data. This is because it is very unlikely that the (testing) data will be distributed in such weird shapes.</p>
-      <h4>A6.1) Dimensionality Reduction</h4>
+      <h4 id="adimensionalityreduction">A6.1) Dimensionality Reduction</h4>
       <p>If there are too many features, then we can reduce the number of features by keeping only the important features (see Feature Selection above). For example, if there are 20 features, we can keep 3 of them.</p>
       <div class="math">
         <p>`theta_0+theta_1x_1+...+theta_20x_20 rarr theta_0+theta_1x_1+theta_2x_2+theta_3x_3`</p>
       </div>
       <p>Some features may be redundant (e.g., size of house and number of bedrooms) or irrelevant (e.g., number of tiles), so including them increases the complexity of the model for no real benefit.</p>
-      <h4>A6.2) Regularization</h4>
+      <h4 id="aregularization">A6.2) Regularization</h4>
       <p>If we want to keep all the features, we can instead simplify the model by reducing the magnitude/values of `theta_i`. For example:</p>
       <div class="math">
         <p>`theta_0+theta_1x_1+theta_2x_2+theta_3x_3+theta_4x_1^2+theta_5x_2^2+theta_6x_2x_3+theta_7x_2x_3^2`</p>
@@ -1388,11 +1671,14 @@
         <p>For linear regression, `h_theta(bb x)=theta^T bb x`.</p>
         <p>For logistic regression, `h_theta(bb x)=1/(1+e^(-theta^T bb x))`.</p>
       </div>
-      <h3>A7) Ensemble Learning</h3>
-      <p>In ensemble learning, a group of models (base learners) are used to make predictions, then the results from all of them are combined together to get the final result. Each model may have poor performance on their own, but when combined together, they could be very strong. #StrengthInNumbers.</p>
-      <p>It is very important that each model is different from each other, i.e., they produce different results. If they were all the same, then it would be equivalent to just using one model and there would be no point in using a group of models. But more importantly, they can cover each other's mistakes by being different. For example, if one model misclassified something but another model correctly classified it, then the second model would have the first model's back.</p>
-      <h4>A7.1) Bootstrapping</h4>
-      <p>In order to have the models be different from each other, the data they learn from has to be different for each model. Bootstrapping (or bootstrap sampling) generates training subsets by randomly sampling from the training dataset with replacement. For example, from a dataset `S`, three subsets of size 8 can be created like below:</p>
+      <h3 id="abiasandvariance">A7) Bias and Variance</h3>
+      <p>A model can be characterized by its bias and its variance. Bias is the error due to an inaccurate model that misses the relationship between the features and the outputs. A model with high bias is highly inaccurate (underfit). Variance is the error due to the sensitivity of the model to the training dataset. (Note: "Sensitivity" here is not referring to true positive rate. It is referring to the fact that the model is so specifically trained that slightly changing the training dataset will drastically change the model.) A model with high variance is really accurate with the training dataset, but really inaccurate with the testing dataset (overfit).</p>
+      <h3 id="aensemblelearning">A8) Ensemble Learning</h3>
+      <p>In ensemble learning, a group of models (base learners) are used to make predictions, then the results from all of them are combined together to get the final result. Each base learner may have poor performance on their own, but when combined together, they could be very strong. #StrengthInNumbers.</p>
+      <p>It is very important that each learner is different from each other, i.e., they produce different results. If they were all the same, then it would be equivalent to just using one model and there would be no point in using a group of models. But more importantly, they can cover each other's mistakes by being different. For example, if one learner misclassified something but another learner correctly classified it, then the second learner would have the first learner's back.</p>
+      <p>There are several ways to ensure that each base learner is different from each other. Each one could use a different algorithm. Or they could all use the same algorithm but with different parameters (e.g. different values of `k` for KNN) and/or different features and/or different subsets of the dataset (e.g. random forest).</p>
+      <h4 id="abootstrapping">A8.1) Bootstrapping</h4>
+      <p>Bootstrapping (or bootstrap sampling) generates training subsets by randomly sampling from the training dataset with replacement. For example, from a dataset `S`, three subsets of size 8 can be created like below:</p>
       <table>
         <tr>
           <td>Dataset `S`</td>
@@ -1455,8 +1741,84 @@
           <td>10</td>
         </tr>
       </table>
-      <p>Each of the training subsets may overlap with each other (because of randomness) and may have duplicates (because of replacement). Having duplicates can be a good thing though because one model will be very good at predicting the duplicates while another model will be very good at predicting different duplicates. For example, a model trained on `S_1` will be good at predicting 5s, `S_2` will be good at predicting 9s, and `S_3` will be good at predicting 1s. A model trained on `S_2` might misclassify a 1 because it never learned it, but `S_3` will cover it.</p>
-      <h3>A8) Unsupervised Learning</h3>
+      <p>Each of the training subsets may overlap with each other (because of randomness) and may have duplicates (because of replacement). Having duplicates can be a good thing though because one learner will be very good at predicting the duplicates while another learner will be very good at predicting different duplicates. For example, a learner trained on `S_1` will be good at predicting 5s, `S_2` will be good at predicting 9s, and `S_3` will be good at predicting 1s. A learner trained on `S_2` might misclassify a 1 because it never learned it, but `S_3` will cover it.</p>
+      <h4>A8.2) Combining the Results</h4>
+      <p>So after each base learner makes a prediction, how do we make a final decision based on each learner's prediction?</p>
+      <h5>A8.2.1) Voting</h5>
+      <p>Majority wins.</p>
+      <h6>A8.2.1.1) What About Regression?</h6>
+      <p>There won't really be a concept of a "majority" for regression, so the average of the predictions can be used. In some cases, a bad prediction (bad classifier! bad!) can ruin the average, so the median can be used instead.</p>
+      <h5>A8.2.2) Bagging</h4>
+      <p>Bagging is an amalgamation of "bootstrap" and "aggregating". Each base learner trains on a different subset of the dataset, where each subset is generated by bootstrapping. After they make their predictions, the final prediction is made based on voting. Basically, bagging = bootstrapping + voting.</p>
+      <p>Since many learners are used, bagging is used to reduce variance and deal with overfitting. Typically, bagging is used with high variance algorithms like decision trees and neural networks.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/bagging_overfitting.png">
+      </div>
+      <p>If we have four overfit base learners (red, blue, cyan, purple), "taking the average" of each base learner produces an ideal fit model (green).</p>
+      <h5>A8.2.3) Stacking</h5>
+      <p>In this scenario, there are base learners and a separate upper-level model. The base learners make their predictions and send them to the upper-level model, which makes a final prediction based on the base learners' predictions. A new dataset is created where the base learners' predictions are treated as features and the target is the target from the base learners' dataset. The upper-level model is trained on this new dataset, so over time it will know which base learner is better and give that learner's prediction more weight.</p>
+      <h5>A8.2.4) Cascading</h5>
+      <p>In this scenario, the base learners are combined iteratively. On each iteration, the training dataset is modified based on the results of previous iterations and used to train the next base learner.</p>
+      <h6>A8.2.4.1) Boosting</h4>
+      <p>Boosting also uses several base learners that each train on a different dataset, but the dataset is built iteratively based on the performance of each learner. The process starts with training one learner on the dataset and seeing which samples were misclassified. Those misclassified samples are duplicated so that more of them appear in the dataset. Also, some of the correctly classified samples are taken out so the training dataset can include more of the problematic samples. So the distribution of the dataset is changed to include more of the misclassified samples and less of the correctly classified samples.</p>
+      <p>After the new training dataset is built, the next learner is trained on this new dataset, which should theoretically be able to correctly classify the misclassified samples from the first learner. However, it is not necessarily better than the previous learner because it can still misclassify other samples (the proportion of correctly classified samples was reduced so this learner may not learn them as well as the previous learner).</p>
+      <p>When all the learners are finished training and making their predictions, weighted voting is used to make the final decision, where more weight is given to the better performing learners.</p>
+      <p>Boosting is the opposite of bagging in the sense that boosting is used to increase variance.</p>
+      <p>Suppose we have a training dataset with positive (blue) and negative (red) samples. In the first round of training, all samples have equal weights (indicated in these examples by their sizes).</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/boosting_1.png">
+      </div>
+      <p>Let's say the classifier is a simple line that predicts everything left to be positive and everything right to be negative.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/boosting_2.png">
+      </div>
+      <p>Some of the positive samples were misclassified, so for the next iteration, the weights of those will be increased. And the weights of the correctly classified samples will be decreased.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/boosting_3.png">
+      </div>
+      <p>Let's say the second classifier predicts like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/boosting_4.png">
+      </div>
+      <p>Now the previously misclassified positive samples are now correctly classified, but some of the negative samples are incorrect. So we readjust the weights for the third classifier:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/boosting_5.png">
+      </div>
+      <p>And suppose it predicts like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/boosting_6.png">
+      </div>
+      <p>So after three iterations, we have three classifiers that roughly look like this:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/boosting_7.png">
+      </div>
+      <p>With the combinination of them achieving perfect accuracy:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/boosting_8.png">
+      </div>
+      <p>If we have three underfit base learners (red, blue, purple), "combining" all the base learners produces an ideal fit model (green).</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/boosting_underfitting.png">
+      </div>
+      <h4>A8.3) Why does Ensemble Learning Work?</h4>
+      <p>Let's say we have 3 independent classifiers each with an accuracy of 70%. Let's also decide that the final prediction will be based on voting. If we give them a positive sample to predict, then the final prediction will be correct if at least 2 of the classifiers predict positive. What are the chances of this happening?</p>
+      <p>Having at least 2 classifiers predict positive means that either 1) exactly 2 of the classifers predict positive or 2) all 3 of the classifiers predict positive. The possibility of all 3 classifiers predicting positive is `0.7\cdot0.7\cdot0.7=0.7^3=0.343`. The possibility of exactly 2 of the classifiers predicting positive is `(0.7\cdot0.7\cdot0.3+0.7\cdot0.3\cdot0.7+0.3\cdot0.7\cdot0.7)=0.441` (binomial theorem anyone?). So the possibility of both events happening, i.e., making a correct prediction, is `0.343+0.441=0.784`.</p>
+      <p>Each classifier alone has a 70% chance of getting it right, but when we combine them, they now have a 78% chance of getting it right.</p>
+      <p>Theoretically, using 101 indpendent classifiers achieves a final voting accuracy of 99.9%. So if combining classifiers and using voting increases accuracy, why don't we always use more (and more!) classifiers? Because in reality, the classifiers will never be independent (we assumed the classifiers were independent).</p>
+      <h4>A8.4) Advantages and Disadvantages of Ensemble Learning</h4>
+      <div class="box">
+        <p>Advantages:</p>
+        <ul>
+          <li>improves prediction performance and accuracy</li>
+          <li>robust to overfitting</li>
+        </ul>
+        <p>Disadvantages:</p>
+        <ul>
+          <li>combined classifier is not so transparent</li>
+          <li>not compact</li>
+        </ul>
+      </div>
+      <h3 id="aunsupervisedlearning">A9) Unsupervised Learning</h3>
       <p>In unsupervised learning, the data is unlabeled. This could be because the data is unfamiliar to us or there is too much data to label or we are just more interested in finding patterns among the data.</p>
       <p>One of the goals of the <a href="https://en.wikipedia.org/wiki/Five-hundred-meter_Aperture_Spherical_Telescope" target="_blank">world's largest radio telescope</a> is to detect alien life. In collecting the data, we wouldn't know which signals are from aliens and which are just whatever is out there since we've never seen alien signals before. This would be an example of anomaly detection, where we want to identify things that do not conform to an expected pattern.</p>
       <p>If we were working with images, we could download hundreds of millions of images, but some of them may or may not be labeled. In this case, it would be way too much work to go through each picture and label them manually (if only there was something that would automatically do this for us!)</p>
@@ -1469,7 +1831,7 @@
         <img class="img-fluid" src="../pictures/ml/unsupervised_2.png">
       </div>
       <p>And then apply a supervised algorithm on each category to make classification more accurate.</p>
-      <h3>A9) Big Data</h3>
+      <h3 id="abigdata">A10) Big Data</h3>
       <p>Data science is currently a hot topic 🔥 because we have:</p>
       <ul>
         <li>new sources of data that did not exist before
@@ -1486,13 +1848,13 @@
         <li>new techniques in data analytics and processing</li>
       </ul>
       <p>Big data is any data that is expensive to manage or difficult to process. The three Vs of big data are volume, velocity, and variety. Volume: big data is usually large in size. Velocity: processing big data is time consuming. Variety: big data can come from different sources and in different formats.</p>
-      <h4>A9.1) Scalability</h4>
+      <h4>A10.1) Scalability</h4>
       <p>In order to handle all this data, the machines and processes involved should be scalable, which means they should continue working as the amount of data grows.</p>
-      <h5>A9.1.1) Scaling Up</h5>
+      <h5>A10.1.1) Scaling Up</h5>
       <p>Scaling up means increasing the resources (memory, CPU, disk size) for one machine. It can be very fast for medium-scale problems, but it requires expensive, specialized hardware and the resources will eventually hit a limit in the amount they can be upgraded.</p>
-      <h5>A9.1.2) Scaling Out</h5>
+      <h5>A10.1.2) Scaling Out</h5>
       <p>Scaling out means adding more computers. All of them work in parallel so that the work is distributed among them. It is usually cheaper than scaling up and works for massive-scale problems, but network communication and the software to work with each other need to be handled properly.</p>
-      <h4>A9.2) Sampling</h4>
+      <h4>A10.2) Sampling</h4>
       <p>If we have too much data to handle, the easy way out is to only use part of the data, but this isn't ideal because we are throwing away a large part of the data. Let's say we want to randomly sample the dataset anyway. How many samples would be enough?</p>
       <p>We could plot the size of the training dataset against the error (see <a href="https://en.wikipedia.org/wiki/Learning_curve_(machine_learning)" target="_blank">learning curve</a> and <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank">bias-variance tradeoff</a>), which might look something like this:</p>
       <div class="math">
@@ -1504,9 +1866,9 @@
         <img class="img-fluid" src="../pictures/ml/sampling_2.png">
       </div>
       <p>This suggests that using more data samples won't help, so we could find out how many samples to use based on this.</p>
-      <h4>A9.3) MapReduce</h4>
+      <h4 id="amapreduce">A10.3) MapReduce</h4>
       <p>MapReduce is a programming model for processing big data with a parallel, distributed algorithm. It involves a map function, which processes the data and generates intermediate data that gets sent to a reduce function that takes in the intermediate data and produces the final output.</p>
-      <h5>A9.3.1) Word Counting</h5>
+      <h5>A10.3.1) Word Counting</h5>
       <p>To see this in action, let's suppose we have millions of documents and we want to find the most common word across all of them. First, we distribute the documents among a bunch of computers to split the work.</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/mapreduce_1.png">
@@ -1541,7 +1903,7 @@
         </ul>
         <p>`text(documents) ubrace(rarr)_(text(map)) (text(word), text(count)_i) ubrace(rarr)_(text(shuffle)) (text(word), [text(count)_1, text(count)_2, ...]) ubrace(rarr)_(text(reduce)) (text(word), text(count))`</p>
       </div>
-      <h5>A9.3.2) General Notes</h5>
+      <h5>A10.3.2) General Notes</h5>
       <p>For MapReduce, all the data processed and produced is in the form of key-value pairs.</p>
       <p>In the mapping stage, parallelism is achieved by using different computers to process the data simultaneously. These computers are called mappers. In the reducing stage, parallelism is achieved by using different computers to handle multiple keys simultaneously. These computers are called reducers.</p>
       <p>Mappers create the keys and reducers don't (reducers only work with the keys).</p>
@@ -1558,7 +1920,7 @@
         <li>Distribute the shuffled results among `m` computers</li>
         <li>Each computer runs a reduce function to convert each key-value pair into a single output</li>
       </ol>
-      <h5>A9.3.3) SQL Inner Join</h5>
+      <h5>A10.3.3) SQL Inner Join</h5>
       <p>Suppose we had two databases `R` (with columns `A`, `B`) and `S` (with columns `B`, `C`):</p>
       <div class="row">
         <div class="col-sm">
@@ -1680,7 +2042,7 @@
       <div class="box">
         <p>`text(tables) ubrace(rarr)_(text(map)) (b,(T,a_i)) ubrace(rarr)_(text(shuffle)) (b,{(T,a_1),(T,a_2),...(T',c_1),(T',c_2)}) ubrace(rarr)_(text(reduce)) (a_i,b,c_j)`</p>
       </div>
-      <h5>A9.3.4) Matrix-Vector Multiplication</h5>
+      <h5>A10.3.4) Matrix-Vector Multiplication</h5>
       <p>Suppose we had an `mxxn` matrix `M` and an `nxx1` vector `V` where `m=2,n=3`:</p>
       <div class="math">
         <p>`M=[[2,3,6],[6,10,7]]`</p>
@@ -1732,25 +2094,25 @@
       <div class="box">
         <p>`text(rows of matrix) ubrace(rarr)_(text(map)) (i,a_(i,j)cdotv_j) ubrace(rarr)_(text(shuffle)) (i,{a_(1,1)cdotv_1,a_(1,2)cdotv_2,...}) ubrace(rarr)_(text(reduce)) (i,a_(1,1)cdotv_1+a_(1,2)cdotv_2+...)`</p>
       </div>
-      <h4>A9.4) Gradient Descent</h4>
+      <h4 id="agradientdescent">A10.4) Gradient Descent</h4>
       <p>Let's bring back the formula for gradient descent:</p>
       <div class="math">
         <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
       <p>If we had a dataset with 100 million samples, then that means we need to perform a summation over 100 million samples for <em>each</em> iteration of gradient descent, which can take a long time. So we can make some modifications to gradient descent to make it faster.</p>
-      <h5>A9.4.1) Stochastic Gradient Descent</h5>
+      <h5>A10.4.1) Stochastic Gradient Descent</h5>
       <p>Instead of waiting for the summation over 100 million samples to finish before taking a step towards the minimum, stochastic gradient descent takes a step after calculating the cost for each data sample.</p>
       <div class="math">
         <p>`theta_j=theta_j-alpha(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
       <p>So it calculates the error for one data sample and takes a step. Then it moves on the next data sample and takes a step. And so on until all the data samples have been used.</p>
       <p>While regular gradient descent (aka batch gradient descent) takes a lot of time to make one good step, stochastic gradient descent takes little time to make one suboptimal step. And even though it's faster, it may never reach the minimum, but it can get close enough.</p>
-      <h5>A9.4.2) Mini-Batch Gradient Descent</h5>
+      <h5>A10.4.2) Mini-Batch Gradient Descent</h5>
       <p>Batch gradient descent uses all the data samples to take a step and stochastic gradient descent uses only one data sample to take a step. Mini-batch gradient descent is something in between these two and uses `b` samples to take a step.</p>
       <div class="math">
         <p>`theta_j=theta_j-alpha1/bsum_(i=k)^(k+b-1)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
-      <h5>A9.4.3) MapReduce for Gradient Descent</h5>
+      <h5>A10.4.3) MapReduce for Gradient Descent</h5>
       <p>Yep, MapReduce is back. If we really want to use all the data samples with no modifications to gradient descent, then we can use MapReduce.</p>
       <p>Let's say we had a dataset of 400,000 samples. We could distribute them among 4 mappers so that each mapper processes 100,000 samples when calculating the cost. Then a reducer would combine the results and add the costs together to get the overall cost.</p>
       <div class="math">
@@ -3324,6 +3686,51 @@
         },
         showlegend: false
       }, {
+        responsive: true,
+        staticPlot: true
+      });
+    </script>
+    <script>
+      // ------------------ neural networks ------------------
+      let x_nn = [-3, -2.9, -2.8, -2.7, -2.6, -2.5, -2.4, -2.3, -2.2, -2.1, -2, -1.9, -1.8, -1.7, -1.6, -1.5, -1.4, -1.3, -1.2, -1.1, -1, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3];
+      let y_nn = x_nn.map(x => Math.log(1 + Math.exp(x)));
+      let x_sigmoid = [-8, -7.5, -7, -6.5, -6, -5.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8];
+      let g_sigmoid = x_sigmoid.map(x => 1/(1 + Math.exp(-x)));
+
+      Plotly.newPlot('nn1', [{
+        x: [-3, -2, -1, 0, 1, 2, 3],
+        y: [0, 0, 0, 0, 1, 2, 3],
+        mode: 'lines',
+      }], {
+        yaxis: {
+          dtick: 1
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('nn2', [{
+        x: x_nn,
+        y: y_nn,
+        mode: 'lines',
+      }], {
+        xaxis: {
+          dtick: 1
+        },
+        yaxis: {
+          dtick: 1
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('nn3', [{
+        x: x_sigmoid,
+        y: g_sigmoid,
+        mode: 'lines',
+      }], {}, {
         responsive: true,
         staticPlot: true
       });
