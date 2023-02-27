@@ -18,6 +18,7 @@ hr {
 .ln {
   color: #00adb5;
   animation: flicker 5s linear infinite;
+  text-decoration: none;
 }
 
 .ln:hover {
@@ -68,11 +69,7 @@ hr {
 }
 
 /* about section */
-a {
-  color: #eeeeee;
-}
-
-a:hover {
+a, a:hover {
   color: #eeeeee;
 }
 
