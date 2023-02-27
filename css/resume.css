@@ -1,7 +1,6 @@
 body {
   font-family: 'Montserrat', sans-serif;
   font-size: 125%;
-  text-align: justify;
 }
 
 #pdf {
@@ -26,29 +25,9 @@ h1 {
   font-size: 400%;
 }
 
-.vertical-bar {
-  border-right: 1px solid black;
-}
-
-.horizontal-bar {
-  border-bottom: 1px solid black;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.skill {
-  border: 1px solid gray;
-  padding: 0 2px;
-}
-
 @media print {
   body {
-    font-size: 100%;
+    font-size: 70%;
   }
   a {
     color: black;
@@ -59,8 +38,5 @@ h1 {
   }
   .print-display {
     display: inline;
-  }
-  .horizontal-bar {
-    margin: 5px 0;
   }
 }
