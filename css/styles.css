@@ -12,6 +12,10 @@ th, td {
   padding: 10px;
 }
 
+.blue {
+  color: blue;
+}
+
 .box {
   padding-left: 10px;
   padding-right: 10px;
@@ -72,6 +76,10 @@ th, td {
   justify-content: space-evenly;
 }
 
+.green {
+  color: green;
+}
+
 .line-height {
   line-height: 2;
 }
@@ -81,9 +89,17 @@ th, td {
   margin-bottom: 10px;
 }
 
+.orange {
+  color: orange;
+}
+
 .project {
   border-top: 1px solid black;
   padding-top: 10px;
+}
+
+.red {
+  color: red;
 }
 
 .show {

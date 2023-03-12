@@ -40,6 +40,7 @@
         <a class="dropdown-item" href="#kmeans">K-Means Clustering</a>
         <a class="dropdown-item" href="#ann">Artificial Neural Networks</a>
         <a class="dropdown-item" href="#backpropagation">Backpropagation</a>
+        <a class="dropdown-item" href="#svm">Support Vector Machine</a>
         <a class="dropdown-item" href="#appendix">Appendix</a>
         <a class="dropdown-item" href="#aaccuracy">A1) Accuracy: Is It Accurate?</a>
         <a class="dropdown-item" href="#amodelevaluation">A2) Model Evaluation</a>
@@ -578,18 +579,20 @@
       </div>
       <p>Temperature had the second most entropy reduction, but that doesn't mean it should be the next feature to check after humidity. That's because the calculation was entropy reduction from the <em>starting entropy</em> (0.98). After splitting the data, we're no longer working with the original dataset (because we've split the data). So if we were to continue building the tree after mild humidity, the new starting entropy would be 1 (calculated previously when it was gettin' humid in here) and we would be looking to see which feature (temperature or wind) would reduce that entropy value more. The same would have to be done for low and high humidity. In this case, the entropy for low and high humidity are both 0, so there's no reduction possible (which means based on this feature alone, we are able to tell whether a day is rainy or sunny). But theoretically, the branches below the second level of the tree could be different. For example, for low humidity, the best feature to check next might be temperature, but for mild humidity, the best feature to check next might be wind.</p>
       <h3>ID3 Algorithm</h3>
-      <p>This is an algorithm to systematically build a decision tree. It's basically what we did above.</p>
-      <ol>
-        <li>Calculate entropy after splitting the data on every feature</li>
-        <li>Select the feature that has the most entropy reduction</li>
-        <li>Split the data into subsets using that feature and make a decision tree node for that feature</li>
-        <li>Repeat with remaining features until
-          <ul>
-            <li>no features left or</li>
-            <li>all samples assigned to the same label (entropy is 0 for all nodes one level above all leaf nodes)</li>
-          </ul>
-        </li>
-      </ol>
+      <div class="box">
+        <p>This is an algorithm to systematically build a decision tree. It's basically what we did above.</p>
+        <ol>
+          <li>Calculate entropy after splitting the data on every feature</li>
+          <li>Select the feature that has the most entropy reduction</li>
+          <li>Split the data into subsets using that feature and make a decision tree node for that feature</li>
+          <li>Repeat with remaining features until
+            <ul>
+              <li>no features left or</li>
+              <li>all samples assigned to the same label (entropy is 0 for all nodes one level above all leaf nodes)</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
       <h3>Viewer Discretization Is Advised</h3>
       <p>One thing that should be noted is that all the values for each feature were categorical values. They weren't numerical. For example, temperature was low, mild, high instead of 60, 75, 91. This is important because a decision tree shouldn't have branches for each numerical value. If the temperature is 90, then check this. If the temperature is 89, then check this. If the temperature is 88 ....</p>
       <p>Let's say instead of low, mild, high for temperature, we had actual numerical values.</p>
@@ -1382,19 +1385,23 @@
         <p>It looks similar to taking steps, except we're tuning the weights. It's more like baking/cooking where we're adjusting how much of each ingredient is being added. We nudge the weights in the direction that minimizes error, so that's why we use the gradient error to update the weights.</p>
       </div>
       <div class="box">
-        <p>Backpropagation can be seen as an implementation of the chain rule for derivatives. By the chain rule:</p>
-        <div class="math">
-          <p>`f'(g(x))=f'(g(x))cdotg'(x)`</p>
-          <p>`f'(g(h(x)))=f'(g(h(x)))cdotg'(h(x))cdoth'(x)`</p>
-        </div>
-        <p>We can view each layer of a neural network as a function instead of a group of neurons:</p>
+        <p>Backpropagation can be seen as an implementation of the chain rule for derivatives. We can view each layer of a neural network as a function:</p>
         <div class="math">
           <img class="img-fluid" src="../pictures/ml/nn_chain_rule.png">
         </div>
-        <p>When we calculate the gradient error `delta_i^((l))`, we are taking the derivative. So calculating the gradient error of each node in each layer can loosely be seen as "taking the derivative of the layer", which gives us:</p>
+        <p>So the output would be:</p>
+        <div class="math">
+          <p>`o=f(g(h(x)))`</p>
+        </div>
+        <p>Since we used random weights, there will be some error. For simplicity, let's use `(o-y)^2` to calculate error. If we want to minimize this error, then we take the derivative of it, which turns out to be:</p>
+        <div class="math">
+          <p>`2(o-y)o'`</p>
+        </div>
+        <p>This means that in order to minimize error, we have to calculate the derivative of the output `o`. Since `o=f(g(h(x)))`, the derivative of `o` (by the chain rule) is:</p>
         <div class="math">
           <p>`f'(g(h(x)))cdotg'(h(x))cdoth'(x)`</p>
         </div>
+        <p>Well it turns out that when we calculate the gradient error and backpropagate it to the previous layers, it is similar to computing the derivative above.</p>
       </div>
       <div class="box">
         <p>This is an example of backpropagation in action. We will use the sigmoid function `g(z)=1/(1+e^(-z))` as the activation function and use the learning rate `alpha=1`. Suppose we had this neural network with these weights: (biases excluded for simplicity)</p>
@@ -1416,14 +1423,17 @@
           <p>`w_(11)^((2))(text(new))=w_(11)^((2))+alphadeltaa_1^((1))=0.3+1cdot-0.0406cdot0.68=0.272392`</p>
           <p>`w_(12)^((2))(text(new))=w_(12)^((2))+alphadeltaa_2^((1))=0.9+1cdot-0.0406cdot0.6637=0.87305`</p>
         </div>
+        <p>and calculate the gradient error to use for the next (previous? 🤔) layer:</p>
+        <div class="math">
+          <p>`delta_1^((1))=[w_(11)^((2))delta]a_1^((1))(1-a_1^((1)))=[0.3cdot-0.0406]cdot0.68cdot(1-0.68)=-0.00265`</p>
+          <p>`delta_2^((1))=[w_(12)^((2))delta]a_2^((1))(1-a_2^((1)))=[0.9cdot-0.0406]cdot0.6637cdot(1-0.6637)=-0.00815`</p>
+        </div>
         <p>So now the neural network looks like this:</p>
         <div class="math">
           <img class="img-fluid" src="../pictures/ml/nn_backpropagation_2.png">
         </div>
         <p>Now we backpropagate to the first layer:</p>
         <div class="math">
-          <p>`delta_1^((1))=[w_(11)^((2))delta]a_1^((1))(1-a_1^((1)))=[0.3cdot-0.0406]cdot0.68cdot(1-0.68)=-0.00265`</p>
-          <p>`delta_2^((1))=[w_(12)^((2))delta]a_2^((1))(1-a_2^((1)))=[0.9cdot-0.0406]cdot0.6637cdot(1-0.6637)=-0.00815`</p>
           <p>`w_(11)^((1))(text(new))=w_(11)^((1))+alphadelta_1^((1))x_1=0.1+1cdot-0.00265cdot0.35=0.099`</p>
           <p>`w_(12)^((1))(text(new))=w_(12)^((1))+alphadelta_1^((1))x_2=0.8+1cdot-0.00265cdot0.9=0.7976`</p>
           <p>`w_(21)^((1))(text(new))=w_(21)^((1))+alphadelta_2^((1))x_1=0.4+1cdot-0.00815cdot0.35=0.3971`</p>
@@ -1433,6 +1443,157 @@
         <div class="math">
           <img class="img-fluid" src="../pictures/ml/nn_backpropagation_3.png">
         </div>
+        <p>Notice how `delta_1^((1))` and `delta_2^((1))` are smaller than `delta`. The further we backpropagate, the smaller the `delta`s become, which results in the weights staying pretty much the same. This effect is called the "vanishing gradient".</p>
+      </div>
+      <h2 id="svm">Support Vector Machine</h2>
+      <p>Let's suppose we had some data like below and we wanted to build the best classifier. There are infinitely many classifiers that would work (some examples shown below). Which one would be the best?</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm.png">
+      </div>
+      <p>It may seem like the black line is the best classifier since it is in the middle. And in fact, it is, but to frame this a little more formally, let's take a look at the data point that is closest to the classifier and measure its distance to the classifier.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_2.png">
+      </div>
+      <p>If we take that distance and double it on the other side, we create an area around the classifier where there are no data points inside. This "safe zone" is referred to as the margin. So we can say that the black line is the best classifier because it has the widest margin.</p>
+      <p>If we do this for the pink line, we see that the margin is very narrow:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_3.png">
+      </div>
+      <p>It is not good to have data points very close to the classifier because that means that there is some uncertainty about which class it belongs to.</p>
+      <div class="box">
+        <p>Each data point can be represented as a vector. The vectors closest to the classifier determine how wide the margin will be. This is why it is called a "support vector" machine.</p>
+      </div>
+      <div class="box">
+        <p>Since the dataset only has two features, the classifier is a line. With three features, the classifier would be a plane. With more features, the classifier would be a "hyperplane".</p>
+      </div>
+      <p>So the best classifier is the one that has the widest margin. How do we go about building it? (To keep things simple, we will just stay in the 2D world.)</p>
+      <h3>Lining Them Up (Again)</h3>
+      <p>We can represent a line using this equation:</p>
+      <div class="math">
+        <p>`w_1x_1+w_2x_2+b=0`</p>
+        <p>where `x_1` and `x_2` represent the features</p>
+      </div>
+      <p>Storing the weights in a vector `bb w=[[w_1],[w_2]]` and the features in another vector `bb x=[[x_1],[x_2]]`, we get a vectorized representation of a line:</p>
+      <div class="math">
+        <p>`bb w^T bb x+b=0`</p>
+      </div>
+      <p>Let's say we have some arbitrary line whose equation is `-3x_1+2x_2+4=0`.</p>
+      <div id="svm1"></div>
+      <p>Any points on the line when plugged into the equation will be equal to zero. Any points above the line will be positive and any points below the line will be negative.</p>
+      <div id="svm2"></div>
+      <div class="box math">
+        <p class="red">`-3(4)+2(4)+4=-12+8+4=0`</p>
+        <p class="orange">`-3(6)+2(3)+4=-18+6+4=-8<0`</p>
+        <p class="green">`-3(2)+2(5)+4=-6+10+4=8>0`</p>
+      </div>
+      <p>This is true for any line. So how can we use this fact to build a classifier?</p>
+      <h3>Maximizing the Margin</h3>
+      <p>We want to find a line such that all the samples that should be above the line are positive when plugged into the equation of the line. And all the samples that should be below the line are negative when plugged into the equation of the line.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_4.png">
+      </div>
+      <p>Let's say we draw some random line. If it satisifes the aforementioned requirements, then it is a working classifier. But we can do better.</p>
+      <p>Let's say we draw some random line that satisifes the requirements. In addition, let's draw two more lines — one on each side of the classifier — that are parallel and equidistant to the classifier.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_5.png">
+      </div>
+      <p>This forms the margin. So now we can be a little bit stricter and say that our classifier is working (and better) if all the data samples above the margin are positive and all the data samples below the margin are negative. Mathematically,</p>
+      <div class="math">
+        <p class="red">`bb w^T bb x+b>=1`</p>
+        <p class="blue">`bb w^T bb x+b<=-1`</p>
+      </div>
+      <p>But we can do better. Those two lines that we drew? What if we drew them such that the margin was as wide as possible?</p>
+      <div class="box">
+        <p>The margin is the distance between the two lines `bb w^T bb x+b=1` and `bb w^T bb x+b=-1`. It is also equal to `2/(||bb w||)`, which will be proved here.</p>
+        <p>First, it is necessary to show that the vector `bb w` is normal to the hyperplane (in this case, the hyperplane is `bb w^T bb x+b=0`). In order for a vector to be normal to the hyperplane, the dot product of that vector with another vector on the hyperplane must be equal to zero. So let's get a vector on the hyperplane and take the dot product.</p>
+        <p>Let `bb x_1` and `bb x_2` be vectors pointing to points on the hyperplane. `bb x_1` and `bb x_2` are not necessarily on the hyperplane, but `bb x_1 - bb x_2` is on the hyperplane. I'm sure there's some mathematical proof for this, but here's some visual intuition instead.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/svm_margin_proof.png">
+          <img class="img-fluid" src="../pictures/ml/svm_margin_proof_2.png">
+          <p>(this is what it would look like for the 3D case)</p>
+        </div>
+        <p>If we take the dot product of `bb w` and `bb x_1-bb x_2`, which is equivalent to `bb w^T (bb x_1-bb x_2)`, we get:</p>
+        <div class="math">
+          <p>`bb w^T (bb x_1-bb x_2)=bb w^T bb x_1 - bb w^T bb x_2 = -b - (-b) = -b + b = 0`</p>
+          <p>(`bb w^T bb x_1=bb w^T bb x_2=-b` since `bb w^T bb x+b=0`)</p>
+        </div>
+        <p>So `bb w` is in fact normal to the hyperplane.</p>
+        <p>Now let's suppose we have the two lines `bb w^T bb x+b=1` and `bb w^T bb x+b=-1`. Let's pick two points, one on each line, and call them `x_+` and `x_-`. If we draw vectors to those points and subtract them, then we get the distance between `bb w^T bb x+b=1` and `bb w^T bb x+b=-1`. Well, almost.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/svm_margin_proof_3.png">
+        </div>
+        <p>The actual distance between `bb w^T bb x+b=1` and `bb w^T bb x+b=-1` is `M` as shown below:</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/svm_margin_proof_4.png">
+        </div>
+        <p>The vector `bb x_+ - bb x_-` is pointing in a different direction than the direction of the distance. If we could figure out how much to rotate `x_+ - x_-` by, then we could get them pointing in the same direction. Now we can use the fact that `bb w` is normal to the hyperplane. Since `bb w` is normal to the hyperplane, it is pointing in the same direction as the distance.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/svm_margin_proof_5.png">
+        </div>
+        <p>So if we rotate `bb x_+ - bb x_-` by some angle `theta`, then `bb x_+ - bb x_-` will be pointing in the same direction as `bb w`. However, if we simply rotate it, then the length of `bb x_+ - bb x_-` will remain larger than `M`. We have to scale down the length at the same time we are rotating it, and we do this by multiplying the length of `bb x_+ - bb x_-` by the amount we are rotating, which is `costheta` (good ol' SOHCAHTOA). So we have</p>
+        <div class="math">
+          <p>`M=||bb x_+ - bb x_-||costheta`</p>
+        </div>
+        <p>It turns out that `costheta` is equal to the dot product of the two vectors divided by the product of their lengths. So:</p>
+        <div class="math">
+          <p>`costheta=((bb x_+ - bb x_-).bb w)/(||bb w|| cdot ||bb x_+ - bb x_-||)`</p>
+        </div>
+        <p>Which allows us to simplify:</p>
+        <div class="math">
+          <p>`M=||bb x_+ - bb x_-||costheta`</p>
+          <p>`=||bb x_+ - bb x_-||((bb x_+ - bb x_-).bb w)/(||bb w|| cdot ||bb x_+ - bb x_-||)`</p>
+          <p>`=((bb x_+ - bb x_-).bb w)/(||bb w||)`</p>
+          <p>`=(bb w^T bb x_+ - bb w^T bb x_-)/(||bb w||)`</p>
+          <p>`=((1-b)-(-1-b))/(||bb w||)`*</p>
+          <p>`=2/(||bb w||)`</p>
+        </div>
+        <p>*Since `x_+` was a point on the line `bb w^T bb x+b=1`, `bb w^T bb x_+ +b=1`. Similarly for `x_-`.</p>
+      </div>
+      <p>So now our goal is to correctly classify samples <em>and</em> maximize the margin. In other words, we want to satisfy three conditions:</p>
+      <div class="math">
+        <p>maximize `2/||bb w||`</p>
+        <p>if the sample is positive (which we will denote as `y=+1`), then it will satisfy `bb w^T bb x + b >= 1`</p>
+        <p>if the sample is negative (which we will denote as `y=-1`), then it will satisfy `bb w^T bb x + b <= -1`</p>
+      </div>
+      <p>Maximizing `2/||bb w||` is the same as minimizing `||bb w||`. This is because maximizing `2/||bb w||` means making the denominator as small as possible. To make it a convex function, we can make it `||bb w||^2`. And let's throw a `1/2` in there to make derivatives simpler. So maximizing `2/||bb w||` is the same as minimizing `1/2||bb w||^2`.</p>
+      <p>We can also convert the two equations into one:</p>
+      <div class="math">
+        <p>`y(bb w^T bb x + b) >= 1`</p>
+        <p>(notice that if `y=1` or `y=-1`, then both equations are achieved)</p>
+      </div>
+      <p>So finally, our goal is to satisify these two conditions:</p>
+      <div class="math">
+        <p>minimize `1/2||bb w||^2`</p>
+        <p>`y_i(bb w^T bb x_i + b) >= 1`</p>
+        <p>for a dataset `{(bb x_1, y_1), (bb x_2, y_2), ..., (bb x_n, y_n)}`</p>
+      </div>
+      <p>Finding the best line that satisfies those two conditions involves Lagrange multipliers, which I won't talk about here (cuz I have no idea what they are), so the math torture can stop here.</p>
+      <h3>Cut Me Some Slack!</h3>
+      <p>So far we have been assuming that all the data points are nicely separable. (In fact, the situation with those two conditions for linearly separable data is referred to as "hard margin".) However, it is much more likely for our dataset to have some points mixed with each other.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_6.png">
+      </div>
+      <p>Finding a classifier that satisifies the condition `y_i(bb w^T bb x_i + b) >= 1` becomes impossible. Can you draw a straight line that puts <em>all</em> the red samples on one side and <em>all</em> the blue samples on the other side? We need a way to keep all our work from before, but also be able to handle non-separable samples. This is referred to as "soft margin".</p>
+      <p>We can allow those non-separable samples to be on the wrong side of the line, as long as they are not too far on the other side. This distance will be defined by slack variables (denoted by `xi_i`).</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_7.png">
+      </div>
+      <p>Of course, some samples will be misclassified, but now those samples will not prevent us from drawing a line that mostly works pretty well. We can't allow the slack variables to be too large though, otherwise everything could be misclassified. So the slack variables need to be minimized as well. The conditions for soft margin become:</p>
+      <div class="math">
+        <p>minimize `1/2||bb w||^2+Csumxi_i`</p>
+        <p>`y_i(bb w^T bb x_i + b) >= 1-xi_i`</p>
+      </div>
+      <div class="box">
+        <p>`C` is similar to the regularization parameter in gradient descent (See "A6.2) Regularization") and in neural networks. In a nutshell, having a large value for `C` forces the `xi_i`s to be really small, which means there is little tolerance for misclassification, which means the model will be prone to overfitting. Having a small value for `C` allows the `xi_i`s to be larger, which means there is some tolerance for misclassification, which means the model could be prone to underfitting.</p>
+      </div>
+      <h3>Multi-class Classification</h3>
+      <p>So far we have only been working with two classes (red/blue, positive/negative). It is possible to extend SVM (and other classifiers for that matter) to multi-class situations using a one-vs-all method. We pick one group and treat the other groups as one other group. Then we build a classifier:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_8.png">
+      </div>
+      <p>We repeat this for all of the classes:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_9.png">
       </div>
       <h2 id="appendix">Appendix</h2>
       <h3 id="aaccuracy">A1) Accuracy: Is It Accurate?</h3>
@@ -1635,7 +1796,7 @@
       </div>
       <p>When overfitting happens, the model will have a really high accuracy on the training data, but have a low accuracy on the testing data. This is because it is very unlikely that the (testing) data will be distributed in such weird shapes.</p>
       <h4 id="adimensionalityreduction">A6.1) Dimensionality Reduction</h4>
-      <p>If there are too many features, then we can reduce the number of features by keeping only the important features (see Feature Selection above). For example, if there are 20 features, we can keep 3 of them.</p>
+      <p>If there are too many features, then we can reduce the number of features by keeping only the important features (see "A5) Feature Selection"). For example, if there are 20 features, we can keep 3 of them.</p>
       <div class="math">
         <p>`theta_0+theta_1x_1+...+theta_20x_20 rarr theta_0+theta_1x_1+theta_2x_2+theta_3x_3`</p>
       </div>
@@ -3731,6 +3892,47 @@
         y: g_sigmoid,
         mode: 'lines',
       }], {}, {
+        responsive: true,
+        staticPlot: true
+      });
+    </script>
+    <script>
+      // ------------------ svm ------------------
+      Plotly.newPlot('svm1', [{
+        x: [4/3, 2, 4, 6],
+        y: [0, 1, 4, 7],
+        mode: 'lines',
+      }], {
+        yaxis: {
+          dtick: 1
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+
+      Plotly.newPlot('svm2', [{
+        x: [4/3, 2, 4, 6],
+        y: [0, 1, 4, 7],
+        mode: 'lines',
+      }, {
+        x: [6],
+        y: [3],
+        mode: 'markers',
+      }, {
+        x: [2],
+        y: [5],
+        mode: 'markers',
+      }, {
+        x: [4],
+        y: [4],
+        mode: 'markers',
+      }], {
+        yaxis: {
+          dtick: 1
+        },
+        showlegend: false
+      }, {
         responsive: true,
         staticPlot: true
       });
