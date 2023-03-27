@@ -47,16 +47,18 @@
         <a class="dropdown-item" href="#acrossvalidation">A3) Cross Validation</a>
         <a class="dropdown-item" href="#anormalization">A4) Normalization</a>
         <a class="dropdown-item" href="#afeatureselection">A5) Feature Selection</a>
-        <a class="dropdown-item" href="#aoverfitting">A6) Overfitting</a>
-        <a class="dropdown-item" href="#adimensionalityreduction">A6.1) Dimensionality Reduction</a>
-        <a class="dropdown-item" href="#aregularization">A6.2) Regularization</a>
-        <a class="dropdown-item" href="#abiasandvariance">A7) Bias and Variance</a>
-        <a class="dropdown-item" href="#aensemblelearning">A8) Ensemble Learning</a>
-        <a class="dropdown-item" href="#abootstrapping">A8.1) Bootstrapping</a>
-        <a class="dropdown-item" href="#aunsupervisedlearning">A9) Unsupervised Learning</a>
-        <a class="dropdown-item" href="#abigdata">A10) Big Data</a>
-        <a class="dropdown-item" href="#amapreduce">A10.3) MapReduce</a>
-        <a class="dropdown-item" href="#agradientdescent">A10.4) Gradient Descent</a>
+        <a class="dropdown-item" href="#afeatureextraction">A6) Feature Extraction</a>
+        <a class="dropdown-item" href="#apca">A6.1) Principal Component Analysis</a>
+        <a class="dropdown-item" href="#aoverfitting">A7) Overfitting</a>
+        <a class="dropdown-item" href="#adimensionalityreduction">A7.1) Dimensionality Reduction</a>
+        <a class="dropdown-item" href="#aregularization">A7.2) Regularization</a>
+        <a class="dropdown-item" href="#abiasandvariance">A8) Bias and Variance</a>
+        <a class="dropdown-item" href="#aensemblelearning">A9) Ensemble Learning</a>
+        <a class="dropdown-item" href="#abootstrapping">A9.1) Bootstrapping</a>
+        <a class="dropdown-item" href="#aunsupervisedlearning">A10) Unsupervised Learning</a>
+        <a class="dropdown-item" href="#abigdata">A11) Big Data</a>
+        <a class="dropdown-item" href="#amapreduce">A11.3) MapReduce</a>
+        <a class="dropdown-item" href="#agradientdescent">A11.4) Gradient Descent</a>
       </div>
     </div>
     <div class="container line-height">
@@ -722,7 +724,7 @@
         </ul>
         <p>Disadvantages of Decision Tree:</p>
         <ul>
-          <li>very prone to overfitting (see "A6) Overfitting")</li>
+          <li>very prone to overfitting (see "<a href="#aoverfitting">A7) Overfitting</a>")</li>
           <li>heuristic training techniques (brute force, trial and error)
             <ul>
               <li>calculating entropy</li>
@@ -1092,7 +1094,7 @@
         </div>
       </div>
       <h2 id="randomforest">Random Forest</h2>
-      <p>(See "A8) Ensemble Learning" for more background.)</p>
+      <p>(See "<a href="#aensemblelearning">A9) Ensemble Learning</a>" for more background.)</p>
       <p>Back to classification! More specifically, back to decision trees! But this time instead of just one tree, there's a whole forest of them. It's an ensemble learning method, so it builds several decision trees and combines their results to make a prediction. Having one big and deep tree usually leads to poor results (since it's usually the result of overfitting), so having many small trees prevents that. It's like having more people solving a problem rather than just one.</p>
       <p>In order for all of the trees to work well together, each tree should be different from each other. So each tree will train on a different randomly-generated subset of the training dataset and on a different randomly-generated subset of features.</p>
       <p>After each tree makes a prediction, the results are tallied up and the category with the most votes wins.</p>
@@ -1119,7 +1121,7 @@
         </ul>
       </div>
       <h2 id="kmeans">K-Means Clustering</h2>
-      <p>Up to this point, all the datasets we've been looking at have been labeled, i.e., each sample in the training dataset had a classification (e.g., rainy/sunny, survived/not survived) or a value (e.g., price). In some situations, the dataset will be unlabeled (see "A9) Unsupervised Learning" for more background), so it would be more helpful to put similar samples together in groups to see what we can learn from the groupings.</p>
+      <p>Up to this point, all the datasets we've been looking at have been labeled, i.e., each sample in the training dataset had a classification (e.g., rainy/sunny, survived/not survived) or a value (e.g., price). In some situations, the dataset will be unlabeled (see "<a href="#aunsupervisedlearning">A10) Unsupervised Learning</a>" for more background), so it would be more helpful to put similar samples together in groups to see what we can learn from the groupings.</p>
       <p>Let's say we had some unlabeled data plotted:</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/kmeans_1.png">
@@ -1232,7 +1234,7 @@
       <p>Some popular choices include the logistic sigmoid function (yes, the same one back in logistic regression), the rectified linear unit (ReLU) function:</p>
       <div id="nn1"></div>
       <div class="math">
-        <p>`RELU(x) = {(0 if x < 0),(x if x >= 0):}`</p>
+        <p>`RELU(x) = {(0 if x lt 0),(x if x >= 0):}`</p>
       </div>
       <p>and Softplus, which is the smooth approximation of ReLU:</p>
       <div id="nn2"></div>
@@ -1568,6 +1570,17 @@
         <p>for a dataset `{(bb x_1, y_1), (bb x_2, y_2), ..., (bb x_n, y_n)}`</p>
       </div>
       <p>Finding the best line that satisfies those two conditions involves Lagrange multipliers, which I won't talk about here (cuz I have no idea what they are), so the math torture can stop here.</p>
+      <div class="box">
+        <p>The TLDR is</p>
+        <div class="math">
+          <p>`bb w=sum_(i=1)^n alpha_iy_i bb x_i`</p>
+          <p>`b=y_k-bb w^T bb x_k` for any `bb x_k` such that `alpha_k ne 0`</p>
+        </div>
+        <p>and the classifier is the equation</p>
+        <div class="math">
+          <p>`y=text(Sign)(bb w^T bb x + b)`</p>`
+        </div>
+      </div>
       <h3>Cut Me Some Slack!</h3>
       <p>So far we have been assuming that all the data points are nicely separable. (In fact, the situation with those two conditions for linearly separable data is referred to as "hard margin".) However, it is much more likely for our dataset to have some points mixed with each other.</p>
       <div class="math">
@@ -1584,7 +1597,7 @@
         <p>`y_i(bb w^T bb x_i + b) >= 1-xi_i`</p>
       </div>
       <div class="box">
-        <p>`C` is similar to the regularization parameter in gradient descent (See "A6.2) Regularization") and in neural networks. In a nutshell, having a large value for `C` forces the `xi_i`s to be really small, which means there is little tolerance for misclassification, which means the model will be prone to overfitting. Having a small value for `C` allows the `xi_i`s to be larger, which means there is some tolerance for misclassification, which means the model could be prone to underfitting.</p>
+        <p>`C` is similar to the regularization parameter in gradient descent (See "<a href="#aregularization">A7.2) Regularization</a>") and in neural networks. In a nutshell, having a large value for `C` forces the `xi_i`s to be really small, which means there is little tolerance for misclassification, which means the model will be prone to overfitting. Having a small value for `C` allows the `xi_i`s to be larger, which means there is some tolerance for misclassification, which means the model could be prone to underfitting.</p>
       </div>
       <h3>Multi-class Classification</h3>
       <p>So far we have only been working with two classes (red/blue, positive/negative). It is possible to extend SVM (and other classifiers for that matter) to multi-class situations using a one-vs-all method. We pick one group and treat the other groups as one other group. Then we build a classifier:</p>
@@ -1594,6 +1607,67 @@
       <p>We repeat this for all of the classes:</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/svm_9.png">
+      </div>
+      <h3>Nonlinear SVM</h3>
+      <p>Like for polynomial regression, what if the data is not linearly separable? Let's take a step back and look at an example in 1D. Suppose we have linearly separable data:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_10.png">
+      </div>
+      <p>It's pretty easy to separate the data with a classifier right down the middle. Now let's suppose we have data that is not linearly separable.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_11.png">
+      </div>
+      <p>It turns out we can still use a straight line to neatly separate the data 🤯. We just have to "bend the space".</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_12.png">
+      </div>
+      <p>By bending the space, we are moving the data into a higher-dimensional space to make it linearly separable. In this example, we are moving the data from 1D to 2D.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_13.png">
+      </div>
+      <p>In 2D, the two features are `x` and `x^2`.</p>
+      <p>Let's see what bending 2D space looks like.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_14.png">
+      </div>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/svm_15.png">
+      </div>
+      <div class="box">
+        <p>The function that transforms the data into a higher-dimensional space is denoted as `Phi:x rarr varphi(x)` where `varphi(x)` is the higher-dimensional space. In the 1D `rarr` 2D example, the function `Phi` is defined as `Phi:x rarr [[x],[x^2]]`. In the 2D `rarr` 3D example, the function is `Phi:[[x_1],[x_1]] rarr [[x_1],[x_2],[x_1^2+x_2^2]]`.</p>
+      </div>
+      <p>So the main idea for non-linear SVMs is to transform the data into a higher-dimensional feature space where the data is linearly separable. However, there are several problems we have to deal with.</p>
+      <ul>
+        <li>What is the best new space?</li>
+        <li>What is the best function `Phi`?</li>
+        <li>Working in higher dimensions results in higher computational complexity</li>
+      </ul>
+      <h4>The Kernel Trick</h4>
+      <div class="box">
+        <p>The original space is
+        <div class="math">
+          <p>`y=text(Sign)(sum_(i=1)^nalpha_iy_i bb x_i^T bb x+b)`</p>
+        </div>
+        <p>Using `Phi` to transform the data, the new space is
+        <div class="math">
+          <p>`y=text(Sign)(sum_(i=1)^nalpha_iy_ivarphi(bb x_i)^Tvarphi(bb x)+b)`</p>
+        </div>
+        <p>In transforming the data, we calculate the inner product `varphi(bb x_i)^Tvarphi(bb x)`. We don't actually need to know what `varphi(x)` is; we just need to know what `varphi(bb x_i)^Tvarphi(bb x)` is. What this means is that we don't actually need to know what the higher-dimensional space looks like.</p>
+        <p>We can define a kernel function `K` such that</p>
+        <div class="math">
+          <p>`K(bb x_i, bb x_j)=varphi(bb x_i)^Tvarphi(bb x_j)`</p>
+        </div>
+        <p>The kernel function performs the inner product in the higher-dimensional space.</p>
+        <p>So now the classifier is the equation</p>
+        <div class="math">
+          <p>`y=text(Sign)(sum_(i=1)^nalpha_iy_iK(bb x_i, bb x)+b)`</p>
+        </div>
+      </div>
+      <div class="box">
+        <p>Some commonly-used kernel functions:</p>
+        <p>Polynomial kernel: `K(bb x_i, bb x_j)=(r+gammabb x_i^T bb x_j)^d`</p>
+        <p>Gaussian Radial-Basis Function (RBF): `K(bb x_i, bb x_j)=exp(-(||bb x_i-bb x_j||^2)/(2sigma^2))`</p>
+        <p>Hyperbolic Tangent: `K(bb x_i, bb x_j)=tanh(r+gammabb x_i^T bb x_j)`</p>
       </div>
       <h2 id="appendix">Appendix</h2>
       <h3 id="aaccuracy">A1) Accuracy: Is It Accurate?</h3>
@@ -1781,7 +1855,88 @@
       <p>One way is to find the features manually. We choose one feature and calculate accuracy using only that feature. Repeat for every feature until all features have been used. The features with the highest accuracies are the important features.</p>
       <p>Another way is to use a decision tree. When building the decision tree, information gain is used to decide which features go on which levels of the tree. The features at the top of the tree are the important features.</p>
       <p>Another way is to use linear/polynomial regression. Reminder: `h_theta(bb x)=theta_0+theta_1x_1+...+theta_nx_n`. The values for `theta_i` are the weights for each feature, i.e., they represent how much impact a feature has on the outcome. The features with the highest weights (with respect to absolute value) are the important features.</p>
-      <h3 id="aoverfitting">A6) Overfitting</h3>
+      <h3 id="afeatureextraction">A6) Feature Extraction</h3>
+      <p>Feature extraction transforms the data from a high-dimensional space to a lower-dimensional space by compressing the features. For example, if a dataset has five features, feature extraction will create — let's say — three new uncorrelated features that contain all the information from the original five features.</p>
+      <p>Let's look at the 2D `rarr` 1D case. We have two features `x_1` and `x_2`.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/feature_extraction_1.png">
+      </div>
+      <p>We can compress the two features into one new feature, which we can call `z`, by projecting the data points onto a diagonal line:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/feature_extraction_2.png">
+      </div>
+      <p>There is some error between the projection and the original data, but notice how the relative positions of the original data points can be represented by the new projection onto `z`, i.e., by looking at only the points on `z`, we can get a general idea of where the original points were. This means we've compressed the information from two features into just one feature. In this case, this is possible because there is some redundancy/correlation between the two features. As `x_1` increases, so does `x_2`, so there is a linear relationship between the two features.</p>
+      <p>This is what it looks like for the 3D `rarr` 2D case:</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/feature_extraction_3.png">
+      </div>
+      <h4 id="apca">A6.1) Principal Component Analysis</h4>
+      <p>Of course, there are infinitely many projections that can be used, so which one is the best? When we project the data points onto a new line, there is some projection error (indicated in orange):</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/pca_1.png">
+      </div>
+      <p>The best projection is the one that minimizes this error.</p>
+      <div class="box">
+        <p>This is very similar to linear regression, where we draw a line that best fits the data points. The difference between linear regression and PCA is the type of error we want to minimize.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/lr_error.png">
+        </div>
+        <p>The above is linear regression and the error that is being minimized is the error between the predicted value and the output.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/lr_not_error.png">
+        </div>
+        <p>The above is PCA and the error that is being minimized is the projection error.</p>
+      </div>
+      <p>To minimize projection error, we fit an n-dimensional ellipsoid to the data. The axes of the ellipsoid are the new features that contain the information from the original features. These new features are called "principal components".</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/pca_2.png">
+      </div>
+      <p>If an axis is very small, then it can be omitted since there won't be too much variance in that direction, which means there won't be too much information loss if we omit that axis.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/pca_3.png">
+      </div>
+      <p>This means that PCA works better when the data is more "compressible". Being more compressible means that there is an obvious pattern/trend/redundancy in the data. In the narrower ellipsoid, as `x_1` increases, `x_2` generally increases too. But in the wider ellipsoid, `x_1` increasing doesn't always result in `x_2` increasing.</p>
+      <p>Finding the axes of the ellipsoid involves linear algebra.</p>
+      <div class="box">
+        <p>Matrix multiplication is an operation that transforms the dimensionality of a vector. For example, if we multiply a `3xx1` vector `x` by a `2xx3` matrix `A`, we end up with a `2xx1` vector `y`. We've essentially turned a 3D vector into a 2D vector.</p>
+        <div class="math">
+          <p>`Ax=y`</p>
+          <p>`[[1,2,-1],[3,-2,4]][[1],[3],[9]]=[[-2],[33]]`</p>
+        </div>
+      </div>
+      <div class="box">
+        <p>Sometimes multiplying a vector by a matrix only changes the vector's length and/or makes it point in the opposite direction. What this means is that multiplying the vector by a matrix is exactly the same as multiplying the vector by a scalar number.</p>
+        <div class="math">
+          <p>`Av=lambdav`</p>
+        </div>
+        <p>All vectors `v` that satisify the equation are called "eigenvectors". All the `lambda`s for each `v` are called "eigenvalues".</p>
+      </div>
+      <div class="box">
+        <p>Covariance is a measure of how similarly two things change together. Let's say we have two variables `a=1` and `b=100`. If we add 15 to `a` and `b` also increases by 15, then `a` and `b` have high covariance. However, if we add 15 to `a` and `b` increases by 100, then `a` and `b` have low covariance.</p>
+        <p>A covariance matrix contains the covariance values between all the data points. So it contains the variance of each feature.</p>
+      </div>
+      <p>It turns out that the best axes for the ellipsoid are the eigenvectors of the covariance matrix of the dataset. So we have to find the covariance matrix and then the eigenvectors of that matrix to get the axes.</p>
+      <div class="box">
+        <p>Since a covariance matrix is symmetric, the eigenvectors of a covariance matrix are orthonormal. They point in the direction of max variance and the eigenvalues are the measure of variance in that direction.</p>
+      </div>
+      <div class="box">
+        <p>To find the eigenvectors of the covariance matrix, decompose (using eigendecomposition) the covariance matrix into the form `C=ULambdaU^T` where `U` is a matrix with `C`'s eigenvectors as columns and `Lambda` is a diagonal matrix with eigenvalues on the main diagonal and `0`s everywhere else.</p>
+      </div>
+      <p>Once we have the eigenvectors, we can put them in a matrix and multiply it with the original dataset to get the new features.</p>
+      <div class="box">
+        <p>Suppose we have a dataset with `n` samples and `d` features. Let `X` be an `nxxd` matrix that represents the original data. Let `P` be a `d xx k` matrix where `k lt d` that contains the eigenvectors of the covariance matrix. Then the matrix multiplication of `X` and `P` will result in an `nxxk` matrix `Z` that represents the new features after extraction.</p>
+        <div class="math">
+          <p>`Z=XP`</p>
+          <p>[new features] = [original data][principal components]</p>
+        </div>
+      </div>
+      <div class="box">
+        <p>We have a choice in deciding how many new features we want to generate, the number of which is denoted as `k`. The new features should include most (95%-99%) of the variance in the original data. Since the eigenvalues represent the variance in the direction of their corresponding eigenvectors, we can choose a `k` such that</p>
+        <div class="math">
+          <p>`(sum_(i=1)^klambda_i)/(sum_(i=1)^dlambda_i)>95%`</p>
+        </div>
+      </div>
+      <h3 id="aoverfitting">A7) Overfitting</h3>
       <p>Overfitting happens when the model learns too much. For example, it can learn from bad data (noise/randomness/outliers) that aren't representative of the data and become overly complex. This happens when</p>
       <ul>
         <li>there are too many features</li>
@@ -1795,13 +1950,13 @@
         <img class="img-fluid" src="../pictures/ml/overfitting_2.png">
       </div>
       <p>When overfitting happens, the model will have a really high accuracy on the training data, but have a low accuracy on the testing data. This is because it is very unlikely that the (testing) data will be distributed in such weird shapes.</p>
-      <h4 id="adimensionalityreduction">A6.1) Dimensionality Reduction</h4>
-      <p>If there are too many features, then we can reduce the number of features by keeping only the important features (see "A5) Feature Selection"). For example, if there are 20 features, we can keep 3 of them.</p>
+      <h4 id="adimensionalityreduction">A7.1) Dimensionality Reduction</h4>
+      <p>If there are too many features, then we can reduce the number of features by keeping only the important features (see "<a href="#afeatureselection">A5) Feature Selection</a>"). For example, if there are 20 features, we can keep 3 of them.</p>
       <div class="math">
         <p>`theta_0+theta_1x_1+...+theta_20x_20 rarr theta_0+theta_1x_1+theta_2x_2+theta_3x_3`</p>
       </div>
       <p>Some features may be redundant (e.g., size of house and number of bedrooms) or irrelevant (e.g., number of tiles), so including them increases the complexity of the model for no real benefit.</p>
-      <h4 id="aregularization">A6.2) Regularization</h4>
+      <h4 id="aregularization">A7.2) Regularization</h4>
       <p>If we want to keep all the features, we can instead simplify the model by reducing the magnitude/values of `theta_i`. For example:</p>
       <div class="math">
         <p>`theta_0+theta_1x_1+theta_2x_2+theta_3x_3+theta_4x_1^2+theta_5x_2^2+theta_6x_2x_3+theta_7x_2x_3^2`</p>
@@ -1832,13 +1987,13 @@
         <p>For linear regression, `h_theta(bb x)=theta^T bb x`.</p>
         <p>For logistic regression, `h_theta(bb x)=1/(1+e^(-theta^T bb x))`.</p>
       </div>
-      <h3 id="abiasandvariance">A7) Bias and Variance</h3>
+      <h3 id="abiasandvariance">A8) Bias and Variance</h3>
       <p>A model can be characterized by its bias and its variance. Bias is the error due to an inaccurate model that misses the relationship between the features and the outputs. A model with high bias is highly inaccurate (underfit). Variance is the error due to the sensitivity of the model to the training dataset. (Note: "Sensitivity" here is not referring to true positive rate. It is referring to the fact that the model is so specifically trained that slightly changing the training dataset will drastically change the model.) A model with high variance is really accurate with the training dataset, but really inaccurate with the testing dataset (overfit).</p>
-      <h3 id="aensemblelearning">A8) Ensemble Learning</h3>
+      <h3 id="aensemblelearning">A9) Ensemble Learning</h3>
       <p>In ensemble learning, a group of models (base learners) are used to make predictions, then the results from all of them are combined together to get the final result. Each base learner may have poor performance on their own, but when combined together, they could be very strong. #StrengthInNumbers.</p>
       <p>It is very important that each learner is different from each other, i.e., they produce different results. If they were all the same, then it would be equivalent to just using one model and there would be no point in using a group of models. But more importantly, they can cover each other's mistakes by being different. For example, if one learner misclassified something but another learner correctly classified it, then the second learner would have the first learner's back.</p>
       <p>There are several ways to ensure that each base learner is different from each other. Each one could use a different algorithm. Or they could all use the same algorithm but with different parameters (e.g. different values of `k` for KNN) and/or different features and/or different subsets of the dataset (e.g. random forest).</p>
-      <h4 id="abootstrapping">A8.1) Bootstrapping</h4>
+      <h4 id="abootstrapping">A9.1) Bootstrapping</h4>
       <p>Bootstrapping (or bootstrap sampling) generates training subsets by randomly sampling from the training dataset with replacement. For example, from a dataset `S`, three subsets of size 8 can be created like below:</p>
       <table>
         <tr>
@@ -1903,24 +2058,24 @@
         </tr>
       </table>
       <p>Each of the training subsets may overlap with each other (because of randomness) and may have duplicates (because of replacement). Having duplicates can be a good thing though because one learner will be very good at predicting the duplicates while another learner will be very good at predicting different duplicates. For example, a learner trained on `S_1` will be good at predicting 5s, `S_2` will be good at predicting 9s, and `S_3` will be good at predicting 1s. A learner trained on `S_2` might misclassify a 1 because it never learned it, but `S_3` will cover it.</p>
-      <h4>A8.2) Combining the Results</h4>
+      <h4>A9.2) Combining the Results</h4>
       <p>So after each base learner makes a prediction, how do we make a final decision based on each learner's prediction?</p>
-      <h5>A8.2.1) Voting</h5>
+      <h5>A9.2.1) Voting</h5>
       <p>Majority wins.</p>
-      <h6>A8.2.1.1) What About Regression?</h6>
+      <h6>A9.2.1.1) What About Regression?</h6>
       <p>There won't really be a concept of a "majority" for regression, so the average of the predictions can be used. In some cases, a bad prediction (bad classifier! bad!) can ruin the average, so the median can be used instead.</p>
-      <h5>A8.2.2) Bagging</h4>
+      <h5>A9.2.2) Bagging</h4>
       <p>Bagging is an amalgamation of "bootstrap" and "aggregating". Each base learner trains on a different subset of the dataset, where each subset is generated by bootstrapping. After they make their predictions, the final prediction is made based on voting. Basically, bagging = bootstrapping + voting.</p>
       <p>Since many learners are used, bagging is used to reduce variance and deal with overfitting. Typically, bagging is used with high variance algorithms like decision trees and neural networks.</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/bagging_overfitting.png">
       </div>
       <p>If we have four overfit base learners (red, blue, cyan, purple), "taking the average" of each base learner produces an ideal fit model (green).</p>
-      <h5>A8.2.3) Stacking</h5>
+      <h5>A9.2.3) Stacking</h5>
       <p>In this scenario, there are base learners and a separate upper-level model. The base learners make their predictions and send them to the upper-level model, which makes a final prediction based on the base learners' predictions. A new dataset is created where the base learners' predictions are treated as features and the target is the target from the base learners' dataset. The upper-level model is trained on this new dataset, so over time it will know which base learner is better and give that learner's prediction more weight.</p>
-      <h5>A8.2.4) Cascading</h5>
+      <h5>A9.2.4) Cascading</h5>
       <p>In this scenario, the base learners are combined iteratively. On each iteration, the training dataset is modified based on the results of previous iterations and used to train the next base learner.</p>
-      <h6>A8.2.4.1) Boosting</h4>
+      <h6>A9.2.4.1) Boosting</h4>
       <p>Boosting also uses several base learners that each train on a different dataset, but the dataset is built iteratively based on the performance of each learner. The process starts with training one learner on the dataset and seeing which samples were misclassified. Those misclassified samples are duplicated so that more of them appear in the dataset. Also, some of the correctly classified samples are taken out so the training dataset can include more of the problematic samples. So the distribution of the dataset is changed to include more of the misclassified samples and less of the correctly classified samples.</p>
       <p>After the new training dataset is built, the next learner is trained on this new dataset, which should theoretically be able to correctly classify the misclassified samples from the first learner. However, it is not necessarily better than the previous learner because it can still misclassify other samples (the proportion of correctly classified samples was reduced so this learner may not learn them as well as the previous learner).</p>
       <p>When all the learners are finished training and making their predictions, weighted voting is used to make the final decision, where more weight is given to the better performing learners.</p>
@@ -1961,12 +2116,12 @@
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/boosting_underfitting.png">
       </div>
-      <h4>A8.3) Why does Ensemble Learning Work?</h4>
+      <h4>A9.3) Why does Ensemble Learning Work?</h4>
       <p>Let's say we have 3 independent classifiers each with an accuracy of 70%. Let's also decide that the final prediction will be based on voting. If we give them a positive sample to predict, then the final prediction will be correct if at least 2 of the classifiers predict positive. What are the chances of this happening?</p>
       <p>Having at least 2 classifiers predict positive means that either 1) exactly 2 of the classifers predict positive or 2) all 3 of the classifiers predict positive. The possibility of all 3 classifiers predicting positive is `0.7\cdot0.7\cdot0.7=0.7^3=0.343`. The possibility of exactly 2 of the classifiers predicting positive is `(0.7\cdot0.7\cdot0.3+0.7\cdot0.3\cdot0.7+0.3\cdot0.7\cdot0.7)=0.441` (binomial theorem anyone?). So the possibility of both events happening, i.e., making a correct prediction, is `0.343+0.441=0.784`.</p>
       <p>Each classifier alone has a 70% chance of getting it right, but when we combine them, they now have a 78% chance of getting it right.</p>
       <p>Theoretically, using 101 indpendent classifiers achieves a final voting accuracy of 99.9%. So if combining classifiers and using voting increases accuracy, why don't we always use more (and more!) classifiers? Because in reality, the classifiers will never be independent (we assumed the classifiers were independent).</p>
-      <h4>A8.4) Advantages and Disadvantages of Ensemble Learning</h4>
+      <h4>A9.4) Advantages and Disadvantages of Ensemble Learning</h4>
       <div class="box">
         <p>Advantages:</p>
         <ul>
@@ -1979,7 +2134,7 @@
           <li>not compact</li>
         </ul>
       </div>
-      <h3 id="aunsupervisedlearning">A9) Unsupervised Learning</h3>
+      <h3 id="aunsupervisedlearning">A10) Unsupervised Learning</h3>
       <p>In unsupervised learning, the data is unlabeled. This could be because the data is unfamiliar to us or there is too much data to label or we are just more interested in finding patterns among the data.</p>
       <p>One of the goals of the <a href="https://en.wikipedia.org/wiki/Five-hundred-meter_Aperture_Spherical_Telescope" target="_blank">world's largest radio telescope</a> is to detect alien life. In collecting the data, we wouldn't know which signals are from aliens and which are just whatever is out there since we've never seen alien signals before. This would be an example of anomaly detection, where we want to identify things that do not conform to an expected pattern.</p>
       <p>If we were working with images, we could download hundreds of millions of images, but some of them may or may not be labeled. In this case, it would be way too much work to go through each picture and label them manually (if only there was something that would automatically do this for us!)</p>
@@ -1992,7 +2147,7 @@
         <img class="img-fluid" src="../pictures/ml/unsupervised_2.png">
       </div>
       <p>And then apply a supervised algorithm on each category to make classification more accurate.</p>
-      <h3 id="abigdata">A10) Big Data</h3>
+      <h3 id="abigdata">A11) Big Data</h3>
       <p>Data science is currently a hot topic 🔥 because we have:</p>
       <ul>
         <li>new sources of data that did not exist before
@@ -2009,13 +2164,13 @@
         <li>new techniques in data analytics and processing</li>
       </ul>
       <p>Big data is any data that is expensive to manage or difficult to process. The three Vs of big data are volume, velocity, and variety. Volume: big data is usually large in size. Velocity: processing big data is time consuming. Variety: big data can come from different sources and in different formats.</p>
-      <h4>A10.1) Scalability</h4>
+      <h4>A11.1) Scalability</h4>
       <p>In order to handle all this data, the machines and processes involved should be scalable, which means they should continue working as the amount of data grows.</p>
-      <h5>A10.1.1) Scaling Up</h5>
+      <h5>A11.1.1) Scaling Up</h5>
       <p>Scaling up means increasing the resources (memory, CPU, disk size) for one machine. It can be very fast for medium-scale problems, but it requires expensive, specialized hardware and the resources will eventually hit a limit in the amount they can be upgraded.</p>
-      <h5>A10.1.2) Scaling Out</h5>
+      <h5>A11.1.2) Scaling Out</h5>
       <p>Scaling out means adding more computers. All of them work in parallel so that the work is distributed among them. It is usually cheaper than scaling up and works for massive-scale problems, but network communication and the software to work with each other need to be handled properly.</p>
-      <h4>A10.2) Sampling</h4>
+      <h4>A11.2) Sampling</h4>
       <p>If we have too much data to handle, the easy way out is to only use part of the data, but this isn't ideal because we are throwing away a large part of the data. Let's say we want to randomly sample the dataset anyway. How many samples would be enough?</p>
       <p>We could plot the size of the training dataset against the error (see <a href="https://en.wikipedia.org/wiki/Learning_curve_(machine_learning)" target="_blank">learning curve</a> and <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank">bias-variance tradeoff</a>), which might look something like this:</p>
       <div class="math">
@@ -2027,9 +2182,9 @@
         <img class="img-fluid" src="../pictures/ml/sampling_2.png">
       </div>
       <p>This suggests that using more data samples won't help, so we could find out how many samples to use based on this.</p>
-      <h4 id="amapreduce">A10.3) MapReduce</h4>
+      <h4 id="amapreduce">A11.3) MapReduce</h4>
       <p>MapReduce is a programming model for processing big data with a parallel, distributed algorithm. It involves a map function, which processes the data and generates intermediate data that gets sent to a reduce function that takes in the intermediate data and produces the final output.</p>
-      <h5>A10.3.1) Word Counting</h5>
+      <h5>A11.3.1) Word Counting</h5>
       <p>To see this in action, let's suppose we have millions of documents and we want to find the most common word across all of them. First, we distribute the documents among a bunch of computers to split the work.</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/mapreduce_1.png">
@@ -2064,7 +2219,7 @@
         </ul>
         <p>`text(documents) ubrace(rarr)_(text(map)) (text(word), text(count)_i) ubrace(rarr)_(text(shuffle)) (text(word), [text(count)_1, text(count)_2, ...]) ubrace(rarr)_(text(reduce)) (text(word), text(count))`</p>
       </div>
-      <h5>A10.3.2) General Notes</h5>
+      <h5>A11.3.2) General Notes</h5>
       <p>For MapReduce, all the data processed and produced is in the form of key-value pairs.</p>
       <p>In the mapping stage, parallelism is achieved by using different computers to process the data simultaneously. These computers are called mappers. In the reducing stage, parallelism is achieved by using different computers to handle multiple keys simultaneously. These computers are called reducers.</p>
       <p>Mappers create the keys and reducers don't (reducers only work with the keys).</p>
@@ -2081,7 +2236,7 @@
         <li>Distribute the shuffled results among `m` computers</li>
         <li>Each computer runs a reduce function to convert each key-value pair into a single output</li>
       </ol>
-      <h5>A10.3.3) SQL Inner Join</h5>
+      <h5>A11.3.3) SQL Inner Join</h5>
       <p>Suppose we had two databases `R` (with columns `A`, `B`) and `S` (with columns `B`, `C`):</p>
       <div class="row">
         <div class="col-sm">
@@ -2203,7 +2358,7 @@
       <div class="box">
         <p>`text(tables) ubrace(rarr)_(text(map)) (b,(T,a_i)) ubrace(rarr)_(text(shuffle)) (b,{(T,a_1),(T,a_2),...(T',c_1),(T',c_2)}) ubrace(rarr)_(text(reduce)) (a_i,b,c_j)`</p>
       </div>
-      <h5>A10.3.4) Matrix-Vector Multiplication</h5>
+      <h5>A11.3.4) Matrix-Vector Multiplication</h5>
       <p>Suppose we had an `mxxn` matrix `M` and an `nxx1` vector `V` where `m=2,n=3`:</p>
       <div class="math">
         <p>`M=[[2,3,6],[6,10,7]]`</p>
@@ -2255,25 +2410,25 @@
       <div class="box">
         <p>`text(rows of matrix) ubrace(rarr)_(text(map)) (i,a_(i,j)cdotv_j) ubrace(rarr)_(text(shuffle)) (i,{a_(1,1)cdotv_1,a_(1,2)cdotv_2,...}) ubrace(rarr)_(text(reduce)) (i,a_(1,1)cdotv_1+a_(1,2)cdotv_2+...)`</p>
       </div>
-      <h4 id="agradientdescent">A10.4) Gradient Descent</h4>
+      <h4 id="agradientdescent">A11.4) Gradient Descent</h4>
       <p>Let's bring back the formula for gradient descent:</p>
       <div class="math">
         <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
       <p>If we had a dataset with 100 million samples, then that means we need to perform a summation over 100 million samples for <em>each</em> iteration of gradient descent, which can take a long time. So we can make some modifications to gradient descent to make it faster.</p>
-      <h5>A10.4.1) Stochastic Gradient Descent</h5>
+      <h5>A11.4.1) Stochastic Gradient Descent</h5>
       <p>Instead of waiting for the summation over 100 million samples to finish before taking a step towards the minimum, stochastic gradient descent takes a step after calculating the cost for each data sample.</p>
       <div class="math">
         <p>`theta_j=theta_j-alpha(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
       <p>So it calculates the error for one data sample and takes a step. Then it moves on the next data sample and takes a step. And so on until all the data samples have been used.</p>
       <p>While regular gradient descent (aka batch gradient descent) takes a lot of time to make one good step, stochastic gradient descent takes little time to make one suboptimal step. And even though it's faster, it may never reach the minimum, but it can get close enough.</p>
-      <h5>A10.4.2) Mini-Batch Gradient Descent</h5>
+      <h5>A11.4.2) Mini-Batch Gradient Descent</h5>
       <p>Batch gradient descent uses all the data samples to take a step and stochastic gradient descent uses only one data sample to take a step. Mini-batch gradient descent is something in between these two and uses `b` samples to take a step.</p>
       <div class="math">
         <p>`theta_j=theta_j-alpha1/bsum_(i=k)^(k+b-1)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
-      <h5>A10.4.3) MapReduce for Gradient Descent</h5>
+      <h5>A11.4.3) MapReduce for Gradient Descent</h5>
       <p>Yep, MapReduce is back. If we really want to use all the data samples with no modifications to gradient descent, then we can use MapReduce.</p>
       <p>Let's say we had a dataset of 400,000 samples. We could distribute them among 4 mappers so that each mapper processes 100,000 samples when calculating the cost. Then a reducer would combine the results and add the costs together to get the overall cost.</p>
       <div class="math">
