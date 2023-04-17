@@ -40,6 +40,7 @@
         <a class="dropdown-item" href="#kmeans">K-Means Clustering</a>
         <a class="dropdown-item" href="#ann">Artificial Neural Networks</a>
         <a class="dropdown-item" href="#backpropagation">Backpropagation</a>
+        <a class="dropdown-item" href="#deeplearning">Deep Learning</a>
         <a class="dropdown-item" href="#svm">Support Vector Machine</a>
         <a class="dropdown-item" href="#appendix">Appendix</a>
         <a class="dropdown-item" href="#aaccuracy">A1) Accuracy: Is It Accurate?</a>
@@ -1447,6 +1448,28 @@
         </div>
         <p>Notice how `delta_1^((1))` and `delta_2^((1))` are smaller than `delta`. The further we backpropagate, the smaller the `delta`s become, which results in the weights staying pretty much the same. This effect is called the "vanishing gradient".</p>
       </div>
+      <h3 id="deeplearning">Deep Learning</h3>
+      <p>The very simple explanation of deep learning is that it is a wide and deep neural network, meaning that it has many many neurons and layers. While deep learning does use neural networks, the main characteristic of deep learning is that it tries to learn what features are important, instead of us giving the neural network the features. Sometimes, the features that the network learns are better than the features we provide to it. And in some cases, it can be time expensive to create the features ourselves (e.g., for unsupervised learning).</p>
+      <p>Because the neural network is often wide and deep, there are a lot of weights for it to learn, so it needs a lot of data to train with. In fact, deep learning generally outperforms other machine learning algorithms only when the dataset is large enough.</p>
+      <h4>Vanishing Gradient: Do You See It? Now You Don't</h4>
+      <p>Neural networks are trained using backpropagation, which is the process of calculating the error and using that calculation to update the weights in each layer. The issue with backpropagation is that usually the `delta`s are very very small, which results in very very little impact on the weights. Furthermore, the `delta`s get smaller as backpropagation continues, so the first few layers remain virtually unchanged. The first few layers are important because their outputs are used for the rest of the layers, so the first few layers need to be on point. This problem is greatly exacerbated by the fact that deep learning uses wide and deep neural networks.</p>
+      <h5>Activation Function</h5>
+      <p>The `delta`s are determined by the activation function, so using a different activation function could help. The sigmoid function is not that great of a function to use because it returns a value between 0 and 1. Multiplying a weight by a number between 0 and 1 isn't going to change it much. A better function to use is ReLU, since it returns a value greater than 1.</p>
+      <h5>Restricted Boltzmann Machines</h5>
+      <p>Another way to solve the vanishing gradient problem is to use a different type of structure that isn't so wide and deep. RBM only uses two layers, but they are bidirectional, meaning they pass their inputs and outputs back and forth to each other. The first layer is the "visible layer" and the second layer is the "hidden layer".</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/rbm.png">
+      </div>
+      <p>The inputs are passed through the layers, which will produce some output. The output is then fed backwards through the network to try and reproduce the original input as close as possible. After repeating this process several times, the network will learn what the best weights are to represent the input data.</p>
+      <h5>Deep Belief Networks</h5>
+      <p>So an RBM can optimize a pair of layers. What if we apply this RBM idea to every layer in a deep neural network? Would that mean that we would have optimized layers? Yes, actually. A deep belief network (DBN) is a deep neural network where its layers are RBMs.</p>
+      <p>Instead of starting with random weights, we are now starting with optimized weights. So backpropagation will be much faster.</p>
+      <h4>Deep Autoencoder</h4>
+      <p>#dimensionalityreduction</p>
+      <p>We can combine RBMs to get a DBN. We can also combine DBNs to get a deep autoencoder. A deep autoencoder is an unsupervised deep neural network that is useful for extracting the most important part of data. It is made up of two DBNs: one used for encoding data and the other used for decoding data. The encoding network learns the best way to compress the input and the decoding network is used to reconstruct the data. Minimizing the difference between the original input data and the reconstruction results in a network that knows how to compress the data in the best way without significant data loss.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/deep_autoencoder.png">
+      </div>
       <h2 id="svm">Support Vector Machine</h2>
       <p>Let's suppose we had some data like below and we wanted to build the best classifier. There are infinitely many classifiers that would work (some examples shown below). Which one would be the best?</p>
       <div class="math">
@@ -1871,6 +1894,7 @@
         <img class="img-fluid" src="../pictures/ml/feature_extraction_3.png">
       </div>
       <h4 id="apca">A6.1) Principal Component Analysis</h4>
+      <p>#dimensionalityreduction</p>
       <p>Of course, there are infinitely many projections that can be used, so which one is the best? When we project the data points onto a new line, there is some projection error (indicated in orange):</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/pca_1.png">
