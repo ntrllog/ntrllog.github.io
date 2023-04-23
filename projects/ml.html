@@ -41,6 +41,7 @@
         <a class="dropdown-item" href="#ann">Artificial Neural Networks</a>
         <a class="dropdown-item" href="#backpropagation">Backpropagation</a>
         <a class="dropdown-item" href="#deeplearning">Deep Learning</a>
+        <a class="dropdown-item" href="#cnn">Convolutional Neural Networks</a>
         <a class="dropdown-item" href="#svm">Support Vector Machine</a>
         <a class="dropdown-item" href="#appendix">Appendix</a>
         <a class="dropdown-item" href="#aaccuracy">A1) Accuracy: Is It Accurate?</a>
@@ -1469,6 +1470,908 @@
       <p>We can combine RBMs to get a DBN. We can also combine DBNs to get a deep autoencoder. A deep autoencoder is an unsupervised deep neural network that is useful for extracting the most important part of data. It is made up of two DBNs: one used for encoding data and the other used for decoding data. The encoding network learns the best way to compress the input and the decoding network is used to reconstruct the data. Minimizing the difference between the original input data and the reconstruction results in a network that knows how to compress the data in the best way without significant data loss.</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/ml/deep_autoencoder.png">
+      </div>
+      <h4 id="cnn">Convolutional Neural Networks</h4>
+      <p>Convolutional neural networks are a type of deep neural network that is commonly used for image classification and object recognition. Regular neural networks don’t work well with images because images have high dimensionality. Each pixel is considered a feature, so an image that is 100 x 100 pixels already has 30,000 features. This means that there are at least 30,000 weights to train in the first layer, which is not ideal.</p>
+      <p>CNNs are designed to reduce dimensionality by extracting patterns from images, so that all the pixels don’t need to be processed. Some of the layers in a CNN are called convolutional layers, which are used for feature extraction. There are also pooling layers, which are used for dimensionality reduction.</p>
+      <h5>Edge Detection</h5>
+      <p>In order to identify objects in images, we need to be able to detect edges. Convolution is a process that allows us to do this. In convolution, a filter (a.k.a. kernel) is applied to each pixel of the image. Applying the filter puts a weight on each pixel, and these weights are used to determine whether there is an edge at that pixel or not.</p>
+      <p>Let's suppose we have this image:</p>
+      <table>
+        <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </table>
+      <p>and this filter:</p>
+      <table class="bg-orange">
+        <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>1</td>
+        </tr>
+      </table>
+      <p>In the first step of convolution, we start with the top-left pixels. Applying the filter means multiplying each pixel by the corresponding square in the filter:</p>
+      <table>
+        <tr>
+          <td class="bg-orange">1*1</td>
+          <td class="bg-orange">1*0</td>
+          <td class="bg-orange">1*1</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td class="bg-orange">0*0</td>
+          <td class="bg-orange">1*1</td>
+          <td class="bg-orange">1*0</td>
+          <td>1</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td class="bg-orange">0*1</td>
+          <td class="bg-orange">0*0</td>
+          <td class="bg-orange">1*1</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </table>
+      <p>And then adding the products together:</p>
+      <div class="math">
+        <p>`1xx1+1xx0+1xx1+0xx0+1xx1+1xx0+0xx1+0xx0+1xx1=4`</p>
+      </div>
+      <table>
+        <tr>
+          <td>4</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>Then we move the filter over to the next set of pixels and repeat the same process:</p>
+      <table>
+        <tr>
+          <td>1</td>
+          <td class="bg-orange">1*1</td>
+          <td class="bg-orange">1*0</td>
+          <td class="bg-orange">0*1</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td class="bg-orange">1*0</td>
+          <td class="bg-orange">1*1</td>
+          <td class="bg-orange">1*0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td class="bg-orange">0*1</td>
+          <td class="bg-orange">1*0</td>
+          <td class="bg-orange">1*1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </table>
+      <div class="math">
+        <p>`1xx1+1xx0+0xx1+1xx0+1xx1+1xx0+0xx1+1xx0+1xx1=3`</p>
+      </div>
+      <table>
+        <tr>
+          <td>4</td>
+          <td>3</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>After applying the filter to the whole image, we get the convolved image:</p>
+      <table>
+        <tr>
+          <td>4</td>
+          <td>3</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>4</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+        </tr>
+      </table>
+      <p>The example above was just some random filter, but using a specific filter allows us to detect edges. Consider this black and white image which has an edge right down the middle:</p>
+      <table>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+      </table>
+      <p>And this filter:</p>
+      <table class="bg-green">
+        <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>-1</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>-1</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>0</td>
+          <td>-1</td>
+        </tr>
+      </table>
+      <p>For the first step of convolution:</p>
+      <table>
+        <tr>
+          <td class="bg-green">5*1</td>
+          <td class="bg-green">5*0</td>
+          <td class="bg-green">5*-1</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td class="bg-green">5*1</td>
+          <td class="bg-green">5*0</td>
+          <td class="bg-green">5*-1</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td class="bg-green">5*1</td>
+          <td class="bg-green">5*0</td>
+          <td class="bg-green">5*-1</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+      </table>
+      <p>The result is:</p>
+      <table>
+        <tr>
+          <td>0</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>The second step of convolution will be the same since the pixel values are the exact same.</p>
+      <table>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>For the third step of convolution:</p>
+      <table>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-green">5*1</td>
+          <td class="bg-green">5*0</td>
+          <td class="bg-green">0*-1</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-green">5*1</td>
+          <td class="bg-green">5*0</td>
+          <td class="bg-green">0*-1</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-green">5*1</td>
+          <td class="bg-green">5*0</td>
+          <td class="bg-green">0*-1</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+          <td class="bg-gray">0</td>
+        </tr>
+      </table>
+      <p>The result is:</p>
+      <table>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>15</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>In the end, we will have this result:</p>
+      <table>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>15</td>
+          <td>15</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>15</td>
+          <td>15</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>15</td>
+          <td>15</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>15</td>
+          <td>15</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </table>
+      <p>Notice how the nonzero values are right down the middle, exactly where the edge was at in the original image.</p>
+      <div class="box">
+        <p>There are many different types of filters that can detect different types of edges. Here are a few:</p>
+        <table class="bg-green">
+          <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>-1</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>-1</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>-1</td>
+          </tr>
+        </table>
+        <p>Vertical Edge Filter</p>
+        <table class="bg-green">
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>-1</td>
+            <td>-1</td>
+            <td>-1</td>
+          </tr>
+        </table>
+        <p>Horizontal Edge Filter</p>
+        <table class="bg-green">
+          <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>-1</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>-1</td>
+            <td>0</td>
+          </tr>
+        </table>
+        <p>Diagonal Edge Filter (top right to bottom left)</p>
+        <table class="bg-green">
+          <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>-1</td>
+            <td>0</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>-1</td>
+            <td>0</td>
+          </tr>
+        </table>
+        <p>Diagonal Edge Filter (top left to bottom right)</p>
+      </div>
+      <div class="box">
+        <p>We don't manually choose which filters to apply. We let the neural network learn what the most important edges are and it will automatically come up with the best set of filters to detect those edges. The values for the filters can be thought of as weights of a neural network that are learned.</p>
+      </div>
+      <p>Notice that the output of convolution is a smaller image. In fact, after convolution, the size of the result will be</p>
+      <div class="math">
+        <p>(size of original image) - (size of filter) + 1</p>
+      </div>
+      <div class="box">
+        <p>Going back to the black and white edge example, the original image was `6xx8`. The filter was `3xx3`. So the result is `(6-3+1)xx(8-3+1)=4xx6`.</p>
+      </div>
+      <div class="box">
+        <p>The examples so far have been simplified to use only one color channel. For color images there will be three channels, so the filter will also have three channels (each layer of the filter will be applied to each color layer). For example, a 6 x 6 color image will have dimensions `6xx6xx3`. A 3 x 3 filter applied to that image will have dimensions `3xx3xx3`. However, the result of applying the filter is 2D, not 3D. This can be confirmed with the math. The dimensions of the result will be `(6-3+1)xx(6-3+1)xx(3-3+1)=4xx4xx1=4xx4`.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/cnn.png">
+        </div>
+      </div>
+      <p>This size reduction presents several problems. Applying convolution too many times will shrink the image to the point where it is too small to work with. Also, there will naturally be more focus on the middle pixels and less focus on the edge pixels.</p>
+      <div class="box">
+        <p>Back to the black and white edge example again, the top-left corner pixel is only used in one round of convolution:</p>
+        <table>
+          <tr>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td>5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td>5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td>5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+        </table>
+        <p>But the pixel in red is used in four different rounds of convolution:</p>
+        <table>
+          <tr>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td class="bg-green">5</td>
+            <td class="red bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-green">5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+            <td class="bg-gray">0</td>
+          </tr>
+        </table>
+        <p>So the pixel in red has more influence than the edge pixel does.</p>
+      </div>
+      <p>To fix both these problems, the original image can be modified by zero padding, which is adding zeros (essentially white space) to the border of the image:</p>
+      <table>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </table>
+      <p>An image that was originally 4 x 6 is now 6 x 8. Applying a 3 x 3 filter to the zero-padded image will result in a 4 x 6 image, which is the same size as the original image. Also, the edge pixels move more toward the center, so they get used in more rounds of convolution.</p>
+      <div class="box">
+        <p>If we want to preserve the original size of the image, the size of the padding to use is `(text(size of filter)-1)/2`. In the above example, the size of the filter was `3`. So `(3-1)/2=1` row of padding was needed.</p>
+      </div>
+      <div class="box">
+        <p>Several filters are always used to detect different edges.</p>
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/cnn_2.png">
+        </div>
+        <p>The `2` in the `4xx4xx2` comes from using 2 filters.</p>
+      </div>
+      <h5>Pooling</h5>
+      <p>#dimensionalityreduction</p>
+      <p>Pooling is used for dimensionality reduction. In the case of images, it compresses an image while keeping most of the important information. Pooling is also called subsampling. One type of pooling is 2 x 2 max pooling, which keeps the maximum pixel value in each 2 x 2 block of the image.</p>
+      <table>
+        <tr>
+          <td class="bg-green">1</td>
+          <td class="bg-green">3</td>
+          <td class="bg-yellow">2</td>
+          <td class="bg-yellow">9</td>
+        </tr>
+        <tr>
+          <td class="bg-green">0</td>
+          <td class="bg-green">5</td>
+          <td class="bg-yellow">3</td>
+          <td class="bg-yellow">1</td>
+        </tr>
+        <tr>
+          <td class="bg-orange">0</td>
+          <td class="bg-orange">1</td>
+          <td class="bg-blue">7</td>
+          <td class="bg-blue">8</td>
+        </tr>
+        <tr>
+          <td class="bg-orange">0</td>
+          <td class="bg-orange">3</td>
+          <td class="bg-blue">11</td>
+          <td class="bg-blue">2</td>
+        </tr>
+      </table>
+      <p>For the above, the result of max pooling is:</p>
+      <table>
+        <tr>
+          <td class="bg-green">5</td>
+          <td class="bg-yellow">9</td>
+        </tr>
+        <tr>
+          <td class="bg-orange">3</td>
+          <td class="bg-blue">11</td>
+        </tr>
+      </table>
+      <div class="box">
+        <p>Pooling is applied to each channel individually. So if the input is 6 x 6 x 10 (10 filters were applied), then applying 3 x 3 pooling will produce an output of 2 x 2 x 10.</p>
+      </div>
+      <h5>CNNs Are Like Onions</h5>
+      <p>One layer of a CNN consists of 3 components: a convolutional layer, a nonlinear layer, and a pooling layer.</p>
+      <div class="math">
+        <img class="img-fluid" src="../pictures/ml/cnn_3.png">
+        <p>I'm going to borrow this picture from my professor since it is late and too complicated to draw on my own.</p>
+      </div>
+      <div class="box">
+        <p>The ReLU layer is used for "nonlinearity". I'm not sure what that means exactly though.</p>
+      </div>
+      <p>Each layer gets increasingly complex in the patterns they detect. The first few layers look for very simple patterns, like edges. The middle layers combine those simple patterns to find more complex patterns, like eyes or noses. The last few layers combine the previous patterns to find high-level patterns, like a face. We don't tell the network what patterns to look for; it learns by itself what patterns to look for.</p>
+      <h5>LeNet-5</h5>
+      <p>LeNet-5 is a classic CNN first proposed by Yann LeCun.</p>
+      <div class="box">
+        <div class="math">
+          <img class="img-fluid" src="../pictures/ml/cnn_4.png">
+          <p>Again, borrowing another picture from my professor.</p>
+        </div>
+        <p>The first convolutional layer applies 6 filters that are each 5 x 5 (`32-5+1=28`). The first subsampling layer uses 2 x 2 max pooling (`28/2=14`).</p>
+        <p>The second convolutional layer applies 16 filters that are each 5 x 5 (`14-5+1=10`). The second subsampling layer uses 2 x 2 max pooling (`10/2=5`).</p>
       </div>
       <h2 id="svm">Support Vector Machine</h2>
       <p>Let's suppose we had some data like below and we wanted to build the best classifier. There are infinitely many classifiers that would work (some examples shown below). Which one would be the best?</p>
