@@ -72,7 +72,7 @@
       <h2 id="findingainverse">Finding `A^-1`</h2>
       <p>A <i>slightly</i> better approach would be to "isolate" the `x`. As from elementary algebra, we could solve for `x` in `5x = 10` by dividing both sides by `5`. So, for `Ax = b`, why not "divide" both sides by `A`? (More formally known as taking the inverse). There are some special cases in which it is impossible to take the inverse of `A`, so for simplicity, we avoid those cases and assume it is possible, i.e., `A` is "invertible".</p>
       <p>In theory, the answer really is that simple. Multiply both sides (on the left) by the inverse of `A` (denoted by `A^-1`) to get `x = A^-1b`. Done. In practice, though, this process is actually pretty complicated and time-consuming, <i>especially</i> when done by hand. In fact, doing it by hand is so nightmarish, let's assume we have a computer program that inverts and multiplies matrices for us. It turns out that even with a computer doing millions of operations in mere milliseconds, <b>inverting a matrix and then multiplying is relatively time-consuming</b>.</p>
-      <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do less operations. Inverting an `n xx n` matrix is complicated (for me to know), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2` matrix: `8` operations, `4 xx 4` matrix: `64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. That would mean `1,000,000^3` operations.)</p>
+      <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do fewer operations. Inverting an `n xx n` matrix is complicated (for me to know), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2` matrix: `8` operations, `4 xx 4` matrix: `64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. That would mean `1,000,000^3` operations.)</p>
       <div class="box">
         <p><b>The story thus far:</b> We're trying to solve `Ax = b`. (Given `A` and `b`, find `x`.) In theory, the simplest approach is to multiply both sides by `A^-1` to get `x = A^-1b`. In practice, this approach is not simple at all. Compared to other methods of solving this problem, finding `A^-1` is time-consuming.</p>
         <p><b>Time complexity of finding `A^-1`:</b> `n^3`</p>
@@ -84,13 +84,13 @@
         <p>`[[a_(1,1), a_(1,2), ..., a_(1,n)],[a_(2,1), a_(2,2), ..., a_(2,n)],[vdots, vdots, ddots, vdots],[a_(n,1), a_(n,2), ..., a_(n,n)]] = [[l_(1,1), 0, ..., 0],[l_(2,1), l_(2,2), 0, vdots],[vdots, vdots, ddots, 0],[l_(n,1), l_(n,2), ..., l_(n,n)]] [[u_(1,1), u_(1,2), ..., u_(1,n)],[0, u_(2,2), ..., u_(2,n)],[vdots, 0, ddots, vdots],[0, ..., 0, u_(n,n)]]`.</p>
       </div>
       <div class="box">
-        <p>Note: Lower-triangular means `0`'s on top right and numbers on bottom left. Upper-triangular means numbers on top right and `0`'s on bottom left. See example below.</p>
+        <p>Note: Lower-triangular means `0`s on top right and numbers on bottom left. Upper-triangular means numbers on top right and `0`s on bottom left.</p>
       </div>
       <p>For example,</p>
       <div class="math">
         <p>`[[6, 4, 2, 2],[-3, 0, 3, 5],[9, 7, 7, 5],[12, 9, 12, 16]] = [[2, 0, 0, 0],[-1, 2, 0, 0],[3, 1, -1, 0],[4, 1, -3, 3]] [[3, 2, 1, 1],[0, 1, 2, 3],[0, 0, -2, 1],[0, 0, 0, 4]]`</p>
       </div>
-      <p>The problem now becomes `(A)x = b => (LU)x = b.` Where do go from here? The answer lies in the special property of lower- and upper-triangular matrices. (Namely, the zeros.)</p>
+      <p>The problem now becomes `(A)x = b => (LU)x = b.` Where do go from here? The answer lies in the special property of lower- and upper-triangular matrices. (Specifically, the zeros.)</p>
       <p>First of all, it is quite easy to solve something like `Lx = b`. For example,</p>
       <div class="math">
         <p>`[[color(red)(5), color(red)(0), color(red)(0)],[color(blue)(2), color(blue)(-4), color(blue)(0)],[color(green)(1), color(green)(2), color(green)(3)]] [[x_1],[x_2],[x_3]] = [[color(red)(15)],[color(blue)(-2)],[color(green)(10)]]`</p>
@@ -139,7 +139,7 @@
           <p>`2x_1 + 1x_2 = 4 => x_1 = 1`</p>
           <p>`(4)`</p>
         </div>
-        <p>And we have our values for x, as desired.</p>
+        <p>And we have our values for `x`, as desired.</p>
       </div>
       <div class="box">
         <p>The math equation for forward/back substitution:</p>
@@ -152,7 +152,7 @@
         <p>To summarize: We assumed `A` could be "split up" into two parts `L` and `U` (i.e., `A = LU`). With that, the problem became `Ax = b => LUx = b`. We took advantage of the fact that solving something like `Lx = b` was easy. So by letting `y = Ux`, we could solve `Ly = b`. Doing that gave us `y`, so we could get `x` by solving `Ux = y`.</p>
       </div>
       <p>This process may look like it requires a lot of steps, but <b>it actually takes less operations than inverting a matrix.</b> Let's look at how many operations it takes to solve `Ly = b`. <b>We'll count operations by counting how many numbers we have to perform operations on.</b></p>
-      <p>For the first row, there is `1` number. (By the nature of matrix multiplication, the `0`'s don't count as numbers.)</p>
+      <p>For the first row, there is `1` number. (By the nature of matrix multiplication, the `0`s don't count as numbers.)</p>
       <div class="math">
         <p>`[[color(red)(5), 0, 0],[2, -4, 0],[1, 2, 3]] [[color(red)(x_1)],[x_2],[x_3]] = [[15],[-2],[10]]`</p>
       </div>
@@ -165,8 +165,8 @@
         <p>`[[5, 0, 0],[2, -4, 0],[color(red)(1), color(red)(2), color(red)(3)]] [[color(red)(x_1)],[color(red)(x_2)],[color(red)(x_3)]] = [[15],[-2],[10]]`</p>
       </div>
       <p>So there are `1 + 2 + ... + n ~~ n^2` total numbers* we have to perform operations on.</p>
-      <p>*Per Big O notation, constants and lower power terms are dropped. It's actually `(n(n+1))/2 = (n^2 + n)/2` numbers.</p>
       <div class="box">
+        <p>*Per Big O notation, constants and lower power terms are dropped. It's actually `(n(n+1))/2 = (n^2 + n)/2` numbers.</p>
         <p>A picture for the above statement:</p>
         <div class="math">
           <p>`[[***,*,*,*,*],[***,***,*,*,*],[***,***,***,*,*],[***,***,***,***,*],[***,***,***,***,***]]`</p>
@@ -181,7 +181,7 @@
         <p><b>Assumptions about `A`:</b> invertible</p>
       </div>
       <h2 id="cholesky">Cholesky Decomposition</h2>
-      <p>Splitting `A` into 2 different matrices is nice, but we currently don't know exactly how to do so. Fortunately, there's an easier way to split up `A` and still take advantage of forward and back sub. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find `1` matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
+      <p>Splitting `A` into two different matrices is nice, but we currently don't know exactly how to do so. Fortunately, there's an easier way to split up `A` and still take advantage of forward and back sub. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find one matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
       <div class="box">
         <p>Note: `T` means matrix transpose.</p>
       </div>
@@ -190,7 +190,7 @@
         <p>`[[1, 1, 1],[1, 2, 2],[1, 2, 3]] = [[1, 0, 0],[1, 1, 0],[1, 1, 1]] [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`</p>
       </div>
       <p>where `R = [[1, 1, 1],[0, 1, 1],[0, 0, 1]]`, and `R^T = [[1, 0, 0],[1, 1, 0],[1, 1, 1]]`</p>
-      <p>We made a lot of assumptions about `A`, so all of this looks like it'll only work for super-specific cases. However, it turns out that most of the useful matrices used in real life can be written as `A = R^TR`. How convenient. (If `A` can be written as `R^TR`, then it is positive definite.)</p>
+      <p>We made a lot of assumptions about `A`, so all of this looks like it'll only work for super specific cases. However, it turns out that most of the useful matrices used in real life can be written as `A = R^TR`. How convenient. (If `A` can be written as `R^TR`, then it is positive definite.)</p>
       <p>The task now becomes finding a matrix `R` such that `A = R^TR.` (`A` has to be positive definite for this to work, so we'll assume `A` is positive definite.)</p>
       <div class="box">
         <p>Let `A = [[1, -2, -1],[-2, 8, 8],[-1, 8, 19]]`</p>
@@ -208,7 +208,7 @@
         </div>
       </div>
       <div class="box">
-        <p>To summarize: Finding `2` matrices `L` and `U` such that `A = LU` makes solving the problem fast, but an easier approach is to find only `1` matrix `R` such that `A = R^TR.` By the nature of `R` (being upper-triangular) and `R^T` (being lower-triangular), we can still do forward and back substitution like we did for triangular systems. Doing this allows us to decompose `A` easily and <i>still</i> achieve the `n^2` time of doing forward and back substitution.</p>
+        <p>To summarize: Finding two matrices `L` and `U` such that `A = LU` makes solving the problem fast, but an easier approach is to find only one matrix `R` such that `A = R^TR.` By the nature of `R` (being upper-triangular) and `R^T` (being lower-triangular), we can still do forward and back substitution like we did for triangular systems. Doing this allows us to decompose `A` easily and <i>still</i> achieve the `n^2` time of doing forward and back substitution.</p>
       </div>
       <p>Let's see long it takes to find `R`.</p>
       <div class="math">
@@ -228,14 +228,14 @@
         <p><b>Assumptions about `A`:</b> invertible, positive definite</p>
       </div>
       <h2 id="bandedmatrices">Banded Matrices</h2>
-      <p>Things get better if `A` has a bunch of `0`'s (if `A` has a lot of `0`'s, it is called "sparse".) Much like most matrices have a Cholesky factor, most matrices are also large and sparse. A specific type of sparse matrix - a banded matrix - actually allows us to perform Cholesky decomposition faster.</p>
+      <p>Things get better if `A` has a bunch of `0`s (if `A` has a lot of `0`s, it is called "sparse".) Much like most matrices have a Cholesky factor, most matrices are also large and sparse. A specific type of sparse matrix — a banded matrix — actually allows us to perform Cholesky decomposition faster.</p>
       <p>(For those keeping track, all the assumptions we've made about `A` up to this point are that `A` is invertible, `A` is positive definite (can be split into `R^TR`) and banded (sparseness is implied). Again, `A` sounds super specific, but these type of matrices show up a lot apparently.)</p>
-      <p>This is an example of a banded matrix: (notice the "band" of numbers across the diagonal and the `0`'s)</p>
+      <p>This is an example of a banded matrix: (notice the "band" of numbers across the diagonal and the `0`s)</p>
       <div class="math">
         <p>`[[color(red)(2), color(red)(1), 0, 0, 0],[color(red)(1), color(red)(2), color(red)(1), 0, 0],[0, color(red)(1), color(red)(2), color(red)(1), 0],[0, 0, color(red)(1), color(red)(2), color(red)(1)],[0, 0, 0, color(red)(1), color(red)(2)]]`</p>
       </div>
       <p>It has bandwidth `3` (how wide the band is) and semiband `1` (half of the width of the band). In general, a banded matrix has semiband `s` and bandwidth `2s+1`.</p>
-      <p>It turns out that there's an important result involving banded matrices: if `A` is positive definite and banded with semiband `s`, then its Cholesky factor `R` is also banded with semiband `s`. This is important, because if `A` had a bunch of `0`'s, then R will have a bunch of `0`'s too. These `0`'s mean less operations we have to do to find out what `R` is.</p>
+      <p>It turns out that there's an important result involving banded matrices: if `A` is positive definite and banded with semiband `s`, then its Cholesky factor `R` is also banded with semiband `s`. This is important, because if `A` had a bunch of `0`s, then `R` will have a bunch of `0`s too. These `0`s mean there are fewer operations we have to do to find out what `R` is.</p>
       <p>Recall the process for finding `R` if `A` is not banded:</p>
       <div class="math">
         <!-- <p>`[[2, 1, 4, 9, 3],[1, 2, 1, 3, 2],[5, 1, 4, 1, 2],[3, 8, 1, 2, 1],[6, 8, 9, 1, 2]] = [[r_(1,1), 0, 0, 0, 0],[r_(1,2), r_(2,2), 0, 0, 0],[r_(1,3), r_(2,3), r_(3,3), 0, 0],[r_(1,4), r_(2,4), r_(3,4), r_(4,4), 0],[r_(1,5), r_(2,5), r_(3,5), r_(4,5), r_(5,5)]] [[r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)],[0, r_(2,2), r_(2,3), r_(2,4), r_(2,5)],[0, 0, r_(3,3), r_(3,4), r_(3,5)],[0, 0, 0, r_(4,4), r_(4,5)],[0, 0, 0, 0, r_(5,5)]]`</p> -->
@@ -247,7 +247,7 @@
         <!-- <p>`[[2, 1, 0, 0, 0],[1, 2, 1, 0, 0],[0, 1, 2, 1, 0],[0, 0, 1, 2, 1],[0, 0, 0, 1, 2]] = [[r_(1,1), 0, 0, 0, 0],[r_(1,2), r_(2,2), 0, 0, 0],[r_(1,3), r_(2,3), r_(3,3), 0, 0],[r_(1,4), r_(2,4), r_(3,4), r_(4,4), 0],[r_(1,5), r_(2,5), r_(3,5), r_(4,5), r_(5,5)]] [[r_(1,1), r_(1,2), r_(1,3), r_(1,4), r_(1,5)],[0, r_(2,2), r_(2,3), r_(2,4), r_(2,5)],[0, 0, r_(3,3), r_(3,4), r_(3,5)],[0, 0, 0, r_(4,4), r_(4,5)],[0, 0, 0, 0, r_(5,5)]]`</p> -->
         <img class="img-fluid" src="../pictures/linear/find_r_banded.gif">
       </div>
-      <p>We only need to go through the first `2` rows of `A`. Why is that? Let's look at the `3^(rd)` row where we solve for the value of `r_(1,3)`. The equation is</p>
+      <p>We only need to go through the first two rows of `A`. Why is that? Let's look at the third row where we solve for the value of `r_(1,3)`. The equation is</p>
       <div class="math">
         <p>`r_(1,3)*r_(1,1) = 0`</p>
       </div>
@@ -255,7 +255,7 @@
       <div class="box">
         <p>*`r_(1,1)` will not be `0` because we assumed `A` was positive definite. This means the diagonal of `A` will be positive numbers. Solving for `r_(1,1)*r_(1,1) = #` cannot result in `r_(1,1) = 0`.</p>
       </div>
-      <p>Recognizing those `0`'s allows us to skip over numbers in each row. That means, in each row, we only have to perform operations on about `2s+1` (defined earlier as the width of the band) numbers. However, each number in that row requires about `s` numbers for the computation*. Therefore, for each row, we have a total of about `s^2` operations. With `n` rows, we have about `ns^2` total operations.</p>
+      <p>Recognizing those `0`s allows us to skip over numbers in each row. That means, in each row, we only have to perform operations on about `2s+1` (defined earlier as the width of the band) numbers. However, each number in that row requires about `s` numbers for the computation*. Therefore, for each row, we have a total of about `s^2` operations. With `n` rows, we have about `ns^2` total operations.</p>
       <div class="box">
         <p>*A visual for the above statement:</p>
         <div class="math">
@@ -267,7 +267,7 @@
           <p>Each number requires `s` previous numbers for the calculation</p>
         </div>
       </div>
-      <p>So it takes about `ns^2` operations to find `R`. Compared to non-banded matrices, it's faster than the `n^3` operations it took to find `R`. Even better is that because of all the `0`'s, performing forward and back substitution is also very fast.</p>
+      <p>So it takes about `ns^2` operations to find `R`. Compared to non-banded matrices, it's faster than the `n^3` operations it took to find `R`. Even better is that because of all the `0`s, performing forward and back substitution is also very fast.</p>
       <p>Recall the important fact mentioned earlier: if `A` is positive definite and banded with semiband `s`, then its Cholesky factor `R` is also banded with semiband `s`.</p>
       <p>So solving `Rx = y` (back substitution) could look something like this: (remember `R` is upper-triangular)</p>
       <div class="math">
@@ -468,7 +468,7 @@
       <p>In words, the spectral radius of a matrix is the largest eigenvalue of that matrix. Relating this back to the conclusion we got earlier, <b>if the spectral radius of a matrix is less than `1`, then `G^(k)e^((0)) = e^((k+1))` will go to `0` (the distance from our guess to the actual answer will get closer to `0`; the iterative method will converge).</b> We only need to look at the maximum eigenvalue - as opposed to all the eigenvalues - because if the maximum is less than `1`, then all the eigenvalues will be less than `1`.</p>
       <p>What's remarkable about this fact is that this is true <i>no matter what our initial guess is.</i></p>
       <p>So we have a way of determining if the iterative method will converge. Just calculate all the eigenvalues of `G` and see if the largest eigenvalue is less than `1`. Well, it turns out that finding eigenvalues of a matrix is a slow process, so that's not going to help us much.</p>
-      <p>There's an easier criterion for determining the spectral radius: <b>for any matrix `G = M^(-1)N` with `0's` along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) abs(g_(i,j))` (the sum of the numbers in each row). If `R_i lt 1` for all `i`, then `rho(G) le max_i R_i lt 1`</b> (Gershgorin Theorem).</p>
+      <p>There's an easier criterion for determining the spectral radius: <b>for any matrix `G = M^(-1)N` with `0`s along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) abs(g_(i,j))` (the sum of the numbers in each row). If `R_i lt 1` for all `i`, then `rho(G) le max_i R_i lt 1`</b> (Gershgorin Theorem).</p>
       <div class="box">
         <p>Does Jacobi converge for:</p>
         <div class="math">
@@ -798,7 +798,7 @@
       <div class="box">
         <br>
         <p>`[[a_(1,1), a_(1,2), a_(1,3), |, b_1],[a_(2,1), a_(2,2), a_(2,3), |, b_2],[a_(3,1), a_(3,2), a_(3,3), |, b_3]] -> [[a_(1,1), a_(1,2), a_(1,3), |, b_1],[0, a'_(2,2), a'_(2,3), |, b'_2],[0, a'_(2,3), a'_(3,3), |, b'_3]] -> [[a_(1,1), a_(1,2), a_(1,3), |, b_1],[0, a'_(2,2), a'_(2,3), |, b'_2],[0, 0, a''_(2,3), |, b''_3]]`</p>
-        <p>where the `0`'s were obtained by multiplying the `1^(st)` row by a number `(a_(2,1)/a_(1,1))` so that `a_(1,1) = a_(2,1)`. Subtracting `a_(2,1)-a_(1,1)` would lead to `0` while `a_(2,2)-a_(1,2)` and `a_(2,3)-a_(1,3)` would be numbers that are not `a_(2,2)` and `a_(2,3)`.</p>
+        <p>where the `0`s were obtained by multiplying the `1^(st)` row by a number `(a_(2,1)/a_(1,1))` so that `a_(1,1) = a_(2,1)`. Subtracting `a_(2,1)-a_(1,1)` would lead to `0` while `a_(2,2)-a_(1,2)` and `a_(2,3)-a_(1,3)` would be numbers that are not `a_(2,2)` and `a_(2,3)`.</p>
       </div>
       <div class="box">
         <p>Example: `A = [[2, 1, 1],[2, 2, -1],[4, -1, 6]]`, `b = [[9],[9],[16]]`</p>
@@ -1064,7 +1064,7 @@
         <p><b>`U` is an `n xx n` orthogonal matrix</b></p>
         <p><b>`V` is an `m xx m` orthogonal matrix</b></p>
         <p><b>`Sigma = [[sigma_1, -, -, -, -, -],[-, sigma_2, -, -, -, -],[-, -, ddots, -, -, -],[-, -, -, sigma_r, -, -],[-, -, -, -, 0, -],[-, -, -, -, -, ddots]]` is an `n xx m` "diagonal" matrix</b></p>
-        <p>where the dashes are `0`'s</p>
+        <p>where the dashes are `0`s</p>
         <p>`sigma_1 >= sigma_2 >= ... >= sigma_r` are singular values</p>
       </div>
       <div class="box">
@@ -1244,7 +1244,7 @@
       </div>
       <p>Then we can use forward and back sub to get the values for `q^((j))`, which is relatively faster. This allows us to compute `L` and `U` one time and store them to make future calculations faster.</p>
       <p>It turns out that if `A` is triangular, then `A - rhoI` is also triangular. Then `(A - rhoI)q^((j)) = q^((j-1))` can be solved mmediately with forward/back sub without having to find the `LU` decomposition.</p>
-      <p>Computers actually go about this by turning `A` into a tridiagonal matrix by using reflectors (from the `QR` Decomposition section), because forward/back sub with a tridiagonal matrix is really fast. Reflectors turn a vector into another vector with numbers on the top and `0`'s on the bottom. So reflectors can be used to turn the columns of `A` into a vector with `3` numbers on top and `0`'s on the bottom:</p>
+      <p>Computers actually go about this by turning `A` into a tridiagonal matrix by using reflectors (from the `QR` Decomposition section), because forward/back sub with a tridiagonal matrix is really fast. Reflectors turn a vector into another vector with numbers on the top and `0`s on the bottom. So reflectors can be used to turn the columns of `A` into a vector with `3` numbers on top and `0`s on the bottom:</p>
       <div class="math">
         <p>`[[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)]] -> [[alpha_(1,1), alpha_(1,2), 0, 0],[alpha_(2,1), alpha_(2,2), alpha_(2,3), 0],[0, alpha_(3,2), alpha_(3,3), alpha_(3,4)],[0, 0, alpha_(4,3), alpha_(4,4)]]`</p>
       </div>
