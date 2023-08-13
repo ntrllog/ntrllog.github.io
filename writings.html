@@ -485,7 +485,7 @@
               <p>`6 + 2 = 8`</p>
               <p>`11 - (11 text( mod ) 3) = 11 - (2) = 9`</p>
               <p>`9 + 3 = 12`</p>
-              <p>In the case of the second example, what we're doing is counting by 3's until we reach 11. 3 doesn't divide into 11 evenly, so there's going to be some remainder. This is why we subtract off the remainder from 11 to find out what the closest point was that was evenly divisible by 3.</p>
+              <p>In the case of the second example, what we're doing is counting by 3 until we reach 11. 3 doesn't divide into 11 evenly, so there's going to be some remainder. This is why we subtract off the remainder from 11 to find out what the closest point was that was evenly divisible by 3.</p>
             </div>
             <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClosestPoint" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
           </div>
@@ -524,31 +524,40 @@
           <p id="manasa_and_stones">.</p>
           <div class="post">
             <h4 class="title">Manasa and Stones</h4>
-            <h6 class="date">April 14, 2019</h6>
+            <h6 class="date">April 14, 2019 (last updated on August 13, 2023)</h6>
             <a href="https://www.hackerrank.com/challenges/manasa-and-stones/problem" target="_blank">HackerRank link</a>
-            <p>So there are a number of stones on a path that are numbered starting from `0`. Each consecutive stone differs by one of two values. The task is to find out all the numbers the last stone could have.</p>
-            <p>For example, we could have: `0 -> 2 -> 11 -> 13`. The difference between each consecutive stone is either `2` or `9`. Assuming there are a total of `4` stones, all the possible numbers the last stone could have are:  `13`, `6`, `27`, `20`.</p>
+            <p>So there are a number of stones on a path that are numbered starting from 0. Each consecutive stone differs by one of two values. The task is to find out all the numbers the last stone could have.</p>
+            <p>For example, we could have: 0 `->` 2 `->` 11 `->` 13. The difference between each consecutive stone is either 2 or 9. Assuming there are a total of 4 stones, all the possible numbers the last stone could have are 6, 13, 20, 27. Example paths to get these are:</p>
+            <ul>
+              <li>0 `->` 2 `->` 4 `->` 6</li>
+              <li>0 `->` 2 `->` 11 `->` 13</li>
+              <li>0 `->` 9 `->` 18 `->` 20</li>
+              <li>0 `->` 9 `->` 18 `->` 27</li>
+            </ul>
             <p>Solution:</p>
             <div class="collapse" id="collapseManasaAndStones">
               <p>The brute force solution is to generate all the possible paths and then find the last number in each path.</p>
-              <p>How could we do better? Well, we know that one possible path is where the differences between each stone are all `2`'s. So the last stone would be `6`.</p>
-              <img class="img-fluid" src="pictures/writings/manasas/first_path.png">
-              <p>Another possible path is where the differences are all `9`'s. So the last stone would be a `27`.</p>
-              <img class="img-fluid" src="pictures/writings/manasas/last_path.jpg">
-              <p>So now the only options left are situations where [two differences are `2`'s and one difference is `9`] and [two differences are `9`'s and one difference is `2`]. (However, this doesn't mean that there are two paths left. There are actually `6` paths left because we don't know which stones have the difference of `2` and which stones have the difference of `9`. For example, the differences could go `[2 -> 2 -> 9]` or `[2 -> 9 -> 2]` or `[9 -> 2 -> 2]`.)</p>
-              <p>So how do we generalize this? First, notice that there are `3` differences between `4` stones. Generally, there are `n-1` differences between `n` stones. Second, recall how we generated the first two paths: considering the situation where all the differences were the same. This is the same as multiplying the first difference `n-1` times and multiplying the second difference `n-1` times. This makes sense because if there are `n-1` differences and each difference is the same number, then the last number is the result of multiplying the difference by the number of differences (`n-1`).</p>
-              <img class="img-fluid" src="pictures/writings/manasas/multiplying.jpg">
-              <p>Third, note that paths with differences like `[2 -> 2-> 9]`, `[2 -> 9 -> 2]`, and `[9 -> 2 -> 2]` all result in the last stone having the same number.</p>
-              <img class="img-fluid" src="pictures/writings/manasas/same_difference.jpg">
-              <p>This is because we're essentially adding all the possible combinations of `2`'s and `9`'s to get the last stone. Addition is commutative, meaning we can switch the order of the numbers and still get the same result. Recognizing this is crucial because this means we don't have to waste time generating paths that will give us the same result anyway.</p>
+              <p>How could we do better? Well, we know that one possible path is where the differences between each stone are all 2s. So the last stone would be 6.</p>
+              <p>0 `obrace(rarr)^2` 2 `obrace(rarr)^2` 4 `obrace(rarr)^2` 6</p>
+              <p>Another possible path is where the differences are all 9s. So the last stone would be a 27.</p>
+              <p>0 `obrace(rarr)^9` 9 `obrace(rarr)^9` 18 `obrace(rarr)^9` 27</p>
+              <p>So now the only options left are situations where [two differences are 2s and one difference is 9] and [two differences are 9s and one difference is 2]. (However, this doesn't mean that there are 2 paths left. There are actually 6 paths left because we don't know which stones have the difference of 2 and which stones have the difference of 9. For example, the differences could go `obrace(rarr)^2,obrace(rarr)^2,obrace(rarr)^9` or `obrace(rarr)^2,obrace(rarr)^9,obrace(rarr)^2` or `obrace(rarr)^9,obrace(rarr)^2,obrace(rarr)^2`.)</p>
+              <p>So how do we generalize this? First, notice that there are 3 differences between 4 stones. Generally, there are `n-1` differences between `n` stones. Second, recall how we generated the first two paths: considering the situation where all the differences were the same. This is the same as multiplying the first difference `n-1` times to get the first path and multiplying the second difference `n-1` times to get the second path. This makes sense because if there are `n-1` differences and each difference is the same number, then the last number is the result of multiplying the difference by the number of differences (`n-1`).</p>
+              <p>0 `obrace(rarr)^2` 2 `obrace(rarr)^2` 4 `obrace(rarr)^2` 6</p>
+              <p>`2*3=6`</p>
+              <p>Third, note that paths with differences like `obrace(rarr)^2,obrace(rarr)^2,obrace(rarr)^9`, `obrace(rarr)^2,obrace(rarr)^9,obrace(rarr)^2`, and `obrace(rarr)^9,obrace(rarr)^2,obrace(rarr)^2` all result in the last stone having the same number.</p>
+              <p>0 `obrace(rarr)^2` 2 `obrace(rarr)^2` 4 `obrace(rarr)^9` 13</p>
+              <p>0 `obrace(rarr)^2` 2 `obrace(rarr)^9` 11 `obrace(rarr)^2` 13</p>
+              <p>0 `obrace(rarr)^9` 9 `obrace(rarr)^2` 11 `obrace(rarr)^2` 13</p>
+              <p>This is because we're essentially adding all the possible combinations of 2s and 9s to get the last stone. Addition is commutative, meaning we can switch the order of the numbers and still get the same result. Recognizing this is crucial because this means we don't have to waste time generating paths that will give us the same result anyway.</p>
               <p>Combining these three points give us the following approach to solving the problem:</p>
               <img class="img-fluid" src="pictures/writings/manasas/algorithm.png">
-              <p>In words, we're considering all the possible combination of `2`'s and `9`'s for `3` differences (`4` stones means there are `3` differences.)</p>
+              <p>In words, we're considering all the possible combination of 2s and 9s for 3 differences (4 stones means there are 3 differences.)</p>
               <p><strong>In general, this algorithm considers all possible combinations of differences. Combinations because order doesn't matter.</strong></p>
-              <p>Note: There are `2^n-1` total possible paths (`n-1` differences, `2` choices for each difference). If `n` is really big (i.e. there are a lot of stones) then the brute force approach would take a really long time. Also recall that some of those paths resulted in the same answer for the last stone, so it's also inefficient.</p>
-              <p>Second note: It's also no coincidence that there is a pattern in the last number of the last stone. Notice how each last number differs by `7` (e.g. `6 + 7 = 13`, `13 + 7 = 20`), which also happens to be the difference between the differences `2` and `9` (i.e. `9 - 2 = 7`). This is because, as we're going down the table, we taking away a `2` and adding a 9 (i.e. doing `9 - 2`), resulting in adding a `7`.</p>
-              <p>Third note: I believe the number of stones always equals the number of unique last numbers, simply because there are n numbers between `0` and `n-1`. (We're trying to find the last stone when there are `0` differences of `9`, `1` difference of `9`, `2` differences of `9`, ..., `n-1` differences of `9`.)</p>
-              <img class="img-fluid" src="pictures/writings/manasas/formula.jpg">
+              <p>Note: There are `2^(n-1)` total possible paths (`n-1` differences, `2` choices for each difference). If `n` is really big (i.e. there are a lot of stones) then the brute force approach would take a really long time. Also recall that some of those paths resulted in the same answer for the last stone, so it's also inefficient.</p>
+              <p>Second note: It's also no coincidence that there is a pattern in the last number of the last stone. Notice how each last number differs by 7 (e.g. `6 + 7 = 13`, `13 + 7 = 20`), which also happens to be the difference between the differences 2 and 9 (i.e. `9 - 2 = 7`). This is because, as we're going down the table, we taking away a 2 and adding a 9 (i.e. doing `9 - 2`), resulting in adding a 7.</p>
+              <p>Third note: I believe the number of stones always equals the number of unique last numbers, simply because there are `n` numbers between 0 and `n-1`. (We're trying to find the last stone when there are 0 differences of 9, 1 difference of 9, 2 differences of 9, ..., `n-1` differences of 9.)</p>
+              <p>`2+sum_(k=1)^(n-2)(((n-1),(k)))/(n-1)=n`</p>
               <p>I'll be convinced if this equation is true. Unless my equation is wrong.</p>
             </div>
             <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseManasaAndStones" aria-expanded="false" aria-controls="collapseEasierQuadratic"><span>Read more</span><span class="hidden">Read less</span></button>
