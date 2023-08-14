@@ -18,16 +18,16 @@ body {
   list-style-type: none;
 }
 
-.line {
+.ln-line {
   border-bottom: 10px solid black;
   margin-top: 10px;
 }
 
-.date {
+.ln-date {
   text-align: right;
 }
 
-.flex-between {
+.ln-flex-between {
   display: flex;
   justify-content: space-between;
 }

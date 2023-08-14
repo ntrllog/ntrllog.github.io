@@ -11,11 +11,11 @@ body {
   z-index: 2;
 }
 
-.print-display {
+.ln-print-display {
   display: none;
 }
 
-.flex-center {
+.ln-flex-center-center {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,10 +33,10 @@ h1 {
     color: black;
     text-decoration: none !important;
   }
-  .print-hide {
+  .ln-print-hide {
     display: none;
   }
-  .print-display {
+  .ln-print-display {
     display: inline;
   }
 }
