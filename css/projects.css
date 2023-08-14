@@ -1,34 +1,9 @@
-body {
-  background-color: #222831;
-  color: #00adb5;
-  font-family: 'Cabin Sketch', cursive;
-  font-size: 125%;
-  line-height: 2;
-}
-
-a, a:hover {
+h1, h2 {
   color: #eeeeee;
 }
 
 td {
   color: #00adb5;
-}
-
-.underline {
-  text-decoration: underline;
-}
-
-.center-text {
-  text-align: center;
-}
-
-.justify-text {
-  text-align: justify;
-}
-
-.flex-between {
-  display: flex;
-  justify-content: space-between;
 }
 
 .fab {

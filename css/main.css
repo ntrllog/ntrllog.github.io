@@ -1,0 +1,99 @@
+body {
+  background-color: #222831;
+  color: #00adb5;
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 125%;
+  line-height: 2;
+}
+
+a {
+  color: #fc83d0;
+}
+
+a:hover {
+  color: #ffa1dc;
+}
+
+.ln-text-center {
+  text-align: center;
+}
+
+.ln-bigger {
+  font-size: 3rem;
+}
+
+.ln-big {
+  font-size: 2rem;
+}
+
+.ln-flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ln-flex-center-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ln-animate {
+  animation: myAnimation 1s ease-in infinite alternate;
+}
+
+@keyframes myAnimation {
+  from {
+    color: #00adb5;
+  }
+  to {
+    color: #fc83d0;
+  }
+}
+
+.ln-front-page {
+  display: flex;
+  font-family: 'Finger Paint', cursive;
+  height: 100vh;
+  justify-content: center;
+}
+
+#ln {
+  font-size: 10rem;
+  line-height: 1;
+  transform: rotate(-35deg) skew(20deg,10deg);
+  border: 1px solid #393e46;
+  box-shadow: -3px 3px #393e46,
+              -6px 6px #393e46,
+              -9px 9px #393e46,
+              -12px 12px #393e46,
+              -15px 15px #393e46,
+              -18px 18px #393e46;
+}
+
+#ln:hover {
+  position: relative;
+  box-shadow: 0px 0px;
+  top: 18px;
+}
+
+#ln a, #ln a:hover {
+  text-decoration: none;
+}
+
+hr {
+  border: 5px dotted;
+  border-bottom: 0;
+  color: #393e46;
+  margin: 50px auto;
+  width: 5%;
+}
+
+.ln-contact-section {
+  font-size: 1.5rem;
+  padding-bottom: 50px;
+  text-align: center;
+}
+
+.ln-contact-section a {
+  margin: 0 23px;
+}

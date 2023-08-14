@@ -1,0 +1,13 @@
+.container {
+  height: 100vh;
+}
+
+.row {
+  height: 100%;
+}
+
+#text-404 {
+  font-family: 'Finger Paint', cursive;
+  font-size: 10rem;
+  transform: rotate(-35deg) skew(20deg,10deg);
+}
