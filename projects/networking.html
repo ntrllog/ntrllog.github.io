@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+                          _   _
+     _  _    _     _  _  | | | |   __     ____
+    | |/ \  | |_  | |/_| | | | |  /  \   /    \
+    | |   | |  _| |  /   | | | | | || | |  ||  |
+    | |   | | |_  | |    | | | | | || | |  ||  |
+    |_|   | |___| |_|    |_| |_|  \__/   \____/|
+                                               |
+                                          ____/
+    -->
+    <title>ntrllog | Computer Networking</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
+    <link href="../css/content.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="dropdown ln-fixed-right">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#whatisit">What is the Internet?</a></li>
+        <li><a class="dropdown-item" href="#networkedge">Livin' on the Edge</a></li>
+        <li><a class="dropdown-item" href="#networkcore">The Network Core</a></li>
+      </ul>
+    </div>
+    <div class="container ln-line-height">
+      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+      <h1>Computer Networking</h1>
+      <hr>
+      <p>Shortcut to this page: <a href="ml.html">ntrllog.netlify.app/networking</a></p>
+      <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a></p>
+      <h2 id="whatisit">What is the Internet?</h2>
+      <p>Computers. Laptops. Smartphones. TVs. Watches. And everything else that has the word "smart" in front of it. All of these things that can connect to the Internet are called <b>hosts</b> or <b>end systems</b>. End systems send and receive data through a system of communcation links and packet switches. The data travels through this system as little pieces called packets and they are reassembled when they reach their destination. Packet switches are machines that help transfer these packets. The whole path that a packet takes is called a <b>route</b> or <b>path</b>.</p>
+      <div class="ln-box">
+        <p>A <b>router</b> is a type of packet switch. Yes, the router that connects to the modem.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/nuts_and_bolts.png">
+      </div>
+      <div class="ln-box">
+        <p>I believe the shape I'll be using for all packet switches is a circle/oval. And links will be just a line connecting the circles.</p>
+      </div>
+      <p>Access to the Internet is provided by <b>Internet Service Providers</b> (<b>ISPs</b>). Think ATT and Spectrum for example. ISPs themselves are a network of packet switches and communication links.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/isp.png">
+      </div>
+      <h3>What is a Protocol?</h3>
+      <p>All the devices involved with sending and receiving packets run <b>protocols</b>, which are a set of rules defining:</p>
+      <ul>
+        <li>how messages should be formatted</li>
+        <li>the order of the messages exchanged</li>
+        <li>the actions that can be performed when the messages are received or transmitted</li>
+      </ul>
+      <p>The protocols are defined by <b>Internet standards</b>, which are developed by the Internet Engineering Task Force (IETF). The actual documents are called <b>requests for comments</b> (<b>RFCs</b>).</p>
+      <div class="ln-box">
+        <p>When we go to a URL on our browser, the actions that occur are a result of following a protocol (the TCP protocol).</p>
+        <ol>
+          <li>Computer sends a request to connect to the Web server and waits for a reply</li>
+          <li>Web server receives the connection request and returns a "connection okay" message</li>
+          <li>Computer sends the name of the Web page we want</li>
+          <li>Web server sends it to our computer</li>
+        </ol>
+      </div>
+      <h2 id="networkedge">Livin' on the Edge</h2>
+      <p>The word "end system" is used to describe devices that connect to the Internet because they exist at the "edge" of the Internet.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/network_edge.png">
+      </div>
+      <h3>Access Networks</h3>
+      <p>The access network is the network where end systems connect to the first router in the path to the ISP. (There may be many routers in between the ISP and a home. The first router is the one that's actually in the home.) Basically, an access network is a network on the edge of the Internet.</p>
+      <h4>Home Access: What's the WiFi Password?</h4>
+      <p>The home network will probably be the easiest for everyone to relate to. All our phones, laptops, tablets, computers, and everything else that connect to the WiFi in our homes form a home network.</p>
+      <p>Two of the most popular ways to get Internet access are by a <b>digital subscriber line</b> (<b>DSL</b>) (think telephone lines and telephone companies) and cable.</p>
+      <h4>Wide-Area Wireless Access: Unlimited Talk, Text, and Web For Only $ Per Month!</h4>
+      <p>When our phones aren't connected to WiFi, it uses mobile data, which is Internet provided by cellular network providers through base stations (cell towers?). This is where the terms 3G, 4G, 5G, and LTE come into play. (6G doesn't exist yet at the time of this writing.)</p>
+      <h2 id="networkcore">The Network Core</h2>
+      <p>The network core is, well, the part of the Internet that is not at the edge. This is the part of the Internet that our router connects to — out to where our Internet access comes from.</p>
+      <h3>Packet Switching</h3>
+      <p>The data that the end systems send and receive are called <b>messages</b>. Messages can be any type of data, such as emails, pictures, or audio files. When going from its source to its destination, messages are broken up into packets, which are transferred from packet switch to packet switch. From packet switch to packet switch, each packet is broken up into bits and sent across the communication link connecting the two packet switches.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/packet_switching.png">
+      </div>
+      <h4>No Packet Left Behind</h4>
+      <p>Most packet switches use <b>store-and-forward transmission</b>. This means that the packet switch waits until it receives the entire packet before it starts sending the first bit of the packet to the next location.</p>
+      <div class="ln-box">
+        <p>Consider a simple network of two end systems and one packet switch. The source has three packets to send to the destination.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/packet_switching_2.png">
+        </div>
+        <p>Let's say each packet has `L` bits and that each communication link can transfer `R` bits per second. Then the total time it takes to transfer one packet across one communication link is `L/R` seconds.</p>
+        <p>So the time it takes to transfer the packet from source to destination is `2L/R`.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/packet_switching_3.png">
+        </div>
+        <p>How long does it take to transfer all three packets from source to destination? At `L/R` seconds, the packet switch receives all of the first packet. At this time, while the packet switch starts sending bits of the first packet to the destination, it also starts receiving bits of the second packet from the source.</p>
+        <p>At `2L/R` seconds, the first packet arrives at the destination and the second packet arrives at the packet switch.</p>
+        <p>At `3L/R` seconds, the second packet arrives at the destination and the third packet arrives at the packet switch.</p>
+        <p>At `4L/R` seconds, the third packet arrives at the destination.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/packet_switching.gif">
+        </div>
+        <p>Let's generalize this for `N` communication links and `P` packets.</p>
+        <p>Since the time it takes for one packet to travel across one communication link is `L/R`, it takes one packet `NL/R` time to travel across `N` communication links.</p>
+        <p>At time `NL/R`, the first packet will reach the destination. If there are `P` packets in total, then there will be `P-1` more times where there is a packet sitting in the last packet switch (i.e., there will be `P-1` more packets passing through the last packet switch). Since it takes `L/R` time to go from the last packet switch to the destination, it will take `(P-1)L/R` time for all the packets to reach the destination. So the total time it takes `P` packets to travel across `N` communication links is `NL/R+(P-1)L/R=(N+P-1)L/R`.</p>
+      </div>
+      <h4>Queuing Delays</h4>
+      <p>Realistically, a packet switch has more than two links. For each link in the packet switch, there is an <b>output buffer</b> (a.k.a. <b>output queue</b>) where the packets wait if the link is busy. This can happen if the transmission rate of the link is slower than the arrival rate of the packets, i.e., the packets are coming in faster than the packet switch can send them out.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/output_buffer.png">
+      </div>
+      <h4>Okay, Some Packets Left Behind</h4>
+      <p>Since the buffer can only be so big, if there isn't enough room for more incoming packets, some packets will be dropped, resulting in <b>packet loss</b>. Depending on the implementation, either the arriving packet or one of the packets in the buffer is dropped.</p>
+      <h4>Forwarding Tables</h4>
+      <p>Again, packet switches usually have multiple links. So how does the packet switch know which link to use to send the packet? The answer is that each packet switch has a <b>forwarding table</b> that lists the destination of each link. When a packet arrives, the packet switch examines the packet to see its destination and searches it up in its forwarding table. The table tells the packet switch which link to use to get to the destination.</p>
+      <h3>Circuit Switching</h3>
+      <p>With packet switching, the packets are sent and if there is a lot of traffic, then oh well. Maybe the data will take a long time to send, or worse, get dropped. To avoid this, we can reserve the resources ahead of time.</p>
+      <p>With circuit switching, each link has a number of circuits. One circuit per link is required for communication between two end systems. So a link with, for example, four circuits can support four different connections at the same time. However, each connection only gets a fraction of the link's transmission rate.</p>
+      <div class="ln-box">
+        <p>Suppose we have a link with four circuits and a transmission rate of `1` Mbps. Then each circuit can only transfer data at a rate of `1/4` Mbps, which is `250` kbps.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/circuit_switching.png">
+      </div>
+      <h4>Frequency-Division Multiplexing</h4>
+      <p>Multiplexing is sending multiple signals as one big signal.</p>
+      <p>Multiple end systems can all use one link to transfer data if there are enough circuits. Each end system will be transferring different data, but they all get transferred over as "one big data" through the link. The way to differentiate which data came from which end system is to divide the link into different frequencies, like the example above.</p>
+      <div class="ln-box">
+        <p>Radio uses FDM. We can tune in to a specific frequency to listen to the station we want.</p>
+      </div>
+      <h4>Time-Division Multiplexing</h4>
+      <p>With time-division multiplexing, the end systems get to use all of the frequency to transfer data, but only for a limited amount of time.</p>
+      <div class="ln-box">
+        <p>Suppose there are two end systems (`A` and `B`) communicating with two other end systems using the same link. Let's say they're only allowed `1`-second intervals to send their data. So from `0` to `1` seconds, part of the data from `A` and part of the data from `B` gets sent. From `1` to `2` seconds, part of the data from `A` and part of the data from `B` gets sent. And this repeats for every second.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/tdm.png">
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>More formally, time is divided into frames, and each frame is divided into slots. Once a connection between two end systems is established, one slot in every frame is reserved just for that connection.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/tdm_2.png">
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>Suppose that all links in a network use TDM with `24` slots and can transfer data at a rate of `1.536` Mbps. Then each circuit has a transmission rate of `1.536/24=64` kbps.</p>
+      </div>
+      <h4>Switching Teams</h4>
+      <p>Packet switching is not good for things that require a continuous connection, like video calls. However, packet switching is, in general, more efficient than circuit switching.</p>
+      <div class="ln-box">
+        <p>Suppose several users share a `1` Mbps link. But each user is not using the connection all of the time, i.e., there are periods of activity and inactivity. Let's say that a user is actively using the connection 10% of the time, and generates data at `100` kbps when they are active. With circuit switching, this means the link can support `(1 text( Mbps))/(100 text( kbps))=10` users at once. The circuit must be reserved for all `10` users as long as they are connected, even if they're not using it all the time.</p>
+        <p>With packet switching, resources are not reserved, so any number of users can use the link. If there are `35` users, the probability that `ge 11` users are actively using the connection at the same time is ~`0.0004`, which means there is a ~`0.9996` chance that there are `le 10` simultaneous users at any time. As long as there are not more than `10` users at a time, there will be no queuing delay (if there are more than `10` users, there will be more data than the `1` Mbps link can handle). So packet switching performs just as well as circuit switching while allowing for more users at the same time.</p>
+      </div>
+      <div class="ln-box">
+        <p>Sticking with the same `1` Mbps link, suppose there are `10` users. One of the users suddenly generates `1,000,000` bits of data, but the other users are inactive. Suppose the link has `10` slots per frame. If all `10` slots are utilized, then the link can send `1,000,000` bits per second (`= 1` Mbps). However, under the rules of circuit switching, only one of the slots per frame will be used for that user. So the link will only be able to transfer `(1,000,000)/10=100,000` bits per second. So it will take `(1,000,000)/(100,000)=10` seconds to transfer all the data.</p>
+        <p>With packet switching, since no other users are active, the one user gets to send all `1,000,000` bits of data in `1` second since there will be no queuing delays.</p>
+      </div>
+      <h3>A Network of Networks</h3>
+      <p>We get our Internet access from an ISP. Of course, all of us don't get Internet access from the same ISP. There are different ISPs out there providing Internet access to different networks. But then how do our end systems communicate with end systems? How do we communicate with servers and access websites from different parts of the world for example? The answer is that the ISPs themselves are connected with each other. But what exactly does that look like?</p>
+      <p>One idea is that we connect every ISP with each other directly.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_1.png">
+      </div>
+      <p>The problem with this is that it is too costly, because there would be way too many links. In computer science terms, there would be `n^2` connections.</p>
+      <p>To minimize the number of connections, another idea is that there is a global ISP and all the other ISPs connect to that global one.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_2.png">
+      </div>
+      <p>This, too, is costly. But to offset the cost, the global ISP would charge the other ISPs (we'll call them access ISPs from this point on) money to connect to the global ISP.</p>
+      <p>But if one global ISP becomes profitable, naturally there will be other global ISPs wishing to be profitable too.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_3.png">
+      </div>
+      <p>This structure is good for the access ISPs because they can choose which global ISP they want to connect to by comparing prices and service quality. So what we have so far is a two-tier hierarchy where global ISPs are at the top and access ISPs are at the bottom.</p>
+      <p>The reality is that these global ISPs can't exist in every city in the world. What happens instead is that the access ISPs connect to a <b>regional ISP</b>, which then connects to a global ISP. (We'll now be calling global ISPs by the more correct term <b>tier-1 ISP</b>.) Some examples of tier-1 ISPs are AT&amp;T, Verizon, and T-Mobile.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_4.png">
+      </div>
+      <div class="ln-box">
+        <p>Sometimes, an access ISP can connect directly to a tier-1 ISP. In that case, the access ISP would pay the tier-1 ISP.</p>
+      </div>
+      <div class="ln-box">
+        <p>In some regions, there can be a larger regional ISP consisting of smaller regional ISPs.</p>
+      </div>
+      <div class="ln-box">
+        <p>Access ISPs and regional ISPs can choose to <b>multi-home</b>. That is, they can connect to more than one provider ISP at the same time, getting Internet access from multiple ISPs. While they have to pay each ISP they're connected to, the multi-homed ISPs can achieve better reliability in case one of the provider ISPs has a failure.</p>
+      </div>
+      <p>This multi-tier hierarchy is closer to the structure of today's Internet, but there are still a few pieces missing.</p>
+      <p>Lower-tier ISPs pay higher-tier ISPs based on how much traffic goes through their connection. To avoid sending traffic to the higher-tier ISPs, the lower-tier ISPs can <b>peer</b>. This means that they connect with each other so that the traffic goes between them instead of up to the higher-tier ISP.</p>
+      <p>For example, suppose that a computer connected to the green ISP wants to communicate with a computer connected to the blue ISP. Without peering, the traffic would have to go all the way up to the tier-1 ISP and back down from there.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_5.png">
+      </div>
+      <p>But with peering, they can avoid the cost of going through the regional and tier-1 ISPs by connecting with each other directly. Usually when ISPs peer with each other, they agree to not pay each other for the traffic that comes from peering.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_6.png">
+      </div>
+      <p>To facilitate this peering, third-party companies can create an <b>Internet Exchange Point</b> (<b>IXP</b>) which ISPs connect to to peer with other ISPs.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_7.png">
+      </div>
+      <p>There's one more piece: <b>content-provider networks</b>. Content providers are companies like Google, Amazon, and Microsoft.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_8.png">
+      </div>
+      <p>They run their own private networks so that they can bring their services and content closer to users. They do this by having data centers distributed everywhere across the world. Each data center has tons of servers that are all connected to each other.</p>
+      <p>And this is why the Internet is a network of networks. (Recall that ISPs themselves are networks of packet switches and links. There's also the edge network from the previous section, and each network in the edge network is a network of routers and links.)</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
