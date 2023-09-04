@@ -6,6 +6,11 @@ h2 {
   margin-top: 30px;
 }
 
+.btn {
+  border-color: black;
+  margin-bottom: 5px;
+}
+
 .container {
   margin-top: 20px;
   text-align: justify;
@@ -14,6 +19,7 @@ h2 {
 .ln-box {
   padding-left: 10px;
   padding-right: 10px;
+  padding-top: 5px;
   border: 1px solid black;
   margin-bottom: 30px;
 }

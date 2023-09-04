@@ -33,6 +33,7 @@
         <li><a class="dropdown-item" href="#whatisit">What is the Internet?</a></li>
         <li><a class="dropdown-item" href="#networkedge">Livin' on the Edge</a></li>
         <li><a class="dropdown-item" href="#networkcore">The Network Core</a></li>
+        <li><a class="dropdown-item" href="#delay">Delay, Loss, and Throughput</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -40,7 +41,7 @@
       <h1>Computer Networking</h1>
       <hr>
       <p>Shortcut to this page: <a href="ml.html">ntrllog.netlify.app/networking</a></p>
-      <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a></p>
+      <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a> and Professor Senhua Yu.</p>
       <h2 id="whatisit">What is the Internet?</h2>
       <p>Computers. Laptops. Smartphones. TVs. Watches. And everything else that has the word "smart" in front of it. All of these things that can connect to the Internet are called <b>hosts</b> or <b>end systems</b>. End systems send and receive data through a system of communcation links and packet switches. The data travels through this system as little pieces called packets and they are reassembled when they reach their destination. Packet switches are machines that help transfer these packets. The whole path that a packet takes is called a <b>route</b> or <b>path</b>.</p>
       <div class="ln-box">
@@ -216,6 +217,138 @@
       </div>
       <p>They run their own private networks so that they can bring their services and content closer to users. They do this by having data centers distributed everywhere across the world. Each data center has tons of servers that are all connected to each other.</p>
       <p>And this is why the Internet is a network of networks. (Recall that ISPs themselves are networks of packet switches and links. There's also the edge network from the previous section, and each network in the edge network is a network of routers and links.)</p>
+      <h2 id="delay">Delay, Loss, and Throughput</h2>
+      <p>In a (developer's) perfect world, data would travel through the Internet instantaneously without any limitations. Well, we know things aren't perfect.</p>
+      <h3>What's the Holdup?</h3>
+      <p>As packets travel along their route, they experience <b>nodal processing delay</b>, <b>queuing delay</b>, <b>transmission delay</b>, and <b>propagation delay</b>. All these delays combined is called <b>total nodal delay</b>.</p>
+      <h4>Processing Delay</h4>
+      <p>When a packet arrives at a router, the router looks at the packet's header to see which link it should go on. It also checks for any bit-level errors in the packet. The time it takes to do this (microseconds), is the <b>processing delay</b>.</p>
+      <h4>Queuing Delay</h4>
+      <p>Once the outbound link has been determined, the packet goes to the queue for that link. The time it waits in the queue (microseconds to milliseconds), is the <b>queuing delay</b>.</p>
+      <h4>Transmission Delay</h4>
+      <p>Once the packet reaches the front of the queue, it is ready to be transferred across the link. Recall that packets travel through links as bits. The time it takes to push all of the bits into the link (microseconds to milliseconds) is the <b>transmission delay</b>. If a packet has `L` bits and the link can transfer `R` bits per second, then the transmission delay is `L/R`.</p>
+      <h4>Propagation Delay</h4>
+      <p>Now that the bits are on the link, they must get to the other end. The time it takes to get from the beginning of the link to the end of the link (milliseconds) is the <b>propagation delay</b>. This is determined by two things: how fast the bits are able to move and how far they have to go. How fast the bits can move depends on the physical characteristics of the link (e.g., whether it's fiber optics or twisted-pair copper wire) and is somewhere near the speed of light.</p>
+      <p>If `d` is the distance the bit has to travel, i.e., the length of the link, and `s` is the propagation speed of the link, then `d/s` is the propagation delay.</p>
+      <div class="ln-box">
+        <p>Transmission delay and propagation delay sound very similar to each other. So here are some pictures illustrating the difference.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/networking/transmission_delay.png">
+        </div>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/networking/propagation_delay.png">
+        </div>
+        <p>Yeah, somehow the bits go from being on a conveyer belt to being pushed in needlessly large carts. There's no delay from belt to cart though. That part happens magically.</p>
+      </div>
+      <div class="ln-box">
+        <p>Consider a packet of length `L` which begins at end system `A` and travels over three links to a destination end system. These three links are connected by two packet switches. For `i=1,2,3`, let `d_i`, be the length of each link, `s_i` be the propagation speed of each link, and `R_i` be the transmission rate of each link. The packet switch delays each packet by `d_text(proc)`. Assume there are no queuing delays.</p>
+        <p>In terms of `d_i`, `s_i`, `R_i`, and `L`, what is the total end-to-end delay for the packet?</p>
+        <div class="collapse ln-box" id="delay_q1">
+          <p>The total end-to-end delay is the sum of all the delays: processing delay, queuing delay, transmission delay, and propagation delay.</p>
+          <p>The processing delay is given to us as `d_text(proc)`. There are two packet switches, so there will be two processing delays.</p>
+          <p>We are also given that there are no queuing delays.</p>
+          <p>The transmission delay is `L/R_1+L/R_2+L/R_3`.</p>
+          <p>The propagation delay is `d_1/s_1+d_2/s_2+d_3/s_3`.</p>
+          <p>So the total end-to-end delay is `d_text(proc)+d_text(proc)+L/R_1+L/R_2+L/R_3+d_1/s_1+d_2/s_2+d_3/s_3`.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#delay_q1" aria-expanded="false" aria-controls="delay_q1">Answer</button>
+        <p>Suppose now the packet is `1500` bytes, the propagation speed on all three links is `2.5*10^8` m/s, the transmission rates of all three links are `2` Mbps, the packet switch processing delay is `3` ms, the length of the first link is `5000` km, the length of the second link is `4000` km, and the length of the third link is `1000` km. What is the end-to-end delay?</p>
+        <div class="collapse ln-box" id="delay_q2">
+          <p>From the first question, we know that the end-to-end delay is `d_text(proc)+d_text(proc)+L/R_1+L/R_2+L/R_3+d_1/s_1+d_2/s_2+d_3/s_3`, so now we'll just calculate and plug in those values.</p>
+          <p>We're given that `d_text(proc)=3` ms.</p>
+          <p>To calculate transmission delay, we'll first convert everything to bits. There are `8` bits in a byte, so the packet length is `1500*8=12,000` bits. For the transmission rate, `2` Mbps = `2,000,000` bits per second. Since all three links have the same transmission rate, `R_1=R_2=R_3`. So `L/R_1=L/R_2=L/R_3=(12,000)/(2,000,000)=0.006` seconds `=6` ms.</p>
+          <p>For the propagation delay, we'll first convert everything to meters. The lengths of the links are `5,000,000` m, `4,000,000` m, and `1,000,000` m. Since all three links have the same propagation speed, `s_1=s_2=s_3`. So `d_1/s_1=(5,000,000)/(250,000,000)=0.02` seconds `=20` ms, `d_2/s_2=(4,000,000)/(250,000,000)=0.016` seconds `=16` ms, and `d_3/s_3=(1,000,000)/(250,000,000)=0.004` seconds `=4` ms.</p>
+          <p>So the total-end-to-end delay is `3+3+6+6+6+20+16+4=64` ms.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#delay_q2" aria-expanded="false" aria-controls="delay_q2">Answer</button>
+      </div>
+      <div class="ln-box">
+        <p>Consider a highway that has a tollbooth every `100` km. It takes `12` seconds for a tollbooth to service a car. Suppose a caravan of `10` cars are on the highway with each car traveling `100` km/hour. When going from tollbooth to tollbooth, the first car waits at the tollbooth until the the other nine cars arrive. To analogize, the tollbooth is a router, the highway is a link, the cars are bits, and the caravan is a packet.</p>
+        <p>How long does it take the caravan to travel from one tollbooth to the next?</p>
+        <div class="collapse ln-box" id="caravan_q1">
+          <p>Since the tollbooth takes `12` seconds to service a car and there are `10` cars, it takes a total of `120` seconds (or `2` minutes) to service all the cars.</p>
+          <p>Since the distance between every tollbooth is `100` km and the cars are moving at `100` km/hour, it takes `1` hour (or `60` minutes) to reach the next tollbooth.</p>
+          <p>Since the cars in the caravan travel together, everything depends on the last car. So we'll look at this from the last car's point of view.</p>
+          <p>The last car has to wait `2` minutes before it can be serviced by the tollbooth. Once this is done, it takes `60` minutes for it to reach the next tollbooth. So it takes the last car `62` minutes to reach the next tollbooth.</p>
+          <p>Here's some animation to visualize:</p>
+          <div class="ln-center">
+            <img class="img-fluid" src="../pictures/networking/caravan.gif">
+          </div>
+          <p>At `120` seconds all `10` cars have exited the first tollbooth and are on the highway to the next tollbooth.</p>
+          <p>The first car will take `60` minutes to enter the next tollbooth (get off the animation line), but since it waited `12` seconds for the previous tollbooth servicing, it will enter the next tollbooth at `60:12`.</p>
+          <div class="ln-center">
+            <img class="img-fluid" src="../pictures/networking/caravan_2.gif">
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#caravan_q1" aria-expanded="false" aria-controls="caravan_q1">Answer</button>
+        <p>To analogize some more, the time it takes the tollbooth to service a car is the transmission delay. The time it takes the car to move to the next tollbooth is the propagation delay.</p>
+        <p>Now suppose that the cars travel at `1000` km/hour and the tollbooth takes `1` minute to service a car. Will cars arrive at the second tollbooth before all the cars are serviced at the first tollbooth? That is, will there still be cars at the first tollbooth when the first car arrives at the second tollbooth?</p>
+        <div class="collapse ln-box" id="caravan_q2">
+          <p>Now it takes `10` minutes to service all `10` cars.</p>
+          <p>The first car will wait `1` minute for the tollbooth to service it. Then it will take `6` minutes (`(100text(km))/((1000text(km))/(60text(min)))=6`) to reach the next tollbooth. So it will take a total of `7` minutes for the first car to go from one tollbooth to the next.</p>
+          <p>But in `7` minutes, the first tollbooth will have only serviced `7` cars. So there will be `3` cars still at the first tollbooth when the first car arrives at the second tollbooth.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#caravan_q2" aria-expanded="false" aria-controls="caravan_q2">Answer</button>
+      </div>
+      <h3>Queuing Delay and Packet Loss</h3>
+      <p>Queuing delay is the most complicated delay since it varies from packet to packet (as implied, processing delay, transmission delay, and propagation delay are the same for every packet). For example, if 10 packets arrive at an empty queue, the first packet will have no queuing delay, but the last packet will have to wait for the first 9 packets to leave the queue.</p>
+      <p>The factors that determine queuing delay are the rate at which traffic arrives, the transmission rate of the link, and the type of traffic that arrives (e.g., periodically or in bursts).</p>
+      <div class="ln-box">
+        <p>Let `a` be the average rate (in packets per second) at which packets arrive. If a packet has `L` bits, then `La` is the average rate (in bits per second) at which bits arrive. `R` is the transmission rate of the link. So `(La)/R` is the ratio of bits coming in vs bits going out; this ratio is called <b>traffic intensity</b>.</p>
+        <p>`(La)/R gt 1` means that bits are arriving at the queue faster than they are leaving. In this case, the queuing delay will approach infinity.</p>
+        <p>If `(La)/R le 1`, then the type of traffic that arrives has an effect on the queuing delay. For example, if one packet arrives every `L/R` seconds, then the packet will always arrive at an empty queue, so there will be no queuing delay.</p>
+        <p>However, if `N` packets arrive in bursts every `NL/R` seconds, then the first packet will experience no queuing delay. But the second packet will experience a queuing delay of `L/R` seconds. The third packet will experience a queuing delay of `2L/R` seconds. Generally, each packet will have a queuing delay of `(n-1)L/R` seconds.</p>
+      </div>
+      <div class="ln-box">
+        <p>Average queuing delay grows exponentially with traffic intensity, i.e., a small increase in traffic intensity results in a large increase in average queuing delay.</p>
+      </div>
+      <h4>Packet Loss</h4>
+      <p>If packets are coming in faster than they are leaving the queue, then the queue will eventually be full and not be able to store any more packets. In this case, some packets will be <b>dropped</b> or <b>lost</b>. As traffic intensity increases, so does the size of the queue, which means the number of packets lost also increases.</p>
+      <h3>End-to-End Delay</h3>
+      <p>End-to-end delay is the total delay that a packet experiences from source to destination.</p>
+      <div class="ln-box">
+        <p>Suppose there are `N-1` routers between the source and destination. Then there are `N` links. Also suppose that the network is uncongested so there are practically no queuing delays.</p>
+        <p>Then the end-to-end delay is `d_text(end-end)=Nd_text(proc)+Nd_text(trans)+Nd_text(prop)=N(d_text(proc)+d_text(trans)+d_text(prop))`.</p>
+      </div>
+      <h4>Traceroute</h4>
+      <p>Traceroute is a program that allows us to see how packets move and how long they take. We specify the destination we want to send some packets to and the program will print out a list of all the routers the packets went through and how long it took to reach that router.</p>
+      <div class="ln-box">
+        <p>Suppose there are `N-1` routers between the source and destination. Traceroute will send `N` special packets into the network, one for each router and one for the destination. When the nth router receives the nth packet, it sends a message back to the source. When it receives a message, the source records the time it took to receive the message and where the message came from. Traceroute performs these steps 3 times.</p>
+      </div>
+      <h3>Throughput</h3>
+      <p>Throughput is the rate at which bits are transferred between the source and destination. The <b>instantaneous throughput</b> is the rate at any point during the transfer. The <b>average throughput</b> is the rate over a period of time.</p>
+      <div class="ln-box">
+        <p>If a file has `F` bits and the transfer takes `T` seconds, then the average throughput of the file transfer is `F/T` bits per second.</p>
+      </div>
+      <p>Suppose we have two end systems connected by two links and one router. Let `R_s`, `R_c` be the rates of the two links.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/throughput.png">
+      </div>
+      <p>Suppose `F=32,000,000` bits, `R_s=2` Mbps, and `R_c=1` Mbps.</p>
+      <ul>
+        <li>After `1` second, `2,000,000` bits will move from the server to the router.</li>
+        <li>After `2` seconds, `2,000,000` bits will move from the server to the router and `1,000,000` bits will move from the router to the client.</li>
+        <li>After `3` seconds, `2,000,000` bits will move from the server to the router and `1,000,000` bits will move from the router to the client.</li>
+        <li>After `4` seconds, `2,000,000` bits will move from the server to the router and `1,000,000` bits will move from the router to the client.</li>
+      </ul>
+      <p>The file transfer is complete when the client receives `32,000,000` bits, which means `1,000,000` bits will have to move from the router to the client `32` times. Since it takes `1` second to do so, it will take `32` seconds for the file transfer to complete.</p>
+      <p>Notice how it didn't matter how fast the bits moved from the server to the router. The time the file took to reach the client only depended on the rate from the router to the client. This doesn't mean the time it takes to reach the client is always equal to the rate from router to client though. Let's flip the numbers around to prove this point.</p>
+      <p>Suppose `F=32,000,000` bits, `R_s=1` Mbps, and `R_c=2` Mbps.</p>
+      <ul>
+        <li>After `1` second, `1,000,000` bits will move from the server to the router.</li>
+        <li>After `2` seconds, `1,000,000` bits will move from the server to the router and `1,000,000` bits will move from the router to the client.</li>
+        <li>After `3` seconds, `1,000,000` bits will move from the server to the router and `1,000,000` bits will move from the router to the client.</li>
+        <li>After `4` seconds, `1,000,000` bits will move from the server to the router and `1,000,000` bits will move from the router to the client.</li>
+      </ul>
+      <p>Wait, but isn't the rate from router to client `2,000,000` bits per second? Why aren't `2,000,000` bits moving from router to client every second? That's because there are only `1,000,000` bits entering the router every second.</p>
+      <p>From this, we can see that the throughput of a file transfer depends on the rate of the slowest link. The slowest link is called the <b>bottleneck link</b>.</p>
+      <div class="ln-box">
+        <p>Mathematically, the throughput is `min(R_s,R_c)`.</p>
+        <p>The time it takes to transfer the file is `F/(min(R_s,R_c))`.</p>
+      </div>
+      <div class="ln-box">
+        <p>Generally, the throughput for a network with `N` links is `min(R_1,R_2,...,R_n)`.</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
