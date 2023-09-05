@@ -34,6 +34,7 @@
         <li><a class="dropdown-item" href="#networkedge">Livin' on the Edge</a></li>
         <li><a class="dropdown-item" href="#networkcore">The Network Core</a></li>
         <li><a class="dropdown-item" href="#delay">Delay, Loss, and Throughput</a></li>
+        <li><a class="dropdown-item" href="#protocollayers">Protocol Layers</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -272,12 +273,12 @@
           <p>The last car has to wait `2` minutes before it can be serviced by the tollbooth. Once this is done, it takes `60` minutes for it to reach the next tollbooth. So it takes the last car `62` minutes to reach the next tollbooth.</p>
           <p>Here's some animation to visualize:</p>
           <div class="ln-center">
-            <img class="img-fluid" src="../pictures/networking/caravan.gif">
+            <img class="img-fluid ln-image-small" src="../pictures/networking/caravan.gif">
           </div>
           <p>At `120` seconds all `10` cars have exited the first tollbooth and are on the highway to the next tollbooth.</p>
           <p>The first car will take `60` minutes to enter the next tollbooth (get off the animation line), but since it waited `12` seconds for the previous tollbooth servicing, it will enter the next tollbooth at `60:12`.</p>
           <div class="ln-center">
-            <img class="img-fluid" src="../pictures/networking/caravan_2.gif">
+            <img class="img-fluid ln-image-small" src="../pictures/networking/caravan_2.gif">
           </div>
         </div>
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#caravan_q1" aria-expanded="false" aria-controls="caravan_q1">Answer</button>
@@ -341,7 +342,7 @@
         <li>After `4` seconds, `1,000,000` bits will move from the server to the router and `1,000,000` bits will move from the router to the client.</li>
       </ul>
       <p>Wait, but isn't the rate from router to client `2,000,000` bits per second? Why aren't `2,000,000` bits moving from router to client every second? That's because there are only `1,000,000` bits entering the router every second.</p>
-      <p>From this, we can see that the throughput of a file transfer depends on the rate of the slowest link. The slowest link is called the <b>bottleneck link</b>.</p>
+      <p>From this, we can see that the throughput of a file transfer depends on the link that is transferring bits at the lowest rate. This link is called the <b>bottleneck link</b>.</p>
       <div class="ln-box">
         <p>Mathematically, the throughput is `min(R_s,R_c)`.</p>
         <p>The time it takes to transfer the file is `F/(min(R_s,R_c))`.</p>
@@ -349,6 +350,178 @@
       <div class="ln-box">
         <p>Generally, the throughput for a network with `N` links is `min(R_1,R_2,...,R_n)`.</p>
       </div>
+      <p>The bottleneck link is not always the link with the lowest transmission rate. We'll look at another example to show this.</p>
+      <p>Suppose there are `10` clients downloading data from `10` servers (each client is connected to a unique server). Suppose they all share a common link with transmission rate `R` somewhere in the network core. We'll denote the transmission rates of the server links as `R_s` and the transmission rates of the client links as `R_c`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/throughput_2.png">
+        <p>(I think sharing a common link means all the server links eventually connect to one router and all the client links eventually connect to a different router. And the link between these two routers are the same.)</p>
+      </div>
+      <p>Let's assign actual values to these transmission rates. So let `R_s=2` Mbps, `R_c=1` Mbps, and `R=5` Mbps. Since the common link is being used for `10` simultaneous downloads, the link divides its transmission rate equally among the `10` connections. So now the common link is transferring bits at a rate of `(5text(Mbps))/10=500` kbps. Which means the throughput for each download is `500` kbps. Even though the common link had the highest transmission rate, it ended up being the bottleneck link.</p>
+      <div class="ln-box">
+        <p>Links in the network core are almost never the bottleneck link because they are usually over-provisioned with high speed links. Typically, the bottleneck links are in the access network.</p>
+      </div>
+      <h2 id="protocollayers">Protocol Layers</h2>
+      <p>There are many pieces to the Internet, like routers, links, applications ("apps"), protocols, and end systems. These pieces are organized into layers.</p>
+      <h3>Layered Architecture: The Internet Is Like an Onion</h3>
+      <p>The airline system can be seen as an organization of layers.</p>
+      <table class="table">
+        <tr>
+          <th>Layer</th>
+          <th>Action (Leaving)</th>
+          <th>Action (Arriving)</th>
+        </tr>
+        <tr>
+          <td>Ticketing</td>
+          <td>Purchase</td>
+          <td>Complain</td>
+        </tr>
+        <tr>
+          <td>Baggage</td>
+          <td>Check</td>
+          <td>Claim</td>
+        </tr>
+        <tr>
+          <td>Gates</td>
+          <td>Enter</td>
+          <td>Exit</td>
+        </tr>
+        <tr>
+          <td>Runway</td>
+          <td>Takeoff</td>
+          <td>Land</td>
+        </tr>
+        <tr>
+          <td>Airplane</td>
+          <td>Routing</td>
+          <td>Routing</td>
+        </tr>
+      </table>
+      <p>Every time we board and leave an airplane, we perform the same steps in a certain order. And the action we perform depends on the layer we're at since each layer is responsible for one thing and one thing only. (I.e., Each layer provides a different service.) Also, each layer depends on the layer before it. For example, we can only check in our baggage if we have a ticket, or we can only enter the gate once we have checked in our baggage.</p>
+      <p>This layering makes it easier to distinguish the different components of an airline system. It also makes it easier to change the implementation of a layer's service without affecting the rest of the layers. For example, the current implementation of the gate layer is to board people by ticket priority and check-in time. But the implementation can be changed to board people by height. This change doesn't affect any of the other layers, and the function of this layer remains the same: getting people on the airplane.</p>
+      <h4>Protocol Layering</h4>
+      <p>The Internet is made up of 5 layers.</p>
+      <table class="table">
+        <tr>
+          <th>Layer</th>
+        </tr>
+        <tr>
+          <td>5. Application</td>
+        </tr>
+        <tr>
+          <td>4. Transport</td>
+        </tr>
+        <tr>
+          <td>3. Network</td>
+        </tr>
+        <tr>
+          <td>2. Link</td>
+        </tr>
+        <tr>
+          <td>1. Physical</td>
+        </tr>
+      </table>
+      <p>Recall that a protocol is a set of rules that define how things should work. Each protocol belongs to one of the layers.</p>
+      <h4>Application Layer</h4>
+      <p>The application layer includes all the network applications (basically any app or program that connects to the Internet).</p>
+      <table class="table">
+        <tr>
+          <th>Protocol</th>
+          <th>Details</th>
+        </tr>
+        <tr>
+          <td>HTTP</td>
+          <td>sending and receiving Web documents</td>
+        </tr>
+        <tr>
+          <td>SMTP</td>
+          <td>sending and receiving emails</td>
+        </tr>
+        <tr>
+          <td>FTP</td>
+          <td>sending and receiving files</td>
+        </tr>
+      </table>
+      <p>Applications communicate with each other by sending <b>messages</b> to each other.</p>
+      <h4>Transport Layer</h4>
+      <p>The transport layer is responsible for delivering the application's message to the network core.</p>
+      <table class="table">
+        <tr>
+          <th>Protocol</th>
+          <th>Details</th>
+        </tr>
+        <tr>
+          <td>TCP</td>
+          <td>
+            <p>connection oriented</p>
+            <p>guaranteed delivery</p>
+          </td>
+        </tr>
+        <tr>
+          <td>UDP</td>
+          <td>
+            <p>connectionless</p>
+            <p>no reliability, no flow control, no congestion control</p>
+          </td>
+        </tr>
+      </table>
+      <p>In the transport layer, the packets of information are called <b>segments</b>.</p>
+      <h4>Network Layer</h4>
+      <p>The network layer is responsible for moving the transport layer's segments from router to router.</p>
+      <table class="table">
+        <tr>
+          <th>Protocol</th>
+          <th>Details</th>
+        </tr>
+        <tr>
+          <td>IP</td>
+          <td>
+            <p>defines how packets must be formatted</p>
+            <p>defines the actions that must be taken when sending or receiving packets</p>
+          </td>
+        </tr>
+      </table>
+      <p>In the network layer, the packets are called <b>datagrams</b>.</p>
+      <h4>Link Layer</h4>
+      <p>The link layer is responsible for moving the network layer's datagrams across links.</p>
+      <table class="table">
+        <tr>
+          <th>Protocol</th>
+        </tr>
+        <tr>
+          <td>Ethernet</td>
+        </tr>
+        <tr>
+          <td>WiFi</td>
+        </tr>
+        <tr>
+          <td>DOCSIS</td>
+        </tr>
+      </table>
+      <p>In the link layer, the packets are called <b>frames</b>.</p>
+      <h4>Physical Layer</h4>
+      <p>The physical layer is responsible for moving the individual bits of the link layer's frames across links.</p>
+      <h3>Encapsulation</h3>
+      <p>Whenever we moved across the different layers, we called the packets of information by a different name. That is because the packets change as they move from layer to layer.</p>
+      <ol>
+        <li>Application layer sends message</li>
+        <li>Transport layer adds transport-layer header information to the message, forming a segment</li>
+        <li>Network layer adds network-layer header information to the segment, forming a datagram</li>
+        <li>Link layer adds link-layer header information to the datagram, forming a frame</li>
+      </ol>
+      <p>The header information is needed so that the thing (e.g., router, link, end system) receiving the packet knows what it is and what to do with it. Here are some animations to illustrate:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/encapsulation.gif">
+      </div>
+      <p>End systems implement all 5 layers while routers usually implement only the bottom 3 layers (network, link, physical).</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/encapsulation_2.gif">
+      </div>
+      <p>Notice that when the packet left the end system, the last header added was the link-layer header, which is the first thing that gets processed when entering the router. When the packet reaches the link layer, the link-layer headers are extracted away. So now the top-most header is the network-layer header, which is what the network layer then processes.</p>
+      <p>After going through the network layer, the router determines that the packet has to go on another link again. So now the packet has to travel down the layers. When it goes from the network layer down to the link layer, a new link-layer header is added, so that the next thing (router or end system) can process it.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/encapsulation_3.gif">
+      </div>
+      <p>Now that the packet has reached the end system, it goes up the layers one last time. Again, at each layer the headers are removed until only the message remains, which the application understands.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
