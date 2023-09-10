@@ -35,6 +35,8 @@
         <li><a class="dropdown-item" href="#networkcore">The Network Core</a></li>
         <li><a class="dropdown-item" href="#delay">Delay, Loss, and Throughput</a></li>
         <li><a class="dropdown-item" href="#protocollayers">Protocol Layers</a></li>
+        <li><a class="dropdown-item" href="#networkapplications">Principles of Network Applications</a></li>
+        <li><a class="dropdown-item" href="#http">The Web and HTTP</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -116,6 +118,9 @@
         <p>Let's generalize this for `N` communication links and `P` packets.</p>
         <p>Since the time it takes for one packet to travel across one communication link is `L/R`, it takes one packet `NL/R` time to travel across `N` communication links.</p>
         <p>At time `NL/R`, the first packet will reach the destination. If there are `P` packets in total, then there will be `P-1` more times where there is a packet sitting in the last packet switch (i.e., there will be `P-1` more packets passing through the last packet switch). Since it takes `L/R` time to go from the last packet switch to the destination, it will take `(P-1)L/R` time for all the packets to reach the destination. So the total time it takes `P` packets to travel across `N` communication links is `NL/R+(P-1)L/R=(N+P-1)L/R`.</p>
+      </div>
+      <div class="ln-box">
+        <p>Besides store-and-forward, there's also cut-through switching, in which the switch starts sending bits before the whole packet is received.</p>
       </div>
       <h4>Queuing Delays</h4>
       <p>Realistically, a packet switch has more than two links. For each link in the packet switch, there is an <b>output buffer</b> (a.k.a. <b>output queue</b>) where the packets wait if the link is busy. This can happen if the transmission rate of the link is slower than the arrival rate of the packets, i.e., the packets are coming in faster than the packet switch can send them out.</p>
@@ -422,7 +427,7 @@
       </table>
       <p>Recall that a protocol is a set of rules that define how things should work. Each protocol belongs to one of the layers.</p>
       <h4>Application Layer</h4>
-      <p>The application layer includes all the network applications (basically any app or program that connects to the Internet).</p>
+      <p>The application layer includes all the network applications (basically apps or programs that connect to the Internet).</p>
       <table class="table">
         <tr>
           <th>Protocol</th>
@@ -500,6 +505,39 @@
       <p>In the link layer, the packets are called <b>frames</b>.</p>
       <h4>Physical Layer</h4>
       <p>The physical layer is responsible for moving the individual bits of the link layer's frames across links.</p>
+      <div class="ln-box">
+        <h4>OSI Model</h4>
+        <p>In the late 1970s (before the Internet became public), there was another model that was proposed by the International Organization for Standardization (ISO) on how to organize computer networks. This model was called the Open Systems Interconnection (OSI) model and it had 7 layers:</p>
+        <table class="table">
+        <tr>
+          <th>Layer</th>
+        </tr>
+        <tr>
+          <td>7. Application</td>
+        </tr>
+        <tr>
+          <td>6. Presentation</td>
+        </tr>
+        <tr>
+          <td>5. Session</td>
+        </tr>
+        <tr>
+          <td>4. Transport</td>
+        </tr>
+        <tr>
+          <td>3. Network</td>
+        </tr>
+        <tr>
+          <td>2. Link</td>
+        </tr>
+        <tr>
+          <td>1. Physical</td>
+        </tr>
+      </table>
+      <p>The layers that also appear in the Internet model work roughly the same way. So we'll just go over the ones that are new.</p>
+      <p>The presentation layer makes sure the data is readable and usable. It provides data compression, data encryption, and data description. I guess it's sorta like a translator.</p>
+      <p>The session layer makes sure the data goes where it needs to go. It provides data synchronization, checkpointing, and data recovery.</p>
+      </div>
       <h3>Encapsulation</h3>
       <p>Whenever we moved across the different layers, we called the packets of information by a different name. That is because the packets change as they move from layer to layer.</p>
       <ol>
@@ -522,6 +560,150 @@
         <img class="img-fluid ln-image-small" src="../pictures/networking/encapsulation_3.gif">
       </div>
       <p>Now that the packet has reached the end system, it goes up the layers one last time. Again, at each layer the headers are removed until only the message remains, which the application understands.</p>
+      <hr>
+      <p>From this point on, we'll go into more detail for each layer, starting with the application layer.</p>
+      <hr>
+      <h2 id="networkapplications">Principles of Network Applications</h2>
+      <p>A network application is a set of apps or programs that connect to and communicate with the Internet. These apps are made by our local software developers using languages like C, Java, or Python.</p>
+      <p>Typically, network applications involve multiple programs running on different end systems. For example, we can download Spotify on our phone, tablet, computer, or watch. And Spotify will have a different program running on their servers to provide functionality to the app.</p>
+      <h3>Network Application Architectures</h3>
+      <p>There are 2 types of network application architectures: client-server and peer-to-peer (P2P).</p>
+      <p>In the client-server architecture, there is a server that is always on and running. Whenever clients want data, they make a request to the server, which then provides the clients with what they requested. In addition to always being on, the server has a fixed IP address, so clients can make requests to the server at any time.</p>
+      <p>Big companies, like Google, need more than one server to handle all the requests, otherwise that one server would get overwhelmed. So they set up <b>data centers</b>, which house multiple servers. And then they go and set up multiple data centers.</p>
+      <p>In peer-to-peer architecture, there are no servers (and thus no clients). Instead, devices communicate directly with other devices — called peers — to transfer data.</p>
+      <p>Let's say you wanted to download a large file (perhaps an online textbook 🤫). You could go online and download it (this would be client-server), but let's say the file is so large, that it takes too long. Suppose that I happen to have the complete file already downloaded. Using the right application, I could transfer my file directly to your computer. Suppose that someone else also has the file. Then you can receive the file from both of us. And the more people that have the file, the more people you can connect to to receive the file, making the download faster.</p>
+      <p>The effectiveness of peer-to-peer relies on the number of peers. The more peers there are, the more computing power there is. This is referred to as <b>self-scalability</b>.</p>
+      <h3>Processes Communicating</h3>
+      <p>We call them programs. Operating systems call them <b>processes</b>.</p>
+      <h4>Client and Server Processes</h4>
+      <p>A network application consists of pairs of processes that send messages to each other. A Web broswer (a process) communicates with a Web server (another process). Spotify, the app (a process), communicates with Spotify's servers (another set of processes). The process that is requesting data is the <b>client</b> process and the process that is providing the data is the <b>server</b> process. Despite the naming, the terms "client" and "server" processes apply for both client-server architecture and peer-to-peer architecture.</p>
+      <div class="ln-box">
+        <p>More formally (and perhaps more accurately), client processes are the ones that initiate communication and server processes are the ones that wait to be contacted.</p>
+      </div>
+      <h4>The Interface Between the Process and the Computer Network</h4>
+      <p>As we saw before, a process in the application layer sends a message to the transport layer. In order to do so, it opens a <b>socket</b>, which is the application layer's door to the transport layer. Sockets are also used to receive messages from the transport layer.</p>
+      <div class="ln-box">
+        <p>For us developers, sockets are also referred to as the <b>Application Programming Interface</b> (<b>API</b>) between the application and the network. We don't have control over how the socket is implemented; that's handled by the OS.</p>
+      </div>
+      <h4>Addressing Processes</h4>
+      <p>In order for the message to go to the correct place, the sending process needs to specify where the message needs to be delivered to. First, it needs to specify which end system is receiving the message. Each end system has a unique identifier called an <b>IP address</b>. Knowing just the end system is not enough though because an end system is running multiple applications while it's on, and we need to know which application needs the message. Whenever processes open a socket, they must choose a number to "label" the socket. This number is called a <b>port number</b>.</p>
+      <h3>Transport Services Available to Applications</h3>
+      <p>On the other side of the socket is a transport-layer protocol that delivers the message to the socket of the receiving process. There are several transport-layer protocols an application can choose from.</p>
+      <h4>Reliable Data Transfer</h4>
+      <p>As we saw earlier, packets can get lost. For some situations, like transferring financial documents, packet loss is undesirable. But even though packets can get lost, a protocol can still guarantee that the file will be delivered correctly. Then that protocol provides <b>reliable data transfer</b>.</p>
+      <p>In other situations, like video calls, some packet loss is acceptable. ("I'm sorry, can you repeat that? You cut out for a few seconds.") Those applications are referred to as <b>loss-tolerant applications</b>.</p>
+      <h4>Throughput</h4>
+      <p>Throughput is the rate at which bits are transferred between the source and destination (I feel like I've said these exact words before). A transport-layer protocol can guarantee a specified throughput of some amount of bits per second. This would be useful for voice calls, which need a certain throughput in order for the voices to be heard clearly. Applications that have throughput requirements are <b>bandwidth-sensitive applications</b>.</p>
+      <p>Applications that don't are <b>elastic applications</b>. File transfers don't need a certain throughput. If more bits can be transferred, then the download will be faster. If fewer bits can be transferred, then the download will be slower.</p>
+      <h4>Timing</h4>
+      <p>Whereas throughput is the number of bits going through, timing is the delay between each bit. One timing guarantee might be that bits go to the receiving process every 100 milliseconds. For real-time applications, like video calls and online games, it is ideal to have low delay.</p>
+      <h4>Security</h4>
+      <p>Before transferring the data, a transport protocol can encrypt it.</p>
+      <h3>Transport Services Provided by the Internet</h3>
+      <p>There are 2 transport protocols an application can use: TCP and UDP.</p>
+      <h4>TCP</h4>
+      <p>TCP is a connection-oriented protocol. The client and server have to confirm a connection (<b>TCP connection</b>) with each other first before messages can be transferred. And once the application is done sending messages, it must close the connection.</p>
+      <p>TCP also provides reliable data transfer. This means data is sent without error and in the proper order — there are no missing or duplicate bytes. Part of this is achieved by implementing congestion control. If the network is congested, the sending process will be throttled.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/tcp_comic.png">
+      </div>
+      <h4>UDP</h4>
+      <p>UDP is like the opposite of TCP. It's connectionless. The data transfer is unreliable — there's no guarantee all the messages will arrive and if it does arrive, there's no guarantee that the messages will arrive in order. And there's no congestion control. All of these things sound bad, so why does UDP even exist in the first place?</p>
+      <p>Well no congestion control means that UDP can send bits at any rate with no limits*. This is good for voice call applications because they want data to be sent as much as possible and as fast as possible.</p>
+      <p>*However, there will be actual limitations to this rate, including link transmission rate and network congestion.</p>
+      <div class="ln-box">
+        <p>For some reason, most firewalls are configured to block most types of UDP traffic. So applications that use UDP have to be prepared to use TCP as a backup.</p>
+      </div>
+      <div class="ln-box">
+        <table class="table">
+          <tr>
+            <th>Application</th>
+            <th>Application-Layer Protocol</th>
+            <th>Transport-Layer Protocol</th>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>SMTP</td>
+            <td>TCP</td>
+          </tr>
+          <tr>
+            <td>Remote terminal access</td>
+            <td>SSH</td>
+            <td>TCP</td>
+          </tr>
+          <tr>
+            <td>Web</td>
+            <td>HTTP</td>
+            <td>TCP</td>
+          </tr>
+          <tr>
+            <td>File transfer</td>
+            <td>FTP</td>
+            <td>TCP</td>
+          </tr>
+          <tr>
+            <td>Streaming</td>
+            <td>HTTP</td>
+            <td>TCP</td>
+          </tr>
+          <tr>
+            <td>Internet telephony</td>
+            <td>SIP, RTP, etc.</td>
+            <td>TCP or UDP</td>
+          </tr>
+        </table>
+      </div>
+      <div class="ln-box">
+        <p>TCP and UDP both <em>don't</em> guarantee:</p>
+        <ul>
+          <li>throughput</li>
+          <li>timing</li>
+          <li>security*</li>
+        </ul>
+        <p>Despite this, time-sensitive applications still work. This is because they are designed with these lack of guarantees in mind.</p>
+        <p>*TCP can be enchanced with <b>Transport Layer Security</b> (<b>TLS</b>) to provide encryption. TLS is not a protocol; it's an add-on to TCP.</p>
+      </div>
+      <h3>Application-Layer Protocols</h3>
+      <p>Application-layer protocols define:</p>
+      <ul>
+        <li>the types of messages exchanged (e.g., request and response messages)</li>
+        <li>the format of the messages
+          <ul>
+            <li>what fields can go in a message</li>
+          </ul>
+        </li>
+        <li>the meaning of the information in the fields</li>
+        <li>rules for determining when and how processes send and respond to messages</li>
+      </ul>
+      <p>Some protocols are defined in RFCs and are therefore public. While other protocols, like Skype's, are proprietary.</p>
+      <h2 id="http">The Web and HTTP</h2>
+      <p>The Internet became big in the 1900s with the arrival of the World Wide Web.</p>
+      <h3>Some Dry Facts About HTTP</h3>
+      <p>A <b>Web page</b> is a document with a bunch of <b>objects</b>, which can be images, videos, JavaScript files, CSS style sheets, etc. (More formally, an object is a file that is addressable by a single URL.) A Web page is usually an HTML file that includes references to these objects. <b>Web browsers</b> request and display Web objects while <b>Web servers</b> store Web objects.</p>
+      <p>HTTP stands for <b>HyperText Transfer Protocol</b>, and it is the Web's application-layer protocol. When browsers request a Web page, they send HTTP request messages to the server and the server responds with HTTP response messages that contain the objects.</p>
+      <p>HTTP uses TCP as its transport protocol. Port 80 is reserved for HTTP, so when browsers and servers initialize their sockets, they use port 80.</p>
+      <p>HTTP is a <b>stateless protocol</b>. This means that the server does not store any information about the exchanges the server has with clients. For example, the server will not know if a particular client has asked for a Web page before or if it's the client's first time asking for the Web page.</p>
+      <h3>Non-Persistent and Persistent Connections</h3>
+      <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for each object in the Web page. In <b>non-persistent connections</b>, the browser opens a TCP connection for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. HTTP uses persistent connections by default.</p>
+      <h4>HTTP with Non-Persistent Connections</h4>
+      <ol>
+        <li>Browser starts a TCP connection to the server on port 80</li>
+        <li>Browser sends an HTTP request message to the server</li>
+        <li>Server receives the request, gets the object, puts it in an HTTP response message, and sends the message</li>
+        <li>Server closes the TCP connection</li>
+        <li>Browser receives the response.</li>
+      </ol>
+      <p>And these steps repeat for each object in the Web page. So if a Web page has 10 objects, there will be 11 connections made (1 for the Web page and 10 for each object). While this may seem tedious, browsers can be configured to open multiple parallel connections at the same time instead of waiting for one connection to be done before opening another.</p>
+      <p>Let's look at one request in action:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/http.gif">
+      </div>
+      <p>As we can see, it takes some time for the client to receive the file after making a request.</p>
+      <p>The <b>round-trip time</b> (<b>RTT</b>) is the time it takes for a packet to travel from client to server. Included in the RTT are the delays we saw in the "Delay, Loss, and Throughput" section.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/rtt.png">
+      </div>
+      <p>So the total response time is 2 RTTs plus the transmission time of the file.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
