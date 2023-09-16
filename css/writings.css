@@ -37,6 +37,7 @@ body {
 .btn {
   color: gray;
   background-color: white;
+  margin-bottom: 5px;
 }
 
 .btn:focus, .btn:active {

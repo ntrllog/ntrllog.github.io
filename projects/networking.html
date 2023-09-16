@@ -677,33 +677,84 @@
       </ul>
       <p>Some protocols are defined in RFCs and are therefore public. While other protocols, like Skype's, are proprietary.</p>
       <h2 id="http">The Web and HTTP</h2>
-      <p>The Internet became big in the 1900s with the arrival of the World Wide Web.</p>
+      <p>The Internet became big in the 1990s with the arrival of the World Wide Web.</p>
       <h3>Some Dry Facts About HTTP</h3>
       <p>A <b>Web page</b> is a document with a bunch of <b>objects</b>, which can be images, videos, JavaScript files, CSS style sheets, etc. (More formally, an object is a file that is addressable by a single URL.) A Web page is usually an HTML file that includes references to these objects. <b>Web browsers</b> request and display Web objects while <b>Web servers</b> store Web objects.</p>
       <p>HTTP stands for <b>HyperText Transfer Protocol</b>, and it is the Web's application-layer protocol. When browsers request a Web page, they send HTTP request messages to the server and the server responds with HTTP response messages that contain the objects.</p>
       <p>HTTP uses TCP as its transport protocol. Port 80 is reserved for HTTP, so when browsers and servers initialize their sockets, they use port 80.</p>
       <p>HTTP is a <b>stateless protocol</b>. This means that the server does not store any information about the exchanges the server has with clients. For example, the server will not know if a particular client has asked for a Web page before or if it's the client's first time asking for the Web page.</p>
       <h3>Non-Persistent and Persistent Connections</h3>
-      <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for each object in the Web page. In <b>non-persistent connections</b>, the browser opens a TCP connection for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. HTTP uses persistent connections by default.</p>
+      <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for the base HTML file and then each object in the file. In <b>non-persistent connections</b>, the browser opens a TCP connection for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. HTTP uses persistent connections by default.</p>
       <h4>HTTP with Non-Persistent Connections</h4>
       <ol>
         <li>Browser starts a TCP connection to the server on port 80</li>
         <li>Browser sends an HTTP request message to the server</li>
-        <li>Server receives the request, gets the object, puts it in an HTTP response message, and sends the message</li>
+        <li>Server receives the request, gets the base file, puts it in an HTTP response message, and sends the message</li>
         <li>Server closes the TCP connection</li>
         <li>Browser receives the response.</li>
       </ol>
-      <p>And these steps repeat for each object in the Web page. So if a Web page has 10 objects, there will be 11 connections made (1 for the Web page and 10 for each object). While this may seem tedious, browsers can be configured to open multiple parallel connections at the same time instead of waiting for one connection to be done before opening another.</p>
+      <p>And these steps repeat for each object in the Web page. So if a Web page has `10` objects, there will be `11` connections made (`1` for the Web page and `10` for each object). While this may seem tedious, browsers can be configured to open multiple parallel connections at the same time instead of waiting for one connection to be done before opening another.</p>
       <p>Let's look at one request in action:</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/http.gif">
       </div>
       <p>As we can see, it takes some time for the client to receive the file after making a request.</p>
-      <p>The <b>round-trip time</b> (<b>RTT</b>) is the time it takes for a packet to travel from client to server. Included in the RTT are the delays we saw in the "Delay, Loss, and Throughput" section.</p>
+      <p>The <b>round-trip time</b> (<b>RTT</b>) is the time it takes for a packet to travel from client to server. The delays we saw in the "Delay, Loss, and Throughput" section also factor into the RTT.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/rtt.png">
       </div>
-      <p>So the total response time is 2 RTTs plus the transmission time of the file.</p>
+      <p>So the total response time is `2` RTTs plus the transmission time of the file. `1` RTT is for establishing the TCP connection and `1` RTT is for sending the file.</p>
+      <p>Besides the delay for sending each object, there is also the burden of resource management. For each TCP connection, buffers and variables must be allocated; this can take up a lot of resources on the server if there are a bunch of clients.</p>
+      <h4>HTTP with Persistent Connections</h4>
+      <p>Instead of closing the TCP connection after sending the requested object, the server keeps the connection open for a certain period of time.</p>
+      <div class="ln-box">
+        <p>For both non-persistent and persistent connections, they can also be non-parallel or parallel. In non-parallel connections, the client waits until it receives an object before requesting another one. So each object requires `1` RTT. In parallel connections, the client requests an object as soon as it needs it, even if a previous request for an object has not been completed yet. This means if there are `n` objects, it could request for all `n` objects at once. So it could take as little as `1` RTT to get all the objects. (Note that the `1` RTT is just for the objects in the base file. The browser needs `1` RTT to get the base file itself first.)</p>
+      </div>
+      <div class="ln-box">
+        <p>Suppose there is a `100`-kilobit page that contains `5` `100`-kilobit images, all of which are stored on a server. Suppose the round-trip time from the server to a client's browser is `200` milliseconds. For simplicity, we'll assume there is only one `100` Mbps link between the client and server; the time it takes to transmit a GET request onto the link is zero; and it takes some time to transmit things onto the link (well this last one technically doesn't need to be assumed). Note that based on the assumptions, the link has a `100` millisecond one-way propagation delay as well as a transmission delay.</p>
+        <p>For non-persistent, non-parallel connections, how long is the response time? (The time from when the user requests the URL to the time when the page and its images are displayed?)</p>
+        <div class="collapse ln-box" id="http_q1">
+          <p>Let's start with the base file. It takes `1` RTT to establish the TCP connection and another `1` RTT to get the base file. So it takes a total of `2` RTTs for the base file. We are given that one RTT is `200` milliseconds, so it takes `200*2=400` milliseconds for the base file to propagate through the link.</p>
+          <p>The transmission delay for the base file is `L/R=(100text( kb))/(100text( Mbps))=(100,000text( bits))/(100,000,000text( bits/s))=0.001` seconds `=1` millisecond.</p>
+          <p>So the total time it takes to get the base file is `400+1=401` milliseconds.</p>
+          <p>Now for the objects. Since it is non-persistent, the TCP connection for the base file will be closed and new ones (`1` each) will be needed for the objects. Since it is non-parallel, the previous TCP connection has to close before a new one opens.</p>
+          <p>For one object, it takes `1` RTT to establish the TCP connection, and `1` RTT to get the object. So `2` RTTs for one object. For `5` objects, this is a total of `5*2=10` RTTs. In terms of milliseconds, this is `200*10=2000` milliseconds.</p>
+          <p>The transmission delay for one object is the same for the base file. Then for `5` objects, the transmission delay is `1*5=5` milliseconds.</p>
+          <p>So the total time it takes to get all of the objects is `2000+5=2005` milliseconds.</p>
+          <p>Bringing the total time for the whole Web page to `2005+401=2406` milliseconds `=2.406` seconds.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#http_q1" aria-expanded="false" aria-controls="http_q1">Answer</button>
+        <p>What about for non-persistent, parallel connections?</p>
+        <div class="collapse ln-box" id="http_q2">
+          <p>Again, we'll start with the base file. It takes `1` RTT to establish the TCP connection and another `1` RTT to get the base file. So `2` RTTs. Same as before, `2*200=400` milliseconds for the base file to propagate.</p>
+          <p>The transmission delay is also the same at `1` millisecond.</p>
+          <p>So the total time it takes to get the base file is `400+1=401` milliseconds.</p>
+          <p>For the objects, since the connections are parallel, all `5` objects will be retrieved at the same time in `1` RTT. Also, all `5` TCP connections will be opened parallelly in `1` RTT. So `2` RTTs for all `5` objects. This is also `2*200=400` milliseconds for them to propagate.</p>
+          <p>Even though the connections are parallel, the objects are not transmitted onto the link parallelly. (There is only one link, so only one object can be transmitted at a time.) As we saw before, it takes `1` millisecond to transmit `1` object. So for `5` objects, `5` milliseconds.</p>
+          <p>So the total time it takes to get all of the objects is `400+5=405` milliseconds.</p>
+          <p>Bringing the total time for the whole Web page to `401+405=806` milliseconds `=0.806` seconds.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#http_q2" aria-expanded="false" aria-controls="http_q2">Answer</button>
+        <p>What about for persistent, non-parallel connections?</p>
+        <div class="collapse ln-box" id="http_q3">
+          <p>We open the TCP connection and wait for the base file to transmit and propagate, which takes `401` milliseconds.</p>
+          <p>For the objects, since the connection is persistent, we don't need to open any more TCP connections.</p>
+          <p>But since it is non-parallel, we need to get the objects one at a time. `1` RTT for each object means `5` RTTs for all objects, which means `5*200=1000` milliseconds for all objects to propagate.</p>
+          <p>And `5` milliseconds to transmit.</p>
+          <p>So the total time it takes to get all of the objects is `1000+5=1005` milliseconds.</p>
+          <p>Bringing the total time for the whole Web page to `401+1005=1406` milliseconds `=1.406` seconds.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#http_q3" aria-expanded="false" aria-controls="http_q3">Answer</button>
+        <p>What about for persistent, parallel connections?</p>
+        <div class="collapse ln-box" id="http_q4">
+          <p>The base file takes `401` milliseconds to transmit and propagate.</p>
+          <p>We don't need to open any more TCP connections, and all `5` objects will be retrieved at once in `1` RTT. So `200` milliseconds to propagate.</p>
+          <p>`5` milliseconds to transmit.</p>
+          <p>So the total time it takes to get all of the objects is `200+5=205` milliseconds.</p>
+          <p>Bringing the total time for the whole Web page to `401+205=606` milliseconds `=0.606` seconds.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#http_q4" aria-expanded="false" aria-controls="http_q4">Answer</button>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
