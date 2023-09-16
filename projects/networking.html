@@ -43,7 +43,7 @@
       <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
       <h1>Computer Networking</h1>
       <hr>
-      <p>Shortcut to this page: <a href="ml.html">ntrllog.netlify.app/networking</a></p>
+      <p>Shortcut to this page: <a href="networking.html">ntrllog.netlify.app/networking</a></p>
       <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a> and Professor Senhua Yu.</p>
       <h2 id="whatisit">What is the Internet?</h2>
       <p>Computers. Laptops. Smartphones. TVs. Watches. And everything else that has the word "smart" in front of it. All of these things that can connect to the Internet are called <b>hosts</b> or <b>end systems</b>. End systems send and receive data through a system of communcation links and packet switches. The data travels through this system as little pieces called packets and they are reassembled when they reach their destination. Packet switches are machines that help transfer these packets. The whole path that a packet takes is called a <b>route</b> or <b>path</b>.</p>
@@ -683,6 +683,9 @@
       <p>HTTP stands for <b>HyperText Transfer Protocol</b>, and it is the Web's application-layer protocol. When browsers request a Web page, they send HTTP request messages to the server and the server responds with HTTP response messages that contain the objects.</p>
       <p>HTTP uses TCP as its transport protocol. Port 80 is reserved for HTTP, so when browsers and servers initialize their sockets, they use port 80.</p>
       <p>HTTP is a <b>stateless protocol</b>. This means that the server does not store any information about the exchanges the server has with clients. For example, the server will not know if a particular client has asked for a Web page before or if it's the client's first time asking for the Web page.</p>
+      <div class="ln-box">
+        <p>The original version of HTTP is called HTTP/1.0. Then there was HTTP/1.1 (1997), HTTP/2 (2015), and HTTP/3 (2022).</p>
+      </div>
       <h3>Non-Persistent and Persistent Connections</h3>
       <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for the base HTML file and then each object in the file. In <b>non-persistent connections</b>, the browser opens a TCP connection for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. HTTP uses persistent connections by default.</p>
       <h4>HTTP with Non-Persistent Connections</h4>
@@ -755,6 +758,30 @@
         </div>
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#http_q4" aria-expanded="false" aria-controls="http_q4">Answer</button>
       </div>
+      <h3>HTTP Message Format</h3>
+      <p>There are two types of HTTP messages: request messages and response messages.</p>
+      <h4>Request Messages: Give Me What I Want!</h4>
+      <p>Here's an example of what a request message might look like:</p>
+      <p><code>GET /projects/page.html HTTP/1.1<br>Host: www.myschool.edu<br>Connection: close<br>User-agent: Mozilla/5.0<br>Accept-language: fr</code></p>
+      <p>The first line is the <b>request line</b>. There are three fields: the method field, the URL field, and the HTTP version field. As we can infer, the method is GET, which is the method for requesting objects (because, you know, we want to "get" it).</p>
+      <p>The lines below the request line are the <b>header lines</b>. <code>Connection: close</code> means "close the connection after giving me what I requested", i.e., use a non-persistent connection. <code>Connection: keep-alive</code> is for a persistent connection. The user agent specifies what type of browser is making the request. And <code>Accept-language: fr</code> means get the French version if it exists.</p>
+      <div class="ln-box">
+        <p>It may look like the header line specifying the host is unnecessary, because the browser needed to know the host in order to establish the TCP connection in the first place. It turns out that it is needed by Web proxy caches, which we'll see later.</p>
+      </div>
+      <p>There is also an entity body that follows the header lines. It wasn't included in the example above because the entity body is usually empty for GET requests. The entity body is usually used for POST requests, which are used to submit information, like user inputs from a form. The information that needs to be submitted are included in the entity body.</p>
+      <div class="ln-box">
+        <p>This is a little bit unconventional, but GET requests can also be used to submit information. Instead of going in the entity body, the inputted data is included in the URL with a question mark, like google.com/search?q=what+is+http, where q is the name of the input and the stuff after the '=' is the value of the input.</p>
+      </div>
+      <h4>Response Messages: Here You Go, Now Leave Me Alone!</h4>
+      <p>Here's an example of what a response message might look like:</p>
+      <p><code>HTTP/1.1 200 OK<br>Connection: close<br>Date: Sat, 16 Sep 2023 19:23:09 GMT<br>Server: Apache/2.2.3 (CentOS)<br>Last-Modified: Sat, 16 Sep 2023 18:34:09 GMT<br>Content-Length: 6821<br>Content-Type: text/html<br><br>(the requested data...)</code></p>
+      <p>The first line is the <b>status line</b>. There are three fields: the protocol version, the status code, and the status message.</p>
+      <p>The lines below are the <b>header lines</b>. The <code>Date:</code> header line specifies when the HTTP response was created and sent by the server. The <code>Server:</code> header line specifies the type of the Web server. <code>Last-Modified:</code> is when the object was created or last modified. <code>Content-Length:</code> specifies the object's size in bytes.</p>
+      <p>The <b>entity body</b> contains the actual object.</p>
+      <h3>Cookies! 🍪</h3>
+      <p>HTTP is stateless, so the server doesn't store information about the requests that the clients are making. However, servers sometimes want a way to identify users so that they can restrict access or provide user-specific information when responding to the client. This is where cookies come in. Cookies allow sites to keep track of users.</p>
+      <p>Let's say we go to our favorite shopping site on our favorite browser. The site creates a unique ID (let's say 9876) for this request, stores the ID in its database, and sends the ID back in the response. The response includes a <code>Set-cookie:</code> header; this tells the browser to create and store a cookie file. For example, the header will look like <code>Set-cookie: 9876</code>, so the browser will store 9876 in a file. Now, as we navigate through our shopping site, the site can ask the browser to include this cookie in every request. Then the site will query the database for this ID to identify the user. If the ID exists in the database, the site will know the user has visited before, and if the ID doesn't in the database, the site will consider this a new user visiting for the first time.</p>
+      <p>When we say that the site can identify the user, the site doesn't actually know who we are, like our name and stuff. Until we enter that information ourselves. When we enter our information to buy something or to fill out a form, the site can store that information and associate that with the ID in the cookie. So the next time we visit that site, it can look at the ID and the information linked to that ID.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
