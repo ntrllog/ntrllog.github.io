@@ -37,6 +37,10 @@
         <li><a class="dropdown-item" href="#protocollayers">Protocol Layers</a></li>
         <li><a class="dropdown-item" href="#networkapplications">Principles of Network Applications</a></li>
         <li><a class="dropdown-item" href="#http">The Web and HTTP</a></li>
+        <li><a class="dropdown-item" href="#email">Email</a></li>
+        <li><a class="dropdown-item" href="#dns">DNS</a></li>
+        <li><a class="dropdown-item" href="#p2p">Peer-to-Peer File Distribution</a></li>
+        <li><a class="dropdown-item" href="#cdn">Video Streaming and Content Distribution Networks</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -733,7 +737,7 @@
           <p>The transmission delay is also the same at `1` millisecond.</p>
           <p>So the total time it takes to get the base file is `400+1=401` milliseconds.</p>
           <p>For the objects, since the connections are parallel, all `5` objects will be retrieved at the same time in `1` RTT. Also, all `5` TCP connections will be opened parallelly in `1` RTT. So `2` RTTs for all `5` objects. This is also `2*200=400` milliseconds for them to propagate.</p>
-          <p>Even though the connections are parallel, the objects are not transmitted onto the link parallelly. (There is only one link, so only one object can be transmitted at a time.) As we saw before, it takes `1` millisecond to transmit `1` object. So for `5` objects, `5` milliseconds.</p>
+          <p>Even though the connections are parallel, the objects are not transmitted onto the link in parallel. (There is only one link, so only one object can be transmitted at a time.) As we saw before, it takes `1` millisecond to transmit `1` object. So for `5` objects, `5` milliseconds.</p>
           <p>So the total time it takes to get all of the objects is `400+5=405` milliseconds.</p>
           <p>Bringing the total time for the whole Web page to `401+405=806` milliseconds `=0.806` seconds.</p>
         </div>
@@ -758,6 +762,17 @@
         </div>
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#http_q4" aria-expanded="false" aria-controls="http_q4">Answer</button>
       </div>
+      <h3>HTTP/2</h3>
+      <p>Opening multiple connections results in the server having to open and maintain multiple sockets. However, using only one TCP connection introduces a problem called <b>Head of Line</b> (<b>HOL</b>) <b>blocking</b>. Let's say the base file has a large video clip near the top and many small objects below the video. Being near the top, the video will be requested first. Especially if the bottleneck link is bad, the video will take some time to transfer, causing the objects to have to wait for the video. The video at the head of the line blocks the objects behind it. Parallel connections is one way to solve this problem.</p>
+      <p>Standardized in 2015, HTTP/2 introduced a way to allow for using one TCP connection without experiencing HOL blocking.</p>
+      <h4>HTTP/2 Framing</h4>
+      <p>The solution is to break each object into small frames and interleave them. That way, each response will contain parts of each object.</p>
+      <div class="ln-box">
+        <p>Let's say the base file has `1` large video clip and `8` small objects. Suppose the video clip is broken up into `1000` frames and each of the small objects is broken up into `2` frames. The first response can contain `10` frames: `1` frame from the video and the first frame of each of the small objects. The second reponse can also contain `10` frames: `1` frame from the video and the last frame of each of the small objects. In just `18` frames, all of the small objects have been sent. If the frames weren't interleaved, the small objects would be sent after `1016` frames.</p>
+        <p>(For some reason, interloven sounds right.)</p>
+      </div>
+      <h4>Server Pushing</h4>
+      <p>The server can analyze the base file, see what objects there are, and send them to the client without needing to wait for the client to ask for them.</p>
       <h3>HTTP Message Format</h3>
       <p>There are two types of HTTP messages: request messages and response messages.</p>
       <h4>Request Messages: Give Me What I Want!</h4>
@@ -780,8 +795,211 @@
       <p>The <b>entity body</b> contains the actual object.</p>
       <h3>Cookies! 🍪</h3>
       <p>HTTP is stateless, so the server doesn't store information about the requests that the clients are making. However, servers sometimes want a way to identify users so that they can restrict access or provide user-specific information when responding to the client. This is where cookies come in. Cookies allow sites to keep track of users.</p>
-      <p>Let's say we go to our favorite shopping site on our favorite browser. The site creates a unique ID (let's say 9876) for this request, stores the ID in its database, and sends the ID back in the response. The response includes a <code>Set-cookie:</code> header; this tells the browser to create and store a cookie file. For example, the header will look like <code>Set-cookie: 9876</code>, so the browser will store 9876 in a file. Now, as we navigate through our shopping site, the site can ask the browser to include this cookie in every request. Then the site will query the database for this ID to identify the user. If the ID exists in the database, the site will know the user has visited before, and if the ID doesn't in the database, the site will consider this a new user visiting for the first time.</p>
+      <p>Let's say we go to our favorite shopping site on our favorite browser. The site creates a unique ID (let's say 9876) for this request, stores the ID in its database, and sends the ID back in the response. The response includes a <code>Set-cookie:</code> header; this tells the browser to create and store a cookie file. For example, the header will look like <code>Set-cookie: 9876</code>, so the browser will store 9876 in a file. Now, as we navigate through our shopping site, the site can ask the browser to include this cookie in every request. Then the site will query its database for this ID to identify the user. If the ID exists in the database, the site will know the user has visited before, and if the ID isn't in the database, the site will consider this a new user visiting for the first time.</p>
       <p>When we say that the site can identify the user, the site doesn't actually know who we are, like our name and stuff. Until we enter that information ourselves. When we enter our information to buy something or to fill out a form, the site can store that information and associate that with the ID in the cookie. So the next time we visit that site, it can look at the ID and the information linked to that ID.</p>
+      <h3>Web Caching</h3>
+      <p>A <b>Web cache</b> is a server that stores Web pages and objects that have been recently requested.</p>
+      <p>When a browser requests an object, it sends the request to a Web cache. If the Web cache has a copy of the requested object, the Web cache sends it to the browser. If it doesn't, the Web cache requests it from the origin server, which sends the object to the Web cache. The Web cache stores a copy of it in its storage and sends that copy to the browser.</p>
+      <p>Having a Web cache can significantly speed things up. If the server is physically located far away from the client or if the bottleneck link between the server and client is really bad, then using the Web cache reduces response times, assuming the Web cache is physically closer to the client or the bottleneck link between the Web cache and client is faster than the bottleneck link between the server and client.</p>
+      <div class="ln-box">
+        <p>Let's look at a hypothetical access network connected to the Internet. The router in the access network is connected to the router in the Internet by a `15` Mbps link. The links in the access network have a transmission rate of `100` Mbps. Suppose the average object size is `1` Mbits and that the average request rate is `15` requests per second. Also suppose that it takes `2` seconds on average for data to travel between the router in the Internet and the origin servers (we'll informally call this "Internet delay"). And that it takes `0.01` seconds on average for data to travel in the access network.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/web_cache.png">
+        </div>
+        <p>Recall that traffic intensity is `(La)/R` where `La` is the average rate at which bits are travelling and `R` is the transmission rate of the link.</p>
+        <p>On the access network, `15` requests per second and `1` Mbits per request means there are `15` Mbits travelling per second. So the traffic intensity is</p>
+        <div class="ln-center">
+          <p>`(La)/R=15/100=0.15`</p>
+        </div>
+        <p>which isn't too bad. In fact, the delay on the access link is negligible.</p>
+        <p>On the access link, the traffic intensity is</p>
+        <div class="ln-center">
+          <p>`(La)/R=15/15=1`</p>
+        </div>
+        <p>which is really bad. The average response time could be in minutes.</p>
+        <p>One solution is to upgrade the access link, but that's costly.</p>
+        <p>Instead, let's consider placing a Web cache in the access network. Suppose that there is a `40%` chance that the cache can satisfy a request (i.e., the hit rate is `0.4`). This means only `60%` of the requests are going through the access link, so the traffic intensity is `1*0.6=0.6`.</p>
+        <p>The average delay is the sum of the access network delay, access link delay, and Internet delay. The access network delay is `0.01` seconds; the access link delay is negligible with a traffic intensity of `lt 0.8`; and the Internet delay is `2` seconds. Since `40%` of the requests stay in the access network and `60%` of the request go to the Internet, the average delay is</p>
+        <div class="ln-center">
+          <p>`0.4*(0.01+0+0)+0.6*(0.01+0+2)=0.004+1.206=1.21` seconds</p>
+        </div>
+        <p>If we had upgraded the access link instead of using a Web cache, the average delay would be at least `2` seconds from the Internet delay alone. So we can see that using a Web cache provides faster response times.</p>
+      </div>
+      <h4>Conditional GET</h4>
+      <p>The problem with using a Web cache is that objects in the Web cache can get outdated since the Web cache only stores a copy of the object while the actual object sits at the server and can be modified. The simple fix is for the Web cache to send a request to the server to check the last time the object was modified.</p>
+      <p>Let's say the browser sends a request to the Web cache. The Web cache doesn't have it, so it sends a request to the server. The server sends the object to the Web cache:</p>
+      <p><code>HTTP/1.1 200 OK<br>Date: Sun, 17 Sep 2023 19:10:09<br>Server: Apache/1.3.0 (Unix)<br>Last-Modified: Sun, 17 Sep 2023 18:30:09<br>Content-Type: image/gif<br><br>(the requested data...)</code></p>
+      <p>The Web cache sends the object to the browser and makes a copy of the object. Let's say the browser requests the same object one week later. The Web cache has a copy of the object this time, but it sends a conditional GET to the server first to check if there have been any changes:</p>
+      <p><code>GET /fruit/kiwi.gif HTTP/1.1<br>Host: www.exotiquecuisine.com<br>If-modified-since: Sun, 17 Sep 2023 18:30:09</code></p>
+      <p>Let's say the object hasn't been modified since then. The server sends this to the Web cache:</p>
+      <p><code>HTTP/1.1 304 Not Modified<br>Date: Sun, 24 Sep 2023 15:39:09<br>Server: Apache/1.3.0 (Unix)</code></p>
+      <p>The entity body will be empty since it is pointless to send the object. However, if the object had been modified, the object would have been sent in the entity body.</p>
+      <h2 id="email">Email</h2>
+      <p>The Internet's mail system has three components: user agents, mail servers, and the Simple Mail Transfer Protocol (SMTP). <b>User agents</b> are applications that allow us to read and write emails, like Gmail and Outlook. <b>Mail servers</b> store emails in <b>mailboxes</b> and send emails to other peoples' mailboxes. Before being sent, emails wait in the sender's mail server's <b>message queue</b>.</p>
+      <div class="ln-box">
+        <p>We, as individuals, have our own mail servers (in a sense). This may sound a little weird (what? I'm running a server?). When we create an email account on, say, Google, Google manages a mail server for us. This mail server is shared with other Google users. (Note, the mail server is shared, not the mailbox.)</p>
+      </div>
+      <h3>SMTP</h3>
+      <p><b>SMTP</b> is the application-layer protocol for email applications. Specifically, it is the protocol for <em>sending</em> emails (not receiving). It uses TCP (which is probably not surprising). When a mail server sends mail, it is an SMTP client. When a mail server receives mail, it is an SMTP server.</p>
+      <div class="ln-box">
+        <p>SMTP requires emails to be encoded using 7-bit ASCII. This restriction is a result of SMTP being around since the 1980s, when people weren't sending a lot of emails, much less emails with large attachments like images and videos.</p>
+      </div>
+      <ol>
+        <li>Person 1 uses their user agent to write and send an email</li>
+        <li>Person 1's user agent sends the email to Person 1's mail server, which places the email in its message queue</li>
+        <li>Person 1's mail server opens a TCP connection to Person 2's mail server</li>
+        <li>After TCP's whole handshaking thing, Person 1's mail server sends the email</li>
+        <li>Person 2's mail server receives the email and puts it in Person 2's mailbox</li>
+        <li>Person 2 uses their user agent to read the email</li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/email.png">
+      </div>
+      <div class="ln-box">
+        <p>Person 1's user agent sends emails to Person 1's mail server, which then sends emails to Person 2's mail server. It may seem more efficient for Person 1's user agent to send emails directly to Person 2's mail server. This won't work though because user agents don't have a way to deal with Person 2's mail server being unreachable for whatever reason. Mail servers, which are always on and always connected to the Internet, keep retrying every `n` minutes until it works.</p>
+      </div>
+      <p>SMTP uses five commands, all of which are fairly obvious: <code>HELO</code>, <code>MAIL FROM</code>, <code>RCPT TO</code>, <code>DATA</code>, and <code>QUIT</code>.</p>
+      <h3>Mail Message Formats</h3>
+      <p>An email consists of a header and a body. The header is kinda like the metadata of the email. An example:</p>
+      <p><code>From: me@gmail.com<br>To: you@gmail.com<br>Subject: Thanks for reading this</code></p>
+      <p>And, of course, the body contains the message.</p>
+      <h3>Mail Access Protocols</h3>
+      <p>As mentioned eariler, SMTP is used only for sending emails. For receiving emails, there are two main protocols. Web-based applications, like Google's Gmail website and app, use HTTP. Some other clients, like Outlook, use <b>Internet Mail Access Protocol</b> (<b>IMAP</b>).</p>
+      <p>Both of these protocols also allow us to manage our emails. For example, we can move emails into folders, delete emails, and mark emails as important.</p>
+      <div class="ln-box">
+        <p>Mail servers only use SMTP to send emails. User agents on the other hand, can use SMTP or HTTP to send emails to the mail server.</p>
+      </div>
+      <h2 id="dns">DNS</h2>
+      <p>As we probably know, computers like to work with numbers. So naturally, servers are uniquely identified by a set of numbers (IP address). However, we don't type a bunch of numbers if we want to go to Google — we type "google.com" (does anyone actually type this to Google something?). "google.com" is what's known as a <b>hostname</b>, which is a human-readable name for a server.</p>
+      <h3>Services Provided by DNS</h3>
+      <p>The Internet's <b>domain name system</b> (<b>DNS</b>) is what allows us to type human-readable names to go to websites. It converts human-readable hostnames to IP addresses.</p>
+      <div class="ln-box">
+        <p>DNS is a distributed database deployed on a bunch of <b>DNS servers</b>.</p>
+        <p>It is also an application-layer protocol that allows hosts to query the database. It uses UDP.</p>
+      </div>
+      <p>Here's how it works:</p>
+      <ol>
+        <li>There is a DNS application running on our phone/computer</li>
+        <li>The browser sends the hostname to the DNS application</li>
+        <li>The DNS application uses the hostname to query a DNS server for the IP address</li>
+        <li>The DNS application receives the IP address and sends it to the browser</li>
+        <li>The browser uses the IP address to open a TCP connection</li>
+      </ol>
+      <p>From this, we can see yet another source of delay: translating the hostname to an IP address.</p>
+      <p>DNS also provides additional related services. Sometimes, a hostname can be complicated, like "relay1.west-coast.enterprise.com". An alias can be set up so that we can type "enterprise.com" instead of that long hostname. The long (real) hostname is called the <b>canonical hostname</b>. This is called <b>host aliasing</b>. Something similar is available for mail servers too. "gmail.com" is more likely an alias than an actual hostname for a mail server (which might be something like "relay1.west-coast.gmail.com"). This is <b>mail server aliasing</b>.</p>
+      <p>Companies often have several servers running their website. Each server has its own IP address, but those IP addresses should all point to the same website. The DNS database stores this set of IP addresses and rotates between the IP addresses so that traffic is distributed evenly across all servers. So DNS also provides <b>load distribution</b>.</p>
+      <h3>How DNS Works</h3>
+      <p>DNS is a distributed database organized in a hierarchy. At the top are <b>root DNS servers</b>. This is where the translation starts. The DNS application queries the root DNS server, which then looks at the top-level domain (e.g., com, org, edu, gov, net). It does this because there are dedicated DNS servers for each top-level domain (i.e., there are DNS servers for all .com websites, DNS servers for all .edu websites, etc.). Appropriately, they're called <b>top-level domain</b> (<b>TLD</b>) <b>servers</b>. So the root server will tell the DNS application which TLD server to contact. The TLD server will send back to the DNS application the IP address of the <b>authoritative DNS server</b>, which is where the actual IP address of the website sits. So finally, the DNS application will contact the authoritative DNS server for the IP address of the website.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/dns.png">
+      </div>
+      <p>There's also a <b>local DNS server</b>, which aren't part of the hierarchy for some reason. The local DNS server is the entry point into the DNS hierarchy; the DNS application first contacts the local DNS server, which then contacts the root DNS server. Local DNS servers are managed by ISPs.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/dns_2.png">
+        <p>1. Local DNS! What is google.com's IP address?</p>
+        <p>2. Root DNS! What is google.com's IP address?</p>
+        <p>3. Go ask a com TLD server. Here's the IP address of one.</p>
+        <p>4. TLD DNS! What is google.com's IP address?</p>
+        <p>5. Go ask one of Google's authoritative server. Here's the IP address of one.</p>
+        <p>6. Authoritative DNS! What is google.com's IP address?</p>
+        <p>7. The IP address is 127.0.0.1.</p>
+        <p>8. I finally know google.com's IP address. It's 127.0.0.1.</p>
+      </div>
+      <div class="ln-box">
+        <p>In the example above, the queries from the local DNS server (2, 4, and 6) are <b>iterative queries</b>. This means that the responsibility of asking the next query is placed on the server that asked the query.</p>
+        <p>There are also <b>recursive queries</b>, in which the responsibility of asking the next query is placed on the server who got asked. In the example above, 1 is a recursive query.</p>
+        <p>Here's an example where all the queries are recursive.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/networking/dns_3.png">
+          <p>1. Local DNS! What is google.com's IP address?</p>
+          <p>2. Root DNS! What is google.com's IP address?</p>
+          <p>3. TLD DNS! What is google.com's IP address?</p>
+          <p>4. Authoritative DNS! What is google.com's IP address?</p>
+          <p>5. TLD DNS! The IP address is 127.0.0.1.</p>
+          <p>6. Root DNS! The IP address is 127.0.0.1.</p>
+          <p>7. Local DNS! The IP address is 127.0.0.1.</p>
+          <p>8. I finally know google.com's IP address. It's 127.0.0.1.</p>
+        </div>
+        <p>In practice though, most queries are iterative.</p>
+      </div>
+      <h4>DNS Caching</h4>
+      <p>As we saw earlier, there are a lot of queries that get made when going through the hierarchy. This traversal can be skipped if the DNS server stores the IP address of whatever was queried. For example, a local DNS server can store the IP address of a website, so that if another host wants to visit the same website, the local DNS server doesn't have to ask all those other DNS servers; it just returns the IP address it stored. This cache isn't good for very long though (typically 2 days).</p>
+      <div class="ln-box">
+        <p>Especially for .com websites, root DNS servers are often bypassed since the local DNS server should typically have the IP address of the appropriate TLD server in its cache. How many .com websites do we (as a whole) go to in a day?</p>
+      </div>
+      <h3>DNS Records and Messages</h3>
+      <p>The entries in the database are called <b>resource records</b>. A resource record is a four-tuple that looks like this: <code>(Name, Value, Type, TTL)</code>. <code>TTL</code> stands for "time to live", which indicates when the record should be removed from a cache. The <code>name</code> and <code>value</code> depend on what the <code>type</code> is. (We'll ignore the TTL in the examples below.)</p>
+      <p>Type A records are hostname-to-IP mappings. <code>(relay1.abc.def.com, 145.37.93.126, A)</code>. The <code>name</code> is the hostname and the <code>value</code> is the IP address for that hostname.</p>
+      <p>Type NS records are domain-to-DNS-server mappings. <code>(abc.com, dns.abc.com, NS)</code>. The <code>name</code> is a domain and the <code>value</code> is the hostname of a DNS server.</p>
+      <p>CNAME records are alias-to-canonical-hostname mappings. <code>(abc.com, relay1.abc.com, CNAME)</code>. The <code>name</code> is an alias and the <code>value</code> is the canonical hostname.</p>
+      <p>MX records are the equivalent of CNAME records but for mail servers. <code>(abc.com, mail.abc.com, MX)</code>.</p>
+      <h4>Inserting Records into the DNS Database</h4>
+      <p>If we want to register a domain name, say "ourwebsite.com", we do so through a <b>registrar</b>. A registrar makes sure the domain is unique and inserts the appropriate records into the DNS database.</p>
+      <div class="ln-box">
+        <p>The registrar also needs the names and IP addresses of the primary and secondary authoritative DNS servers. Once that is provided, the registrar inserts a Type NS record and a Type A record into the appropriate TLD server. For example, <code>(ourwebsite.com, dns1.ourwebsite.com, NS)</code> and <code>(dns1.ourwebsite.com, 199.199.199.199, A)</code> are inserted into the TLD servers for .com websites. So when a (local) DNS server contacts a TLD server, the TLD server will return both the Type NS record and the Type A record.</p>
+      </div>
+      <h2 id="p2p">Peer-to-Peer File Distribution</h2>
+      <p>We saw this earlier, but in peer-to-peer applications, there are no servers sending data to clients. Instead, devices connect to each other and are called peers. Specifically for file distribution, peers send/receive portions of files to/from other peers.</p>
+      <div class="ln-box">
+        <p>It may be weird to think that only portions of files get distributed. While it's possible for a peer to have the whole file in storage, the peer may choose/have to only share a portion of the file with other peers for whatever reason. The peers who only got a portion of the file will share whatever they got with other peers who don't have it yet.</p>
+      </div>
+      <div class="ln-box">
+        <h3>Scalability of P2P Architectures</h3>
+        <p>Suppose there is one server that contains a file with `F` bits. There are `N` peers that want to download the file. Let `u_s` be the upload rate of the server and `d_i` be the download rate of the `i^(th)` peer.</p>
+        <p>First we'll look at the <b>distribution time</b> (the time it takes for all `N` peers to get the file) in the client-server architecture, which we'll denote `D_(cs)`.</p>
+        <p>The server has to transfer `F` bits to `N` peers, so the server has to transfer a total of `NF` bits. The server's upload rate is `u_s`, so the distribution time is at least `(NF)/u_s`.</p>
+        <p>Peers will download the file at different rates, so let `d_(min)` be the download rate of the slowest peer, i.e., `d_(min)=min{d_1, d_2, ..., d_n}`. This peer will take `F/d_(min)` seconds to receive the file, so the distribution time is also at least `F/d_(min)`.</p>
+        <p>So the distribution time is</p>
+        <div class="ln-center">
+          <p>`D_(cs)gemax{(NF)/u_s, F/d_(min)}`</p>
+        </div>
+        <p>For large `N`, `(NF)/u_s` will be larger than `F/d_(min)`, so the distribution time can be determined by `(NF)/u_s`. This means the distribution time will be higher the more peers there are. Mathematically, the distribution time increases linearly with the number of peers.</p>
+        <p>Now we'll look at the distribution time for peer-to-peer architecture, which we'll denote as `D_(P2P)`. Since peers can now upload, let `u_i` be the upload rate of the `i^(th)` peer.</p>
+        <p>The server only has to transfer `F` bits once instead of to each peer. This is because the peers can transfer the bits among themselves. With an upload rate of `u_s`, the distribution time is at least `F/u_s`.</p>
+        <p>Again, the peer with the lowest download rate will affect distribution time, so the distribution time will also be at least `F/d_(min)`.</p>
+        <p>Looking at the system as a whole, there are `NF` bits that need to be transferred. With everyone uploading, the total upload rate is `u_text(total)=u_s+u_1+...+u_N=u_s+sum_(i=1)^Nu_i`. So the distribution time is also at least `(NF)/(u_s+sum_(i=1)^Nu_i)`.</p>
+        <p>So the distribution time is</p>
+        <div class="ln-center">
+          <p>`D_(P2P)gemax{F/u_s,F/d_(min),(NF)/(u_s+sum_(i=1)^Nu_i)}`</p>
+        </div>
+        <p>This time, for large `N`, the distribution time doesn't necessarily increase as `N` increases. While having more peers does mean there are more bits that need to be transferred, it also means that there are more peers to help with uploading.</p>
+      </div>
+      <h2 id="cdn">Video Streaming and Content Distribution Networks</h2>
+      <h3>Internet Video</h3>
+      <p>A video is a bunch of images displayed really quickly (typically 30 images per second). Images are made up of pixels, where a pixel contains the image's color at that pixel's location. And computers see pixels as a bunch of bits.</p>
+      <p>Videos can be compressed by reducing the number of pixels in the images. Reducing the number of pixels reduces the number of bits, thereby reducing the bit rate of the video. Bit rate can be thought of as the number of bits being shown per second. The more bits there are, the more pixels there are, which means a better video quality. Compression is used to create different versions of the same video, with each version having a different quality.</p>
+      <p>In order for a video to be able to be played continuously, the average throughput of the network must be at least as large as the bit rate. In other words, the network must be able to transfer bits as fast as the video can show them.</p>
+      <h3>HTTP Streaming and DASH</h3>
+      <p>Streaming is playing videos without downloading the whole video first. Since a video is likely too large to send all at once, the server storing the video sends it to the client in chunks at a time. The client plays whatever chunks it has received and this repeats until the whole video is sent.</p>
+      <p>The problem with this is that all clients receive the same video, regardless of the strength of their Internet connection (i.e. bandwidth). So clients with low bandwidth will struggle to play videos with high bit rates. This is where DASH comes in. In <b>Dynamic Adaptive Streaming over HTTP</b>, videos are compressed into different versions, so that clients with high bandwidth can play videos with high bit rates and clients with low bandwidth can play videos with low bit rates. This also works if the client's bandwidth fluctuates; when the bandwidth is high, the client will get the bytes from the high-quality video and when the bandwidth is low, the client will switch to getting bytes from the lower-quality video.</p>
+      <p>The client knows about the different versions of the video because there is a <b>manifest file</b> on the server. The manifest file has the URL and bit rate of all the versions of the video.</p>
+      <h3>Content Distribution Networks</h3>
+      <p>Let's say an Internet video company (like YouTube) has a huge data center where they store and stream all their videos. Of course, there are several problems with having just one data center.</p>
+      <p>The data center can't possibly be conveniently located for everyone in the world. The farther away a client is, the more links there are for the bytes to go through. And the more links there are, the more likely it is for the bytes to hit a bottleneck link, reducing throughput.</p>
+      <p>Popular videos will also be sent over and over again, which is costly and inefficient because the company has to pay their ISP for sending the same bytes over and over again.</p>
+      <p>And finally, a single data center is a single point of failure.</p>
+      <p>It's probably obvious at this point, but <b>Content Distribution Networks</b> (<b>CDNs</b>) are networks of distributed servers and data centers, which we'll call clusters. These clusters all have copies of the videos so that clients can connect to the best CDN for them.</p>
+      <p>There are two main strategies for placing clusters. The first is <b>enter deep</b>, where the clusters are "deep" into the access network. With many clusters placed in access ISPs, they are physically located closer to us, reducing the number of links and routers. The drawback to this strategy is that there are many clusters that need to be deployed and managed.</p>
+      <p>The second strategy is <b>bring home</b>, where the clusters "bring the ISPs home" by sitting closer to the network core in Internet exchange points (IXPs). This is easier to manage because there are fewer clusters, but there are more links and routers, which means possibly higher delay and lower throughput.</p>
+      <p>The clusters typically don't have copies of every single video. If the cluster needs a video it doesn't have, it pulls the video from the server or another cluster.</p>
+      <h4>CDN Operation</h4>
+      <p>Clients don't establish connections to CDNs directly. CDNs intercept the request so that it can find the best cluster for that client.</p>
+      <p>Suppose a video company called NetCinema uses a third-party CDN company called KingCDN. Let's say we wanted to watch a video whose URL is "http://video.netcinema.com/6Y7B23V".</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/cdn.png">
+      </div>
+      <ol>
+        <li>Our computer sends a DNS query for video.netcinema.com</li>
+        <li>The local DNS server contacts an authoritative DNS server for NetCinema.</li>
+        <li>The authoritative DNS server sees the word "video" in the hostname and returns a hostname in the KingCDN's domain, e.g., a1105.kingcdn.com</li>
+        <li>The local DNS server contacts an authoritative DNS server for KingCDN to get the IP address of a1105.kingcdn.com</li>
+        <li>The authoritative DNS server for KingCDN returns the IP address</li>
+        <li>The local DNS server sends the IP address back to our browser</li>
+        <li>Our browser sets up the TCP connection and plays the video</li>
+      </ol>
+      <h4>Cluster Selection Strategies</h4>
+      <p>So how do CDNs determine what the best cluster is for a client? One simple way is to pick the cluster that is geographically closest to the client's local DNS. This works most of the time, but sometimes, clusters can be physically close to a client and have a ton of links and routers between them. Also, some clients can use local DNSs located far away from them, so the cluster that's closest to the local DNS isn't close to the client.</p>
+      <p>The better approach is to do some research. CDNs can perform <b>real-time measurements</b> of delay and performance between clusters and clients by sending pings to local DNSs. This doesn't always work though since local DNSs can be configured to ignore these pings.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
