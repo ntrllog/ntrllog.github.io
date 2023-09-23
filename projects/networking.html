@@ -964,6 +964,22 @@
         </div>
         <p>This time, for large `N`, the distribution time doesn't necessarily increase as `N` increases. While having more peers does mean there are more bits that need to be transferred, it also means that there are more peers to help with uploading.</p>
       </div>
+      <h4>BitTorrent</h4>
+      <p>BitTorrent is a P2P protocol for file distribution. A group of peers uploading and downloading a particular file is called a torrent. A file is broken up into equal-size chunks, so peers in a torrent upload and download files in chunks.</p>
+      <div class="ln-box">
+        <p>Peers who have not received the whole file yet are called leechers. After a peer has received the whole file, they can choose to leave or stay in the torrent. Those who stay are called seeders. These are the good guys since they help other peers get the file. Those who leave are selfish.</p>
+      </div>
+      <p>Each torrent has a tracker, which is responsible for keeping track of peers in the torrent. When a new peer joins a torrent, the tracker randomly selects a subset of existing peers and sends their IP addresses to the new peer. The new peer then tries to establish TCP connections to these peers. We'll refer to succcessfully connected peers as "neighboring peers". The tracker continuously sends IP addresses to new and existing peers as peers leave and join the torrent.</p>
+      <p>Let's say we join a torrent. While downloading the file, we will periodically ask our neighboring peers for a list of chunks they have. Let's say this is what the list looks like:</p>
+      <ul>
+        <li>Peer A has chunks 1, 3, 5, 7, 9</li>
+        <li>Peer B has chunks 1, 2, 3</li>
+        <li>Peer C has chunks 1, 3, 10</li>
+        <li>Peer D has chunks 1, 5, 7, 9, 10</li>
+      </ul>
+      <p>Suppose we only have chunks 1 and 3 so far. For deciding which peer to request chunks from, BitTorrent uses a technique called <b>rarest first</b>, meaning that we find the chunk that has the fewest copies and download that first. So in this example, 2 is the rarest chunk since only Peer B has it. The idea is that we want to distribute the rarest chunks first to equalize all the chunks, which makes the file easier to download. If only one peer is holding the rarest chunk and that peer leaves the torrent, then no one else in the torrent can download the whole file since they're missing that rarest chunk.</p>
+      <p>While downloading chunks, we also have peers requesting chunks that we have so far. We will prioritize the peers who are giving us data at the highest rate. Let's say we respond to the top 4 peers; these peers are <b>unchoked</b>. However, if we only focus on our top 4, then other peers will ignore us when we want more chunks (since we're not on their top 4). So we will also randomly choose a peer to respond to; this peer is <b>optimistically unchoked</b>. The idea is that we want to (optimistically) become someone else's unchoked peer by being nice to them (giving them our chunks) so that they will be nice to us (and give us their chunks). This also helps new peers who don't have the power to upload at high rates, since they will occasionally receive chunks as an optimistically unchoked peer.</p>
+      <p>This process of prioritizing the top peers is called tit-for-tat.</p>
       <h2 id="cdn">Video Streaming and Content Distribution Networks</h2>
       <h3>Internet Video</h3>
       <p>A video is a bunch of images displayed really quickly (typically 30 images per second). Images are made up of pixels, where a pixel contains the image's color at that pixel's location. And computers see pixels as a bunch of bits.</p>
