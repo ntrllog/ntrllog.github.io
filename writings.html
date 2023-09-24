@@ -44,6 +44,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Computer Science</a>
         <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#socketcode">Socket Programming</a></li>
           <li><a class="dropdown-item" href="#wwii">How Advancements in Computer Science Helped Us Win WWII</a></li>
           <li><a class="dropdown-item" href="#stem_software">In the World of STEM, Software is Everywhere</a></li>
           <li><a class="dropdown-item" href="#what_language_learn">What Programming Language Should My Student Learn?</a></li>
@@ -137,6 +138,86 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="socketcode">.</p>
+          <div class="post">
+            <h4 class="title">Socket Programming</h4>
+            <h6 class="date">September 24, 2023</h6>
+            <p>I had to write a chat application that uses sockets to communicate with peers. The application allowed users to type in commands like "connect" and "send" to communicate with other users. To complicate things, a server could be connected to multiple clients and a client could connect to multiple servers. To further complicate things, the client and server code had to be in one program, meaning that a process was both a client and a server. It wasn't easy. This is, roughly, my coding journey.</p>
+            <div class="collapse" id="collapseSocketProgramming">
+              <p>Since a server can be connected to multiple clients, the code to listen for new connections has to be in an infinite loop:</p>
+              <p><code>ServerSocket serverSocket = new ServerSocket(port);<br>while (true) {<br>&nbsp; Socket clientSocket = serverSocket.accept();<br>}</code></p>
+              <p><b>How can we ask the user for input if this infinite loop is running?</b></p>
+              <div class="collapse" id="collapseSocketProgrammingQ1">
+                <p>Use threads!</p>
+                <p><code>Thread setupServerThread = new Thread(new Runnable() {<br>&nbsp; @Override<br>&nbsp; public void run() {<br>&nbsp;&nbsp;&nbsp; // listen for new connections<br>&nbsp; }<br>});<br>Thread commandLoopThread = new Thread(new Runnable() {<br>&nbsp; @Override<br>&nbsp; public void run() {<br>&nbsp;&nbsp;&nbsp; // ask for input<br>&nbsp; }<br>});</code></p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ1" aria-expanded="false" aria-controls="collapseSocketProgrammingQ1"><span>Read more</span><span class="hidden">Read less</span></button>
+              <p>Let's open two terminals. In terminal 1, we start the program using port 123. In terminal 2, we start the program using port 999. Back in terminal 1, we use the "connect" command to connect to terminal 2. Then we use the "list" command to see terminal 1's connections. There's only one connection and it's connected to terminal 2 on port 999. Switching to terminal 2, we use the "list" command to see terminal 2's connections. As expected, there is only one connection and it's connected to terminal 1. <b>But it's on port 51383? Didn't terminal 1 use port 123?</b></p>
+              <div class="collapse" id="collapseSocketProgrammingQ2">
+                <p>(Here, terminal 1 is the client and terminal 2 is the server.) When a client connects to a server, it opens a <em>new socket</em> on a random port. This socket is not the same socket that is listening for connections on port 123. This new socket is for communicating with terminal 2 on port 999.</p>
+                <p>(Honestly, this confused me because our processes were both servers and clients.)</p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ2" aria-expanded="false" aria-controls="collapseSocketProgrammingQ2"><span>Read more</span><span class="hidden">Read less</span></button>
+              <p>Let's say whenever a server accepts a connection, we also store the IP address and port of the client. The client knows the server's IP address and port (the client needed these in order to connect to the server in the first place). The server now knows the client's IP address and port. <b>So when we want to send data, do we just open a socket, send data through the socket, then close it? And repeat this everytime we want to send data?</b></p>
+              <div class="collapse" id="collapseSocketProgrammingQ3">
+                <p>If the client is sending data to the server, then this will technically work.</p>
+                <p>But if the server is sending data to the client, then this won't work. This goes back to the previous question. When the server accepts the connection, the client's port is the random port that was used to establish the connection. So if the server wants to send data by opening a socket at that random port, it won't work because the client is not listening for connections at that random port.</p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ3" aria-expanded="false" aria-controls="collapseSocketProgrammingQ3"><span>Read more</span><span class="hidden">Read less</span></button>
+              <p><b>So how do we send a message to an existing connection without opening a new socket?</b></p>
+              <div class="collapse" id="collapseSocketProgrammingQ4">
+                <p>Once a socket is created for communication (i.e., when a server accepts a connection), we can store the socket somewhere so we have access to it when we need to send data. In terms of implementation, we can create a custom class where the object will have an id and a socket. Whenever a server accepts a new connection, we create a new object of this class and store it in an array.</p>
+                <p><code>Socket clientSocket = serverSocket.accept();<br>connections.add(new ChatConnection(++id, clientSocket));</code></p>
+                <p>Then, when calling the send function, search the array by id and use the socket.</p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ4" aria-expanded="false" aria-controls="collapseSocketProgrammingQ4"><span>Read more</span><span class="hidden">Read less</span></button>
+              <p>Once a connection is established, either side can continuously send and receive messages until someone uses the "terminate" command. This means a server has to be continuously listening for new messages, so there will be another infinite while loop involved (or a blocking call that waits for input). Something like (emphasis on something like):</p>
+              <p><code>ServerSocket serverSocket = new ServerSocket(port);<br>while (true) {<br>&nbsp; Socket clientSocket = serverSocket.accept();<br>&nbsp; BufferedReader bufferedReader = new BufferedReader(...(clientSocket.getInputStream()));<br>&nbsp; while (true) {<br>&nbsp;&nbsp;&nbsp; try {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String msgReceivedFromClient = bufferedReader.readLine();<br>&nbsp;&nbsp;&nbsp; }<br>&nbsp; }<br>}</code></p>
+              <p><b>How do we accept more connections if waiting for input is a blocking call?</b> (Blocking means that the rest of the code is blocked from running. Here, waiting for input is blocking the server from accepting new connections.)</p>
+              <div class="collapse" id="collapseSocketProgrammingQ5">
+                <p>Use threads! Everytime a server accepts a connection, start a new thread that continuously listens for input from that client.</p>
+                <p>Well, I'm half-joking this time. Using threads will work, but gets messy when there are many clients connecting.</p>
+                <p>We can, in fact, keep everything on one thread. We just have to use the select() API, which gives us a selector that "selects" sockets that are ready to perform a blocking operation. (Technically, a selector selects "channels", but I'll use "sockets" here.)</p>
+                <p><code>Selector selector = Selector.open();<br>ServerSocketChannel serverSocket = ServerSocketChannel.open();<br>serverSocket.register(selector, SelectionKey.OP_ACCEPT);<br>while (true) {<br>&nbsp; selector.select();<br>&nbsp; Iterator selectedKeys = selector.selectedKeys().iterator();<br>&nbsp; while (selectedKeys.hasNext()) {<br>&nbsp;&nbsp;&nbsp; SelectionKey key = (SelectionKey) selectedKeys.next();<br>&nbsp;&nbsp;&nbsp; selectedKeys.remove();<br>&nbsp;&nbsp;&nbsp; if (key.isAcceptable()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SocketChannel clientSocketChannel = serverSocket.accept();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clientSocketChannel.register(selector, SelectionKey.OP_READ);<br>&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; if (key.isReadable()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SocketChannel clientSocketChannel = (SocketChannel) key.channel();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ByteBuffer buffer = ByteBuffer.allocate(256);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int bytesRead = clientSocketChannel.read(buffer);<br>&nbsp;&nbsp;&nbsp; }<br>&nbsp; }<br>}</code></p>
+                <p>The register() function puts an alarm on a socket, and that alarm rings when a certain event occurs. If the socket is registered for reading, then the alarm will ring when there is data waiting to be read. If the socket is registered for accepting, then the alarm will ring when there is a client requesting to connect. When the alarm rings, the selector will go and handle that socket.</p>
+                <p>The select() function only selects sockets that are ready. If there are no sockets ready, then the code hangs there (the selector "goes to sleep") until an event occurs (until an alarm rings).</p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ5" aria-expanded="false" aria-controls="collapseSocketProgrammingQ5"><span>Read more</span><span class="hidden">Read less</span></button>
+              <p>(Recall that a process can be both a server and a client.) Let's say terminal 1 connects to terminal 2. So terminal 2 will register the socket for reading (based on the code in the answer to the previous question). Terminal 1 can send data to terminal 2 and terminal 2 will receive them just fine since the socket is registered for reading. But what if terminal 2 wants to send data to terminal 1? <b>How can terminal 2 send data to terminal 1 if terminal 2 registered the socket for reading?</b></p>
+              <div class="collapse" id="collapseSocketProgrammingQ6">
+                <p>First, a socket registered for one operation does not prevent it from being used for other operations (registering a socket simply puts an alarm on it). Second, a socket can be re-registered for a different operation at any time.</p>
+                <p>So each terminal can register the same socket for different operations. Terminal 2 can re-register the socket for writing if it needs to send data, and terminal 1 can register that same socket for reading to receive the data from terminal 2. What's happening is that each terminal is putting their own alarm on the socket, and that alarm will ring on events of their choosing.</p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ6" aria-expanded="false" aria-controls="collapseSocketProgrammingQ6"><span>Read more</span><span class="hidden">Read less</span></button>
+              <p>Okay, all this putting an alarm on a socket stuff is nice, but <b>how do we actually send data?</b></p>
+              <div class="collapse" id="collapseSocketProgrammingQ7">
+                <p>First, we register the socket for writing:</p>
+                <p><code>private void send() {<br>&nbsp; socket.register(selector, SelectionKey.OP_WRITE);<br>}</code></p>
+                <p>Then the selector has to handle the socket when the socket is ready to write:</p>
+                <p><code>Selector selector = Selector.open();<br>ServerSocketChannel serverSocket = ServerSocketChannel.open();<br>serverSocket.register(selector, SelectionKey.OP_ACCEPT);<br>while (true) {<br>&nbsp; selector.select();<br>&nbsp; Iterator selectedKeys = selector.selectedKeys().iterator();<br>&nbsp; while (selectedKeys.hasNext()) {<br>&nbsp;&nbsp;&nbsp; SelectionKey key = (SelectionKey) selectedKeys.next();<br>&nbsp;&nbsp;&nbsp; selectedKeys.remove();<br>&nbsp;&nbsp;&nbsp; if (key.isAcceptable()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // accept the connection<br>&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; if (key.isReadable()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // read the data<br>&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; if (key.isWritable()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ByteBuffer buffer = ByteBuffer.wrap(messageToSend.getBytes());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ((SocketChannel) key.channel()).write(buffer);<br>&nbsp;&nbsp;&nbsp; }<br>&nbsp; }<br>}</code></p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ7" aria-expanded="false" aria-controls="collapseSocketProgrammingQ7"><span>Read more</span><span class="hidden">Read less</span></button>
+              <p><b>Wait, the data still isn't sending when the send() function is called...</b></p>
+              <div class="collapse" id="collapseSocketProgrammingQ8">
+                <p>Recall that registering a socket only puts an alarm on it; it doesn't ring it (if I sound like a broken record, it's because it took me a long time to wrap my head around the register() function). We have to wake up the selector!</p>
+                <p><code>private void send() {<br>&nbsp; socket.register(selector, SelectionKey.OP_WRITE);<br>&nbsp; selector.wakeup();<br>}</code></p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ8" aria-expanded="false" aria-controls="collapseSocketProgrammingQ8"><span>Read more</span><span class="hidden">Read less</span></button>
+              <p><b>Why do we have to do that? We didn't have to do that for reading data or accepting connections.</b></p>
+              <div class="collapse" id="collapseSocketProgrammingQ9">
+                <p>Receiving data and accepting a connection are "qualifying events". They automatically ring the alarm and wake up the selector*. When nothing is happening, the selector will go back to sleep. Registering a socket is not a qualifying event, so that alone will not wake up the selector.</p>
+                <p>*Qualifying events wake up the selector, even if there are no sockets registered for that event's operation. This makes the whole alarm analogy a bit loose. The more accurate analogy is that an event wakes up the selector and the alarm tells the selector which sockets to handle. So the purpose of the alarm isn't to wake up the selector; it's to let the selector know which sockets need to be dealt with when a certain event occurs.</p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ9" aria-expanded="false" aria-controls="collapseSocketProgrammingQ9"><span>Read more</span><span class="hidden">Read less</span></button>
+              <p>Okay, so terminal 1 can finally send data to terminal 2 and terminal 2 will actually see the data. <b>But if terminal 2 sends data to terminal 1, terminal 1 doesn't see it. Why?</b></p>
+              <div class="collapse" id="collapseSocketProgrammingQ10">
+                <p>If terminal 1 was able to send data to terminal 2, then that means terminal 1 had registered the socket for writing. After terminal 1 was done writing, the socket remained registered for writing. So when the socket received data from terminal 2, terminal 1's alarm didn't ring because terminal 1 didn't register the socket for reading.</p>
+                <p><code>if (key.isWritable()) {<br>&nbsp; ByteBuffer buffer = ByteBuffer.wrap(messageToSend.getBytes());<br>&nbsp; ((SocketChannel) key.channel()).write(buffer);<br>&nbsp; ((SocketChannel) key.channel()).register(selector, SelectionKey.OP_READ);<br>}</code></p>
+              </div>
+              <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgrammingQ10" aria-expanded="false" aria-controls="collapseSocketProgrammingQ10"><span>Read more</span><span class="hidden">Read less</span></button>
+            </div>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocketProgramming" aria-expanded="false" aria-controls="collapseSocketProgramming"><span>Read more</span><span class="hidden">Read less</span></button>
+          </div>
           <p id="ohnine_equals_one">.</p>
           <div class="post">
             <h4 class="title">`0.999...=1`</h4>
