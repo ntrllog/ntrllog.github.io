@@ -41,6 +41,9 @@
         <li><a class="dropdown-item" href="#dns">DNS</a></li>
         <li><a class="dropdown-item" href="#p2p">Peer-to-Peer File Distribution</a></li>
         <li><a class="dropdown-item" href="#cdn">Video Streaming and Content Distribution Networks</a></li>
+        <li><a class="dropdown-item" href="#transportlayer">Transport-Layer Services</a></li>
+        <li><a class="dropdown-item" href="#multiplexing">Multiplexing and Demultiplexing</a></li>
+        <li><a class="dropdown-item" href="#udp">Connectionless Transport: UDP</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -592,12 +595,12 @@
       <h4>Addressing Processes</h4>
       <p>In order for the message to go to the correct place, the sending process needs to specify where the message needs to be delivered to. First, it needs to specify which end system is receiving the message. Each end system has a unique identifier called an <b>IP address</b>. Knowing just the end system is not enough though because an end system is running multiple applications while it's on, and we need to know which application needs the message. Whenever processes open a socket, they must choose a number to "label" the socket. This number is called a <b>port number</b>.</p>
       <h3>Transport Services Available to Applications</h3>
-      <p>On the other side of the socket is a transport-layer protocol that delivers the message to the socket of the receiving process. There are several transport-layer protocols an application can choose from.</p>
+      <p>On the other side of the socket is a transport-layer protocol that delivers the message to the socket of the receiving process. There are several transport-layer protocols an application can choose from. When deciding which one to use, there are several things to consider.</p>
       <h4>Reliable Data Transfer</h4>
       <p>As we saw earlier, packets can get lost. For some situations, like transferring financial documents, packet loss is undesirable. But even though packets can get lost, a protocol can still guarantee that the file will be delivered correctly. Then that protocol provides <b>reliable data transfer</b>.</p>
       <p>In other situations, like video calls, some packet loss is acceptable. ("I'm sorry, can you repeat that? You cut out for a few seconds.") Those applications are referred to as <b>loss-tolerant applications</b>.</p>
       <h4>Throughput</h4>
-      <p>Throughput is the rate at which bits are transferred between the source and destination (I feel like I've said these exact words before). A transport-layer protocol can guarantee a specified throughput of some amount of bits per second. This would be useful for voice calls, which need a certain throughput in order for the voices to be heard clearly. Applications that have throughput requirements are <b>bandwidth-sensitive applications</b>.</p>
+      <p>Throughput is the rate at which bits are transferred between the source and destination (Hmm, I feel like I've said these exact words before 🤔). A transport-layer protocol can guarantee a specified throughput of some amount of bits per second. This would be useful for voice calls, which need a certain throughput in order for the voices to be heard clearly. Applications that have throughput requirements are <b>bandwidth-sensitive applications</b>.</p>
       <p>Applications that don't are <b>elastic applications</b>. File transfers don't need a certain throughput. If more bits can be transferred, then the download will be faster. If fewer bits can be transferred, then the download will be slower.</p>
       <h4>Timing</h4>
       <p>Whereas throughput is the number of bits going through, timing is the delay between each bit. One timing guarantee might be that bits go to the receiving process every 100 milliseconds. For real-time applications, like video calls and online games, it is ideal to have low delay.</p>
@@ -613,7 +616,7 @@
       </div>
       <h4>UDP</h4>
       <p>UDP is like the opposite of TCP. It's connectionless. The data transfer is unreliable — there's no guarantee all the messages will arrive and if it does arrive, there's no guarantee that the messages will arrive in order. And there's no congestion control. All of these things sound bad, so why does UDP even exist in the first place?</p>
-      <p>Well no congestion control means that UDP can send bits at any rate with no limits*. This is good for voice call applications because they want data to be sent as much as possible and as fast as possible.</p>
+      <p>Well, no congestion control means that UDP can send bits at any rate with no limits*. This is good for voice call applications because they want data to be sent as much as possible and as fast as possible.</p>
       <p>*However, there will be actual limitations to this rate, including link transmission rate and network congestion.</p>
       <div class="ln-box">
         <p>For some reason, most firewalls are configured to block most types of UDP traffic. So applications that use UDP have to be prepared to use TCP as a backup.</p>
@@ -713,9 +716,10 @@
       <p>So the total response time is `2` RTTs plus the transmission time of the file. `1` RTT is for establishing the TCP connection and `1` RTT is for sending the file.</p>
       <p>Besides the delay for sending each object, there is also the burden of resource management. For each TCP connection, buffers and variables must be allocated; this can take up a lot of resources on the server if there are a bunch of clients.</p>
       <h4>HTTP with Persistent Connections</h4>
-      <p>Instead of closing the TCP connection after sending the requested object, the server keeps the connection open for a certain period of time.</p>
+      <p>Instead of closing the TCP connection after sending the requested object, the server keeps the connection open for a certain period of time so that multiple objects can be sent through the connection.</p>
       <div class="ln-box">
         <p>For both non-persistent and persistent connections, they can also be non-parallel or parallel. In non-parallel connections, the client waits until it receives an object before requesting another one. So each object requires `1` RTT. In parallel connections, the client requests an object as soon as it needs it, even if a previous request for an object has not been completed yet. This means if there are `n` objects, it could request for all `n` objects at once. So it could take as little as `1` RTT to get all the objects. (Note that the `1` RTT is just for the objects in the base file. The browser needs `1` RTT to get the base file itself first.)</p>
+        <p>Persistent parallel is the default in HTTP and the example below will show why.</p>
       </div>
       <div class="ln-box">
         <p>Suppose there is a `100`-kilobit page that contains `5` `100`-kilobit images, all of which are stored on a server. Suppose the round-trip time from the server to a client's browser is `200` milliseconds. For simplicity, we'll assume there is only one `100` Mbps link between the client and server; the time it takes to transmit a GET request onto the link is zero; and it takes some time to transmit things onto the link (well this last one technically doesn't need to be assumed). Note that based on the assumptions, the link has a `100` millisecond one-way propagation delay as well as a transmission delay.</p>
@@ -772,13 +776,13 @@
         <p>(For some reason, interloven sounds right.)</p>
       </div>
       <h4>Server Pushing</h4>
-      <p>The server can analyze the base file, see what objects there are, and send them to the client without needing to wait for the client to ask for them.</p>
+      <p>Another feature HTTP/2 introduced was server pushing, where the server can analyze the base file, see what objects there are, and send them to the client without needing to wait for the client to ask for them.</p>
       <h3>HTTP Message Format</h3>
       <p>There are two types of HTTP messages: request messages and response messages.</p>
       <h4>Request Messages: Give Me What I Want!</h4>
       <p>Here's an example of what a request message might look like:</p>
       <p><code>GET /projects/page.html HTTP/1.1<br>Host: www.myschool.edu<br>Connection: close<br>User-agent: Mozilla/5.0<br>Accept-language: fr</code></p>
-      <p>The first line is the <b>request line</b>. There are three fields: the method field, the URL field, and the HTTP version field. As we can infer, the method is GET, which is the method for requesting objects (because, you know, we want to "get" it).</p>
+      <p>The first line is the <b>request line</b>. There are three fields: the method field, the URL field, and the HTTP version field. As we can infer, the method is GET, which is the method for requesting objects (because, you know, we want to "get" them).</p>
       <p>The lines below the request line are the <b>header lines</b>. <code>Connection: close</code> means "close the connection after giving me what I requested", i.e., use a non-persistent connection. <code>Connection: keep-alive</code> is for a persistent connection. The user agent specifies what type of browser is making the request. And <code>Accept-language: fr</code> means get the French version if it exists.</p>
       <div class="ln-box">
         <p>It may look like the header line specifying the host is unnecessary, because the browser needed to know the host in order to establish the TCP connection in the first place. It turns out that it is needed by Web proxy caches, which we'll see later.</p>
@@ -806,12 +810,12 @@
         <div class="ln-center">
           <img class="img-fluid ln-image-small" src="../pictures/networking/web_cache.png">
         </div>
-        <p>Recall that traffic intensity is `(La)/R` where `La` is the average rate at which bits are travelling and `R` is the transmission rate of the link.</p>
-        <p>On the access network, `15` requests per second and `1` Mbits per request means there are `15` Mbits travelling per second. So the traffic intensity is</p>
+        <p>Recall that traffic intensity is `(La)/R` where `La` is the average rate at which bits are traveling and `R` is the transmission rate of the link.</p>
+        <p>On the access network, `15` requests per second and `1` Mbits per request means there are `15` Mbits traveling per second. So the traffic intensity is</p>
         <div class="ln-center">
           <p>`(La)/R=15/100=0.15`</p>
         </div>
-        <p>which isn't too bad. In fact, the delay on the access link is negligible.</p>
+        <p>which isn't too bad. In fact, the delay on the access network is negligible.</p>
         <p>On the access link, the traffic intensity is</p>
         <div class="ln-center">
           <p>`(La)/R=15/15=1`</p>
@@ -858,7 +862,10 @@
       <div class="ln-box">
         <p>Person 1's user agent sends emails to Person 1's mail server, which then sends emails to Person 2's mail server. It may seem more efficient for Person 1's user agent to send emails directly to Person 2's mail server. This won't work though because user agents don't have a way to deal with Person 2's mail server being unreachable for whatever reason. Mail servers, which are always on and always connected to the Internet, keep retrying every `n` minutes until it works.</p>
       </div>
-      <p>SMTP uses five commands, all of which are fairly obvious: <code>HELO</code>, <code>MAIL FROM</code>, <code>RCPT TO</code>, <code>DATA</code>, and <code>QUIT</code>.</p>
+      <p>SMTP uses persistent connections. So if a mail server has multiple emails to send to the same mail server, then it can use the same TCP connection to send all the emails.</p>
+      <div class="ln-box">
+        <p>In HTTP, each object is sent in its own response message. In SMTP, all of the objects are placed into one email.</p>
+      </div>
       <h3>Mail Message Formats</h3>
       <p>An email consists of a header and a body. The header is kinda like the metadata of the email. An example:</p>
       <p><code>From: me@gmail.com<br>To: you@gmail.com<br>Subject: Thanks for reading this</code></p>
@@ -946,10 +953,10 @@
       <div class="ln-box">
         <h3>Scalability of P2P Architectures</h3>
         <p>Suppose there is one server that contains a file with `F` bits. There are `N` peers that want to download the file. Let `u_s` be the upload rate of the server and `d_i` be the download rate of the `i^(th)` peer.</p>
-        <p>First we'll look at the <b>distribution time</b> (the time it takes for all `N` peers to get the file) in the client-server architecture, which we'll denote `D_(cs)`.</p>
-        <p>The server has to transfer `F` bits to `N` peers, so the server has to transfer a total of `NF` bits. The server's upload rate is `u_s`, so the distribution time is at least `(NF)/u_s`.</p>
-        <p>Peers will download the file at different rates, so let `d_(min)` be the download rate of the slowest peer, i.e., `d_(min)=min{d_1, d_2, ..., d_n}`. This peer will take `F/d_(min)` seconds to receive the file, so the distribution time is also at least `F/d_(min)`.</p>
-        <p>So the distribution time is</p>
+        <p>First we'll look at the <b>distribution time</b> (the time it takes for all `N` peers to get the file) in the client-server architecture, which we'll denote `D_(cs)`. The distribution time depends on two things: how long it takes to distribute the file and how long it takes to download the file.</p>
+        <p>To distribute the file, the server has to transfer `F` bits to `N` peers, so the server has to transfer a total of `NF` bits. The server's upload rate is `u_s`, so the distribution time is at least `(NF)/u_s`.</p>
+        <p>To download the file, peers will download the file at different rates, so let `d_(min)` be the download rate of the slowest peer, i.e., `d_(min)=min{d_1, d_2, ..., d_n}`. This peer will take `F/d_(min)` seconds to receive the file, so the distribution time is also at least `F/d_(min)`.</p>
+        <p>Combining these two, the distribution time is</p>
         <div class="ln-center">
           <p>`D_(cs)gemax{(NF)/u_s, F/d_(min)}`</p>
         </div>
@@ -958,18 +965,18 @@
         <p>The server only has to transfer `F` bits once instead of to each peer. This is because the peers can transfer the bits among themselves. With an upload rate of `u_s`, the distribution time is at least `F/u_s`.</p>
         <p>Again, the peer with the lowest download rate will affect distribution time, so the distribution time will also be at least `F/d_(min)`.</p>
         <p>Looking at the system as a whole, there are `NF` bits that need to be transferred. With everyone uploading, the total upload rate is `u_text(total)=u_s+u_1+...+u_N=u_s+sum_(i=1)^Nu_i`. So the distribution time is also at least `(NF)/(u_s+sum_(i=1)^Nu_i)`.</p>
-        <p>So the distribution time is</p>
+        <p>Combining these three, the distribution time is</p>
         <div class="ln-center">
           <p>`D_(P2P)gemax{F/u_s,F/d_(min),(NF)/(u_s+sum_(i=1)^Nu_i)}`</p>
         </div>
         <p>This time, for large `N`, the distribution time doesn't necessarily increase as `N` increases. While having more peers does mean there are more bits that need to be transferred, it also means that there are more peers to help with uploading.</p>
       </div>
       <h4>BitTorrent</h4>
-      <p>BitTorrent is a P2P protocol for file distribution. A group of peers uploading and downloading a particular file is called a torrent. A file is broken up into equal-size chunks, so peers in a torrent upload and download files in chunks.</p>
+      <p>BitTorrent is a P2P protocol for file distribution. A group of peers uploading and downloading a particular file is called a torrent. A file is broken up into equal-size chunks (typically 256 kilobytes), so peers in a torrent upload and download files in chunks.</p>
       <div class="ln-box">
         <p>Peers who have not received the whole file yet are called leechers. After a peer has received the whole file, they can choose to leave or stay in the torrent. Those who stay are called seeders. These are the good guys since they help other peers get the file. Those who leave are selfish.</p>
       </div>
-      <p>Each torrent has a tracker, which is responsible for keeping track of peers in the torrent. When a new peer joins a torrent, the tracker randomly selects a subset of existing peers and sends their IP addresses to the new peer. The new peer then tries to establish TCP connections to these peers. We'll refer to succcessfully connected peers as "neighboring peers". The tracker continuously sends IP addresses to new and existing peers as peers leave and join the torrent.</p>
+      <p>Each torrent has a tracker, which is responsible for keeping track of peers in the torrent. When a new peer joins a torrent, the tracker randomly selects a subset of existing peers and sends their IP addresses to the new peer. The new peer then tries to establish TCP connections to these existing peers. We'll refer to succcessfully connected peers as "neighboring peers". The tracker continuously sends IP addresses to new and existing peers as peers leave and join the torrent.</p>
       <p>Let's say we join a torrent. While downloading the file, we will periodically ask our neighboring peers for a list of chunks they have. Let's say this is what the list looks like:</p>
       <ul>
         <li>Peer A has chunks 1, 3, 5, 7, 9</li>
@@ -978,12 +985,17 @@
         <li>Peer D has chunks 1, 5, 7, 9, 10</li>
       </ul>
       <p>Suppose we only have chunks 1 and 3 so far. For deciding which peer to request chunks from, BitTorrent uses a technique called <b>rarest first</b>, meaning that we find the chunk that has the fewest copies and download that first. So in this example, 2 is the rarest chunk since only Peer B has it. The idea is that we want to distribute the rarest chunks first to equalize all the chunks, which makes the file easier to download. If only one peer is holding the rarest chunk and that peer leaves the torrent, then no one else in the torrent can download the whole file since they're missing that rarest chunk.</p>
-      <p>While downloading chunks, we also have peers requesting chunks that we have so far. We will prioritize the peers who are giving us data at the highest rate. Let's say we respond to the top 4 peers; these peers are <b>unchoked</b>. However, if we only focus on our top 4, then other peers will ignore us when we want more chunks (since we're not on their top 4). So we will also randomly choose a peer to respond to; this peer is <b>optimistically unchoked</b>. The idea is that we want to (optimistically) become someone else's unchoked peer by being nice to them (giving them our chunks) so that they will be nice to us (and give us their chunks). This also helps new peers who don't have the power to upload at high rates, since they will occasionally receive chunks as an optimistically unchoked peer.</p>
+      <p>While downloading chunks, we will also have peers asking us for chunks that we have so far. BitTorrent will prioritize the peers who are giving us data at the highest rate. Let's say we respond to the top 4 peers; these peers are <b>unchoked</b>. However, if we only focus on our top 4, then other peers will ignore us when we want more chunks (since we're not on their top 4). So we will also randomly choose a peer to respond to; this peer is <b>optimistically unchoked</b>. The idea is that we want to (optimistically) become someone else's unchoked peer by being nice to them (giving them our chunks) so that they will be nice to us (and give us their chunks). This also helps new peers who don't have the power to upload at high rates, since they will occasionally receive chunks as an optimistically unchoked peer.</p>
       <p>This process of prioritizing the top peers is called tit-for-tat.</p>
       <h2 id="cdn">Video Streaming and Content Distribution Networks</h2>
       <h3>Internet Video</h3>
       <p>A video is a bunch of images displayed really quickly (typically 30 images per second). Images are made up of pixels, where a pixel contains the image's color at that pixel's location. And computers see pixels as a bunch of bits.</p>
       <p>Videos can be compressed by reducing the number of pixels in the images. Reducing the number of pixels reduces the number of bits, thereby reducing the bit rate of the video. Bit rate can be thought of as the number of bits being shown per second. The more bits there are, the more pixels there are, which means a better video quality. Compression is used to create different versions of the same video, with each version having a different quality.</p>
+      <div class="ln-box">
+        <p>There are (at least?) two types of compression algorithms.</p>
+        <p>Spatial compression: If there's an image with a bunch of blue pixels (think sky or ocean), then instead of storing all of those pixels, we can store just two things: the color of the pixel and how many times it is repeated consecutively.</p>
+        <p>Temporal compression: Consider an image `i`. The image `i+1` is unlikely to be drastically different from image `i`. So instead of sending the whole image, we can send just the differences between image `i` and image `i+1`.</p>
+      </div>
       <p>In order for a video to be able to be played continuously, the average throughput of the network must be at least as large as the bit rate. In other words, the network must be able to transfer bits as fast as the video can show them.</p>
       <h3>HTTP Streaming and DASH</h3>
       <p>Streaming is playing videos without downloading the whole video first. Since a video is likely too large to send all at once, the server storing the video sends it to the client in chunks at a time. The client plays whatever chunks it has received and this repeats until the whole video is sent.</p>
@@ -995,11 +1007,11 @@
       <p>Popular videos will also be sent over and over again, which is costly and inefficient because the company has to pay their ISP for sending the same bytes over and over again.</p>
       <p>And finally, a single data center is a single point of failure.</p>
       <p>It's probably obvious at this point, but <b>Content Distribution Networks</b> (<b>CDNs</b>) are networks of distributed servers and data centers, which we'll call clusters. These clusters all have copies of the videos so that clients can connect to the best CDN for them.</p>
-      <p>There are two main strategies for placing clusters. The first is <b>enter deep</b>, where the clusters are "deep" into the access network. With many clusters placed in access ISPs, they are physically located closer to us, reducing the number of links and routers. The drawback to this strategy is that there are many clusters that need to be deployed and managed.</p>
-      <p>The second strategy is <b>bring home</b>, where the clusters "bring the ISPs home" by sitting closer to the network core in Internet exchange points (IXPs). This is easier to manage because there are fewer clusters, but there are more links and routers, which means possibly higher delay and lower throughput.</p>
+      <p>There are two main strategies for placing clusters. The first is to <b>enter deep</b>, where the clusters are "deep" into the access network. With many clusters placed in access ISPs, they are physically located closer to us, reducing the number of links and routers. The drawback to this strategy is that there are many clusters that need to be deployed and managed.</p>
+      <p>The second strategy is to <b>bring home</b>, where the clusters "bring the ISPs home" by sitting closer to the network core in Internet exchange points (IXPs). This is easier to manage because there are fewer clusters, but there are more links and routers, which means potentially higher delay and lower throughput.</p>
       <p>The clusters typically don't have copies of every single video. If the cluster needs a video it doesn't have, it pulls the video from the server or another cluster.</p>
       <h4>CDN Operation</h4>
-      <p>Clients don't establish connections to CDNs directly. CDNs intercept the request so that it can find the best cluster for that client.</p>
+      <p>Clients don't establish connections to CDNs directly (at least not initially). CDNs intercept the request so that it can find the best cluster for that client.</p>
       <p>Suppose a video company called NetCinema uses a third-party CDN company called KingCDN. Let's say we wanted to watch a video whose URL is "http://video.netcinema.com/6Y7B23V".</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/cdn.png">
@@ -1016,6 +1028,87 @@
       <h4>Cluster Selection Strategies</h4>
       <p>So how do CDNs determine what the best cluster is for a client? One simple way is to pick the cluster that is geographically closest to the client's local DNS. This works most of the time, but sometimes, clusters can be physically close to a client and have a ton of links and routers between them. Also, some clients can use local DNSs located far away from them, so the cluster that's closest to the local DNS isn't close to the client.</p>
       <p>The better approach is to do some research. CDNs can perform <b>real-time measurements</b> of delay and performance between clusters and clients by sending pings to local DNSs. This doesn't always work though since local DNSs can be configured to ignore these pings.</p>
+      <hr>
+      <p>Now to the transport layer!</p>
+      <hr>
+      <h2 id="transportlayer">Transport-Layer Services</h2>
+      <p>The transport layer provides <b>logical communication</b> between applications. Logical communication means that, from the application's point of view, it is directly connected to another application. Of course, we know that physically, there are many routers and links between the applications, but logically, it can be seen as one big direct connection. The transport layer abstracts away all the hardware and details to the application layer.</p>
+      <h3>Relationship Between Transport and Network Layers</h3>
+      <p>The transport layer provides logical communication between <em>processes</em> running on different hosts. The network layer provides logical communication between <em>hosts</em>. We'll distinguish the two with an analogy.</p>
+      <p>Suppose there are two families: one in California and one in New York. These people are old-fashioned and communicate to each other via snail mail. In each family, there is one person responsible for giving the mail to the postal service and giving the mail to the appropriate family member.</p>
+      <p>Since the postal service moves mail from house to house, the postal service provides logical communication between the two houses. Since the dedicated mail person in each family moves mail from person to person, the dedicated mail people provide logical communication between the families. The postal service is analogous to the network layer and the dedicated mail person is analogous to the transport layer.</p>
+      <p>The services provided by the transport layer is constrained by the services provided by the network layer. Going back to the analogy, if the postal service takes as long as it wants to deliver mail, then the dedicated mail person can't guarantee how long it will take to receive mail. However, the transport layer can provide some guarantees of its own regardless of whatever happens in the network layer. For example, the transport layer can guarantee reliable data transfer even if the network layer loses or corrupts data.</p>
+      <h3>Overview of the Transport Layer in the Internet</h3>
+      <p>Remember TCP and UDP? These are the two transport-layer protocols provided by the Internet to the application layer. The responsibility of these two protocols is to extend the network layer's delivery service. In other words, once the network layer has done its job delivering data from host to host, it is now the transport layer's job to continue the data delivery to the appropriate process. Extending host-to-host delivery to process-to-process delivery is called transport-layer multiplexing and demultiplexing.</p>
+      <h2 id="multiplexing">Multiplexing and Demultiplexing</h2>
+      <p>Recall that data in the transport layer are called segments. The process of delivering the segment to the correct socket is called <b>demultiplexing</b> (network layer `rarr` transport layer `rarr` application layer). The process of collecting a message from a socket, encapsulating it into a segment, and sending the segment to the network layer is called <b>multiplexing</b> (application layer `rarr` transport layer `rarr` network layer).</p>
+      <p>For multiplexing, in order to know which socket to send the segment to, each socket has a unique identifier and each segment has a header specifying which socket it needs to go to. Specifically, the header contains the <b>source port number field</b> and the <b>destination port number field</b>. A port number can be any number from 0 to 65535. Ports 0 to 1023 are <b>well-known port numbers</b> and are reserved for common application protocols.</p>
+      <h4>Connectionless Multiplexing and Demultiplexing</h4>
+      <p>Suppose Host A wants to send data to Host B through a UDP connection. The transport layer in Host A creates a segment with the application message, source port number, and destination port number and sends this segment into the network layer. (Multiplexing complete.) The network layer sends it to Host B's network layer, which sends it to Host B's transport layer. The transport layer looks at the destination port number and sends the segment to the appropriate socket. (Demultiplexing complete.)</p>
+      <div class="ln-box">
+        <p>The transport layer didn't even look at the source port number at any time. So why is that included in the segment header? If Host B wants to send data back to Host A, then it can look at the source port number to know where to send data to.</p>
+      </div>
+      <h4>Connection-Oriented Multiplexing and Demultiplexing</h4>
+      <p>The process is pretty much the same for TCP sockets. The only difference is in the demultiplexing step. For the UDP case, the transport layer only looked at the destination port number (and the destination IP address, which I didn't mention to simplify things) to identify the correct socket. In the TCP case, the transport layer looks at the source IP address, source port number, destination IP address, and destination port number to identify the correct socket. This is because TCP is connection-oriented, so it matters where the data is coming from.</p>
+      <div class="ln-box">
+        <p>If two UDP segments have different source ports (or different source IP addresses) and the same destination port (and same IP address), then the two segments will be sent to the same UDP socket.</p>
+        <p>If two TCP segments have different source ports (or different source IP addresses) and the same destination port (and same IP address), then the two segments will be sent to different TCP sockets.</p>
+      </div>
+      <h2 id="udp">Connectionless Transport: UDP</h2>
+      <p>UDP is so bare bones that it does about as much as the underlying network layer protocol: IP. Pretty much the only thing it does that IP doesn't do is multiplexing and demultiplexing.</p>
+      <p>Even though UDP doesn't guarantee reliable data transfer, there are several reasons why an application would want to use UDP:</p>
+      <ul>
+        <li>They want to bypass TCP's congestion control mechanism. They don't really care that some data gets lost.</li>
+        <li>They want to bypass TCP's handshaking. They want their data to get there as fast as possible.</li>
+        <li>They want to support more active clients. UDP doesn't need to maintain connection state.</li>
+      </ul>
+      <div class="ln-box">
+        <p>Even though UDP isn't always reliable, an application using UDP can still have reliable data transfer by adding reliability mechanisms to the application.</p>
+      </div>
+      <h3>UDP Segment Structure</h3>
+      <p>A UDP segment consists of five pieces:</p>
+      <ul>
+        <li>source port number (2 bytes)</li>
+        <li>destination port number (2 bytes)</li>
+        <li>length (2 bytes)
+          <ul>
+            <li>specifies the size of the whole segment (header + application data)</li>
+          </ul>
+        </li>
+        <li>checksum (2 bytes)</li>
+        <li>application data</li>
+      </ul>
+      <h3>UDP Checksum</h3>
+      <p>The checksum is used for error checking. Specifically, the checksum is used to see if any of the bits got messed up while getting transferred.</p>
+      <div class="ln-box">
+        <p>One's complement is an operation performed on binary numbers. Getting the one's complement of a binary number involves flipping every bit, i.e., `1 rarr 0` and `0 rarr 1`. For example, consider the binary number `1100`. The one's complement of that number is `0011`. This operation is called the one's complement because adding the two numbers together results in a number with all `1`s.</p>
+      </div>
+      <p>Before sending the segment, UDP has to compute the checksum. It does this by converting the segment into 16-bit numbers, adding all the 16-bit numbers, and performing the one's complement. To simplify things, we will look at 4-bit numbers instead. Suppose a segment is converted into three 4-bit numbers:</p>
+      <div class="ln-center">
+        <p>`0110`</p>
+        <p>`0101`</p>
+        <p>`1010`</p>
+      </div>
+      <p>The sum of the first two are</p>
+      <div class="ln-center">
+        <p>`0110`</p>
+        <p>`0101`<br>______</p>
+        <p>`1011`</p>
+      </div>
+      <p>Now adding this with the third number:</p>
+      <div class="ln-center">
+        <p>`1011`</p>
+        <p>`1010`<br>______</p>
+        <p>`10101`</p>
+      </div>
+      <p>There is an overflow here: adding two 4-bit numbers resulted in a 5-bit number. Whenever overflow happens, a "wraparound operation" is applied, where the leftmost bit is taken out and added to the resulting 4-bit number:</p>
+      <div class="ln-center">
+        <p>`0101`</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`1`<br>______</p>
+        <p>`0110`</p>
+      </div>
+      <p>Now we need to get the one's complement of this sum, which is `1001`. `1001` is the checksum of the segment.</p>
+      <p>UDP on the receiving end gets the segment and wants to verify that none of the bits got lost or corrupted. It adds all the 4-bit numbers along with the checksum. Adding the three 4-bit numbers (with the wrapround) results in `0110`. Adding this with the checksum results in `1111`. If all the bits are `1`s, then UDP knows that there are no errors. If there is a `0` somewhere, then UDP knows there is something wrong with this segment. In this case, UDP can either discard the segment or send it to the application with a warning.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
