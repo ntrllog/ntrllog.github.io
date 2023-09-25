@@ -44,6 +44,7 @@
         <li><a class="dropdown-item" href="#transportlayer">Transport-Layer Services</a></li>
         <li><a class="dropdown-item" href="#multiplexing">Multiplexing and Demultiplexing</a></li>
         <li><a class="dropdown-item" href="#udp">Connectionless Transport: UDP</a></li>
+        <li><a class="dropdown-item" href="#rdt">Principles of Reliable Data Transfer</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -63,7 +64,7 @@
       <div class="ln-box">
         <p>I believe the shape I'll be using for all packet switches is a circle/oval. And links will be just a line connecting the circles.</p>
       </div>
-      <p>Access to the Internet is provided by <b>Internet Service Providers</b> (<b>ISPs</b>). Think ATT and Spectrum for example. ISPs themselves are a network of packet switches and communication links.</p>
+      <p>Access to the Internet is provided by <b>Internet Service Providers (ISPs)</b>. Think ATT and Spectrum for example. ISPs themselves are a network of packet switches and communication links.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/isp.png">
       </div>
@@ -74,7 +75,7 @@
         <li>the order of the messages exchanged</li>
         <li>the actions that can be performed when the messages are received or transmitted</li>
       </ul>
-      <p>The protocols are defined by <b>Internet standards</b>, which are developed by the Internet Engineering Task Force (IETF). The actual documents are called <b>requests for comments</b> (<b>RFCs</b>).</p>
+      <p>The protocols are defined by <b>Internet standards</b>, which are developed by the Internet Engineering Task Force (IETF). The actual documents are called <b>requests for comments (RFCs)</b>.</p>
       <div class="ln-box">
         <p>When we go to a URL on our browser, the actions that occur are a result of following a protocol (the TCP protocol).</p>
         <ol>
@@ -93,7 +94,7 @@
       <p>The access network is the network where end systems connect to the first router in the path to the ISP. (There may be many routers in between the ISP and a home. The first router is the one that's actually in the home.) Basically, an access network is a network on the edge of the Internet.</p>
       <h4>Home Access: What's the WiFi Password?</h4>
       <p>The home network will probably be the easiest for everyone to relate to. All our phones, laptops, tablets, computers, and everything else that connect to the WiFi in our homes form a home network.</p>
-      <p>Two of the most popular ways to get Internet access are by a <b>digital subscriber line</b> (<b>DSL</b>) (think telephone lines and telephone companies) and cable.</p>
+      <p>Two of the most popular ways to get Internet access are by a <b>digital subscriber line (DSL)</b> (think telephone lines and telephone companies) and cable.</p>
       <h4>Wide-Area Wireless Access: Unlimited Talk, Text, and Web For Only $ Per Month!</h4>
       <p>When our phones aren't connected to WiFi, it uses mobile data, which is Internet provided by cellular network providers through base stations (cell towers?). This is where the terms 3G, 4G, 5G, and LTE come into play. (6G doesn't exist yet at the time of this writing.)</p>
       <h2 id="networkcore">The Network Core</h2>
@@ -220,7 +221,7 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_6.png">
       </div>
-      <p>To facilitate this peering, third-party companies can create an <b>Internet Exchange Point</b> (<b>IXP</b>) which ISPs connect to to peer with other ISPs.</p>
+      <p>To facilitate this peering, third-party companies can create an <b>Internet Exchange Point (IXP)</b> which ISPs connect to to peer with other ISPs.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_7.png">
       </div>
@@ -590,7 +591,7 @@
       <h4>The Interface Between the Process and the Computer Network</h4>
       <p>As we saw before, a process in the application layer sends a message to the transport layer. In order to do so, it opens a <b>socket</b>, which is the application layer's door to the transport layer. Sockets are also used to receive messages from the transport layer.</p>
       <div class="ln-box">
-        <p>For us developers, sockets are also referred to as the <b>Application Programming Interface</b> (<b>API</b>) between the application and the network. We don't have control over how the socket is implemented; that's handled by the OS.</p>
+        <p>For us developers, sockets are also referred to as the <b>Application Programming Interface (API)</b> between the application and the network. We don't have control over how the socket is implemented; that's handled by the OS.</p>
       </div>
       <h4>Addressing Processes</h4>
       <p>In order for the message to go to the correct place, the sending process needs to specify where the message needs to be delivered to. First, it needs to specify which end system is receiving the message. Each end system has a unique identifier called an <b>IP address</b>. Knowing just the end system is not enough though because an end system is running multiple applications while it's on, and we need to know which application needs the message. Whenever processes open a socket, they must choose a number to "label" the socket. This number is called a <b>port number</b>.</p>
@@ -668,7 +669,7 @@
           <li>security*</li>
         </ul>
         <p>Despite this, time-sensitive applications still work. This is because they are designed with these lack of guarantees in mind.</p>
-        <p>*TCP can be enchanced with <b>Transport Layer Security</b> (<b>TLS</b>) to provide encryption. TLS is not a protocol; it's an add-on to TCP.</p>
+        <p>*TCP can be enchanced with <b>Transport Layer Security (TLS)</b> to provide encryption. TLS is not a protocol; it's an add-on to TCP.</p>
       </div>
       <h3>Application-Layer Protocols</h3>
       <p>Application-layer protocols define:</p>
@@ -709,7 +710,7 @@
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/http.gif">
       </div>
       <p>As we can see, it takes some time for the client to receive the file after making a request.</p>
-      <p>The <b>round-trip time</b> (<b>RTT</b>) is the time it takes for a packet to travel from client to server. The delays we saw in the "Delay, Loss, and Throughput" section also factor into the RTT.</p>
+      <p>The <b>round-trip time (RTT)</b> is the time it takes for a packet to travel from client to server. The delays we saw in the "Delay, Loss, and Throughput" section also factor into the RTT.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/rtt.png">
       </div>
@@ -767,7 +768,7 @@
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#http_q4" aria-expanded="false" aria-controls="http_q4">Answer</button>
       </div>
       <h3>HTTP/2</h3>
-      <p>Opening multiple connections results in the server having to open and maintain multiple sockets. However, using only one TCP connection introduces a problem called <b>Head of Line</b> (<b>HOL</b>) <b>blocking</b>. Let's say the base file has a large video clip near the top and many small objects below the video. Being near the top, the video will be requested first. Especially if the bottleneck link is bad, the video will take some time to transfer, causing the objects to have to wait for the video. The video at the head of the line blocks the objects behind it. Parallel connections is one way to solve this problem.</p>
+      <p>Opening multiple connections results in the server having to open and maintain multiple sockets. However, using only one TCP connection introduces a problem called <b>Head of Line (HOL) blocking</b>. Let's say the base file has a large video clip near the top and many small objects below the video. Being near the top, the video will be requested first. Especially if the bottleneck link is bad, the video will take some time to transfer, causing the objects to have to wait for the video. The video at the head of the line blocks the objects behind it. Parallel connections is one way to solve this problem.</p>
       <p>Standardized in 2015, HTTP/2 introduced a way to allow for using one TCP connection without experiencing HOL blocking.</p>
       <h4>HTTP/2 Framing</h4>
       <p>The solution is to break each object into small frames and interleave them. That way, each response will contain parts of each object.</p>
@@ -871,7 +872,7 @@
       <p><code>From: me@gmail.com<br>To: you@gmail.com<br>Subject: Thanks for reading this</code></p>
       <p>And, of course, the body contains the message.</p>
       <h3>Mail Access Protocols</h3>
-      <p>As mentioned eariler, SMTP is used only for sending emails. For receiving emails, there are two main protocols. Web-based applications, like Google's Gmail website and app, use HTTP. Some other clients, like Outlook, use <b>Internet Mail Access Protocol</b> (<b>IMAP</b>).</p>
+      <p>As mentioned eariler, SMTP is used only for sending emails. For receiving emails, there are two main protocols. Web-based applications, like Google's Gmail website and app, use HTTP. Some other clients, like Outlook, use <b>Internet Mail Access Protocol (IMAP)</b>.</p>
       <p>Both of these protocols also allow us to manage our emails. For example, we can move emails into folders, delete emails, and mark emails as important.</p>
       <div class="ln-box">
         <p>Mail servers only use SMTP to send emails. User agents on the other hand, can use SMTP or HTTP to send emails to the mail server.</p>
@@ -879,7 +880,7 @@
       <h2 id="dns">DNS</h2>
       <p>As we probably know, computers like to work with numbers. So naturally, servers are uniquely identified by a set of numbers (IP address). However, we don't type a bunch of numbers if we want to go to Google — we type "google.com" (does anyone actually type this to Google something?). "google.com" is what's known as a <b>hostname</b>, which is a human-readable name for a server.</p>
       <h3>Services Provided by DNS</h3>
-      <p>The Internet's <b>domain name system</b> (<b>DNS</b>) is what allows us to type human-readable names to go to websites. It converts human-readable hostnames to IP addresses.</p>
+      <p>The Internet's <b>domain name system (DNS)</b> is what allows us to type human-readable names to go to websites. It converts human-readable hostnames to IP addresses.</p>
       <div class="ln-box">
         <p>DNS is a distributed database deployed on a bunch of <b>DNS servers</b>.</p>
         <p>It is also an application-layer protocol that allows hosts to query the database. It uses UDP.</p>
@@ -896,7 +897,7 @@
       <p>DNS also provides additional related services. Sometimes, a hostname can be complicated, like "relay1.west-coast.enterprise.com". An alias can be set up so that we can type "enterprise.com" instead of that long hostname. The long (real) hostname is called the <b>canonical hostname</b>. This is called <b>host aliasing</b>. Something similar is available for mail servers too. "gmail.com" is more likely an alias than an actual hostname for a mail server (which might be something like "relay1.west-coast.gmail.com"). This is <b>mail server aliasing</b>.</p>
       <p>Companies often have several servers running their website. Each server has its own IP address, but those IP addresses should all point to the same website. The DNS database stores this set of IP addresses and rotates between the IP addresses so that traffic is distributed evenly across all servers. So DNS also provides <b>load distribution</b>.</p>
       <h3>How DNS Works</h3>
-      <p>DNS is a distributed database organized in a hierarchy. At the top are <b>root DNS servers</b>. This is where the translation starts. The DNS application queries the root DNS server, which then looks at the top-level domain (e.g., com, org, edu, gov, net). It does this because there are dedicated DNS servers for each top-level domain (i.e., there are DNS servers for all .com websites, DNS servers for all .edu websites, etc.). Appropriately, they're called <b>top-level domain</b> (<b>TLD</b>) <b>servers</b>. So the root server will tell the DNS application which TLD server to contact. The TLD server will send back to the DNS application the IP address of the <b>authoritative DNS server</b>, which is where the actual IP address of the website sits. So finally, the DNS application will contact the authoritative DNS server for the IP address of the website.</p>
+      <p>DNS is a distributed database organized in a hierarchy. At the top are <b>root DNS servers</b>. This is where the translation starts. The DNS application queries the root DNS server, which then looks at the top-level domain (e.g., com, org, edu, gov, net). It does this because there are dedicated DNS servers for each top-level domain (i.e., there are DNS servers for all .com websites, DNS servers for all .edu websites, etc.). Appropriately, they're called <b>top-level domain (TLD) servers</b>. So the root server will tell the DNS application which TLD server to contact. The TLD server will send back to the DNS application the IP address of the <b>authoritative DNS server</b>, which is where the actual IP address of the website sits. So finally, the DNS application will contact the authoritative DNS server for the IP address of the website.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/dns.png">
       </div>
@@ -1006,7 +1007,7 @@
       <p>The data center can't possibly be conveniently located for everyone in the world. The farther away a client is, the more links there are for the bytes to go through. And the more links there are, the more likely it is for the bytes to hit a bottleneck link, reducing throughput.</p>
       <p>Popular videos will also be sent over and over again, which is costly and inefficient because the company has to pay their ISP for sending the same bytes over and over again.</p>
       <p>And finally, a single data center is a single point of failure.</p>
-      <p>It's probably obvious at this point, but <b>Content Distribution Networks</b> (<b>CDNs</b>) are networks of distributed servers and data centers, which we'll call clusters. These clusters all have copies of the videos so that clients can connect to the best CDN for them.</p>
+      <p>It's probably obvious at this point, but <b>Content Distribution Networks (CDNs)</b> are networks of distributed servers and data centers, which we'll call clusters. These clusters all have copies of the videos so that clients can connect to the best CDN for them.</p>
       <p>There are two main strategies for placing clusters. The first is to <b>enter deep</b>, where the clusters are "deep" into the access network. With many clusters placed in access ISPs, they are physically located closer to us, reducing the number of links and routers. The drawback to this strategy is that there are many clusters that need to be deployed and managed.</p>
       <p>The second strategy is to <b>bring home</b>, where the clusters "bring the ISPs home" by sitting closer to the network core in Internet exchange points (IXPs). This is easier to manage because there are fewer clusters, but there are more links and routers, which means potentially higher delay and lower throughput.</p>
       <p>The clusters typically don't have copies of every single video. If the cluster needs a video it doesn't have, it pulls the video from the server or another cluster.</p>
@@ -1109,6 +1110,85 @@
       </div>
       <p>Now we need to get the one's complement of this sum, which is `1001`. `1001` is the checksum of the segment.</p>
       <p>UDP on the receiving end gets the segment and wants to verify that none of the bits got lost or corrupted. It adds all the 4-bit numbers along with the checksum. Adding the three 4-bit numbers (with the wrapround) results in `0110`. Adding this with the checksum results in `1111`. If all the bits are `1`s, then UDP knows that there are no errors. If there is a `0` somewhere, then UDP knows there is something wrong with this segment. In this case, UDP can either discard the segment or send it to the application with a warning.</p>
+      <h2 id="rdt">Principles of Reliable Data Transfer</h2>
+      <p>Here, we'll look at the mechanisms behind a reliable data transfer protocol. We'll only look at <b>unidirectional data transfer</b> (sender `rarr` receiver).</p>
+      <p>Suppose there are functions called <code>rdt_send()</code>, <code>udt_send()</code>, <code>rdt_rcv()</code>, and <code>deliver_data()</code>. <code>rdt_send()</code> is called by the sender when it wants to send data. <code>udt_send()</code> is called to send the data into the underlying channel (the "u" stands for "unreliable"). <code>rdt_rcv()</code> is called to receive data from the underlying channel. <code>deliver_data()</code> is called to send data to the receiver.</p>
+      <div class="ln-box">
+        <p>The ideas here apply to a reliable data transfer protocol in general, not just for the transport layer. So the underlying channel doesn't necessarily have to be the network layer (and the layer above doesn't have to be the application layer). Also, instead of "segments", encapsulated data will be generically called "packets".</p>
+      </div>
+      <h3>Building a Reliable Data Transfer Protocol</h3>
+      <div class="ln-box">
+        <p>A finite-state machine is a model that shows what a machine does on certain actions. A machine starts in a certain state and changes its state as certain events take place.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/fsm.png">
+        </div>
+        <p>The dashed arrow points to the initial state of the machine. A solid arrow indicates a transition from one state to another. For every transition, there is a cause and effect. The cause is the event that triggers the transition (think of it as "why is this transition happening?") and the effect is the actions that are taken when the event occurs.</p>
+      </div>
+      <h4>Reliable Data Transfer over a Perfectly Reliable Channel: <code>rdt1.0</code></h4>
+      <p>First, we'll assume the underlying channel is reliable. This makes things pretty trivial since the underlying channel pretty much did the job for us (the job being reliable data transfer).</p>
+      <p>On the sender's side:</p>
+      <ol>
+        <li>take in the data from the upper layer by calling <code>rdt_send(data)</code></li>
+        <li>create a packet by calling <code>make_pkt(data)</code></li>
+        <li>send the packet into the underlying channel by calling <code>udt_send(packet)</code></li>
+      </ol>
+      <p>On the receiver's side:</p>
+      <ol>
+        <li>take in the packet from the underlying channel by calling <code>rdt_rcv(packet)</code></li>
+        <li>extract the data from the packet by calling <code>extract(packet)</code></li>
+        <li>send the data to the receiver by calling <code>deliver_data(data)</code></li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt1.png">
+      </div>
+      <p>Note there is one FSM for the sender and one FSM for the receiver. Each FSM only has one state because at this point, there's not really much to do besides waiting for data to send or receive. In other words, before we can send data, we have to wait for data. And after we send data, we have to wait for more data. So the only thing to do after taking any action is to wait.</p>
+      <h4>Reliable Data Transfer over a Channel with Bit Errors: <code>rdt2.0</code></h4>
+      <p>Now let's assume the underlying channel may sometimes corrupt some of the bits. First, we need a way to know if the data is corrupted. For this, we have the checksum technique.</p>
+      <p>Next, we need a way to let the sender know whether the data received is good or bad. For this, we introduce acknowledgments. If the data is good, then the receiver will send a <b>positive acknowledgment</b> (ACK) to the sender. If the data is bad, then the receiver will send a <b>negative acknowledment</b> (NAK) to the sender, telling the sender to send the data again.</p>
+      <div class="ln-box">
+        <p>Reliable data transfer protocols based on retransmission are called <b>Automatic Repeat reQuest (ARQ) protocols</b>.</p>
+      </div>
+      <p>On the sender's side:</p>
+      <ol>
+        <li>take in the data from the upper layer by calling <code>rdt_send(data)</code></li>
+        <li>create a packet by calling <code>make_pkt(data)</code></li>
+        <li>send the packet into the underlying channel by calling <code>udt_send(sndpkt)</code></li>
+        <li>wait for and get an acknowledgment by calling <code>rdt_rcv(rcvpkt)</code></li>
+        <li>if the acknowledgment is negative, send the packet again by calling <code>udt_send(sndpkt)</code></li>
+      </ol>
+      <p>On the receiver's side:</p>
+      <ol>
+        <li>take in the packet from the underlying channel by calling <code>rdt_rcv(rcvpkt)</code></li>
+        <li>if the packet is corrupted:
+          <ol>
+            <li>make a negative acknowledgment by calling <code>make_pkt(NAK)</code></li>
+            <li>send the negative acknowledgment by calling <code>udt_send(sndpkt)</code></li>
+          </ol>
+        </li>
+        <li>otherwise, if the packet is good:
+          <ol>
+            <li>extract the data from the packet by calling <code>extract(rcvpkt)</code></li>
+            <li>send the data to the receiver by calling <code>deliver_data(data)</code></li>
+            <li>make a positive acknowledgment by calling <code>make_pkt(ACK)</code></li>
+            <li>send the positive acknowledgment by calling <code>udt_send(sndpkt)</code></li>
+          </ol>
+        </li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_sender.png">
+        <p>This is the FSM for the sender.</p>
+      </div>
+      <p>By this design, when the sender is waiting for an ACK or NAK, it cannot get more data from the upper layer. The sender won't send any new data until it knows that the last thing it sent was good. This makes our <code>rdt2.0</code> protocol a <b>stop-and-wait</b> protocol.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_receiver.png">
+        <p>This is the FSM for the receiver.</p>
+      </div>
+      <h4><code>rdt2.1</code>: NACK? What's That?</h4>
+      <p>One thing we haven't considered yet is what if the ACK or NAK is corrupted? After all, an acknowledgment is a packet, so it too can get corrupted. Let's say the receiver sends a NAK, but the NAK gets corrupted. If the sender decides to not do anything, then the receiver never gets any data at all. Consider the other situation where the receiver sends an ACK, but the ACK gets corrupted. If the sender decides to resend the data, then the receiver will get duplicate packets. The problem here is that the receiver doesn't know that this is retransmitted data and will treat this as new data.</p>
+      <p>The solution is rather simple. If the acknowledgment is corrupted, always resend the data, but add a <b>sequence number</b> to the packet. The receiver can then check the sequence number to see if it's a retransmission. Let's say the sender sends data (with a sequence number) and the data wasn't corrupted. The receiver sends an ACK to the sender, but let's say the ACK gets corrupted. The sender resends the data with the same sequence number as before. The receiver sees that the sequence number is the same as the sequence number of the last packet it received, so the receiver discards the retransmitted packet.</p>
+      <div class="ln-box">
+        <p>Since our protocol is a stop-and-wait protocol, alternating between `1`s and `0`s is enough for the sequence number. This is because data gets sent one at a time (because of stop and wait), so as long as the sequence number is different, the receiver will know that it's not a retransmission.</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
