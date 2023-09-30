@@ -56,7 +56,7 @@
       <h2 id="whatisit">What is the Internet?</h2>
       <p>Computers. Laptops. Smartphones. TVs. Watches. And everything else that has the word "smart" in front of it. All of these things that can connect to the Internet are called <b>hosts</b> or <b>end systems</b>. End systems send and receive data through a system of communcation links and packet switches. The data travels through this system as little pieces called packets and they are reassembled when they reach their destination. Packet switches are machines that help transfer these packets. The whole path that a packet takes is called a <b>route</b> or <b>path</b>.</p>
       <div class="ln-box">
-        <p>A <b>router</b> is a type of packet switch. Yes, the router that connects to the modem.</p>
+        <p>A <b>router</b> is a type of packet switch. The two terms may be used interchangeably (by me).</p>
       </div>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/nuts_and_bolts.png">
@@ -941,10 +941,37 @@
       <p>Type NS records are domain-to-DNS-server mappings. <code>(abc.com, dns.abc.com, NS)</code>. The <code>name</code> is a domain and the <code>value</code> is the hostname of a DNS server.</p>
       <p>CNAME records are alias-to-canonical-hostname mappings. <code>(abc.com, relay1.abc.com, CNAME)</code>. The <code>name</code> is an alias and the <code>value</code> is the canonical hostname.</p>
       <p>MX records are the equivalent of CNAME records but for mail servers. <code>(abc.com, mail.abc.com, MX)</code>.</p>
+      <div class="ln-box">
+        <p>Type AAAA records are also hostname-to-IP mappings, but for IPv6.</p>
+      </div>
       <h4>Inserting Records into the DNS Database</h4>
       <p>If we want to register a domain name, say "ourwebsite.com", we do so through a <b>registrar</b>. A registrar makes sure the domain is unique and inserts the appropriate records into the DNS database.</p>
       <div class="ln-box">
         <p>The registrar also needs the names and IP addresses of the primary and secondary authoritative DNS servers. Once that is provided, the registrar inserts a Type NS record and a Type A record into the appropriate TLD server. For example, <code>(ourwebsite.com, dns1.ourwebsite.com, NS)</code> and <code>(dns1.ourwebsite.com, 199.199.199.199, A)</code> are inserted into the TLD servers for .com websites. So when a (local) DNS server contacts a TLD server, the TLD server will return both the Type NS record and the Type A record.</p>
+      </div>
+      <div class="ln-box">
+        <p><code>nslookup</code> is a tool for performing DNS queries.</p>
+        <p>Here's a sample output for <code>nslookup google.com</code>:</p>
+        <p><code>Server: dns-cac-lb-01.rr.com</code><br><code>Address: 3002:1997:f01:1::1</code><br><br><code>Non-authoritative answer:</code><br><code>Name: google.com</code></br><code>Addresses: 2607:f8b0:4007:80f::200e</code><br><code>172.217.14.110</code></p>
+        <p>The <code>Server</code> is the DNS server to which the query is sent. If no DNS server is specified in the command, then it is the default DNS server, which is usually the local DNS server.</p>
+        <p><code>Non-authoritative answer</code> means the answer is not from an authoritative DNS server. What happened was that the local DNS server queried a non-authoritative server that had the answer in its cache.</p>
+        <p>Here, there happened to be two answers returned. <code>2607:f8b0:4007:80f::200e</code> and <code>172.217.14.110</code> are two separate servers for google.com.</p>
+        <hr>
+        <p>Here's a sample output for <code>nslookup -type=NS google.com</code>:</p>
+        <p><code>Server: dns-cac-lb-01.rr.com</code><br><code>Address: 3002:1997:f01:1::1</code><br><br><code>Non-authoritative answer:</code><br><code>google.com nameserver = ns2.google.com</code><br><code>google.com nameserver = ns1.google.com</code><br><br><code>ns1.google.com internet address = 216.239.32.10</code><br><code>ns2.google.com internet address = 216.239.34.10</code></p>
+        <p>This time, we're asking for Type NS records, so we'll see hostnames instead of IP addresses in the (first two lines of the) answer. Specifically, these are the hostnames for Google's authoritative DNS servers.</p>
+        <p>In the second half of the answer are Type A records for the authoritative DNS servers. Even though we didn't ask for Type A records, the local DNS server gave it to us for free.</p>
+        <hr>
+        <p>Here's a sample output for <code>nslookup google.com ns2.google.com</code>:</p>
+        <p><code>Server: ns2.google.com</code><br><code>Address: 2001:4860:4802:34::a</code><br><br><code>Name: google.com</code></br><code>Addresses: 2607:f8b0:4007:809::200e</code><br><code>142.250.176.14</code></p>
+        <p>This command is sending the query to a specified DNS server (ns2.google.com) instead of to the local DNS server. Note that there's no <code>Non-authoritative answer</code>; this makes sense because we're querying an authoritative DNS server for google.com.</p>
+        <p>We might expect the address of the DNS server to match the address from the previous Type NS query, since they're both ns2.google.com. Depending on configurations, queries will return either an IPv4 or IPv6 address. So for all we (I) know, they may be the same server. Also, there are other reasons why IP addresses might not match in general: cache expiration, round robin (refer to DNS load distribution), and server scaling are a few.</p>
+      </div>
+      <div class="ln-box">
+        <p><code>ipconfig</code> (on Windows) is a tool that allows us to see IP addresses of things.</p>
+        <p>Here's a sample partial output for <code>ipconfig /all</code>:</p>
+        <p><code>Wireless LAN adapter Wi-Fi:</code><br><code>IPv6 Address. . . . . . . . . . . : 3912:6001:f122:5b21:b5c7:284d:6b93:3a12(Preferred)</code><br><code>Temporary IPv6 Address. . . . . . : 3912:6001:f122:5b21:e6a2:778a:3c12:ab92(Preferred)</code><br><code>IPv4 Address. . . . . . . . . . . : 173.146.1.189(Preferred)</code><br><code>DNS Servers . . . . . . . . . . . : 3002:1997:f01:1::1</code></p>
+        <p>There will likely be many network interfaces shown, but since I'm connected to the Internet via WiFi, the WiFi one is the relevant one. Note that the IP address of the DNS server matches the IP address from <code>nslookup</code>.</p>
       </div>
       <h2 id="p2p">Peer-to-Peer File Distribution</h2>
       <p>We saw this earlier, but in peer-to-peer applications, there are no servers sending data to clients. Instead, devices connect to each other and are called peers. Specifically for file distribution, peers send/receive portions of files to/from other peers.</p>
@@ -1123,6 +1150,7 @@
           <img class="img-fluid ln-image-small" src="../pictures/networking/fsm.png">
         </div>
         <p>The dashed arrow points to the initial state of the machine. A solid arrow indicates a transition from one state to another. For every transition, there is a cause and effect. The cause is the event that triggers the transition (think of it as "why is this transition happening?") and the effect is the actions that are taken when the event occurs.</p>
+        <p>&amp;&amp; is shorthand for "and" and || is shorthand for "or". So "cause: event1 &amp;&amp; event2" means that event1 and event2 are causing the transition. And "cause: event1 &amp;&amp; (event2 || event3)" means that event1 and either event2 or event3 are causing the transition.</p>
       </div>
       <h4>Reliable Data Transfer over a Perfectly Reliable Channel: <code>rdt1.0</code></h4>
       <p>First, we'll assume the underlying channel is reliable. This makes things pretty trivial since the underlying channel pretty much did the job for us (the job being reliable data transfer).</p>
@@ -1155,7 +1183,12 @@
         <li>send the packet into the underlying channel by calling <code>udt_send(sndpkt)</code></li>
         <li>wait for and get an acknowledgment by calling <code>rdt_rcv(rcvpkt)</code></li>
         <li>if the acknowledgment is negative, send the packet again by calling <code>udt_send(sndpkt)</code></li>
+        <li>otherwise, if the acknowledgment is positive, get ready to get more data from the upper layer</li>
       </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_sender.png">
+        <p>This is the FSM for the <code>rdt2.0</code> sender.</p>
+      </div>
       <p>On the receiver's side:</p>
       <ol>
         <li>take in the packet from the underlying channel by calling <code>rdt_rcv(rcvpkt)</code></li>
@@ -1175,20 +1208,136 @@
         </li>
       </ol>
       <div class="ln-center">
-        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_sender.png">
-        <p>This is the FSM for the sender.</p>
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_receiver.png">
+        <p>This is the FSM for the <code>rdt2.0</code> receiver.</p>
       </div>
       <p>By this design, when the sender is waiting for an ACK or NAK, it cannot get more data from the upper layer. The sender won't send any new data until it knows that the last thing it sent was good. This makes our <code>rdt2.0</code> protocol a <b>stop-and-wait</b> protocol.</p>
-      <div class="ln-center">
-        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_receiver.png">
-        <p>This is the FSM for the receiver.</p>
-      </div>
       <h4><code>rdt2.1</code>: NACK? What's That?</h4>
       <p>One thing we haven't considered yet is what if the ACK or NAK is corrupted? After all, an acknowledgment is a packet, so it too can get corrupted. Let's say the receiver sends a NAK, but the NAK gets corrupted. If the sender decides to not do anything, then the receiver never gets any data at all. Consider the other situation where the receiver sends an ACK, but the ACK gets corrupted. If the sender decides to resend the data, then the receiver will get duplicate packets. The problem here is that the receiver doesn't know that this is retransmitted data and will treat this as new data.</p>
-      <p>The solution is rather simple. If the acknowledgment is corrupted, always resend the data, but add a <b>sequence number</b> to the packet. The receiver can then check the sequence number to see if it's a retransmission. Let's say the sender sends data (with a sequence number) and the data wasn't corrupted. The receiver sends an ACK to the sender, but let's say the ACK gets corrupted. The sender resends the data with the same sequence number as before. The receiver sees that the sequence number is the same as the sequence number of the last packet it received, so the receiver discards the retransmitted packet.</p>
+      <p>The solution is rather simple. If the acknowledgment is corrupted, always resend the data, but add a <b>sequence number</b> to the packet. The receiver can then check the sequence number to see if it's a retransmission. Let's say the sender sends data (with a sequence number) and the data wasn't corrupted. The receiver sends an ACK to the sender, but let's say the ACK gets corrupted. The sender resends the data with the same sequence number as before. The receiver sees that the sequence number is the same as the sequence number of the last packet it received, so the receiver ignores the retransmitted packet.</p>
       <div class="ln-box">
         <p>Since our protocol is a stop-and-wait protocol, alternating between `1`s and `0`s is enough for the sequence number. This is because data gets sent one at a time (because of stop and wait), so as long as the sequence number is different, the receiver will know that it's not a retransmission.</p>
       </div>
+      <p>On the sender's side:</p>
+      <ol>
+        <li>take in the data from the upper layer by calling <code>rdt_send(data)</code></li>
+        <li>create a packet by calling <code>make_pkt(0, data)</code>
+          <ul>
+            <li>`0` is the sequence number</li>
+          </ul>
+        </li>
+        <li>send the `0` packet into the underlying channel by calling <code>udt_send(sndpkt)</code></li>
+        <li>wait for and get an acknowledgment by calling <code>rdt_rcv(rcvpkt)</code></li>
+        <li>if the acknowledgment is negative — or corrupted — send the `0` packet again by calling <code>udt_send(sndpkt)</code></li>
+        <li>otherwise, if the acknowledgment is positive, get ready to get more data from the upper layer
+          <ul>
+            <li>but use sequence `1` for the next packet
+              <ul>
+                <li>after sending a packet with sequence number `1`, switch back to `0`</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_1_sender.png">
+        <p>This is the FSM for the <code>rdt2.1</code> sender.</p>
+      </div>
+      <p>On the receiver's side:</p>
+      <ol>
+        <li>take in the packet from the underlying channel by calling <code>rdt_rcv(rcvpkt)</code></li>
+        <li>if the sequence number is not `0`, send an ACK, acknowledging the last packet
+          <ul>
+            <li>check if the packet has sequence number `0` by calling <code>has_seq0(rcvpkt)</code></li>
+            <li>check if the packet has sequence number `1` by calling <code>has_seq1(rcvpkt)</code></li>
+          </ul>
+        </li>
+        <li>if the `0` packet is corrupted:
+          <ol>
+            <li>make a negative acknowledgment by calling <code>make_pkt(NAK)</code></li>
+            <li>send the negative acknowledgment by calling <code>udt_send(sndpkt)</code></li>
+          </ol>
+        </li>
+        <li>otherwise, if the `0` packet is good:
+          <ol>
+            <li>extract the data from the packet by calling <code>extract(rcvpkt)</code></li>
+            <li>send the data to the receiver by calling <code>deliver_data(data)</code></li>
+            <li>make a positive acknowledgment by calling <code>make_pkt(ACK)</code></li>
+            <li>send the positive acknowledgment by calling <code>udt_send(sndpkt)</code></li>
+          </ol>
+        </li>
+        <li>now switch to waiting for a `1` packet
+          <ul>
+            <li>after getting a `1` packet, switch back to `0`</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_1_receiver.png">
+        <p>This is the FSM for the <code>rdt2.1</code> receiver.</p>
+      </div>
+      <h4><code>rdt2.2</code>: ACK! ACK! Who's There?</h4>
+      <p>We can get rid of NAKs altogether, so we only have one type of acknowledgment to deal with (I guess having two types is too complicated?). Suppose the sender sends a `0` packet and the receiver gets it just fine, so it sends an ACK back to the sender. Then the sender sends a `1` packet, but that gets corrupted. Instead of sending a NAK for the `1` packet, the receiver can send an ACK for the previous `0` packet. The sender now has received two back-to-back ACK packets (<b>duplicate ACKs</b>) for the `0` packet, so the sender knows that the receiver did not get the `1` packet correctly. In order for this to work, we now have to add the sequence number to the ACK packets as well.</p>
+      <div class="ln-box">
+        <p>This is like one person asking, "Did you get the message I sent today?" and the other person responding, "The last message I got from you was from yesterday."</p>
+      </div>
+      <p>On the sender's side:</p>
+      <ol>
+        <li>take in the data from the upper layer by calling <code>rdt_send(data)</code></li>
+        <li>create a packet by calling <code>make_pkt(0, data)</code>
+          <ul>
+            <li>`0` is the sequence number</li>
+          </ul>
+        </li>
+        <li>send the `0` packet into the underlying channel by calling <code>udt_send(sndpkt)</code></li>
+        <li>wait for and get an acknowledgment by calling <code>rdt_rcv(rcvpkt)</code></li>
+        <li>if the acknowledgment is corrupted — or for a `1` packet — send the `0` packet again by calling <code>udt_send(sndpkt)</code></li>
+        <li>otherwise, if the acknowledgment is good and for the `0` packet, get ready to get more data from the upper layer
+          <ul>
+            <li>but use sequence `1` for the next packet
+              <ul>
+                <li>after sending a packet with sequence number `1`, switch back to `0`</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_2_sender.png">
+        <p>This is the FSM for the <code>rdt2.2</code> sender.</p>
+      </div>
+      <p>On the receiver's side:</p>
+      <ol>
+        <li>take in the packet from the underlying channel by calling <code>rdt_rcv(rcvpkt)</code></li>
+        <li>if the sequence number is not `0` or the packet is corrupted, send an ACK, acknowledging the last packet
+          <ul>
+            <li>check if the packet has sequence number `0` by calling <code>has_seq0(rcvpkt)</code></li>
+            <li>check if the packet has sequence number `1` by calling <code>has_seq1(rcvpkt)</code></li>
+          </ul>
+        </li>
+        <li>otherwise, if the packet is good and the sequence number is `0`:
+          <ol>
+            <li>extract the data from the packet by calling <code>extract(rcvpkt)</code></li>
+            <li>send the data to the receiver by calling <code>deliver_data(data)</code></li>
+            <li>make a positive acknowledgment for the `0` packet by calling <code>make_pkt(0, ACK)</code></li>
+            <li>send the positive acknowledgment by calling <code>udt_send(sndpkt)</code></li>
+          </ol>
+        </li>
+        <li>now switch to waiting for a `1` packet
+          <ul>
+            <li>after getting a `1` packet, switch back to `0`</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_2_receiver.png">
+        <p>This is the FSM for the <code>rdt2.2</code> receiver.</p>
+      </div>
+      <h4>Reliable Data Transfer over a Lossy Channel with Bit Errors: <code>rdt3.0</code></h4>
+      <p>Now let's assume the underlying channel may also lose some packets. Which brings two new problems: how to detect packet loss and how to deal with it. Well, the whole checksum, sequence numbers, ACK packets, and retransmission process already handles how to deal with packet loss. So we just need a way to detect packet loss.</p>
+      <p>One simple approach is for the sender to resend the packet if no response is ever received. Of course, the sender has to wait for at least some time before assuming the packet (either the packet it sent or the ACK from the receiver) is lost. But how long should the sender wait? At a minimum, it should wait at least as long as the round-trip delay between sender and receiver. However, this is hard to quantify because it includes many variables, including queuing delays and processing delays. At a maximum, packet loss should be handled as soon as possible; it's not good to wait for a long time.</p>
+      <p>There's not really a perfect solution that can take into account all those variables. The "good enough" solution is for the sender to pick the time it thinks is good enough. One problem (that's not really a problem) is that if the sender doesn't wait long enough, it may end up sending <b>duplicate data packets</b>. But as we saw earlier, the use of sequence numbers allows the receiver to detect duplicates.</p>
+      <p>In order for this time-based retransmission to work, there needs to be a <b>countdown timer</b>. When the sender sends a packet, it starts the timer for that packet. If the timer goes off before a response is received, then the sender knows to resend the packet (and restart the timer). If a response is received, then the sender will turn off the timer for that packet.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
