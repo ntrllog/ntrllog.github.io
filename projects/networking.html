@@ -52,7 +52,7 @@
       <h1>Computer Networking</h1>
       <hr>
       <p>Shortcut to this page: <a href="networking.html">ntrllog.netlify.app/networking</a></p>
-      <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a> and Professor Senhua Yu.</p>
+      <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a>.</p>
       <h2 id="whatisit">What is the Internet?</h2>
       <p>Computers. Laptops. Smartphones. TVs. Watches. And everything else that has the word "smart" in front of it. All of these things that can connect to the Internet are called <b>hosts</b> or <b>end systems</b>. End systems send and receive data through a system of communcation links and packet switches. The data travels through this system as little pieces called packets and they are reassembled when they reach their destination. Packet switches are machines that help transfer these packets. The whole path that a packet takes is called a <b>route</b> or <b>path</b>.</p>
       <div class="ln-box">
@@ -1338,6 +1338,113 @@
       <p>One simple approach is for the sender to resend the packet if no response is ever received. Of course, the sender has to wait for at least some time before assuming the packet (either the packet it sent or the ACK from the receiver) is lost. But how long should the sender wait? At a minimum, it should wait at least as long as the round-trip delay between sender and receiver. However, this is hard to quantify because it includes many variables, including queuing delays and processing delays. At a maximum, packet loss should be handled as soon as possible; it's not good to wait for a long time.</p>
       <p>There's not really a perfect solution that can take into account all those variables. The "good enough" solution is for the sender to pick the time it thinks is good enough. One problem (that's not really a problem) is that if the sender doesn't wait long enough, it may end up sending <b>duplicate data packets</b>. But as we saw earlier, the use of sequence numbers allows the receiver to detect duplicates.</p>
       <p>In order for this time-based retransmission to work, there needs to be a <b>countdown timer</b>. When the sender sends a packet, it starts the timer for that packet. If the timer goes off before a response is received, then the sender knows to resend the packet (and restart the timer). If a response is received, then the sender will turn off the timer for that packet.</p>
+      <p>On the sender's side:</p>
+      <ol>
+        <li>take in the data from the upper layer by calling <code>rdt_send(data)</code></li>
+        <li>create a packet by calling <code>make_pkt(0, data)</code>
+          <ul>
+            <li>`0` is the sequence number</li>
+          </ul>
+        </li>
+        <li>send the `0` packet into the underlying channel by calling <code>udt_send(sndpkt)</code>
+          <ul>
+            <li>start the timer for the `0` packet by calling <code>start_timer</code></li>
+          </ul>
+        </li>
+        <li>wait for and get an acknowledgment by calling <code>rdt_rcv(rcvpkt)</code></li>
+        <li>if the acknowledgment is corrupted — or for a `1` packet — send the `0` packet again by calling <code>udt_send(sndpkt)</code></li>
+        <li>or if the timer goes off before receiving a response from the receiver, send the `0` packet again</li>
+        <li>otherwise, if the acknowledgment is good and for the `0` packet, get ready to get more data from the upper layer
+          <ul>
+            <li>but use sequence `1` for the next packet
+              <ul>
+                <li>after sending a packet with sequence number `1`, switch back to `0`</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt3_sender.png">
+        <p>This is the FSM for the <code>rdt3.0</code> sender.</p>
+      </div>
+      <div class="ln-box">
+        <p>Notice there's a new self-loop while the sender waits for a call from above. This self-loop is for premature timeouts. Let's say the sender sends a `0` packet and it takes an abnormally long time to reach the receiver. The timer goes off, making the sender think the `0` packet got lost, so the sender sends the `0` packet again. Right after it sends the second `0` packet, the first `0` packet reaches the receiver, so the receiver sends an ACK back to the sender. The sender receives the ACK and goes to waiting for a call from above. While the sender waits for a call from above, the second `0` packet reaches the receiver, so the receiver sends an ACK back to the sender. This is where the self-loop comes in.</p>
+      </div>
+      <p>On the receiver's side:</p>
+      <ol>
+        <li>take in the packet from the underlying channel by calling <code>rdt_rcv(rcvpkt)</code></li>
+        <li>if the sequence number is not `0` or the packet is corrupted, send an ACK, acknowledging the last packet
+          <ul>
+            <li>check if the packet has sequence number `0` by calling <code>has_seq0(rcvpkt)</code></li>
+            <li>check if the packet has sequence number `1` by calling <code>has_seq1(rcvpkt)</code></li>
+          </ul>
+        </li>
+        <li>otherwise, if the packet is good and the sequence number is `0`:
+          <ol>
+            <li>extract the data from the packet by calling <code>extract(rcvpkt)</code></li>
+            <li>send the data to the receiver by calling <code>deliver_data(data)</code></li>
+            <li>make a positive acknowledgment for the `0` packet by calling <code>make_pkt(0, ACK)</code></li>
+            <li>send the positive acknowledgment by calling <code>udt_send(sndpkt)</code></li>
+          </ol>
+        </li>
+        <li>now switch to waiting for a `1` packet
+          <ul>
+            <li>after getting a `1` packet, switch back to `0`</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_2_receiver.png">
+        <p>This is the FSM for the <s><code>rdt2.2</code></s> <code>rdt3.0</code> receiver.</p>
+      </div>
+      <p>Yep, that's right. The receiver for <code>rdt3.0</code> behaves in exactly the same way as the receiver for <code>rdt2.2</code>. This is because adding a timer just adds more retransmissions. In other words, the receiver will do the same thing (send an ACK) regardless of whether the retransmission was from a timeout or from an error.</p>
+      <div class="ln-box">
+        <p>Here's how the different scenarios are handled.</p>
+        <p>No loss:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/networking/rdt3_1.png">
+        </div>
+        <p>Lost Packet:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/networking/rdt3_2.png">
+        </div>
+        <p>Lost ACK:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/networking/rdt3_3.png">
+        </div>
+        <p>Premature timeout:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/networking/rdt3_4.png">
+        </div>
+      </div>
+      <h3>Pipelined Reliable Data Transfer Protocol</h3>
+      <p>While <code>rdt3.0</code> is a correct protocol, it's not great because of its stop-and-wait nature.</p>
+      <p>Let's look at the math for sending a packet from sender to receiver. Suppose the RTT is `30` milliseconds; the channel between them has a transmission rate of `1` Gbps (`10^9` bits per second); and the packet size is `1000` bytes (`8000` bits).</p>
+      <p>The transmission delay is</p>
+      <div class="ln-center">
+        <p>`d_text(trans)=L/R=(8000text( bits))/(10^9text( bits per second))=0.000008` seconds `=0.008` milliseconds</p>
+      </div>
+      <p>Once the packet is transmitted, it will take `15` milliseconds to reach the receiver. The receiver now sends the ACK to the sender. For simplicity, we'll assume there is no time to transmit the ACK. It will take `15` milliseconds for the sender to receive the ACK. So this whole process took</p>
+      <div class="ln-center">
+        <p>`text(RTT)+L/R=30+0.008=30.008` milliseconds</p>
+      </div>
+      <p>The sender was busy for only `0.008` milliseconds, but the whole process took `30.008` milliseconds. The <b>utilization</b> of the sender (the measure of how busy it was) is</p>
+      <div class="ln-center">
+        <p>`U_text(sender)=(L/R)/(text(RTT)+L/R)=0.008/30.008=0.00027`</p>
+      </div>
+      <p>A low utilization means that it wasn't busy for most of the time, i.e., the sender is being inefficient. In fact, the sender was busy only `0.027%` of the time.</p>
+      <p>From another point of view, the sender was only able to send `1000` bytes in `30.008` milliseconds. This means the throughput is</p>
+      <div class="ln-center">
+        <p>`(8000text( bits))/(30.008text( milliseconds))=(8000text( bits))/(0.030008text( seconds))~~267,000` bits per second `=267` kbps.</p>
+      </div>
+      <p>This is inefficient, considering the fact that the channel between them has a transmission rate of `1` Gbps. (Imagine paying for `1` Gpbs but only getting `267` kbps.)</p>
+      <p>On top of it all, we haven't even considered processing and queuing delays at intermediate routers in the channel.</p>
+      <p>It's important to note that all this inefficiency is due to the fact that the sender has to wait for the receiver's response before it can send more data. Naturally, the solution is to let the sender send multiple packets at a time without having to wait for a response. This is called <b>pipelining</b> (because many packets are filling a pipeline). There will be several changes that need to be made for this to work:</p>
+      <ul>
+        <li>The range of sequence numbers has to be increased. We can't alternate between `0`s and `1`s anymore.</li>
+        <li>The sender and receiver need a buffer (queue) to handle multiple packets at a time.</li>
+      </ul>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
