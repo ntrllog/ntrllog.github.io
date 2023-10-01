@@ -1138,10 +1138,13 @@
       <p>Now we need to get the one's complement of this sum, which is `1001`. `1001` is the checksum of the segment.</p>
       <p>UDP on the receiving end gets the segment and wants to verify that none of the bits got lost or corrupted. It adds all the 4-bit numbers along with the checksum. Adding the three 4-bit numbers (with the wrapround) results in `0110`. Adding this with the checksum results in `1111`. If all the bits are `1`s, then UDP knows that there are no errors. If there is a `0` somewhere, then UDP knows there is something wrong with this segment. In this case, UDP can either discard the segment or send it to the application with a warning.</p>
       <h2 id="rdt">Principles of Reliable Data Transfer</h2>
-      <p>Here, we'll look at the mechanisms behind a reliable data transfer protocol. We'll only look at <b>unidirectional data transfer</b> (sender `rarr` receiver).</p>
-      <p>Suppose there are functions called <code>rdt_send()</code>, <code>udt_send()</code>, <code>rdt_rcv()</code>, and <code>deliver_data()</code>. <code>rdt_send()</code> is called by the sender when it wants to send data. <code>udt_send()</code> is called to send the data into the underlying channel (the "u" stands for "unreliable"). <code>rdt_rcv()</code> is called to receive data from the underlying channel. <code>deliver_data()</code> is called to send data to the receiver.</p>
+      <p>Here, we'll build out the mechanisms behind a reliable data transfer protocol.</p>
       <div class="ln-box">
         <p>The ideas here apply to a reliable data transfer protocol in general, not just for the transport layer. So the underlying channel doesn't necessarily have to be the network layer (and the layer above doesn't have to be the application layer). Also, instead of "segments", encapsulated data will be generically called "packets".</p>
+      </div>
+      <p>Suppose our layer is in between an upper layer and a lower layer. Each layer has a channel responsible for sending and receiving data (we'll be building the channel in our layer, so that's why there's no channel for our layer in the drawing). The upper layer calls <code>rdt_send()</code> when it wants to send data into our layer. In our channel is a sender that gets the data and calls <code>udt_send()</code> (the "u" stands for "unreliable") to send the data into the underlying channel. The receiver in our channel gets the data from the underlying channel by calling <code>rdt_rcv()</code> and sends it to the upper layer by calling <code>deliver_data()</code>.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/rdt.png">
       </div>
       <h3>Building a Reliable Data Transfer Protocol</h3>
       <div class="ln-box">
@@ -1354,7 +1357,7 @@
         <li>wait for and get an acknowledgment by calling <code>rdt_rcv(rcvpkt)</code></li>
         <li>if the acknowledgment is corrupted — or for a `1` packet — send the `0` packet again by calling <code>udt_send(sndpkt)</code></li>
         <li>or if the timer goes off before receiving a response from the receiver, send the `0` packet again</li>
-        <li>otherwise, if the acknowledgment is good and for the `0` packet, get ready to get more data from the upper layer
+        <li>otherwise, if the acknowledgment is good and for the `0` packet, stop the timer for the `0` packet and get ready to get more data from the upper layer
           <ul>
             <li>but use sequence `1` for the next packet
               <ul>
@@ -1445,6 +1448,47 @@
         <li>The range of sequence numbers has to be increased. We can't alternate between `0`s and `1`s anymore.</li>
         <li>The sender and receiver need a buffer (queue) to handle multiple packets at a time.</li>
       </ul>
+      <h3>Go-Back-N (GBN)</h3>
+      <p>Let's take a look at the sender's buffer at a random point in time.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/gbn.png">
+      </div>
+      <p>The rectangles are spots in the buffer, where each spot is identified by a sequence number. <span class="ln-green">Green means the packet in this spot has already been sent and ACK'ed</span>. <span class="ln-orange">Orange means the packet in this spot has been sent, but no ACK has been received for it yet</span>. <span class="ln-light-blue">Blue means the spot is empty, but once there's a packet in that spot, it will be sent right away</span>. White means the spot is empty and once there's a packet in that spot, it won't be sent right away. (Did you expect me to write that last sentence in white?)</p>
+      <p>In the <b>Go-Back-N (GBN) protocol</b>, the sender can send multiple packets as long as the number of unacknowledged packets is less than some number `N`. When there are exactly `N` unacknowledged packets in the sender's buffer, the sender is not allowed to send any more data until some of those `N` unACK'ed packets are acknowledged.</p>
+      <p>To formalize things a bit more, we define <code>base</code> to be the sequence number of the oldest unacknowledged packet and <code>nextseqnum</code> to be the sequence number of the next packet to fill that spot.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/gbn_2.png">
+      </div>
+      <p>Here's what the buffer looks like as packets get sent, acknowledged, and received:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/gbn.gif">
+      </div>
+      <p>This sliding animation is why `N` is referred to as the <b>window size</b> and why GBN is a <b>sliding-window protocol</b>.</p>
+      <div class="ln-box">
+        <p>The sequence number of a packet is stored in the packet's headers, which has limited storage (UDP segments have 8-byte headers for example). This implies that there's a limit to how high a sequence number can be. Generally, if we devote `k` bits to storing the sequence number, the highest sequence number that can be assigned to a packet is `2^k-1`. Once a packet is assigned the sequence number `2^k-1`, the next packet will be assigned a sequence number of `0`.</p>
+        <p>For <code>rdt3.0</code>, `k=1`.</p>
+      </div>
+      <p>When the upper layer has data to send, the sender first checks to see if its window is full, which is the case if there are `N` unACK'ed packets. If it's not full, a packet is created and sent. If it is full, then the packet gets created, but put in the buffer outside the window. (And if the buffer is full, then synchronization methods, like semaphores, are used to control when the upper layer can send data.)</p>
+      <p>The timer starts when the <code>base</code> packet gets sent. If an ACK is received for the <code>base</code> packet and there are no unACK'ed packets in the window, then the timer is stopped. If an ACK is received for the <code>base</code> packet and there are still unACK'ed packets in the window, then the timer is restarted. In either case, the next packet to be unACK'ed becomes the new <code>base</code> packet.</p>
+      <p>Now is where we find out why this protocol is called Go-Back-N. If the timer goes off (meaning that the sender thinks a packet got lost), then the sender will resend all packets that are currently unACK'ed. Since there can be at most `N` unACK'ed packets, the sender will go back and send at most `N` packets.</p>
+      <div class="ln-box">
+        <p>Because the sender sends packets in order, the receiver also expects to get packets in order. It's possible for packets to be out of order if packets get lost.</p>
+      </div>
+      <p>When the receiver gets a packet with sequence number `n`, the receiver checks if `n` is the expected sequence number, i.e., the receiver checks if the last packet delivered to the upper layer was `n-1`. If it is, then the receiver sends an ACK for packet `n`. If the expected sequence number is not `n`, or the packet got corrupted, then the receiver discards packet `n` and sends an ACK for the last packet it received that was in order.</p>
+      <div class="ln-box">
+        <p>Since data is delivered to the upper layer one at a time, if packet `k` is received and delivered, then sending an ACK for packet `k` means that packet `k` — and all the packets before `k` — have been received correctly and delivered. This is called <b>cumulative acknowledgment</b>.</p>
+      </div>
+      <div class="ln-box">
+        <p>There is no need for the receiver to have a buffer. Theoretically, if the receiver is waiting for packet `n`, but it gets `n+1` instead, the receiver could store it in a buffer until packet `n` arrives. But if packet `n` never arrives, both packets `n` and `n+1` will be retransmitted by the sender anyway.</p>
+        <p>The good thing about not having a buffer to manage is that it reduces complexity. The bad thing about this is that we're throwing away a perfectly good packet. In subsequent retransmissions, that same packet may get lost or corrupted, resulting in more retransmissions.</p>
+      </div>
+      <div class="ln-box">
+        <p>Suppose the sender's window size is `4`. The sender starts by sending packets `0`, `1`, `2`, and `3`, then waiting for their ACKs. The receiver gets packets `0` and `1`, but let's say packet `2` gets lost. When the sender gets the ACKS for `0` and `1`, the sender sends packets `4` and `5`. The receiver gets packets `3`, `4`, and `5`, but discards them since packet `2` hasn't come yet. (The receiver also sends ACKs for packet `1` since that was the last correctly received packet, but the sender will ignore these since the sender already received an ACK for `1`.)</p>
+        <p>The timer eventually goes off, so the sender sends packets `2`, `3`, `4`, and `5` again.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/gbn_3.png">
+        </div>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

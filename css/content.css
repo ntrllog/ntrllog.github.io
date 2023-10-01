@@ -36,6 +36,18 @@ h2 {
   z-index: 2;
 }
 
+.ln-green {
+  color: green;
+}
+
+.ln-orange {
+  color: orange;
+}
+
+.ln-light-blue {
+  color: #03d1ff;
+}
+
 .ln-line-height {
   line-height: 2;
 }
