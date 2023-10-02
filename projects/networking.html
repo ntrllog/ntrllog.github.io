@@ -695,7 +695,7 @@
         <p>The original version of HTTP is called HTTP/1.0. Then there was HTTP/1.1 (1997), HTTP/2 (2015), and HTTP/3 (2022).</p>
       </div>
       <h3>Non-Persistent and Persistent Connections</h3>
-      <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for the base HTML file and then each object in the file. In <b>non-persistent connections</b>, the browser opens a TCP connection for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. HTTP uses persistent connections by default.</p>
+      <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for the base HTML file and then each object in the file. In <b>non-persistent connections</b>, the browser opens a TCP connection for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. HTTP/1.1 and later use persistent connections by default.</p>
       <h4>HTTP with Non-Persistent Connections</h4>
       <ol>
         <li>Browser starts a TCP connection to the server on port 80</li>
@@ -866,6 +866,9 @@
       <p>SMTP uses persistent connections. So if a mail server has multiple emails to send to the same mail server, then it can use the same TCP connection to send all the emails.</p>
       <div class="ln-box">
         <p>In HTTP, each object is sent in its own response message. In SMTP, all of the objects are placed into one email.</p>
+      </div>
+      <div class="ln-box">
+        <p>After the TCP handshake, there is another SMTP handshake that takes place between the mail servers before they can send and receive emails.</p>
       </div>
       <h3>Mail Message Formats</h3>
       <p>An email consists of a header and a body. The header is kinda like the metadata of the email. An example:</p>
@@ -1279,7 +1282,7 @@
         <img class="img-fluid ln-image-small" src="../pictures/networking/rdt2_1_receiver.png">
         <p>This is the FSM for the <code>rdt2.1</code> receiver.</p>
       </div>
-      <h4><code>rdt2.2</code>: ACK! ACK! Who's There?</h4>
+      <h4><code>rdt2.2</code>: ACK! ACK! Who's There? Oh, It's You Again</h4>
       <p>We can get rid of NAKs altogether, so we only have one type of acknowledgment to deal with (I guess having two types is too complicated?). Suppose the sender sends a `0` packet and the receiver gets it just fine, so it sends an ACK back to the sender. Then the sender sends a `1` packet, but that gets corrupted. Instead of sending a NAK for the `1` packet, the receiver can send an ACK for the previous `0` packet. The sender now has received two back-to-back ACK packets (<b>duplicate ACKs</b>) for the `0` packet, so the sender knows that the receiver did not get the `1` packet correctly. In order for this to work, we now have to add the sequence number to the ACK packets as well.</p>
       <div class="ln-box">
         <p>This is like one person asking, "Did you get the message I sent today?" and the other person responding, "The last message I got from you was from yesterday."</p>
@@ -1489,6 +1492,89 @@
           <img class="img-fluid ln-image-small" src="../pictures/networking/gbn_3.png">
         </div>
       </div>
+      <h3>Selective Repeat (SR)</h3>
+      <p>Even though GBN allows the sender to send multiple packets at a time, there are still some situations where GBN is inefficient. If something goes wrong with just one packet, GBN has to go back `N` and retransmit all those packets again, which is problematic especially if `N` is large.</p>
+      <p>Based on its name, SR will select only the packets that (it thinks) were lost and retransmit just those packets.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/sr_sender.png">
+      </div>
+      <p>The sender's buffer in SR is similar to the sender's buffer in GBN. But in SR, packets can be ACK'ed out of order.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/sr.gif">
+      </div>
+      <p>In order for this to work, the receiver must also have its own buffer.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/sr_receiver.png">
+        <p>In this picture and in practice, this buffer doesn't coincide with the sender's buffer.</p>
+      </div>
+      <p><span class="ln-green">Green means the packet in this spot has already been delivered to the upper layer</span>. <span class="ln-red">Red means the packet in this spot has not been received yet</span>. <span class="ln-purple">Purple means the packet in this spot has been received and ACK'ed, but not yet delivered to the upper layer</span>. <span class="ln-light-blue">Blue means the spot is empty, but once there's a packet in that spot, it will be ACK'ed</span>. <span class="ln-white">White means the spot is empty and once there's a packet in that spot, it won't be ACK'ed right away. (Hah! I wrote it in white this time!)</span></p>
+      <p>In the example above, let's say the sequence numbers of the first two purple packets are `6` and `7`. If packet `5` arrives, then packets `5`, `6`, and `7` will all be delivered to the upper layer at once.</p>
+      <p>When the upper layer has data to send, the sender first checks to see if its window is full, which is the case if there is at least `1` unACK'ed packet in the window of `N` packets. If it's not full, a packet is created and sent. If it is full, then the packet gets created, but put in the buffer outside the window. (And if the buffer is full, then synchronization methods, like semaphores, are used to control when the upper layer can send data.)
+      <p>Since packets are selectively repeated, each packet needs its own timer. (Unlike in GBN where one timer was used for `N` packets.)</p>
+      <p>If the receiver gets a packet that has already been delivered to the upper layer (sequence number `lt` <code>rcv_base</code>), then the receiver sends an ACK for it and discards it. If the receiver gets a packet outside of its window (sequence number `gt` <code>rcv_base</code>`+N` ), then the receiver puts it in the buffer outside the window. Finally, if the receiver gets a packet with a sequence number inside the window, the receiver sends an ACK for it. And if the sequence number is equal to <code>rcv_base</code>, then it and all consecutive packets that have been ACK'ed will be delivered to the upper layer.</p>
+      <div class="ln-box">
+        <p>It is necessary for the receiver to send ACKs for packets it has already delivered to the upper layer. Suppose the sender has not received an ACK for the <code>base</code> packet yet, but the receiver has already delivered it to the upper layer. Let's say the ACK from the receiver got lost, so the sender's timer eventually goes off for the <code>base</code> packet, causing the sender to send it again. If the receiver doesn't send an ACK for the <code>base</code> packet it already delivered, then the sender will be stuck forever waiting for the ACK.</p>
+      </div>
+      <div class="ln-box">
+        <p>Suppose the window size is `4`. The underlined numbers are the sequence numbers in the window. The sender starts by sending packets `0`, `1`, `2`, and `3`, then waiting for their ACKs. The receiver gets packets `0` and `1`, but let's say packet `2` gets lost. When the sender gets the ACKS for `0` and `1`, the sender sends packets `4` and `5`. The receiver gets packets `3`, `4`, and `5`, and buffers them since packet `2` hasn't come yet. The timer eventually goes off for packet `2`, so the sender sends packet `2` again. The receiver gets packet `2` and delivers it along with buffered packets `3`, `4`, and `5` to the upper layer.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/sr.png">
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>This was mentioned in passing, but the sender's window does not have to be in sync with the receiver's window. This isn't usually a problem if they sync up eventually. However, it is possible that being out of sync at the wrong time can cause issues. This happens if the size of the window is fairly close to the number of assignable sequence numbers.</p>
+        <p>For example, suppose the window size is `3` and the number of assignable sequence numbers is `4` (so the assignable sequence numbers are `0`, `1`, `2`, `3`).</p>
+        <p>The sender starts by sending packets `0`, `1`, and `2`. The receiver gets all of them successfully and the sender gets all their ACKs successfully too. So the sender sends packets `3`, `0`, and `1`. The receiver gets packet `0` correctly, but packet `3` gets lost, so packet `0` on the receiver's side gets buffered.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/networking/sr_dilemma.png">
+        </div>
+        <p>Everything seems normal for now, but let's look at another scenario. Suppose that the ACKs for packets `0`, `1`, and `2` got lost instead. The timer goes off for packet `0`, so the sender resends packet `0`.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/networking/sr_dilemma_2.png">
+        </div>
+        <p>But wait, look at the windows for the sender and receiver! When the sender was sending packet `0` the second time, packet `0` was actually a retransmission. However, the receiver thought it was a new packet `0`.</p>
+        <p>Furthermore, the receiver thinks everything is fine; and why wouldn't it? From the receiver's point of view, the sequence of events in this situation is exactly the same as the normal one.</p>
+        <p>In order to avoid this problem of confusing one packet for another, the window size and number of assignable sequence numbers has to be different enough. But how much is enough? (Obviously, different by `1` isn't enough!)</p>
+        <p>Notice that when the receiver moved by a whole window's length, some of the sequence numbers in the previous window showed up again in the next window.</p>
+        <div class="ln-center">
+          <img class="img-fluid" src="../pictures/networking/sr_dilemma.gif">
+        </div>
+        <p>This is what caused the trouble, because it's possible to get these sequence numbers mixed up with the ones from the previous window (where the other side is stuck on the previous window). Naturally, this means that we should be able to move by a whole window and not see any of the previous sequence numbers. Well, that happens when the number of assignable sequence numbers is (at least) twice the window size.</p>
+        <div class="ln-center">
+          <img class="img-fluid" src="../pictures/networking/sr_dilemma_2.gif">
+        </div>
+      </div>
+      <p>Here's a table summarizing everything we needed to build a reliable data transfer protocol:</p>
+      <table class="table">
+        <tr>
+          <th>Mechanism</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Checksum</td>
+          <td>Used to detect corrupted packets</td>
+        </tr>
+        <tr>
+          <td>Acknowledgment</td>
+          <td>Used to tell the sender that the packet was received correctly</td>
+        </tr>
+        <tr>
+          <td>Negative acknowledgment</td>
+          <td>Used to tell the sender that the packet was not received correctly</td>
+        </tr>
+        <tr>
+          <td>Sequence number</td>
+          <td>Used to give packets an ordering so the receiver can distinguish duplicate packets and detect lost packets</td>
+        </tr>
+        <tr>
+          <td>Timer</td>
+          <td>Used to retransmit lost packets</td>
+        </tr>
+        <tr>
+          <td>Window, pipelining</td>
+          <td>Used to allow the sender to send multiple packets at a time, but not too many at once</td>
+        </tr>
+      </table>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

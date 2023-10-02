@@ -52,6 +52,18 @@ h2 {
   line-height: 2;
 }
 
+.ln-purple {
+  color: purple;
+}
+
+.ln-red {
+  color: red;
+}
+
+.ln-white {
+  color: white;
+}
+
 @media (min-width:801px) {
   .ln-image-small {
     width: 50%;
