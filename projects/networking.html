@@ -45,6 +45,7 @@
         <li><a class="dropdown-item" href="#multiplexing">Multiplexing and Demultiplexing</a></li>
         <li><a class="dropdown-item" href="#udp">Connectionless Transport: UDP</a></li>
         <li><a class="dropdown-item" href="#rdt">Principles of Reliable Data Transfer</a></li>
+        <li><a class="dropdown-item" href="#tcp">Connection-Oriented Transport: TCP</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1109,6 +1110,19 @@
         <li>checksum (2 bytes)</li>
         <li>application data</li>
       </ul>
+      <table class="table table-bordered text-center">
+        <tr>
+          <td>Source Port #</td>
+          <td>Destination Port #</td>
+        </tr>
+        <tr>
+          <td>Length</td>
+          <td>Checksum</td>
+        </tr>
+        <tr>
+          <td colspan="2">Application Data</td>
+        </tr>
+      </table>
       <h3>UDP Checksum</h3>
       <p>The checksum is used for error checking. Specifically, the checksum is used to see if any of the bits got messed up while getting transferred.</p>
       <div class="ln-box">
@@ -1468,7 +1482,7 @@
       </div>
       <p>This sliding animation is why `N` is referred to as the <b>window size</b> and why GBN is a <b>sliding-window protocol</b>.</p>
       <div class="ln-box">
-        <p>The sequence number of a packet is stored in the packet's headers, which has limited storage (UDP segments have 8-byte headers for example). This implies that there's a limit to how high a sequence number can be. Generally, if we devote `k` bits to storing the sequence number, the highest sequence number that can be assigned to a packet is `2^k-1`. Once a packet is assigned the sequence number `2^k-1`, the next packet will be assigned a sequence number of `0`.</p>
+        <p>The sequence number of a packet is stored in the packet's headers, which has limited storage (UDP segments have `8`-byte headers for example). This implies that there's a limit to how high a sequence number can be. Generally, if we devote `k` bits to storing the sequence number, the highest sequence number that can be assigned to a packet is `2^k-1`. Once a packet is assigned the sequence number `2^k-1`, the next packet will be assigned a sequence number of `0`.</p>
         <p>For <code>rdt3.0</code>, `k=1`.</p>
       </div>
       <p>When the upper layer has data to send, the sender first checks to see if its window is full, which is the case if there are `N` unACK'ed packets. If it's not full, a packet is created and sent. If it is full, then the packet gets created, but put in the buffer outside the window. (And if the buffer is full, then synchronization methods, like semaphores, are used to control when the upper layer can send data.)</p>
@@ -1491,6 +1505,18 @@
         <div class="ln-center">
           <img class="img-fluid ln-image-small" src="../pictures/networking/gbn_3.png">
         </div>
+      </div>
+      <div class="ln-box">
+        <p>These FSMs are called extended FSMs because there are now variables, like <code>base</code> and <code>nextseqnum</code>, and other programming language constructs.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/gbn_sender.png">
+          <p>This is the FSM for the GBN sender.</p>
+        </div>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/gbn_receiver.png">
+          <p>This is the FSM for the GBN receiver.</p>
+        </div>
+        <p>In the receiver, <code>expectedseqnum</code> is only incremented when a valid packet is received. So when a non-valid packet is received, the receiver sends an ACK for the last correctly received packet, which will have sequence number <code>expectedseqnum</code>.</p>
       </div>
       <h3>Selective Repeat (SR)</h3>
       <p>Even though GBN allows the sender to send multiple packets at a time, there are still some situations where GBN is inefficient. If something goes wrong with just one packet, GBN has to go back `N` and retransmit all those packets again, which is problematic especially if `N` is large.</p>
@@ -1575,6 +1601,172 @@
           <td>Used to allow the sender to send multiple packets at a time, but not too many at once</td>
         </tr>
       </table>
+      <h2 id="tcp">Connection-Oriented Transport: TCP</h2>
+      <p>A lot of the stuff we just saw will show up here because, well, TCP is a reliable data transfer protocol.</p>
+      <h3>The TCP Connection</h3>
+      <p>As we've seen several times by this point, TCP is <b>connection-oriented</b> because the two processes communicating with each other have to establish a connection with each other first before any data is sent. What's interesting though (at least to me) is that the lower layers are not aware of "connections"; all they see are packets of data. After all, the handshaking part of TCP (i.e., establishing a connection) is nothing more than packets of data.</p>
+      <p>TCP provides a <b>full-duplex service</b>, which means that data can go back and forth between Process A and Process B (i.e., data flow is bidirectional)*. A TCP connection is also <b>point-to-point</b>, which means there is only one sender and one receiver at a time. We can't establish a TCP connection between Process A and Process B and have Process C send/receive data to/from them.</p>
+      <div class="ln-box">
+        <p>*Even though the "Principles of Reliable Data Transfer" section only looked at transferring data from sender to receiver (i.e., <b>unidirectional data transfer</b>), those principles also apply to bidirectional data transfer. In the bidirectional case, there is no longer just one sender and one receiver. There are two hosts that can be sender or receiver depending on who's sending data and who's receiving data at that moment.</p>
+      </div>
+      <p>Establishing a connection starts with a <b>three-way handshake</b> (animated in "HTTP with Non-Persistent Connections"). After that, the client process sends data through the socket to the transport layer, where TCP puts the data into a <b>send buffer</b>. Then, when it can, TCP gets the data from the send buffer, encapsulates it with headers, and passes it on to the network layer. Eventually, the data reaches the receiver's transport layer, where TCP puts the data into a receive buffer. Finally, the receiver's application process reads from this buffer to get the data.</p>
+      <p>There is a <b>maximum segment size (MSS)</b> that limits how big a segment can be. This is determined by the <b>maximum transmission unit (MTU)</b>, which is the length of the largest link-layer frame that the local sending host is capable of sending. Since a TCP/IP header (a TCP segment encapsulated in an IP datagram) is typically `40` bytes, the MSS is calculated as `text(MSS) = text(MTU) - 40`. From this equation, we can see that MSS is the maximum amount of application-layer data that can be in a segment, not the size of the whole segment. A bit of a misnomer.</p>
+      <h3>TCP Segment Structure</h3>
+      <p>The data portion of the TCP segment contains the application data. If the application data is larger than the MSS, then it is broken up into chunks of size `le` MSS.</p>
+      <p>The following are included in the TCP segment:</p>
+      <ul>
+        <li><b>source</b> (2 bytes) <b>and destination port</b> (2 bytes) <b>numbers</b></li>
+        <li><b>checksum</b> (2 bytes)</li>
+        <li><b>sequence number</b> (4 bytes)</li>
+        <li><b>acknowledgment number</b> (4 bytes)</li>
+        <li><b>receive window</b> (2 bytes)
+          <ul>
+            <li>the number of bytes a receiver is willing to accept</li>
+          </ul>
+        </li>
+        <li><b>header length</b> (0.5 bytes)</li>
+        <li><b>flags</b> (1 byte)
+          <ul>
+            <li><b>ACK</b></li>
+            <li><b>RST</b></li>
+            <li><b>SYN</b></li>
+            <li><b>FIN</b></li>
+            <li><b>CWR</b></li>
+            <li><b>ECE</b></li>
+            <li><b>PSH</b>
+              <ul>
+                <li>if the flag is on, then the receiver should pass the data to the upper layer right away</li>
+              </ul>
+            </li>
+            <li><b>URG</b>
+              <ul>
+                <li>if the flag is on, then (parts of) this data has been marked "urgent" by the sending side</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><b>urgent data pointer</b> (2 bytes)
+          <ul>
+            <li>the location of the last byte of urgent data</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="ln-center">
+        <p><pre>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|          Source Port          |       Destination Port        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                        Sequence Number                        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Acknowledgment Number                      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Header |        |C|E|U|A|P|R|S|F|                             |
+| Length | Unused |W|C|R|C|S|S|Y|I|       Receive Window        |
+|        |        |R|E|G|K|H|T|N|N|                             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           Checksum            |      Urgent Data Pointer      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                            Options                            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               :
+:                             Data                              :
+:                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</pre></p>
+        <p>(copied from RFC 9293)</p>
+      </div>
+      <h4>Sequence Numbers and Acknowledgment Numbers</h4>
+      <p>So far, we've only seen sequence numbers increasing sequentially by `1`. However, TCP works in bytes, not packets.</p>
+      <p>Suppose a file is being transferred over TCP. Let's say the file size is `500,000` bytes and the MSS is `1000` bytes. This means there will be `(500,000)/1000=500` segments, where each segment is divided into `1000` bytes (numbered starting from `0`*).</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/tcp_sequence_number.png">
+        <p>(each rectangle should be the same size but I ran out of room)</p>
+      </div>
+      <p>The sequence number of the first segment is `0`. The sequence number of the second segment is `1000`. The sequence number of the `500^(th)` segment is `499,000`. Generally, the <b>sequence number for a segment</b> is the byte-stream number of the first byte in that segment.</p>
+      <div class="ln-box">
+        <p>*For simplicity, we assumed that the initial sequence number starts at `0`. In reality, the initial sequence number is random. This is to prevent the possibility that a segment that is somehow still in the network from a previous connection gets mistaken for a valid segment in a new connection.</p>
+      </div>
+      <p>The acknowledgment number is the sequence number that the sender is waiting to receive.</p>
+      <p>Suppose that Host A has only received bytes `0` through `535` from Host B. On every segment that Host A sends to Host B, Host A will put `536` as the acknowledgment number until Host A gets byte `536` from Host B.</p>
+      <p>Suppose that Host A has received bytes `0` through `535` and bytes `900` through `1000`. Host A will also put `536` as the acknowledgment number in this case. Notice that Host A received the segments out of order. The TCP RFCs do not specify what to do with out-of-order segments; the decision is left to the people programming the TCP. They can decide to either drop the out-of-order segments or put them in a buffer, which is the preferred method.</p>
+      <h4>Telnet: Sequence and Acknowledgment Numbers in Action</h4>
+      <p>Telnet is an application-layer protocol that allows us to remotely log in to another computer. (It's the unencrypted version of SSH.)</p>
+      <p>Suppose Host A initiates a Telnet session with Host B (so the person on Host A is remotely logging into Host B). Whenever the user on Host A types something, the input will be sent to Host B, which will send back a copy of the input to Host A. This "echo back" is so the user knows that the remote host received the input. This means that each character travels through the network twice (Host A `rarr` Host B and Host B `rarr` Host A). Let's look at what happens if the user on Host A types a single letter 'C'. (Note that sequence numbers will be increasing by `1` in this case because it only takes `1` byte to store a character.)</p>
+      <p>Let's say the starting sequence numbers are `42` and `79` for Host A and Host B respectively. When the letter 'C' is typed, Host A sends a segment with sequence number `42` and acknowledgment number `79`. Upon receiving the segment, Host B has to do two things: send an ACK and echo the data back. Both of these can be done in one step. The ACK can be included in the segment by putting `43` as the acknowledgment number. By doing this (a.k.a <b>piggybacking</b> the acknowledgment), Host B is saying that it is now waiting for byte `43` (implying that it has received `42`). And, of course, echoing the data back is done by putting the data in the segment. Once Host A gets the segment, it sends an ACK back to Host B by sending a segment with acknowledgment number `80`. The sequence number is `43` since Host A last sent `42`, and there is no data since this segment is solely for acknowledgment. So the ACK is not being piggybacked here.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/telnet.png">
+      </div>
+      <h3>Round-Trip Time Estimation and Timeout</h3>
+      <p>Somewhere in the <code>rdt3.0</code> section, the question of how long the timeout should be was briefly discussed. In fact, it was mentioned that the timer should be at least as long as the round-trip time between sender and receiver. Now we attempt to quantify that RTT.</p>
+      <h4>Estimating the Round-Trip Time</h4>
+      <p>The round-trip time is the time from when the segment is sent to when the acknowledgment for that segment is received. Let's denote this time as <code>SampleRTT</code>. So every time a segment is sent and acknowledged, the value of <code>SampleRTT</code> changes to however long that segment took.</p>
+      <div class="ln-box">
+        <p>A <code>SampleRTT</code> is never calculated for a retransmitted segment. This is because if an acknowledgment for that segment came back, it would be hard to tell if the acknowledgment was for the original segment or the retransmitted segment.</p>
+      </div>
+      <p>The problem is that the RTT can vary wildly from segment to segment, so it's better to keep track of what the average RTT has been. Let's call this average <code>EstimatedRTT</code>. So every time a segment is sent and acknowledged, the average will be updated by:</p>
+      <div class="ln-center">
+        <p>`text(EstimatedRTT)=(1-alpha)*text(EstimatedRTT)+alpha*text(SampleRTT)`</p>
+      </div>
+      <div class="ln-box">
+        <p>The recommended value for `alpha` is `0.125`.</p>
+      </div>
+      <div class="ln-box">
+        <p>(Disclaimer: I hope my math is not wrong!) Suppose we only have one <code>SampleRTT</code> so far; let's call it <code>SampleRTT<sub>1</sub></code>. So the <code>EstimatedRTT</code> is just <code>SampleRTT<sub>1</sub></code> at this point*:</p>
+        <div class="ln-center">
+          <p>`text(EstimatedRTT)=text(SampleRTT)_1`</p>
+        </div>
+        <p>Now along comes the second <code>SampleRTT</code>.</p>
+        <div class="ln-center">
+          <p>`text(EstimatedRTT)=(1-alpha)*text(EstimatedRTT)+alpha*text(SampleRTT)_2`</p>
+          <p>`=(1-alpha)*text(SampleRTT)_1+alpha*text(SampleRTT)_2`</p>
+        </div>
+        <p>And the third <code>SampleRTT</code>.</p>
+        <div class="ln-center">
+          <p>`text(EstimatedRTT)=(1-alpha)*text(EstimatedRTT)+alpha*text(SampleRTT)_3`</p>
+          <p>`=(1-alpha)*((1-alpha)*text(SampleRTT)_1+alpha*text(SampleRTT)_2)+alpha*text(SampleRTT)_3`</p>
+          <p>`=(1-alpha)^2*text(SampleRTT)_1+(1-alpha)alpha*text(SampleRTT)_2+alpha*text(SampleRTT)_3`</p>
+        </div>
+        <p>And finally the fourth <code>SampleRTT</code>.</p>
+        <div class="ln-center">
+          <p>`text(EstimatedRTT)=(1-alpha)*text(EstimatedRTT)+alpha*text(SampleRTT)_4`</p>
+          <p>`=(1-alpha)*((1-alpha)^2*text(SampleRTT)_1+(1-alpha)alpha*text(SampleRTT)_2+alpha*text(SampleRTT)_3)+alpha*text(SampleRTT)_4`</p>
+          <p>`=(1-alpha)^3*text(SampleRTT)_1+(1-alpha)^2alpha*text(SampleRTT)_2+(1-alpha)alpha*text(SampleRTT)_3)+alpha*text(SampleRTT)_4`</p>
+        </div>
+        <p>Generally, after `n` <code>SampleRTT</code>s, the equation looks like:</p>
+        <div class="ln-center">
+          <p>`text(EstimatedRTT)=(1-alpha)^(n-1)*text(SampleRTT)_1+(1-alpha)^(n-2)alpha*text(SampleRTT)_2+...+(1-alpha)^(n-n)alpha*text(SampleRTT)_n`</p>
+          <p>`=(1-alpha)^(n-1)*text(SampleRTT)_1+(1-alpha)^(n-2)alpha*text(SampleRTT)_2+...+(1-alpha)^(0)alpha*text(SampleRTT)_n`</p>
+          <p>`=(1-alpha)^(n-1)*text(SampleRTT)_1+(1-alpha)^(n-2)alpha*text(SampleRTT)_2+...+alpha*text(SampleRTT)_n`</p>
+        </div>
+        <p>If we let `n rarr oo`, the <code>EstimatedRTT</code> will look like:</p>
+        <div class="ln-center">
+          <p>`text(EstimatedRTT)=(1-alpha)^(oo-1)*text(SampleRTT)_1+(1-alpha)^(oo-2)alpha*text(SampleRTT)_2+...+alpha*text(SampleRTT)_(n)`</p>
+        </div>
+        <p>The <code>EstimatedRTT</code> will just converge to `alpha*text(SampleRTT)_n`, which means as we calculate more RTTs, it all eventually just depends on the most recent RTT. But that's boring. Let's look at another interpretation.</p>
+        <p>Notice that `(oo-1)` is "bigger" than `(oo-2)`. With `(1-alpha)lt1`, this means that the weight applied to <code>SampleRTT<sub>1</sub></code> is "smaller" than the weight applied to <code>SampleRTT<sub>2</code>. `(oo-2)` is "bigger" than `(oo-3)`, so the weight applied to <code>SampleRTT<sub>2</sub></code> is "smaller" than the weight applied to <code>SampleRTT<sub>3</code>. What we see here is that the older the RTT value is, the less effect it has in determining the value of <code>EstimatedRTT</code>. Which makes sense because newer RTTs are more reflective of the current state of the network. This is why the equation for calculating the <code>EstimatedRTT</code> is called an <b>exponential weighted moving average (EWMA)</b> (the weights are exponentially decreasing).</p>
+        <p>*According to RFC 6298, the value of <code>EstimatedRTT</code> after one <code>SampleRTT</code> should be <code>SampleRTT</code>.</p>
+      </div>
+      <h4>Setting and Managing the Retransmission Timeout Interval</h4>
+      <p>Okay, so the <code>EstimatedRTT</code> is the average time it takes for a segment to be sent and acknowledged. Being the average, there will definitely be segments that take longer than <code>EstimatedRTT</code>. So the timeout should be <code>EstimatedRTT</code> plus some extra length of time. To get a sense of how long some of the segments may take, it is useful to know how varied the RTTs are. Let's call this measure of deviation <code>DevRTT</code>.</p>
+      <div class="ln-center">
+        <p>`text(DevRTT)=(1-beta)*text(DevRTT)+beta*abs(text(SampleRTT)-text(EstimatedRTT))`</p>
+      </div>
+      <div class="ln-box">
+        <p>If the <code>SampleRTT</code> is close to <code>EstimatedRTT</code>, then <code>DevRTT</code> will not change by much. But if <code>SampleRTT</code> is much larger/smaller than <code>EstimatedRTT</code>, then <code>DevRTT</code> will change by a lot.</p>
+        <p>In English, if the RTT is close to the average, then most of the RTTs will be fairly close to each other (i.e., most of them will have roughly the same value). If the RTT is far off from the average, then the range of all possible RTT values will be pretty large.</p>
+      </div>
+      <div class="ln-box">
+        <p>The recommended value for `beta` is `0.25`.</p>
+      </div>
+      <p>Now that we know how varied the RTTs can be, we can use that to provide a sort of "safety margin" for those segments that take longer than average.</p>
+      <div class="ln-center">
+        <p>`text(TimeoutInterval)=text(EstimatedRTT)+4*text(DevRTT)`</p>
+      </div>
+      <div class="ln-box">
+        <p>The `4` could be because of statistics. To cover `99%` of normally distributed data, we have to add `3` standard deviations to the average (see the <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule" target="_blank">68–95–99.7 rule</a>). So adding `4` standard deviations accounts for `gt 99%`, which means `lt 1%` of segments are expected to timeout prematurely.</p>
+      </div>
+      <h3>Reliable Data Transfer</h3>
+      <p>Now we'll look at how TCP behaves, starting with the sender. When there is data from the upper layer, if there is room in the sender's window, the sender encapsulates the data in a segment and passes it to the lower layer. The sequence number is updated by adding to it the length of the data that was just sent.</p>
+      <p>If the timer hasn't been started yet, then the sender starts the timer as well. This time (pun!), there is only one timer; and that timer is only for the oldest unacknowledged segment. If the timer goes off, then the sender retransmits the segment that timed out and restarts the timer. This differs from GBN, where `N` unacknowledged packets are retransmitted if the timer goes off.</p>
+      <p>If an ACK is received, the sender looks at the acknowledgment number (let's call it `y`) and compares it with the sequence number of the oldest unacknowledged segment (let's call it <code>base</code>). If the acknowledgment number is greater than <code>base</code>, then that means the receiver successfully received all the segments from <code>base</code> to `y`. So <code>base</code> gets updated to the next oldest unacknowledged segment (which has to be greater than `y`). Also, something new that wasn't in any of the previous protocols is if an ACK is received for <em>any</em> unacknowledged segment, the timer gets restarted.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
