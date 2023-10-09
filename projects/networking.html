@@ -46,6 +46,7 @@
         <li><a class="dropdown-item" href="#udp">Connectionless Transport: UDP</a></li>
         <li><a class="dropdown-item" href="#rdt">Principles of Reliable Data Transfer</a></li>
         <li><a class="dropdown-item" href="#tcp">Connection-Oriented Transport: TCP</a></li>
+        <li><a class="dropdown-item" href="#congestioncontrol">TCP Congestion Control</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1531,11 +1532,11 @@
       <p>In order for this to work, the receiver must also have its own buffer.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/sr_receiver.png">
-        <p>In this picture and in practice, this buffer doesn't coincide with the sender's buffer.</p>
+        <p>In this picture, the buffer is not meant to match with the sender's buffer.</p>
       </div>
       <p><span class="ln-green">Green means the packet in this spot has already been delivered to the upper layer</span>. <span class="ln-red">Red means the packet in this spot has not been received yet</span>. <span class="ln-purple">Purple means the packet in this spot has been received and ACK'ed, but not yet delivered to the upper layer</span>. <span class="ln-light-blue">Blue means the spot is empty, but once there's a packet in that spot, it will be ACK'ed</span>. <span class="ln-white">White means the spot is empty and once there's a packet in that spot, it won't be ACK'ed right away. (Hah! I wrote it in white this time!)</span></p>
       <p>In the example above, let's say the sequence numbers of the first two purple packets are `6` and `7`. If packet `5` arrives, then packets `5`, `6`, and `7` will all be delivered to the upper layer at once.</p>
-      <p>When the upper layer has data to send, the sender first checks to see if its window is full, which is the case if there is at least `1` unACK'ed packet in the window of `N` packets. If it's not full, a packet is created and sent. If it is full, then the packet gets created, but put in the buffer outside the window. (And if the buffer is full, then synchronization methods, like semaphores, are used to control when the upper layer can send data.)
+      <p>When the upper layer has data to send, the sender first checks to see if its window is full, which is the case if there are `N` packets and at least `1` of them is unACK'ed. If it's not full, a packet is created and sent. If it is full, then the packet gets created, but put in the buffer outside the window. (And if the buffer is full, then synchronization methods, like semaphores, are used to control when the upper layer can send data.)
       <p>Since packets are selectively repeated, each packet needs its own timer. (Unlike in GBN where one timer was used for `N` packets.)</p>
       <p>If the receiver gets a packet that has already been delivered to the upper layer (sequence number `lt` <code>rcv_base</code>), then the receiver sends an ACK for it and discards it. If the receiver gets a packet outside of its window (sequence number `gt` <code>rcv_base</code>`+N` ), then the receiver puts it in the buffer outside the window. Finally, if the receiver gets a packet with a sequence number inside the window, the receiver sends an ACK for it. And if the sequence number is equal to <code>rcv_base</code>, then it and all consecutive packets that have been ACK'ed will be delivered to the upper layer.</p>
       <div class="ln-box">
@@ -1548,7 +1549,7 @@
         </div>
       </div>
       <div class="ln-box">
-        <p>This was mentioned in passing, but the sender's window does not have to be in sync with the receiver's window. This isn't usually a problem if they sync up eventually. However, it is possible that being out of sync at the wrong time can cause issues. This happens if the size of the window is fairly close to the number of assignable sequence numbers.</p>
+        <p>The sender's window does not have to be in sync with the receiver's window. This isn't usually a problem if they sync up eventually. However, it is possible that being out of sync at the wrong time can cause issues. This happens if the size of the window is fairly close to the number of assignable sequence numbers.</p>
         <p>For example, suppose the window size is `3` and the number of assignable sequence numbers is `4` (so the assignable sequence numbers are `0`, `1`, `2`, `3`).</p>
         <p>The sender starts by sending packets `0`, `1`, and `2`. The receiver gets all of them successfully and the sender gets all their ACKs successfully too. So the sender sends packets `3`, `0`, and `1`. The receiver gets packet `0` correctly, but packet `3` gets lost, so packet `0` on the receiver's side gets buffered.</p>
         <div class="ln-center">
@@ -1684,7 +1685,7 @@
       <div class="ln-box">
         <p>*For simplicity, we assumed that the initial sequence number starts at `0`. In reality, the initial sequence number is random. This is to prevent the possibility that a segment that is somehow still in the network from a previous connection gets mistaken for a valid segment in a new connection.</p>
       </div>
-      <p>The acknowledgment number is the sequence number that the sender is waiting to receive.</p>
+      <p>The acknowledgment number is the sequence number that the sender is waiting to receive. If the acknowledgment number is `x`, then that means, "I need you to give me a segment with sequence number `x`."</p>
       <p>Suppose that Host A has only received bytes `0` through `535` from Host B. On every segment that Host A sends to Host B, Host A will put `536` as the acknowledgment number until Host A gets byte `536` from Host B.</p>
       <p>Suppose that Host A has received bytes `0` through `535` and bytes `900` through `1000`. Host A will also put `536` as the acknowledgment number in this case. Notice that Host A received the segments out of order. The TCP RFCs do not specify what to do with out-of-order segments; the decision is left to the people programming the TCP. They can decide to either drop the out-of-order segments or put them in a buffer, which is the preferred method.</p>
       <h4>Telnet: Sequence and Acknowledgment Numbers in Action</h4>
@@ -1764,10 +1765,267 @@
         <p>The `4` could be because of statistics. To cover `99%` of normally distributed data, we have to add `3` standard deviations to the average (see the <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule" target="_blank">68–95–99.7 rule</a>). So adding `4` standard deviations accounts for `gt 99%`, which means `lt 1%` of segments are expected to timeout prematurely.</p>
       </div>
       <h3>Reliable Data Transfer</h3>
-      <p>Now we'll look at how TCP behaves, starting with the sender. When there is data from the upper layer, if there is room in the sender's window, the sender encapsulates the data in a segment and passes it to the lower layer. The sequence number is updated by adding to it the length of the data that was just sent.</p>
+      <p>Now we'll look at how TCP behaves. When there is data from the upper layer, if there is room in the sender's window, the sender encapsulates the data in a segment and passes it to the lower layer. The sequence number is updated by adding to it the length of the data that was just sent.</p>
       <p>If the timer hasn't been started yet, then the sender starts the timer as well. This time (pun!), there is only one timer; and that timer is only for the oldest unacknowledged segment. If the timer goes off, then the sender retransmits the segment that timed out and restarts the timer. This differs from GBN, where `N` unacknowledged packets are retransmitted if the timer goes off.</p>
-      <p>If an ACK is received, the sender looks at the acknowledgment number (let's call it `y`) and compares it with the sequence number of the oldest unacknowledged segment (let's call it <code>base</code>). If the acknowledgment number is greater than <code>base</code>, then that means the receiver successfully received all the segments from <code>base</code> to `y`. So <code>base</code> gets updated to the next oldest unacknowledged segment (which has to be greater than `y`). Also, something new that wasn't in any of the previous protocols is if an ACK is received for <em>any</em> unacknowledged segment, the timer gets restarted.</p>
+      <p>If an ACK is received, the sender looks at the acknowledgment number (let's call it `y`) and compares it with the sequence number of the oldest unacknowledged segment (let's call it <code>base</code>). If the acknowledgment number is greater than <code>base</code>, then that means the receiver successfully received all the segments from <code>base</code> to `y`. So all unacknowledged segments `le y` get marked as acknowledged, and <code>base</code> gets updated to the next oldest unacknowledged segment (which has to be greater than `y`). Also, something new that wasn't in any of the previous protocols is if an ACK is received for <em>any</em> unacknowledged segment, the timer gets restarted.</p>
+      <h4>A Few Examples</h4>
+      <p>In the first example, suppose Host A sends a segment with sequence number `92` and `8` bytes of data. Host B gets the segment and sends an ACK for it, but let's say the ACK gets lost. The timer will go off, so Host A will resend the segment with sequence number `92`. Having already received `92`, Host B will send an ACK for it and discard the segment.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/tcp_1.png">
+      </div>
+      <p>In the second example, suppose Host A sends two consecutive segments. The first segment has sequence number `92` and `8` bytes of data and the second segment has sequence number `100` and `20` bytes of data. Host B gets both of them and sends ACKs for them. The first ACK will have acknowledgment number `100` and the second ACK will have acknowledgment number `120`. But the timer goes off before the ACKs reach Host A. So Host A will retransmit segment `92` and restart the timer.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/tcp_2.png">
+      </div>
+      <p>In the third example, suppose that the first ACK gets lost but the second ACK makes it to Host A before the timer goes off. Since ACKs are cumulative, Host A knows that Host B received everything up to `120`, so Host A doesn't need to resend `92` or `100`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/tcp_3.png">
+      </div>
+      <h4>Doubling the Timeout Interval</h4>
+      <p>Whenever there is a timeout, the timeout period is doubled instead of being calculated from <code>EstimatedRTT</code> and <code>DevRTT</code>. So if the timeout interval starts at `0.75` seconds and the timer goes off, the sender retransmits the lost segment and restarts the timer, doubling the timeout interval to `1.5` seconds.</p>
+      <p>This doubling is only for when timeouts happen. If the timer is started for a different reason (either there is data received from the upper layer or an ACK is received), then the timeout interval is calculated using <code>EstimatedRTT</code> and <code>DevRTT</code>.</p>
+      <p>This doubling is a form of congestion control. If a segment timed out, it's probably because the network is congested, so doubling the timeout interval is kind of allowing the congestion to clear up before sending more data.</p>
+      <h4>Fast Retransmit</h4>
+      <p>But this doubling introduces a new problem. As more timeouts occur, the timeout interval gets longer and longer as it keeps getting doubled. This is a problem because if a segment gets lost, it will take forever for the segment to be retransmitted. Luckily, there's a way for the sender to know if a segment gets lost before the timer goes off.</p>
+      <p>Suppose the sender sends segments with sequence numbers `92`, `100`, `120`, `135`, and `141`. Let's say the receiver gets all the segments except `100`. The receiver will send ACKs to the sender with acknowledgment number `100` for all the ACKs. Seeing a bunch of `100`s, the sender can assume that `100` got lost. So before the timer goes off, the sender retransmits segment `100`. This is called <b>fast retransmit</b>.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/fast_retransmit.png">
+      </div>
+      <div class="ln-box">
+        <p>Fast transmit only occurs when there are `3` <b>duplicate ACKs</b> for a segment. Fast transmitting on only `1` duplicate ACK is not a good idea.</p>
+        <p>Suppose the sender sends segments `92`, `100`, and `120`, and the receiver gets `90`, `120`, and `100` in that order. Upon receiving segment `90`, the receiver will send an ACK with acknowledgment number `100`. Upon receiving segment `120`, the receiver will send an ACK with acknowledgment number `100`. There is `1` duplicate ACK for `100`, but `100` wasn't lost; it just took longer than the other two segments.</p>
+      </div>
+      <h4>Go-Back-N or Selective Repeat?</h4>
+      <p>TCP is fairly similar to GBN. There is only one timer for the oldest unacknowledged segment. Out-of-order segments are not individually ACK'ed by the receiver. And there is a <code>base</code> and <code>nextseqnum</code> that the sender keeps track of.</p>
+      <p>Where they differ. TCP buffers out-of-order segments (sending cumulative ACKs for them) while GBN ignores them (sending ACKs for the last in-order packet it received). If a timeout occurs, TCP will resend only one segment while GBN will resend `N` packets. Sending only one segment on timeout makes TCP similar to SR. The fact that out-of-order segments are buffered also means that the receiver is managing a buffer, similar to SR.</p>
+      <p>Basicallly, TCP is a combination of GBN and SR.</p>
+      <h3>Flow Control</h3>
+      <p>When the receiver gets and buffers data, the application doesn't necessarily read from this buffer right away. As a result, the receive buffer may get full, which becomes a problem when the sender has more data to send. This can be prevented by TCP's <b>flow-control service</b>, which limits the sender's sending rate to match the application's reading rate.</p>
+      <div class="ln-box">
+        <p>Flow-control and congestion control are two different things, even though they both limit how much data the sender is sending. Flow-control is to prevent the sender from overwhelming the receiver's buffer while congestion control is to prevent the sender from overwhelming the network.</p>
+      </div>
+      <p>To simplify things, we'll assume that the TCP receiver discards out-of-order segments instead of buffering them.</p>
+      <p>In order for the sender to not overwhelm the receiver, the sender needs to know how much space is available in the receiver's buffer. The sender can get an idea of the receiver's buffer size (denoted by <code>RcvBuffer</code>) by maintaining a variable called the <b>receive window</b> (denoted by <code>rwnd</code>), which tracks how much space is available in the buffer.</p>
+      <p>Suppose Host A is sending a file to Host B. The receiver in Host B will keep track of <code>LastByteRead</code> and <code>LastByteRcvd</code>. <code>LastByteRead</code> is the last byte that the application read from the buffer. <code>LastByteRcvd</code> is the last byte that was placed in the buffer. So for example, things could look like this:</p>
+      <table class="table text-center">
+        <tr>
+          <td><code>LastByteRead</code></td>
+          <td></td>
+          <td></td>
+          <td><code>LastByteRcvd</code></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>`9`</td>
+          <td>`10`</td>
+          <td>`11`</td>
+          <td>`12`</td>
+          <td>`13`</td>
+        </tr>
+        <tr>
+          <td>empty</td>
+          <td>contains segment</td>
+          <td>contains segment</td>
+          <td>contains segment</td>
+          <td>empty</td>
+        </tr>
+      </table>
+      <p>Here, <code>RcvBuffer</code>`=5`, <code>LastByteRead</code>`=9`, <code>LastByteRcvd</code>`=12`. There are `2` empty spots in the buffer, so <code>rwnd</code>`=2`. This can be derived from:</p>
+      <div class="ln-center">
+        <p>`text(rwnd)=text(RcvBuffer)-(text(LastByteRcvd)-text(LastByteRead))`</p>
+      </div>
+      <p>There is a "receive window" section in the TCP header; this is where the receiver puts <code>rwnd</code>. So when the receiver sends a segment to the sender, the sender looks at this value to know how much space is available in the receiver's buffer. At the same time, the sender in Host A is keeping track of its own two variables: <code>LastByteSent</code> and <code>LastByteAcked</code>. In order to not overflow the receiver's buffer:</p>
+      <div class="ln-center">
+        <p>`text(LastByteSent)-text(LastByteAcked)letext(rwnd)`</p>
+      </div>
+      <p><code>LastByteSent</code> `-` <code>LastByteAcked</code> is the number of unACK'ed segments on the sender's side. From the sender's point of view, unACK'ed segments are traveling to the receiver. So if there are more unACK'ed segments traveling to the receiver than the receiver's buffer can handle, then obviously the receiver will be overwhelmed.</p>
+      <p>There is one slight problem though. Suppose the receiver's buffer in Host B gets full. The receiver tells the sender in Host A that its buffer is full so that Host A will stop sending data. Also suppose that Host B has no more data to send to Host A. As the application in Host B is reading data from the receiver's buffer, spots in the buffer start becoming available again. However, since Host B has no more data to send to Host A, the sender in Host A never finds out that the buffer freed up some space.</p>
+      <p>To get around this, the sender in Host A can occasionally send segments with `1` byte of data so that the receiver in Host B can acknowledge it and respond with its buffer space.</p>
+      <h3>TCP Connection Management</h3>
+      <p>As we've seen before, there is a <b>three-way handshake</b> when establishing a TCP connection. These are the steps involved:</p>
+      <ol>
+        <li>The client sends a TCP segment to the server. This segment has no data, but the SYN bit is set to `1`. Thus, this segment is called a SYN segment. Also, the segment has a randomly chosen sequence number (called <code>client_isn</code>). This is the client's way of telling the server what its initial sequence number will be.</li>
+        <li>The server, seeing the SYN flag set to `1`, prepares all the buffers and variables (all the ones mentioned above) needed for TCP communication. Once this is done, the server sends a TCP segment back to the client, acknowledging the connection request. For the server's ACK segment:
+          <ul>
+            <li>SYN bit is set to `1`</li>
+            <li>acknowledgment number is set to <code>client_isn</code>`+1`</li>
+            <li>sequence number is set to a randomly chosen <code>server_isn</code></li>
+          </ul>
+          Thus, this segment is called a <b>SYNACK segment</b>.</li>
+        </li>
+        <li>When the client gets the SYNACK, the client sets up all the buffers and variables too. Then it sends another segment acknowledging the server's connection-granted segment.
+          <ul>
+            <li>SYN bit is set to `0` since the connection is established</li>
+            <li>acknowledgment number is set to <code>server_isn</code>`+1`</li>
+            <li>there may be application data if there is data to send</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="ln-box">
+        <p>A three-way handshake (as opposed to a two-way handshake) is needed because both sides can send and receive data. Therefore, they need to know each other's sequence numbers and that they are both ready to receive.</p>
+        <p>In the first step, Host A will tell Host B its sequence number. In the second step, Host B will acknowledge the first step. So now Host B knows Host A's sequence number and Host A knows that Host B is ready to receive. But this only allows for `ArarrB` communication. Host B doesn't know if Host A is ready to receive.</p>
+        <p>This is why the third step is needed. With Host A acknowledging the second step, Host B can now be sure that Host A is ready to receive, allowing for `AlarrB` communication.</p>
+      </div>
+      <p>Now let's say the client wants to close the connection. The client will send a segment with the FIN bit set to `1`, telling the server that it wants to close the connection. The server will acknowledge this request by sending an ACK for the segment.</p>
+      <p>The connection is not closeable at this point though. The client sending the FIN segment only tells the server that it has no more data to send. But the server may still have some data to send to the client. Once the server has no more data to send to the client, the server will send its own FIN segment to the client. When the client receives it and sends an ACK for it, the connection will finally be closed.</p>
+      <div class="ln-box">
+        <p>The server can also initiate the request to close the connection with the client.</p>
+      </div>
+      <p>The TCP protocol goes through different <b>TCP states</b> throughout the lifecycle of a connection. For the client, it starts in the CLOSED state and transitions to SYN_SENT when it wants to establish a connection. When it receives a SYNACK from the server, the client moves to the ESTABLISHED state, in which data is transferred back and forth. When the client wants to close the connection, it transitions to FIN_WAIT_1, where it waits for the server to acknowledge the close request. Once the server acknowledges it, the client moves to FIN_WAIT_2, where the client waits for the server to send the FIN segment. After getting the FIN segment from the server, the client sends an ACK for it and moves to TIME_WAIT. The connection is not closed yet; the client waits for a specified time in case it needs to resend the ACK. After the wait, the connection is closed.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/tcp_state_client.png">
+      </div>
+      <p>For the server, most of the states seem pretty self-explanatory. The CLOSE_WAIT state handles the situation where the client wants to close the connection but the server still has data to send to the client. More generally, the wait is there so that any delayed segments (either still in the network or waiting to be sent by the server) can be handled.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/tcp_state_server.png">
+      </div>
+      <div class="ln-box">
+        <p>If the client attempts to establish a connection to a non-valid port, the server will send a reset segment to the client. The reset segment has the RST flag set to `1`.</p>
+      </div>
+      <div class="ln-box">
+        <h4>The SYN Flood Attack</h4>
+        <p>As we saw earlier, when the client sends a SYN segment to the server in the first step of the handshake, the server prepares all the resources needed for the connection. Essentially, the server reserves those resources until the connection is established.</p>
+        <p>Attackers can take advantage of this by sending a bunch (emphasis on a bunch) of SYN segments to the server and never completing the third step of the handshake. Not completing the handshake is the important part because this makes the server reserve a bunch of resources for connections that will never be established. Then, when legitimate clients want to establish a connection to the server, the server denies these requests because there are no more resources available — they were all reserved for the attackers who never plan on using those connections. This is a form of Denial of Service (DoS) attack. The server is forced to deny its service to everyone because of an attack.</p>
+        <p>It may be obvious that when the server gets a SYN segment, it shouldn't immediately start reserving resources. In fact, the resources should only be allocated after the third step of the handshake is complete, i.e., after the client sends the ACK. But if the server is no longer maintaining any resources (like who wanted to connect in the first place), how would the server know that an ACK is from a client who sent the SYN segment earlier? This is where <b>SYN cookies</b> come in.</p>
+        <p>When the server gets a SYN segment, it looks at the segment's source IP, source port, destination IP, and destination port. It uses all those numbers, along with a secret number, to create a special number that encodes all that information in a secure way. This value is the SYN cookie. This value is also the server's initial sequence number. So when the server sends the SYNACK in step 2 of the handshake, that SYNACK will have sequence number equal to the SYN cookie.</p>
+        <p>If the client completes the third part of the handshake, it will send an ACK to the server. This ACK will have the SYN cookie `+1` as the acknowledgment number. When the server gets the ACK, the server performs the same operations it did the first time by using the ACK segment's source IP, source port, destination IP, destination port, and the server's secret number. If this generated number `+1` matches the acknowledgment number of the client's ACK, then the server knows that this ACK was for the SYN sent earlier.</p>
+        <p>If the client doesn't complete the third part of the handshake, no harm is done because no resources were allocated.</p>
+        <p>The server's secret number is an important part in generating the SYN cookie. IP addresses and port numbers are obtainable information, so anyone could generate the SYN cookie and send fake ACKs. Only the server knows the secret number, so only the server can tell whether the SYN cookie is real or fake.</p>
+      </div>
+      <h2 id="congestioncontrol">TCP Congestion Control</h2>
+      <p>Network congestion is caused by too many senders sending data at a rate that is too fast for the network to handle. This can lead to packet delays and packet loss. TCP uses something called end-to-end congestion control. This means that congestion is detected by the presence of packet loss and delays.</p>
+      <div class="ln-box">
+        <p>The other approach for congestion control is network-assisted congestion control. This means that congestion is detected by the network routers telling us (the transport layer) that there is congestion.</p>
+      </div>
+      <h3>Classic TCP Congestion Control</h3>
+      <p>The sender will control its send rate based on how much congestion is in the network. If there is little to no congestion, then the sender will increase its send rate. If there is congestion, then the sender will slow down its send rate. Firstly, how do we control the sender's sending rate?</p>
+      <p>Earlier, we saw that the sender keeps track of <code>LastByteSent</code>, <code>LastByteAcked</code>, and <code>rwnd</code>. For congestion control, the sender keeps track of one more variable called the <b>congestion window</b> (denoted by <code>cwnd</code>). This congestion window is an arbitrary dynamic value that is used to limit the sender's rate. So now, the number of unACK'ed segments on the sender's side cannot exceed the receiver's free buffer spaces and the congestion window (whichever one is lower):</p>
+      <div class="ln-center">
+        <p>`text(LastByteSent)-text(LastByteAcked)le min{text(cwnd),text(rwnd)}`</p>
+      </div>
+      <p>To only focus on congestion control, we'll ignore <code>rwnd</code> for the rest of the section. If the sender has data to send, then it will be able to send <code>cwnd</code> bytes of data. After one RTT, the sender will receive ACKs for those bytes. Ignoring loss and packet delays, the sender is roughly sending data at a rate of `(text(cwnd))/(text(RTT))` bytes per second. So by adjusting the value of <code>cwnd</code>, we can control the sender's sending rate.</p>
+      <div class="ln-box">
+        <p>For example, if <code>cwnd</code>`=500` bytes and one RTT is `200` milliseconds, then the sender's sending rate is</p>
+        <div class="ln-center">
+          <p>`(text(cwnd))/(text(RTT))=(500text( bytes))/(200text( ms))=(500text( bytes))/(0.2text( seconds))=(2500text( bytes))/(1text( second))=2.5text( kilobytes/sec)`</p>
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>One subtle note about the interpretation of RTT: instead of being the round-trip time for a single segment, RTT will be referring to the round-trip time for sending <code>cwnd</code> bytes.</p>
+      </div>
+      <p>Secondly, how can we (the sender) tell if there is congestion? Well, if there is a lot of congestion, then it's likely that packets will be dropped. We know packets are dropped (or considered dropped), when the timer goes off or three duplicate ACKs are received (see "Fast Retransmit"). So if there is a loss event, then the sender's sending rate should be lowered.</p>
+      <p>If there is not a lot of congestion, then the sender will receive ACKs, in which case the sender's sending rate can be increased. However, there could be a middle-ground situation where there is not too much congestion, but there is still a fair amount of it. In this case, the ACKs will come back, just at a slower rate. This is an indication that the sender's sending rate can be increased, just not by too much. Since TCP uses acknowledgments to trigger (or clock) an increase in congestion window size, TCP is <b>self-clocking</b>.</p>
+      <p>All of these points lead to this strategy: if ACKs keep coming, keep on increasing the sending rate until no more ACKs come. If no more ACKs come, then decrease the sending rate to a point where ACKs will come and start increasing the rate again.</p>
+      <p>So we know when the sending rate should be changed, but now the question is by how much? There is a <b>TCP congestion-control algorithm</b> that decides.</p>
+      <h4>Slow Start</h4>
+      <p>At the beginning of the TCP connection, <code>cwnd</code> is initialized to `1` MSS, and every time an ACK is received, <code>cwnd</code> is increased by `1`. So the sender starts by sending `1` segment, then `2` segments, then `4` segments, then `8` segments, and so on. As we can see, the sending rate is doubled, causing it to grow exponentially. This process is called <b>slow start</b>.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/slow_start.gif">
+      </div>
+      <p>If there is a timeout, then <code>cwnd</code> will be reset to `1` and start doubling again. However, we know that we will eventually get a timeout again by repeating the same process. To prevent this, we keep track of what <code>cwnd</code> was when the timeout occurred and stop slow start before it reaches that point. The "slow start threshold" (denoted as <code>ssthresh</code>) is set to `text(cwnd)/2`, where the value of <code>cwnd</code> is its value when the timeout occurred. So slow start will keep doubling <code>cwnd</code> until its value is equal to <code>ssthresh</code>.</p>
+      <h4>Congestion Avoidance</h4>
+      <p>Now the value of <code>cwnd</code> is <code>ssthresh</code>. Since we're at a point where congestion could occur, the sending rate should be increased slowly. So rather than doubling <code>cwnd</code>, it will be increased by just `1` MSS instead. For example, if the MSS is `1000` bytes and <code>cwnd</code> is `10,000` bytes, then one RTT consists of `10` segments. After ACKs have been received for those `10` segments, the <code>cwnd</code> will be `10,000+1000=11,000` bytes.</p>
+      <div class="ln-box">
+        <p>This is equivalent to increasing <code>cwnd</code> by `text(MSS)/(text(cwnd)/text(MSS))=text(MSS)*(text(MSS)/text(cwnd))` on every ACK. `text(cwnd)/text(MSS)` is the number of segments that can be sent, which in turn, is the number of ACKs that will be received. So increasing <code>cwnd</code> by `text(MSS)/(text(cwnd)/text(MSS))` on every ACK will result in an increase of `1` MSS on all ACKs.</p>
+        <p>For the above example, <code>cwnd</code> will be increased by `1000/((10,000)/1000)=100` bytes on every ACK. Since there are `10` ACKs in one RTT, <code>cwnd</code> will be increased by `100*10=1000` bytes `=1` MSS on all ACKs.</p>
+      </div>
+      <p>Even though we're increasing the sending rate cautiously, we will still eventually raise it to the point where there's a timeout. When that happens, <code>ssthresh</code> gets updated to the current value of <code>cwnd</code> and <code>cwnd</code> gets reset to `1`. Yeah, the same procedure as in slow start.</p>
+      <h4>Fast Recovery</h4>
+      <p>So far, we've only seen what happens when congestion is detected by a timeout. As we established earlier, packet loss, and thus congestion, can also be detected by triple duplicate ACKs. This type of congestion is not as bad though, because at least the ACKs were able to make it through. So the sending rate doesn't need to be decreased as much. <code>cwnd</code> is essentially* halved, which is also the updated value for <code>ssthresh</code>.</p>
+      <div class="ln-box">
+        <p>*Technically, <code>cwnd</code> is halved `+3`. <code>ssthresh</code> is still half of <code>cwnd</code> though (before the `+3`).</p>
+      </div>
+      <p>Now <code>cwnd</code> is increased by `1` MSS for every duplicate ACK that caused TCP to enter the fast recovery stage. If the ACK for the missing segment comes, then TCP goes back to congestion avoidance. But if a timeout occurs, then TCP goes back to slow start. Note that <code>cwnd</code> is not changing as new segments are sent and ACK'ed.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/fsm_congestion_control.png">
+      </div>
+      <p>Slow start and congestion avoidance are required for TCP, but fast start is only recommended. <b>TCP Tahoe</b> is an early version of TCP that only has slow start and congestion avoidance, so every time packet loss is detected, TCP switches to slow start regardless of whether it was a timeout or triple duplicate ACK. <b>TCP Reno</b>, a newer version of TCP, includes fast recovery.</p>
+      <div class="ln-box">
+        <p>The graph shows the changes to <code>cwnd</code> under TCP Reno in a hypothetical transmission scenario.</p>
+        <div id="tcp_reno"></div>
+        <p>What are the intervals of time when TCP slow start is operating?</p>
+        <div id="tcp_reno_q1" class="collapse ln-box">
+          <p>[1, 6] and [23, 26] because the congestion window size is doubling in these intervals</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q1" aria-expanded="false" aria-controls="tcp_reno_q1">Answer</button>
+        <p>What are the intervals of time when TCP congestion avoidance is operating?</p>
+        <div id="tcp_reno_q2" class="collapse ln-box">
+          <p>[6, 16] and [17, 22] because the congestion window size is increasing by `1` in these intervals</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q2" aria-expanded="false" aria-controls="tcp_reno_q2">Answer</button>
+        <p>After the 16th transmission round, is segment loss detected by a triple duplicate ACK or by a timeout?</p>
+        <div id="tcp_reno_q3" class="collapse ln-box">
+          <p>triple duplicate ACK because the congestion window size is halved`+3`</p>
+          <p>(the easier way to tell is to see that the congestion window size is not dropped to `1`)</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q3" aria-expanded="false" aria-controls="tcp_reno_q3">Answer</button>
+        <p>After the 22nd transmission round, is segment loss detected by a triple duplicate ACK or by a timeout?</p>
+        <div id="tcp_reno_q4" class="collapse ln-box">
+          <p>timeout because the congestion window size is dropped to `1`</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q4" aria-expanded="false" aria-controls="tcp_reno_q4">Answer</button>
+        <p>What is the initial value of <code>ssthresh</code> at the first transmission round?</p>
+        <div id="tcp_reno_q5" class="collapse ln-box">
+          <p>32 because that's when slow start stops and congestion avoidance begins</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q5" aria-expanded="false" aria-controls="tcp_reno_q5">Answer</button>
+        <p>What is the value of <code>ssthresh</code> at the 18th transmission round?</p>
+        <div id="tcp_reno_q6" class="collapse ln-box">
+          <p>21 because <code>ssthresh</code> gets set to half of whatever <code>cwnd</code> was when packet loss was detected, which was 42</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q6" aria-expanded="false" aria-controls="tcp_reno_q6">Answer</button>
+        <p>What is the value of <code>ssthresh</code> at the 24th transmission round?</p>
+        <div id="tcp_reno_q7" class="collapse ln-box">
+          <p>14 because <code>ssthresh</code> gets set to half of whatever <code>cwnd</code> was when packet loss was detected, which was 29</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q7" aria-expanded="false" aria-controls="tcp_reno_q7">Answer</button>
+        <p>During what transmission round is the 70th segment sent?</p>
+        <div id="tcp_reno_q8" class="collapse ln-box">
+          <p>7</p>
+          <p>packet 1 is sent in round 1 (<code>cwnd</code> = 1)</p>
+          <p>packets 2-3 are sent in round 2 (<code>cwnd</code> = 2)</p>
+          <p>packets 4-7 are sent in round 3 (<code>cwnd</code> = 4)</p>
+          <p>packets 8-15 are sent in round 4 (<code>cwnd</code> = 8)</p>
+          <p>packets 16-31 are sent in round 5 (<code>cwnd</code> = 16)</p>
+          <p>packets 32-63 are sent in round 6 (<code>cwnd</code> = 32)</p>
+          <p>packets 64-96 are sent in round 7 (<code>cwnd</code> = 33)</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q8" aria-expanded="false" aria-controls="tcp_reno_q8">Answer</button>
+        <p>Assuming a packet loss is detected after the 26th round by the receipt of a triple duplicate ACK, what will be the values of the <code>cwnd</code> and <code>ssthresh</code>?</p>
+        <div id="tcp_reno_q9" class="collapse ln-box">
+          <p><code>cwnd</code> = 7 and <code>ssthresh</code> = 4</p>
+          <p>when packet loss is detected, <code>cwnd</code> = 8, so by the rules of fast recovery, <code>ssthresh</code> gets set to half of <code>cwnd</code> and <code>cwnd</code> gets set to half + 3</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q9" aria-expanded="false" aria-controls="tcp_reno_q9">Answer</button>
+      </div>
     </div>
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
+    <script>
+      Plotly.newPlot('tcp_reno', [{
+        x: [1, 2, 3, 4, 5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+        y: [1, 2, 4, 8, 16, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 24, 25, 26, 27, 28, 29, 1,  2,  4,  8],
+        mode: 'lines+markers',
+        type: 'scatter'
+      }], {
+        xaxis: {
+          dtick: 1,
+          range: [0, 27],
+          title: {
+            text: 'Transmission Round'
+          }
+        },
+        yaxis: {
+          dtick: 5,
+          range: [0,45],
+          title: {
+            text: 'Congestion Window Size (segments)'
+          }
+        }
+      }, {
+        responsive: true,
+        staticPlot: true
+      });
+    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
