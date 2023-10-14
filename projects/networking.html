@@ -54,7 +54,7 @@
       <h1>Computer Networking</h1>
       <hr>
       <p>Shortcut to this page: <a href="networking.html">ntrllog.netlify.app/networking</a></p>
-      <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a>.</p>
+      <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a></p>
       <h2 id="whatisit">What is the Internet?</h2>
       <p>Computers. Laptops. Smartphones. TVs. Watches. And everything else that has the word "smart" in front of it. All of these things that can connect to the Internet are called <b>hosts</b> or <b>end systems</b>. End systems send and receive data through a system of communcation links and packet switches. The data travels through this system as little pieces called packets and they are reassembled when they reach their destination. Packet switches are machines that help transfer these packets. The whole path that a packet takes is called a <b>route</b> or <b>path</b>.</p>
       <div class="ln-box">
@@ -164,11 +164,9 @@
           <img class="img-fluid ln-image-small" src="../pictures/networking/tdm.png">
         </div>
       </div>
-      <div class="ln-box">
-        <p>More formally, time is divided into frames, and each frame is divided into slots. Once a connection between two end systems is established, one slot in every frame is reserved just for that connection.</p>
-        <div class="ln-center">
-          <img class="img-fluid ln-image-small" src="../pictures/networking/tdm_2.png">
-        </div>
+      <p>More formally, time is divided into frames, and each frame is divided into slots. Once a connection between two end systems is established, one slot in every frame is reserved just for that connection.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/tdm_2.png">
       </div>
       <div class="ln-box">
         <p>Suppose that all links in a network use TDM with `24` slots and can transfer data at a rate of `1.536` Mbps. Then each circuit has a transmission rate of `1.536/24=64` kbps.</p>
@@ -180,8 +178,37 @@
         <p>With packet switching, resources are not reserved, so any number of users can use the link. If there are `35` users, the probability that `ge 11` users are actively using the connection at the same time is ~`0.0004`, which means there is a ~`0.9996` chance that there are `le 10` simultaneous users at any time. As long as there are not more than `10` users at a time, there will be no queuing delay (if there are more than `10` users, there will be more data than the `1` Mbps link can handle). So packet switching performs just as well as circuit switching while allowing for more users at the same time.</p>
       </div>
       <div class="ln-box">
-        <p>Sticking with the same `1` Mbps link, suppose there are `10` users. One of the users suddenly generates `1,000,000` bits of data, but the other users are inactive. Suppose the link has `10` slots per frame. If all `10` slots are utilized, then the link can send `1,000,000` bits per second (`= 1` Mbps). However, under the rules of circuit switching, only one of the slots per frame will be used for that user. So the link will only be able to transfer `(1,000,000)/10=100,000` bits per second. So it will take `(1,000,000)/(100,000)=10` seconds to transfer all the data.</p>
+        <p>Sticking with the same `1` Mbps link, suppose there are `10` users. One of the users suddenly generates `1,000,000` bits of data, but the other users are inactive. Suppose the link has `10` slots per frame. If all `10` slots are utilized, then the link can send `1,000,000` bits per second (`= 1` Mbps). However, under the rules of circuit switching, only one of the slots per frame will be used for that user. As a result, the link will only transfer `(1,000,000)/10=100,000` bits per second for that user's connection. So it will take `(1,000,000)/(100,000)=10` seconds to transfer all the data.</p>
         <p>With packet switching, since no other users are active, the one user gets to send all `1,000,000` bits of data in `1` second since there will be no queuing delays.</p>
+      </div>
+      <div class="ln-box">
+        <p>Suppose users share a `2` Mbps link. Also suppose each user transmits continuously at `1` Mbps when transmitting, but each user transmits only `20%` of the time.</p>
+        <p>When circuit switching is used, how many users can be supported?</p>
+        <div class="collapse ln-box" id="switching_q1">
+          <p>Only `2` users can be supported since each user transmits at `1` Mbps.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#switching_q1" aria-expanded="false" aria-controls="switching_q1">Answer</button>
+        <p>Suppose packet switching is used from now on.</p>
+        <p>Why will there be no queuing delay before the link if `le 2` users transmit at the same time?</p>
+        <div class="collapse ln-box" id="switching_q2">
+          <p>If only `1` user is transmitting, then there will be traffic at a rate of `1` Mbps, which the link can handle. If `2` users are transmitting, then there will be traffic at a rate of `2` Mbps, which the link can also handle.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#switching_q2" aria-expanded="false" aria-controls="switching_q2">Answer</button>
+        <p>Why will there be a queuing delay if `3` users transmit at the same time?</p>
+        <div class="collapse ln-box" id="switching_q3">
+          <p>If `3` users are transmitting, then there will be traffic at a rate of `3` Mbps. But since the link's transmission rate is only `2` Mbps, packets will be coming in faster than they can be transmitted.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#switching_q3" aria-expanded="false" aria-controls="switching_q3">Answer</button>
+        <p>What is the probability that a given user is transmitting?</p>
+        <div class="collapse ln-box" id="switching_q4">
+          <p>`20%`</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#switching_q4" aria-expanded="false" aria-controls="switching_q4">Answer</button>
+        <p>Suppose there are `3` users. What is the probability that at any given time, all `3` users are transmitting at the same time?</p>
+        <div class="collapse ln-box" id="switching_q5">
+          <p>The probability of `1` user transmitting is `20%=0.2`. So the probability of `3` users transmitting is `0.2*0.2*0.2=0.008`.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#switching_q5" aria-expanded="false" aria-controls="switching_q5">Answer</button>
       </div>
       <h3>A Network of Networks</h3>
       <p>We get our Internet access from an ISP. Of course, all of us don't get Internet access from the same ISP. There are different ISPs out there providing Internet access to different networks. But then how do our end systems communicate with end systems? How do we communicate with servers and access websites from different parts of the world for example? The answer is that the ISPs themselves are connected with each other. But what exactly does that look like?</p>
@@ -1091,7 +1118,7 @@
       <p>UDP is so bare bones that it does about as much as the underlying network layer protocol: IP. Pretty much the only thing it does that IP doesn't do is multiplexing and demultiplexing.</p>
       <p>Even though UDP doesn't guarantee reliable data transfer, there are several reasons why an application would want to use UDP:</p>
       <ul>
-        <li>They want to bypass TCP's congestion control mechanism. They don't really care that some data gets lost.</li>
+        <li>They want to bypass TCP's congestion-control mechanism. They don't really care that some data gets lost.</li>
         <li>They want to bypass TCP's handshaking. They want their data to get there as fast as possible.</li>
         <li>They want to support more active clients. UDP doesn't need to maintain connection state.</li>
       </ul>
@@ -1998,6 +2025,76 @@
         </div>
         <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tcp_reno_q9" aria-expanded="false" aria-controls="tcp_reno_q9">Answer</button>
       </div>
+      <h4>TCP Congestion Control: Retrospective</h4>
+      <p>Since the congestion window grows exponentially during slow start, TCP doesn't remain in slow start for very long. So most of the changes to the congestion window size are adding `1` and dividing by `2`. Because of this, TCP congestion control is referred to as <b>additive-increase, multiplicative decrease</b>.
+      <div class="ln-box">
+        <p>This is assuming that most/all packet losses are detected by triple duplicate ACKs rather than timeouts. Although one could argue that setting the congestion window size to `1` is a multiplicative decrease (a division by <code>cwnd</code> 😏).</p>
+      </div>
+      <div class="ln-box">
+        <h4>Macroscopic Description of TCP Reno Throughput</h4>
+        <p>Let `w` be the current window size at any given time. Let `W` be the window size when a loss event occurs.</p>
+        <p>If it takes one RTT to get ACKs for `w` bytes, then the sending rate is about `w/text(RTT)`. This rate keeps increasing by `1` MSS until it reaches `W/text(RTT)` when a loss event occurs. Then the rate drops to `W/text(RTT)*1/2=W/(2text(RTT))` in response to the loss event and increases by `1` again. And this repeats over and over again.</p>
+        <p>Assuming the values of `W` and RTT stay mostly consistent the whole time, the sending rate increases between `W/text(RTT)` and `W/(2text(RTT))`. So the average throughput is</p>
+        <div class="ln-center">
+          <p>`(W/text(RTT)+W/(2text(RTT)))/2=((2W)/(2text(RTT))+W/(2text(RTT)))/2=((3W)/(2text(RTT)))/2=(3W)/(4text(RTT))=(0.75W)/text(RTT)`</p>
+        </div>
+      </div>
+      <h3>Other TCP Variations</h3>
+      <h4>Explicit Congestion Notification (ECN)</h4>
+      <p>Even though TCP uses end-to-end congestion control, there have been some proposals to include network-assisted congestion control, in which the routers in the network layer explicitly say there is congestion. This involves carrying the information in two bits of the datagram's header field.</p>
+      <p>If a router is experiencing congestion, then it will set one of the ECN bits to `1`. At the transport layer, if the TCP receiver sees that this bit is on, it will set the ECE bit to `1` in the ACK segment's header field, so that the TCP sender knows that there is congestion. ECE stands for "Explicit Congestion Notification Echo", so the receiver is "echoing" the news from the network layer that there's congestion.</p>
+      <p>Seeing the ECE bit on, the TCP sender halves the congestion window (just like it would if there was actual packet loss) and sets the CWR (Congestion Window Reduced) bit in the header of the next transmitted segment to let the receiver know that it has reduced its window size. If the sender doesn't tell the receiver, then the receiver will think that the sender hasn't reduced its window size yet, so it will keep including the ECE bit, which in turn will force the sender to keep halving its window size.</p>
+      <div class="ln-box">
+        <p>The definition of congestion at the router level is not explicitly defined; it's up to the router vendor and network operator to work out what congestion means.</p>
+        <p>One idea is that turning the bit on can mean that congestion is close to happening. Maybe the router's buffers are close to being full. This proactive detection is the opposite of end-to-end network congestion's reactive detection where congestion is detected after packet loss has already occurred.</p>
+      </div>
+      <div class="ln-box">
+        <p>So one of the ECN bits is turned on by the router if it experiences congestion. The other ECN bit is used to let the routers know that the TCP sender and receiver are ECN-capable, that is, they know what to do if there is ECN-indicated network congestion.</p>
+      </div>
+      <h4>Delay-based Congestion Control</h4>
+      <p>Another proactive approach to detecting congestion is to measure every RTT. Let's say the sender knows what the RTT is when there's no congestion at all (of course, this RTT would be relatively low). If most of the RTTs are close to that value, then the sender knows there isn't congestion. But if the RTTs start to differ from the uncongested RTT by a lot, then the sender knows that congestion is coming.</p>
+      <p>TCP Vegas uses this approach.</p>
+      <h3>Fairness</h3>
+      <p>For a congestion-control mechanism to be fair, all connections should be able to achieve approximately equal transmission rates. If there are `K` TCP connections all passing through a bottleneck link with transmission rate `R`, then each connection's average transmission rate should be `R/K`, i.e., each connection should get an equal share of the link bandwidth.</p>
+      <p>Suppose there are only `2` TCP connections sharing a single link with transmission rate `R`. To see if TCP's congestion control is fair, we could plot each connection's (hypothetical) throughputs throughout the duration of the connection. The full bandwidth utilization line marks the points where the link is at full capacity, which means the combined throughput is `R`. Note that if the combined throughput exceeds `R`, then there will be packet loss (since there will be more packets than the link can handle). The equal bandwidth share line marks the points where both of the connection's throughputs are equal to each other.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/fair_1.png">
+      </div>
+      <p>Their throughput should be on the full bandwidth utilization line so that the link is maximally utilized. However, to be fair, one connection shouldn't have much more throughput than the other. Ideally, their throughput should be in the middle of everything.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/fair_2.png">
+      </div>
+      <ol>
+        <li>Let's say both of their throughputs start at point A. Since their throughputs are `lt R`, both connections will continuously increase their window sizes by `+1`.</li>
+        <li>Eventually, their throughputs will be `gt R`, so there will be packet loss soon. Suppose that happens at point B.</li>
+        <li>In response to congestion, both connections will halve their windows (to point C).</li>
+        <li>Since their throughputs are `lt R`, both connections will continuously increase their window sizes by `+1`.</li>
+        <li>Eventually, their throughputs will be `gt R`, so there will be packet loss again. Suppose that happens at point D.</li>
+        <li>In response to congestion, both connections will halve their windows (to point E).</li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/fair_3.png">
+      </div>
+      <p>Notice that both throughputs eventually end up along the middle, where the equal bandwidth share line should be. Since both connections are achieving an equal amount of throughput, things are fair.</p>
+      <div class="ln-box">
+        <p>Once their throughputs are along the equal bandwidth share line, they will continue going back and forth along that line. By definition, the equal bandwidth share line is on the line `y=x`. Once their throughputs are on that line, their throughputs are equal to each other. So performing the same operations (`+1`, `-:2`) on the same numbers still keeps the numbers equal to each other. And since they're equal, they belong on the line `y=x`, which is the equal bandwidth share line.</p>
+        <p>Also, their throughputs will converge to the middle regardless of where their initial throughputs are. It's sorta like dividing two even numbers by `2`, where one number may be larger than the other. Eventually, they both end up at `1`.</p>
+      </div>
+      <div class="ln-box">
+        <p>Several assumptions were made for the above hypothetical scenario:</p>
+        <ul>
+          <li>each connection has a large amount of data to send</li>
+          <li>there is no UDP traffic passing through the link</li>
+          <li>the two connections have the same MSS and RTT</li>
+          <li>they are in congestion avoidance mode at all times</li>
+        </ul>
+        <p>While these conditions are almost never true, the above idea about why TCP is fair is still true.</p>
+      </div>
+      <h4>Fairness and UDP</h4>
+      <p>UDP doesn't have a congestion-control mechanism; it will just keep pushing data into the network. As a result, UDP traffic can theoretically force out TCP traffic. This isn't fair! But there are some mechanisms in place to prevent this from happening.</p>
+      <h4>Fairness and Parallel TCP Connections</h4>
+      <p>As we've seen before, applications can multiple parallel TCP connections. This can cause an application to unfairly get more of the available bandwidth.</p>
+      <p>Suppose there are `9` applications that are each using only `1` TCP connection over a shared link with transmission rate `R`. So each application has a transmission rate of `R/9`. Now along comes another application, but this one opens `11` parallel TCP connections. Each connection will now have a transmission rate of `R/20`, but one of the applications owns `11` of those connections, so that application is using more than half of the available bandwidth.</p>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
