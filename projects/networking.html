@@ -47,6 +47,8 @@
         <li><a class="dropdown-item" href="#rdt">Principles of Reliable Data Transfer</a></li>
         <li><a class="dropdown-item" href="#tcp">Connection-Oriented Transport: TCP</a></li>
         <li><a class="dropdown-item" href="#congestioncontrol">TCP Congestion Control</a></li>
+        <li><a class="dropdown-item" href="#networklayer">Overview of Network Layer</a></li>
+        <li><a class="dropdown-item" href="#routingalgorithms">Routing Algorithms</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -2095,6 +2097,329 @@
       <h4>Fairness and Parallel TCP Connections</h4>
       <p>As we've seen before, applications can multiple parallel TCP connections. This can cause an application to unfairly get more of the available bandwidth.</p>
       <p>Suppose there are `9` applications that are each using only `1` TCP connection over a shared link with transmission rate `R`. So each application has a transmission rate of `R/9`. Now along comes another application, but this one opens `11` parallel TCP connections. Each connection will now have a transmission rate of `R/20`, but one of the applications owns `11` of those connections, so that application is using more than half of the available bandwidth.</p>
+      <hr>
+      <p>Now to the network layer!</p>
+      <hr>
+      <h2 id="networklayer">Overview of Network Layer</h2>
+      <p>The network layer is responsible for transferring the transport layer's segment from router to router in the network core. So the network layer is implemented in end systems <em>and</em> routers (whereas the application and transport layer only existed in the end systems).</p>
+      <p>The network layer can be divided into two parts: the <b>data plane</b> and the <b>control plane</b>. The data plane is responsible for forwarding a datagram from a router's input link to its output link. The control plane is responsible for routing a datagram from source to destination, i.e., deciding the complete path that a datagram will take from source to destination.</p>
+      <h3>Forwarding and Routing: The Data and Control Planes</h3>
+      <p>A router has multiple input and output links. When a packet moves to a router, the router takes it in through its input link. Then, for the packet to get to the correct destination, the router must forward the packet to the correct output link. Each router has a <b>forwarding table</b>, which tells the router which output link the packet should go to.</p>
+      <p>But the router is not responsible for choosing which router the packet should go to. There are <b>routing algorithms</b> that determine the best router-to-router path that a packet should follow.</p>
+      <h4>Control Plane: The Traditional Approach</h4>
+      <p>The routing algorithm determines the contents of the routers' forwarding tables. Traditionally, each router ran a routing algorithm, and the routing algorithms communicated with each other to update the routers' forwarding tables.</p>
+      <h4>Control Plane: The SDN Approach</h4>
+      <p>Instead of running the routing algorithm in each router, there could be one remote controller that runs the routing algorithm, creates the forwarding tables, and distributes the forwarding tables to each router. The remote controller could be in a remote data center somewhere and be managed by the ISP or some third party. This approach is referred to as <b>software-defined networking (SDN)</b>, because the network is defined by a controller implemented in software.</p>
+      <h3>Network Service Model</h3>
+      <p>The network layer could theoretically provide:</p>
+      <ul>
+        <li>guaranteed delivery: a packet will arrive at its destination</li>
+        <li>guaranteed delivery with bounded delay: a packet will arrive at its destination within a certain time</li>
+        <li>in-order packet delivery: packets will arrive in the order they're sent</li>
+        <li>guaranteed minimal bandwidth: packets will arrive as long as the sender transmits bits at a rate below the specified bit rate</li>
+        <li>security: data will be encrypted</li>
+      </ul>
+      <p>But the network layer only actually provides one service: <b>best-effort service</b>. This means that the network layer will try its best to deliver the data, but there are no guarantees, including the things above. Surprisingly, this has been good enough.</p>
+      <h2 id="routingalgorithms">Routing Algorithms</h2>
+      <p>In the math world, a <b>graph</b> is a set of nodes and a collection of edges, where each edge is a connection from one node to another. `G=(N,E)`. A graph can be used to represent a network, where the nodes are the routers and the edges are the links. For two nodes `x` and `y`, an edge between them is denoted by `(x,y)`. If there is an edge between them, then they are <b>neighbors</b>.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/graph.png">
+      </div>
+      <p>An edge has a numerical value representing its cost. In the context of networks, this value can be the physical length of the link, the speed of the link, or the monetary cost of using the link. The cost of the link is denoted by `c(x,y)`. If there is no edge that exists for nodes `x` and `y`, then `c(x,y)=oo`.</p>
+      <p>A <b>path</b> in a graph is a sequence of nodes and edges that can be traversed. The cost of a path is the sum of the cost of all the edges on that path.</p>
+      <div class="ln-box">
+        <p>A path is a sequence of `p` nodes `(x_1,x_2,...,x_p)` such that each of the pairs `(x_1,x_2),(x_2,x_3), ..., (x_(p-1),x_p)` are edges in the graph. The cost of a path is `c(x_1,x_2)+c(x_2,x_3)+...+c(x_(p-1),x_p)`.</p>
+        <p>`(j,m,l,o)` is a path where the edges are `(j,m),(m,l),(l,o)`. The cost of this path is `c(j,m)+c(m,l)+c(l,o)=1+3+5=9`.</p>
+      </div>
+      <p>For any two nodes, there is typically more than one path between them. But at least one of them is the least costly. This path is the <b>least-cost</b> path. So the job of a routing algorithm is to find this least-cost path.</p>
+      <p>A routing algorithm can be centralized or decentralized. In a <b>centralized routing algorithm</b>, each node has complete knowledge about the whole network, so every node knows the cost of every edge. These algorithms are referred to as <b>link-state (LS) algorithms</b>, since they know the state of every link. In a <b>decentralized algorithm</b>, each node only has information about the cost of its neighbors, and they communicate with each other to gradually calculate the best path.</p>
+      <p>A routing algorithm can also be static or dynamic. In a <b>static routing algorithm</b>, routes change very slowly over time, often as a result of human intervention. In a <b>dynamic routing algorithm</b>, routes are dynamically updated in response to network topology or link cost changes.</p>
+      <p>A routing algorithm can also be load-sensitive or load-insensitive. In a <b>load-sensitive algorithm</b>, the link costs change to reflect the current level of congestion in the link. <b>Load insensitive algorithms</b> are the opposite.</p>
+      <h3>The Link-State (LS) Routing Algorithm</h3>
+      <p>In order for each node to have complete information about the network, they send link-state packets to all other nodes informing each other of its neighbors' costs. This is referred to as a link-state advertisement or a link-state broadcast. After this is done, each node will have an identical view of the network and can then run the LS algorithm.</p>
+      <p>One version of the LS algorithm is Dijkstra's algorithm (yes, that Dijkstra). Dijkstra's algorithm is iterative. It keeps track of what the current least-cost path is so far, and, on every iteration, updates it as needed.</p>
+      <p>Now, some notation. `D(v)` is the cost of the least-cost path from the source node to `v` as of the current iteration. `p(v)` is the previous node of `v` along the current least-cost path from the source to `v`. `N'` is the set of nodes where each node has a least-cost path calculated and determined.</p>
+      <div class="ln-box">
+        <p>This is the pseudocode for Dijkstra's algorithm. Let `u` be the source node.</p>
+        <p>Initialization:</p>
+        <p>`N' = {u}`<br>for all nodes `v`<br>&nbsp;&nbsp;if `v` is a neighbor of `u` then `D(v) = c(u,v)`<br>&nbsp;&nbsp;else `D(v)=oo`</p>
+        <p>Loop:</p>
+        <p>find `w` not in `N'` such that `D(w)` is a minimum<br>add `w` to `N'`<br>update `D(v)` for each neighbor `v` of `w` and not in `N'`:<br>&nbsp;&nbsp;`D(v)=min(D(v),D(w)+c(w,v))`<br>until `N'=N`</p>
+      </div>
+      <p>We'll use Dijkstra's algorithm on the graph above (copied and pasted below).</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/graph.png">
+      </div>
+      <p>In the initialization step, we start at node `j` and calculate the cost to get to each node directly from `j`. Since `n` and `o` are directly unreachable from `j`, their cost on this iteration is `oo`.</p>
+      <table class="table">
+        <tr>
+          <th>step</th>
+          <th>`N'`</th>
+          <th>`D(k),p(k)`</th>
+          <th>`D(l),p(l)`</th>
+          <th>`D(m),p(m)`</th>
+          <th>`D(n),p(n)`</th>
+          <th>`D(o),p(o)`</th>
+        </tr>
+        <tr>
+          <td>`0`</td>
+          <td>`j`</td>
+          <td>`2,j`</td>
+          <td>`5,j`</td>
+          <td>`1,j`</td>
+          <td>`oo`</td>
+          <td>`oo`</td>
+        </tr>
+      </table>
+      <p>In the first iteration, we look at the node with the current least cost (in this case, `m`) and go there. Then we calculate the cost to get to each neighbor directly from `m`. The cost to go to `k` from `m` is `3` (`1` for `jrarrm` and `2` for `mrarrk`), but it costs less to go to `k` from `j`, so we don't update `D(k),p(k)`. The cost to go to `l` from `m` is `4` (`1` for `jrarrm` and `3` for `mrarrl`), and it costs less than the current path to `l`, so we update `D(l),p(l)`. Node `n` is now reachable from `j`, so we update `D(n),p(n)`.</p>
+      <table class="table">
+        <tr>
+          <th>step</th>
+          <th>`N'`</th>
+          <th>`D(k),p(k)`</th>
+          <th>`D(l),p(l)`</th>
+          <th>`D(m),p(m)`</th>
+          <th>`D(n),p(n)`</th>
+          <th>`D(o),p(o)`</th>
+        </tr>
+        <tr>
+          <td>`0`</td>
+          <td>`j`</td>
+          <td>`2,j`</td>
+          <td>`5,j`</td>
+          <td>`1,j`</td>
+          <td>`oo`</td>
+          <td>`oo`</td>
+        </tr>
+        <tr>
+          <td>`1`</td>
+          <td>`jm`</td>
+          <td>`2,j`</td>
+          <td>`4,m`</td>
+          <td></td>
+          <td>`2,m`</td>
+          <td>`oo`</td>
+        </tr>
+      </table>
+      <p>In the second iteration, we look at the node with the current least cost and go there. (There's a tie between `k` and `n`, so we'll just choose `n`.) Then we calculate the cost to get to each neighbor directly from `n`. The cost to go to `l` from `n` is `3` (`2` for `jrarrmrarrn` and `1` for `nrarrl`), and it costs less than the current path to `l`, so we update `D(l),p(l)`. Node `o` is now reachable from `j`, so we update `D(o),p(o)`.</p>
+      <table class="table">
+        <tr>
+          <th>step</th>
+          <th>`N'`</th>
+          <th>`D(k),p(k)`</th>
+          <th>`D(l),p(l)`</th>
+          <th>`D(m),p(m)`</th>
+          <th>`D(n),p(n)`</th>
+          <th>`D(o),p(o)`</th>
+        </tr>
+        <tr>
+          <td>`0`</td>
+          <td>`j`</td>
+          <td>`2,j`</td>
+          <td>`5,j`</td>
+          <td>`1,j`</td>
+          <td>`oo`</td>
+          <td>`oo`</td>
+        </tr>
+        <tr>
+          <td>`1`</td>
+          <td>`jm`</td>
+          <td>`2,j`</td>
+          <td>`4,m`</td>
+          <td></td>
+          <td>`2,m`</td>
+          <td>`oo`</td>
+        </tr>
+        <tr>
+          <td>`2`</td>
+          <td>`jmn`</td>
+          <td>`2,j`</td>
+          <td>`3,n`</td>
+          <td></td>
+          <td></td>
+          <td>`4,n`</td>
+        </tr>
+      </table>
+      <p>In the third iteration, we look at the node with the current least cost (in this case, `k`) and go there. It's important to note that for every iteration we do this, we have to pick the node that isn't in `N'` yet. The point of the algorithm is to visit every node so that we know what the least-cost path is from all nodes. So `N'` isn't the least-cost path, it's just the set of nodes that have been visited. When looking at the neighbors, we also only look at the neighbors not in `N'` yet. So on this iteration, we only look at `l` (node `o` isn't a neighbor of `k`).</p>
+      <table class="table">
+        <tr>
+          <th>step</th>
+          <th>`N'`</th>
+          <th>`D(k),p(k)`</th>
+          <th>`D(l),p(l)`</th>
+          <th>`D(m),p(m)`</th>
+          <th>`D(n),p(n)`</th>
+          <th>`D(o),p(o)`</th>
+        </tr>
+        <tr>
+          <td>`0`</td>
+          <td>`j`</td>
+          <td>`2,j`</td>
+          <td>`5,j`</td>
+          <td>`1,j`</td>
+          <td>`oo`</td>
+          <td>`oo`</td>
+        </tr>
+        <tr>
+          <td>`1`</td>
+          <td>`jm`</td>
+          <td>`2,j`</td>
+          <td>`4,m`</td>
+          <td></td>
+          <td>`2,m`</td>
+          <td>`oo`</td>
+        </tr>
+        <tr>
+          <td>`2`</td>
+          <td>`jmn`</td>
+          <td>`2,j`</td>
+          <td>`3,n`</td>
+          <td></td>
+          <td></td>
+          <td>`4,n`</td>
+        </tr>
+        <tr>
+          <td>`3`</td>
+          <td>`jmnk`</td>
+          <td></td>
+          <td>`3,n`</td>
+          <td></td>
+          <td></td>
+          <td>`4,n`</td>
+        </tr>
+      </table>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/graph.png">
+      </div>
+      <p>The table after finishing the algorithm looks like this:</p>
+      <table class="table">
+        <tr>
+          <th>step</th>
+          <th>`N'`</th>
+          <th>`D(k),p(k)`</th>
+          <th>`D(l),p(l)`</th>
+          <th>`D(m),p(m)`</th>
+          <th>`D(n),p(n)`</th>
+          <th>`D(o),p(o)`</th>
+        </tr>
+        <tr>
+          <td>`0`</td>
+          <td>`j`</td>
+          <td>`2,j`</td>
+          <td>`5,j`</td>
+          <td>`1,j`</td>
+          <td>`oo`</td>
+          <td>`oo`</td>
+        </tr>
+        <tr>
+          <td>`1`</td>
+          <td>`jm`</td>
+          <td>`2,j`</td>
+          <td>`4,m`</td>
+          <td></td>
+          <td>`2,m`</td>
+          <td>`oo`</td>
+        </tr>
+        <tr>
+          <td>`2`</td>
+          <td>`jmn`</td>
+          <td>`2,j`</td>
+          <td>`3,n`</td>
+          <td></td>
+          <td></td>
+          <td>`4,n`</td>
+        </tr>
+        <tr>
+          <td>`3`</td>
+          <td>`jmnk`</td>
+          <td></td>
+          <td>`3,n`</td>
+          <td></td>
+          <td></td>
+          <td>`4,n`</td>
+        </tr>
+        <tr>
+          <td>`4`</td>
+          <td>`jmnkl`</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>`4,n`</td>
+        </tr>
+        <tr>
+          <td>`5`</td>
+          <td>`jmnklo`</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>So now, for every node, we have the cost to get to that node, and that cost is the lowest cost possible. For example, it costs `3` to get to node `l`, and that path involves going there from `n`. It costs `2` to get to node `n`, and that path involves going there from `m`. It costs `1` to get to node `m`, and that path involves going there from `j`. Using this information, we can trim the graph so that only the least-cost paths are kept.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/dijkstra.png">
+      </div>
+      <p>From this, we can create a forwarding table for all the routers to use:</p>
+      <table class="table">
+        <tr>
+          <th>Destination</th>
+          <th>Link</th>
+        </tr>
+        <tr>
+          <td>`k`</td>
+          <td>`(j,k)`</td>
+        </tr>
+        <tr>
+          <td>`l`</td>
+          <td>`(j,m)`</td>
+        </tr>
+        <tr>
+          <td>`m`</td>
+          <td>`(j,m)`</td>
+        </tr>
+        <tr>
+          <td>`n`</td>
+          <td>`(j,m)`</td>
+        </tr>
+        <tr>
+          <td>`o`</td>
+          <td>`(j,m)`</td>
+        </tr>
+      </table>
+      <div class="ln-box">
+        <p>This algorithm is `O(n^2)`. In the first iteration, we process `n` nodes when calculating `D(v),p(v)`. In the second iteration, we process `n-1` nodes. In the (second-to-) last iteration we process `1` node. So the number of operations is `n+n-1+...+1=(n(n+1))/2`.</p>
+        <p>Using a heap to "find `w` not in `N'` such that `D(w)` is a minimum" can bring it down to `O(nlogn)`.</p>
+      </div>
+      <div class="ln-box">
+        <p>Suppose we have a network of four routers where the cost of each link is the measure of how much traffic is on that link. Let's say `x` has data of size `1` to send to `w`, `y` has data of size `elt1` to send to `w`, and `z` has data of size `1` to send to `w`. At the beginning, no data has been sent yet, so all the costs will be `0`.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/oscillation_1.png">
+        </div>
+        <p>After sending the data, the costs will now look like this:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/oscillation_2.png">
+        </div>
+        <p>After running the LS algorithm, each router will take the clockwise path since that direction is the least-cost path:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/oscillation_3.gif">
+        </div>
+        <p>After sending the data, the costs will now look like this:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/oscillation_4.png">
+        </div>
+        <p>After running the LS algorithm, each router will take the counterclockwise path since that direction is the least-cost path:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/oscillation_5.gif">
+        </div>
+        <p>After sending the data, the costs will now look like this:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/oscillation_6.png">
+        </div>
+        <p>Notice that the routers will go back to sending the data clockwise again after running the LS algorithm. Earlier, we saw that if all the routers send the data clockwise, then they will send the data counterclockwise afterwards. After sending the data counterclockwise, they will send the data clockwise again. So the least-cost path will oscillate back and forth between clockwise and counterclockwise.</p>
+        <p>This is the result of using congestion as the measure of a link's cost. But we can't prevent congestion from being used as a metric since the whole point of routing is to avoid congested links. To prevent oscillation, the solution is to include randomness. So have the routers perform link-state advertisement at random times and have the routers run the LS algorithm at random times if the routers are using the traditional approach.</p>
+      </div>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
