@@ -171,7 +171,40 @@
         <img class="img-fluid ln-image-small" src="../pictures/networking/tdm_2.png">
       </div>
       <div class="ln-box">
+        <p>If a link transmits `8000` frames per second and each slot consists of `8` bits, then the transmission rate of each circuit is `8000*8=64,000` bits per second `=64` kbps. The transmission rate of the whole link is `8000*8*text(number of slots)` (I think).</p>
+      </div>
+      <div class="ln-box">
         <p>Suppose that all links in a network use TDM with `24` slots and can transfer data at a rate of `1.536` Mbps. Then each circuit has a transmission rate of `1.536/24=64` kbps.</p>
+      </div>
+      <div class="ln-box">
+        <p>Suppose there is a circuit-switched network with four circuit switches `A`, `B`, `C`, and `D`.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/circuit_switching_2.png">
+        </div>
+        <p>What is the maximum number of connections that can be ongoing in the network at any time?</p>
+        <div class="collapse ln-box" id="circuit_switching_q1">
+          <p>There can be `13` connections from `A` to `B`, `11` connections from `B` to `C`, `17` connections from `C` to `D`, and `12` connections from `D` to `A`. So the maximum number of connections possible is `13+11+17+12=53`.</p>
+          <p>Note that while it's possible to have a connection from `A` to `C`, for example, that wouldn't maximize the number of connections because two circuits would have to be reserved for one connection, as opposed to the answer above where only one circuit has to be reserved for one connection.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#circuit_switching_q1" aria-expanded="false" aria-controls="circuit_switching_q1">Answer</button>
+        <p>Suppose that every connection requires two consecutive hops, and calls are connected clockwise. For example, a connection can go from `A` to `C`, from `B` to `D`, from `C` to `A`, and from `D` to `B`. What is the maximum number of connections that can be ongoing in the network at any time?</p>
+        <div class="collapse ln-box" id="circuit_switching_q2">
+          <p>`ArarrBrarrC`: Since there are only `11` circuits from `B` to `C`, the number of connections possible for `ArarrBrarrC` is `11`.</p>
+          <p>`BrarrCrarrD`: Since all `11` circuits are being used for `ArarrBrarrC`, there are no circuits available for `BrarrCrarrD`.</p>
+          <p>`CrarrDrarrA`: Since there are only `12` circuits from `D` to `A`, the number of connections possible for `CrarrDrarrA` is `12`.</p>
+          <p>`DrarrArarrB`: Since all `12` circuits are being used for `CrarrDrarrA`, there are no circuits available for `DrarrArarrB`.</p>
+          <p>So the maximum number of connections possible is `11+12=23`.</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#circuit_switching_q2" aria-expanded="false" aria-controls="circuit_switching_q2">Answer</button>
+        <p>Suppose that `13` connections are needed from `A` to `C`, and `19` connections are needed from `B` to `D`. Can we route these calls through the four links to accommodate all `32` connections?</p>
+        <div class="collapse ln-box" id="circuit_switching_q3">
+          <p>For `ArarrC`, we can use the circuits for `ArarrBrarrC` and `ArarrDrarrC`. `ArarrBrarrC` only supports `11` connections, so the remaining `2` connections will need to use `2` of the circuits in `ArarrD`.</p>
+          <p>For `BrarrD`, we can't use the circuits for `BrarrC` because they are already being used for `ArarrBrarrC`. So the only circuits available are for `BrarrArarrD`. There are only `10` circuits available for `ArarrD` since `2` of them are being used for `ArarrDrarrC`. So there are only `10` circuits available for `BrarrArarrD`, which is not enough for the `19` connections that are needed for `BrarrD`.</p>
+          <p>So the answer is no.</p>
+          <p>It doesn't matter how we choose to divide up the connections. Notice that `13` connections are needed from `A` to `C`, but any path from `A` to `C`, whether it's `ArarrDrarrC` or `ArarrBrarrC`, will have all the circuits used up on that path. So the connections from `B` to `D` can only travel in the other direction, and neither direction can support `19` connections on its own.</p>
+          <p>(Also, the answer can be obtained by looking at the answer to the second question, but that's boring.)</p>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#circuit_switching_q3" aria-expanded="false" aria-controls="circuit_switching_q3">Answer</button>
       </div>
       <h4>Switching Teams</h4>
       <p>Packet switching is not good for things that require a continuous connection, like video calls. However, packet switching is, in general, more efficient than circuit switching.</p>
@@ -754,7 +787,7 @@
         <p>Persistent parallel is the default in HTTP and the example below will show why.</p>
       </div>
       <div class="ln-box">
-        <p>Suppose there is a `100`-kilobit page that contains `5` `100`-kilobit images, all of which are stored on a server. Suppose the round-trip time from the server to a client's browser is `200` milliseconds. For simplicity, we'll assume there is only one `100` Mbps link between the client and server; the time it takes to transmit a GET request onto the link is zero; and it takes some time to transmit things onto the link (well this last one technically doesn't need to be assumed). Note that based on the assumptions, the link has a `100` millisecond one-way propagation delay as well as a transmission delay.</p>
+        <p>Suppose there is a `100`-kilobit page that contains `5` `100`-kilobit images, all of which are stored on a server. Suppose the round-trip time from the server to a client's browser is `200` milliseconds. For simplicity, we'll assume there is only one `100` Mbps link between the client and server; the time it takes to transmit a GET request onto the link is zero. Note that based on the assumptions, the link has a `100` millisecond one-way propagation delay as well as a transmission delay (for the page and images).</p>
         <p>For non-persistent, non-parallel connections, how long is the response time? (The time from when the user requests the URL to the time when the page and its images are displayed?)</p>
         <div class="collapse ln-box" id="http_q1">
           <p>Let's start with the base file. It takes `1` RTT to establish the TCP connection and another `1` RTT to get the base file. So it takes a total of `2` RTTs for the base file. We are given that one RTT is `200` milliseconds, so it takes `200*2=400` milliseconds for the base file to propagate through the link.</p>
@@ -772,7 +805,7 @@
           <p>Again, we'll start with the base file. It takes `1` RTT to establish the TCP connection and another `1` RTT to get the base file. So `2` RTTs. Same as before, `2*200=400` milliseconds for the base file to propagate.</p>
           <p>The transmission delay is also the same at `1` millisecond.</p>
           <p>So the total time it takes to get the base file is `400+1=401` milliseconds.</p>
-          <p>For the objects, since the connections are parallel, all `5` objects will be retrieved at the same time in `1` RTT. Also, all `5` TCP connections will be opened parallelly in `1` RTT. So `2` RTTs for all `5` objects. This is also `2*200=400` milliseconds for them to propagate.</p>
+          <p>For the objects, since the connections are parallel, all `5` TCP connections will be opened in parallel in `1` RTT and all `5` objects will be retrieved at the same time in `1` RTT. So `2` RTTs for all `5` objects. This means it takes `2*200=400` milliseconds for them to propagate.</p>
           <p>Even though the connections are parallel, the objects are not transmitted onto the link in parallel. (There is only one link, so only one object can be transmitted at a time.) As we saw before, it takes `1` millisecond to transmit `1` object. So for `5` objects, `5` milliseconds.</p>
           <p>So the total time it takes to get all of the objects is `400+5=405` milliseconds.</p>
           <p>Bringing the total time for the whole Web page to `401+405=806` milliseconds `=0.806` seconds.</p>
