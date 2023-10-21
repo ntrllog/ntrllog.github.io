@@ -104,7 +104,7 @@
       <h2 id="networkcore">The Network Core</h2>
       <p>The network core is, well, the part of the Internet that is not at the edge. This is the part of the Internet that our router connects to — out to where our Internet access comes from.</p>
       <h3>Packet Switching</h3>
-      <p>The data that the end systems send and receive are called <b>messages</b>. Messages can be any type of data, such as emails, pictures, or audio files. When going from its source to its destination, messages are broken up into packets, which are transferred from packet switch to packet switch. From packet switch to packet switch, each packet is broken up into bits and sent across the communication link connecting the two packet switches.</p>
+      <p>The data that the end systems send and receive are called <b>messages</b>. Messages can be any type of data, such as emails, pictures, or audio files. When going from their source to their destination, messages are broken up into packets, which are transferred from packet switch to packet switch. From packet switch to packet switch, each packet is broken up into bits and sent across the communication link connecting the two packet switches.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/packet_switching.png">
       </div>
@@ -144,7 +144,7 @@
       <h4>Forwarding Tables</h4>
       <p>Again, packet switches usually have multiple links. So how does the packet switch know which link to use to send the packet? The answer is that each packet switch has a <b>forwarding table</b> that lists the destination of each link. When a packet arrives, the packet switch examines the packet to see its destination and searches it up in its forwarding table. The table tells the packet switch which link to use to get to the destination.</p>
       <h3>Circuit Switching</h3>
-      <p>With packet switching, the packets are sent and if there is a lot of traffic, then oh well. Maybe the data will take a long time to send, or worse, get dropped. To avoid this, we can reserve the resources ahead of time.</p>
+      <p>With packet switching, the packets are sent and if there is a lot of traffic, then oh well. Maybe the data will take a long time to send, or worse, get dropped. To avoid this, we can reserve the resources ahead of time. This way, one connection won't be competing with other connections, i.e., the connection will have the links to itself. (Imagine being the only one on the road and no other cars are allowed to be on the road with you!)</p>
       <p>With circuit switching, each link has a number of circuits. One circuit per link is required for communication between two end systems. So a link with, for example, four circuits can support four different connections at the same time. However, each connection only gets a fraction of the link's transmission rate.</p>
       <div class="ln-box">
         <p>Suppose we have a link with four circuits and a transmission rate of `1` Mbps. Then each circuit can only transfer data at a rate of `1/4` Mbps, which is `250` kbps.</p>
@@ -246,12 +246,12 @@
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#switching_q5" aria-expanded="false" aria-controls="switching_q5">Answer</button>
       </div>
       <h3>A Network of Networks</h3>
-      <p>We get our Internet access from an ISP. Of course, all of us don't get Internet access from the same ISP. There are different ISPs out there providing Internet access to different networks. But then how do our end systems communicate with end systems? How do we communicate with servers and access websites from different parts of the world for example? The answer is that the ISPs themselves are connected with each other. But what exactly does that look like?</p>
+      <p>We get our Internet access from an ISP. Of course, all of us don't get Internet access from the same ISP. There are different ISPs out there providing Internet access to different networks. But then how do our end systems communicate with other end systems? How do we communicate with servers and visit websites from different parts of the world for example? The answer is that the ISPs themselves are connected with each other. But what exactly does that look like?</p>
       <p>One idea is that we connect every ISP with each other directly.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_1.png">
       </div>
-      <p>The problem with this is that it is too costly, because there would be way too many links. In computer science terms, there would be `n^2` connections.</p>
+      <p>The problem with this is that it is too costly, because there would be way too many links (too many for me to draw). In computer science terms, there would be `n^2` connections.</p>
       <p>To minimize the number of connections, another idea is that there is a global ISP and all the other ISPs connect to that global one.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_2.png">
@@ -285,7 +285,7 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_6.png">
       </div>
-      <p>To facilitate this peering, third-party companies can create an <b>Internet Exchange Point (IXP)</b> which ISPs connect to to peer with other ISPs.</p>
+      <p>To facilitate this peering, third-party companies can create an <b>Internet Exchange Point (IXP)</b> which ISPs connect to in order to peer with other ISPs.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/isp_structure_7.png">
       </div>
@@ -296,7 +296,7 @@
       <p>They run their own private networks so that they can bring their services and content closer to users. They do this by having data centers distributed everywhere across the world. Each data center has tons of servers that are all connected to each other.</p>
       <p>And this is why the Internet is a network of networks. (Recall that ISPs themselves are networks of packet switches and links. There's also the edge network from the previous section, and each network in the edge network is a network of routers and links.)</p>
       <h2 id="delay">Delay, Loss, and Throughput</h2>
-      <p>In a (developer's) perfect world, data would travel through the Internet instantaneously without any limitations. Well, we know things aren't perfect.</p>
+      <p>In a (developer's) perfect world, data would travel through the Internet instantaneously without any limitations. But, we know things aren't perfect.</p>
       <h3>What's the Holdup?</h3>
       <p>As packets travel along their route, they experience <b>nodal processing delay</b>, <b>queuing delay</b>, <b>transmission delay</b>, and <b>propagation delay</b>. All these delays combined is called <b>total nodal delay</b>.</p>
       <h4>Processing Delay</h4>
@@ -369,13 +369,14 @@
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#caravan_q2" aria-expanded="false" aria-controls="caravan_q2">Answer</button>
       </div>
       <h3>Queuing Delay and Packet Loss</h3>
-      <p>Queuing delay is the most complicated delay since it varies from packet to packet (as implied, processing delay, transmission delay, and propagation delay are the same for every packet). For example, if 10 packets arrive at an empty queue, the first packet will have no queuing delay, but the last packet will have to wait for the first 9 packets to leave the queue.</p>
+      <p>Queuing delay is the most complicated delay since it varies from packet to packet (as implied, processing delay, transmission delay, and propagation delay are the same for every packet). For example, if `10` packets arrive at an empty queue, the first packet will have no queuing delay, but the last packet will have to wait for the first `9` packets to leave the queue.</p>
       <p>The factors that determine queuing delay are the rate at which traffic arrives, the transmission rate of the link, and the type of traffic that arrives (e.g., periodically or in bursts).</p>
       <div class="ln-box">
         <p>Let `a` be the average rate (in packets per second) at which packets arrive. If a packet has `L` bits, then `La` is the average rate (in bits per second) at which bits arrive. `R` is the transmission rate of the link. So `(La)/R` is the ratio of bits coming in vs bits going out; this ratio is called <b>traffic intensity</b>.</p>
         <p>`(La)/R gt 1` means that bits are arriving at the queue faster than they are leaving. In this case, the queuing delay will approach infinity.</p>
         <p>If `(La)/R le 1`, then the type of traffic that arrives has an effect on the queuing delay. For example, if one packet arrives every `L/R` seconds, then the packet will always arrive at an empty queue, so there will be no queuing delay.</p>
         <p>However, if `N` packets arrive in bursts every `NL/R` seconds, then the first packet will experience no queuing delay. But the second packet will experience a queuing delay of `L/R` seconds. The third packet will experience a queuing delay of `2L/R` seconds. Generally, each packet will have a queuing delay of `(n-1)L/R` seconds.</p>
+        <p>Regardless of the type of traffic, as traffic intensity gets closer to `1`, the queuing delay gets closer to approaching infinity.</p>
       </div>
       <div class="ln-box">
         <p>Average queuing delay grows exponentially with traffic intensity, i.e., a small increase in traffic intensity results in a large increase in average queuing delay.</p>
@@ -433,7 +434,7 @@
         <img class="img-fluid ln-image-small" src="../pictures/networking/throughput_2.png">
         <p>(I think sharing a common link means all the server links eventually connect to one router and all the client links eventually connect to a different router. And the link between these two routers are the same.)</p>
       </div>
-      <p>Let's assign actual values to these transmission rates. So let `R_s=2` Mbps, `R_c=1` Mbps, and `R=5` Mbps. Since the common link is being used for `10` simultaneous downloads, the link divides its transmission rate equally among the `10` connections. So now the common link is transferring bits at a rate of `(5text(Mbps))/10=500` kbps. Which means the throughput for each download is `500` kbps. Even though the common link had the highest transmission rate, it ended up being the bottleneck link.</p>
+      <p>Let's assign actual values to these transmission rates. So let `R_s=2` Mbps, `R_c=1` Mbps, and `R=5` Mbps. Since the common link is being used for `10` simultaneous downloads, the link divides its transmission rate equally among the `10` connections. So the common link is transferring bits at a rate of `(5text(Mbps))/10=500` kbps per connection. Which means the throughput for each download is `500` kbps. Even though the common link had the highest transmission rate, it ended up being the bottleneck link.</p>
       <div class="ln-box">
         <p>Links in the network core are almost never the bottleneck link because they are usually over-provisioned with high speed links. Typically, the bottleneck links are in the access network.</p>
       </div>
@@ -473,7 +474,7 @@
           <td>Routing</td>
         </tr>
       </table>
-      <p>Every time we board and leave an airplane, we perform the same steps in a certain order. And the action we perform depends on the layer we're at since each layer is responsible for one thing and one thing only. (I.e., Each layer provides a different service.) Also, each layer depends on the layer before it. For example, we can only check in our baggage if we have a ticket, or we can only enter the gate once we have checked in our baggage.</p>
+      <p>Every time we board and leave an airplane, we perform the same steps in a certain order. And the action we perform depends on the layer we're at since each layer is responsible for one thing and one thing only. (I.e., each layer provides a different service.) Also, each layer depends on the layer before it. For example, we can only check in our baggage if we have a ticket, or we can only enter the gate once we have checked in our baggage.</p>
       <p>This layering makes it easier to distinguish the different components of an airline system. It also makes it easier to change the implementation of a layer's service without affecting the rest of the layers. For example, the current implementation of the gate layer is to board people by ticket priority and check-in time. But the implementation can be changed to board people by height. This change doesn't affect any of the other layers, and the function of this layer remains the same: getting people on the airplane.</p>
       <h4>Protocol Layering</h4>
       <p>The Internet is made up of 5 layers.</p>
@@ -511,11 +512,11 @@
         </tr>
         <tr>
           <td>SMTP</td>
-          <td>sending and receiving emails</td>
+          <td>sending emails</td>
         </tr>
         <tr>
           <td>FTP</td>
-          <td>sending and receiving files</td>
+          <td>transferring files</td>
         </tr>
       </table>
       <p>Applications communicate with each other by sending <b>messages</b> to each other.</p>
@@ -622,7 +623,7 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/encapsulation.gif">
       </div>
-      <p>End systems implement all 5 layers while routers usually implement only the bottom 3 layers (network, link, physical).</p>
+      <p>End systems implement all 5 layers while routers usually implement only the bottom 3 layers (network, link, physical). (And some packet switches may only implement the bottom 2 layers, link and physical.)</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/encapsulation_2.gif">
       </div>
@@ -658,11 +659,11 @@
         <p>For us developers, sockets are also referred to as the <b>Application Programming Interface (API)</b> between the application and the network. We don't have control over how the socket is implemented; that's handled by the OS.</p>
       </div>
       <h4>Addressing Processes</h4>
-      <p>In order for the message to go to the correct place, the sending process needs to specify where the message needs to be delivered to. First, it needs to specify which end system is receiving the message. Each end system has a unique identifier called an <b>IP address</b>. Knowing just the end system is not enough though because an end system is running multiple applications while it's on, and we need to know which application needs the message. Whenever processes open a socket, they must choose a number to "label" the socket. This number is called a <b>port number</b>.</p>
+      <p>In order for the message to go to the correct place, the sending process needs to specify where the message needs to be delivered to. First, it needs to specify which end system is receiving the message. This can be done by providing the <b>IP address</b> of the end system. Just knowing which end system is not enough though because an end system is running multiple applications while it's on, so we also need to know which application needs the message. Whenever processes open a socket, they must choose a number to "label" the socket. This number is called a <b>port number</b>. So by specifying the IP address and the port number, the message can be delivered to the correct application on the correct end system.</p>
       <h3>Transport Services Available to Applications</h3>
       <p>On the other side of the socket is a transport-layer protocol that delivers the message to the socket of the receiving process. There are several transport-layer protocols an application can choose from. When deciding which one to use, there are several things to consider.</p>
       <h4>Reliable Data Transfer</h4>
-      <p>As we saw earlier, packets can get lost. For some situations, like transferring financial documents, packet loss is undesirable. But even though packets can get lost, a protocol can still guarantee that the file will be delivered correctly. Then that protocol provides <b>reliable data transfer</b>.</p>
+      <p>As we saw earlier, packets can get lost. For some situations, like transferring financial documents, packet loss is undesirable. But even though packets can get lost, a protocol can still guarantee that the file will be delivered correctly. If a protocol can provide this guarantee, then that protocol provides <b>reliable data transfer</b>.</p>
       <p>In other situations, like video calls, some packet loss is acceptable. ("I'm sorry, can you repeat that? You cut out for a few seconds.") Those applications are referred to as <b>loss-tolerant applications</b>.</p>
       <h4>Throughput</h4>
       <p>Throughput is the rate at which bits are transferred between the source and destination (Hmm, I feel like I've said these exact words before 🤔). A transport-layer protocol can guarantee a specified throughput of some amount of bits per second. This would be useful for voice calls, which need a certain throughput in order for the voices to be heard clearly. Applications that have throughput requirements are <b>bandwidth-sensitive applications</b>.</p>
@@ -759,7 +760,7 @@
         <p>The original version of HTTP is called HTTP/1.0. Then there was HTTP/1.1 (1997), HTTP/2 (2015), and HTTP/3 (2022).</p>
       </div>
       <h3>Non-Persistent and Persistent Connections</h3>
-      <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for the base HTML file and then each object in the file. In <b>non-persistent connections</b>, the browser opens a TCP connection for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. HTTP/1.1 and later use persistent connections by default.</p>
+      <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for the base HTML file and then each object in the file. In <b>non-persistent connections</b>, the browser opens a TCP connection for one object, then closes the connection after the object is sent. So a TCP connection has to be opened for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. After one object is sent, the connection remains open for some period of time, allowing other objects to be sent using the same connection if needed. HTTP/1.1 and later use persistent connections by default.</p>
       <h4>HTTP with Non-Persistent Connections</h4>
       <ol>
         <li>Browser starts a TCP connection to the server on port 80</li>
@@ -768,7 +769,7 @@
         <li>Server closes the TCP connection</li>
         <li>Browser receives the response.</li>
       </ol>
-      <p>And these steps repeat for each object in the Web page. So if a Web page has `10` objects, there will be `11` connections made (`1` for the Web page and `10` for each object). While this may seem tedious, browsers can be configured to open multiple parallel connections at the same time instead of waiting for one connection to be done before opening another.</p>
+      <p>And these steps repeat for each object in the Web page. So if a Web page has `10` objects, there will be `11` connections made (`1` for the Web page and `10` for each object). If this seems tedious, it's because it is. That's why browsers can be configured to open multiple parallel connections at the same time instead of waiting for one connection to be done before opening another.</p>
       <p>Let's look at one request in action:</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/http.gif">
@@ -778,13 +779,13 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/rtt.png">
       </div>
-      <p>So the total response time is `2` RTTs plus the transmission time of the file. `1` RTT is for establishing the TCP connection and `1` RTT is for sending the file.</p>
-      <p>Besides the delay for sending each object, there is also the burden of resource management. For each TCP connection, buffers and variables must be allocated; this can take up a lot of resources on the server if there are a bunch of clients.</p>
+      <p>So the total response time is `2` RTTs plus the transmission time of the file. `1` RTT is for establishing the TCP connection and `1` RTT is for receiving the file.</p>
+      <p>Besides the delay for sending each object, there is also the burden of resource management. For each TCP connection, buffers and variables must be allocated; this can take up a lot of resources on the server if there are a bunch of connections to manage.</p>
       <h4>HTTP with Persistent Connections</h4>
       <p>Instead of closing the TCP connection after sending the requested object, the server keeps the connection open for a certain period of time so that multiple objects can be sent through the connection.</p>
       <div class="ln-box">
-        <p>For both non-persistent and persistent connections, they can also be non-parallel or parallel. In non-parallel connections, the client waits until it receives an object before requesting another one. So each object requires `1` RTT. In parallel connections, the client requests an object as soon as it needs it, even if a previous request for an object has not been completed yet. This means if there are `n` objects, it could request for all `n` objects at once. So it could take as little as `1` RTT to get all the objects. (Note that the `1` RTT is just for the objects in the base file. The browser needs `1` RTT to get the base file itself first.)</p>
-        <p>Persistent parallel is the default in HTTP and the example below will show why.</p>
+        <p>For both non-persistent and persistent connections, they can also be non-parallel or parallel. In non-parallel connections, the client waits until it receives an object before requesting another one. So each object requires `1` RTT. In parallel connections, the client requests an object as soon as it needs it, even if a previous request for an object has not been completed yet. This means if there are `n` objects, it could request for all `n` objects at once by opening `n` parallel connections. So it could take as little as `1` RTT to get all the objects. (Note that the `1` RTT is just for the objects in the base file. The browser still needs `1` RTT to get the base file itself first.)</p>
+        <p>Persistent parallel is the default in HTTP/1.1 (and later) and the example below will show why.</p>
       </div>
       <div class="ln-box">
         <p>Suppose there is a `100`-kilobit page that contains `5` `100`-kilobit images, all of which are stored on a server. Suppose the round-trip time from the server to a client's browser is `200` milliseconds. For simplicity, we'll assume there is only one `100` Mbps link between the client and server; the time it takes to transmit a GET request onto the link is zero. Note that based on the assumptions, the link has a `100` millisecond one-way propagation delay as well as a transmission delay (for the page and images).</p>
@@ -832,12 +833,12 @@
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#http_q4" aria-expanded="false" aria-controls="http_q4">Answer</button>
       </div>
       <h3>HTTP/2</h3>
-      <p>Opening multiple connections results in the server having to open and maintain multiple sockets. However, using only one TCP connection introduces a problem called <b>Head of Line (HOL) blocking</b>. Let's say the base file has a large video clip near the top and many small objects below the video. Being near the top, the video will be requested first. Especially if the bottleneck link is bad, the video will take some time to transfer, causing the objects to have to wait for the video. The video at the head of the line blocks the objects behind it. Parallel connections is one way to solve this problem.</p>
+      <p>Opening multiple connections results in the server having to open and maintain multiple sockets. However, using only one TCP connection introduces a problem called <b>Head of Line (HOL) blocking</b>. Let's say the base file has a large video clip near the top and many small objects below the video. Being near the top, the video will be requested first. Especially if the bottleneck link is bad, the video will take some time to transfer, causing the objects to have to wait for the video. The video at the head of the line blocks the objects behind it. Using parallel connections is one way to solve this problem.</p>
       <p>Standardized in 2015, HTTP/2 introduced a way to allow for using one TCP connection without experiencing HOL blocking.</p>
       <h4>HTTP/2 Framing</h4>
       <p>The solution is to break each object into small frames and interleave them. That way, each response will contain parts of each object.</p>
       <div class="ln-box">
-        <p>Let's say the base file has `1` large video clip and `8` small objects. Suppose the video clip is broken up into `1000` frames and each of the small objects is broken up into `2` frames. The first response can contain `10` frames: `1` frame from the video and the first frame of each of the small objects. The second reponse can also contain `10` frames: `1` frame from the video and the last frame of each of the small objects. In just `18` frames, all of the small objects have been sent. If the frames weren't interleaved, the small objects would be sent after `1016` frames.</p>
+        <p>Let's say the base file has `1` large video clip and `8` small objects. Suppose the video clip is broken up into `1000` frames and each of the small objects is broken up into `2` frames. The first response can contain `9` frames: `1` frame from the video and the first frame of each of the small objects. The second reponse can also contain `9` frames: `1` frames from the video and the last frame of each of the small objects. In just `18` frames, all of the small objects will have been sent. If the frames weren't interleaved, the small objects would be sent after `1016` frames.</p>
         <p>(For some reason, interloven sounds right.)</p>
       </div>
       <h4>Server Pushing</h4>
@@ -848,7 +849,7 @@
       <p>Here's an example of what a request message might look like:</p>
       <p><code>GET /projects/page.html HTTP/1.1<br>Host: www.myschool.edu<br>Connection: close<br>User-agent: Mozilla/5.0<br>Accept-language: fr</code></p>
       <p>The first line is the <b>request line</b>. There are three fields: the method field, the URL field, and the HTTP version field. As we can infer, the method is GET, which is the method for requesting objects (because, you know, we want to "get" them).</p>
-      <p>The lines below the request line are the <b>header lines</b>. <code>Connection: close</code> means "close the connection after giving me what I requested", i.e., use a non-persistent connection. <code>Connection: keep-alive</code> is for a persistent connection. The user agent specifies what type of browser is making the request. And <code>Accept-language: fr</code> means get the French version if it exists.</p>
+      <p>The lines below the request line are the <b>header lines</b>. <code>Connection: close</code> means "close the connection after giving me what I requested", i.e., use a non-persistent connection. <code>Connection: keep-alive</code> would be for a persistent connection. The user agent specifies what type of browser is making the request. And <code>Accept-language: fr</code> means get the French version if it exists.</p>
       <div class="ln-box">
         <p>It may look like the header line specifying the host is unnecessary, because the browser needed to know the host in order to establish the TCP connection in the first place. It turns out that it is needed by Web proxy caches, which we'll see later.</p>
       </div>
@@ -861,15 +862,16 @@
       <p><code>HTTP/1.1 200 OK<br>Connection: close<br>Date: Sat, 16 Sep 2023 19:23:09 GMT<br>Server: Apache/2.2.3 (CentOS)<br>Last-Modified: Sat, 16 Sep 2023 18:34:09 GMT<br>Content-Length: 6821<br>Content-Type: text/html<br><br>(the requested data...)</code></p>
       <p>The first line is the <b>status line</b>. There are three fields: the protocol version, the status code, and the status message.</p>
       <p>The lines below are the <b>header lines</b>. The <code>Date:</code> header line specifies when the HTTP response was created and sent by the server. The <code>Server:</code> header line specifies the type of the Web server. <code>Last-Modified:</code> is when the object was created or last modified. <code>Content-Length:</code> specifies the object's size in bytes.</p>
-      <p>The <b>entity body</b> contains the actual object.</p>
+      <p>The <b>entity body</b> contains the actual object (the requested data).</p>
       <h3>Cookies! 🍪</h3>
-      <p>HTTP is stateless, so the server doesn't store information about the requests that the clients are making. However, servers sometimes want a way to identify users so that they can restrict access or provide user-specific information when responding to the client. This is where cookies come in. Cookies allow sites to keep track of users.</p>
-      <p>Let's say we go to our favorite shopping site on our favorite browser. The site creates a unique ID (let's say 9876) for this request, stores the ID in its database, and sends the ID back in the response. The response includes a <code>Set-cookie:</code> header; this tells the browser to create and store a cookie file. For example, the header will look like <code>Set-cookie: 9876</code>, so the browser will store 9876 in a file. Now, as we navigate through our shopping site, the site can ask the browser to include this cookie in every request. Then the site will query its database for this ID to identify the user. If the ID exists in the database, the site will know the user has visited before, and if the ID isn't in the database, the site will consider this a new user visiting for the first time.</p>
-      <p>When we say that the site can identify the user, the site doesn't actually know who we are, like our name and stuff. Until we enter that information ourselves. When we enter our information to buy something or to fill out a form, the site can store that information and associate that with the ID in the cookie. So the next time we visit that site, it can look at the ID and the information linked to that ID.</p>
+      <p>HTTP is stateless, so the server doesn't store information about the requests that the clients are making. However, servers sometimes want a way to identify users so that they can restrict access or provide user-specific information when responding to the client. This is where cookies come in. Cookies allow sites to keep track of users*.</p>
+      <p>*Technically, cookies keep track of browsers. But users usually use one browser, and that browser is usually used by only one user (unless it's a shared computer). So tracking a browsing session is essentially tracking a user.</p>
+      <p>Let's say we go to our favorite shopping site on our favorite browser. The site will create a unique ID (let's say 9876) for this request, store the ID in its database, and send the ID back in the response. The response will include a <code>Set-cookie:</code> header; this tells the browser to create and store a cookie file. For example, the header will look like <code>Set-cookie: 9876</code>, so the browser will store 9876 in a file. Now, as we navigate through our shopping site, the site can ask the browser to include this cookie in every request. Then the site will query its database for this ID to identify the user. If the ID exists in the database, the site will know the user has visited before, and if the ID isn't in the database, the site will consider this a new user visiting for the first time.</p>
+      <p>When we say that the site can identify a user, the site doesn't actually know who we are, like our name and stuff. Until we enter that information ourselves. When we enter our information to buy something or to fill out a form, the site can store that information and associate that with the ID in the cookie. So the next time we visit that site, it can look at the ID and the information linked to that ID.</p>
       <h3>Web Caching</h3>
       <p>A <b>Web cache</b> is a server that stores Web pages and objects that have been recently requested.</p>
       <p>When a browser requests an object, it sends the request to a Web cache. If the Web cache has a copy of the requested object, the Web cache sends it to the browser. If it doesn't, the Web cache requests it from the origin server, which sends the object to the Web cache. The Web cache stores a copy of it in its storage and sends that copy to the browser.</p>
-      <p>Having a Web cache can significantly speed things up. If the server is physically located far away from the client or if the bottleneck link between the server and client is really bad, then using the Web cache reduces response times, assuming the Web cache is physically closer to the client or the bottleneck link between the Web cache and client is faster than the bottleneck link between the server and client.</p>
+      <p>Having a Web cache can significantly speed things up. If the server is physically located far away from the client or if the bottleneck link between the server and client is really bad, then using a Web cache can reduce response times, assuming the Web cache is physically closer to the client or the bottleneck link between the Web cache and client is faster than the bottleneck link between the server and client.</p>
       <div class="ln-box">
         <p>Let's look at a hypothetical access network connected to the Internet. The router in the access network is connected to the router in the Internet by a `15` Mbps link. The links in the access network have a transmission rate of `100` Mbps. Suppose the average object size is `1` Mbits and that the average request rate is `15` requests per second. Also suppose that it takes `2` seconds on average for data to travel between the router in the Internet and the origin servers (we'll informally call this "Internet delay"). And that it takes `0.01` seconds on average for data to travel in the access network.</p>
         <div class="ln-center">
@@ -880,12 +882,12 @@
         <div class="ln-center">
           <p>`(La)/R=15/100=0.15`</p>
         </div>
-        <p>which isn't too bad. In fact, the delay on the access network is negligible.</p>
+        <p>which isn't too bad. In fact, the delay on the access network is negligible for a traffic intensity of `0.15`.</p>
         <p>On the access link, the traffic intensity is</p>
         <div class="ln-center">
           <p>`(La)/R=15/15=1`</p>
         </div>
-        <p>which is really bad. The average response time could be in minutes.</p>
+        <p>which is really bad. The average response time could be in minutes. (Recall that queuing delay increases as traffic intensity approaches `1`.)</p>
         <p>One solution is to upgrade the access link, but that's costly.</p>
         <p>Instead, let's consider placing a Web cache in the access network. Suppose that there is a `40%` chance that the cache can satisfy a request (i.e., the hit rate is `0.4`). This means only `60%` of the requests are going through the access link, so the traffic intensity is `1*0.6=0.6`.</p>
         <p>The average delay is the sum of the access network delay, access link delay, and Internet delay. The access network delay is `0.01` seconds; the access link delay is negligible with a traffic intensity of `lt 0.8`; and the Internet delay is `2` seconds. Since `40%` of the requests stay in the access network and `60%` of the request go to the Internet, the average delay is</p>
@@ -896,11 +898,11 @@
       </div>
       <h4>Conditional GET</h4>
       <p>The problem with using a Web cache is that objects in the Web cache can get outdated since the Web cache only stores a copy of the object while the actual object sits at the server and can be modified. The simple fix is for the Web cache to send a request to the server to check the last time the object was modified.</p>
-      <p>Let's say the browser sends a request to the Web cache. The Web cache doesn't have it, so it sends a request to the server. The server sends the object to the Web cache:</p>
+      <p>Let's say the browser sends a request to the Web cache. Suppose the Web cache doesn't have it, so it will send a request to the server. The server will send the object to the Web cache:</p>
       <p><code>HTTP/1.1 200 OK<br>Date: Sun, 17 Sep 2023 19:10:09<br>Server: Apache/1.3.0 (Unix)<br>Last-Modified: Sun, 17 Sep 2023 18:30:09<br>Content-Type: image/gif<br><br>(the requested data...)</code></p>
-      <p>The Web cache sends the object to the browser and makes a copy of the object. Let's say the browser requests the same object one week later. The Web cache has a copy of the object this time, but it sends a conditional GET to the server first to check if there have been any changes:</p>
+      <p>Now, the Web cache will send the object to the browser and make a copy of the object. Let's say the browser requests the same object one week later. The Web cache has a copy of the object this time, but it will send a conditional GET to the server first to check if there have been any changes:</p>
       <p><code>GET /fruit/kiwi.gif HTTP/1.1<br>Host: www.exotiquecuisine.com<br>If-modified-since: Sun, 17 Sep 2023 18:30:09</code></p>
-      <p>Let's say the object hasn't been modified since then. The server sends this to the Web cache:</p>
+      <p>Let's say the object hasn't been modified since then. The server will then send this to the Web cache:</p>
       <p><code>HTTP/1.1 304 Not Modified<br>Date: Sun, 24 Sep 2023 15:39:09<br>Server: Apache/1.3.0 (Unix)</code></p>
       <p>The entity body will be empty since it is pointless to send the object. However, if the object had been modified, the object would have been sent in the entity body.</p>
       <h2 id="email">Email</h2>
@@ -909,7 +911,7 @@
         <p>We, as individuals, have our own mail servers (in a sense). This may sound a little weird (what? I'm running a server?). When we create an email account on, say, Google, Google manages a mail server for us. This mail server is shared with other Google users. (Note, the mail server is shared, not the mailbox.)</p>
       </div>
       <h3>SMTP</h3>
-      <p><b>SMTP</b> is the application-layer protocol for email applications. Specifically, it is the protocol for <em>sending</em> emails (not receiving). It uses TCP (which is probably not surprising). When a mail server sends mail, it is an SMTP client. When a mail server receives mail, it is an SMTP server.</p>
+      <p><b>SMTP</b> is the application-layer protocol for email applications. Specifically, it is the protocol for <em>sending</em> emails (not receiving). It uses TCP as the underlying transport-layer protocol (which is probably not surprising). When a mail server sends mail, it is an SMTP client. When a mail server receives mail, it is an SMTP server.</p>
       <div class="ln-box">
         <p>SMTP requires emails to be encoded using 7-bit ASCII. This restriction is a result of SMTP being around since the 1980s, when people weren't sending a lot of emails, much less emails with large attachments like images and videos.</p>
       </div>
@@ -961,7 +963,7 @@
         <li>The browser uses the IP address to open a TCP connection</li>
       </ol>
       <p>From this, we can see yet another source of delay: translating the hostname to an IP address.</p>
-      <p>DNS also provides additional related services. Sometimes, a hostname can be complicated, like "relay1.west-coast.enterprise.com". An alias can be set up so that we can type "enterprise.com" instead of that long hostname. The long (real) hostname is called the <b>canonical hostname</b>. This is called <b>host aliasing</b>. Something similar is available for mail servers too. "gmail.com" is more likely an alias than an actual hostname for a mail server (which might be something like "relay1.west-coast.gmail.com"). This is <b>mail server aliasing</b>.</p>
+      <p>DNS also provides additional related services. Sometimes, a hostname can be complicated, like "relay1.west-coast.enterprise.com". An alias can be set up so that we can type "enterprise.com" instead of that long hostname. The long (real) hostname is called the <b>canonical hostname</b>. This is called <b>host aliasing</b>. Something similar is available for mail servers too. "gmail.com" is more likely an alias than an actual hostname for a mail server (which could be something like "relay1.west-coast.gmail.com"). This is <b>mail server aliasing</b>.</p>
       <p>Companies often have several servers running their website. Each server has its own IP address, but those IP addresses should all point to the same website. The DNS database stores this set of IP addresses and rotates between the IP addresses so that traffic is distributed evenly across all servers. So DNS also provides <b>load distribution</b>.</p>
       <h3>How DNS Works</h3>
       <p>DNS is a distributed database organized in a hierarchy. At the top are <b>root DNS servers</b>. This is where the translation starts. The DNS application queries the root DNS server, which then looks at the top-level domain (e.g., com, org, edu, gov, net). It does this because there are dedicated DNS servers for each top-level domain (i.e., there are DNS servers for all .com websites, DNS servers for all .edu websites, etc.). Appropriately, they're called <b>top-level domain (TLD) servers</b>. So the root server will tell the DNS application which TLD server to contact. The TLD server will send back to the DNS application the IP address of the <b>authoritative DNS server</b>, which is where the actual IP address of the website sits. So finally, the DNS application will contact the authoritative DNS server for the IP address of the website.</p>
@@ -975,7 +977,7 @@
         <p>2. Root DNS! What is google.com's IP address?</p>
         <p>3. Go ask a com TLD server. Here's the IP address of one.</p>
         <p>4. TLD DNS! What is google.com's IP address?</p>
-        <p>5. Go ask one of Google's authoritative server. Here's the IP address of one.</p>
+        <p>5. Go ask one of Google's authoritative servers. Here's the IP address of one.</p>
         <p>6. Authoritative DNS! What is google.com's IP address?</p>
         <p>7. The IP address is 127.0.0.1.</p>
         <p>8. I finally know google.com's IP address. It's 127.0.0.1.</p>
@@ -1084,7 +1086,7 @@
       <p>This process of prioritizing the top peers is called tit-for-tat.</p>
       <h2 id="cdn">Video Streaming and Content Distribution Networks</h2>
       <h3>Internet Video</h3>
-      <p>A video is a bunch of images displayed really quickly (typically 30 images per second). Images are made up of pixels, where a pixel contains the image's color at that pixel's location. And computers see pixels as a bunch of bits.</p>
+      <p>A video is a bunch of images displayed really quickly (typically 24 or 30 images per second). Images are made up of pixels, where a pixel contains the image's color at that pixel's location. And computers see pixels as a bunch of bits.</p>
       <p>Videos can be compressed by reducing the number of pixels in the images. Reducing the number of pixels reduces the number of bits, thereby reducing the bit rate of the video. Bit rate can be thought of as the number of bits being shown per second. The more bits there are, the more pixels there are, which means a better video quality. Compression is used to create different versions of the same video, with each version having a different quality.</p>
       <div class="ln-box">
         <p>There are (at least?) two types of compression algorithms.</p>
@@ -1097,16 +1099,17 @@
       <p>The problem with this is that all clients receive the same video, regardless of the strength of their Internet connection (i.e. bandwidth). So clients with low bandwidth will struggle to play videos with high bit rates. This is where DASH comes in. In <b>Dynamic Adaptive Streaming over HTTP</b>, videos are compressed into different versions, so that clients with high bandwidth can play videos with high bit rates and clients with low bandwidth can play videos with low bit rates. This also works if the client's bandwidth fluctuates; when the bandwidth is high, the client will get the bytes from the high-quality video and when the bandwidth is low, the client will switch to getting bytes from the lower-quality video.</p>
       <p>The client knows about the different versions of the video because there is a <b>manifest file</b> on the server. The manifest file has the URL and bit rate of all the versions of the video.</p>
       <h3>Content Distribution Networks</h3>
-      <p>Let's say an Internet video company (like YouTube) has a huge data center where they store and stream all their videos. Of course, there are several problems with having just one data center.</p>
-      <p>The data center can't possibly be conveniently located for everyone in the world. The farther away a client is, the more links there are for the bytes to go through. And the more links there are, the more likely it is for the bytes to hit a bottleneck link, reducing throughput.</p>
-      <p>Popular videos will also be sent over and over again, which is costly and inefficient because the company has to pay their ISP for sending the same bytes over and over again.</p>
-      <p>And finally, a single data center is a single point of failure.</p>
+      <p>Let's say an Internet video company (like YouTube) has a huge data center where they store and stream all their videos. Of course, there are several problems with having just one data center:</p>
+      <ul>
+        <li>The data center can't possibly be conveniently located for everyone in the world. The farther away a client is, the more links there are for the bytes to go through. And the more links there are, the more likely it is for the bytes to hit a bottleneck link, reducing throughput.</li>
+        <li>Popular videos will also be sent over and over again, which is costly and inefficient because the company has to pay their ISP for sending the same bytes over and over again.</li>
+        <li>And finally, a single data center is a single point of failure. If something goes wrong with that data center, no one can watch anything.</li>
+      </ul>
       <p>It's probably obvious at this point, but <b>Content Distribution Networks (CDNs)</b> are networks of distributed servers and data centers, which we'll call clusters. These clusters all have copies of the videos so that clients can connect to the best CDN for them.</p>
       <p>There are two main strategies for placing clusters. The first is to <b>enter deep</b>, where the clusters are "deep" into the access network. With many clusters placed in access ISPs, they are physically located closer to us, reducing the number of links and routers. The drawback to this strategy is that there are many clusters that need to be deployed and managed.</p>
       <p>The second strategy is to <b>bring home</b>, where the clusters "bring the ISPs home" by sitting closer to the network core in Internet exchange points (IXPs). This is easier to manage because there are fewer clusters, but there are more links and routers, which means potentially higher delay and lower throughput.</p>
       <p>The clusters typically don't have copies of every single video. If the cluster needs a video it doesn't have, it pulls the video from the server or another cluster.</p>
       <h4>CDN Operation</h4>
-      <p>Clients don't establish connections to CDNs directly (at least not initially). CDNs intercept the request so that it can find the best cluster for that client.</p>
       <p>Suppose a video company called NetCinema uses a third-party CDN company called KingCDN. Let's say we wanted to watch a video whose URL is "http://video.netcinema.com/6Y7B23V".</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/cdn.png">
@@ -1120,6 +1123,7 @@
         <li>The local DNS server sends the IP address back to our browser</li>
         <li>Our browser sets up the TCP connection and plays the video</li>
       </ol>
+      <p>Notice that our browser doesn't set up the TCP connection with the video company; it sets up the TCP connection with the CDN. The CDN intercepted the request so that it could direct the browser to one of its clusters.</p>
       <h4>Cluster Selection Strategies</h4>
       <p>So how do CDNs determine what the best cluster is for a client? One simple way is to pick the cluster that is geographically closest to the client's local DNS. This works most of the time, but sometimes, clusters can be physically close to a client and have a ton of links and routers between them. Also, some clients can use local DNSs located far away from them, so the cluster that's closest to the local DNS isn't close to the client.</p>
       <p>The better approach is to do some research. CDNs can perform <b>real-time measurements</b> of delay and performance between clusters and clients by sending pings to local DNSs. This doesn't always work though since local DNSs can be configured to ignore these pings.</p>
@@ -1137,14 +1141,15 @@
       <p>Remember TCP and UDP? These are the two transport-layer protocols provided by the Internet to the application layer. The responsibility of these two protocols is to extend the network layer's delivery service. In other words, once the network layer has done its job delivering data from host to host, it is now the transport layer's job to continue the data delivery to the appropriate process. Extending host-to-host delivery to process-to-process delivery is called transport-layer multiplexing and demultiplexing.</p>
       <h2 id="multiplexing">Multiplexing and Demultiplexing</h2>
       <p>Recall that data in the transport layer are called segments. The process of delivering the segment to the correct socket is called <b>demultiplexing</b> (network layer `rarr` transport layer `rarr` application layer). The process of collecting a message from a socket, encapsulating it into a segment, and sending the segment to the network layer is called <b>multiplexing</b> (application layer `rarr` transport layer `rarr` network layer).</p>
-      <p>For multiplexing, in order to know which socket to send the segment to, each socket has a unique identifier and each segment has a header specifying which socket it needs to go to. Specifically, the header contains the <b>source port number field</b> and the <b>destination port number field</b>. A port number can be any number from 0 to 65535. Ports 0 to 1023 are <b>well-known port numbers</b> and are reserved for common application protocols.</p>
+      <p>Each socket has a unique identifier (port number) and each segment has a header specifying which socket it needs to go to. Specifically, the header contains the <b>source port number field</b> and the <b>destination port number field</b>. A port number can be any number from 0 to 65535. Ports 0 to 1023 are <b>well-known port numbers</b> and are reserved for common application protocols.</p>
       <h4>Connectionless Multiplexing and Demultiplexing</h4>
       <p>Suppose Host A wants to send data to Host B through a UDP connection. The transport layer in Host A creates a segment with the application message, source port number, and destination port number and sends this segment into the network layer. (Multiplexing complete.) The network layer sends it to Host B's network layer, which sends it to Host B's transport layer. The transport layer looks at the destination port number and sends the segment to the appropriate socket. (Demultiplexing complete.)</p>
       <div class="ln-box">
         <p>The transport layer didn't even look at the source port number at any time. So why is that included in the segment header? If Host B wants to send data back to Host A, then it can look at the source port number to know where to send data to.</p>
       </div>
       <h4>Connection-Oriented Multiplexing and Demultiplexing</h4>
-      <p>The process is pretty much the same for TCP sockets. The only difference is in the demultiplexing step. For the UDP case, the transport layer only looked at the destination port number (and the destination IP address, which I didn't mention to simplify things) to identify the correct socket. In the TCP case, the transport layer looks at the source IP address, source port number, destination IP address, and destination port number to identify the correct socket. This is because TCP is connection-oriented, so it matters where the data is coming from.</p>
+      <p>The process is pretty much the same for TCP sockets. In the TCP case, the transport layer looks at the source IP address, source port number, destination IP address, and destination port number to identify the correct socket. This is because TCP is connection-oriented, so it matters where the data is coming from.</p>
+      <p>In the UDP case, the transport layer only looked at the destination port number (and the destination IP address, which I didn't mention to simplify things) to identify the correct socket.</p>
       <div class="ln-box">
         <p>If two UDP segments have different source ports (or different source IP addresses) and the same destination port (and same IP address), then the two segments will be sent to the same UDP socket.</p>
         <p>If two TCP segments have different source ports (or different source IP addresses) and the same destination port (and same IP address), then the two segments will be sent to different TCP sockets.</p>
@@ -1216,7 +1221,11 @@
         <p>`0110`</p>
       </div>
       <p>Now we need to get the one's complement of this sum, which is `1001`. `1001` is the checksum of the segment.</p>
-      <p>UDP on the receiving end gets the segment and wants to verify that none of the bits got lost or corrupted. It adds all the 4-bit numbers along with the checksum. Adding the three 4-bit numbers (with the wrapround) results in `0110`. Adding this with the checksum results in `1111`. If all the bits are `1`s, then UDP knows that there are no errors. If there is a `0` somewhere, then UDP knows there is something wrong with this segment. In this case, UDP can either discard the segment or send it to the application with a warning.</p>
+      <p>When UDP on the receiving end gets the segment, it needs to verify that none of the bits got corrupted. Like the UDP sender, the UDP receiver will also add all the 4-bit numbers together. Adding the three 4-bit numbers (with the wrapround) should result in `0110`. Now, instead of performing the one's complement, the UDP receiver will add this with the checksum in the header, which is `1001`. The result should be `1111`.</p>
+      <p>In general, if there are no errors, then all the bits will be `1`s*. If there is a `0` somewhere, then UDP knows there is something wrong with this segment. In this case, UDP can either discard the segment or send it to the application with a warning.</p>
+      <div class="ln-box">
+        <p>*Notice that this is different from saying, "if all the bits are `1`s, then UDP knows that there are no errors."</p>
+      </div>
       <h2 id="rdt">Principles of Reliable Data Transfer</h2>
       <p>Here, we'll build out the mechanisms behind a reliable data transfer protocol.</p>
       <div class="ln-box">
@@ -1255,7 +1264,7 @@
       <p>Note there is one FSM for the sender and one FSM for the receiver. Each FSM only has one state because at this point, there's not really much to do besides waiting for data to send or receive. In other words, before we can send data, we have to wait for data. And after we send data, we have to wait for more data. So the only thing to do after taking any action is to wait.</p>
       <h4>Reliable Data Transfer over a Channel with Bit Errors: <code>rdt2.0</code></h4>
       <p>Now let's assume the underlying channel may sometimes corrupt some of the bits. First, we need a way to know if the data is corrupted. For this, we have the checksum technique.</p>
-      <p>Next, we need a way to let the sender know whether the data received is good or bad. For this, we introduce acknowledgments. If the data is good, then the receiver will send a <b>positive acknowledgment</b> (ACK) to the sender. If the data is bad, then the receiver will send a <b>negative acknowledment</b> (NAK) to the sender, telling the sender to send the data again.</p>
+      <p>Next, we need a way to let the sender know whether the data received is good or bad. For this, we introduce acknowledgments. If the data is good, then the receiver will send a <b>positive acknowledgment</b> (ACK) to the sender. If the data is bad, then the receiver will send a <b>negative acknowledgment</b> (NAK) to the sender, telling the sender to send the data again.</p>
       <div class="ln-box">
         <p>Reliable data transfer protocols based on retransmission are called <b>Automatic Repeat reQuest (ARQ) protocols</b>.</p>
       </div>
@@ -1297,7 +1306,7 @@
       <p>By this design, when the sender is waiting for an ACK or NAK, it cannot get more data from the upper layer. The sender won't send any new data until it knows that the last thing it sent was good. This makes our <code>rdt2.0</code> protocol a <b>stop-and-wait</b> protocol.</p>
       <h4><code>rdt2.1</code>: NACK? What's That?</h4>
       <p>One thing we haven't considered yet is what if the ACK or NAK is corrupted? After all, an acknowledgment is a packet, so it too can get corrupted. Let's say the receiver sends a NAK, but the NAK gets corrupted. If the sender decides to not do anything, then the receiver never gets any data at all. Consider the other situation where the receiver sends an ACK, but the ACK gets corrupted. If the sender decides to resend the data, then the receiver will get duplicate packets. The problem here is that the receiver doesn't know that this is retransmitted data and will treat this as new data.</p>
-      <p>The solution is rather simple. If the acknowledgment is corrupted, always resend the data, but add a <b>sequence number</b> to the packet. The receiver can then check the sequence number to see if it's a retransmission. Let's say the sender sends data (with a sequence number) and the data wasn't corrupted. The receiver sends an ACK to the sender, but let's say the ACK gets corrupted. The sender resends the data with the same sequence number as before. The receiver sees that the sequence number is the same as the sequence number of the last packet it received, so the receiver ignores the retransmitted packet.</p>
+      <p>The solution is rather simple. If the acknowledgment is corrupted, always resend the data, but add a <b>sequence number</b> to the packet. The receiver can then check the sequence number to see if it's a retransmission. Let's say the sender sends data (with a sequence number) and the data wasn't corrupted. The receiver will send an ACK to the sender, but let's say the ACK gets corrupted. So the sender will resend the data with the same sequence number as before. Seeing that the sequence number of this retransmission is the same as the sequence number of the last packet it received, the receiver will ignore the retransmitted packet.</p>
       <div class="ln-box">
         <p>Since our protocol is a stop-and-wait protocol, alternating between `1`s and `0`s is enough for the sequence number. This is because data gets sent one at a time (because of stop and wait), so as long as the sequence number is different, the receiver will know that it's not a retransmission.</p>
       </div>
@@ -1514,7 +1523,7 @@
       </div>
       <p>The sender was busy for only `0.008` milliseconds, but the whole process took `30.008` milliseconds. The <b>utilization</b> of the sender (the measure of how busy it was) is</p>
       <div class="ln-center">
-        <p>`U_text(sender)=(L/R)/(text(RTT)+L/R)=0.008/30.008=0.00027`</p>
+        <p>`U_text(sender)=(L/R)/(text(RTT)+L/R)=0.008/30.008~~0.00027`</p>
       </div>
       <p>A low utilization means that it wasn't busy for most of the time, i.e., the sender is being inefficient. In fact, the sender was busy only `0.027%` of the time.</p>
       <p>From another point of view, the sender was only able to send `1000` bytes in `30.008` milliseconds. This means the throughput is</p>
@@ -1611,7 +1620,7 @@
         </div>
       </div>
       <div class="ln-box">
-        <p>The sender's window does not have to be in sync with the receiver's window. This isn't usually a problem if they sync up eventually. However, it is possible that being out of sync at the wrong time can cause issues. This happens if the size of the window is fairly close to the number of assignable sequence numbers.</p>
+        <p>The sender's window does not have to be in sync with the receiver's window. This isn't usually a problem if they sync up eventually. However, it is possible that being out of sync at the wrong time can cause issues, particularly if the size of the window is fairly close to the number of assignable sequence numbers.</p>
         <p>For example, suppose the window size is `3` and the number of assignable sequence numbers is `4` (so the assignable sequence numbers are `0`, `1`, `2`, `3`).</p>
         <p>The sender starts by sending packets `0`, `1`, and `2`. The receiver gets all of them successfully and the sender gets all their ACKs successfully too. So the sender sends packets `3`, `0`, and `1`. The receiver gets packet `0` correctly, but packet `3` gets lost, so packet `0` on the receiver's side gets buffered.</p>
         <div class="ln-center">
@@ -1856,6 +1865,7 @@
       <div class="ln-box">
         <p>Fast transmit only occurs when there are `3` <b>duplicate ACKs</b> for a segment. Fast transmitting on only `1` duplicate ACK is not a good idea.</p>
         <p>Suppose the sender sends segments `92`, `100`, and `120`, and the receiver gets `90`, `120`, and `100` in that order. Upon receiving segment `90`, the receiver will send an ACK with acknowledgment number `100`. Upon receiving segment `120`, the receiver will send an ACK with acknowledgment number `100`. There is `1` duplicate ACK for `100`, but `100` wasn't lost; it just took longer than the other two segments.</p>
+        <p>However, receiving `3` duplicate ACKs (or any number of duplicate ACKs for that matter) is not a guarantee that there was packet loss. `3` is just an arbitrarily good balance between waiting enough time and not waiting too long.</p>
       </div>
       <h4>Go-Back-N or Selective Repeat?</h4>
       <p>TCP is fairly similar to GBN. There is only one timer for the oldest unacknowledged segment. Out-of-order segments are not individually ACK'ed by the receiver. And there is a <code>base</code> and <code>nextseqnum</code> that the sender keeps track of.</p>
@@ -2087,7 +2097,10 @@
         <p>So one of the ECN bits is turned on by the router if it experiences congestion. The other ECN bit is used to let the routers know that the TCP sender and receiver are ECN-capable, that is, they know what to do if there is ECN-indicated network congestion.</p>
       </div>
       <h4>Delay-based Congestion Control</h4>
-      <p>Another proactive approach to detecting congestion is to measure every RTT. Let's say the sender knows what the RTT is when there's no congestion at all (of course, this RTT would be relatively low). If most of the RTTs are close to that value, then the sender knows there isn't congestion. But if the RTTs start to differ from the uncongested RTT by a lot, then the sender knows that congestion is coming.</p>
+      <p>Another proactive approach to detecting congestion is to measure every RTT. Let's say the sender knows what the RTT is when there's no congestion at all (of course, this RTT would be relatively low). If most of the RTTs are close to that value, then the sender knows there isn't congestion. But if the RTTs start to become a lot larger than the uncongested RTT, then the sender knows that congestion is coming.</p>
+      <div class="ln-box">
+        <p>The RTT when there's no congestion at all can be denoted as `text(RTT)_text(min)`. Then the uncongested throughput is `text(cwnd)/text(RTT)_text(min)`. If the current actual throughput is close to this value, then the sending rate can be increased since there's no congestion. But if the current actual throughput is much lower than this, then the sending rate should be decreased since there is congestion.</p>
+      </div>
       <p>TCP Vegas uses this approach.</p>
       <h3>Fairness</h3>
       <p>For a congestion-control mechanism to be fair, all connections should be able to achieve approximately equal transmission rates. If there are `K` TCP connections all passing through a bottleneck link with transmission rate `R`, then each connection's average transmission rate should be `R/K`, i.e., each connection should get an equal share of the link bandwidth.</p>
