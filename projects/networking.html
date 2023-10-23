@@ -2286,7 +2286,7 @@
           <td>`4,n`</td>
         </tr>
       </table>
-      <p>In the third iteration, we look at the node with the current least cost (in this case, `k`) and go there. It's important to note that for every iteration we do this, we have to pick the node that isn't in `N'` yet. The point of the algorithm is to visit every node so that we know what the least-cost path is from all nodes. So `N'` isn't the least-cost path, it's just the set of nodes that have been visited. When looking at the neighbors, we also only look at the neighbors not in `N'` yet. So on this iteration, we only look at `l` (node `o` isn't a neighbor of `k`).</p>
+      <p>In the third iteration, we look at the node with the current least cost (in this case, `k`) and go there. It's important to note that for every iteration we do this, we have to pick the node that isn't in `N'` yet. The point of the algorithm is to visit every node so that we know what the least-cost path is from all nodes. (`N'` isn't the least-cost path; it's just the set of nodes that have been visited.) When looking at the neighbors, we also only look at the neighbors not in `N'` yet. So on this iteration, we only look at `l` (node `o` isn't a neighbor of `k`).</p>
       <table class="table">
         <tr>
           <th>step</th>
@@ -2465,6 +2465,58 @@
         </div>
         <p>Notice that the routers will go back to sending the data clockwise again after running the LS algorithm. Earlier, we saw that if all the routers send the data clockwise, then they will send the data counterclockwise afterwards. After sending the data counterclockwise, they will send the data clockwise again. So the least-cost path will oscillate back and forth between clockwise and counterclockwise.</p>
         <p>This is the result of using congestion as the measure of a link's cost. But we can't prevent congestion from being used as a metric since the whole point of routing is to avoid congested links. To prevent oscillation, the solution is to include randomness. So have the routers perform link-state advertisement at random times and have the routers run the LS algorithm at random times if the routers are using the traditional approach.</p>
+      </div>
+      <h3>The Distance-Vector (DV) Routing Algorithm</h3>
+      <p>One problem with the LS algorithm is that all the routers have to store the global information of the whole network. If there are a lot of routers in the network, then that's a lot of information for each router to store. So instead of having each router keep track of the whole network, each router can just keep track of its neighbors. Enter the <b>distance-vector (DV) algorithm</b>.</p>
+      <p>Let's say we wanted to deliver some package (as fast as possible) to some location that we can't get to ourselves. However, there are several delivery centers between us and the destination. Naturally, we would start by going to the nearest delivery center. There, we could tell them, "Deliver this to the destination, but use the best path possible." The delivery center will look at the next delivery center that's best for reaching the destination and send it there. Each delivery center will tell its next delivery center, "Deliver this to the destination, but use the best path possible" until the pacakge arrives at the destination. As long as the best path is used each time, the overall path will be the best.</p>
+      <p>Notice that we didn't have to know about all the delivery centers in the world; we only had to know the best delivery center for us. And similarly for each delivery center, each one only had to know about the delivery center that was best for it.</p>
+      <div class="ln-box">
+        <p>The Bellman-Ford equation encompasses the idea above. Let `d_x(y)` be the cost of the least-cost path from node `x` to node `y`.</p>
+        <div class="ln-center">
+          <p>`d_x(y)=min_v{c(x,v)+d_v(y)}`</p>
+        </div>
+        <p>The Bellman-Ford equation says that for all neighbors `v` of `x`, look at their least-cost paths to `y` and the cost of going to that neighbor `v`.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/graph.png">
+        </div>
+        <p>For example, let's consider the least-cost path from `j` to `o`. Node `j` has three neighbors: `k`, `l`, and `m`.</p>
+        <ul>
+          <li>For `k`:
+            <ul>
+              <li>the least-cost path to `o` has a cost of `5` (`krarrmrarrnrarro`)</li>
+              <li>the cost to get to `k` is `2`</li>
+            </ul>
+          </li>
+          <li>For `l`:
+            <ul>
+              <li>the least-cost path to `o` has a cost of `3` (`lrarrnrarro`)</li>
+              <li>the cost to get to `l` is `5`</li>
+            </ul>
+          </li>
+          <li>For `m`:
+            <ul>
+              <li>the least-cost path to `o` has a cost of `3` (`mrarrnrarro`)</li>
+              <li>the cost to get to `m` is `1`</li>
+            </ul>
+          </li>
+        </ul>
+        <p>So `d_j(o)=min{2+5,5+3,3+1}=min{7,8,4}=4`.</p>
+      </div>
+      <p>Now for the actual DV algorithm. Each node begins with a list of costs from itself to every other node. Each node also keeps track of its neighbors' lists. From time to time, each node sends a copy of its own list to its neighbors. When a node receives a list from a neighbor, the node saves the neighbor's list and uses it to update its own list. If there were any changes, then that node will send its list to its neighbors. Initially, each node will start with a list of estimated costs, but eventually, the list will contain the actual costs.</p>
+      <div class="ln-box">
+        <p>Let `D_x(y)` be the estimated cost of the least-cost path from `x` to `y` for all `yinN`. Each node `x` begins with a distance vector `bbD_x(y)=[D_x(y):yinN]`. Each node also keeps track of its neighbors' distance vectors `bbD_v(y)=[D_v(y):yinN]` for neighbors `v` of `x`. Whenever a node `x` receives a distance vector from one of its neighbors, node `x` will update its own distance vector using the Bellman-Ford equation:</p>
+        <div class="ln-center">
+          <p>`D_x(y)=min_v{c(x,v)+D_v(y)}`</p>
+          <p>where `c(x,v)` is the cost of going to `v` from `x`</p>
+        </div>
+        <p>Initially, `D_x(y)` will be an estimated cost, but eventually, `D_x(y)` will converge to `d_x(y)`, which we denoted as the actual cost of the least-cost path from `x` to `y`.</p>
+      </div>
+      <div class="ln-box">
+        <p>This is the pseudocode for the Distance-Vector algorithm.</p>
+        <p>Initialization for each node `x`:</p>
+        <p>for all destinations `y` in `N`<br>&nbsp;&nbsp;`D_x(y)=c(x,y)`<br>for each neighbor `w`<br>&nbsp;&nbsp;`D_w(y)=?` for all destinations `y` in `N`<br>for each neighbor `w`<br>&nbsp;&nbsp;send distance vector `bbD_x(y)=[D_x(y):yinN]` to `w`</p>
+        <p>Loop over each node `x`:</p>
+        <p>wait until there is a link cost change to some neighbor `w` or until a distance vector is received from neighbor `w`<br>for each `y` in `N`<br>&nbsp;&nbsp;`D_x(y)=min_v{c(x,v)+D_v(y)}`<br>if `D_x(y)` changed for any destination `y`<br>&nbsp;&nbsp;send distance vector `bbD_x(y)=[D_x(y):yinN]` to all neighbors</p>
       </div>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
