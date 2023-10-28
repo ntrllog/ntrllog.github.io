@@ -49,6 +49,7 @@
         <li><a class="dropdown-item" href="#congestioncontrol">TCP Congestion Control</a></li>
         <li><a class="dropdown-item" href="#networklayer">Overview of Network Layer</a></li>
         <li><a class="dropdown-item" href="#routingalgorithms">Routing Algorithms</a></li>
+        <li><a class="dropdown-item" href="#ospf">Intra-AS Routing in the Internet: OSPF</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -2183,7 +2184,10 @@
       <p>A routing algorithm can also be load-sensitive or load-insensitive. In a <b>load-sensitive algorithm</b>, the link costs change to reflect the current level of congestion in the link. <b>Load insensitive algorithms</b> are the opposite.</p>
       <h3>The Link-State (LS) Routing Algorithm</h3>
       <p>In order for each node to have complete information about the network, they send link-state packets to all other nodes informing each other of its neighbors' costs. This is referred to as a link-state advertisement or a link-state broadcast. After this is done, each node will have an identical view of the network and can then run the LS algorithm.</p>
-      <p>One version of the LS algorithm is Dijkstra's algorithm (yes, that Dijkstra). Dijkstra's algorithm is iterative. It keeps track of what the current least-cost path is so far, and, on every iteration, updates it as needed.</p>
+      <p>One version of the LS algorithm is Dijkstra's algorithm. Dijkstra's algorithm is iterative. It keeps track of what the current least-cost path is so far, and, on every iteration, updates it as needed.</p>
+      <div class="ln-box">
+        <p>Yes, that Dijkstra.</p>
+      </div>
       <p>Now, some notation. `D(v)` is the cost of the least-cost path from the source node to `v` as of the current iteration. `p(v)` is the previous node of `v` along the current least-cost path from the source to `v`. `N'` is the set of nodes where each node has a least-cost path calculated and determined.</p>
       <div class="ln-box">
         <p>This is the pseudocode for Dijkstra's algorithm. Let `u` be the source node.</p>
@@ -2518,6 +2522,170 @@
         <p>Loop over each node `x`:</p>
         <p>wait until there is a link cost change to some neighbor `w` or until a distance vector is received from neighbor `w`<br>for each `y` in `N`<br>&nbsp;&nbsp;`D_x(y)=min_v{c(x,v)+D_v(y)}`<br>if `D_x(y)` changed for any destination `y`<br>&nbsp;&nbsp;send distance vector `bbD_x(y)=[D_x(y):yinN]` to all neighbors</p>
       </div>
+      <p>We'll use the DV algorithm on a network of three nodes.</p>
+      <div class="ln-center">
+        <img class="img-fluid" src="../pictures/networking/dv.png">
+      </div>
+      <p>At the start, all three nodes will have their own initial <b>routing tables</b> (a row is a distance vector). Each node hasn't received the distance vector from their neighbors yet, so the values for each node's neighbors are `oo`.</p>
+      <div class="row">
+        <div class="col-sm">
+          <img class="img-fluid" src="../pictures/networking/dv_1.png">
+        </div>
+        <div class="col-sm">
+          <img class="img-fluid" src="../pictures/networking/dv_2.png">
+        </div>
+        <div class="col-sm">
+          <img class="img-fluid" src="../pictures/networking/dv_3.png">
+        </div>
+      </div>
+      <p>Now, each node will send their distance vector to their neighbors.</p>
+      <div class="row">
+        <div class="col-sm">
+          <img class="img-fluid" src="../pictures/networking/dv_4.png">
+        </div>
+        <div class="col-sm">
+          <img class="img-fluid" src="../pictures/networking/dv_5.png">
+        </div>
+        <div class="col-sm">
+          <img class="img-fluid" src="../pictures/networking/dv_6.png">
+        </div>
+      </div>
+      <p>Upon receiving a distance vector from their neighbors, each node will update their own distance vectors. Let's start with `x`:</p>
+      <div class="ln-center">
+        <p>`D_x(y)=min{c(x,y)+D_y(y),c(x,z)+D_z(y)}=min{2+0,7+1}=min{2,8}=2`</p>
+        <p>`D_x(z)=min{c(x,y)+D_y(z),c(x,z)+D_z(z)}=min{2+1,7+0}=min{3,7}=3`</p>
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/dv_7.png">
+      </div>
+      <p>Since `x`'s distance vector changed, it will now send its updated distance vector to its neighbors. For `y`:</p>
+      <div class="ln-center">
+        <p>`D_y(x)=min{c(y,x)+D_x(x),c(y,z)+D_z(x)}=min{2+0,1+7}=min{2,8}=2`</p>
+        <p>`D_y(z)=min{c(y,x)+D_x(z),c(y,z)+D_z(z)}=min{2+7,1+0}=min{9,1}=1`</p>
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/dv_8.png">
+      </div>
+      <p>Notice that `y`'s distance vector did not change. So `y` will not send its distance vector to its neighbors.</p>
+      <p>We still have to calculate `z`'s distance vector as a result of `x` sending its distance vector to its neighbors:</p>
+      <div class="ln-center">
+        <p>`D_z(x)=min{c(z,x)+D_x(x),c(z,y)+D_y(x)}=min{7+0,1+2}=min{7,3}=3`</p>
+        <p>`D_z(y)=min{c(z,x)+D_x(y),c(z,y)+D_y(y)}=min{7+2,1+0}=min{9,1}=1`</p>
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/dv_9.png">
+      </div>
+      <p>`z`'s distance vector changed, so `z` will send its updated distance vector to its neighbors. If we decide to continue with the math, we'll find that `x` and `y`'s distance vectors don't change from `z`'s updated distance vector. So the final routing table for all three nodes will look like the one above. At this point, since no nodes are sending distance vectors, all the nodes will just stay in a waiting state until there is a link cost change.</p>
+      <div class="ln-box">
+        <p>Even though we went through the example synchronously (starting with `x`, then updating `y` and `z`), the DV algorithm is asynchronous. So computing distance vectors and sending distance vectors can happen in any order at any time, depending on what happens to occur first. For example, instead of starting with `x`, we could've started with `y`.</p>
+        <p>The DV algorithm is also self-terminating. There is no explicit signal to stop; things just naturally stop when there is no updated information.</p>
+      </div>
+      <h4>Link-Cost Changes and Link Failure</h4>
+      <p>Let's look at the same three-node network but with different link costs this time.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/link_cost_change.png">
+      </div>
+      <p>Suppose the `x-y` link changes from `4` to `1` and that `y` detects this change first. `y`'s distance vector will be updated so that `D_y(x)=1` instead of `4`. Then, `y` will send its distance vector to its neighbors. When `z` gets `y`'s updated distance vector, `z` will update its own distance vector so that `D_z(x)=2`. (`x` will also update its own distance vector, but we'll only focus on `y` and `z` for this section.) Since `z`'s distance vector changed, `z` will send its distance vector to `y`, but `y`'s distance vector won't be changed, so everything will stop.</p>
+      <p>So things go normally if a link cost decreases. But what happens if the link cost increases? Let's say the it increases from `4` to `60` instead.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/link_cost_change_2.png">
+      </div>
+      <p>This is `y`'s table before it updates its distance vector.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/dv_link_cost_increase_1.png">
+      </div>
+      <p>`y` will detect this change and update its distance vector:</p>
+      <div class="ln-center">
+        <p>`D_y(x)=min{c(y,x)+D_x(x),c(y,z)+D_z(x)}=min{60+0,1+5}=6`</p>
+      </div>
+      <p>But this is clearly wrong since it's impossible to get from `y` to `x` with a cost of `6`. Of course, we can tell it's impossible since we have a global view of the network, but the nodes don't. This happened because `y` was using outdated information, namely `D_z(x)=5`; and this was outdated because `z` hadn't updated its distance vector yet.</p>
+      <p>At this point, there is also a <b>routing loop</b>. If `y` wants to send a packet to `x`, it will send it to `z` first since `y` thinks `z` can get to `x` with a cost of only `5`. But `z` can only get to `x` with a cost of `5` by going through `y`! (since `z` still believes `y` can get to `x` with a cost of `4`) So if there happens to be a packet to send at this time, then it will get bounced back and forth between `y` and `z`.</p>
+      <p>Since `y`'s distance vector changed, `y` will send its distance vector to `z`, which will update its distance vector by performing:</p>
+      <div class="ln-center">
+        <p>`D_z(x)=min{c(z,x)+D_x(x),c(z,y)+D_y(x)}=min{50+0,1+6}=min{50+7}=7`</p>
+      </div>
+      <p>These are the tables of `y` and `z` after `z` updates its distance vector:</p>
+      <div class="row">
+        <div class="col-sm">
+          <div class="ln-center">
+            <img class="img-fluid ln-image-small" src="../pictures/networking/dv_link_cost_increase_2.png">
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="ln-center">
+            <img class="img-fluid ln-image-small" src="../pictures/networking/dv_link_cost_increase_3.png">
+          </div>
+        </div>
+      </div>
+      <p>Since `z`'s distance vector updated, `z` will send its distance vector to `y`, which will update its distance vector so that `D_y(x)=8`. Then `z` will update its distance vector so that `D_z(x)=9`. Then `y` will update its distance vector so that `D_y(x)=10`. And so on.</p>
+      <p>Eventually, `z` will perform the calculation:</p>
+      <div class="ln-center">
+        <p>`D_z(x)=min{c(z,x)+D_x(x),c(z,y)+D_y(x)}=min{50+0,1+50}=min{50+51}=50`</p>
+      </div>
+      <p>Finally, this will reflect the current state of the network: it is cheaper to go from `z` to `x` than it is to go from `z` to `y` to `x`. However, it took a long time to get there. So if a link cost increases, it can potentially take a long time for the update to propagate among the nodes.</p>
+      <div class="ln-box">
+        <p>It would take even longer if the link cost had changed from `4` to `10,000` and the cost to go to `x` from `z` had been `9999`. Because of situations like this, this problem is referred to as the count-to-infinity problem.</p>
+      </div>
+      <h4>Adding Poisoned Reverse</h4>
+      <p>This can be avoided with a little trick called poisoned reverse. If the least-cost path from `z` to `x` is through `y`, then `z` will lie and tell `y` that `z` has no path to `x`, i.e., `D_z(x)=oo`. This way, `y` will not go through `z` to get to `x`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/networking/link_cost_change_2.png">
+      </div>
+      <p>Let's look at the example again but with poisoned reverse. The link cost changes from `4` to `60`, so `y` will update its distance vector. This time, `y` thinks that `D_z(x)=oo`, so `y` will calculate `D_y(x)` to be</p>
+      <div class="ln-center">
+        <p>`D_y(x)=min{c(y,x)+D_x(x),c(y,z)+D_z(x)}=min{60+0,1+oo}=60`</p>
+      </div>
+      <p>And `z` will update its  `D_z(x)` to be</p>
+      <div class="ln-center">
+        <p>`D_z(x)=min{c(z,x)+D_x(x),c(z,y)+D_y(x)}=min{50+0,1+60}=50`</p>
+      </div>
+      <p>And in response, `y` will update its `D_y(x)` to be</p>
+      <div class="ln-center">
+        <p>`D_y(x)=min{c(y,x)+D_x(x),c(y,z)+D_z(x)}=min{60+0,1+50}=51`</p>
+      </div>
+      <p>which means that `y` is now going to `x` through `z`. And, since `y` is going to `x` through `z`, `y` will tell `z` that `y` has no path to `x`, i.e., `D_y(x)=oo`.</p>
+      <p>And just like that, all the nodes have the correct information about the current state of the network.</p>
+      <div class="ln-box">
+        <p>It's called poisoned reverse because the node is poisoning the reverse path so that the other node can't use it.</p>
+      </div>
+      <div class="ln-box">
+        <p>This poisoned reverse trick won't work for loops involving three or more nodes. The above example only had a two-node loop between `y` and `z`.</p>
+      </div>
+      <div class="ln-box">
+        <h4>LS vs DV</h4>
+        <p>Let `N` be the set of nodes (routers) and `E` be the set of edges (links).</p>
+        <table class="table table-bordered">
+          <tr>
+            <th></th>
+            <th>LS</th>
+            <th>DV</th>
+          </tr>
+          <tr>
+            <th>Message Complexity</th>
+            <td>Since LS is global, each node needs to know about every other node and link. This means `O(|N||E|)` messages need to be sent on every run.</td>
+            <td>Since DV is decentralized, each node only needs to know about and exchange messages with its neighbors.</td>
+          </tr>
+          <tr>
+            <th>Speed of Convergence</th>
+            <td>LS takes `O(|N|^2)` time to complete. (For every node, we need to calculate the least-cost path to every other node.)</td>
+            <td>DV can converge slowly (from the count-to-infinity problem) and run into routing loops while converging.</td>
+          </tr>
+          <tr>
+            <th>Robustness (What if a router malfunctions?)</th>
+            <td>Since every node is computing their own forwarding table, route calculations are indpendent of each other across nodes. So if one node does a wrong calculation, only that node will have an incorrect forwarding table.</td>
+            <td>If one node spreads wrong information, that info will be propagated across the whole network.</td>
+          </tr>
+        </table>
+        <p>Neither algorithm is really that much better than the other. In the Internet, both of them are used.</p>
+      </div>
+      <h2 id="ospf">Intra-AS Routing in the Internet: OSPF</h2>
+      <p>So far, we've been assuming that all the routers are running the same routing algorithm. This isn't really practical because in the real world, there are billions of routers. All of them can't have enough memory to store this much information for LS. As for DV, running DV over this many routers would never converge.</p>
+      <p>Also recall that the Internet is a network of ISPs, which is a network of routers. An ISP can choose which algorithm it wants its routers to run. So each network of routers could potentially be running different algorithms anyway.</p>
+      <p>In fact, routers are organized into <b>autonomous systems (ASs)</b>, where each AS is typically controlled by an ISP. All the routers in the same AS run the same routing algorithm and communicate within the AS. Regardless of whichever algorithm it is, the routing algorithm that is running in an AS is called an <b>intra-autonomous system routing protocol</b>.</p>
+      <h4>Open Shortest Path First (OSPF)</h4>
+      <p>OSPF is a protocol that uses Dijkstra's algorithm. So each router will have a complete topological map of the network in the AS. Individual link costs are configured by network admins.</p>
+      <div class="ln-box">
+        <p>When talking about the LS algorithm, we looked at it as "given a set of costs, find the least-cost path". In practice, costs are assigned by network admins to influence where they want traffic to go. That is, the optimal paths are already known, and the network admin must find the right set of costs so that things are optimal.</p>
+        <p>For example, a link's cost can be inversely proportional to its capacity so that low-bandwidth links are not prioritized.</p>
+      </div>
+      <p>Link-state advertisements are sent to all the routers whenever there is a link change (e.g., cost change or status change) and every 30 minutes.</p>
+      <p>All messages exchanged between OSPF routers can be authenticated, which means that only trusted routers can talk to each other. This prevents attackers from forging OSPF messages and sending incorrect routing information.</p>
+      <p>If there are multiple paths that have the same least cost, then they any/all of them can be used.</p>
+      <p>An OSPF system can be divided into areas. Each area runs its own LS algorithm and the routers broadcast to other routers in their area. Then there is a backbone area that is responsible for routing traffic to each of the different areas. And at the edge of each area is a border area router that transfers messages from the area to the backbone area.</p>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
