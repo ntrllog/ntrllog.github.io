@@ -50,6 +50,7 @@
         <li><a class="dropdown-item" href="#networklayer">Overview of Network Layer</a></li>
         <li><a class="dropdown-item" href="#routingalgorithms">Routing Algorithms</a></li>
         <li><a class="dropdown-item" href="#ospf">Intra-AS Routing in the Internet: OSPF</a></li>
+        <li><a class="dropdown-item" href="#bgp">Routing Among the ISPs: BGP</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -57,7 +58,7 @@
       <h1>Computer Networking</h1>
       <hr>
       <p>Shortcut to this page: <a href="networking.html">ntrllog.netlify.app/networking</a></p>
-      <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a></p>
+      <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a> and Professor Polly Huang</p>
       <h2 id="whatisit">What is the Internet?</h2>
       <p>Computers. Laptops. Smartphones. TVs. Watches. And everything else that has the word "smart" in front of it. All of these things that can connect to the Internet are called <b>hosts</b> or <b>end systems</b>. End systems send and receive data through a system of communcation links and packet switches. The data travels through this system as little pieces called packets and they are reassembled when they reach their destination. Packet switches are machines that help transfer these packets. The whole path that a packet takes is called a <b>route</b> or <b>path</b>.</p>
       <div class="ln-box">
@@ -2677,15 +2678,88 @@
       <p>Also recall that the Internet is a network of ISPs, which is a network of routers. An ISP can choose which algorithm it wants its routers to run. So each network of routers could potentially be running different algorithms anyway.</p>
       <p>In fact, routers are organized into <b>autonomous systems (ASs)</b>, where each AS is typically controlled by an ISP. All the routers in the same AS run the same routing algorithm and communicate within the AS. Regardless of whichever algorithm it is, the routing algorithm that is running in an AS is called an <b>intra-autonomous system routing protocol</b>.</p>
       <h4>Open Shortest Path First (OSPF)</h4>
-      <p>OSPF is a protocol that uses Dijkstra's algorithm. So each router will have a complete topological map of the network in the AS. Individual link costs are configured by network admins.</p>
+      <p>OSPF is an intra-AS routing protocol that uses Dijkstra's algorithm, so each router will have a complete topological map of the network in the AS. Individual link costs are configured by network admins.</p>
       <div class="ln-box">
         <p>When talking about the LS algorithm, we looked at it as "given a set of costs, find the least-cost path". In practice, costs are assigned by network admins to influence where they want traffic to go. That is, the optimal paths are already known, and the network admin must find the right set of costs so that things are optimal.</p>
         <p>For example, a link's cost can be inversely proportional to its capacity so that low-bandwidth links are not prioritized.</p>
       </div>
       <p>Link-state advertisements are sent to all the routers whenever there is a link change (e.g., cost change or status change) and every 30 minutes.</p>
       <p>All messages exchanged between OSPF routers can be authenticated, which means that only trusted routers can talk to each other. This prevents attackers from forging OSPF messages and sending incorrect routing information.</p>
+      <div class="ln-box">
+        <p>OSPF messages are exchanged over the IP protocol, not TCP or UDP.</p>
+      </div>
       <p>If there are multiple paths that have the same least cost, then they any/all of them can be used.</p>
-      <p>An OSPF system can be divided into areas. Each area runs its own LS algorithm and the routers broadcast to other routers in their area. Then there is a backbone area that is responsible for routing traffic to each of the different areas. And at the edge of each area is a border area router that transfers messages from the area to the backbone area.</p>
+      <p>An OSPF system can be divided into areas. Each area runs its own LS algorithm and the routers broadcast to other routers in their area. Then there is a backbone area that is responsible for routing traffic to each of the different areas. And at the edge of each area, there is an area border router that transfers messages from the area to the backbone area.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/ospf.png">
+      </div>
+      <h2 id="bgp">Routing Among the ISPs: BGP</h2>
+      <p>An intra-AS routing protocol, like OSPF, routes packets from a source to a destination inside the AS. But to route a packet from one AS to another AS, an <b>inter-autonomous system routing protocol</b> is needed. And in order for the communication between ASs to work, they all need to be using the same inter-AS routing protocol. In fact, the inter-AS routing protocol that all ASs run is the Border Gateway Protocol, a.k.a, <b>BGP</b>.</p>
+      <h3>The Role of BGP</h3>
+      <p>A subnet is a smaller part of a larger network (in this case, an AS) where all the IP addresses of the routers in the subnet start with the same prefix. BGP allows subnets to advertise their existence to all the routers in the Internet. And as mentioned earlier, BGP also determines the best route from one AS to another AS.</p>
+      <div class="ln-box">
+        <p>Having subnets reduces the amount of memory needed since the forwarding tables only need to store the prefix instead of the IP addresses of all the routers in the subnet.</p>
+      </div>
+      <h3>Advertising BGP Route Information</h3>
+      <p>A router in an AS is either a <b>gateway router</b> or an <b>internal router</b>. A gateway router sits at the edge of an AS and connects to other routers in other ASs. An internal router only connects to hosts and routers in the AS.</p>
+      <p>Suppose we have a network with three autonomous systems: AS1, AS2, and AS3. Suppose AS3 includes a subnet with prefix x. We'll look at the details involved to make the routers in AS1 and AS2 aware of x.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/bgp.png">
+      </div>
+      <p>When routers send messages to each other, they use semi-permanent TCP connections. A connection between routers is called a <b>BGP connection</b>. If the two routers communicating are in the same AS, then their connection is an <b>internal BGP (iBGP)</b> connection. If the two routers are in different ASs, then their connection is an <b>external BGP (eBGP)</b> connection.</p>
+      <p>So the steps for advertising the reachability information for x are:</p>
+      <ol>
+        <li>Gateway router 3a sends an eBGP message "AS3 x" to gateway router 2c.</li>
+        <li>Gateway router 2c sends an iBGP message "AS3 x" to all the routers in AS2, including gateway router 2a.</li>
+        <li>Gateway router 2a sends an eBGP message "AS2 AS3 x" to gateway router 1c.</li>
+        <li>Gateway router 1c sends an iBGP message "AS2 AS3 x" to all the routers in AS1.</li>
+      </ol>
+      <h3>Determining the Best Routes</h3>
+      <p>There can be more than one way to reach a prefix. Suppose, there's a connection from 1d to 3d.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/bgp_2.png">
+      </div>
+      <p>When a router sends a message advertising a prefix, it includes some <b>BGP attributes</b>. The prefix with its attributes is called a <b>route</b>.</p>
+      <p>The AS-PATH attribute is a list of ASs that the advertisement has passed through so far. When the message arrives at an AS, the AS adds itself to the AS-PATH list. But only if it isn't in the list yet to prevent loops.</p>
+      <p>There are two paths from AS1 to x:</p>
+      <ul>
+        <li>AS2 AS3 x</li>
+        <li>AS3 x</li>
+      </ul>
+      <p>The NEXT-HOP attribute is the IP address of the router at the beginning of the AS-PATH. For the route "AS2 AS3 x", the NEXT-HOP attribute is the IP address of router 2a. The NEXT-HOP attribute of the route "AS3 x" is the IP address of router 3d.</p>
+      <h4>Hot Potato Routing 🥔</h4>
+      <p>Hot potato routing tries to forward packets to other ASs as fast as possible. In this case, "fast" means "least cost".</p>
+      <p>Let's look at router 1b. This router has two routes to choose from: "AS2 AS3 x" and "AS3 x". Router 1b will use its intra-AS routing information to find the least-cost intra-AS path to 2a and and the least-cost intra-AS path to 3d and select the path with the smaller cost. We can define cost to be the number of links traversed for example. Then the cost of route "AS2 AS3 x" is `2` and the cost of route "AS3 x" is `3`, so 1b would choose route "AS2 AS3 x" and add router 2a to its forwarding table.</p>
+      <h4>Route-Selection Algorithm</h4>
+      <p>The actual process of choosing the best route is a little bit more complicated, but it does include hot potato routing.</p>
+      <ol>
+        <li>In addition to the AS-PATH and NEXT-HOP attributes, there is another attribute for a route's <b>local preference</b>. The local preference is decided by the AS's network admin. Routes with the highest local preference values are prioritized.</li>
+        <li>If there are multiple routes with the same local preference values, then the route with the shortest AS-PATH is selected.</li>
+        <li>If there are multiple routes with the same local preference values and the same AS-PATH length, then hot potato routing is used; so the route with the closest NEXT-HOP router is picked.</li>
+        <li>If there are still multiple routes to choose from at this point, then BGP identifiers are used.</li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/bgp_2.png">
+      </div>
+      <p>Let's look at router 1b again. We saw that it had two routes to choose from: one that went to AS2 and one that went to AS3. We also saw that under hot potato routing, the AS2 path is chosen. But under this new route-selection algorithm, rule 2 is applied before hot potato (rule 3). And rule 2 says to choose the route with the shortest AS PATH, which in this case is the route to AS3.</p>
+      <h3>Routing Policy</h3>
+      <p>For rule 1 of the route-selection algorithm, the local preference attribute is set by an AS routing policy. For example, a policy can prevent ASs from advertising a path to other ASs. ISPs may want to do this so that they don't have to forward traffic from customers that aren't subscribed to them.</p>
+      <p>For example, suppose we have six ASs where `W,X,Y` are access ISPs and `A,B,C` are provider networks. Suppose `A` advertises to `B` that there is a path to `W` through `A`. `B` can choose to advertise this path to `C`. Now `C` knows of a route to `W`, so if `Y` wants to communicate with `W`, then `C` will route through `B`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/route_policy.png">
+      </div>
+      <p>But now `B` has to carry traffic between `Y` and `W`, both of which aren't customers of `B`. So it's in `B`'s interest to not advertise the path "BAW" to `C`.</p>
+      <div class="ln-box">
+        <h3>IP-Anycast</h3>
+        <p>IP-anycast is a service that allows multiple servers to share the same IP address. So when a request is sent to that IP address, any of the servers can pick up the request. This is helpful for CDNs and DNS since they both replicate their contents across multiple servers. BGP implements this IP-anycast service using the route-selection algorithm to select the "nearest" server.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/ip_anycast.png">
+        </div>
+        <p>Suppose a CDN company assigns the same IP address (212.21.21.21) to all of its servers. When routers receive advertisements for this IP address, they will think that there are multiple routes to the same location, when in fact they are in different locations. This way, the closest server can be used whenever content is requested from the CDN.</p>
+        <div class="ln-box">
+          <p>IP-anycast is actually not really used by CDNs because changes in routes can cause different packets of the same TCP connection to end up at different servers. IP-anycast is used more by DNS.</p>
+        </div>
+      </div>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
