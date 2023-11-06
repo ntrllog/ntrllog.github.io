@@ -51,6 +51,9 @@
         <li><a class="dropdown-item" href="#routingalgorithms">Routing Algorithms</a></li>
         <li><a class="dropdown-item" href="#ospf">Intra-AS Routing in the Internet: OSPF</a></li>
         <li><a class="dropdown-item" href="#bgp">Routing Among the ISPs: BGP</a></li>
+        <li><a class="dropdown-item" href="#sdn">The SDN Control Plane</a></li>
+        <li><a class="dropdown-item" href="#icmp">ICMP: The Internet Control Message Protocol</a></li>
+        <li><a class="dropdown-item" href="#networkmanagement">Network Management and SNMP</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -2760,6 +2763,62 @@
           <p>IP-anycast is actually not really used by CDNs because changes in routes can cause different packets of the same TCP connection to end up at different servers. IP-anycast is used more by DNS.</p>
         </div>
       </div>
+      <h2 id="sdn">The SDN Control Plane</h2>
+      <p>As we saw way, way back, SDN is the architecture where there is a controller that creates the forwarding tables and gives them to the switches (as opposed to the switches creating the tables themselves). There are four key characteristics:</p>
+      <ul>
+        <li>Flow-based forwarding: Packet forwarding rules are specified in a switch's flow table instead of being determined by the datagram's destination IP address.</li>
+        <li>Separation of data plane and control plane: The data plane consists of the switches and the control plane consists of all the things that go into creating the flow table, including the controller.</li>
+        <li>Programmable network: There are network-control applications that act as the "brains" of the SDN control plane. For example, a network-control application could run Dijkstra's algorithm to perform routing.</li>
+        <li>Network control functions: There needs to be a way for the controller to communicate with the network-control applications. The controller maintains network state information and provides this to the applications.</li>
+      </ul>
+      <h3>SDN Controller</h3>
+      <p>An SDN controller can be divided into three layers:</p>
+      <ul>
+        <li>Communication layer: The controller needs to communicate with the switches in the data plane (to send them their forwarding tables for example).</li>
+        <li>Network-wide state management layer: The controller needs to store all the information about the networks' hosts, links, switches, and other SDN devices, i.e., maintain the networks' states.</li>
+        <li>Interface to the network-control application layer: This layer allows the controller to share its network state information with the network-control applications.</li>
+      </ul>
+      <h3>OpenFlow Protocol</h3>
+      <p>The OpenFlow protocol is used by the controller to communicate with the switches (and vice versa). It uses TCP to transfer the messages.</p>
+      <p>There are four types of messages that a controller would send to a switch:</p>
+      <ul>
+        <li>set a switch's configuration parameters</li>
+        <li>modify a switch's flow table</li>
+        <li>ask a switch for information about its flow table</li>
+        <li>send a packet out of a specific port at a switch</li>
+      </ul>
+      <p>There are three types of messages that a switch would send to a controller:</p>
+      <ul>
+        <li>tell the controller that an entry in the flow table has been removed</li>
+        <li>tell the controller that a port's status has changed</li>
+        <li>send a packet to the controller (if there's nothing in the flow table for that packet)</li>
+      </ul>
+      <h3>Data and Control Plane Interaction: An Example</h3>
+      <p>Suppose there is a link failure between one pair of switches.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/data_control_plane.png">
+      </div>
+      <ol>
+        <li>One of the switches notifies the SDN controller that there is a link failure with an OpenFlow port-status message.</li>
+        <li>The SDN controller receives the message and notifies the link-state manager.</li>
+        <li>The link-state manager notifies the network-control application that there is a link-state change.</li>
+        <li>The link-state routing application gets the updated link state from the link-state manager and computes new least-cost paths.</li>
+        <li>The link-state routing application works with the flow table manager to determine which flow tables need to be updated.</li>
+        <li>The flow table manager uses OpenFlow to update the flow table entries in the switches.</li>
+      </ol>
+      <h2 id="icmp">ICMP: The Internet Control Message Protocol</h2>
+      <p>The Internet Control Message Protocol is used by hosts and routers to send network-layer information to each other. For example, a destination network could be unreachable. ICMP messages are carried in IP datagrams.</p>
+      <p>Traceroute is implemented using ICMP messages. It sends a bunch of IP datagrams to the destination, where each datagram contains a UDP segment with a port number that is unlikely to be open at the destination. The `n^(text(th))` datagram has a TTL of `n`, so when the `n^(th)` datagram arrives at the `n^(th)` router, the datagram will be expired. In response, the router sends an ICMP warning message, which includes the name of the router and its IP address. When this message arrives at the source, Traceroute records the RTT.</p>
+      <p>Since each subsequent datagram has a higher TTL, one of the datagrams will eventually reach the destination. When this happens, the destination will send a port unreachable ICMP message back to the source.</p>
+      <h2 id="networkmanagement">Network Management and SNMP</h2>
+      <h3>The Network Management Framework</h3>
+      <p>A managed device is a device that connects to a network.</p>
+      <p>The managing server is an application that handles all the network managment information and commands to configure, monitor, and control the network's managed devices. This is managed by a <b>network manager</b> (a human).</p>
+      <p>Managed devices have <b>configuration data</b> (e.g., IP address), <b>operational data</b> (e.g., list of neighbors), and <b>device statistics</b> (e.g., number of dropped packets).</p>
+      <p>Managed devices also have a network management agent that communicates with the managing server.</p>
+      <h3>The Simple Network Management Protocol (SNMP) and the Management Information Base (MIB)</h3>
+      <p>A managed device's operational state data are stored as objects, which are combined into an MIB.</p>
+      <p><b>SNMP</b> is an application-layer protocol that allows for communication between the network management agent and the managing server. The most common usage is for the managing server to send a request to an agent to query the data in a device's <b>MIB</b>. Another common usage is for an agent to send a trap message to the managing server to notify it of a situation that changed its MIB object values.</p>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
