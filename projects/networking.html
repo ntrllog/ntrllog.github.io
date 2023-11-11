@@ -2180,7 +2180,7 @@
       <p>A <b>path</b> in a graph is a sequence of nodes and edges that can be traversed. The cost of a path is the sum of the cost of all the edges on that path.</p>
       <div class="ln-box">
         <p>A path is a sequence of `p` nodes `(x_1,x_2,...,x_p)` such that each of the pairs `(x_1,x_2),(x_2,x_3), ..., (x_(p-1),x_p)` are edges in the graph. The cost of a path is `c(x_1,x_2)+c(x_2,x_3)+...+c(x_(p-1),x_p)`.</p>
-        <p>`(j,m,l,o)` is a path where the edges are `(j,m),(m,l),(l,o)`. The cost of this path is `c(j,m)+c(m,l)+c(l,o)=1+3+5=9`.</p>
+        <p>For example, in the graph above, `(j,m,l,o)` is a path where the edges are `(j,m),(m,l),(l,o)`. The cost of this path is `c(j,m)+c(m,l)+c(l,o)=1+3+5=9`.</p>
       </div>
       <p>For any two nodes, there is typically more than one path between them. But at least one of them is the least costly. This path is the <b>least-cost</b> path. So the job of a routing algorithm is to find this least-cost path.</p>
       <p>A routing algorithm can be centralized or decentralized. In a <b>centralized routing algorithm</b>, each node has complete knowledge about the whole network, so every node knows the cost of every edge. These algorithms are referred to as <b>link-state (LS) algorithms</b>, since they know the state of every link. In a <b>decentralized algorithm</b>, each node only has information about the cost of its neighbors, and they communicate with each other to gradually calculate the best path.</p>
@@ -2508,7 +2508,7 @@
             </ul>
           </li>
         </ul>
-        <p>So `d_j(o)=min{2+5,5+3,3+1}=min{7,8,4}=4`.</p>
+        <p>So `d_j(o)=min{2+5,5+3,1+3}=min{7,8,4}=4`.</p>
       </div>
       <p>Now for the actual DV algorithm. Each node begins with a list of costs from itself to every other node. Each node also keeps track of its neighbors' lists. From time to time, each node sends a copy of its own list to its neighbors. When a node receives a list from a neighbor, the node saves the neighbor's list and uses it to update its own list. If there were any changes, then that node will send its list to its neighbors. Initially, each node will start with a list of estimated costs, but eventually, the list will contain the actual costs.</p>
       <div class="ln-box">
@@ -2683,7 +2683,7 @@
       <h4>Open Shortest Path First (OSPF)</h4>
       <p>OSPF is an intra-AS routing protocol that uses Dijkstra's algorithm, so each router will have a complete topological map of the network in the AS. Individual link costs are configured by network admins.</p>
       <div class="ln-box">
-        <p>When talking about the LS algorithm, we looked at it as "given a set of costs, find the least-cost path". In practice, costs are assigned by network admins to influence where they want traffic to go. That is, the optimal paths are already known, and the network admin must find the right set of costs so that things are optimal.</p>
+        <p>When talking about the LS algorithm, we looked at it as "given a set of costs, find the least-cost path". In practice, costs are assigned by network admins to influence where they want traffic to go. That is, the optimal paths are already known, and the network admin must find the right set of costs so that those optimal paths are prioritized.</p>
         <p>For example, a link's cost can be inversely proportional to its capacity so that low-bandwidth links are not prioritized.</p>
       </div>
       <p>Link-state advertisements are sent to all the routers whenever there is a link change (e.g., cost change or status change) and every 30 minutes.</p>
@@ -2769,13 +2769,13 @@
         <li>Flow-based forwarding: Packet forwarding rules are specified in a switch's flow table instead of being determined by the datagram's destination IP address.</li>
         <li>Separation of data plane and control plane: The data plane consists of the switches and the control plane consists of all the things that go into creating the flow table, including the controller.</li>
         <li>Programmable network: There are network-control applications that act as the "brains" of the SDN control plane. For example, a network-control application could run Dijkstra's algorithm to perform routing.</li>
-        <li>Network control functions: There needs to be a way for the controller to communicate with the network-control applications. The controller maintains network state information and provides this to the applications.</li>
+        <li>Network control functions: There needs to be a way for the controller to communicate with the network-control applications because the controller maintains network state information and provides this to the applications.</li>
       </ul>
       <h3>SDN Controller</h3>
       <p>An SDN controller can be divided into three layers:</p>
       <ul>
-        <li>Communication layer: The controller needs to communicate with the switches in the data plane (to send them their forwarding tables for example).</li>
-        <li>Network-wide state management layer: The controller needs to store all the information about the networks' hosts, links, switches, and other SDN devices, i.e., maintain the networks' states.</li>
+        <li>Communication layer: The controller needs to communicate with the switches in the data plane (to send them their forwarding tables for example). The switches also need to communicate with the controller (to notify the controller that a new device has joined the network for example).</li>
+        <li>Network-wide state management layer: In order to configure the flow tables, the controller needs to store all the information about the networks' hosts, links, switches, and other SDN devices, i.e., maintain the networks' states.</li>
         <li>Interface to the network-control application layer: This layer allows the controller to share its network state information with the network-control applications.</li>
       </ul>
       <h3>OpenFlow Protocol</h3>
@@ -2790,7 +2790,7 @@
       <p>There are three types of messages that a switch would send to a controller:</p>
       <ul>
         <li>tell the controller that an entry in the flow table has been removed</li>
-        <li>tell the controller that a port's status has changed</li>
+        <li>tell the controller that a port's status has changed (this is called a port-status message)</li>
         <li>send a packet to the controller (if there's nothing in the flow table for that packet)</li>
       </ul>
       <h3>Data and Control Plane Interaction: An Example</h3>
@@ -2807,18 +2807,136 @@
         <li>The flow table manager uses OpenFlow to update the flow table entries in the switches.</li>
       </ol>
       <h2 id="icmp">ICMP: The Internet Control Message Protocol</h2>
-      <p>The Internet Control Message Protocol is used by hosts and routers to send network-layer information to each other. For example, a destination network could be unreachable. ICMP messages are carried in IP datagrams.</p>
-      <p>Traceroute is implemented using ICMP messages. It sends a bunch of IP datagrams to the destination, where each datagram contains a UDP segment with a port number that is unlikely to be open at the destination. The `n^(text(th))` datagram has a TTL of `n`, so when the `n^(th)` datagram arrives at the `n^(th)` router, the datagram will be expired. In response, the router sends an ICMP warning message, which includes the name of the router and its IP address. When this message arrives at the source, Traceroute records the RTT.</p>
-      <p>Since each subsequent datagram has a higher TTL, one of the datagrams will eventually reach the destination. When this happens, the destination will send a port unreachable ICMP message back to the source.</p>
+      <p>The Internet Control Message Protocol is used by hosts and routers to send network-layer information to each other. For example, a destination network could be unreachable. ICMP messages are carried in IP datagrams (the same way TCP/UDP segments are carried in IP datagrams).</p>
+      <p>ICMP messages have a type and a code. Some message types are shown here:</p>
+      <table class="table">
+        <tr>
+          <th>ICMP Type</th>
+          <th>Code</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>0</td>
+          <td>echo reply (to ping)</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>0</td>
+          <td>destination network unreachable</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>1</td>
+          <td>destination host unreachable</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>2</td>
+          <td>destination protocol unreachable</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>3</td>
+          <td>destination port unreachable</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>6</td>
+          <td>destination network unknown</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>7</td>
+          <td>destination host unknown</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>0</td>
+          <td>source quench (congestion control)*</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>0</td>
+          <td>echo request</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>0</td>
+          <td>router advertisement</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>0</td>
+          <td>router discovery</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td>0</td>
+          <td>TTL expired</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>0</td>
+          <td>IP header bad</td>
+        </tr>
+      </table>
+      <p>*This is almost never used because TCP already has its own congestion control mechanism.</p>
+      <p>Traceroute is implemented using ICMP messages. It sends a bunch of IP datagrams to the destination, where each datagram contains a UDP segment with a port number that is unlikely to be open at the destination. The `n^(text(th))` datagram has a TTL of `n`, so when the `n^(th)` datagram arrives at the `n^(th)` router, the datagram will be expired. In response, the router sends an ICMP warning message (type 11 code 0), which includes the name of the router and its IP address. When this message arrives at the source, Traceroute records the RTT.</p>
+      <p>Since each subsequent datagram has a higher TTL, one of the datagrams will eventually reach the destination. When this happens, the destination will send a port unreachable ICMP message (type 3 code 3) back to the source. This is when Traceroute knows when to stop sending datagrams.</p>
       <h2 id="networkmanagement">Network Management and SNMP</h2>
+      <p>"Network management includes the deployment, integration, and coordination of the hardware, software, and human elements to monitor, test, poll, configure, analyze, evaluate, and control the network and element resources to meet the real-time, operational performance, and Quality of Service requirements at a reasonable cost." (Saydam &amp; Magedanz 1996)</p>
       <h3>The Network Management Framework</h3>
       <p>A managed device is a device that connects to a network.</p>
       <p>The managing server is an application that handles all the network managment information and commands to configure, monitor, and control the network's managed devices. This is managed by a <b>network manager</b> (a human).</p>
-      <p>Managed devices have <b>configuration data</b> (e.g., IP address), <b>operational data</b> (e.g., list of neighbors), and <b>device statistics</b> (e.g., number of dropped packets).</p>
+      <p>Managed devices have <b>configuration data</b> (e.g., IP address), <b>operational data</b> (e.g., list of neighbors), and <b>device statistics</b> (e.g., number of dropped packets). The managing server also stores a copy of each device's data.</p>
       <p>Managed devices also have a network management agent that communicates with the managing server.</p>
       <h3>The Simple Network Management Protocol (SNMP) and the Management Information Base (MIB)</h3>
-      <p>A managed device's operational state data are stored as objects, which are combined into an MIB.</p>
-      <p><b>SNMP</b> is an application-layer protocol that allows for communication between the network management agent and the managing server. The most common usage is for the managing server to send a request to an agent to query the data in a device's <b>MIB</b>. Another common usage is for an agent to send a trap message to the managing server to notify it of a situation that changed its MIB object values.</p>
+      <p>A managed device's operational state data are stored as objects, which are combined into a <b>Management Information Base (MIB)</b>. For example, an MIB could be a counter representing the number of IP datagrams discarded at a router due to errors in an IP datagram header. Related MIB objects are grouped into MIB modules.</p>
+      <p><b>SNMP</b> is an application-layer protocol that allows for communication between the network management agent and the managing server. The most common usage is for the managing server to send a request to an agent to query or modify the data in a device's MIB. Another common usage is for an agent to send a trap message to the managing server to notify it of a situation that changed its MIB object values.</p>
+      <p>SNMP messsages are referred to as protocol data units (PDUs). They are usually carried in UDP datagrams.</p>
+      <table class="table">
+        <tr>
+          <th>Type</th>
+          <th>Sender-receiver</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>GetRequest</td>
+          <td>manager-to-agent</td>
+          <td>get value of one or more MIB object instances</td>
+        </tr>
+        <tr>
+          <td>GetNextRequest</td>
+          <td>manager-to-agent</td>
+          <td>get value of next MIB object instance in list/table</td>
+        </tr>
+        <tr>
+          <td>GetBulkRequest</td>
+          <td>manager-to-agent</td>
+          <td>get values in large block of data</td>
+        </tr>
+        <tr>
+          <td>InformRequest</td>
+          <td>manager-to-manager</td>
+          <td>inform remote managing entity of MIB values</td>
+        </tr>
+        <tr>
+          <td>SetRequest</td>
+          <td>manager-to-agent</td>
+          <td>set value of one or more MIB object instances</td>
+        </tr>
+        <tr>
+          <td>Response</td>
+          <td>agent-to-manager or manager-to-manager</td>
+          <td>generated in response to any of the above</td>
+        </tr>
+        <tr>
+          <td>Trap</td>
+          <td>agent-to-manager</td>
+          <td>inform manager of exceptional event</td>
+        </tr>
+      </table>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
