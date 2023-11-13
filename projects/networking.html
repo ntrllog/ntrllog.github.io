@@ -54,6 +54,7 @@
         <li><a class="dropdown-item" href="#sdn">The SDN Control Plane</a></li>
         <li><a class="dropdown-item" href="#icmp">ICMP: The Internet Control Message Protocol</a></li>
         <li><a class="dropdown-item" href="#networkmanagement">Network Management and SNMP</a></li>
+        <li><a class="dropdown-item" href="#router">What's Inside a Router?</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -2937,6 +2938,153 @@
           <td>inform manager of exceptional event</td>
         </tr>
       </table>
+      <hr>
+      <p>Now to the data plane of the network layer!</p>
+      <hr>
+      <h2 id="router">What's Inside a Router?</h2>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/router.png">
+      </div>
+      <p>The <b>input port</b> performs three functions. Once the data arrives at the router, the input port terminates the link at the physical-layer level, and the input port communicates with the link layer to do link-layer stuff. Then the input port performs a lookup in the forwarding table to determine the output port that the packet should be forwarded to.</p>
+      <div class="ln-box">
+        <p>A router's port is the physical input and output interface on the router. This is not the same "port" as the port number.</p>
+      </div>
+      <p>The switching fabric connects the router's input ports to its output ports.</p>
+      <p>The <b>output port</b> transmits packets received from the switching fabric to the router's outgoing link.</p>
+      <p>The routing processor runs control-plane functions. In traditional routers, the processor runs the routing protocols (OSPF and BGP) and creates the forwarding tables. In SDN routers, the processor gets the forwarding tables from the SDN controller and updates the entries in the input ports.</p>
+      <div class="ln-box">
+        <p>Because the data plane (input ports, switching fabric, output ports) has to work in nanoseconds, it is implemented in hardware. The control plane (routing processor) works in milliseconds or seconds, so it can be implemented in software.</p>
+      </div>
+      <h3>Destination-Based Forwarding</h3>
+      <p>The simplest type of forwarding is one based on a packet's destination address. Suppose a router has four links and that each link has a specified range of addresses it will take.</p>
+      <table class="table">
+        <tr>
+          <th>Destination Address Range</th>
+          <th>Link Interface</th>
+        </tr>
+        <tr>
+          <td><span class="ln-green">11001000 00010111 00010</span>000 00000000<br>through<br><span class="ln-green">11001000 00010111 00010</span>111 11111111</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td><span class="ln-red">11001000 00010111 00011000</span> 00000000<br>through<br><span class="ln-red">11001000 00010111 00011000</span> 11111111</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td><span class="ln-orange">11001000 00010111 00011</span>001 00000000<br>through<br><span class="ln-orange">11001000 00010111 00011</span>111 11111111</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>anything that's not in the ranges above</td>
+          <td>3</td>
+        </tr>
+      </table>
+      <p>We can see that IP addresses that start with <span class="ln-green">11001000 00010111 00010</span> will go to link 0; addresses that start with <span class="ln-red">11001000 00010111 00011000</span> will go to link 1; addresses that start with <span class="ln-orange">11001000 00010111 00011</span> will go to link 2. This leads to a simple forwarding table with only four rows:</p>
+      <table class="table">
+        <tr>
+          <th>Prefix</th>
+          <th>Link Interface</th>
+        </tr>
+        <tr>
+          <td>11001000 00010111 00010</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>11001000 00010111 00011000</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>11001000 00010111 00011</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>anything that doesn't follow any of the patterns above</td>
+          <td>3</td>
+        </tr>
+      </table>
+      <p>So the router looks at the packet's destination address and matches it with a <b>prefix</b> in the table. But what happens if there is an address that matches more than one prefix? For example, <span class="ln-orange">11001000 00010111 00011</span><span class="ln-red">000</span> 10101010 matches 1 and 2. If there are multiple prefixes that match, the router uses the <b>longest prefix matching rule</b>, which says to use the prefix that is the longest. So for the example, link 1 would be used.</p>
+      <div class="ln-box">
+        <p>Consider a network that uses 8-bit addresses. Suppose a router has the following forwarding table:</p>
+        <table class="table">
+          <tr>
+            <th>Prefix</th>
+            <th>Link Interface</th>
+          </tr>
+          <tr>
+            <td>00</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>010</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>011</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>3</td>
+          </tr>
+        </table>
+        <p>For each of the four interfaces, what is the associated range of addresses and the number of addresses in the range?</p>
+        <div id="prefix_matching" class="collapse ln-box">
+          <p>Interface 0: 00000000 through 00111111 (64 addresses)</p>
+          <p>Interface 1: 01000000 through 01011111 (32 addresses)</p>
+          <p>Interface 2: 01100000 through 10111111 (96 addresses)</p>
+          <p>Interface 3: 11000000 through 11111111 (64 addresses)</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#prefix_matching" aria-expanded="false" aria-controls="prefix_matching">Answer</button>
+      </div>
+      <h3>Switching</h3>
+      <div class="ln-box">
+        <p>A bus is a communication system that transfers data between components of a device. Only one packet can travel across the bus at a time.</p>
+      </div>
+      <p>There are several ways switching can be done. The first way is via memory. So the routing processor copies the packet into its memory, does the lookup in the forwarding table, and copies the packet to the output port's buffers.</p>
+      <div class="ln-box">
+        <p>From the input port to the routing processor and from the routing processor to the output port, the packet travels across the system bus twice. Because of this, if the routing processor can process a maximum of `B` packets per second, then the overall forwarding throughput is at most `B/2` (only one packet can travel across the bus at a time).</p>
+      </div>
+      <p>Switching can also be done via a bus. Instead of sending the packet to the routing processor, the input port transfers the packet directly to the output port over the bus. The input port puts a label on the packet indicating which output port the packet should go to. Then the bus transmits the packet to all the output ports, but only the output port that matches the label keeps the packet.</p>
+      <div class="ln-box">
+        <p>If multiple packets arrive at the router at the same time from different input ports, all but one have to wait since only one packet can travel across the bus at a time.</p>
+      </div>
+      <p>Switching can also be done via an interconnection network. Instead of having just one bus, there can be a bunch of buses that are interconnected. A crossbar switch is a type of interconnection network where there are `2N` buses for `N` input ports and `N` output ports.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/crossbar_switch.png">
+      </div>
+      <p>Here, there are three input ports `A,B,C`, three output ports `X,Y,Z`, three horizontal buses, and three vertical buses (for a total of six buses). This setup allows multiple packets to be forwarded at the same time because there are multiple buses. So a crossbar switch is <b>non-blocking</b>, as in it won't block other packets from being forwarded. Well, as long as they aren't going to the same output port, in which case, they would have to wait like before.</p>
+      <h3>Port Queuing</h3>
+      <p>Input ports and output ports have queues where packets wait to be switched from the input port or transmitted onto the link from the output port. When the queue gets full, <b>packet loss</b> can occur.</p>
+      <h4>Input Queuing</h4>
+      <p>At the input port, queuing will occur when the switching fabric is not fast enough. A crossbar switching fabric can help mitigate queuing since it allows multiple packets to be forwarded at once. But if multiple packets need to go to the same output port, then queuing will still happen. In fact, something called <b>head-of-the-line (HOL) blocking</b> can happen.</p>
+      <p>Suppose a packet in input port `A`'s buffer and a packet in input port `C`'s buffer need to go to output port `Z`. Let's say that the switch fabric gets the packet in `A` first. The pink packet in `C` has to wait for the purple packet to be switched first. But the red packet has to wait too, even though it's not going to `Z` and the bus from `C` to `X` is open.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/hol.png">
+      </div>
+      <h4>Output Queuing</h4>
+      <p>At the output port, queuing will occur when the switching fabric is too fast (i.e., when the outgoing link's transmission rate is too slow). Output port queuing is more likely to happen than input port queuing since it is more likely that multiple packets from different input ports get forwarded to the same output port.</p>
+      <h3>Packet Scheduling</h3>
+      <p>When packets are sitting in the buffer, the port can decide which packets get transmitted first.</p>
+      <h4>First-in-First-Out (FIFO)</h4>
+      <p>This one is pretty self-explanatory. Packets get transmitted out of the queue in the same order that they came in the queue.</p>
+      <h4>Priority Queuing</h4>
+      <p>Packets can be classified by priority so that more important packets get put in a high-priority queue and less important packets get put in a low-priority queue. For example, packets for an Internet call can be considered more important than packets for an email*. If the router uses a <b>non-preemptive priority queuing</b> discipline, then higher-priority packets will not interrupt the transmission of lower-priority packets. That is, if a lower-priority packet is in the middle of being transmitted, the higher-priority packet will wait until it's done (even though it has a higher priority).</p>
+      <p>*These can be distinguished by looking at the source port number.</p>
+      <h4>Round Robin</h4>
+      <p>In round robin queuing, packets are organized into classes, but they all have equal priority. The router will alternate between each class and send one packet out from each class.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/round_robin.gif">
+      </div>
+      <p>If the router uses a <b>work-conserving queuing</b> discipline, then it will move to the next class right away if there are no packets in that class (instead of waiting for a packet in that class to arrive).</p>
+      <h4>Weighted Fair Queuing (WFQ)</h4>
+      <p>This is similar to round robin, except that each class gets assigned a weight, indicating how many packets can be taken out when the router moves to that class. This is a generalized round robin, i.e., round robin is weighted fair queuing where all the weights are `1` (or the same number).</p>
+      <div class="ln-box">
+        <p>If each class `i` is assigned a weight `w_i`, then class `i` is guaranteed to receive bandwidth equal to `w_i/(sumw_j)`. For a link with transmission rate `R`, class `i` will have a throughput of `R*w_i/(sumw_j)`.</p>
+      </div>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
