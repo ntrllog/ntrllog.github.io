@@ -55,6 +55,7 @@
         <li><a class="dropdown-item" href="#icmp">ICMP: The Internet Control Message Protocol</a></li>
         <li><a class="dropdown-item" href="#networkmanagement">Network Management and SNMP</a></li>
         <li><a class="dropdown-item" href="#router">What's Inside a Router?</a></li>
+        <li><a class="dropdown-item" href="#ip">The Internet Protocol</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1751,6 +1752,7 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</pre></p>
         <p>(copied from RFC 9293)</p>
       </div>
+      <p>A TCP segment's header is typically `20` bytes.</p>
       <h4>Sequence Numbers and Acknowledgment Numbers</h4>
       <p>So far, we've only seen sequence numbers increasing sequentially by `1`. However, TCP works in bytes, not packets.</p>
       <p>Suppose a file is being transferred over TCP. Let's say the file size is `500,000` bytes and the MSS is `1000` bytes. This means there will be `(500,000)/1000=500` segments, where each segment is divided into `1000` bytes (numbered starting from `0`*).</p>
@@ -3084,6 +3086,227 @@
       <p>This is similar to round robin, except that each class gets assigned a weight, indicating how many packets can be taken out when the router moves to that class. This is a generalized round robin, i.e., round robin is weighted fair queuing where all the weights are `1` (or the same number).</p>
       <div class="ln-box">
         <p>If each class `i` is assigned a weight `w_i`, then class `i` is guaranteed to receive bandwidth equal to `w_i/(sumw_j)`. For a link with transmission rate `R`, class `i` will have a throughput of `R*w_i/(sumw_j)`.</p>
+      </div>
+      <h2 id="ip">The Internet Protocol</h2>
+      <p>There are two versions of IP currently in use: IPv4 and IPv6.</p>
+      <h3>IPv4 Datagram Format</h3>
+      <p>The following are included in an IPv4 datagram:</p>
+      <ul>
+        <li>Version number (4 bits)</li>
+        <li>Header length (4 bits)
+          <ul>
+            <li>used to determine where the data begins</li>
+          </ul>
+        </li>
+        <li>Type of service
+          <ul>
+            <li>used to distinguish different types of datagrams</li>
+            <li>two of the bits are used for Explicit Congestion Notification</li>
+          </ul>
+        </li>
+        <li>Datagram length (16 bits)</li>
+        <li>Identifier, flags, offset
+          <ul>
+            <li>used to rebuild an IP datagram that was broken up into smaller IP datagrams</li>
+          </ul>
+        </li>
+        <li>Time-to-live
+          <ul>
+            <li>decremented by one each time the datagram is processed by a router</li>
+            <li>if the TTL reaches `0`, the router must drop the datagram</li>
+          </ul>
+        </li>
+        <li>Protocol
+          <ul>
+            <li>used to specify which protocol was used in the transport layer</li>
+          </ul>
+        </li>
+        <li>Header checksum
+          <ul>
+            <li>used to detect bit errors</li>
+            <li>the checksum is computed the same way as we saw in the TCP section</li>
+          </ul>
+        </li>
+        <li>Source and destination IP addresses</li>
+        <li>Options
+          <ul>
+            <li>used to extend the IP header</li>
+            <li>e.g., record IP addresses of routers it passed through, specify which routers to visit</li>
+          </ul>
+        </li>
+        <li>Data</li>
+      </ul>
+      <div class="ln-center">
+        <p><pre>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Version | Header length | Type of service | Datagram length (bytes) |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|       16-bit Identifier       | Flags | 13-bit Fragmentation offset |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Time-to-live | Upper-layer protocol |        Header checksum        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                       32-bit Source IP address                      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    32-bit Destination IP address                    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                          Options (if any)                           |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                 Data                                |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</pre></p>
+      </div>
+      <div class="ln-box">
+        <p>TCP/UDP can theoretically run over a different network-layer protocol besides IP. Likewise, IP can carry data to a different transport-layer protocol besides TCP/UDP.</p>
+        <p>Because there's no guarantee that one of the layers will perform error checking, it is done at both the network layer and the transport layer.</p>
+      </div>
+      <p>If there are no options, then an IP datagram's header is `20` bytes. If the datagram is carrying a TCP segment, then there will be a total of `40` bytes of header along with the application message.</p>
+      <h3>IPv4 Addressing</h3>
+      <p>An <b>interface</b> is the boundary between a host and the physical link into the network. Technically, an IP address is an identifier for an interface, not a device.</p>
+      <div class="ln-box">
+        <p>If we think of a router as a laptop, then an interface can be thought of as a USB port. A laptop with three USB ports has three interfaces and each interface gets its own IP address.</p>
+        <p>Actually, a laptop (sometimes) has two ways of connecting to the Internet: WiFi and Ethernet. This is why the IP address when using WiFi is different than the IP address using Ethernet; there are two interfaces.</p>
+      </div>
+      <p>An IP address is `32` bits (`4` bytes) long. They are represented in <b>dotted-decimal notation</b>, so each byte is represented as a decimal number and separated by a dot. For example, 193.32.216.9 is the dotted-decimal form of 11000001 00100000 11011000 00001001.</p>
+      <div class="ln-box">
+        <p>There are `2^32` (~`4` billion) possible IP addresses.</p>
+      </div>
+      <p>IP addresses aren't randomly generated; a part of it is determined by what subnet the interface is connected to.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/subnet.png">
+      </div>
+      <p>In this setup, there is one router with three interfaces connecting seven hosts. The three left hosts are connected to one subnet; the two right hosts are connected to another subnet; the bottom two hosts are connected to another subnet.</p>
+      <p>The left hosts and the interface they're connected to all have IP addresses that look like 223.1.1.*, i.e., their IP addresses all have the same leftmost `24` bits. One IP address is assigned to that subnet: 223.1.1.0/24. The /24 is a <b>subnet mask</b> indicating the fact that the leftmost `24` bits define the subnet address.</p>
+      <p>So why does everything in a subnet have similar looking addresses? It's because of the Internet's address assignment strategy, which is called <b>Classless Interdomain Routing (CIDR)</b>. CIDR divides an IP address into two parts so that it looks like a.b.c.d/x where x indicates the number of bits in the first part.</p>
+      <p>An organization is usually given a block of contiguous addresses, i.e., a bunch of addresses that start with the same bits. This set of shared bits is the <b>prefix</b> (a.k.a. network portion) of the address, and x indicates how many bits make up the prefix, i.e., how long the prefix is. The remaining bits (a.k.a. the host part) are used as identifiers for the devices in the organization. In the example above for the left subnet, the prefix is 223.1.1 and the three hosts are identified by the 1, 2, and 3 at the end.</p>
+      <div class="ln-box">
+        <p>Before CIDR, <b>classful addressing</b> was used, which only allowed the prefix to be `8`, `16`, or `24` bits long. This was because subnets with `8`-, `16`-, and `24`-bit subnet addresses were called class A, B, and C networks, respectively. But fixing the length of the prefix became an issue, especially for small-to-medium-sized organizations.</p>
+        <p>A class C subnet could only support `254` hosts, which was too small.</p>
+        <div class="ln-box">
+          <p>Since `24` bits are used for the prefix, there are `8` bits left to assign to hosts. So there are `2^8=256` assignable addresses. Actually, `254` since `2` of the addresses are reserved for special use.</p>
+        </div>
+        <p>A class B subnet could support `65,634` hosts, which was too large. If an organization only had `2000` hosts, then more than `63,000` addresses would be unused. Furthermore, they couldn't be used by any other organization.</p>
+        <div class="ln-box">
+          <p>Since `16` bits are used for the prefix, there are `16` bits left to assign to hosts. So there are `2^16=65,536` assignable addresses. And again, `2` of the addresses are reserved for special use, so `65,634`.</p>
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>Another type of IP address is the broadcast address: 255.255.255.255. When a host sends a datagram with this destination address, the message is sent to all hosts on the same subnet.</p>
+        <p>The broadcast address (all `1`s) and the address consisting of all `0`s are the two addresses reserved for special use.</p>
+      </div>
+      <h4>Obtaining a Block of Addresses</h4>
+      <p>So how do these addresses get assigned? An ISP could be given an address block, let's say 200.23.16.0/20. Then the ISP could divide its block into smaller equal-sized address blocks for the organizations that the ISP supports. Let's say the ISP divides it into `8` address blocks. (The subnet part is underlined.)</p>
+      <table class="table">
+        <tr>
+          <td>ISP's block</td>
+          <td>200.23.16.0/20</td>
+          <td><u>11001000 00010111 0001</u>0000 00000000</td>
+        </tr>
+        <tr>
+          <td>Organization 1</td>
+          <td>200.23.16.0/23</td>
+          <td><u>11001000 00010111 0001000</u>0 00000000</td>
+        </tr>
+        <tr>
+          <td>Organization 2</td>
+          <td>200.23.18.0/20</td>
+          <td><u>11001000 00010111 0001001</u>0 00000000</td>
+        </tr>
+        <tr>
+          <td>Organization 3</td>
+          <td>200.23.20.0/20</td>
+          <td><u>11001000 00010111 0001010</u>0 00000000</td>
+        </tr>
+          <td>`vdots`</td>
+          <td>`vdots`</td>
+          <td>`vdots`</td>
+        </tr>
+        <tr>
+          <td>Organization 8</td>
+          <td>200.23.30.0/23</td>
+          <td><u>11001000 00010111 0001111</u>0 00000000</td>
+        </tr>
+      </table>
+      <p>Getting them from an ISP is not the only way to get a block addresses. (There has to be a way for the ISP itself to get a block of addresses in the first place!) The Internet Corporation for Assigned Names and Numbers (ICANN) is the global authority for managing and allocating IP addresses.</p>
+      <div class="ln-box">
+        <p>Consider a router that interconnects three subnets. Suppose all of the interfaces in each of these three subnets are required to have the prefix 223.1.17/24. Also suppose that Subnet 1 is required to support `120` interfaces, Subnet 2 is to support `60` interfaces, and Subnet 3 is to support `60` interfaces. What are three network addresses (of the form a.b.c.d/x) for each subnet that satisfy these constraints?</p>
+        <div id="ip_addressing" class="collapse ln-box">
+          <p>First of all, 223.1.17 in binary is 11011111 00000001 00010001 00000000. The subnet mask is /24, so the prefix for all the subnets is the underlined part of <u>11011111 00000001 00010001</u> 00000000.</p>
+          <p>This means that only the last `8` bits are for address assignment. Using all `8` bits means that there are `2^8-2=254` addresses that can be assigned. But Subnet 1 is required to support only `120` interfaces, so we don't need to use all `8` bits. Using `7` bits means that there are `2^7-2=126` assignable addresses, so that's good enough for Subnet 1. If we only need `7` bits, then the last bit must be part of the prefix for Subnet 1.</p>
+          <p>So a network address for Subnet 1 is <u>11011111 00000001 00010001 0</u>0000000, a.k.a 223.1.17.0/25.</p>
+          <p>Using `6` bits means that there are `2^6-2=62` assignable addresses, which is good enough for Subnet 2 and Subnet 3. And the last two bits must be part of the prefix for Subnet 2 and Subnet 3, which means their subnet masks will be /26.</p>
+          <p>The `128` addresses* from 223.1.17.0 to 223.1.17.127 are reserved for Subnet 1. So the `64` addresses starting from 223.1.17.128 can be used for Subnet 2. This network address is 223.1.17.128/26.</p>
+          <p>The `64` addresses from 223.1.17.128 to 223.1.17.191 are reserved for Subnet 2. So the `64` addresses starting from 223.1.17.192 can be used for Subnet 3. This network address is 223.1.17.192/26.</p>
+          <p>*There are `128` addresses, but only `126` are assignable. The address where the host part is all 0s and the address where the host is all 1s (the broadcast address) are reserved.</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ip_addressing" aria-expanded="false" aria-controls="ip_addressing">Answer</button>
+      </div>
+      <h4>Obtaining a Host Address</h4>
+      <p>When an organization gets a block of addresses, it can manually assign addresses to the hosts and routers in the organization (meaning that a system admin would go to each device and configure the settings). But it's better to have that automated so that new hosts joining the network can automatically be assigned an IP address. This is done by using the <b>Dynamic Host Configuration Protocol (DHCP)</b>. DHCP can be configured so that a host gets the same IP address each time it connects to the network, or it can be given a <b>temporary IP address</b> that will be different each time.</p>
+      <p>Because everything is done automatically, DHCP is called a <b>plug-and-play</b> or <b>zeroconf</b> (zero-configuration) protocol.</p>
+      <p>DHCP is a client-server protocol where the client is a host that wants to connect to the network. Either a subnet has a DHCP server or the subnet is connected to a router that knows a DHCP server.</p>
+      <p>There are four steps involved for getting an IP address using the DHCP protocol:</p>
+      <ol>
+        <li>The client tries to find a DHCP server using a <b>DHCP discover message</b>.</li>
+        <li>Each DHCP server that gets the message responds with a <b>DHCP offer message</b>. The offer message contains the proposed IP address, the network mask, and an <b>IP address lease time</b>, which is the amount of time that the address is valid for.</li>
+        <li>The client chooses an offer message and responds with a <b>DHCP request message</b>.</li>
+        <li>The server responds with a <b>DHCP ACK message</b>.</li>
+      </ol>
+      <div class="ln-box">
+        <p>When a client is trying to join a network, it won't know the IP address of any DHCP servers (since it's not connected to the network). So what destination address does the client use to send the discover message? It uses 255.255.255.255 to reach all the devices in the network.</p>
+        <p>Likewise, when a DHCP server sends an offer message, it also has to use 255.255.255.255 because the client hasn't been assigned an IP address yet.</p>
+      </div>
+      <div class="ln-box">
+        <p>The IP address lease time is typically hours or days, but DHCP has a renew mechanism that allows a client to renew its lease on an IP address.</p>
+      </div>
+      <h3>Network Address Translation (NAT)</h3>
+      <p>Earlier we saw that ISPs divide their address blocks into smaller blocks and distributes them to their customers. But what if some customers have so many devices that need to connect to the Internet? The ISP has already divided its address block and distributed them, so it's not like they can just increase the range of addresses.</p>
+      <p>Instead of giving a range of addresses to customers, ISPs can give only one address. Then the organization's network can be set up using fake IP addresses.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/nat.png">
+      </div>
+      <p>For example, suppose our ISP gave us an IP address of 138.76.29.7. Then when our home network is set up, a fake subnet of 10.0.0/24 is created. So the phone, laptop, and computer are given fake IP addresses. If those devices want to communicate with each other, then they can identify each other using the fake addresses. But if any devices outside of the home network need to communicate with the devices in the home network (and vice versa), then those fake IP addresses won't work because they're not real. So the fake address (e.g., 10.0.0.1) needs to be translated into the real address (138.76.29.7). This is <b>network address translation (NAT)</b>.</p>
+      <p>The NAT-enabled router looks like a single device to the rest of the Internet. So all traffic coming out of the home network looks like it's coming from one device. This means that, in our example, the source IP address of all datagrams sent by the phone, laptop, and computer is 138.76.29.7.</p>
+      <p>This also means that all traffic going to the home network (regardless of whoever the receiver is) needs to go to one destination IP address: 138.76.29.7. But then how does the router know which device it's supposed to go to?</p>
+      <p>When the host sends a datagram, it puts an arbitrary port number in the source port field. Then the NAT router generates a new source port number for that datagram and puts that mapping into its <b>NAT translation table</b>. So the NAT translation table is used to know which device to send the data to.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/nat_2.png">
+      </div>
+      <table class="table">
+        <tr>
+          <th colspan="2">NAT Translation Table</th>
+        </tr>
+        <tr>
+          <td>138.76.29.7, 5001</td>
+          <td>10.0.0.2, 3345</td>
+        </tr>
+      </table>
+      <p>For example, let's say the laptop requests a Web page from 128.119.40.186.</p>
+      <ol>
+        <li>The laptop gives itself a port number of 3345 and sends a datagram to the router with source IP address 10.0.0.2 and source port number 3345.</li>
+        <li>The NAT router generates a new source port number 5001, translates the IP address to the real one, and sends the datagram to the Web server at 128.119.40.186.</li>
+        <li>The Web server sends the Web page to the NAT router (at the real IP address).</li>
+        <li>The NAT router looks at its translation table to find the correct destination.</li>
+      </ol>
+      <div class="ln-box">
+        <p>Since the port number field is `16` bits long, the NAT protocol can support up to `2^16=65,536` devices with just one IP address.</p>
+      </div>
+      <div class="ln-box">
+        <p>Benefits of NAT:</p>
+        <ul>
+          <li>range of addresses not needed from ISP</li>
+          <li>can change addresses of devices in local network without notifying outside world</li>
+          <li>can change ISP without changing addresses of devices in local network</li>
+          <li>devices inside local network are not explicitly addressable (they're not visible to potential hackers)</li>
+        </ul>
+        <p>Arguments against NAT:</p>
+        <ul>
+          <li>port numbers are meant to address processes, not hosts</li>
+          <li>routers should only process network-layer things (like IP address), but modifying the port number is a transport-layer thing</li>
+          <li>we should be using IPv6 instead of IPv4 (to handle the address shortage)</li>
+          <li>violates the principle that hosts should be able to communicate with each other without any intermediaries
+            <ul>
+              <li>this makes it harder for some applications, like P2P applications, to work properly</li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
