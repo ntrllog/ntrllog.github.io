@@ -1175,14 +1175,14 @@
       <h3>UDP Segment Structure</h3>
       <p>A UDP segment consists of five pieces:</p>
       <ul>
-        <li>source port number (2 bytes)</li>
-        <li>destination port number (2 bytes)</li>
-        <li>length (2 bytes)
+        <li>source port number (`2` bytes)</li>
+        <li>destination port number (`2` bytes)</li>
+        <li>length (`2` bytes)
           <ul>
             <li>specifies the size of the whole segment (header + application data)</li>
           </ul>
         </li>
-        <li>checksum (2 bytes)</li>
+        <li>checksum (`2` bytes)</li>
         <li>application data</li>
       </ul>
       <table class="table table-bordered text-center">
@@ -1694,17 +1694,17 @@
       <p>The data portion of the TCP segment contains the application data. If the application data is larger than the MSS, then it is broken up into chunks of size `le` MSS.</p>
       <p>The following are included in the TCP segment:</p>
       <ul>
-        <li><b>source</b> (2 bytes) <b>and destination port</b> (2 bytes) <b>numbers</b></li>
-        <li><b>checksum</b> (2 bytes)</li>
-        <li><b>sequence number</b> (4 bytes)</li>
-        <li><b>acknowledgment number</b> (4 bytes)</li>
-        <li><b>receive window</b> (2 bytes)
+        <li><b>source</b> (`2` bytes) <b>and destination port</b> (`2` bytes) <b>numbers</b></li>
+        <li><b>checksum</b> (`2` bytes)</li>
+        <li><b>sequence number</b> (`4` bytes)</li>
+        <li><b>acknowledgment number</b> (`4` bytes)</li>
+        <li><b>receive window</b> (`2` bytes)
           <ul>
             <li>the number of bytes a receiver is willing to accept</li>
           </ul>
         </li>
-        <li><b>header length</b> (0.5 bytes)</li>
-        <li><b>flags</b> (1 byte)
+        <li><b>header length</b> (`0.5` bytes)</li>
+        <li><b>flags</b> (`1` byte)
           <ul>
             <li><b>ACK</b></li>
             <li><b>RST</b></li>
@@ -1724,7 +1724,7 @@
             </li>
           </ul>
         </li>
-        <li><b>urgent data pointer</b> (2 bytes)
+        <li><b>urgent data pointer</b> (`2` bytes)
           <ul>
             <li>the location of the last byte of urgent data</li>
           </ul>
@@ -1770,7 +1770,7 @@
       <h4>Telnet: Sequence and Acknowledgment Numbers in Action</h4>
       <p>Telnet is an application-layer protocol that allows us to remotely log in to another computer. (It's the unencrypted version of SSH.)</p>
       <p>Suppose Host A initiates a Telnet session with Host B (so the person on Host A is remotely logging into Host B). Whenever the user on Host A types something, the input will be sent to Host B, which will send back a copy of the input to Host A. This "echo back" is so the user knows that the remote host received the input. This means that each character travels through the network twice (Host A `rarr` Host B and Host B `rarr` Host A). Let's look at what happens if the user on Host A types a single letter 'C'. (Note that sequence numbers will be increasing by `1` in this case because it only takes `1` byte to store a character.)</p>
-      <p>Let's say the starting sequence numbers are `42` and `79` for Host A and Host B respectively. When the letter 'C' is typed, Host A sends a segment with sequence number `42` and acknowledgment number `79`. Upon receiving the segment, Host B has to do two things: send an ACK and echo the data back. Both of these can be done in one step. The ACK can be included in the segment by putting `43` as the acknowledgment number. By doing this (a.k.a <b>piggybacking</b> the acknowledgment), Host B is saying that it is now waiting for byte `43` (implying that it has received `42`). And, of course, echoing the data back is done by putting the data in the segment. Once Host A gets the segment, it sends an ACK back to Host B by sending a segment with acknowledgment number `80`. The sequence number is `43` since Host A last sent `42`, and there is no data since this segment is solely for acknowledgment. So the ACK is not being piggybacked here.</p>
+      <p>Let's say the starting sequence numbers are `42` and `79` for Host A and Host B respectively. When the letter 'C' is typed, Host A sends a segment with sequence number `42` and acknowledgment number `79`. Upon receiving the segment, Host B has to do two things: send an ACK and echo the data back. Both of these can be done in one step. The ACK can be included in the segment by putting `43` as the acknowledgment number. By doing this (a.k.a. <b>piggybacking</b> the acknowledgment), Host B is saying that it is now waiting for byte `43` (implying that it has received `42`). And, of course, echoing the data back is done by putting the data in the segment. Once Host A gets the segment, it sends an ACK back to Host B by sending a segment with acknowledgment number `80`. The sequence number is `43` since Host A last sent `42`, and there is no data since this segment is solely for acknowledgment. So the ACK is not being piggybacked here.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/telnet.png">
       </div>
@@ -2700,7 +2700,7 @@
         <img class="img-fluid ln-image-small" src="../pictures/networking/ospf.png">
       </div>
       <h2 id="bgp">Routing Among the ISPs: BGP</h2>
-      <p>An intra-AS routing protocol, like OSPF, routes packets from a source to a destination inside the AS. But to route a packet from one AS to another AS, an <b>inter-autonomous system routing protocol</b> is needed. And in order for the communication between ASs to work, they all need to be using the same inter-AS routing protocol. In fact, the inter-AS routing protocol that all ASs run is the Border Gateway Protocol, a.k.a, <b>BGP</b>.</p>
+      <p>An intra-AS routing protocol, like OSPF, routes packets from a source to a destination inside the AS. But to route a packet from one AS to another AS, an <b>inter-autonomous system routing protocol</b> is needed. And in order for the communication between ASs to work, they all need to be using the same inter-AS routing protocol. In fact, the inter-AS routing protocol that all ASs run is the Border Gateway Protocol, a.k.a. <b>BGP</b>.</p>
       <h3>The Role of BGP</h3>
       <p>A subnet is a smaller part of a larger network (in this case, an AS) where all the IP addresses of the routers in the subnet start with the same prefix. BGP allows subnets to advertise their existence to all the routers in the Internet. And as mentioned earlier, BGP also determines the best route from one AS to another AS.</p>
       <div class="ln-box">
@@ -3092,10 +3092,10 @@
       <h3>IPv4 Datagram Format</h3>
       <p>The following are included in an IPv4 datagram:</p>
       <ul>
-        <li>Version number (4 bits)</li>
-        <li>Header length (4 bits)
+        <li>Version number (`4` bits)</li>
+        <li>Header length (`4` bits)
           <ul>
-            <li>used to determine where the data begins</li>
+            <li>used to determine where the data begins (since the header's length is variable)</li>
           </ul>
         </li>
         <li>Type of service
@@ -3104,7 +3104,7 @@
             <li>two of the bits are used for Explicit Congestion Notification</li>
           </ul>
         </li>
-        <li>Datagram length (16 bits)</li>
+        <li>Datagram length (`16` bits)</li>
         <li>Identifier, flags, offset
           <ul>
             <li>used to rebuild an IP datagram that was broken up into smaller IP datagrams</li>
@@ -3118,7 +3118,7 @@
         </li>
         <li>Protocol
           <ul>
-            <li>used to specify which protocol was used in the transport layer</li>
+            <li>used to specify which transport-layer protocol is receiving this datagram</li>
           </ul>
         </li>
         <li>Header checksum
@@ -3229,9 +3229,9 @@
         <p>Consider a router that interconnects three subnets. Suppose all of the interfaces in each of these three subnets are required to have the prefix 223.1.17/24. Also suppose that Subnet 1 is required to support `120` interfaces, Subnet 2 is to support `60` interfaces, and Subnet 3 is to support `60` interfaces. What are three network addresses (of the form a.b.c.d/x) for each subnet that satisfy these constraints?</p>
         <div id="ip_addressing" class="collapse ln-box">
           <p>First of all, 223.1.17 in binary is 11011111 00000001 00010001 00000000. The subnet mask is /24, so the prefix for all the subnets is the underlined part of <u>11011111 00000001 00010001</u> 00000000.</p>
-          <p>This means that only the last `8` bits are for address assignment. Using all `8` bits means that there are `2^8-2=254` addresses that can be assigned. But Subnet 1 is required to support only `120` interfaces, so we don't need to use all `8` bits. Using `7` bits means that there are `2^7-2=126` assignable addresses, so that's good enough for Subnet 1. If we only need `7` bits, then the last bit must be part of the prefix for Subnet 1.</p>
-          <p>So a network address for Subnet 1 is <u>11011111 00000001 00010001 0</u>0000000, a.k.a 223.1.17.0/25.</p>
-          <p>Using `6` bits means that there are `2^6-2=62` assignable addresses, which is good enough for Subnet 2 and Subnet 3. And the last two bits must be part of the prefix for Subnet 2 and Subnet 3, which means their subnet masks will be /26.</p>
+          <p>This means that only the last `8` bits are for address assignment. Using all `8` bits means that there are `2^8-2=254` addresses that can be assigned. But Subnet 1 is required to support only `120` interfaces, so we don't need to use all `8` bits. Using `7` bits means that there are `2^7-2=126` assignable addresses, so that's good enough for Subnet 1. If we only need `7` bits, then the remaining bit must be part of the prefix for Subnet 1.</p>
+          <p>So a network address for Subnet 1 is <u>11011111 00000001 00010001 0</u>0000000, a.k.a. 223.1.17.0/25.</p>
+          <p>Using `6` bits means that there are `2^6-2=62` assignable addresses, which is good enough for Subnet 2 and Subnet 3. And the remaining two bits must be part of the prefix for Subnet 2 and Subnet 3, which means their subnet masks will be /26.</p>
           <p>The `128` addresses* from 223.1.17.0 to 223.1.17.127 are reserved for Subnet 1. So the `64` addresses starting from 223.1.17.128 can be used for Subnet 2. This network address is 223.1.17.128/26.</p>
           <p>The `64` addresses from 223.1.17.128 to 223.1.17.191 are reserved for Subnet 2. So the `64` addresses starting from 223.1.17.192 can be used for Subnet 3. This network address is 223.1.17.192/26.</p>
           <p>*There are `128` addresses, but only `126` are assignable. The address where the host part is all 0s and the address where the host is all 1s (the broadcast address) are reserved.</p>
@@ -3308,6 +3308,64 @@
           </li>
         </ul>
       </div>
+      <h3>IPv6</h3>
+      <p>Using `32` bits for an IP address means that there are only `2^32=4,294,967,296` addresses available. With the growing number of devices, this number is really small. And in fact, the last remaining pool of unassigned IPv4 addresses was allocated in February 2011.</p>
+      <div class="ln-box">
+        <p>So what about IPv5? There was a protocol called ST-2 that was supposed to become IPv5, but ST-2 was dropped.</p>
+      </div>
+      <h4>IPv6 Datagram Format</h4>
+      <p>The main improvements from IPv4 are that `128` bits are used for IP addresses and that the header is fixed to `40` bytes. The concept of a <b>flow</b> was also introduced where a bunch of packets may be treated as a flow of packets.</p>
+      <div class="ln-center">
+        <p><pre>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|Version| Traffic class |           Flow label                  |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|         Payload length        |  Next header  |   Hop limit   |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++                   Source address (128 bits)                   +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++                 Destination address (128 bits)                +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++                             Data                              +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</pre></p>
+      </div>
+      <p>The following are included in an IPv6 datagram:</p>
+      <ul>
+        <li>Version number (`4` bits)</li>
+        <li>Traffic class (`8` bits)
+          <ul>
+            <li>used to assign priority</li>
+          </ul>
+        </li>
+        <li>Flow label (`20` bits)</li>
+        <li>Payload length (`16` bits)</li>
+        <li>Next header
+          <ul>
+            <li>used to specify which transport-layer protocol is receiving this datagram</li>
+            <li>(same as protocol field in IPv4)</li>
+          </ul>
+        </li>
+        <li>Hop limit
+          <ul>
+            <li>decremented by one each time the datagram is processed by a router</li>
+            <li>(same as TTL field in IPv4)</li>
+          </ul>
+        </li>
+        <li>Source and destination IP addresses</li>
+        <li>Data</li>
+      </ul>
+      <p>In IPv4, there were three fields used for datagram fragmentation and reassembly. In IPv6, routers are not allowed to break up datagrams into smaller pieces. Instead, if the datagram is too large, the router drops the datagram and sends an ICMP error message ("Packet Too Big") to the sender.</p>
+      <p>The header checksum was also removed, because error checking was already (assumed to be) performed in the transport layer and link layer.</p>
+      <p>The options field in IPv4 is not explicitly defined in IPv6. Instead, it can be included in the next header field if needed.</p>
+      <h4>Transitioning from IPv4 to IPv6</h4>
+      <p>While IPv6-capable devices can be introduced easily into the existing Internet (i.e., it's backward-compatible so that it can handle IPv4 datagrams), the existing IPv4 devices aren't capable of handling IPv6 datagrams.</p>
+      <p>The transition has been handled by a concept called <b>tunneling</b>. Suppose an IPv6 router wants to send an IPv6 datagram to another IPv6 router, but there is an IPv4 router in between them. The IPv6 router creates an IPv4 datagram and puts the whole IPv6 datagram in the data field of the IPv4 datagram. It also puts (the protocol number for) IPv6 in the protocol field. So when the IPv4 router receives the datagram, it is unaware that the datagram actually contains an IPv6 datagram; it treats it just like any other datagram and sends it to the next destination. When the other IPv6 router gets the IPv4 datagram from the IPv4 router, it looks at the protocol field to know that the datagram actualy contains an IPv6 datagram.</p>
+      <p>It's called tunneling because the IPv4 router(s) in between the IPv6 routers are seen as a <b>tunnel</b>.</p>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
