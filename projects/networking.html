@@ -51,11 +51,12 @@
         <li><a class="dropdown-item" href="#routingalgorithms">Routing Algorithms</a></li>
         <li><a class="dropdown-item" href="#ospf">Intra-AS Routing in the Internet: OSPF</a></li>
         <li><a class="dropdown-item" href="#bgp">Routing Among the ISPs: BGP</a></li>
-        <li><a class="dropdown-item" href="#sdn">The SDN Control Plane</a></li>
+        <li><a class="dropdown-item" href="#sdncontrolplane">The SDN Control Plane</a></li>
         <li><a class="dropdown-item" href="#icmp">ICMP: The Internet Control Message Protocol</a></li>
         <li><a class="dropdown-item" href="#networkmanagement">Network Management and SNMP</a></li>
         <li><a class="dropdown-item" href="#router">What's Inside a Router?</a></li>
         <li><a class="dropdown-item" href="#ip">The Internet Protocol</a></li>
+        <li><a class="dropdown-item" href="#sdnforwarding">Generalized Forwarding and SDN</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -2766,7 +2767,7 @@
           <p>IP-anycast is actually not really used by CDNs because changes in routes can cause different packets of the same TCP connection to end up at different servers. IP-anycast is used more by DNS.</p>
         </div>
       </div>
-      <h2 id="sdn">The SDN Control Plane</h2>
+      <h2 id="sdncontrolplane">The SDN Control Plane</h2>
       <p>As we saw way, way back, SDN is the architecture where there is a controller that creates the forwarding tables and gives them to the switches (as opposed to the switches creating the tables themselves). There are four key characteristics:</p>
       <ul>
         <li>Flow-based forwarding: Packet forwarding rules are specified in a switch's flow table instead of being determined by the datagram's destination IP address.</li>
@@ -3366,6 +3367,33 @@
       <p>While IPv6-capable devices can be introduced easily into the existing Internet (i.e., it's backward-compatible so that it can handle IPv4 datagrams), the existing IPv4 devices aren't capable of handling IPv6 datagrams.</p>
       <p>The transition has been handled by a concept called <b>tunneling</b>. Suppose an IPv6 router wants to send an IPv6 datagram to another IPv6 router, but there is an IPv4 router in between them. The IPv6 router creates an IPv4 datagram and puts the whole IPv6 datagram in the data field of the IPv4 datagram. It also puts (the protocol number for) IPv6 in the protocol field. So when the IPv4 router receives the datagram, it is unaware that the datagram actually contains an IPv6 datagram; it treats it just like any other datagram and sends it to the next destination. When the other IPv6 router gets the IPv4 datagram from the IPv4 router, it looks at the protocol field to know that the datagram actualy contains an IPv6 datagram.</p>
       <p>It's called tunneling because the IPv4 router(s) in between the IPv6 routers are seen as a <b>tunnel</b>.</p>
+      <h2 id="sdnforwarding">Generalized Forwarding and SDN</h2>
+      <p>Recall that forwarding is the process of moving a packet from a router's input port to the router's output port by looking at the router's forwarding table. This is a "match-plus-action" pattern where looking at the forwarding table is a "match" and sending the packet to the switching fabric is an "action".</p>
+      <p>For traditional routers (as opposed to SDN routers), the forwarding table consisted of destination IP addresses. So an IP address would be mapped to an output link (see the Destination-Based Forwarding section).</p>
+      <p>But for SDN routers, their tables contain forwarding rules that are determined by multiple header fields. The forwarding table is called a <b>flow table</b>.</p>
+      <p>The flow table has three columns. The first column is the set of header field values that the packet switch uses for lookup. A packet "matches" a flow table entry if its headers are found in the headers for the flow table entry. The second column is a set of counters. The counters may include how many packets matched a flow table entry and when the entry was last updated. The third column is the set of actions for the packet switch to perform when a packet matches a flow table entry.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/sdn.png">
+      </div>
+      <h3>Match</h3>
+      <p>There are `12` things that are checked for matching.</p>
+      <ul>
+        <li>Ingress port (the ID of the router's input port)</li>
+        <li>Source MAC address (link layer)</li>
+        <li>Destination MAC address (link layer)</li>
+        <li>Ethernet type (link layer)</li>
+        <li>VLAN ID (link layer)</li>
+        <li>VLAN priority (link layer)</li>
+        <li>Source IP address (network layer)</li>
+        <li>Destination IP address (network layer)</li>
+        <li>IP Protocol field (network layer)</li>
+        <li>IP TOS field (network layer)</li>
+        <li>TCP/UDP source port (transport layer)</li>
+        <li>TCP/UDP destination port (transport layer)</li>
+      </ul>
+      <p>There is typically not a rule for every single possible combination of values for all of these things. Some flow table entries can use wildcards. For example, a rule that matches an IP address of 128.119.*.* means that any IP address that starts with 128.119 will match that entry.</p>
+      <h3>Action</h3>
+      <p>There can be multiple actions to perform for a certain packet. The packet switch can forward the packet to an output port, drop the packet, or modify the packet-header fields before forwarding it.</p>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
