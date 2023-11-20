@@ -3376,7 +3376,7 @@
         <img class="img-fluid ln-image-small" src="../pictures/networking/sdn.png">
       </div>
       <h3>Match</h3>
-      <p>There are `12` things that are checked for matching.</p>
+      <p>There are `12` things that are checked for matching:</p>
       <ul>
         <li>Ingress port (the ID of the router's input port)</li>
         <li>Source MAC address (link layer)</li>
@@ -3394,6 +3394,92 @@
       <p>There is typically not a rule for every single possible combination of values for all of these things. Some flow table entries can use wildcards. For example, a rule that matches an IP address of 128.119.*.* means that any IP address that starts with 128.119 will match that entry.</p>
       <h3>Action</h3>
       <p>There can be multiple actions to perform for a certain packet. The packet switch can forward the packet to an output port, drop the packet, or modify the packet-header fields before forwarding it.</p>
+      <h3>OpenFlow Examples of Match-plus-action in Action</h3>
+      <p>Suppose we have a network with `6` hosts and `3` packet switches, each with `4` interfaces.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/match_plus_action.png">
+      </div>
+      <h4>Simple Forwarding</h4>
+      <p>Let's say there is a packet from h5 (or h6) that is going to h3 (or h4), and it's cheaper to go through s1. This would be s1's flow table:</p>
+      <table class="table">
+        <tr>
+          <th>Match</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Ingress Port = 1; Source IP = 10.3.*.*; Destination IP = 10.2.*.*</td>
+          <td>Forward to 4</td>
+        </tr>
+      </table>
+      <p>This would be s3's flow table:</p>
+      <table class="table">
+        <tr>
+          <th>Match</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Source IP = 10.3.*.*; Destination IP = 10.2.*.*</td>
+          <td>Forward to 3</td>
+        </tr>
+      </table>
+      <p>And this would be s2's flow table:</p>
+      <table class="table">
+        <tr>
+          <th>Match</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Ingress Port = 2; Destination IP = 10.2.0.3</td>
+          <td>Forward to 3</td>
+        </tr>
+        <tr>
+          <td>Ingress Port = 2; Destination IP = 10.2.0.4</td>
+          <td>Forward to 4</td>
+        </tr>
+      </table>
+      <h4>Load Balancing</h4>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/match_plus_action.png">
+      </div>
+      <p>Let's say packets from h3 and h4 are going to h2. But to reduce network congestion, we want the packets to travel through different links. This could be s2's flow table:</p>
+      <table class="table">
+        <tr>
+          <th>Match</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Ingress Port = 3; Destination IP = 10.1.0.2</td>
+          <td>Forward to 2</td>
+        </tr>
+        <tr>
+          <td>Ingress Port = 4; Destination IP = 10.2.0.2</td>
+          <td>Forward to 1</td>
+        </tr>
+      </table>
+      <p>So h3's packet would take the direct route from s2 to s1, while h4's packet would go from s2 to s3 to s1.</p>
+      <h4>Firewalling</h4>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/match_plus_action.png">
+      </div>
+      <p>Let's say s2 only wants to receive packets from s3. This would be s2's flow table:</p>
+      <table class="table">
+        <tr>
+          <th>Match</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Source IP = 10.3.*.*; Destination IP = 10.2.0.3</td>
+          <td>Forward to 3</td>
+        </tr>
+        <tr>
+          <td>Source IP = 10.3.*.*; Destination IP = 10.2.0.4</td>
+          <td>Forward to 4</td>
+        </tr>
+      </table>
+      <p>Note that there are no rules for Source IP = 10.1.*.*, so packets coming from s1 would be dropped.</p>
+      <hr>
+      <p>Now to the link layer!</p>
+      <hr>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
