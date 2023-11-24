@@ -57,6 +57,9 @@
         <li><a class="dropdown-item" href="#router">What's Inside a Router?</a></li>
         <li><a class="dropdown-item" href="#ip">The Internet Protocol</a></li>
         <li><a class="dropdown-item" href="#sdnforwarding">Generalized Forwarding and SDN</a></li>
+        <li><a class="dropdown-item" href="#linklayer">Introduction to the Link Layer</a></li>
+        <li><a class="dropdown-item" href="#errordetection">Error-Detection and -Correction Techniques</a></li>
+        <li><a class="dropdown-item" href="#multipleaccess">Multiple Access Links and Protocols</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1271,7 +1274,7 @@
       </div>
       <p>Note there is one FSM for the sender and one FSM for the receiver. Each FSM only has one state because at this point, there's not really much to do besides waiting for data to send or receive. In other words, before we can send data, we have to wait for data. And after we send data, we have to wait for more data. So the only thing to do after taking any action is to wait.</p>
       <h4>Reliable Data Transfer over a Channel with Bit Errors: <code>rdt2.0</code></h4>
-      <p>Now let's assume the underlying channel may sometimes corrupt some of the bits. First, we need a way to know if the data is corrupted. For this, we have the checksum technique.</p>
+      <p>Now let's assume the underlying channel may sometimes corrupt some of the bits. First, we need a way to know if the data is corrupted. The checksum technique is one way, but there are other techniques that are more reliable (see Error-Detection and -Correction Techniques).</p>
       <p>Next, we need a way to let the sender know whether the data received is good or bad. For this, we introduce acknowledgments. If the data is good, then the receiver will send a <b>positive acknowledgment</b> (ACK) to the sender. If the data is bad, then the receiver will send a <b>negative acknowledgment</b> (NAK) to the sender, telling the sender to send the data again.</p>
       <div class="ln-box">
         <p>Reliable data transfer protocols based on retransmission are called <b>Automatic Repeat reQuest (ARQ) protocols</b>.</p>
@@ -3480,6 +3483,196 @@
       <hr>
       <p>Now to the link layer!</p>
       <hr>
+      <h2 id="linklayer">Introduction to the Link Layer</h2>
+      <p>We'll call a device that runs a link-layer protocol a <b>node</b>. And the communication channels that connect the nodes are called <b>links</b>. A node encapsulates a datagram in a <b>link-layer frame</b> and transmits the frame into the link. The job of the link layer is to transfer frames from one node to another.</p>
+      <p>Suppose we are traveling and a travel agent plans for us to take a bus from A to B, a plane from B to C, and a train from C to D. In this analogy, we would be a datagram, each transportation segment would be a link, the mode of transportation would be a link-layer protocol, and the travel agent would be a routing protocol.</p>
+      <h3>Where Is the Link Layer Implemented?</h3>
+      <p>Most of the link layer is implemented on a chip called the <b>network adapter</b>, which is also sometimes called a <b>network interface controller</b>. The network adapter is the one that does the encapsulation, and it also does error detection.</p>
+      <p>Some of the link layer is implemented in software as well. The software handles error conditions and passes datagrams up to the network layer.</p>
+      <h2 id="errordetection">Error-Detection and -Correction Techniques</h2>
+      <p>As frames move across links, some of their bits may get flipped. So the receiver on the other side of the link has to perform error detection. However, the error-detection techniques available are not completely reliable; there may still be <b>undetected bit errors</b>, but this is rare.</p>
+      <div class="ln-box">
+        <p>Let `D` denote the data that is being sent. At the sending node, `D` is combined with error-detection and -correction bits denoted as `EDC`. Let `D'` and `EDC'` be the result of the frame moving across the link. Given only `D'` and `EDC'`, the receiver has to check if `D'` is the same as `D`.</p>
+        <p>A larger number of `EDC` bits lowers the probability of undetected bit errors (by allowing for more sophisticated error-detection techniques), but results in a larger computation and transmission overhead.</p>
+      </div>
+      <h3>Parity Checks</h3>
+      <p>Suppose `D` has `d` bits. The sending node will add a single <b>parity bit</b> such that the total number of `1`s is even (or odd in an odd parity scheme). The receiving node will then count the number of `1`s. If an even parity scheme is used, then if the receiver counts an odd number of `1`s, then it knows there is a bit error. If there are an even number of `1`s, then it thinks there are no errors. (Note that it's possible for bits to be flipped in a way such that there are still an even number of `1`s. In this case, there would be an undetected bit error.)</p>
+      <p>For example, consider `d` data bits: `0 1 1 1`. There are an odd number of `1`s, so the sender will add a `1` as the parity bit.</p>
+      <div class="ln-center">
+        <p>`ubrace(0 1 1 1)_text(d bits) ubrace(1)_text(parity bit)`</p>
+      </div>
+      <p>Now let's look at <b>two-dimensional parity</b>. Suppose the `d` bits are divided into `i` rows and `j` columns.</p>
+      <div class="ln-center">
+        <p>`[[d_(1,1),...,d_(1,j)],[d_(2,1),...,d_(2,j)],[vdots, ..., vdots],[d_(i,1),...,d_(i,j)]]`</p>
+      </div>
+      <p>The parity will be computed for each row and column, so there will be `i+j+1` parity bits.</p>
+      <p>For example, suppose the `d` bits look like this:</p>
+      <div class="ln-center">
+        <p>`[[1,0,1,0,1],[1,1,1,1,0],[0,1,1,1,0]]`</p>
+      </div>
+      <p>Suppose that none of the bits got flipped. Then the top-left half is the result.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/parity.png">
+      </div>
+      <p>Now suppose the bit in the second row and second column got flipped. Then the bottom-right half is the result. There an odd number of `1`s in that row and column, so we can tell exactly where the error occurred. Actually, we can go even further and correct the error by changing the `0` to a `1`. The ability to detect and correct errors is called <b>forward error correction (FEC)</b>.</p>
+      <div class="ln-box">
+        <p>It is also possible for the parity bits to get flipped.</p>
+      </div>
+      <h3>Checksum</h3>
+      <p>Back in the transport layer, we saw the checksumming algorithm that UDP uses. The <b>Internet checksum</b> is pretty much the same: the sender will divide the data into `16`-bit integers, get the sum, and perform `1`s complement to calculate the checksum. When the receiver gets the data, it will divide the data into `16`-bit integers, get the sum, and add that sum to the checksum that the sender computed. If all the bits are the same, then no errors were detected. If some of the bits are different, then there was an error.</p>
+      <div class="ln-box">
+        <p>Checksumming is a lightweight operation, but it's also a fairly weak error-detection technique. It's used in the transport layer though because the transport layer is implemented in software. Using software to run complicated algorithms can take a long time, so it's better to have software running a fast operation.</p>
+        <p>Since error detection in the link layer is implemented in hardware, stronger, more complex algorithms can be used.</p>
+      </div>
+      <h3>Cyclic Redundancy Check (CRC)</h3>
+      <p>The error detection that is performed at the link layer is based on <b>cyclic redundancy check (CRC) codes</b>.</p>
+      <p>Before doing anything, the sender and receiver first have to agree on a special number, which we'll call a <b>generator</b>, denoted as `G`. The leftmost bit of `G` must be `1`. Then the sender will append `r` bits (all denoted as `R`) to `D` such that the resulting `d+r` bits are divisible by `G`. So the receiver will divide the `d+r` bits by `G` and if the remainder is not zero, then it knows there was an error.</p>
+      <div class="ln-box">
+        <p>All CRC math operations are done in modulo-`2` arithmetic without carries in addition and borrows in subtraction. This means that `1+1=0` and `0-1=1`. As a result, addition and subtraction are the same. For example,</p>
+        <div class="ln-center">
+          <p>`1011-0101=1110=1011+0101`</p>
+          <p>`1001-1101=0100=1001+1101`</p>
+        </div>
+        <p>This also happens to be equivalent to the XOR operator, where it's `1` if both bits are different and `0` if both bits are the same. So adding/subtracting in modulo-`2` is the same as performing XOR.</p>
+      </div>
+      <div class="ln-box">
+        <p>In binary arithmetic, multiplying a number by `2^k` shifts the bits to the left `k` times. For example, consider `5*4=20`. `5` in binary is `101` and `20` in binary is `10100`. In this case, `4=2^k implies k=2`, and we can see that `10100` is indeed `101` shifted to the left `2` times.</p>
+        <p>So if we multiply `D` by `2^r`, `D` will be shifted to the left `r` times. Then if we XOR `D*2^r` with `R`, we'll end up with the `d+r` bit pattern.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/crc.gif">
+        </div>
+      </div>
+      <p>So once the sender and receiver know what `G` is, the sender has to pick `R` such that the `d+r` bits is a number divisible by `G`. But how?</p>
+      <p>First, the `d+r` bits can be represented as `D*2^r text( XOR ) R`. In order for it to be divisible by `G`, there has to exist an `n` such that</p>
+      <div class="ln-center">
+        <p>`D*2^r text( XOR ) R = nG`</p>
+      </div>
+      <p>If we XOR (add modulo-`2` without carry) `R` to both sides, we get</p>
+      <div class="ln-center">
+        <p>`D*2^r = nG text( XOR ) R`</p>
+      </div>
+      <p>Let's try to express `D*2^r` as a product involving `G`. Consider for a moment what happens when we divide `D*2^r` by `G`. The result will be some number plus a remainder. And remember that "plus" is the same as "XOR" in CRC math.</p>
+      <div class="ln-center">
+        <p>`D*2^r = nG text( XOR ) R`</p>
+        <p>`text(some number)*G text( XOR a remainder) = nG text( XOR ) R`</p>
+      </div>
+      <p>This means that the remainder <em>is</em> `R`. So we've found `R`, which is the question we wanted to answer! `R` is the remainder of `(D*2^r)/G`.</p>
+      <div class="ln-box">
+        <p>Suppose `D=101110`, `G=1001`, and `r=3`. To find `R`, we divide `D*2^r` by `G`.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/crc.png">
+        </div>
+      </div>
+      <h2 id="multipleaccess">Multiple Access Links and Protocols</h2>
+      <p>There are two types of network links: point-to-point links and broadcast links. A <b>point-to-point link</b> has one node on each end of the link. A <b>broadcast link</b> can have multiple sending and receiving nodes on each end of the link. So when one node transmits a frame, all the nodes on the same channel receive a copy of it.</p>
+      <p>However, when multiple nodes can send and receive at the same time, things can get messy. This is referred to as the <b>multiple access problem</b>. If more than two nodes transmit frames at the same time, then the other nodes will receive them at the same time. The frames will <b>collide</b> with each other and get all mixed up.</p>
+      <p>To prevent collisions, there are <b>multiple access protocols</b> that coordinate the transmission of the nodes. Ideally, the protocols should satisfy these conditions:</p>
+      <ul>
+        <li>when one node is sending, it has a throughput of `R` bits per second (where `R` is the rate of the channel)</li>
+        <li>when `M` nodes are sending, each of them has an average (not instantaneous) throughput of `R/M` bps</li>
+        <li>the protocol is decentralized so that there is no master node (and thus no single point of failure)</li>
+        <li>the protocol is simple and inexpensive</li>
+      </ul>
+      <h3>Channel Partitioning Protocols</h3>
+      <p>Remember time-division multiplexing (TDM) and frequency-division multiplexing (FDM)? They're two ways to divide a broadcast channel's bandwidth among all the nodes sharing that channel.</p>
+      <p>TDM divides time into <b>time frames</b>, which are then further divided into <b>time slots</b>. If there are `N` nodes, then each time frame will be divided into `N` slots, one for each node. So a node will only send data when its turn arrives.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/tdm_2.png">
+      </div>
+      <p>TDM prevents collisions and guarantees each node gets `R/N` throughput during each frame time. This guarantee can also be a drawback though. A node gets at most `R/N` throughput, even if it is the only node that has data to send. In addition, a node has to wait for its turn to send data, even if it is the only node with data to send.</p>
+      <p>FDM divides the channel into `N` different frequencies, each with a bandwidth of `R/N`. In this case, a node can send data at any time, but it is still limited to at most `R/N` bps, even if it is the only node with data to send.</p>
+      <div class="ln-box">
+        <p>A third channel partitioning protocol is <b>code division multiple access (CDMA)</b>. A unique code is assigned to each node, and each node uses its code to encode the data it sends. The codes can be chosen in such a way that all the nodes can transmit at the same time and their respective receivers won't get mixed up, assuming the receiver knows the sender's code.</p>
+      </div>
+      <h3>Random Access Protocols</h3>
+      <p>In random access protocols, nodes always transmit at `R` bits per second and wait for some random time when a collision occurs. When a collision occurs, the nodes involved repeatedly send their frames until they get through with no collisions. Of course, if they all repeatedly send at the same time, collisions will keep happening. So each node waits a random delay before retransmitting.</p>
+      <h4>Slotted ALOHA</h4>
+      <p>In slotted ALOHA, time is divided into slots like in TDM. Unlike in TDM, all nodes get to utilize the full bandwidth and send at the same time. At each time slot, each node randomly decides whether it will send or wait until the next slot.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/slotted_aloha.gif">
+      </div>
+      <p>We'll assume that</p>
+      <ul>
+        <li>all frames have `L` bits</li>
+        <li>the length of a slot is the time it takes to transmit one frame (i.e., a slot is `L/R` seconds long)</li>
+        <li>nodes start to transmit only at the beginning of slots</li>
+        <li>each node knows when the slots begin (i.e., they're synchronized)</li>
+        <li>all the nodes involved in a collision detect the collision before the slot ends</li>
+      </ul>
+      <p>Slotted ALOHA is decentralized since each node detects collisions and independently decides when to transmit. And besides needing the nodes to be synchronized, it's a pretty simple protocol.</p>
+      <p>However, it's not that efficient. When there are multiple active nodes (nodes that have frames to send), some of the slots will have collisions and be "wasted". There's also a chance that none of the nodes decide to transmit during a time slot, resulting in an unutilized slot.</p>
+      <div class="ln-box">
+        <p>A <b>successful slot</b> is a slot in which exactly one node transmits. The <b>efficiency</b> of a slotted multiple access protocol is the fraction of successful slots over time when there are a lot of active nodes.</p>
+        <p>Suppose that each node tries to transmit a frame in each slot with probability `p`. A slot is successful if one node transmits and the other `N-1` nodes don't. The probability of this is `p(1-p)^(N-1)`. The probability that any of the `N` nodes succeeds is `Np(1-p)^(N-1)`.</p>
+        <p>So when there are `N` active nodes, the efficiency is `Np(1-p)^(N-1)`. The math gets a little funky, but it turns out that the maximum efficiency is `1/e~~0.37` (and the probability that achieves this maximum efficiency is `p=1/N`).</p>
+        <p>This means that when there are a lot of active nodes, only `37%` of the slots will be successful. A channel capable of transmitting a frame at `100` Mbps will effectively only have a successful throughput of `37` Mbps in the long run.</p>
+      </div>
+      <h4>ALOHA</h4>
+      <p>In pure ALOHA, there are no time slots (so the nodes don't need to be synchronized). Whenever a node receives a frame, it just transmits the frame right away. If there is a collision, the node will retransmit with probability `p` or wait for some time with probability `1-p`.</p>
+      <div class="ln-box">
+        <p>With no time slots to synchronize the sending, the likelihood of collisions increases greatly. But how bad is it?</p>
+        <p>Suppose node `i` begins transmitting a frame at time `t_0`. In order for this frame to be successfully transmitted, no other frames can start to be transmitted between `t_0-1` and `t_0`. This happens with probability `(1-p)^(N-1)`.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/networking/aloha.png">
+        </div>
+        <p>In addition, no other frames can start to be transmitted between `t_0` and `t_0+1`. This also happens with probability `(1-p)^(N-1)`.</p>
+        <p>So the probability that the frame is successfully transmitted is `p*(1-p)^(N-1)*(1-p)^(N-1)=p(1-p)^(2(N-1))`. After some of the funky math again, it turns out that the maximum efficiency is `1/(2e)`, which is half the efficiency of slotted ALOHA.</p>
+      </div>
+      <h4>Carrier Sense Multiple Access (CSMA)</h4>
+      <p>Naturally, it makes sense to have the nodes check the channel before transmitting. If the channel is not being used by any other nodes, then the node can begin transmitting. If the channel is busy, then the node should wait and then check again later. This is called <b>carrier sensing</b>. From a node's perspective, a channel is busy if it can detect a signal on the channel from another node.</p>
+      <p>However, it's still possible for collisions to happen. Let's say node `A` starts transmitting a frame at time `t_0`. Suppose, for some reason, that it takes a lot of time for that node's bits to propagate along the channel (<b>channel propagation delay</b>). Let's say node `B` checks the channel at time `t_1` and the bits from node `A` haven't reached `B` yet. `B` will think that the channel is empty and start transmitting. So now there are two frames being transmitted, resulting in a collision.</p>
+      <h4>Carrier Sense Multiple Access with Collision Detection (CSMA/CD)</h4>
+      <p>While a node is transmitting, if it detects that another node is transmitting, then the node will stop transmitting and wait before trying again. This is <b>collision detection</b>. Having collision detection prevents damaged frames from being sent.</p>
+      <p>So how long should the nodes wait if it detects a collision? If the waiting interval is large, but the number of collisions was small, then the channel will be idle for quite some time. On the other hand, if the waiting interval is small, but the number of collisions is large, then it's likely some of the nodes will wait the same amount of time as each other and collide again.</p>
+      <p>The <b>binary exponential backoff</b> algorithm is used to solve this problem. When a node transmits a frame that has already had `n` collisions, that node waits for a random time from `0` to `2^n-1`. So the more collisions the frame has had, the longer it potentially has to wait before being retransmitted.</p>
+      <ul>
+        <li>After `1` collision: `{0,1}`</li>
+        <li>After `2` collisions: `{0,1,2,3}`</li>
+        <li>After `3` collisions: `{0,1,2,3,4,5,6,7}`</li>
+        <li>After `10` collisions: `{0,1,2,...,1023}`</li>
+      </ul>
+      <div class="ln-box">
+        <p>Let `K` be the random time that is picked from `{0,1,2,...,2^n-1}`. For Ethernet, the maximum value of `n` is `10`, and the actual amount of time a node waits is `K*512` bit times. `512` bit times is the amount of time needed to send `512` bits into the Ethernet. For a `100` Mbps Ethernet, `512` bit times is `5.12` microseconds.</p>
+      </div>
+      <div class="ln-box">
+        <h4>CSMA/CD Efficiency</h4>
+        <p>The <b>efficiency of CSMA/CD</b> is the fraction of time during which frames are successfully transmitted when there are lot of active nodes.</p>
+        <p>Let `d_text(prop)` be the maximum time it takes signal energy to propagate between any two nodes. Let `d_text(trans)` be the time to transmit a maximum-size frame. The efficiency turns out to be</p>
+        <div class="ln-center">
+          <p>`1/(1+(5d_text(prop))/d_text(trans))`</p>
+        </div>
+        <p>Note that as `d_text(prop) rarr 0`, the efficiency approaches `1`. This makes sense because if nodes can quickly tell when the channel is busy, they can wait to transmit and prevent a collision (or stop their transmission if they were already transmitting and prevent wasted time).</p>
+        <p>Also, as `d_text(trans) rarr oo`, the efficiency approaches `1`. In this case, the frame is very large, so it will take a while for the node to transmit it. The longer this takes, the less likely it is for other nodes to cause collisions (since the time to transmit will likely cancel out the effect of channel propagation delay). So all of this time will be counted towards successful transmission.</p>
+      </div>
+      <div class="ln-box">
+        <p>For the channel partitioning protocols:</p>
+        <ul>
+          <li>the channel is efficient and fair at high loads</li>
+          <li>the channel is inefficient at low loads
+            <ul>
+              <li>when there is only one active node, it only has a throughput of `1/N`</li>
+            </ul>
+          </li>
+        </ul>
+        <p>For the random access protocols:</p>
+        <ul>
+          <li>the channel is efficient low loads
+            <ul>
+              <li>when there is only one active node, it can fully utilize the channel</li>
+            </ul>
+          </li>
+          <li>there are collisions at high loads</li>
+        </ul>
+      </div>
+      <h3>Taking-Turns Protocols</h3>
+      <p>As mentioned earlier, when one node is active, it should ideally have a throughput of `R`. And when `M` nodes are active, they all should ideally have a throughput of `R/M`. Random access protocols satisfy the first property but not the second. So <b>taking-turns protocols</b> were developed to try to achieve both.</p>
+      <h4>Polling Protocol</h4>
+      <p>In the <b>polling protocol</b>, a central controller node <b>polls</b> each of the other nodes one at a time. If the current node being polled has data to send, then it will be allowed to send. If the current node has no data to send, then the controller node will poll the next node.</p>
+      <p>Since only one node is sending at a time, there are no collisions. There are also not a lot of empty slots since the controller node immediately polls the next node. So this is pretty efficient.</p>
+      <p>However, there is a polling delay from the controller node to the other nodes. Also, the whole thing fails if the controller node fails.</p>
+      <h4>Token-Passing Protocol</h4>
+      <p>Instead of a controller node that decides when the nodes get to send, there is a <b>token</b> that is passed around in some fixed order. When the node gets the token, it gets to send.</p>
+      <p>While this is also decentralized and efficient, there can be problems with passing the token. For example, if one node fails, then the whole thing fails since the token will not get past that failed node.</p>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
