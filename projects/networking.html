@@ -60,6 +60,7 @@
         <li><a class="dropdown-item" href="#linklayer">Introduction to the Link Layer</a></li>
         <li><a class="dropdown-item" href="#errordetection">Error-Detection and -Correction Techniques</a></li>
         <li><a class="dropdown-item" href="#multipleaccess">Multiple Access Links and Protocols</a></li>
+        <li><a class="dropdown-item" href="#lan">Switched Local Area Networks</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -3673,6 +3674,59 @@
       <h4>Token-Passing Protocol</h4>
       <p>Instead of a controller node that decides when the nodes get to send, there is a <b>token</b> that is passed around in some fixed order. When the node gets the token, it gets to send.</p>
       <p>While this is also decentralized and efficient, there can be problems with passing the token. For example, if one node fails, then the whole thing fails since the token will not get past that failed node.</p>
+      <h2 id="lan">Switched Local Area Networks</h2>
+      <p>A link-layer switch operates at the link layer, so they switch link-layer frames and don't recognize network-layer addresses. This is different from a layer-3 (network layer) packet switch.</p>
+      <h3>Link-Layer Addressing and ARP</h3>
+      <h4>MAC Addresses</h4>
+      <p>In addition to having an IP address, network interfaces also have a link-layer address. <b>LAN address</b>, <b>physical address</b>, and <b>MAC address</b> are all terms for a link-layer address.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/mac.png">
+        <p>The square is a link-layer switch and the circle is a router.</p>
+      </div>
+      <div class="ln-box">
+        <p>Only the interfaces on hosts and routers have link-layer addresses. For link-layer switches, their adapters that connect to hosts and routers do not have link-layer addresses. This is because, at the network layer, hosts or routers set the destination of the datagram to another host or router, not to a link-layer switch.</p>
+      </div>
+      <p>A MAC address is `6` bytes long and are represented as six pairs of hexadecimal numbers.</p>
+      <p>Since a MAC address has `48` bits, there are `2^48` possible MAC addresses. Interestingly, no two adapters have the same MAC address. How does one company manufacturing adapters make sure that their adapters don't have the same addresses as other adapters from another company? The answer is similar to the way ISPs give out IP addresses to companies. In this case, IEEE manages the MAC address space, and companies purchase a chunk of the address space (`2^24` addresses). IEEE fixes the first `24` bits and lets the company choose the last `24` bits.</p>
+      <p>While IP addresses are hierarchical (they have a network part and host part) and change when connected to a different network, MAC addresses are not hierarchical and always stay the same regardless of which network the device is connected to.</p>
+      <p>When an adapter wants to send a frame, it puts the destination adapter's MAC address into the frame and sends the frame into the LAN. When an adapter receives a frame, it checks to see if the destination MAC address in the frame matches its own MAC address. If it matches, the adapter extracts the datagram from the frame and passes it up to the network layer. If the sending adapter wants to send a frame to all adapters on the LAN, it will use a special MAC <b>broadcast address</b> (all `1`s, which is FF-FF-FF-FF-FF-FF in hexadecimal) as the destination.</p>
+      <h4>Address Resolution Protocol (ARP)</h4>
+      <p>The <b>Address Resolution Protocol (ARP)</b> is used to translate between network-layer addresses and link-layer addresses.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/arp.png">
+        <p>The IP addresses are shown in dotted-decimal notation and the MAC addresses are shown in hexadecimal notation.</p>
+      </div>
+      <p>Suppose 222.222.222.220 wants to send an IP datagram to 222.222.222.222. In order for this to happen, the source has to give its adapter the IP datagram and the destination MAC address for 222.222.222.222. But how does the source know what the MAC address of 222.222.222.222 is?</p>
+      <p>This is where ARP comes in. An ARP module in the sending host looks up the IP address in an <b>ARP table</b> and returns the corresponding MAC address.</p>
+      <table class="table">
+        <tr>
+          <th>IP Address</th>
+          <th>MAC Address</th>
+          <th>TTL</th>
+        </tr>
+        <tr>
+          <td>222.222.222.221</td>
+          <td>88-B2-2F-54-1A-0F</td>
+          <td>13:45:00</td>
+        </tr>
+      </table>
+      <div class="ln-box">
+        <p>ARP only resolves IP addresses for host and router interfaces on the same subnet.</p>
+      </div>
+      <p>But what happens if an IP address doesn't exist yet in an ARP table? For example, 222.222.222.220 wants to send an IP datagram to 222.222.222.222, but the receiver's MAC address is not in the sender's ARP table. First, the sender will send an <b>ARP packet</b> to the MAC broadcast address asking all the hosts and routers for their MAC address if their IP address is 222.222.222.222. Then, 222.222.222.222 will respond to 222.222.222.220 with its MAC address.</p>
+      <div class="ln-box">
+        <p>ARP is a plug-and-play protocol. The ARP table gets built automatically without needing any human intervention.</p>
+      </div>
+      <div class="ln-box">
+        <p>An ARP packet is encapsulated within a link-layer frame. That is, an ARP packet is <em>not</em> a link-layer frame. However, an ARP packet has link-layer fields like a link-layer frame does.</p>
+      </div>
+      <h4>Sending a Datagram off the Subnet</h4>
+      <p>So far, we've seen how ARP works for hosts on the same subnet. But what if a host wants to send a datagram to another host that is on a different subnet? Suppose there are two subnets connected by a router.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/arp_2.png">
+      </div>
+      <p>What happens when 111.111.111.111 wants to send a datagram to 222.222.222.222? Well, in order to get to 222.222.222.222, the datagram would have to go through the router. So the sender puts 222.222.222.222 as the destination IP address and E6-E9-00-17-BB-4B (the router's MAC address) as the destination MAC address. (And the router's MAC address is obtained via ARP.) When the router gets the frame, it extracts the datagram and passes it up to the network layer.</p>
+      <p>Now the router has to determine which output link to forward the datagram to. As we saw before, this is done by looking at the forwarding table. Once it knows where to forward the datagram, the router's adapter encapsulates the datagram into a frame and sends the frame to the receiver. Again, the MAC address of the receiver is obtained via ARP.</p>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
