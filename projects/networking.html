@@ -61,6 +61,9 @@
         <li><a class="dropdown-item" href="#errordetection">Error-Detection and -Correction Techniques</a></li>
         <li><a class="dropdown-item" href="#multipleaccess">Multiple Access Links and Protocols</a></li>
         <li><a class="dropdown-item" href="#lan">Switched Local Area Networks</a></li>
+        <li><a class="dropdown-item" href="#linkvirtualization">Link Virtualization: A Network as a Link Layer</a></li>
+        <li><a class="dropdown-item" href="#datacenter">Data Center Networking</a></li>
+        <li><a class="dropdown-item" href="#dayinthelife">A Day in the Life of a Web Page Request</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1978,12 +1981,12 @@
         <p>The server's secret number is an important part in generating the SYN cookie. IP addresses and port numbers are obtainable information, so anyone could generate the SYN cookie and send fake ACKs. Only the server knows the secret number, so only the server can tell whether the SYN cookie is real or fake.</p>
       </div>
       <h2 id="congestioncontrol">TCP Congestion Control</h2>
-      <p>Network congestion is caused by too many senders sending data at a rate that is too fast for the network to handle. This can lead to packet delays and packet loss. TCP uses something called end-to-end congestion control. This means that congestion is detected by the presence of packet loss and delays.</p>
+      <p>Network congestion is caused by too many senders sending data at a rate that is too fast for the network to handle. This can lead to packet delays and packet loss. To try and prevent this, TCP uses something called end-to-end congestion control. This means that congestion is detected by the presence of packet loss and delays.</p>
       <div class="ln-box">
         <p>The other approach for congestion control is network-assisted congestion control. This means that congestion is detected by the network routers telling us (the transport layer) that there is congestion.</p>
       </div>
       <h3>Classic TCP Congestion Control</h3>
-      <p>The sender will control its send rate based on how much congestion is in the network. If there is little to no congestion, then the sender will increase its send rate. If there is congestion, then the sender will slow down its send rate. Firstly, how do we control the sender's sending rate?</p>
+      <p>The sender will control its send rate based on how much congestion is in the network. If there is little to no congestion, then the sender will increase its send rate. If there is congestion, then the sender will slow down its send rate. So, how do we control the sender's sending rate?</p>
       <p>Earlier, we saw that the sender keeps track of <code>LastByteSent</code>, <code>LastByteAcked</code>, and <code>rwnd</code>. For congestion control, the sender keeps track of one more variable called the <b>congestion window</b> (denoted by <code>cwnd</code>). This congestion window is an arbitrary dynamic value that is used to limit the sender's rate. So now, the number of unACK'ed segments on the sender's side cannot exceed the receiver's free buffer spaces and the congestion window (whichever one is lower):</p>
       <div class="ln-center">
         <p>`text(LastByteSent)-text(LastByteAcked)le min{text(cwnd),text(rwnd)}`</p>
@@ -1998,7 +2001,7 @@
       <div class="ln-box">
         <p>One subtle note about the interpretation of RTT: instead of being the round-trip time for a single segment, RTT will be referring to the round-trip time for sending <code>cwnd</code> bytes.</p>
       </div>
-      <p>Secondly, how can we (the sender) tell if there is congestion? Well, if there is a lot of congestion, then it's likely that packets will be dropped. We know packets are dropped (or considered dropped), when the timer goes off or three duplicate ACKs are received (see "Fast Retransmit"). So if there is a loss event, then the sender's sending rate should be lowered.</p>
+      <p>How can we (the sender) tell if there is congestion? Well, if there is a lot of congestion, then it's likely that packets will be dropped. We know packets are dropped (or considered dropped), when the timer goes off or three duplicate ACKs are received (see "Fast Retransmit"). So if there is a loss event, then the sender's sending rate should be lowered.</p>
       <p>If there is not a lot of congestion, then the sender will receive ACKs, in which case the sender's sending rate can be increased. However, there could be a middle-ground situation where there is not too much congestion, but there is still a fair amount of it. In this case, the ACKs will come back, just at a slower rate. This is an indication that the sender's sending rate can be increased, just not by too much. Since TCP uses acknowledgments to trigger (or clock) an increase in congestion window size, TCP is <b>self-clocking</b>.</p>
       <p>All of these points lead to this strategy: if ACKs keep coming, keep on increasing the sending rate until no more ACKs come. If no more ACKs come, then decrease the sending rate to a point where ACKs will come and start increasing the rate again.</p>
       <p>So we know when the sending rate should be changed, but now the question is by how much? There is a <b>TCP congestion-control algorithm</b> that decides.</p>
@@ -3727,6 +3730,228 @@
       </div>
       <p>What happens when 111.111.111.111 wants to send a datagram to 222.222.222.222? Well, in order to get to 222.222.222.222, the datagram would have to go through the router. So the sender puts 222.222.222.222 as the destination IP address and E6-E9-00-17-BB-4B (the router's MAC address) as the destination MAC address. (And the router's MAC address is obtained via ARP.) When the router gets the frame, it extracts the datagram and passes it up to the network layer.</p>
       <p>Now the router has to determine which output link to forward the datagram to. As we saw before, this is done by looking at the forwarding table. Once it knows where to forward the datagram, the router's adapter encapsulates the datagram into a frame and sends the frame to the receiver. Again, the MAC address of the receiver is obtained via ARP.</p>
+      <h3>Ethernet</h3>
+      <p>Ethernet is the most dominant wired LAN technology. It was the first widely deployed high-speed LAN, and it was simpler, cheaper, and faster than other LAN technologies.</p>
+      <p>Most, if not all, LANs with Ethernet are set up using a star topology where there is a <b>switch</b> at the center.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/star.png">
+      </div>
+      <h4>Ethernet Frame Structure</h4>
+      <p>The following are included in an Ethernet frame:</p>
+      <ul>
+        <li>data field (`46` to `1500` bytes)
+          <ul>
+            <li>contains the IP datagram</li>
+          </ul>
+        </li>
+        <li>destination MAC address (`6` bytes)</li>
+        <li>source MAC address (`6` bytes)</li>
+        <li>type field (`2` bytes)
+          <ul>
+            <li>used to specify which network-layer protocol is receiving this frame</li>
+          </ul>
+        </li>
+        <li>cyclic redundancy check (`4` bytes)
+          <ul>
+            <li>used to detect bit errors (see the Cyclic Redundancy Check (CRC) section)</li>
+          </ul>
+        </li>
+        <li>preamble (`8` bytes)
+          <ul>
+            <li>used to "wake up" the receiving adapters, i.e., sync their clocks to the sender's clock</li>
+            <li>first `7` bytes is 10101010; last byte is 10101011</li>
+          </ul>
+        </li>
+      </ul>
+      <p>Ethernet is connectionless and unreliable, kinda like UDP. But if the transport layer being used is TCP, then there won't be data loss.</p>
+      <h3>Link-Layer Switches</h3>
+      <p>A switch receives incoming link-layer frames and forwards them onto outgoing links, similar to what routers do for datagrams. Switches are <b>transparent</b> to hosts and routers, meaning that hosts and routers are not aware of their existence. This goes back to the reason why the adapters on link-layer switches do not have link-layer addresses mentioned earlier.</p>
+      <h4>Forwarding and Filtering</h4>
+      <p><b>Forwarding</b> is determining which interface the frame should be transferred to (and moving the frame). <b>Filtering</b> is determining whether a frame should be forwarded or dropped. Both of these actions are based on a <b>switch table</b>.</p>
+      <table class="table">
+        <tr>
+          <th>Address</th>
+          <th>Interface</th>
+          <th>Time</th>
+        </tr>
+        <tr>
+          <td>62-FE-F7-11-89-A3</td>
+          <td>1</td>
+          <td>9:32</td>
+        </tr>
+        <tr>
+          <td>7C-BA-B2-B4-91-10</td>
+          <td>3</td>
+          <td>9:36</td>
+        </tr>
+      </table>
+      <p>An entry in the switch table contains a MAC address, the interface that leads to that MAC address, and the time that the entry was created. Whenever a frame arrives at a switch, the switch adds the frame's source address and the interface it came from to the switch's switch table.</p>
+      <p>If a frame arrives at a switch and there is no entry in the switch table for the frame's destination address, then the switch broadcasts the frame to all of the switch's other interfaces.</p>
+      <div class="ln-box">
+        <p>Suppose a frame with destination address 62-FE-F7-11-89-A3 arrives at switch `A` from interface 1. Then the switch will filter (discard) the frame.</p>
+        <p>Wait, but how does a frame with destination address 62-FE-F7-11-89-A3 come <em>from</em> interface 1? After all, the frame should've been sent <em>to</em> interface 1 because the switch table said to do that.</p>
+        <p>Suppose that when switch `A` received the frame, it didn't have 62-FE-F7-11-89-A3 in its switch table yet. So switch `A` broadcasts the frame to all its other interfaces. Let's say its interface 1 is connected to another switch `B`, which also doesn't have 62-FE-F7-11-89-A3 in its switch table. When `B` gets the frame, it will also broadcast the frame to all its other interfaces, including the one that leads back to `A`.</p>
+        <p>Let's say that a frame from 62-FE-F7-11-89-A3 is already headed to switch `A` and arrives at `A` before `B` performs its broadcast. Now, `A` will have 62-FE-F7-11-89-A3 in its switch table. And by the time `B`'s broadcast reaches `A`, `A` will already have 62-FE-F7-11-89-A3 in its switch table.</p>
+      </div>
+      <h4>Self-Learning</h4>
+      <p>A switch is called <b>self-learning</b> because its switch table is built automatically.</p>
+      <ol>
+        <li>Initially, the switch table is empty.</li>
+        <li>When the switch receives a frame on an interface, the switch puts the frame's source address and the interface it came on in the switch table.</li>
+        <li>After some time (<b>aging time</b>), if no frames are received from an address, then the entry with that address is deleted from the table.</li>
+      </ol>
+      <p>Switches are <b>plug-and-play devices</b>; once they're physically connected to the network, they just work. Switches are also full-duplex, so any switch interface can send and receive at the same time.</p>
+      <h4>Properties of Link-Layer Switching</h4>
+      <ul>
+        <li>No collisions: Switches buffer frames and only transmit one frame at a time.</li>
+        <li>Heterogeneous links: A switch can have multiple types of links that have different speeds.</li>
+        <li>Management: A switch can automatically disconnect a malfunctioning adapter.</li>
+      </ul>
+      <div class="ln-box">
+        <h4>Switch Poisoning</h4>
+        <p>Recall that when a switch receives a frame and the destination address isn't in its switch table, the switch broadcasts the frame to everyone. This is one way an attacker can obtain (sniff) a frame that wasn't intended to be sent to the attacker.</p>
+        <p>To effect this, the attacker can send a bunch of packets with fake MAC addresses to a switch. As a result, the switch will fill up its switch table with these fake addresses, preventing real MAC addresses from being put in the table. And since those real addresses aren't in the table, the frames for those addresses will be broadcasted.</p>
+      </div>
+      <h4>Switches Versus Routers</h4>
+      <p>While both routers and switches are store-and-forward packet switches, routers are layer-3 packet switches (so they forward using IP addresses) and switches are layer-2 packet switches (so they forward using MAC addresses). When setting up a network, network admins have to decide whether to use routers or switches as the interconnection devices between hosts.</p>
+      <p>Switches are plug-and-play and have relatively high filtering and forwarding rates since they only have to process frames up through layer 2.</p>
+      <p>But to prevent broadcast frames from being repeatedly cycled through the network, the topology of a switched network is restricted to a spanning tree. Switches are also susceptible to broadcast storms in which one or more hosts repeatedly transmits broadcast frames, bringing down the whole network.</p>
+      <p>Since network addresses are hierarchical and there is a hop limit field in datagrams, datagrams don't have a chance to repeatedly get cycled through the network. So the topology with routers is flexible. Routers also have firewall protection against broadcast storms.</p>
+      <p>However, routers are not plug-and-play; they need their IP addresses to be configured. Also, routers have to process datagrams up through layer 3, so they have slower processing times.</p>
+      <p>Typically, smaller networks use just switches, and larger networks use routers and switches. Having more links for data to traverse, larger networks benefit from routers providing optimal routes.</p>
+      <h3>Virtual Local Area Networks (VLANs)</h3>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/lan.png">
+      </div>
+      <p>This is an example of a switched LAN network for a school. There are three departments (EE, CS, CE), connected to a network of `4` switches and `1` router. However, there are several issues with this setup.</p>
+      <p>There is no traffic isolation. Broadcast traffic, like ARP and DHCP messages or frames whose destination address is not in the switch table yet, gets transmitted across the entire network. Limiting the traffic to just its intended group would increase performance and provide more security and privacy.</p>
+      <div class="ln-box">
+        <p>One way to have traffic isolation is to replace the center switch with a router. (See the Routing Policy section.)</p>
+      </div>
+      <p>The switches are being used inefficiently. If there were `10` departments instead of `3`, then `10` first-level switches would be used. This becomes more inefficient if the departments are small.</p>
+      <p>It's hard to manage users. If someone moves from one group to another, the cables must be reconfigured to connect that person to a different switch.</p>
+      <p>These three problems can be solved by <b>virtual local area networks (VLANs)</b>. In this setup, multiple virtual local area networks are created on top of a single physical local area network. In a port-based VLAN, the switch's ports (interfaces) are divided into groups, where each group represents a VLAN.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/vlan.png">
+      </div>
+      <p>The switch can be configured so that traffic from one port stays within that port's group. This provides traffic isolation.</p>
+      <p>There is a single switch replacing all those switches in the network above. So this one switch is being really efficient.</p>
+      <p>If one user moves to a different group, then the port that the user is connected to can be reconfigured to belong to another VLAN.</p>
+      <p>But what if someone from the EE department wants to communicate with someone in the CS department? One way to allow this is to reserve one port that is not being used by any VLANs and configure that port to belong to both the EE and CS departments. An external router would be connected to that port. An IP datagram from the EE department would first go from the EE VLAN to the router. Then the router would forward the datagram to the CS VLAN.</p>
+      <p>But let's suppose that some faculty are in a different building entirely, so that they're not connected to the same switch as everyone else. How can people in these two buildings communicate with each other?</p>
+      <p>We could connect the two switches by <b>VLAN trunking</b>. One port on each switch (trunk port) is reserved for a trunk link to connect the two switches together. Frames that travel across the trunk link have a <b>VLAN tag</b> in the header so that the switch knows which VLAN the frame should be sent to.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/vlan_trunking.png">
+      </div>
+      <h2 id="linkvirtualization">Link Virtualization: A Network as a Link Layer</h2>
+      <p>A link between two nodes can sometimes be a whole network.</p>
+      <div class="ln-box">
+        <p>But how can those two nodes be "connected by a link" when there are a whole network of links between them? They're neighbors in the sense that they are next-hop routers for each other.</p>
+      </div>
+      <h3>Multiprotocol Label Switching (MPLS)</h3>
+      <p>MPLS is a routing protocol that forwards datagrams based on a fixed-length label instead of IP addresses. This makes forwarding faster by making the lookup faster.</p>
+      <p>Frames that are handled by MPLS-capable routers (a.k.a. <b>label-switched routers</b>) have an MPLS header that contain the MPLS label. With this header, MPLS-capable routers don't need to extract the destination IP address and perform a lookup of the longest prefix match in the forwarding table.</p>
+      <div class="ln-box">
+        <p>MPLS is considered a layer-2.5 protocol.</p>
+      </div>
+      <p>These MPLS-enhanced frames can only be sent to and from MPLS-capable routers. However, it's also possible for MPLS-capable routers and standard IP routers to be connected to each other. So how does this work?</p>
+      <p>As we saw before, routers continuously send advertisements to other routers (see Advertising BGP Route Information). Through these advertisements, MPLS-capable routers can find out if their neighbors are also MPLS capable. A standard router will forward a frame to an MPLS-capable router just like it would any other router. When an MPLS-capable router has a MPLS-capable neighbor, it will add that MPLS header to the frame and forward it. Thus, this faster forwarding will occur as long as there is a MPLS-capable neighbor. Once there is no longer a MPLS-capable neighbor, the last MPLS-capable router will take out the MPLS header so that the next standard router won't get confused.</p>
+      <p>Let's look at an example of a setup. Routers `R1`, `R2`, `R3`, and `R4` are MPLS-capable while routers `R5` and `R6` are standard IP routers. Router `R1` advertises to `R2` and `R3` that it can reach destination `A` if it receives a frame with an MPLS label of `6`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/mpls.png">
+      </div>
+      <p>After all the routers advertise to each other, `R4` learns of two paths to reach `A`. It can either send it to `R3` or `R2` since both of them can reach `R1`, which can reach `A`.</p>
+      <p>If these were all standard routers, then BGP's route-selection algorithm would've only provided one least-cost path. But in this case, multiple paths exist and any of them can be used. While faster forwarding is nice, this is the true advantage of MPLS; Taking advantage of this capability is one form of <b>traffic engineering</b>.</p>
+      <div class="ln-box">
+        <p>MPLS is used to implement <b>virtual private networks (VPNs)</b>.</p>
+      </div>
+      <h2 id="datacenter">Data Center Networking</h2>
+      <p>Companies like Google, Microsoft, and Amazon have large data centers to provide their contents and services to us. These data centers are connected to the Internet, and they themselves are complex computer networks, called <b>data center networks</b>.</p>
+      <p>Data centers provide Web pages, search results, email (basically data from the Internet); they provide extra computational resources for data processing tasks; and they provide <b>cloud computing</b> services.</p>
+      <h3>Data Center Architectures</h3>
+      <p>The computers in a data center are the hosts, which are also called <b>blades</b>. They are stacked in racks, with each rack having about `20` to `40` blades. At the top of the rack, there is a <b>Top of Rack (TOR) switch</b> that connects all the hosts in the rack with each other and with the other switches in the data center.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/data_center.png">
+      </div>
+      <p>To handle traffic to/from outside the data center, there are <b>border routers</b> that connect the data center network to the Internet.</p>
+      <h4>Load Balancing</h4>
+      <p>A data center will have a load balancer to distribute requests evenly across different hosts.</p>
+      <div class="ln-box">
+        <p>A load balancer can be seen as a "layer-4 switch" since it forwards requests based on the destination port and IP.</p>
+      </div>
+      <div class="ln-box">
+        <p>Hosts are given an internal IP address that is local to the data center and an external IP address that the outside Internet can communicate with. The load balancer performs a NAT-like function by converting between these addresses when they send/receive data to/from these hosts.</p>
+      </div>
+      <h4>Hierarchical Structure</h4>
+      <p>One problem data centers have to deal with is limited host-to-host capacity. Suppose that each host connects to its TOR switch with a `10` Gbps link and that the switches connect to each other with `100` Gbps links.</p>
+      <p>Hosts in the same rack can communicate with each other at the full `10` Gbps rate. But hosts in different racks communicating with each other can have a more limited rate.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/data_center.png">
+      </div>
+      <p>Suppose that `10` hosts in rack `1` communicate with `10` hosts in rack `5`; `10` hosts in rack `2` communicate with `10` hosts in rack `6`; `10` hosts in rack `3` communicate with `10` hosts in rack `7`; `10` hosts in rack `4` communicate with `10` hosts in rack `8`. So there are `40` flows crossing the `A`-to-`B` link (and the `B`-to-`C` link). If the link divides its capacity among the `40` flows, then each flow will only get `100/40=2.5` Gbps.</p>
+      <p>Of course, using higher-rate switches and routers is an option, but that gets very expensive.</p>
+      <p>Another way to deal with this is to try and group co-related services and data as close to each other as possible (ideally in the same rack). But this can only go so far.</p>
+      <p>Perhaps the most ideal way to deal with this is to introduce more links. So the TOR switches could be connected to multiple tier-2 switches, and the tier-2 switches can be connected to multiple tier-1 switches. This provides increased capacity and increased reliability since there are now multiple paths between switches.</p>
+      <h2 id="dayinthelife">A Day in the Life of a Web Page Request</h2>
+      <p>Let's look at what happens when we connect our laptop to our school's network and go to google.com. Let's say the laptop is connected to the school's network by an Ethernet cable to an Ethernet switch, which is connected to a router. Then the router is connected to the school's ISP, which in this case, is comcast.net. The ISP is also providing the DNS service for our school.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/day_in_the_life.png">
+      </div>
+      <h3>Getting Started: DHCP, UDP, IP, and Ethernet</h3>
+      <p>First, our laptop needs an IP address, and this can be obtained using the DHCP protocol. We'll assume that the router is running the DHCP server.</p>
+      <ol>
+        <li>Our laptop creates a <b>DHCP request message</b> and puts this message in a <b>UDP segment</b>. The UDP segment is put in an <b>IP datagram</b> with a broadcast destination address (255.255.255.255) and a source IP address of 0.0.0.0.</li>
+        <li>The IP datagram is put in an <b>Ethernet frame</b>, which has a broadcast destination MAC address (FF-FF-FF-FF-FF-FF) so that it can reach the DHCP server (running in the router).</li>
+        <li>The frame gets sent to the Ethernet switch, which broadcasts the frame to all of its outgoing ports.</li>
+        <li>The router receives the frame and extracts the IP datagram from it. Since the destination IP address is the broadcast address, the router will process this datagram and <b>demultiplex</b> the datagram's payload to UDP. UDP then sends the DHCP request message to the DHCP server.</li>
+        <li>Let's say the DHCP server can allocate IP addresses in the <b>CIDR</b> block 68.85.2.0/24, and that the IP address that is chosen is 68.85.2.101. The DHCP server creates a <b>DHCP ACK message</b> containing this IP address along with the IP address of the DNS server (68.87.71.226), the IP address of the default gateway router (68.85.2.1), and the subnet block (68.85.2.0/24) (a.k.a. network mask). The DHCP message is put inside a UDP segment, which is put inside an IP datagram, which is put inside an Ethernet frame with source MAC address 00-22-6B-45-1F-1B and destination MAC address 00-16-D3-23-68-8A (our laptop).</li>
+        <li>The Ethernet frame is sent by the router to the switch. Since our laptop already sent a frame to the switch before, the switch (through its <b>self-learning</b>) knows to forward the frame to our laptop.</li>
+        <li>Our laptop gets the frame, extracts the IP datagram from the frame, extracts the UDP segment from the IP datagram, and extracts the DHCP ACK message from the UDP segment. Upon learning the address of the default gateway, our laptop also puts that address into its <b>IP forwarding table</b>. This allows any datagrams with a destination address outside of its subnet (68.85.2.0/24) to the router.</li>
+      </ol>
+      <p>Now our laptop is ready to begin the Web page fetch.</p>
+      <h3>Still Getting Started: DNS and ARP</h3>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/day_in_the_life.png">
+      </div>
+      <p>When we go to google.com in our Web browser, it will create a <b>TCP socket</b> and send an <b>HTTP request</b> to Google's Web server. But in order to do so, our laptop needs to know the IP address of google.com, which can be obtained using the <b>DNS protocol</b>.</p>
+      <ol start="8">
+        <li>Our laptop creates a <b>DNS query message</b> to ask the DNS server for the IP address of google.com. The DNS message is put inside a UDP segment, which is put inside an IP datagram with destination address 68.87.71.226 (the DNS server).</li>
+        <li>The datagram is put inside an Ethernet frame, which will be sent to the gateway router. But our laptop doesn't know the router's MAC address yet (it only knows the IP address). This can be obtained using the <b>ARP protocol</b>.</li>
+        <li>Our laptop creates an <b>ARP query</b> with target IP address 68.85.2.1 (the gateway router) to ask the router for its MAC address. The ARP message is put inside an Ethernet frame with a broadcast address, and the frame is sent to the switch, which broadcasts the frame to all outgoing ports.</li>
+        <li>The router receives the frame and sees that the target IP address matches its own IP address (so the router knows that it is the intended receiver). It puts an <b>ARP reply</b> containing its MAC address inside an Ethernet frame with destination address 00-16-D3-23-68-8A (our laptop) and sends the frame to the switch, which sends the frame to our laptop.</li>
+        <li>Our laptop gets the frame and learns the MAC address of the gateway router.</li>
+        <li>Our laptop puts the MAC address as the destination of the frame created in step 9 and sends the frame to the switch, which delivers it to the router.</li>
+      </ol>
+      <div class="ln-box">
+        <p>For this frame, the destination IP address is the address of the DNS server while the destination MAC address is the address of the gateway router.</p>
+      </div>
+      <h3>Still Getting Started: Intra-Domain Routing to the DNS Server</h3>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/day_in_the_life.png">
+      </div>
+      <ol start="14">
+        <li>The gateway router receives the frame and extracts the IP datagram containing the DNS query. Using its forwarding table, the router looks up the destination address of the datagram and determines that it should be sent to the leftmost Comcast router. The IP datagram is put inside a link-layer frame and sent over the link.</li>
+        <li>The Comcast router receives the frame and extracts the IP datagram. Using its forwarding table, the router looks up the destination address of the datagram and determines the outgoing interface that leads to the DNS server. The routers in the Comcast network have already had their forwarding tables filled in by Comcast's intra-domain protocol (like <b>OSPF</b>) and <b>BGP</b>, the <b>Internet's inter-domain protocol</b>.</li>
+        <li>When the DNS server gets the DNS query message, it looks up "google.com" in its database and gets* the <b>DNS resource record</b> that contains the IP address for google.com. The DNS server puts the record in a <b>DNS reply message</b>, which is put inside a UDP segment, which is put inside an IP datagram with destination address 68.85.2.101 (our laptop).</li>
+        <li>Our laptop receives the DNS message and learns of the IP address for google.com.</li>
+      </ol>
+      <p>Now our laptop is ready to open the TCP connection to Google's Web server.</p>
+      <div class="ln-box">
+        <p>*We're assuming the information for google.com is cached in the DNS server. Otherwise, it would have to wait for Google's <b>authoritative DNS server</b> to return the IP address of google.com.</p>
+      </div>
+      <h3>Web Client-Server Interaction: TCP and HTTP</h3>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/day_in_the_life.png">
+      </div>
+      <ol start="18">
+        <li>To start the <b>TCP socket</b> creation process, our laptop does the <b>three-way handshake</b> with TCP in Google's Web server. The first step of the handshake is for our laptop to create a <b>TCP SYN</b> segment. The segment is put inside an IP datagram with destination IP address 64.233.169.105 (google.com); the datagram is put inside a frame with destination MAC address 00-22-6B45-1F-1B (the gateway router); and the frame is sent to the switch.</li>
+        <li>The routers in our school's network, Comcast's network, and Google's network forward the datagram to Google's Web server. The forwarding tables for all of them have already been determined by the <b>BGP</b> protocol.</li>
+        <li>Google's web server receives the datagram, extracts the TCP SYN message from the datagram, and demultiplexes it to the listening socket at port 80. It also creates a connection socket and a TCP SYNACK to send back to our laptop. The TCP SYNACK segment is put inside a datagram addressed to our laptop (and the datagram is put inside a link-layer frame).</li>
+        <li>The datagram travels through all the networks to reach our laptop, where the datagram gets demultiplexed to the TCP socket. Now the TCP socket is in a connected state.</li>
+        <li>Our Web browser creates an <b>HTTP GET</b> message, which gets written into the socket. The GET message is put inside a TCP segment, which is put inside a datagram, which is put inside a frame and sent off into the networks.</li>
+        <li>Google's Web server reads the HTTP GET message from the TCP socket, creates an <b>HTTP response</b> message with the contents of the requested Web page, and sends the message into the TCP socket.</li>
+        <li>Our laptop receives the datagram after it is forwarded through all the networks and extracts the contents of the HTTP response to display the Web page for google.com.</li>
+      </ol>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
     <script>
