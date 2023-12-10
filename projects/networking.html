@@ -2001,7 +2001,7 @@
       <div class="ln-box">
         <p>One subtle note about the interpretation of RTT: instead of being the round-trip time for a single segment, RTT will be referring to the round-trip time for sending <code>cwnd</code> bytes.</p>
       </div>
-      <p>How can we (the sender) tell if there is congestion? Well, if there is a lot of congestion, then it's likely that packets will be dropped. We know packets are dropped (or considered dropped), when the timer goes off or three duplicate ACKs are received (see "Fast Retransmit"). So if there is a loss event, then the sender's sending rate should be lowered.</p>
+      <p>How can we (the sender) tell if there is congestion? Well, if there is a lot of congestion, then it's likely that packets will be dropped. We know packets are dropped (or considered dropped), when the timer goes off or three duplicate ACKs are received (see the Fast Retransmit section). So if there is a loss event, then the sender's sending rate should be lowered.</p>
       <p>If there is not a lot of congestion, then the sender will receive ACKs, in which case the sender's sending rate can be increased. However, there could be a middle-ground situation where there is not too much congestion, but there is still a fair amount of it. In this case, the ACKs will come back, just at a slower rate. This is an indication that the sender's sending rate can be increased, just not by too much. Since TCP uses acknowledgments to trigger (or clock) an increase in congestion window size, TCP is <b>self-clocking</b>.</p>
       <p>All of these points lead to this strategy: if ACKs keep coming, keep on increasing the sending rate until no more ACKs come. If no more ACKs come, then decrease the sending rate to a point where ACKs will come and start increasing the rate again.</p>
       <p>So we know when the sending rate should be changed, but now the question is by how much? There is a <b>TCP congestion-control algorithm</b> that decides.</p>
@@ -2714,6 +2714,9 @@
       <div class="ln-box">
         <p>Having subnets reduces the amount of memory needed since the forwarding tables only need to store the prefix instead of the IP addresses of all the routers in the subnet.</p>
       </div>
+      <div class="ln-box">
+        <p>See the IPv4 Addressing section for more information about what a prefix is.</p>
+      </div>
       <h3>Advertising BGP Route Information</h3>
       <p>A router in an AS is either a <b>gateway router</b> or an <b>internal router</b>. A gateway router sits at the edge of an AS and connects to other routers in other ASs. An internal router only connects to hosts and routers in the AS.</p>
       <p>Suppose we have a network with three autonomous systems: AS1, AS2, and AS3. Suppose AS3 includes a subnet with prefix x. We'll look at the details involved to make the routers in AS1 and AS2 aware of x.</p>
@@ -3108,7 +3111,7 @@
         </li>
         <li>Type of service
           <ul>
-            <li>used to distinguish different types of datagrams</li>
+            <li>used to distinguish different types of datagrams (e.g., Internet call vs email)</li>
             <li>two of the bits are used for Explicit Congestion Notification</li>
           </ul>
         </li>
@@ -3163,7 +3166,8 @@
       </div>
       <div class="ln-box">
         <p>TCP/UDP can theoretically run over a different network-layer protocol besides IP. Likewise, IP can carry data to a different transport-layer protocol besides TCP/UDP.</p>
-        <p>Because there's no guarantee that one of the layers will perform error checking, it is done at both the network layer and the transport layer.</p>
+        <p>With the TCP/IP combo, error checking is done at both layers, which may seem repetitive*. But if another combination is used, then there's no guarantee that error checking will be performed at all. So it's nice to have at least one protocol in each layer that can perform error checking.</p>
+        <p>*In IP's error checking, only the header is checksummed. While in TCP's error checking, the whole segment is checksummed. So the error-checking process isn't exactly repeated in both layers.</p>
       </div>
       <p>If there are no options, then an IP datagram's header is `20` bytes. If the datagram is carrying a TCP segment, then there will be a total of `40` bytes of header along with the application message.</p>
       <h3>IPv4 Addressing</h3>
@@ -3625,6 +3629,9 @@
       <h4>Carrier Sense Multiple Access (CSMA)</h4>
       <p>Naturally, it makes sense to have the nodes check the channel before transmitting. If the channel is not being used by any other nodes, then the node can begin transmitting. If the channel is busy, then the node should wait and then check again later. This is called <b>carrier sensing</b>. From a node's perspective, a channel is busy if it can detect a signal on the channel from another node.</p>
       <p>However, it's still possible for collisions to happen. Let's say node `A` starts transmitting a frame at time `t_0`. Suppose, for some reason, that it takes a lot of time for that node's bits to propagate along the channel (<b>channel propagation delay</b>). Let's say node `B` checks the channel at time `t_1` and the bits from node `A` haven't reached `B` yet. `B` will think that the channel is empty and start transmitting. So now there are two frames being transmitted, resulting in a collision.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/csma.png">
+      </div>
       <h4>Carrier Sense Multiple Access with Collision Detection (CSMA/CD)</h4>
       <p>While a node is transmitting, if it detects that another node is transmitting, then the node will stop transmitting and wait before trying again. This is <b>collision detection</b>. Having collision detection prevents damaged frames from being sent.</p>
       <p>So how long should the nodes wait if it detects a collision? If the waiting interval is large, but the number of collisions was small, then the channel will be idle for quite some time. On the other hand, if the waiting interval is small, but the number of collisions is large, then it's likely some of the nodes will wait the same amount of time as each other and collide again.</p>
