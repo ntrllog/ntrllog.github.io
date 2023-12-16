@@ -1833,7 +1833,7 @@
         <p>*According to RFC 6298, the value of <code>EstimatedRTT</code> after one <code>SampleRTT</code> should be <code>SampleRTT</code>.</p>
       </div>
       <h4>Setting and Managing the Retransmission Timeout Interval</h4>
-      <p>Okay, so the <code>EstimatedRTT</code> is the average time it takes for a segment to be sent and acknowledged. Being the average, there will definitely be segments that take longer than <code>EstimatedRTT</code>. So the timeout should be <code>EstimatedRTT</code> plus some extra length of time. To get a sense of how long some of the segments may take, it is useful to know how varied the RTTs are. Let's call this measure of deviation <code>DevRTT</code>.</p>
+      <p>Okay, so the <code>EstimatedRTT</code> is the average time it takes for a segment to be sent and acknowledged. Since it is the average, there will definitely be segments that take longer than <code>EstimatedRTT</code>. So the timeout should be <code>EstimatedRTT</code> plus some extra length of time. To get a sense of how long some of the segments may take, it is useful to know how varied the RTTs are. Let's call this measure of deviation <code>DevRTT</code>.</p>
       <div class="ln-center">
         <p>`text(DevRTT)=(1-beta)*text(DevRTT)+beta*abs(text(SampleRTT)-text(EstimatedRTT))`</p>
       </div>
@@ -1879,7 +1879,7 @@
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/fast_retransmit.png">
       </div>
       <div class="ln-box">
-        <p>Fast transmit only occurs when there are `3` <b>duplicate ACKs</b> for a segment. Fast transmitting on only `1` duplicate ACK is not a good idea.</p>
+        <p>Fast retransmit only occurs when there are `3` <b>duplicate ACKs</b> for a segment. Fast retransmitting on only `1` duplicate ACK is not a good idea.</p>
         <p>Suppose the sender sends segments `92`, `100`, and `120`, and the receiver gets `90`, `120`, and `100` in that order. Upon receiving segment `90`, the receiver will send an ACK with acknowledgment number `100`. Upon receiving segment `120`, the receiver will send an ACK with acknowledgment number `100`. There is `1` duplicate ACK for `100`, but `100` wasn't lost; it just took longer than the other two segments.</p>
         <p>However, receiving `3` duplicate ACKs (or any number of duplicate ACKs for that matter) is not a guarantee that there was packet loss. `3` is just an arbitrarily good balance between waiting enough time and not waiting too long.</p>
       </div>
@@ -2157,7 +2157,7 @@
       <h4>Fairness and UDP</h4>
       <p>UDP doesn't have a congestion-control mechanism; it will just keep pushing data into the network. As a result, UDP traffic can theoretically force out TCP traffic. This isn't fair! But there are some mechanisms in place to prevent this from happening.</p>
       <h4>Fairness and Parallel TCP Connections</h4>
-      <p>As we've seen before, applications can multiple parallel TCP connections. This can cause an application to unfairly get more of the available bandwidth.</p>
+      <p>As we've seen before, applications can open multiple parallel TCP connections. This can cause an application to unfairly get more of the available bandwidth.</p>
       <p>Suppose there are `9` applications that are each using only `1` TCP connection over a shared link with transmission rate `R`. So each application has a transmission rate of `R/9`. Now along comes another application, but this one opens `11` parallel TCP connections. Each connection will now have a transmission rate of `R/20`, but one of the applications owns `11` of those connections, so that application is using more than half of the available bandwidth.</p>
       <hr>
       <p>Now to the network layer!</p>
@@ -2167,9 +2167,9 @@
       <p>The network layer can be divided into two parts: the <b>data plane</b> and the <b>control plane</b>. The data plane is responsible for forwarding a datagram from a router's input link to its output link. The control plane is responsible for routing a datagram from source to destination, i.e., deciding the complete path that a datagram will take from source to destination.</p>
       <h3>Forwarding and Routing: The Data and Control Planes</h3>
       <p>A router has multiple input and output links. When a packet moves to a router, the router takes it in through its input link. Then, for the packet to get to the correct destination, the router must forward the packet to the correct output link. Each router has a <b>forwarding table</b>, which tells the router which output link the packet should go to.</p>
-      <p>But the router is not responsible for choosing which router the packet should go to. There are <b>routing algorithms</b> that determine the best router-to-router path that a packet should follow.</p>
+      <p>But the router is not responsible for choosing which router the packet should go to next. There are <b>routing algorithms</b> that determine the best router-to-router path that a packet should follow.</p>
       <h4>Control Plane: The Traditional Approach</h4>
-      <p>The routing algorithm determines the contents of the routers' forwarding tables. Traditionally, each router ran a routing algorithm, and the routing algorithms communicated with each other to update the routers' forwarding tables.</p>
+      <p>The routing algorithm determines the contents of the routers' forwarding tables. Traditionally, each router ran a routing algorithm and communicated with each other to update each other's forwarding tables.</p>
       <h4>Control Plane: The SDN Approach</h4>
       <p>Instead of running the routing algorithm in each router, there could be one remote controller that runs the routing algorithm, creates the forwarding tables, and distributes the forwarding tables to each router. The remote controller could be in a remote data center somewhere and be managed by the ISP or some third party. This approach is referred to as <b>software-defined networking (SDN)</b>, because the network is defined by a controller implemented in software.</p>
       <h3>Network Service Model</h3>
@@ -2181,7 +2181,7 @@
         <li>guaranteed minimal bandwidth: packets will arrive as long as the sender transmits bits at a rate below the specified bit rate</li>
         <li>security: data will be encrypted</li>
       </ul>
-      <p>But the network layer only actually provides one service: <b>best-effort service</b>. This means that the network layer will try its best to deliver the data, but there are no guarantees, including the things above. Surprisingly, this has been good enough.</p>
+      <p>The network layer actually provides none of these. It only provides one service: <b>best-effort service</b>. This means that the network layer will try its best to deliver the data, but there are no guarantees. Surprisingly, this has been good enough.</p>
       <h2 id="routingalgorithms">Routing Algorithms</h2>
       <p>In the math world, a <b>graph</b> is a set of nodes and a collection of edges, where each edge is a connection from one node to another. `G=(N,E)`. A graph can be used to represent a network, where the nodes are the routers and the edges are the links. For two nodes `x` and `y`, an edge between them is denoted by `(x,y)`. If there is an edge between them, then they are <b>neighbors</b>.</p>
       <div class="ln-center">
@@ -2193,7 +2193,7 @@
         <p>A path is a sequence of `p` nodes `(x_1,x_2,...,x_p)` such that each of the pairs `(x_1,x_2),(x_2,x_3), ..., (x_(p-1),x_p)` are edges in the graph. The cost of a path is `c(x_1,x_2)+c(x_2,x_3)+...+c(x_(p-1),x_p)`.</p>
         <p>For example, in the graph above, `(j,m,l,o)` is a path where the edges are `(j,m),(m,l),(l,o)`. The cost of this path is `c(j,m)+c(m,l)+c(l,o)=1+3+5=9`.</p>
       </div>
-      <p>For any two nodes, there is typically more than one path between them. But at least one of them is the least costly. This path is the <b>least-cost</b> path. So the job of a routing algorithm is to find this least-cost path.</p>
+      <p>For any two nodes, there can be multiple paths between them. But at least one of them is the least costly. This path is the <b>least-cost</b> path. So the job of a routing algorithm is to find this least-cost path.</p>
       <p>A routing algorithm can be centralized or decentralized. In a <b>centralized routing algorithm</b>, each node has complete knowledge about the whole network, so every node knows the cost of every edge. These algorithms are referred to as <b>link-state (LS) algorithms</b>, since they know the state of every link. In a <b>decentralized algorithm</b>, each node only has information about the cost of its neighbors, and they communicate with each other to gradually calculate the best path.</p>
       <p>A routing algorithm can also be static or dynamic. In a <b>static routing algorithm</b>, routes change very slowly over time, often as a result of human intervention. In a <b>dynamic routing algorithm</b>, routes are dynamically updated in response to network topology or link cost changes.</p>
       <p>A routing algorithm can also be load-sensitive or load-insensitive. In a <b>load-sensitive algorithm</b>, the link costs change to reflect the current level of congestion in the link. <b>Load insensitive algorithms</b> are the opposite.</p>
@@ -2236,7 +2236,7 @@
           <td>`oo`</td>
         </tr>
       </table>
-      <p>In the first iteration, we look at the node with the current least cost (in this case, `m`) and go there. Then we calculate the cost to get to each neighbor directly from `m`. The cost to go to `k` from `m` is `3` (`1` for `jrarrm` and `2` for `mrarrk`), but it costs less to go to `k` from `j`, so we don't update `D(k),p(k)`. The cost to go to `l` from `m` is `4` (`1` for `jrarrm` and `3` for `mrarrl`), and it costs less than the current path to `l`, so we update `D(l),p(l)`. Node `n` is now reachable from `j`, so we update `D(n),p(n)`.</p>
+      <p>In the first iteration, we look at the node with the current least cost (in this case, `m`) and go there. Then we calculate the cost to get to each of `m`'s neighbors from `m`. The cost to go to `k` from `m` is `3` (`1` for `jrarrm` and `2` for `mrarrk`), but it costs less to go to `k` from `j`, so we don't update `D(k),p(k)`. The cost to go to `l` from `m` is `4` (`1` for `jrarrm` and `3` for `mrarrl`), and it costs less than the current path to `l`, so we update `D(l),p(l)`. Node `n` is now reachable from `j`, so we update `D(n),p(n)`.</p>
       <table class="table">
         <tr>
           <th>step</th>
@@ -2266,7 +2266,7 @@
           <td>`oo`</td>
         </tr>
       </table>
-      <p>In the second iteration, we look at the node with the current least cost and go there. (There's a tie between `k` and `n`, so we'll just choose `n`.) Then we calculate the cost to get to each neighbor directly from `n`. The cost to go to `l` from `n` is `3` (`2` for `jrarrmrarrn` and `1` for `nrarrl`), and it costs less than the current path to `l`, so we update `D(l),p(l)`. Node `o` is now reachable from `j`, so we update `D(o),p(o)`.</p>
+      <p>In the second iteration, we look at the node with the current least cost and go there. (There's a tie between `k` and `n`, so we'll just choose `n`.) Then we calculate the cost to get to each of `n`'s neighbors from `n`. The cost to go to `l` from `n` is `3` (`2` for `jrarrmrarrn` and `1` for `nrarrl`), and it costs less than the current path to `l`, so we update `D(l),p(l)`. Node `o` is now reachable from `j`, so we update `D(o),p(o)`.</p>
       <table class="table">
         <tr>
           <th>step</th>
@@ -2474,7 +2474,7 @@
         <div class="ln-center">
           <img class="img-fluid ln-image-small" src="../pictures/networking/oscillation_4.png">
         </div>
-        <p>After running the LS algorithm, each router will take the counterclockwise path since that direction is the least-cost path:</p>
+        <p>After running the LS algorithm, each router will take the counterclockwise path since that direction is now the least-cost path:</p>
         <div class="ln-center">
           <img class="img-fluid ln-image-small" src="../pictures/networking/oscillation_5.gif">
         </div>
@@ -2487,8 +2487,8 @@
       </div>
       <h3>The Distance-Vector (DV) Routing Algorithm</h3>
       <p>One problem with the LS algorithm is that all the routers have to store the global information of the whole network. If there are a lot of routers in the network, then that's a lot of information for each router to store. So instead of having each router keep track of the whole network, each router can just keep track of its neighbors. Enter the <b>distance-vector (DV) algorithm</b>.</p>
-      <p>Let's say we wanted to deliver some package (as fast as possible) to some location that we can't get to ourselves. However, there are several delivery centers between us and the destination. Naturally, we would start by going to the nearest delivery center. There, we could tell them, "Deliver this to the destination, but use the best path possible." The delivery center will look at the next delivery center that's best for reaching the destination and send it there. Each delivery center will tell its next delivery center, "Deliver this to the destination, but use the best path possible" until the pacakge arrives at the destination. As long as the best path is used each time, the overall path will be the best.</p>
-      <p>Notice that we didn't have to know about all the delivery centers in the world; we only had to know the best delivery center for us. And similarly for each delivery center, each one only had to know about the delivery center that was best for it.</p>
+      <p>Let's say we wanted to deliver some package (as fast as possible ignoring cost) to some location that we can't get to ourselves. However, there are several delivery centers between us and the destination. Naturally, we would start by going to the nearest delivery center. There, we could tell them, "Deliver this to the destination, but use the best path possible." The delivery center will look at the next delivery center that's best for reaching the destination and send it there. Each delivery center will tell its next delivery center, "Deliver this to the destination, but use the best path possible" until the pacakge arrives at the destination. As long as the best path is used each time, the overall path will be the best.</p>
+      <p>Notice that we didn't have to know about all the delivery centers in the world; we only had to know the best delivery center for us. And similarly for each delivery center, each one only had to know about the delivery center that was best for it. (Of course, it's implied that for each delivery center, the next delivery center that is the best is one that can also reach the destination.)</p>
       <div class="ln-box">
         <p>The Bellman-Ford equation encompasses the idea above. Let `d_x(y)` be the cost of the least-cost path from node `x` to node `y`.</p>
         <div class="ln-center">
@@ -2571,7 +2571,7 @@
         <p>`D_x(z)=min{c(x,y)+D_y(z),c(x,z)+D_z(z)}=min{2+1,7+0}=min{3,7}=3`</p>
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/dv_7.png">
       </div>
-      <p>Since `x`'s distance vector changed, it will now send its updated distance vector to its neighbors. For `y`:</p>
+      <p>Since `x`'s distance vector changed, `x` will now send its updated distance vector to its neighbors. For `y`:</p>
       <div class="ln-center">
         <p>`D_y(x)=min{c(y,x)+D_x(x),c(y,z)+D_z(x)}=min{2+0,1+7}=min{2,8}=2`</p>
         <p>`D_y(z)=min{c(y,x)+D_x(z),c(y,z)+D_z(z)}=min{2+7,1+0}=min{9,1}=1`</p>
@@ -2595,20 +2595,22 @@
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/link_cost_change.png">
       </div>
       <p>Suppose the `x-y` link changes from `4` to `1` and that `y` detects this change first. `y`'s distance vector will be updated so that `D_y(x)=1` instead of `4`. Then, `y` will send its distance vector to its neighbors. When `z` gets `y`'s updated distance vector, `z` will update its own distance vector so that `D_z(x)=2`. (`x` will also update its own distance vector, but we'll only focus on `y` and `z` for this section.) Since `z`'s distance vector changed, `z` will send its distance vector to `y`, but `y`'s distance vector won't be changed, so everything will stop.</p>
-      <p>So things go normally if a link cost decreases. But what happens if the link cost increases? Let's say the it increases from `4` to `60` instead.</p>
+      <p>So things go normally if a link cost decreases. But what happens if the link cost increases? Let's say it increases from `4` to `60` instead.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/link_cost_change_2.png">
       </div>
-      <p>This is `y`'s table before it updates its distance vector.</p>
+      <p>This is `y`'s table before `y` updates its distance vector.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/dv_link_cost_increase_1.png">
       </div>
-      <p>`y` will detect this change and update its distance vector:</p>
+      <p>After detecting the link cost change, `y` will update its distance vector:</p>
       <div class="ln-center">
         <p>`D_y(x)=min{c(y,x)+D_x(x),c(y,z)+D_z(x)}=min{60+0,1+5}=6`</p>
       </div>
       <p>But this is clearly wrong since it's impossible to get from `y` to `x` with a cost of `6`. Of course, we can tell it's impossible since we have a global view of the network, but the nodes don't. This happened because `y` was using outdated information, namely `D_z(x)=5`; and this was outdated because `z` hadn't updated its distance vector yet.</p>
-      <p>At this point, there is also a <b>routing loop</b>. If `y` wants to send a packet to `x`, it will send it to `z` first since `y` thinks `z` can get to `x` with a cost of only `5`. But `z` can only get to `x` with a cost of `5` by going through `y`! (since `z` still believes `y` can get to `x` with a cost of `4`) So if there happens to be a packet to send at this time, then it will get bounced back and forth between `y` and `z`.</p>
+      <div class="ln-box">
+        <p>At this point, there is also a <b>routing loop</b>. If `y` wants to send a packet to `x`, it will send it to `z` first since `y` thinks `z` can get to `x` with a cost of only `5`. But `z` can only get to `x` with a cost of `5` by going through `y`! (since `z` still believes `y` can get to `x` with a cost of `4`) So if there happens to be a packet to send at this time, then it will get bounced back and forth between `y` and `z`.</p>
+      </div>
       <p>Since `y`'s distance vector changed, `y` will send its distance vector to `z`, which will update its distance vector by performing:</p>
       <div class="ln-center">
         <p>`D_z(x)=min{c(z,x)+D_x(x),c(z,y)+D_y(x)}=min{50+0,1+6}=min{50+7}=7`</p>
@@ -2631,7 +2633,8 @@
       <div class="ln-center">
         <p>`D_z(x)=min{c(z,x)+D_x(x),c(z,y)+D_y(x)}=min{50+0,1+50}=min{50+51}=50`</p>
       </div>
-      <p>Finally, this will reflect the current state of the network: it is cheaper to go from `z` to `x` than it is to go from `z` to `y` to `x`. However, it took a long time to get there. So if a link cost increases, it can potentially take a long time for the update to propagate among the nodes.</p>
+      <p>Finally, this will reflect the current state of the network: it is cheaper to go from `z` to `x` than it is to go from `z` to `y` to `x`.</p>
+      <p>However, it took several updates to get to that correct state. So if a link cost increases, it can potentially take a long time for the update to propagate among the nodes.</p>
       <div class="ln-box">
         <p>It would take even longer if the link cost had changed from `4` to `10,000` and the cost to go to `x` from `z` had been `9999`. Because of situations like this, this problem is referred to as the count-to-infinity problem.</p>
       </div>
@@ -2688,7 +2691,7 @@
         <p>Neither algorithm is really that much better than the other. In the Internet, both of them are used.</p>
       </div>
       <h2 id="ospf">Intra-AS Routing in the Internet: OSPF</h2>
-      <p>So far, we've been assuming that all the routers are running the same routing algorithm. This isn't really practical because in the real world, there are billions of routers. All of them can't have enough memory to store this much information for LS. As for DV, running DV over this many routers would never converge.</p>
+      <p>So far, we've been assuming that all the routers are running the same routing algorithm. However, this isn't really practical because in the real world, there are billions of routers. All of them can't have enough memory to store this much information for LS. As for DV, running DV over this many routers would never converge.</p>
       <p>Also recall that the Internet is a network of ISPs, which is a network of routers. An ISP can choose which algorithm it wants its routers to run. So each network of routers could potentially be running different algorithms anyway.</p>
       <p>In fact, routers are organized into <b>autonomous systems (ASs)</b>, where each AS is typically controlled by an ISP. All the routers in the same AS run the same routing algorithm and communicate within the AS. Regardless of whichever algorithm it is, the routing algorithm that is running in an AS is called an <b>intra-autonomous system routing protocol</b>.</p>
       <h4>Open Shortest Path First (OSPF)</h4>
@@ -2710,10 +2713,7 @@
       <h2 id="bgp">Routing Among the ISPs: BGP</h2>
       <p>An intra-AS routing protocol, like OSPF, routes packets from a source to a destination inside the AS. But to route a packet from one AS to another AS, an <b>inter-autonomous system routing protocol</b> is needed. And in order for the communication between ASs to work, they all need to be using the same inter-AS routing protocol. In fact, the inter-AS routing protocol that all ASs run is the Border Gateway Protocol, a.k.a. <b>BGP</b>.</p>
       <h3>The Role of BGP</h3>
-      <p>A subnet is a smaller part of a larger network (in this case, an AS) where all the IP addresses of the routers in the subnet start with the same prefix. BGP allows subnets to advertise their existence to all the routers in the Internet. And as mentioned earlier, BGP also determines the best route from one AS to another AS.</p>
-      <div class="ln-box">
-        <p>Having subnets reduces the amount of memory needed since the forwarding tables only need to store the prefix instead of the IP addresses of all the routers in the subnet.</p>
-      </div>
+      <p>A subnet is a smaller part of a larger network where all the IP addresses of the routers in the subnet start with the same prefix. BGP allows subnets to advertise their existence to all the routers in the Internet. And as mentioned earlier, BGP also determines the best route from one AS to another AS.</p>
       <div class="ln-box">
         <p>See the IPv4 Addressing section for more information about what a prefix is.</p>
       </div>
@@ -2746,7 +2746,7 @@
       <p>The NEXT-HOP attribute is the IP address of the router at the beginning of the AS-PATH. For the route "AS2 AS3 x", the NEXT-HOP attribute is the IP address of router 2a. The NEXT-HOP attribute of the route "AS3 x" is the IP address of router 3d.</p>
       <h4>Hot Potato Routing 🥔</h4>
       <p>Hot potato routing tries to forward packets to other ASs as fast as possible. In this case, "fast" means "least cost".</p>
-      <p>Let's look at router 1b. This router has two routes to choose from: "AS2 AS3 x" and "AS3 x". Router 1b will use its intra-AS routing information to find the least-cost intra-AS path to 2a and and the least-cost intra-AS path to 3d and select the path with the smaller cost. We can define cost to be the number of links traversed for example. Then the cost of route "AS2 AS3 x" is `2` and the cost of route "AS3 x" is `3`, so 1b would choose route "AS2 AS3 x" and add router 2a to its forwarding table.</p>
+      <p>Let's look at router 1b. This router has two paths to choose from: "AS2 AS3 x" and "AS3 x". Router 1b will use its intra-AS routing information to find the least-cost intra-AS path to 2a and and the least-cost intra-AS path to 3d and select the path with the smaller cost. We can define cost to be the number of links traversed for example. Then the cost of path "AS2 AS3 x" is `2` and the cost of path "AS3 x" is `3`, so 1b would choose path "AS2 AS3 x" and add router 2a to its forwarding table.</p>
       <h4>Route-Selection Algorithm</h4>
       <p>The actual process of choosing the best route is a little bit more complicated, but it does include hot potato routing.</p>
       <ol>
@@ -2761,11 +2761,11 @@
       <p>Let's look at router 1b again. We saw that it had two routes to choose from: one that went to AS2 and one that went to AS3. We also saw that under hot potato routing, the AS2 path is chosen. But under this new route-selection algorithm, rule 2 is applied before hot potato (rule 3). And rule 2 says to choose the route with the shortest AS PATH, which in this case is the route to AS3.</p>
       <h3>Routing Policy</h3>
       <p>For rule 1 of the route-selection algorithm, the local preference attribute is set by an AS routing policy. For example, a policy can prevent ASs from advertising a path to other ASs. ISPs may want to do this so that they don't have to forward traffic from customers that aren't subscribed to them.</p>
-      <p>For example, suppose we have six ASs where `W,X,Y` are access ISPs and `A,B,C` are provider networks. Suppose `A` advertises to `B` that there is a path to `W` through `A`. `B` can choose to advertise this path to `C`. Now `C` knows of a route to `W`, so if `Y` wants to communicate with `W`, then `C` will route through `B`.</p>
+      <p>For example, suppose we have six ASs where `W,X,Y` are access ISPs and `A,B,C` are provider networks. Suppose `A` advertises to `B` that there is a path to `W` through `A`. `B` can choose to advertise this path to `C`. Now `C` knows of a route to `W`, so if `Y` wants to communicate with `W`, then `C` can route through `B`.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/route_policy.png">
       </div>
-      <p>But now `B` has to carry traffic between `Y` and `W`, both of which aren't customers of `B`. So it's in `B`'s interest to not advertise the path "BAW" to `C`.</p>
+      <p>But now `B` can carry traffic between `Y` and `W`, both of which aren't customers of `B`. So it's in `B`'s interest to not advertise the path "BAW" to `C`.</p>
       <div class="ln-box">
         <h3>IP-Anycast</h3>
         <p>IP-anycast is a service that allows multiple servers to share the same IP address. So when a request is sent to that IP address, any of the servers can pick up the request. This is helpful for CDNs and DNS since they both replicate their contents across multiple servers. BGP implements this IP-anycast service using the route-selection algorithm to select the "nearest" server.</p>
@@ -2896,7 +2896,11 @@
         </tr>
       </table>
       <p>*This is almost never used because TCP already has its own congestion control mechanism.</p>
-      <p>Traceroute is implemented using ICMP messages. It sends a bunch of IP datagrams to the destination, where each datagram contains a UDP segment with a port number that is unlikely to be open at the destination. The `n^(text(th))` datagram has a TTL of `n`, so when the `n^(th)` datagram arrives at the `n^(th)` router, the datagram will be expired. In response, the router sends an ICMP warning message (type 11 code 0), which includes the name of the router and its IP address. When this message arrives at the source, Traceroute records the RTT.</p>
+      <h4>Traceroute</h4>
+      <p>Traceroute is implemented using ICMP messages. It sends a bunch of IP datagrams to the destination, where each datagram contains a UDP segment with a port number that is unlikely to be open at the destination. The `n^(text(th))` datagram has a TTL of `n`, so when the `n^(th)` datagram arrives at the `n^(th)` router, the datagram will be expired*. In response, the router sends an ICMP warning message (type 11 code 0), which includes the name of the router and its IP address. When this message arrives at the source, Traceroute records the RTT.</p>
+      <div class="ln-box">
+        <p>*See the IPv4 Datagram Format section for more details about a datagram's TTL.</p>
+      </div>
       <p>Since each subsequent datagram has a higher TTL, one of the datagrams will eventually reach the destination. When this happens, the destination will send a port unreachable ICMP message (type 3 code 3) back to the source. This is when Traceroute knows when to stop sending datagrams.</p>
       <h2 id="networkmanagement">Network Management and SNMP</h2>
       <p>"Network management includes the deployment, integration, and coordination of the hardware, software, and human elements to monitor, test, poll, configure, analyze, evaluate, and control the network and element resources to meet the real-time, operational performance, and Quality of Service requirements at a reasonable cost." (Saydam &amp; Magedanz 1996)</p>
@@ -3189,6 +3193,9 @@
       <p>So why does everything in a subnet have similar looking addresses? It's because of the Internet's address assignment strategy, which is called <b>Classless Interdomain Routing (CIDR)</b>. CIDR divides an IP address into two parts so that it looks like a.b.c.d/x where x indicates the number of bits in the first part.</p>
       <p>An organization is usually given a block of contiguous addresses, i.e., a bunch of addresses that start with the same bits. This set of shared bits is the <b>prefix</b> (a.k.a. network portion) of the address, and x indicates how many bits make up the prefix, i.e., how long the prefix is. The remaining bits (a.k.a. the host part) are used as identifiers for the devices in the organization. In the example above for the left subnet, the prefix is 223.1.1 and the three hosts are identified by the 1, 2, and 3 at the end.</p>
       <div class="ln-box">
+        <p>Having subnets reduces the amount of memory needed since the forwarding tables only need to store the prefix instead of the IP addresses of all the routers in the subnet.</p>
+      </div>
+      <div class="ln-box">
         <p>Before CIDR, <b>classful addressing</b> was used, which only allowed the prefix to be `8`, `16`, or `24` bits long. This was because subnets with `8`-, `16`-, and `24`-bit subnet addresses were called class A, B, and C networks, respectively. But fixing the length of the prefix became an issue, especially for small-to-medium-sized organizations.</p>
         <p>A class C subnet could only support `254` hosts, which was too small.</p>
         <div class="ln-box">
@@ -3218,12 +3225,12 @@
         </tr>
         <tr>
           <td>Organization 2</td>
-          <td>200.23.18.0/20</td>
+          <td>200.23.18.0/23</td>
           <td><u>11001000 00010111 0001001</u>0 00000000</td>
         </tr>
         <tr>
           <td>Organization 3</td>
-          <td>200.23.20.0/20</td>
+          <td>200.23.20.0/23</td>
           <td><u>11001000 00010111 0001010</u>0 00000000</td>
         </tr>
           <td>`vdots`</td>
@@ -3278,9 +3285,6 @@
       <p>The NAT-enabled router looks like a single device to the rest of the Internet. So all traffic coming out of the home network looks like it's coming from one device. This means that, in our example, the source IP address of all datagrams sent by the phone, laptop, and computer is 138.76.29.7.</p>
       <p>This also means that all traffic going to the home network (regardless of whoever the receiver is) needs to go to one destination IP address: 138.76.29.7. But then how does the router know which device it's supposed to go to?</p>
       <p>When the host sends a datagram, it puts an arbitrary port number in the source port field. Then the NAT router generates a new source port number for that datagram and puts that mapping into its <b>NAT translation table</b>. So the NAT translation table is used to know which device to send the data to.</p>
-      <div class="ln-center">
-        <img class="img-fluid ln-image-small" src="../pictures/networking/nat_2.png">
-      </div>
       <table class="table">
         <tr>
           <th colspan="2">NAT Translation Table</th>
@@ -3290,6 +3294,9 @@
           <td>10.0.0.2, 3345</td>
         </tr>
       </table>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/networking/nat_2.png">
+      </div>
       <p>For example, let's say the laptop requests a Web page from 128.119.40.186.</p>
       <ol>
         <li>The laptop gives itself a port number of 3345 and sends a datagram to the router with source IP address 10.0.0.2 and source port number 3345.</li>
@@ -3306,7 +3313,7 @@
           <li>range of addresses not needed from ISP</li>
           <li>can change addresses of devices in local network without notifying outside world</li>
           <li>can change ISP without changing addresses of devices in local network</li>
-          <li>devices inside local network are not explicitly addressable (they're not visible to potential hackers)</li>
+          <li>devices inside local network are not explicitly addressable (they're not visible to potential attackers)</li>
         </ul>
         <p>Arguments against NAT:</p>
         <ul>
@@ -3411,7 +3418,7 @@
         <img class="img-fluid ln-image-small" src="../pictures/networking/match_plus_action.png">
       </div>
       <h4>Simple Forwarding</h4>
-      <p>Let's say there is a packet from h5 (or h6) that is going to h3 (or h4), and it's cheaper to go through s1. This would be s1's flow table:</p>
+      <p>Let's say there is a packet from h5 (or h6) that is going to h3 (or h4), and it's cheaper to go through s1. This could be s1's flow table:</p>
       <table class="table">
         <tr>
           <th>Match</th>
@@ -3422,7 +3429,7 @@
           <td>Forward to 4</td>
         </tr>
       </table>
-      <p>This would be s3's flow table:</p>
+      <p>This could be s3's flow table:</p>
       <table class="table">
         <tr>
           <th>Match</th>
@@ -3433,7 +3440,7 @@
           <td>Forward to 3</td>
         </tr>
       </table>
-      <p>And this would be s2's flow table:</p>
+      <p>And this could be s2's flow table:</p>
       <table class="table">
         <tr>
           <th>Match</th>
@@ -3472,7 +3479,7 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/match_plus_action.png">
       </div>
-      <p>Let's say s2 only wants to receive packets from s3. This would be s2's flow table:</p>
+      <p>Let's say s2 only wants to receive packets from s3. This could be s2's flow table:</p>
       <table class="table">
         <tr>
           <th>Match</th>
@@ -3511,7 +3518,7 @@
       </div>
       <p>Now let's look at <b>two-dimensional parity</b>. Suppose the `d` bits are divided into `i` rows and `j` columns.</p>
       <div class="ln-center">
-        <p>`[[d_(1,1),...,d_(1,j)],[d_(2,1),...,d_(2,j)],[vdots, ..., vdots],[d_(i,1),...,d_(i,j)]]`</p>
+        <p>`[[d_(1,1),...,d_(1,j)],[d_(2,1),...,d_(2,j)],[vdots, ddots, vdots],[d_(i,1),...,d_(i,j)]]`</p>
       </div>
       <p>The parity will be computed for each row and column, so there will be `i+j+1` parity bits.</p>
       <p>For example, suppose the `d` bits look like this:</p>
@@ -3634,7 +3641,7 @@
       </div>
       <h4>Carrier Sense Multiple Access with Collision Detection (CSMA/CD)</h4>
       <p>While a node is transmitting, if it detects that another node is transmitting, then the node will stop transmitting and wait before trying again. This is <b>collision detection</b>. Having collision detection prevents damaged frames from being sent.</p>
-      <p>So how long should the nodes wait if it detects a collision? If the waiting interval is large, but the number of collisions was small, then the channel will be idle for quite some time. On the other hand, if the waiting interval is small, but the number of collisions is large, then it's likely some of the nodes will wait the same amount of time as each other and collide again.</p>
+      <p>So how long should the nodes wait if they detect a collision? If the waiting interval is large, but the number of collisions was small, then the channel will be idle for quite some time. On the other hand, if the waiting interval is small, but the number of collisions is large, then it's likely some of the nodes will wait the same amount of time as each other and collide again.</p>
       <p>The <b>binary exponential backoff</b> algorithm is used to solve this problem. When a node transmits a frame that has already had `n` collisions, that node waits for a random time from `0` to `2^n-1`. So the more collisions the frame has had, the longer it potentially has to wait before being retransmitted.</p>
       <ul>
         <li>After `1` collision: `{0,1}`</li>
@@ -3697,7 +3704,7 @@
         <p>Only the interfaces on hosts and routers have link-layer addresses. For link-layer switches, their adapters that connect to hosts and routers do not have link-layer addresses. This is because, at the network layer, hosts or routers set the destination of the datagram to another host or router, not to a link-layer switch.</p>
       </div>
       <p>A MAC address is `6` bytes long and are represented as six pairs of hexadecimal numbers.</p>
-      <p>Since a MAC address has `48` bits, there are `2^48` possible MAC addresses. Interestingly, no two adapters have the same MAC address. How does one company manufacturing adapters make sure that their adapters don't have the same addresses as other adapters from another company? The answer is similar to the way ISPs give out IP addresses to companies. In this case, IEEE manages the MAC address space, and companies purchase a chunk of the address space (`2^24` addresses). IEEE fixes the first `24` bits and lets the company choose the last `24` bits.</p>
+      <p>Since a MAC address has `48` bits, there are `2^48` possible MAC addresses. Interestingly, no two adapters have the same MAC address. So how does one company manufacturing adapters make sure that their adapters don't have the same addresses as other adapters from another company? The answer is similar to the way ISPs give out IP addresses to companies. In this case, IEEE manages the MAC address space, and companies purchase a chunk of the address space (`2^24` addresses). IEEE fixes the first `24` bits and lets the company choose the last `24` bits.</p>
       <p>While IP addresses are hierarchical (they have a network part and host part) and change when connected to a different network, MAC addresses are not hierarchical and always stay the same regardless of which network the device is connected to.</p>
       <p>When an adapter wants to send a frame, it puts the destination adapter's MAC address into the frame and sends the frame into the LAN. When an adapter receives a frame, it checks to see if the destination MAC address in the frame matches its own MAC address. If it matches, the adapter extracts the datagram from the frame and passes it up to the network layer. If the sending adapter wants to send a frame to all adapters on the LAN, it will use a special MAC <b>broadcast address</b> (all `1`s, which is FF-FF-FF-FF-FF-FF in hexadecimal) as the destination.</p>
       <h4>Address Resolution Protocol (ARP)</h4>
@@ -3825,7 +3832,7 @@
       <p>But to prevent broadcast frames from being repeatedly cycled through the network, the topology of a switched network is restricted to a spanning tree. Switches are also susceptible to broadcast storms in which one or more hosts repeatedly transmits broadcast frames, bringing down the whole network.</p>
       <p>Since network addresses are hierarchical and there is a hop limit field in datagrams, datagrams don't have a chance to repeatedly get cycled through the network. So the topology with routers is flexible. Routers also have firewall protection against broadcast storms.</p>
       <p>However, routers are not plug-and-play; they need their IP addresses to be configured. Also, routers have to process datagrams up through layer 3, so they have slower processing times.</p>
-      <p>Typically, smaller networks use just switches, and larger networks use routers and switches. Having more links for data to traverse, larger networks benefit from routers providing optimal routes.</p>
+      <p>Typically, smaller networks use just switches, and larger networks use routers and switches. Since larger networks have more links for data to traverse, they benefit from the routers' capability to provide optimal routes.</p>
       <h3>Virtual Local Area Networks (VLANs)</h3>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/lan.png">
@@ -3844,9 +3851,9 @@
       <p>The switch can be configured so that traffic from one port stays within that port's group. This provides traffic isolation.</p>
       <p>There is a single switch replacing all those switches in the network above. So this one switch is being really efficient.</p>
       <p>If one user moves to a different group, then the port that the user is connected to can be reconfigured to belong to another VLAN.</p>
-      <p>But what if someone from the EE department wants to communicate with someone in the CS department? One way to allow this is to reserve one port that is not being used by any VLANs and configure that port to belong to both the EE and CS departments. An external router would be connected to that port. An IP datagram from the EE department would first go from the EE VLAN to the router. Then the router would forward the datagram to the CS VLAN.</p>
+      <p>But what if someone from the EE department wants to communicate with someone in the CS department? One way to allow this is to reserve one port that is not being used by any VLANs and configure that port to belong to both the EE and CS departments. That port would then be used by an external router. So an IP datagram from the EE department would first go from the EE VLAN to the router. Then the router would forward the datagram to the CS VLAN.</p>
       <p>But let's suppose that some faculty are in a different building entirely, so that they're not connected to the same switch as everyone else. How can people in these two buildings communicate with each other?</p>
-      <p>We could connect the two switches by <b>VLAN trunking</b>. One port on each switch (trunk port) is reserved for a trunk link to connect the two switches together. Frames that travel across the trunk link have a <b>VLAN tag</b> in the header so that the switch knows which VLAN the frame should be sent to.</p>
+      <p>We could connect the two switches by <b>VLAN trunking</b>. One port on each switch (trunk port) is reserved for a trunk link to connect the two switches together. Frames that travel across the trunk link will have a <b>VLAN tag</b> in the header so that the switch knows which VLAN the frame should be sent to.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/vlan_trunking.png">
       </div>
@@ -3862,13 +3869,16 @@
         <p>MPLS is considered a layer-2.5 protocol.</p>
       </div>
       <p>These MPLS-enhanced frames can only be sent to and from MPLS-capable routers. However, it's also possible for MPLS-capable routers and standard IP routers to be connected to each other. So how does this work?</p>
-      <p>As we saw before, routers continuously send advertisements to other routers (see Advertising BGP Route Information). Through these advertisements, MPLS-capable routers can find out if their neighbors are also MPLS capable. A standard router will forward a frame to an MPLS-capable router just like it would any other router. When an MPLS-capable router has a MPLS-capable neighbor, it will add that MPLS header to the frame and forward it. Thus, this faster forwarding will occur as long as there is a MPLS-capable neighbor. Once there is no longer a MPLS-capable neighbor, the last MPLS-capable router will take out the MPLS header so that the next standard router won't get confused.</p>
-      <p>Let's look at an example of a setup. Routers `R1`, `R2`, `R3`, and `R4` are MPLS-capable while routers `R5` and `R6` are standard IP routers. Router `R1` advertises to `R2` and `R3` that it can reach destination `A` if it receives a frame with an MPLS label of `6`.</p>
+      <p>As we saw before, routers continuously send advertisements to other routers (see Advertising BGP Route Information). Through these advertisements, MPLS-capable routers can find out if their neighbors are also MPLS capable. A standard router will forward a frame to an MPLS-capable router just like it would any other router. But if an MPLS-capable router has an MPLS-capable neighbor, it will add that MPLS header to the frame and forward it. Thus, this faster forwarding will occur as long as there is an MPLS-capable neighbor. Once there is no longer an MPLS-capable neighbor, the last MPLS-capable router will take out the MPLS header so that the next standard router won't get confused.</p>
+      <div class="ln-box">
+        <p>This is very similar to tunneling for integrating IPv6 routers with IPv4 routers. (See the Transitioning from IPv4 to IPv6 section.)</p>
+      </div>
+      <p>Let's look at an example of a setup. Routers `R1`, `R2`, `R3`, and `R4` are MPLS capable while routers `R5` and `R6` are standard IP routers. Router `R1` advertises to `R2` and `R3` that it can reach destination `A` if it receives a frame with an MPLS label of `6`.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/mpls.png">
       </div>
       <p>After all the routers advertise to each other, `R4` learns of two paths to reach `A`. It can either send it to `R3` or `R2` since both of them can reach `R1`, which can reach `A`.</p>
-      <p>If these were all standard routers, then BGP's route-selection algorithm would've only provided one least-cost path. But in this case, multiple paths exist and any of them can be used. While faster forwarding is nice, this is the true advantage of MPLS; Taking advantage of this capability is one form of <b>traffic engineering</b>.</p>
+      <p>If these were all standard routers, then BGP's route-selection algorithm would've only provided one least-cost path. But in this case, multiple paths exist and any of them can be used. While faster forwarding is nice, this is the true advantage of MPLS; taking advantage of this capability is one form of <b>traffic engineering</b>.</p>
       <div class="ln-box">
         <p>MPLS is used to implement <b>virtual private networks (VPNs)</b>.</p>
       </div>
