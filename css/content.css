@@ -41,6 +41,11 @@ h2 {
   z-index: 2;
 }
 
+.ln-flex-evenly {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .ln-green {
   color: green;
 }
