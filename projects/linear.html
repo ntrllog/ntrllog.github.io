@@ -70,8 +70,8 @@
       </div>
       <p>Of course, we could try plugging in random values for x and hope that they work. But that would take forever. Even if we did it with a computer, it would be impractical to do so all the time.</p>
       <h2 id="findingainverse">Finding `A^-1`</h2>
-      <p>A <i>slightly</i> better approach would be to "isolate" the `x`. As from elementary algebra, we could solve for `x` in `5x = 10` by dividing both sides by `5`. So, for `Ax = b`, why not "divide" both sides by `A`? (More formally known as taking the inverse). There are some special cases in which it is impossible to take the inverse of `A`, so for simplicity, we avoid those cases and assume it is possible, i.e., `A` is "invertible".</p>
-      <p>In theory, the answer really is that simple. Multiply both sides (on the left) by the inverse of `A` (denoted by `A^-1`) to get `x = A^-1b`. Done. In practice, though, this process is actually pretty complicated and time-consuming, <i>especially</i> when done by hand. In fact, doing it by hand is so nightmarish, let's assume we have a computer program that inverts and multiplies matrices for us. It turns out that even with a computer doing millions of operations in mere milliseconds, <b>inverting a matrix and then multiplying is relatively time-consuming</b>.</p>
+      <p>A <em>slightly</em> better approach would be to "isolate" the `x`. As from elementary algebra, we could solve for `x` in `5x = 10` by dividing both sides by `5`. So, for `Ax = b`, why not "divide" both sides by `A`? (More formally known as taking the inverse). There are some special cases in which it is impossible to take the inverse of `A`, so for simplicity, we avoid those cases and assume it is possible, i.e., `A` is "invertible".</p>
+      <p>In theory, the answer really is that simple. Multiply both sides (on the left) by the inverse of `A` (denoted by `A^-1`) to get `x = A^-1b`. Done. In practice, though, this process is actually pretty complicated and time-consuming, <em>especially</em> when done by hand. In fact, doing it by hand is so nightmarish, let's assume we have a computer program that inverts and multiplies matrices for us. It turns out that even with a computer doing millions of operations in mere milliseconds, <strong>inverting a matrix and then multiplying is relatively time-consuming</strong>.</p>
       <p>It's natural to assume that if a program needs to do a lot of operations `(+,-,xx,//,sqrt())`, it will take longer than one that needs to do fewer operations. Inverting an `n xx n` matrix is complicated (for me to know), but it turns out that it generally takes `n^3` operations. This is quite a lot of operations. It also means that if you double the size of the matrix, you have to do `8` times more operations to find its inverse. (`2 xx 2` matrix: `8` operations, `4 xx 4` matrix: `64` operations) Most matrices in real life are really large. (`1,000,000 xx 1,000,000` is likely a conservative estimate. That would mean `1,000,000^3` operations.)</p>
       <div class="box">
         <p><b>The story thus far:</b> We're trying to solve `Ax = b`. (Given `A` and `b`, find `x`.) In theory, the simplest approach is to multiply both sides by `A^-1` to get `x = A^-1b`. In practice, this approach is not simple at all. Compared to other methods of solving this problem, finding `A^-1` is time-consuming.</p>
@@ -97,7 +97,7 @@
         <p>`color(red)(5)x_1 + color(red)(0)x_2 + color(red)(0)x_3 = color(red)(15) => x_1 = 3`</p>
         <p>`color(blue)(2)x_1 + color(blue)(-4)x_2 + color(blue)(0)x_3 = color(blue)(-2) => x_2 = 2` (plugging in `3` for `x_1`)</p>
         <p>`color(green)(1)x_1 + color(green)(2)x_2 + color(green)(3)x_3 = color(green)(10) => x_3 = 1` (plugging in `3` for `x_1` and `2` for `x_2`)</p>
-        <p>(<b>This process is known as forward substitution.</b>)</p>
+        <p>(<strong>This process is known as forward substitution.</strong>)</p>
       </div>
       <p>We have `LUx = b`. To take advantage of the easiness of forward substitution, let's view the problem as: `L(y) = b`, where `y = Ux`. Solving `Ly = b` like in the previous example, we easily obtain values for `y`. But how do we get `x`?</p>
       <p>It's also just as easy to solve something like `Ux = b`. For example,</p>
@@ -106,7 +106,7 @@
         <p>`color(red)(0)x_1 + color(red)(0)x_2 + color(red)(3)x_3 = color(red)(9) => x_3 = 3`</p>
         <p>`color(blue)(0)x_1 + color(blue)(1)x_2 + color(blue)(2)x_3 = color(blue)(8) => x_2 = 2` (plugging in `3` for `x_3`)</p>
         <p>`color(green)(3)x_1 + color(green)(2)x_2 + color(green)(4)x_3 = color(green)(19) => x_1 = 1` (plugging in `3` for `x_3` and `2` for `x_2`)</p>
-        <p>(<b>This process is known as back substitution.</b>)</p>
+        <p>(<strong>This process is known as back substitution.</strong>)</p>
       </div>
       <p>Notice before, we defined `y = Ux`. We have `y` (from solving `Ly = b`), and we have `U` (from assuming it was possible to split `A = LU`). So like in the previous example, it is possible to solve for `x`.</p>
       <div class="box">
@@ -151,7 +151,7 @@
       <div class="box">
         <p>To summarize: We assumed `A` could be "split up" into two parts `L` and `U` (i.e., `A = LU`). With that, the problem became `Ax = b => LUx = b`. We took advantage of the fact that solving something like `Lx = b` was easy. So by letting `y = Ux`, we could solve `Ly = b`. Doing that gave us `y`, so we could get `x` by solving `Ux = y`.</p>
       </div>
-      <p>This process may look like it requires a lot of steps, but <b>it actually takes less operations than inverting a matrix.</b> Let's look at how many operations it takes to solve `Ly = b`. <b>We'll count operations by counting how many numbers we have to perform operations on.</b></p>
+      <p>This process may look like it requires a lot of steps, but <strong>it actually takes less operations than inverting a matrix.</strong> Let's look at how many operations it takes to solve `Ly = b`. <strong>We'll count operations by counting how many numbers we have to perform operations on.</strong></p>
       <p>For the first row, there is `1` number. (By the nature of matrix multiplication, the `0`s don't count as numbers.)</p>
       <div class="math">
         <p>`[[color(red)(5), 0, 0],[2, -4, 0],[1, 2, 3]] [[color(red)(x_1)],[x_2],[x_3]] = [[15],[-2],[10]]`</p>
@@ -171,17 +171,17 @@
         <div class="math">
           <p>`[[***,*,*,*,*],[***,***,*,*,*],[***,***,***,*,*],[***,***,***,***,*],[***,***,***,***,***]]`</p>
         </div>
-        <p>Counting the stars, they take up about <i>half</i> of the area of the square. Hence, about `n^2/2` numbers.</p>
+        <p>Counting the stars, they take up about <em>half</em> of the area of the square. Hence, about `n^2/2` numbers.</p>
       </div>
-      <p><b>This means we have to do <i>about</i> `n^2` operations to solve `Ly = b` (forward substitution).</b> Now we have to solve `Ux = y` (back substitution). By similar reasoning, `U` also has `n^2/2` numbers, so it also takes <i>about</i> `n^2` operations. <b>Altogether, the total number of operations to solve `LUx = b` is `n^2 + n^2 = 2n^2.`</b> For simplicity, we can consider it as `n^2` operations.</p>
-      <p>This is <i>definitely</i> less than the `n^3` operations it took to find `A^-1.`</p>
+      <p><strong>This means we have to do <em>about</em> `n^2` operations to solve `Ly = b` (forward substitution).</strong> Now we have to solve `Ux = y` (back substitution). By similar reasoning, `U` also has `n^2/2` numbers, so it also takes <em>about</em> `n^2` operations. <strong>Altogether, the total number of operations to solve `LUx = b` is `n^2 + n^2 = 2n^2.`</strong> For simplicity, we can consider it as `n^2` operations.</p>
+      <p>This is <em>definitely</em> less than the `n^3` operations it took to find `A^-1.`</p>
       <div class="box">
         <p><b>The story thus far</b>: Finding `A^-1` simply takes too long `(n^3).` We found out that if we could split `A` into two parts, `L` and `U`, it would only take about `n^2` operations to solve for `x`.</p>
         <p><b>Time complexity of forward and back substitution:</b> `n^2`</p>
         <p><b>Assumptions about `A`:</b> invertible</p>
       </div>
       <h2 id="cholesky">Cholesky Decomposition</h2>
-      <p>Splitting `A` into two different matrices is nice, but we currently don't know exactly how to do so. Fortunately, there's an easier way to split up `A` and still take advantage of forward and back sub. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <b>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find one matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</b> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
+      <p>Splitting `A` into two different matrices is nice, but we currently don't know exactly how to do so. Fortunately, there's an easier way to split up `A` and still take advantage of forward and back sub. Let's assume that there exists an upper-triangular matrix `R` such that `A = R^TR.` <strong>So now, instead of finding two matrices `L` and `U` such that `A = LU,` we only need to find one matrix `R` such that `A = R^TR.` (`R` is called the "Cholesky factor". This process is called "Cholesky decomposition".)</strong> Since `R` is upper-triangular, `R^T` will be lower-triangular, so we can still apply the forward and back substitution methods as before.</p>
       <div class="box">
         <p>Note: `T` means matrix transpose.</p>
       </div>
@@ -208,7 +208,7 @@
         </div>
       </div>
       <div class="box">
-        <p>To summarize: Finding two matrices `L` and `U` such that `A = LU` makes solving the problem fast, but an easier approach is to find only one matrix `R` such that `A = R^TR.` By the nature of `R` (being upper-triangular) and `R^T` (being lower-triangular), we can still do forward and back substitution like we did for triangular systems. Doing this allows us to decompose `A` easily and <i>still</i> achieve the `n^2` time of doing forward and back substitution.</p>
+        <p>To summarize: Finding two matrices `L` and `U` such that `A = LU` makes solving the problem fast, but an easier approach is to find only one matrix `R` such that `A = R^TR.` By the nature of `R` (being upper-triangular) and `R^T` (being lower-triangular), we can still do forward and back substitution like we did for triangular systems. Doing this allows us to decompose `A` easily and <em>still</em> achieve the `n^2` time of doing forward and back substitution.</p>
       </div>
       <p>Let's see long it takes to find `R`.</p>
       <div class="math">
@@ -219,9 +219,9 @@
         <img class="img-fluid" src="../pictures/linear/analyze_cholesky_2.gif">
       </div>
       <p>For the second column of `R`, we're also doing operations on about `n^2/2` numbers in `R^T`.</p>
-      <p>This pattern repeats for all `n` columns of `R`. For each column, we're doing operations on <i>about</i> `n^2` numbers. Since there are `n` columns, we're doing operations on about `n*n^2 = n^3` numbers.</p>
-      <p><b>So finding the Cholesky factor `R` requires `n^3` operations.</b> Wait. That sounds bad. Inverting a matrix took `n^3` operations and that was considered bad. So if finding `R` takes about as long as it does to find `A^-1`, why bother with Cholesky decomposition at all?</p>
-      <p>Well, so far, all of this was done to solve `Ax = b`. Just <i>one</i> problem. What if we changed `b`? What if we were trying to solve `Ax = c?` Or `Ax = d?` (All using the same matrix `A`.) <b>If we had to solve multiple problems using the same matrix `A`, we would have to repeatedly do `n^3` operations to find the inverse for each problem.</b> If we instead found the Cholesky decomposition first, we would have `R^T` and `R` stored in the computer ready to use for each problem and <i>only</i> have to do forward and back substitution for each problem. <b>This means for one problem, it will take `n^3` operations. But for future, subsequent problems, it will <i>only</i> take `n^2` operations</b>.</p>
+      <p>This pattern repeats for all `n` columns of `R`. For each column, we're doing operations on <em>about</em> `n^2` numbers. Since there are `n` columns, we're doing operations on about `n*n^2 = n^3` numbers.</p>
+      <p><strong>So finding the Cholesky factor `R` requires `n^3` operations.</strong> Wait. That sounds bad. Inverting a matrix took `n^3` operations and that was considered bad. So if finding `R` takes about as long as it does to find `A^-1`, why bother with Cholesky decomposition at all?</p>
+      <p>Well, so far, all of this was done to solve `Ax = b`. Just <em>one</em> problem. What if we changed `b`? What if we were trying to solve `Ax = c?` Or `Ax = d?` (All using the same matrix `A`.) <strong>If we had to solve multiple problems using the same matrix `A`, we would have to repeatedly do `n^3` operations to find the inverse for each problem.</strong> If we instead found the Cholesky decomposition first, we would have `R^T` and `R` stored in the computer ready to use for each problem and <em>only</em> have to do forward and back substitution for each problem. <strong>This means for one problem, it will take `n^3` operations. But for future, subsequent problems, it will <em>only</em> take `n^2` operations</strong>.</p>
       <div class="box">
         <p><b>The story thus far:</b> Finding `A^-1` takes too long `(n^3)`. Finding `L` and `U` such that `A = LU` is faster `(n^2)`, but we don't have a way of finding `L` and `U`. Finding `R` such that `A = R^TR` is easier, and potentially just as fast.</p>
         <p><b>Time complexity of Cholesky decomposition:</b> `n^3`</p>
@@ -273,8 +273,8 @@
       <div class="math">
         <p>`[[2, 1, 0, 0, 0],[0, 2, 1, 0, 0],[0, 0, 2, 1, 0],[0, 0, 0, 2, 1],[0, 0, 0, 0, 2]] [[x_1],[x_2],[x_3],[x_4],[x_5]] = [[4],[5],[6],[10],[4]]`</p>
       </div>
-      <p>Each row only has about `s` numbers. With `n` rows, there are a total of `ns` numbers. <b>This means back substitution only takes `ns` operations. The same reasoning holds for forward substitution.</b></p>
-      <p><b>All in all, it takes about `ns^2 + 2ns` (or simply, `ns^2`) operations to solve `Ax = b` if we know that `A` is positive definite and banded.</b> That is significantly faster than the `n^3` operations to find `R` and the `n^2` operations to do forward and back substitution.</p>
+      <p>Each row only has about `s` numbers. With `n` rows, there are a total of `ns` numbers. <strong>This means back substitution only takes `ns` operations. The same reasoning holds for forward substitution.</strong></p>
+      <p><strong>All in all, it takes about `ns^2 + 2ns` (or simply, `ns^2`) operations to solve `Ax = b` if we know that `A` is positive definite and banded.</strong> That is significantly faster than the `n^3` operations to find `R` and the `n^2` operations to do forward and back substitution.</p>
       <div class="box">
         <p><b>The story thus far:</b> Cholesky decomposition was a powerful method, but it still took `n^3` operations to find `R`. If we know `A` will be banded (and positive definite), then we can take advantage of its unique structure. The result is that it only takes `ns^2` operations to find `R` and another `ns` operations to do forward and back substitution to solve `Ax = b`.</p>
         <p><b>Time complexity of Cholesky decomposition with banded matrices:</b> `ns^2`</p>
@@ -283,12 +283,12 @@
       <h2 id="iterativeoverview">Iterative Methods: Overview</h2>
       <p>Cholesky decomposition with banded matrices is nice. But it's only fast when the matrices are banded, which isn't always going to be the case. However, let's consider a different scenario. Let's suppose that we have such a giant matrix, that it takes a day or something to complete. If we stopped our program while it was in the middle of doing Cholesky, we would end up with nothing. It would be nice to be able to stop early and see if the answer we have so far is close to the real answer. That's what iterative methods allow us to do.</p>
       <p>Iterative methods start with an initial guess, `x^((0))`. Then they modify the guess to get a new guess, `x^((1)).` This repeats until the guess is (hopefully) close to the real answer.</p>
-      <p>This probably seems like an unusual way of solving `Ax = b.` We're starting with some random guess and we end up with something that's not exactly the answer. It's also possible that we just keep guessing and never actually get close to the answer. But there are some advantages of using iterative methods. As mentioned before, we can stop early and get some sort of answer. <b>More importantly, iterative methods become fast when matrices are really large and sparse. And they don't need to be banded for this to work.</b></p>
+      <p>This probably seems like an unusual way of solving `Ax = b.` We're starting with some random guess and we end up with something that's not exactly the answer. It's also possible that we just keep guessing and never actually get close to the answer. But there are some advantages of using iterative methods. As mentioned before, we can stop early and get some sort of answer. <strong>More importantly, iterative methods become fast when matrices are really large and sparse. And they don't need to be banded for this to work.</strong></p>
       <div class="box">
-        <p><b>The story thus far:</b> One way of approaching the `Ax = b` problem is to solve for the exact solution (e.g. by Cholesky decomposition). Another way of approaching the problem is to <i>approximate</i> the solution instead of getting the exact solution. This is sometimes faster and more applicable to general matrices.</p>
+        <p><b>The story thus far:</b> One way of approaching the `Ax = b` problem is to solve for the exact solution (e.g. by Cholesky decomposition). Another way of approaching the problem is to <em>approximate</em> the solution instead of getting the exact solution. This is sometimes faster and more applicable to general matrices.</p>
       </div>
       <h2 id="jacobi">Iterative Methods: Jacobi</h2>
-      <p>So we start with an initial guess - either a random guess or an educated one - and get a new guess. How do we get the new guess?</p>
+      <p>So we start with an initial guess — either a random guess or an educated one — and get a new guess. How do we get the new guess?</p>
       <p>Let's look at `Ax = b`.</p>
       <div class="math">
         <p>`[[a_(1,1), a_(1,2), a_(1,3)],[a_(2,1), a_(2,2), a_(2,3)],[a_(3,1), a_(3,2), a_(3,3)]] [[x_1],[x_2],[x_3]] = [[b_1],[b_2],[b_3]]`</p>
@@ -335,7 +335,7 @@
       <div class="math">
         <p>`[[0, a_(1,2), 0],[a_(2,1), 0, 0],[0, 0, a_(3,3)]] [[x_1],[x_2],[x_3]] = [[b_1],[b_2],[b_3]]`</p>
       </div>
-      <p>Now, there are only `s` elements per row. So we only need to do `ns` operations in total. Recall that Cholesky decomposition on a banded matrix also took roughly `ns` operations (`ns^2` operations). <b>But it was only that fast when the matrix was banded. Here, with iterative methods, we achieved `ns` time without needing the matrix to be banded.</b></p>
+      <p>Now, there are only `s` elements per row. So we only need to do `ns` operations in total. Recall that Cholesky decomposition on a banded matrix also took roughly `ns` operations (`ns^2` operations). <strong>But it was only that fast when the matrix was banded. Here, with iterative methods, we achieved `ns` time without needing the matrix to be banded.</strong></p>
       <h2 id="gaussseidel">Iterative Methods: Gauss-Seidel</h2>
       <p>The Gauss-Seidel method is pretty similar to the Jacobi method, but it is slightly smarter. Recall the equation for Jacobi:</p>
       <div class="math">
@@ -344,9 +344,9 @@
       <p>Another way to write this is:</p>
       <div class="math">
         <p>`x_i^((k+1)) = (b_i - sum_(j lt i) a_(i,j)*x_j^((k)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
-        <p>because `j != i` is the same as all the numbers less than `i` (`j lt i`) and all the number greater than `i` (`j > i`)</p>
+        <p>because `j != i` is the same as all the numbers less than `i` (`j lt i`) and all the numbers greater than `i` (`j > i`)</p>
       </div>
-      <p>Notice the summation with `j lt i`. That sum is going through all the values for which we have already made guesses. (That equation is giving us the new guess for the `i^(th)` number on the `k+1^(st)` iteration. So surely, we had to have made guesses for all the numbers before `i` on the `k+1^(st)` iteration right?) So instead of using an old guess, why not use the new guesses we just recently obtained?</p>
+      <p>Notice the summation with `j lt i`. That sum is going through all the values for which we have already made guesses. (The whole equation is giving us the new guess for the `i^(th)` number on the `k+1^(st)` iteration. So surely, we had to have made guesses for all the numbers before `i` on the `k+1^(st)` iteration right?) So instead of using an old guess, why not use the new guesses we just recently obtained?</p>
       <div class="math">
         <p>`x_i^((k+1)) = (b_i - sum_(j lt i) a_(i,j)*x_j^((k+1)) - sum_(j > i) a_(i,j)*x_j^((k))) / a_(i,i)`</p>
       </div>
@@ -381,7 +381,7 @@
         <p>`norm(x^((k)) - x)`</p>
       </div>
       <div class="box">
-        <p>Another type of norm is the 1-norm:</p>
+        <p>Another type of norm is the `1`-norm:</p>
         <p>`norm(x)_1 = abs(x_1) + abs(x_2) + ... + abs(x_n)`</p>
       </div>
       <h2 id="convergenceiterative">Convergence of Iterative Methods</h2>
@@ -394,7 +394,7 @@
         <p>`=> Mx = Nx + b`</p>
         <p>`=> x = M^(-1)(Nx + b)`</p>
       </div>
-      <p>How does this relate to iterative methods? Well, that equation says: if we plug in `x` on the right and do some operations to it, we get back `x`. <b>If we plug in `x` on one side, and get it back on the other side, then we've found our answer.</b> That describes exactly what we're doing with iterative methods.</p>
+      <p>How does this relate to iterative methods? Well, that equation says: if we plug in `x` on the right and do some operations to it, we get back `x`. <strong>If we plug in `x` on one side, and get it back on the other side, then we've found our answer.</strong> That describes exactly what we're doing with iterative methods.</p>
       <p>So `x^((k+1)) = M^(-1)(Nx^((k)) + b)` is the general formula for iterative methods. How do Jacobi and Gauss-Seidel fit into this formula? (Compare to the matrix form of each method mentioned earlier)</p>
       <p>For Jacobi, let `M = D` and `N = (D-A)`</p>
       <div class="math">
@@ -422,13 +422,13 @@
         <p>`Me^((k+1)) = Ne^((k))`</p>
         <p>`e^((k+1)) = (M^(-1)N)e^((k))`</p>
       </div>
-      <p><b>Keeping in mind that `e` represents how far away we are from the actual solution (and that iterative methods don't always work), if we are to actually get a solution using iterative methods, then we need `norm(e^((k+1)))` to get closer and closer to `0` as `k` keeps increasing (The more we guess, the closer we get to the answer).</b></p>
+      <p><strong>Keeping in mind that `e` represents how far away we are from the actual solution (and that iterative methods don't always work), if we are to actually get a solution using iterative methods, then we need `norm(e^((k+1)))` to get closer and closer to `0` as `k` keeps increasing (The more we guess, the closer we get to the answer).</strong></p>
       <p>Let's let `G = M^(-1)N`. Then `e^((k+1)) = Ge^((k))`. We could recursively apply that formula to get:</p>
       <div class="math">
         <p>`e^((k+1)) = G(Ge^(k-1)) = G(G(Ge^(k-2))) = ...`</p>
         <p>`e^((k+1)) = G^(k+1)e^((0))`</p>
       </div>
-      <p>`G^(k+1)` is `M^(-1)N` multiplied by itself `k+1` times and `e^((0))` is the distance away from our initial guess to the actual answer. If we want `e^((k+1))` to go to `0`, then `G^(k+1)` has to go to `0` and/or `e^((0))` has to go to `0`. We don't really have control over how far our initial guess is away from the actual answer (i.e., we can't really pick a guess that's close to the actual answer) so the only choice left is to hope that multiplying `G = M^(-1)N` a bunch of times results in it going to `0` (kind of like how multiplying `0.1` a bunch of times makes it closer to `0`).</p>
+      <p>`G^(k+1)` is `M^(-1)N` multiplied by itself `k+1` times and `e^((0))` is the distance away from our initial guess to the actual answer. If we want `e^((k+1))` to go to `0`, then `G^(k+1)` has to go to `0` and/or `e^((0))` has to go to `0`. We don't really have control over how far our initial guess is away from the actual answer so the only choice left is to hope that multiplying `G = M^(-1)N` a bunch of times results in it going to `0` (kind of like how multiplying `0.1` a bunch of times makes it closer to `0`).</p>
       <p>There's a way to tell if multiplying `G` a bunch of times will make it go to `0` and it involves looking at the eigenvectors and eigenvalues of `G`.</p>
       <p>`v_i` is an eigenvector of `G` if `Gv_i = lambda_i v_i` for some number `lambda_i`, which is then the eigenvalue of `G`.</p>
       <div class="box">
@@ -465,10 +465,10 @@
       <div class="math">
         <p>`rho(G) = max_i abs(lambda_i)`</p>
       </div>
-      <p>In words, the spectral radius of a matrix is the largest eigenvalue of that matrix. Relating this back to the conclusion we got earlier, <b>if the spectral radius of a matrix is less than `1`, then `G^(k)e^((0)) = e^((k+1))` will go to `0` (the distance from our guess to the actual answer will get closer to `0`; the iterative method will converge).</b> We only need to look at the maximum eigenvalue - as opposed to all the eigenvalues - because if the maximum is less than `1`, then all the eigenvalues will be less than `1`.</p>
-      <p>What's remarkable about this fact is that this is true <i>no matter what our initial guess is.</i></p>
+      <p>In words, the spectral radius of a matrix is the largest eigenvalue of that matrix. Relating this back to the conclusion we got earlier, <strong>if the spectral radius of a matrix is less than `1`, then `G^(k)e^((0)) = e^((k+1))` will go to `0` (the distance from our guess to the actual answer will get closer to `0`; the iterative method will converge).</strong> We only need to look at the maximum eigenvalue - as opposed to all the eigenvalues - because if the maximum is less than `1`, then all the eigenvalues will be less than `1`.</p>
+      <p>What's remarkable about this fact is that this is true <em>no matter what our initial guess is.</em></p>
       <p>So we have a way of determining if the iterative method will converge. Just calculate all the eigenvalues of `G` and see if the largest eigenvalue is less than `1`. Well, it turns out that finding eigenvalues of a matrix is a slow process, so that's not going to help us much.</p>
-      <p>There's an easier criterion for determining the spectral radius: <b>for any matrix `G = M^(-1)N` with `0`s along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) abs(g_(i,j))` (the sum of the numbers in each row). If `R_i lt 1` for all `i`, then `rho(G) le max_i R_i lt 1`</b> (Gershgorin Theorem).</p>
+      <p>There's an easier criterion for determining the spectral radius: <strong>for any matrix `G = M^(-1)N` with `0`s along the diagonal (`g_(i,i) = 0`), let `R_i = sum_(j != i) abs(g_(i,j))` (the sum of the numbers in each row). If `R_i lt 1` for all `i`, then `rho(G) le max_i R_i lt 1`</strong> (Gershgorin Theorem).</p>
       <div class="box">
         <p>Does Jacobi converge for:</p>
         <div class="math">
@@ -487,7 +487,7 @@
         </div>
         <p>Since `2/3` is the max row sum, `rho(A) le 2/3`. Since `rho(A) lt 1`, Jacobi will converge no matter what guess we choose as our initial guess.</p>
       </div>
-      <p>Now we know when our iterative methods will converge. But we can also look at how many steps it will take to converge.</p>
+      <p>Now we know when our iterative methods will converge. In addition, we can also look at how many steps it will take to converge.</p>
       <p>Let's look at `e^((k+1))` and `e^((k))`, both of which we defined as `e^((k+1)) = G^(k+1)e^((0))` and `e^((k)) = G^(k)e^((0))`. Remember that these can be written in terms of the eigenvectors of `G` (which are `{v_1, ..., v_n}`) since they span `R^n`.</p>
       <div class="math">
         <p>`e^((k+1)) = c_1lambda_1^(k+1)v_1 + ... + c_nlambda_n^(k+1)v_n`</p>
@@ -508,7 +508,7 @@
       <div class="math">
         <p>`norm(e^((k)))/norm(e^((0))) ~~ (rho(G))^k`</p>
       </div>
-      <p>This tells us that if the spectral radius is small, then the iterative method will converge fairly quickly. If the spectral radius is big - but still less than `1` - it won't converge as quickly (`0.1^100` goes to `0` faster than `0.9^100` does). Knowing the spectral radius lets us determine for how many iterations we should let our iterative method run.</p>
+      <p>This tells us that if the spectral radius is small, then the iterative method will converge fairly quickly. If the spectral radius is big — but still less than `1` — it won't converge as quickly (`0.1^100` goes to `0` faster than `0.9^100` does). Knowing the spectral radius lets us determine for how many iterations we should let our iterative method run.</p>
       <div class="box">
         <p><b>The story thus far:</b> Iterative methods can be written in matrix form as `x = (M^(-1)N)x + b`. From that equation, we derived the equation representing how far away our current guess is to the real answer: `e^((k+1)) = (M^(-1)N)e^((k))`. If `e^((k+1))` goes to `0` as we keep guessing, then that means we're getting closer to the real answer. One way to find out if `e^((k+1))` will go to `0` is to look at the spectral radius of `G = M^(-1)N`. If it is less than `1`, then `e^((k+1))` will eventually go to `0`. One way to find out if the spectral radius is less than `1` is to look at each row sum of `G` and see if the maximum row sum is less than `1`.</p>
       </div>
@@ -526,20 +526,19 @@
       </div>
       <p>These norms are usually more useful than the Frobenius norm, but they take longer to compute (`n^3`). (However, a (relatively) fast way to estimate `norm(A)_p` is to take a bunch of random vectors `x` and compute `norm(Ax)_p/norm(x)_p`. Whichever answer is largest, will be approximately equal to `norm(A)_p`).</p>
       <div class="box">
-        <p>It turns out that:</p>
-        <p>`norm(A)_1` is the largest 1-norm of the columns of `A`: `(max_j sum_i abs(a_(i,j)))`</p>
-        <p>`norm(A)_oo` is the largest 1-norm of the rows of `A`: `(max_i sum_j abs(a_(i,j)))`</p>
+        <p>`norm(A)_1` is the largest `1`-norm of the columns of `A`: `(max_j sum_i abs(a_(i,j)))`</p>
+        <p>`norm(A)_oo` is the largest `1`-norm of the rows of `A`: `(max_i sum_j abs(a_(i,j)))`</p>
       </div>
       <p>One useful result that will be used is `norm(Ax)_p le norm(A)_pnorm(x)_p`.</p>
-      <p>From this point on, <i>matrix</i> norms without a subscript are assumed to be the induced norm.</p>
+      <p>From this point on, matrix norms without a subscript are assumed to be the induced norm.</p>
       <h2 id="conditionnumbers">Condition Numbers</h2>
-      <p>And now back to our regularly scheduled programming: solving `Ax = b`. Except with a few changes (pun intended).</p>
-      <p>In real life, `b` is usually obtained by some measurement. In other words, `b` is a vector that contains measured quantities. As a result, there is the possibility that we have measurement error. For example, you might record something as 5.25 miles when it is really 5.250432 miles. So we really don't have `b`; we have `hat(b)` where:</p>
+      <p>And now, back to our regularly scheduled programming: solving `Ax = b`. Except with a few changes (pun prematurely intended).</p>
+      <p>In real life, `b` is usually obtained by some measurement. In other words, `b` is a vector that contains measured quantities. As a result, there is the possibility that we have measurement error. For example, you might record something as `5.25` miles when it is really `5.250432` miles. So we really don't have `b`; we have `hat(b)` where:</p>
       <div class="math">
         <p>`hat(b) = b + deltab`</p>
         <p>where `deltab` is how much we are off by from `b`</p>
       </div>
-      <p>This changes the problem quite a bit. Instead of `Ax = b`, we now have `Ax = b + deltab`. <b>This is a problem because if we don't know `b` exactly, then we won't get `x` exactly.</b> This means that the answer we get is actually `hat x` where:</p>
+      <p>This changes the problem quite a bit. Instead of `Ax = b`, we now have `Ax = b + deltab`. <strong>This is a problem because if we don't know `b` exactly, then we won't get `x` exactly.</strong> This means that the answer we get is actually `hat x` where:</p>
       <div class="math">
         <p>`hat(x) = x + deltax`</p>
         <p>where `deltax` is how much we are off by from `x`</p>
@@ -549,8 +548,8 @@
         <p>`A(x + deltax) = b + deltab`</p>
       </div>
       <p>*Right now, we're assuming we know `A` perfectly.</p>
-      <p>With all these errors, the question isn't how to find `x` anymore. <b>What's more important is knowing if the error in `b` greatly affects the error in our answer.</b></p>
-      <p>The error in `b` can be measured by `norm(deltab)/norm(b)` (the size of the error in `b` relative to `b`) and the error in `x` can be measured by `norm(deltax)/norm(x)` (the size of the error in `x` relative to `x`). <b>What we hope is that if `norm(deltab)/norm(b)` is small, then `norm(deltax)/norm(x)` is also small.</b></p>
+      <p>With all these errors, the question isn't how to find `x` anymore. <strong>What's more important is knowing if the error in `b` greatly affects the error in our answer.</strong></p>
+      <p>The error in `b` can be measured by `norm(deltab)/norm(b)` (the size of the error in `b` relative to `b`) and the error in `x` can be measured by `norm(deltax)/norm(x)` (the size of the error in `x` relative to `x`). <strong>What we hope is that if `norm(deltab)/norm(b)` is small, then `norm(deltax)/norm(x)` is also small.</strong></p>
       <p>We could derive a bound for `norm(deltax)/norm(x)`. Looking back at the "real" problem:</p>
       <div class="math">
         <p>`A(x + deltax) = b + deltab`</p>
@@ -584,7 +583,7 @@
       <div class="math">
         <p>`norm(deltax)/norm(x) le kappa(A)norm(deltab)/norm(b)`</p>
       </div>
-      <p><b>The condition number is really important: if it is small, then a small error in `b`, will lead to a small error in `x`. In this case, `A` is "well conditioned". If the condition number is large, then even if the error in `b` is small, the error in `x` could still be large. In this case, `A` is "ill conditioned".</b></p>
+      <p><strong>The condition number is really important: if it is small, then a small error in `b`, will lead to a small error in `x`. In this case, `A` is "well conditioned". If the condition number is large, then even if the error in `b` is small, the error in `x` could still be large. In this case, `A` is "ill conditioned".</strong></p>
       <div class="box">
         <p>This is an example of a well conditioned system:</p>
         <div class="math">
@@ -632,7 +631,7 @@
       <div class="math">
         <p>`norm(A^(-1)) = max_(y != 0) norm(y)/norm(Ay) = (min_(y != 0) norm(Ay)/norm(y))^(-1)`</p>
       </div>
-      <p>This is like saying that we're looking for a vector `y`, such that when it is multiplied by `A`, the result is the <i>smallest</i> vector out of all the choices we could've picked for `y`. (There are many choices as to what `y` could be. Different choices of `y` will give us different results of `Ay`. But there is one `y` that will give us the smallest `Ay`. That is the `y` we're looking for here.)</p>
+      <p>This is like saying that we're looking for a vector `y`, such that when it is multiplied by `A`, the result is the <em>smallest</em> vector out of all the choices we could've picked for `y`. (There are many choices as to what `y` could be. Different choices of `y` will give us different results of `Ay`. But there is one `y` that will give us the smallest `Ay`. That is the `y` we're looking for here.)</p>
       <p>This introduces the "minimum magnification of `A`":</p>
       <div class="math">
         <p>`norm(A^(-1)) = (min_(x != 0) norm(Ax)/norm(x))^(-1) = (text(minmag)(A))^(-1)`</p>
@@ -641,15 +640,15 @@
       <div class="math">
         <p>`kappa(A) = norm(A)norm(A^(-1)) = (text(maxmag)(A))/(text(minmag)(A))`</p>
       </div>
-      <p>So we can calculate the condition number by "the largest we can stretch a vector" divided by "the smallest we can stretch a vector". It turns out that if we look at this in terms of the 2-norm*, we get:</p>
+      <p>So we can calculate the condition number by "the largest we can stretch a vector" divided by "the smallest we can stretch a vector". It turns out that if we look at this in terms of the `2`-norm*, we get:</p>
       <div class="math">
         <p>`kappa_2(A) = norm(A)_2norm(A^(-1))_2 = (text(maximum eigenvalue of )A)/(text(minimum eigenvalue of )A)`</p>
       </div>
-      <p>*It also turns out that we can only say "eigenvalue" when dealing with the 2-norm.</p>
+      <p>*It also turns out that we can only say "eigenvalue" when dealing with the `2`-norm.</p>
       <div class="box">
         <p>The notion of "stretching" a vector is related to eigenvalues.</p>
         <p>`[[3, 2], [3, -2]] [[2],[1]] = 4[[2],[1]]`</p>
-        <p>`4` is an eigenvalue of `[[3, 2], [3, -2]]` and it is stretching the vector `[[2],[1]]` `4` times bigger.</p>
+        <p>`4` is an eigenvalue of `[[3, 2], [3, -2]]` and it is stretching the vector `[[2],[1]]` to be `4` times bigger.</p>
       </div>
       <div class="box">
         <p>Another way in which the condition number is an indicator of how invertible a matrix is:</p>
@@ -669,8 +668,8 @@
       <div class="math">
         <p>`(A + deltaA)x = b`</p>
       </div>
-      <p>This is a harder problem than `Ax = b + deltab`. In that problem, `A` was assumed to be invertible, which made it possible to solve the problem. Here, adding some error to `A`, which is assumed to be invertible, might change it enough so that it is no longer invertible.</p>
-      <p>How can we avoid that situation? It turns out that <b>if `A` is invertible and `norm(deltaA)/norm(A) lt 1/(kappa(A))`, then `A + deltaA` is invertible.</b></p>
+      <p>This is a harder problem than `Ax = b + deltab`. In that problem, `A` was assumed to be invertible, which made it possible to solve the problem. Here, adding some error to `A` might change it enough so that it is no longer invertible.</p>
+      <p>How can we avoid that situation? It turns out that <strong>if `A` is invertible and `norm(deltaA)/norm(A) lt 1/(kappa(A))`, then `A + deltaA` is invertible.</strong></p>
       <div class="box">
         <p>A rough idea of the previous statement:</p>
         <p>Adding error `(deltaA)` to `A` changes `A` and its eigenvalues. However, if the error is smaller than the smallest eigenvalue of `A`, then the error won't change `A` and its eigenvalues too much.</p>
@@ -695,7 +694,7 @@
       <p>So the amount of error we get in our solution is bounded by the condition number and the amount of error in `A`.</p>
       <div class="box">
         <p>Example: Let `A = [[1, 1],[1, 1.01]], A^(-1) = [[101, -100],[-100, 100]]`. Assume `norm(deltaA)_1 lt .001`.</p>
-        <p>Using the facts about 1-norms from the Matrix Norms section, we get:</p>
+        <p>Using the facts about `1`-norms from the Matrix Norms section, we get:</p>
         <p>`norm(A)_1 = 2.01` and `norm(A^(-1))_1 = 201`</p>
         <p>`kappa_1(A) = norm(A)_1*norm(A^(-1))_1 = (2.01)(201) ~~ 400`</p>
         <p>`norm(deltax)_1/norm(x + deltax)_1 le kappa_1(A)norm(deltaA)_1/norm(A)_1`</p>
@@ -710,8 +709,8 @@
       <p>An a priori error estimate is an estimate made about the potential error of our solution before solving for the solution. In other words, we are getting a feel for how accurate our solution will be so that once we do get our solution, we can determine whether it is accurate or not.</p>
       <p>This what we've been doing so far.</p>
       <p>An a posteriori estimate is the opposite: first we get our solution; then we analyze how accurate it is. That is what we'll do in this section.</p>
-      <p>In an ideal situation, we would solve `Ax = b` to get `x`. Since `Ax` and `b` are equal to each other, subtracting them should result in `0`: that is, `b-Ax = 0`.</p>
-      <p>However, we're never going to have an ideal situation, so we would end up with `hat(x) != x`, which means `hat(x)` isn't the true solution. So `Ahat(x)` is not equal to `b`, and subtracting them should result in a number not `0`: that is, `b-Ahat(x) = hat(r)`. `hat(r)` is called the residual.</p>
+      <p>In an ideal situation, we would solve `Ax = b` to get `x`. Since `Ax` and `b` are equal to each other, subtracting them should result in `0`. That is, `b-Ax = 0`.</p>
+      <p>However, we're never going to have an ideal situation, so we would end up with `hat(x) != x`, which means `hat(x)` isn't the true solution. So `Ahat(x)` is not equal to `b`, and subtracting them should result in a number not `0`. That is, `b-Ahat(x) = hat(r)`. `hat(r)` is called the residual.</p>
       <p>The residual is a measure of how close `hat(x)` is to being the actual solution.</p>
       <p>Now, we can analyze our error in terms of the residual. Let's look again at making a small change to `b`. So `Ax = b + deltab`. First of all:</p>
       <div class="math">
@@ -719,7 +718,7 @@
         <p>`-deltab = b - Ax`</p>
         <p>`-deltab = hat(r)`</p>
       </div>
-      <p>Recall that in that section we defined `hat(x) = x + deltax`. Also in that section, we got this:</p>
+      <p>Recall that we defined `hat(x) = x + deltax`. Also, we got this:</p>
       <div class="math">
         <p>`norm(deltax)/norm(x) le kappa(A)norm(deltab)/norm(b)`</p>
       </div>
@@ -738,12 +737,12 @@
         <p>`norm(x - hat(x))/norm(x) le kappa(A) norm(hat(r))/norm(b)`</p>
         <p>`norm(x - hat(x))/norm(x) le (400)((3 xx 10^(-5))/3)`</p>
         <p>`norm(x - hat(x))/norm(x) le .004`</p>
-        <p>What's happening here is that we got our solution `hat(x)` and the residual was really small (.01%). But after analyzing our error, our solution could be off by as much as `.4%`.</p>
+        <p>What's happening here is that we got our solution `hat(x)` and the residual was really small (`.01%`). But after analyzing our error, our solution could be off by as much as `.4%`.</p>
       </div>
       <p>It takes `n^2` time to calculate `hat(r)`.</p>
       <h2 id="floatingpoint">Floating Point Arithmetic</h2>
       <p>So far, the only errors that have been mentioned were measurement errors. There is another source of errors, and that is in how a computer stores numbers.</p>
-      <p>Computers don't store numbers exactly the way in which we type them. It's impossible for some numbers, like `pi` since it has infinitely many digits. Because of storage limitation, computers store only a certain number of digits.</p>
+      <p>Computers don't store numbers exactly the way in which we type them. It's impossible for some numbers, like `pi` since it has infinitely many digits. Because of storage limitations, computers store only a certain number of digits.</p>
       <div class="box">
         <p>Example: Suppose our computer is computing `(1.52 xx 10^2)(2.72 xx 10^3)` and it only stores `3` digits.</p>
         <p>The actual answer is `4.1344 xx 10^5`. But since our computer only stores `3` digits, it's saved as `4.13 xx 10^5`. So how far off are we?</p>
@@ -775,14 +774,14 @@
         <p>Multiplying `(1 + epsilon_1)(1 + epsilon_2)(1 + epsilon_3)` will result in some terms like `epsilon_1*epsilon_2`. A small number multiplied by another small number is going to be a really small number, so we can ignore it because it won't affect anything on a big enough scale to matter.</p>
       </div>
       <p>So in multiplying two numbers, there could've been error in `x`, which is `(1 + epsilon_1)`, error in `y`, which is `(1 + epsilon_2)`, and error in `xy`, which is `(1 + epsilon_3)`. These errors add up.</p>
-      <p>This could lead to a problem when doing Cholesky decomposition because the `r_(i,j)`'s were computed using previously calculated `r_(i,j)`'s. The errors gradually get bigger as the errors get carried over into future computations of `r_(i,j)`'s.</p>
+      <p>This could lead to a problem when doing Cholesky decomposition because the `r_(i,j)`s were computed using previously calculated `r_(i,j)`s. The errors gradually get bigger as the errors get carried over into future computations of `r_(i,j)`s.</p>
       <p>It's even worse when doing addition/subtraction:</p>
       <div class="math">
         <p>`hat(x) + hat(y) = x(1 + epsilon_1) + y(1 + epsilon_2)`</p>
         <p>`= x + xepsilon_1 + y + yepsilon_2`</p>
         <p>`= (x+y)(1 + x/(x+y)epsilon_1 + y/(x+y)epsilon_2)`</p>
       </div>
-      <p>What if `x + y` was close to `0`? Since, we're dividing by `x + y`, so the error could possibly be infinite. This is referred to as "catastrophic error".</p>
+      <p>What if `x + y` was close to `0`? Since, we're dividing by `x + y`, the error could possibly be infinite. This is referred to as "catastrophic error".</p>
       <p>Looking at the equation for multiplication, if the errors are small (e.g. each `epsilon_i` is much less than `1`), then the error in the product can be assumed to be small. Looking at the equation for addition, even if the errors were small, if `x` and `y` are large enough, they could affect the sum quite a bit.</p>
       <p>With all these errors showing up, we want to know that the solution we get is useful at all. One way of knowing this is by knowing if our calculations are "backward stable". We could do the computations first and then round. Or we could round first and then compute. If the answers from doing these two methods are the same, then the algorithm we're using is backward stable.</p>
       <div class="box">
@@ -790,7 +789,7 @@
         <p>Round first then compute: `hat(x) = (A + deltaA)^(-1)(b + deltab)`</p>
       </div>
       <div class="box">
-        <p><b>The story thus far:</b> Errors show up everywhere in solving `Ax = b`, from using iterative methods to get approximate solutions to using approximate data for `A` and `b` to computer storage limitations. When we get our solution, we want to know that the errors from any or all of these sources of errors don't make our solution completely incorrect. Two conditions for being able to trust our solution are: 1) having a small condition number `kappa(A)` and 2) verifying that the algorithm we're using to solve `Ax = b` is backward stable.</p>
+        <p><b>The story thus far:</b> Errors show up everywhere in solving `Ax = b`, from using iterative methods to get approximate solutions to using approximate data for `A` and `b` to computer storage limitations. When we get our solution, we want to know that the errors from these sources of errors don't make our solution completely incorrect. Two conditions for being able to trust our solution are: 1) having a small condition number `kappa(A)` and 2) verifying that the algorithm we're using to solve `Ax = b` is backward stable.</p>
       </div>
       <h2 id="gaussian">Gaussian Elimination</h2>
       <p>Gaussian elimination is the first method that linear algebra students are taught for solving `Ax = b`. However, with all the errors mentioned before, no one actually ever uses this method. Analyzing Gaussian elimination does produce a significant result though.</p>
@@ -821,15 +820,15 @@
       <p>Generalizing this for the `2^(nd)` column, there are `n-2` rows, each with `n-1 + n-1 = 2(n-1)` multiplications and subtractions. So the total is `2(n-1)(n-2) ~~ 2(n-1)^2` operations.</p>
       <p>Generalizing this for all columns, there are `2(n-i)^2 ~~ n^2` operations for the `i^(th)` column where `1 le i le n`. Since there are `n` columns, there are `n^2*n ~~ n^3` operations.</p>
       <p>A result that this section will show is that doing Gaussian elimination results in decomposing `A` into two matrices `L` (lower-triangular) and `U` (upper-triangular).</p>
-      <p>We started with `b` (in the example, `[[9],[9],[16]]`) and turned it into some new vector `y` (in the example, `[[9],[0],[-2]]`). In `0`'ing out the `1^(st)` column, `2^(nd)` row, we multiplied `b_1` `(9)` by `m_(2,1) = a_(2,1)/a_(1,1)` `(1 = 2/2)` and subtracted that from `b_2` `(9)`.</p>
+      <p>We started with `b` (in the example, `[[9],[9],[16]]`) and turned it into some new vector `y` (in the example, `[[9],[0],[-2]]`). In `0`ing out the `1^(st)` column, `2^(nd)` row, we multiplied `b_1` `(9)` by `m_(2,1) = a_(2,1)/a_(1,1)` `(1 = 2/2)` and subtracted that from `b_2` `(9)`.</p>
       <div class="math">
         <p>`[[b_1],[b_2],[b_3]] = [[y_1],[y_2],[y_3]] = [[b_1],[color(red)(b_2 - m_(2,1)*b_1)],[b_3 - m_(3,1)*b_1 - m_(3,2)*y_2]]`</p>
       </div>
-      <p>In `0`'ing out the `1^(st)` column, `3^(rd)` row, we multiplied `b_1` by `m_(3,1) = a_(3,1)/a_(1,1)` `(2 = 4/2)` and subtracted that from `b_3` `(-2)`.</p>
+      <p>In `0`ing out the `1^(st)` column, `3^(rd)` row, we multiplied `b_1` by `m_(3,1) = a_(3,1)/a_(1,1)` `(2 = 4/2)` and subtracted that from `b_3` `(-2)`.</p>
       <div class="math">
         <p>`[[b_1],[b_2],[b_3]] = [[y_1],[y_2],[y_3]] = [[b_1],[b_2 - m_(2,1)*b_1],[color(red)(b_3 - m_(3,1)*b_1) - m_(3,2)*y_2]]`</p>
       </div>
-      <p>In `0`'ing out the second column, we multiplied `y_2` `(0)` by `m_(3,2) = a_(3,2)/a_(1,1)` `(-3)` and subtracted that from `b_3`.</p>
+      <p>In `0`ing out the second column, we multiplied `y_2` `(0)` by `m_(3,2) = a_(3,2)/a_(1,1)` `(-3)` and subtracted that from `b_3`.</p>
       <div class="math">
         <p>`[[b_1],[b_2],[b_3]] = [[y_1],[y_2],[y_3]] = [[b_1],[b_2 - m_(2,1)*b_1],[color(red)(b_3) - m_(3,1)*b_1 color(red)(- m_(3,2)*y_2)]]`</p>
       </div>
@@ -847,13 +846,13 @@
       </div>
       <p>That could actually be written in matrix form when we rearrange `y_i = b_i - sum_(j = 1)^(i-1) m_(i,j)*y_j => b_i = sum_(j = 1)^(i-1) m_(i,j)*y_j + y_i`:</p>
       <div class="math">
-        <p>`[[b_1],[b_2],[vdots],[vdots],[b_n]] = [[1, 0, 0, ..., 0], [m_(2,1), 1, 0, ddots, vdots], [m_(3,1), m_(3,2), 1, ddots, vdots], [vdots, vdots, vdots, ddots, 0], [m_(n,1), m_(n,2), m_(n,3), ..., 1]][[y_1], [y_2], [vdots], [vdots], [y_n]] = [[y_1], [m_(2,1)*y_1 + y_2], [m_(3,1)*y_1 + m_(3,2)*y_2 + y_3], [vdots], [vdots]]`</p>
+        <p>`[[b_1],[b_2],[vdots],[vdots],[b_n]] = [[1, 0, 0, ..., 0], [m_(2,1), 1, 0, ..., vdots], [m_(3,1), m_(3,2), 1, ..., vdots], [vdots, vdots, vdots, ddots, 0], [m_(n,1), m_(n,2), m_(n,3), ..., 1]][[y_1], [y_2], [vdots], [vdots], [y_n]] = [[y_1], [m_(2,1)*y_1 + y_2], [m_(3,1)*y_1 + m_(3,2)*y_2 + y_3], [vdots], [vdots]]`</p>
       </div>
       <p>This means that `b` can be written in terms of `L` and `y`. Namely, `b = Ly`. So if we're using Gaussian elimination to solve `Ax = b`, that is equivalent to solving `Ax = Ly`. But also remember that by doing Gaussian elimination, we transformed the problem from `Ax = b` to `Ux = y`. So:</p>
       <div class="math">
         <p>`Ax = b => Ax = Ly => Ax = LUx`.</p>
       </div>
-      <p>That means `A` has to equal `LU`. More formally, <b>any invertible matrix `A` can be decomposed uniquely into `LU` where `L` is a lower-triangular matrix with `1`'s along the diagonal and `U` is an upper-triangular matrix.</b> This is very similar to Cholesky decomposition. The benefit is also there: if we have to compute `Ax = b` for multiple `b`, we can decompose `A` into `LU` and reuse them for future use.</p>
+      <p>That means `A` has to equal `LU`. More formally, <strong>any invertible matrix `A` can be decomposed uniquely into `LU` where `L` is a lower-triangular matrix with `1`s along the diagonal and `U` is an upper-triangular matrix.</strong> This is very similar to Cholesky decomposition. The benefit is also there: if we have to compute `Ax = b` for multiple `b`, we can decompose `A` into `LU` and reuse them for future use.</p>
       <div class="box">
         <p>Example: Decompose `A = [[2, 1, -1],[-2, 0, 3],[0, 2, 3]]` into `L` and `U`.</p>
         <p>We proceed by doing Gaussian elimination.</p>
@@ -871,15 +870,15 @@
         </div>
       </div>
       <div class="box">
-        <p>To summarize: Gaussian elimination is the age-old algorithm used to solve `Ax = b`. It involves performing row operations to change `Ax = b` into `Ux = y`. What's going on under the hood is that we're decomposing `A` into two matrices `L` and `U`. Gaussian elimination can be performed on any invertible matrix `A`, so that means <i>any</i> invertible matrix `A` can be decomposed into `LU`. In the Triangular Systems section, we said that we didn't have a way of finding `L` and `U`. Now we do.</p>
+        <p>To summarize: Gaussian elimination is the age-old algorithm used to solve `Ax = b`. It involves performing row operations to change `Ax = b` into `Ux = y`. What's going on under the hood is that we're decomposing `A` into two matrices `L` and `U`. Gaussian elimination can be performed on any invertible matrix `A`, so that means <em>any</em> invertible matrix `A` can be decomposed into `LU`. In the Triangular Systems section, we said that we didn't have a way of finding `L` and `U`. Now we do.</p>
       </div>
       <h2 id="leastsquares">Least Squares Problem</h2>
       <p>Up to this point, `A` has been a square matrix (`n xx n`). However, it is possible for `A` to be an `n xx m` matrix where `n != m`.</p>
       <div class="math">
         <p>`[[a_(1,1), a_(1,2)],[a_(2,1), a_(2,2)],[a_(3,1), a_(3,2)]][[x_1],[x_2]] = [[b_1],[b_2],[b_3]]`</p>
       </div>
-      <p>We generally can't solve these problems perfectly, so we instead look at the residual, `hat(r) = b - Ax` and try to make it as small as possible (i.e. make `norm(hat(r))_2` as close to `0` as possible.)</p>
-      <p><b>So, to solve the least squares problem, we want to make `norm(hat(r))_2` as small as possible. Well, that's the same as saying, "out of all the possible vectors, choose the one - call it w - that makes `norm(hat(r))_2 = norm(b - Aw)_2` as small as possible."</b></p>
+      <p>We generally can't solve these problems perfectly, so we instead look at the residual, `hat(r) = b - Ax` and try to make it as small as possible (i.e., make `norm(hat(r))_2` as close to `0` as possible.)</p>
+      <p><strong>So, to solve the least squares problem, we want to make `norm(hat(r))_2` as small as possible. Well, that's the same as saying, "out of all the possible vectors, choose the one — call it w — that makes `norm(hat(r))_2 = norm(b - Aw)_2` as small as possible."</strong></p>
       <div class="math">
         <p>`min_(w in R^m) norm(b - Aw)_2`</p>
         <p>where `R^m` is the set of all vectors with `m` rows</p>
@@ -893,7 +892,7 @@
       <div class="math">
         <img class="img-fluid" src="../pictures/linear/least_squares_1.png">
       </div>
-      <p>The range of `A`, `R(A)`, is the shaded area in blue between the vectors of `A` (this comes from the fact that the range of `A` is the span of the columns of `A` i.e. the column space of `A`)</p>
+      <p>The range of `A`, `R(A)`, is the shaded area in blue between the vectors of `A` (this comes from the fact that the range of `A` is the span of the columns of `A` i.e., the column space of `A`)</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/linear/least_squares_2.png">
       </div>
@@ -906,7 +905,7 @@
         <img class="img-fluid" src="../pictures/linear/least_squares_4.png">
       </div>
       <p>So for `Ax = b`, since `A` only has `2` columns, `x` must have `2` rows and `b` must have `3` rows. This means that we must somehow find an `x` in `2` dimensions to reach a `b` in `3` dimensions. This is why we can't solve the least squares problem perfectly, as mentioned at the beginning.</p>
-      <p>The best we can do is the find the solution in `2` dimensions that is as close as possible to `b` in `3` dimensions. This can be done by dropping a straight line down to the `2` dimension area.</p>
+      <p>The best we can do is to find the solution in `2` dimensions that is as close as possible to `b` in `3` dimensions. This can be done by dropping a straight line down to the `2` dimension area.</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/linear/least_squares_5.png">
       </div>
@@ -914,7 +913,7 @@
       <div class="math">
         <img class="img-fluid" src="../pictures/linear/least_squares_6.png">
       </div>
-      <p>This would be the vector in `2` dimensions with the shortest distance to the `b`. We could choose any other vector and it would be farther `b` than `y`.</p>
+      <p>This would be the vector in `2` dimensions with the shortest distance to `b`. We could choose any other vector and it would be farther to `b` than `y`.</p>
       <div class="math">
         <img class="img-fluid" src="../pictures/linear/least_squares_7.png">
       </div>
@@ -922,12 +921,12 @@
       <div class="math">
         <img class="img-fluid" src="../pictures/linear/least_squares_8.png">
       </div>
-      <p>No matter what we choose for point `C`, the distance from point `A` to `B` (a straight line) will always be the shortest (i.e. always be longer than `BC`).</p>
+      <p>No matter what we choose for point `C`, the distance from point `A` to `B` will always be shorter than the distance from point `B` to `C`.</p>
       <p>Going back to the statement before all the visuals, solving the least squares problem means making `norm(b-y)_2` as small as possible. From the visuals, we see that it is as small as possible when we take the vector pointing to the straight line dropped from `b`. The straight line is perpendicular to `R(A)`. More formally:</p>
       <div class="math">
         <p>`min norm(r)_2 = min_(w in R^m) norm(b - Aw)_2` if and only if `b - Aw in R(A)^(bot)`</p>
       </div>
-      <p>It turns out that `R(A)^(bot) = N(A^T)`, the null space of `A^T` (i.e. all the vectors `x` such that `A^Tx = 0`). So:</p>
+      <p>It turns out that `R(A)^(bot) = N(A^T)`, the null space of `A^T` (i.e., all the vectors `x` such that `A^Tx = 0`). So:</p>
       <div class="math">
         <p>`b - Ax in R(A)^(bot)`</p>
         <p>`=> b - Ax in N(A^T)`</p>
@@ -935,7 +934,7 @@
         <p>`=> A^Tb - A^TAx = 0`</p>
         <p>`=> A^TAx = A^Tb`</p>
       </div>
-      <p>This leads to the final statement about the least squares problem: <b>`x` solves the least squares problem for `Ax = b` if and only if `(A^TA)x = A^Tb`.</b><p>
+      <p>This leads to the final statement about the least squares problem: <strong>`x` solves the least squares problem for `Ax = b` if and only if `(A^TA)x = A^Tb`.</strong><p>
       <div class="box">
         <p>I know I switched between using `w` and `x` throughout this section. At the beginning, we didn't know what `x` was, so we chose some vector `w` to try and make it equal to `x`. At the end, we showed that `w`, when chosen correctly, is the solution we're looking for.</p>
       </div>
@@ -944,7 +943,7 @@
       </div>
       <h2 id="qr">`QR` Decomposition (by Reflectors)</h2>
       <p>From `(A^TA)x = A^Tb`, we could theoretically do `x = (A^TA)^(-1)A^Tb`. But then we would be back again at the very beginning of this whole story. Because taking inverses of matrices is bad, we're gonna instead find a more efficient way to solve this problem.</p>
-      <p>Similar to the Cholesky decomposition, `QR` decomposition breaks `A` into `2` matrices, namely, `Q` and `R`. <b>If `A` is an `n xx m` matrix where `n > m`, then `A = QR` where `Q` is an `n xx n` orthogonal* matrix and `R` is an `n xx m` matrix. Specifically, `R = [[color(blue)(hat(R))],[color(red)(0)]]` where `hat(R)` is an `m xx m` upper triangular matrix.</b></p>
+      <p>Similar to the Cholesky decomposition, `QR` decomposition breaks `A` into `2` matrices, namely, `Q` and `R`. <strong>If `A` is an `n xx m` matrix where `n > m`, then `A = QR` where `Q` is an `n xx n` orthogonal* matrix and `R` is an `n xx m` matrix. Specifically, `R = [[color(blue)(hat(R))],[color(red)(0)]]` where `hat(R)` is an `m xx m` upper triangular matrix.</strong></p>
       <div class="math">
         <p>`[[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] = [[q_(1,1), q_(1,2), q_(1,3), q_(1,4), q_(1,5)],[q_(2,1), q_(2,2), q_(2,3), q_(2,4), q_(2,5)],[q_(3,1), q_(3,2), q_(3,3), q_(3,4), q_(3,5)],[q_(4,1), q_(4,2), q_(4,3), q_(4,4), q_(4,5)],[q_(5,1), q_(5,2), q_(5,3), q_(5,4), q_(5,5)]] [[color(blue)(r_(1,1)), color(blue)(r_(1,2)), color(blue)(r_(1,3)), color(blue)(r_(1,4))],[color(blue)(0), color(blue)(r_(2,2)), color(blue)(r_(2,3)), color(blue)(r_(2,4))],[color(blue)(0), color(blue)(0), color(blue)(r_(3,3)), color(blue)(r_(3,4))],[color(blue)(0), color(blue)(0), color(blue)(0), color(blue)(r_(4,4))],[color(red)(0), color(red)(0), color(red)(0), color(red)(0)]]`</p>
         <p>where `n = 5`, `m = 4`</p>
@@ -977,7 +976,7 @@
         <p>`norm([[hat(c) - hat(R)x],[d]])_2`</p>
         <p>`= sqrt(norm(hat(c) - hat(R)x)_2^2 + norm(d)_2^2)`</p>
       </div>
-      <p>So from all of that, we get `norm(b - Ax)_2 = sqrt(norm(hat(c) - hat(R)x)_2^2 + norm(d)_2^2)`. We're trying to minimize `norm(b - Ax)`, which is the same as minimizing `sqrt(norm(hat(c) - hat(R)x)_2^2 + norm(d)_2^2)`. That happens when `norm(hat(c) - hat(R)x)_2^2 = 0`. That happens when `hat(R)x = c`. `hat(R)` is `m xx m` and `c` is `m xx 1`, so this problem is solvable using the techniques earlier in the story. `hat(R)` is actually upper triangular, so we can use back sub to solve for `x`. By solving for `x`, we are able to make `norm(c - hat(R)x) = 0`. What we are left with is `sqrt(norm(d)_2^2) = norm(d)_2`. That is the measure of the error in our solution (because we can't solve least squares problem perfectly).</p>
+      <p>So from all of that, we get `norm(b - Ax)_2 = sqrt(norm(hat(c) - hat(R)x)_2^2 + norm(d)_2^2)`. We're trying to minimize `norm(b - Ax)`, which is the same as minimizing `sqrt(norm(hat(c) - hat(R)x)_2^2 + norm(d)_2^2)`. That happens when `norm(hat(c) - hat(R)x)_2^2 = 0`. That happens when `hat(R)x = c`. `hat(R)` is `m xx m` and `c` is `m xx 1`, so this problem is solvable using the techniques earlier in the story. `hat(R)` is actually upper triangular, so we can use back sub to solve for `x`. By solving for `x`, we are able to make `norm(c - hat(R)x) = 0`. What we are left with is `sqrt(norm(d)_2^2) = norm(d)_2`. That is the measure of the error in our solution (because we can't solve the least squares problem perfectly).</p>
       <div class="box">
         <p>Example: `A = [[3, -6],[4, -8],[0, 1]]`, `b = [[1],[2],[3]]`, `Q = [[-0.6, 0, 0.8],[-0.8, 0, -0.6],[0, -1, 0]]`, `R = [[-5, 10],[0, -1],[0, 0]]`</p>
         <p>First we rewrite the problem using `A = QR`:</p>
@@ -1009,7 +1008,7 @@
       <div class="math">
         <p>`[[color(blue)(a_(1,1))], [color(blue)(a_(2,1))], [color(blue)(a_(3,1))], [color(blue)(a_(4,1))], [color(blue)(a_(5,1))]] -> [[color(blue)(r_(1,1))], [color(blue)(0)], [color(blue)(0)], [color(blue)(0)], [color(blue)(0)]]` `[[color(red)(a_(1,2))],[color(red)(a_(2,2))],[color(red)(a_(3,2))],[color(red)(a_(4,2))],[color(red)(a_(5,2))]] -> [[color(red)(r_(1,2))],[color(red)(r_(2,2))],[color(red)(0)],[color(red)(0)],[color(red)(0)]]`</p>
       </div>
-      <p>It turns out that, <b>for a vector `x`, there exists an orthogonal matrix `Q` such that `Q^Tx = [[-tau],[0], [vdots], [0]]`. So <i>for each column</i> of `A`, we can find a `Q_i` to do what we want.</b></p>
+      <p>It turns out that, <strong>for a vector `x`, there exists an orthogonal matrix `Q` such that `Q^Tx = [[-tau],[0], [vdots], [0]]`. So <em>for each column</em> of `A`, we can find a `Q_i` to do what we want.</strong></p>
       <div class="math">
         <p>`Q_1^TA: [[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] -> [[-tau_1, alpha_(1,2), alpha_(1,3), alpha_(1,4)], [0, alpha_(2,2), alpha_(2,3), alpha_(2,4)], [0, alpha_(3,2), alpha_(3,3), alpha_(3,4)], [0, alpha_(4,2), alpha_(4,3), alpha_(4,4)], [0, alpha_(5,2), alpha_(5,3), alpha_(5,4)]]`</p>
         <p>`Q_2^TQ_1^TA: [[a_(1,1), a_(1,2), a_(1,3), a_(1,4)],[a_(2,1), a_(2,2), a_(2,3), a_(2,4)],[a_(3,1), a_(3,2), a_(3,3), a_(3,4)],[a_(4,1), a_(4,2), a_(4,3), a_(4,4)],[a_(5,1), a_(5,2), a_(5,3), a_(5,4)]] -> [[-tau_1,alpha_(1,2), alpha_(1,3), alpha_(1,4)], [0, -tau_2, beta_(2,3), beta_(2,4)], [0, 0, beta_(3,3), beta_(3,4)], [0, 0, beta_(4,3), beta_(4,4)], [0, 0, beta_(5,3), beta_(5,4)]]`</p>
@@ -1054,16 +1053,16 @@
         <p><b>The story thus far:</b> When `A` is a square `n xx n` matrix, we can use the techniques mentioned near the beginning of the story, like Cholesky decomposition or iterative methods to solve the problem. Those methods don't really work when `A` is `n xx m` though. Solving `Ax = b` when `A` is not a square matrix is known as the least squares problem. One way of solving the least squares problem is doing `QR` decomposition.</p>
       </div>
       <h2 id="singularvalue">Singular Value Decomposition</h2>
-      <p><i>"This is the single most important thing in all of matrix analysis." -Professor Alex Cloninger</i></p>
+      <p><em>"This is the single most important thing in all of matrix analysis." -Professor Alex Cloninger</em></p>
       <p>`QR` decomposition only works in some situations*. A more powerful method that works in all(?) situations is singular value decomposition (SVD).</p>
       <div class="box">
        <p>*it only works when `A` has full rank, i.e. `A` has `m` pivots, i.e. `A` has `m` linearly independent column vectors, i.e. `A` has `n` linearly independent row vectors. The list goes on. I think.</p>
       </div>
-      <p><b>Let `A` be an `n xx m` matrix with rank `r`. Then `A = USigmaV^T` where:</b></p>
+      <p><strong>Let `A` be an `n xx m` matrix with rank `r`. Then `A = USigmaV^T` where:</strong></p>
       <div class="math">
-        <p><b>`U` is an `n xx n` orthogonal matrix</b></p>
-        <p><b>`V` is an `m xx m` orthogonal matrix</b></p>
-        <p><b>`Sigma = [[sigma_1, -, -, -, -, -],[-, sigma_2, -, -, -, -],[-, -, ddots, -, -, -],[-, -, -, sigma_r, -, -],[-, -, -, -, 0, -],[-, -, -, -, -, ddots]]` is an `n xx m` "diagonal" matrix</b></p>
+        <p><strong>`U` is an `n xx n` orthogonal matrix</strong></p>
+        <p><strong>`V` is an `m xx m` orthogonal matrix</strong></p>
+        <p><strong>`Sigma = [[sigma_1, -, -, -, -, -],[-, sigma_2, -, -, -, -],[-, -, ddots, -, -, -],[-, -, -, sigma_r, -, -],[-, -, -, -, 0, -],[-, -, -, -, -, ddots]]` is an `n xx m` "diagonal" matrix</strong></p>
         <p>where the dashes are `0`s</p>
         <p>`sigma_1 >= sigma_2 >= ... >= sigma_r` are singular values</p>
       </div>
@@ -1085,9 +1084,9 @@
         <p>`= sigma_i(sigma_iv_i)`</p>
         <p>`= sigma_i^2v_i`</p>
       </div>
-      <p>So we get `A^TAv_i = sigma_i^2v_i`. This means `sigma_i^2` is an eigenvalue of `A^TA`. That means all `sigma_i` are the square roots of the eigenvalues of `A^TA`. <b>To find the singular values `sigma_i` of `A`, we find the eigenvalues of `A^TA` and take the square root of them.</b></p>
+      <p>So we get `A^TAv_i = sigma_i^2v_i`. This means `sigma_i^2` is an eigenvalue of `A^TA`. That means all `sigma_i` are the square roots of the eigenvalues of `A^TA`. <strong>To find the singular values `sigma_i` of `A`, we find the eigenvalues of `A^TA` and take the square root of them.</strong></p>
       <div class="box">
-        <p>Very informally, `A^TA` is <i>kinda like</i> `A^2`. So finding the eigenvalues of that and taking the square root gives us the eigenvalues of `A`.</p>
+        <p>Very informally, `A^TA` is <em>kinda like</em> `A^2`. So finding the eigenvalues of that and taking the square root gives us the eigenvalues of `A`.</p>
       </div>
       <p>Since we have `Av_i = sigma_iu_i`, we can divide both sides by `sigma_i` to get `u_i`:</p>
       <div class="math">
@@ -1102,7 +1101,7 @@
       <div class="box">
         <p>The singular values `sigma_i` are the square roots of the eigenvalues of `A A^T` or `A^TA`. An interesting point arises when we look at the sizes of each matrix. `A` is an `n xx m` matrix, so `A A^T` is an `n xx n` matrix whereas `A^TA` is an `m xx m` matrix. Since `n != m`, either `n > m` or `n lt m`. Either way, one matrix will be smaller than the other. So it would be faster to find out which matrix is smaller compute the eigenvalues of the smaller matrix.</p>
       </div>
-      <p>Besides being used to find the decomposition of `A`, `sigma_i` is important in another way. We've looked at `norm(A)_2` but only when `A` was a square matrix. Here, `A` isn't a square matrix, so the norm is a bit different. <b>It turns out that `norm(A)_2 = sigma_1`.</b></p>
+      <p>Besides being used to find the decomposition of `A`, `sigma_i` is important in another way. We've looked at `norm(A)_2` but only when `A` was a square matrix. Here, `A` isn't a square matrix, so the norm is a bit different. <strong>It turns out that `norm(A)_2 = sigma_1`.</strong></p>
       <div class="box">
         <p>Example: `A = [[1, 0, 1],[1, 1, 0]]`. What is `norm(A)_2`?</p>
         <p>We know that `norm(A)_2 = sigma_1`. And to find `sigma_1` we need to find the eigenvalues of either `A A^T` or `A^TA`. So first we want to find out which one of `A A^T` and `A^TA` is smaller. `A A^T` is `2 xx 2` and `A^TA` is `3 xx 3`, so we find the eigenvalues of `A A^T`.</p>
@@ -1138,8 +1137,8 @@
       </div>
       <h2 id="powermethod">Power Method</h2>
       <p>First, some terminology. `(lambda, v)` is an eigenpair of `A` if `Av = lambdav`. If `A` has eigenpairs `(lambda_i, v_i)`, then, by convention, we order them such that `abs(lambda_1) > abs(lambda_2) > ... > abs(lambda_n)`. `lambda_1` is considered the dominant eigenvalue.</p>
-      <p>Not only does the determinant method not work for big matrices, it only gives us the eigenvalues. We have to do a completely different method to find the eigenvectors. The power method gives us both the eigenvalues and eigenvectors (i.e. eigenpairs) at the same time. (The power method actually gives us the dominant eigenvalue. Variations of the power method give us all the eigenvalues.)</p>
-      <p>There is a restriction for the power method though. It only works when `A` is semisimple: all the eigenvalues are distinct.</p>
+      <p>Not only does the determinant method not work for big matrices, it only gives us the eigenvalues. We have to do a completely different method to find the eigenvectors. The power method gives us both the eigenvalues and eigenvectors (eigenpairs) at the same time. (The power method actually gives us the dominant eigenvalue. Variations of the power method give us all the eigenvalues.)</p>
+      <p>There is a restriction for the power method though. It only works when `A` is semisimple, i.e., all the eigenvalues are distinct.</p>
       <p>So how does it work? Let's pick a random vector `q`. We can rewrite `q` in terms of the eigenvectors of `A`:</p>
       <div class="math">
         <p>`q = c_1v_1 + ... + c_nv_n`</p>
@@ -1171,7 +1170,7 @@
         <p>`le abs(lambda_2/lambda_1)^k sum_(i = 2)^n abs(c_i)norm(v_i)_2` (since `lambda_1 > lambda_2 > ... > lambda_i`)</p>
       </div>
       <p>So `norm(q^((k)) - c_1v_1)_2 le abs(lambda_2/lambda_1)^k sum_(i = 2)^n abs(c_i)norm(v_i)_2` goes to `0` as `k -> oo`. This means that we should stop when `abs(lambda_2/lambda_1)^k` is really small.</p>
-      <p>This says that repeatedly multiplying `q` by `A` and dividing by `lambda_1` will eventually give us the eigenvector `v_1`. It also says that if `abs(lambda_2/lambda_1)` is much smaller than `1`, then it won't take long for this method to converge (i.e. `k` will be small). But if `abs(lambda_2/lambda_1)` is close to `1` (i.e. `lambda_2` is close to `lambda_1`), then it will take a long time to converge (i.e. `k` will be large).</p>
+      <p>This says that repeatedly multiplying `q` by `A` and dividing by `lambda_1` will eventually give us the eigenvector `v_1`. It also says that if `abs(lambda_2/lambda_1)` is much smaller than `1`, then it won't take long for this method to converge (i.e. `k` will be small). But if `abs(lambda_2/lambda_1)` is close to `1` (i.e., `lambda_2` is close to `lambda_1`), then it will take a long time to converge (i.e., `k` will be large).</p>
       <p>We have a way of finding the eigenvector, but it is dependent on the eigenvalue. And we currently don't know the eigenvalue. It turns out that we can't really compute it exactly, so we make an educated guess as to what it could be.</p>
       <div class="box">
         <p>Example: `A = [[2, 0],[0, 1]]`. We start with a guess `q^((0)) = [[1],[1]]`.</p>
@@ -1195,7 +1194,7 @@
         <p>So our guess for the eigenvalue is `4.4` and the eigenvector would be `[[4.4],[1]]`.</p>
       </div>
       <h2 id="inversepowermethod">Inverse Power Method</h2>
-      <p>The power method gives us one eigenvalue, namely the dominant one. But we still need to find the rest of the eigenvalues. It turns out that <b>if `(lambda,v)` is an eigenpair of `A`, then `(1/lambda,v)` is an eigenpair of `A^(-1)`.</b> This allows us to find the smallest eigenvalue of `A`. <b>If `lambda^(text(*))` is the largest eigenvalue of `A^(-1)`, then `1/lambda^(text(*))` is the smallest eigenvalue of `A`.</b></p>
+      <p>The power method gives us one eigenvalue, namely the dominant one. But we still need to find the rest of the eigenvalues. It turns out that <strong>if `(lambda,v)` is an eigenpair of `A`, then `(1/lambda,v)` is an eigenpair of `A^(-1)`.</strong> This allows us to find the smallest eigenvalue of `A`. <strong>If `lambda^(text(*))` is the largest eigenvalue of `A^(-1)`, then `1/lambda^(text(*))` is the smallest eigenvalue of `A`.</strong></p>
       <div class="box">
         <p>Example: `A = [[10,1],[1,2]]`. What is the smallest eigenvalue? We start with a guess `q^((0)) = [[1],[1]]`.</p>
         <p>Now we want to do the power method on `A^(-1)`, so we start by finding `A^(-1)`.</p>
@@ -1211,7 +1210,7 @@
         <p>Unfortunately, the numbers are getting ugly, but our guess for the eigenvalue is `0.53` and the eigenvector would be `[[-0.12],[1]]` as `k` gets large. But this is for `A^(-1)`. The eigenvalue of `A` is `1/0.53 ~~ 1.88` and the eigenvector is the same.</p>
       </div>
       <h2 id="shiftinvert">Shift-and-Invert</h2>
-      <p>So we have the largest and the smallest eigenvalues of `A`. But we still need the rest. It turns out that <b>if `(lambda,v)` is an eigenpair of `A`, then `(lambda-rho,v)` is an eigenpair of `A - rhoI`.</b></p>
+      <p>So we have the largest and the smallest eigenvalues of `A`. But we still need the rest. It turns out that <strong>if `(lambda,v)` is an eigenpair of `A`, then `(lambda-rho,v)` is an eigenpair of `A - rhoI`.</strong></p>
       <div class="math">
         <img class="img-fluid" src="../pictures/linear/shift_invert_1.png">
       </div>
