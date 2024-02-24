@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+                          _   _
+     _  _    _     _  _  | | | |   __     ____
+    | |/ \  | |_  | |/_| | | | |  /  \   /    \
+    | |   | |  _| |  /   | | | | | || | |  ||  |
+    | |   | | |_  | |    | | | | | || | |  ||  |
+    |_|   | |___| |_|    |_| |_|  \__/   \____/|
+                                               |
+                                          ____/
+    -->
+    <title>ntrllog | Functional Programming</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
+    <link href="../css/content.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="dropdown ln-fixed-right">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#purefuncs">Pure Functions</a></li>
+        <li><a class="dropdown-item" href="#dataimmutability">Data Immutability</a></li>
+        <li><a class="dropdown-item" href="#whyfp">Why Functional Programming?</a></li>
+        <li><a class="dropdown-item" href="#tailrecursion">Tail Recursion</a></li>
+      </ul>
+    </div>
+    <div class="container ln-line-height">
+      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+      <h1>Functional Programming</h1>
+      <hr>
+      <p>Shortcut to this page: <a href="fp.html">ntrllog.netlify.app/fp</a></p>
+      <p>Notes provided by Professor John Hurley</p>
+      <p>(all code examples are done in Kotlin with expression bodies when possible)</p>
+      <h2 id="purefuncs">Pure Functions</h2>
+      <p>A pure function is a function that:</p>
+      <ul>
+        <li>always returns the same value for the same input</li>
+        <li>has no side effects</li>
+      </ul>
+      <h3>Referential Transparency</h3>
+      <p>Consider the function:</p>
+      <div class="ln-center">
+        <p><code>fun doubleIt(n: Int): Int = n * 2</code></p>
+      </div>
+      <p>and consider the input `n=3`. We can see that for `n=3`, the output will always be `6` no matter what.</p>
+      <p>This can be thought of as referential transparency, meaning that calls to the same function with the same arguments will always return the same value.</p>
+      <div class="ln-box">
+        <p>Technically, referential transparency refers to the ability to replace an expression with its value while still maintaining the correctness of the code. For example, if, for some reason, we had <code>doubleIt(3)</code> in our code, we could replace it with <code>6</code> and the program would still work the same way.</p>
+        <div class="ln-center">
+          <p><code>val x = doubleIt(3) // this line can be rewritten as val x = 6</code></p>
+        </div>
+        <p>This replacement is possible only because the function will always return the same value for the same input. Which is why the definition of referential transparency can be thought of this way.</p>
+        <p>(In a way, the definition of referential transparency is referentially transparent? 🤔😏)</p>
+      </div>
+      <h4>That's Not Very Referentially Transparent of You</h4>
+      <p>An example of a function that's not referentially transparent is this:</p>
+      <div class="ln-flex-center">
+        <p><code>val cost = 0.73<br>fun getCost(n: Int): Double = n * cost</code></p>
+      </div>
+      <p>If the value of <code>cost</code> is changed, then <code>getCost()</code> will return something different for the same input.</p>
+      <h3>Side Effects</h3>
+      <p>Side effects are changes that are caused by a function call, but the changes themselves occur outside of the function call. These changes usually are not necessary for calculating the return value of the function (assuming, in the spirit of functional programming, that the primary purpose of a function is to return something rather than do something). Some examples of side effects are:</p>
+      <ul>
+        <li>modifying a variable beyond the scope of the block where the change occurs</li>
+        <li>modifying a data structure in place</li>
+        <li>setting a field on an object</li>
+        <li>throwing an exception or halting with an error</li>
+        <li>printing to the console</li>
+        <li>reading user input</li>
+        <li>reading from or writing to a file</li>
+        <li>drawing on the screen</li>
+      </ul>
+      <p>This is an example of a function that modifies a variable outside of its scope (and prints):</p>
+      <div class="ln-flex-center">
+        <p><code>var counter = 0<br>fun incrementCounter() {<br>&nbsp;&nbsp;&nbsp;&nbsp;++counter<br>&nbsp;&nbsp;&nbsp;&nbsp;println(counter)<br>}</code></p>
+      </div>
+      <h2 id="dataimmutability">Data Immutability</h2>
+      <p>In functional programming, data are not allowed to be changed once it is created. So something as simple (and seemingly essential) as a loop is not allowed. Consider this loop:</p>
+      <div class="ln-flex-center">
+        <p><code>for (num in numbers) {<br>&nbsp;&nbsp;&nbsp;&nbsp;squaredNums += listOf(num * num)<br>}</code></p>
+      </div>
+      <p><code>num</code> and <code>squaredNums</code> are being changed on every iteration of the loop, and data are not allowed to be changed!</p>
+      <p>Instead of loops, recursion is used.</p>
+      <p>In the context of lists, if we want a different list (e.g., one of the elements need to be changed or removed), then we need to create a new list instead of modifying the original list.</p>
+      <div class="ln-flex-center">
+        <p><code>val originalList = listOf(1, 2, 3, 4, 5)<br>val newList = originalList.slice(0..1) + originalList.slice(3..originalList.size-1) // newList = [1, 2, 4, 5]</code></p>
+      </div>
+      <h2 id="whyfp">Why Functional Programming?</h2>
+      <p>With functional programming, there are no side effects; there are no mutable data; and there is referential transparency. All of these make functional programming great for concurrent programming because there is no shared state, data synchronization issues, race conditions, and deadlocks.</p>
+      <p>The code is more modular since there is no shared state.</p>
+      <p>Pure functions are less buggy than impure functions. Since they don't depend on external state, pure functions are more reliable once they are thoroughly tested. Pure functions also don't have side effects, so they don't create unpredictable problems.</p>
+      <p>Referential transparency makes it possible to cache the result of a function call, so that the result can be used instead of calling the function again. (This is called memoization.)<p>
+      <h2 id="tailrecursion">Tail Recursion</h2>
+      <p>Whenever a function call is made, a stack is created for that function call. So for recursive functions, a stack is created for each recursive call.</p>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val n = factorial(3)<br>}<br>fun factorial(n: Int): Int = if (n &lt;= 1) n else n * factorial(n-1)</code></p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/recursion.gif">
+      </div>
+      <p>If too many recursive calls are made, then too many stacks will be created, resulting in a stack overflow. Since we're pretty much limited to recursion in functional programming, we have to find a way to use recursion without running into a stack overflow.</p>
+      <p>Well, we can avoid having too many stacks by getting rid of them once we don't need them anymore. Going back to the recursion animation above, notice that each stack after the main stack needs to allocate memory for an Int (the <code>n</code> in <code>n * factorial(n-1)</code>). This means that the recursive call is <em>not</em> the last thing that is performed in the stack (the multiplication is the last thing being performed). Because we need to store the <code>n</code> in each stack in order for the recursion to work, we cannot simply remove the stack after a recursive call. But it would be nice to be able to do so!</p>
+      <p>So if we don't want to store anything in each stack, then that means we should push all the information we need to the next stack. Consider this modified factorial function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val n = factorial(3, 1)<br>}<br>fun factorial(n: Int, accumulator: Int): Int = if (n &lt;= 1) accumulator else factorial(n-1, n * accumulator)</code></p>
+      </div>
+      <p>This modification pushes the result of each multiplication forward (in the <code>accumulator</code>) so that it doesn't need to be stored.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/tail_recursion_1.png">
+      </div>
+      <p>Notice now that the recursive call <em>is</em> the last thing that is performed in the stack and that no memory needs to be allocated to store anything — this is tail recursion! Capable compilers are able to take advantage of this and remove the previous stack on each recursive call — after all, there's no important information being stored in the previous stack (this is tail-call elimination/optimization!)</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/tail_recursion_1.gif">
+      </div>
+      <p>The fact that the stacks can be removed is nice, but this factorial function is a bit awkward. It's not intuitive to need two parameters to calculate the factorial of a number. In addition, if we accidentally put the wrong initial value for the accumulator, then the answer will be wrong.</p>
+      <h3>Helper Function to the Rescue!</h3>
+      <p>Consider this final version of the factorial function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val n = factorial(3)<br>}<br>fun factorial(n: Int): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(x: Int, accumulator: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (x &lt;= 1) accumulator<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(x-1, x * accumulator)<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(n, 1)<br>}</code></p>
+      </div>
+      <p>Here, we have a nested function (<code>helper()</code>) that is called recursively. The outer function (<code>factorial()</code>) is no longer called recursively; instead it kicks off the recursive process. This allows the factorial function to be clean while still getting the benefits of tail-call elimination.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/tail_recursion_2.gif">
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
