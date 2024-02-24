@@ -40,6 +40,28 @@
         <div class="ln-big">
           <p>i'm a ucsd graduate with a degree in math-computer science and a minor in math education.</p>
         </div>
+        <div class="collapse" id="aboutme">
+          <p class="ln-big">my story</p>
+          <p>it just sorta happened naturally. me going into computer science, that is. though, there was that one "defining" moment that "solidified" my decision. in my high school avid class, we had to write down what job we wanted to have when we graduated college. possessing great clairvoyance at the ripe age of 14, i didn't really know what to put down. i glanced over at my friend's paper and decided to put down "computer scientist" too. yep, defining moment.</p>
+          <p>i suppose the real answer is that my parents somewhat pushed me into it. growing up, i spent a lot of time in front of a computer. of course, it was to play video games, but my parents would half-joke that since i liked to use the computer so much, i should make it my job. now imagine hearing that year after year in your formative years and beyond.</p>
+          <p>throughout high school, everything seemed to confirm the fact that i should go into computer science. i was fairly good at math, and i was a fairly quiet person. according to some career aptitude test (again, in my avid class), these were great indicators that i would like being in computer science!</p>
+          <p>so when it came time to apply to colleges, i put computer science as my intended major on all my applications. as some ucsd students might say, they couldn't get into berkeley and la, so sd was the next best choice. i might tell you that too, depending on how close we are. in 2015, computer science was an extremely popular major. to the point where i had to enter ucsd "undeclared" because computer science was impacted (i.e., there were too many computer science students and i couldn't be one of them). my choices were to either get a 4.0 in all the prerequisite cs classes and hope (emphasis on hope) to get admitted into the computer science program or to be a math major instead. well, i ended up getting a b+ in one of the prerequisite classes, so... yeah.</p>
+          <p>ucsd has this major called "math-computer science", where ~70% of the required classes are math classes and the rest are cs classes. as some math-cs students might say, if you need help with cs, ask a cs major; if you need help with math, ask a math major. i would've told you that too.</p>
+          <p>interestingly, being a math-cs major sowed some serious doubts into me. i believed that taking all those math classes prevented me from learning more cs, which, in turn, would prevent me from learning the skills necessary to get a job. i seriously considered getting into teaching, because those who can't do it, teach it, right? this is defining moment number 1.</p>
+          <p>to try and make up for my lack of cs knowledge, i decided to teach myself how to make a website by learning html and css. one of the codecademy assignments was to create some sort of instructional guide, i.e., a webpage that had a bunch of text teaching someone about something. i had an aha moment as i realized i could do something like this for my notes. my handwriting was messy, and i never looked back at my notes from my previous classes, so i figured putting them online would allow me to conveniently revisit them, if i wanted to. this is defining moment number 2.</p>
+          <p>but as a backup, i also decided to pursue the teaching thing. one of the requirements for the education program was to rack up tutoring (and teaching) hours at local schools. so, in my third year of college, i spent a lot of my mornings at high schools trying to help students with math that i hadn't touched in years (for those who are familiar, this is around the time when integrated math was introduced, so i also had no experience with this whole integrated system). as i feebly attempted to assist them, i realized that i was relying on my intuition to try and guide them. the more time i spent tutoring students, the more i started to develop strong beliefs about how math should be taught, namely that it should be taught with an emphasis on building intuition. this is defining moment number 3.</p>
+          <p>it turned out that tutoring and learning how i liked to learn unearthed a lot of thoughts that i just had to get off my chest. i already had my website at this time, so i decided to add a blog. i never liked to write because my teachers decided i was bad at it. but this was different. on my own website, i could write whatever i wanted however i wanted without worrying about some grade. as i started writing out my thoughts, i found my personal writing voice. yeah, it's this one that you're reading (or hearing if you're reading this aloud). i liked my newfound voice, so i had a lot of fun writing. this is defining moment number 4.</p>
+          <p>much like the high school students i was tutoring, i also had no idea why i was learning a certain topic in my math classes. i just knew that i had to learn it to pass the class. but everything changed when i took numerical analysis. the professor taught the course almost as if he was telling a story. not only did i understand every new topic that he introduced, i actually understood <em>why</em>. he was helping us develop our intuition! this is defining moment number 5.</p>
+          <p>all those five defining moments inspired me to write an online "textbook" for that numerical analysis class. i spent countless hours rereading my notes and rewatching the lecture recordings so that i could fully understand the material <em>and</em> teach it to my future self. needless to say, i aced that class (and my two remaining math classes since i wrote textbooks for those too). i also developed a new appreciation for math once i actually started to understand it. a little too late, regrettably, but better late than never as they say.</p>
+          <p>i was never expecting math and education to be such a big part of my life when i wrote down "computer scientist" in high school. but being a math educator has shaped this website into what it is today. so yeah, now i'm just this math (and computer science) wannabe nerd who likes to make content — mostly about math, cs, and the english language — whenever inspiration strikes. which doesn't happen often. but it's nice when it does.</p>
+          <p class="ln-big">what about now?</p>
+          <p>if i'm working, then i'm doing various software engineering stuff.</p>
+          <p>when i'm not, i go to the gym; i just really like to count.</p>
+          <p>if i have time and i feel like it, i'll also ride my bike.</p>
+        </div>
+        <div class="ln-flex-center-center">
+          <button class="btn btn-info toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#aboutme" aria-expanded="false" aria-controls="aboutme"><span id="readmore">read more (or don't, whatever, it's kinda long)</span><span id="readless">read less</span></button>
+        </div>
         <div class="ln-big ln-flex-between">
           <a href="projects/projects.html">projects</a>
           <a href="https://rtb.netlify.app/comics">comics</a>
@@ -74,4 +96,12 @@
       </div>
     </section>
   </body>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+  <script>
+    $('#readless').hide();
+    $('.toggle-text').click(function() {
+      $(this).find('span').each(function() { $(this).toggle(); });
+    });
+  </script>
 </html>
