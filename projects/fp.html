@@ -34,6 +34,7 @@
         <li><a class="dropdown-item" href="#dataimmutability">Data Immutability</a></li>
         <li><a class="dropdown-item" href="#whyfp">Why Functional Programming?</a></li>
         <li><a class="dropdown-item" href="#tailrecursion">Tail Recursion</a></li>
+        <li><a class="dropdown-item" href="#currying">Currying</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -134,6 +135,63 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/fp/tail_recursion_2.gif">
       </div>
+      <h3>A Systematic Approach to Making Functions Tail Recursive</h3>
+      <p>There are three main ideas:</p>
+      <ul>
+        <li>there is an outer function that defines and calls an inner function, which is going to be the recursive one</li>
+        <li>the inner function takes in an accumulator that starts with an initial value and builds up the result at each recursive step</li>
+        <li>the base case returns the accumulator</li>
+      </ul>
+      <p>Let's look at string reversal as an example.</p>
+      <p>There is an outer function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun myReverse(s: String): String {</code></p>
+      </div>
+      <p>That defines an inner function, which takes in an accumulator:</p>
+      <div class="ln-flex-center">
+        <p><code>fun myReverse(s: String): String {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(x: String, acc: String): String =</code></p>
+      </div>
+      <p>The base case returns the accumulator:</p>
+      <div class="ln-flex-center">
+        <p><code>fun myReverse(s: String): String {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(x: String, acc: String): String =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (x.length == 0) acc</code></p>
+      </div>
+      <p>The inner function is recursive and the accumulator builds up the result at each recursive step:</p>
+      <div class="ln-flex-center">
+        <p><code>fun myReverse(s: String): String {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(x: String, acc: String): String =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (x.length == 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(x.dropLast(1), acc + x[x.length-1])</code></p>
+      </div>
+      <p>The outer function calls the inner function with an initial value for the accumulator:</p>
+      <div class="ln-flex-center">
+        <p><code>fun myReverse(s: String): String {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(x: String, acc: String): String =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (x.length == 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(x.dropLast(1), acc + x[x.length-1])<br>&nbsp;&nbsp;&nbsp;&nbsp;helper(s, "")<br>}</code></p>
+      </div>
+      <h2 id="currying">Currying</h2>
+      <p>Currying is taking a function with multiple arguments and breaking it up into mutiple functions, each with one argument.</p>
+      <p>(I feel like a function that adds two numbers is a very contrived and overused example, but let's roll with it!) Suppose we have a function that adds two numbers:</p>
+      <div class="ln-flex-center">
+        <p><code>fun myAdd(x: Int, y: Int): Int = x + y</code></p>
+      </div>
+      <p>Now suppose we have a use case where we always want to add `5` to any number. Of course, we can simply just do <code>myAdd(x, 5)</code>, whenever we need to, but we can make the function calls simpler and clearer. The idea is to create a new function (let's call it <code>addFive()</code>) that takes in only one argument and adds `5` to it. Simpler and clearer.</p>
+      <p>Time to curry the <code>myAdd()</code> function!</p>
+      <div class="ln-flex-center">
+        <p><code>fun addCurried(x: Int): (Int) -> Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;return fun(y: Int): Int = x + y<br>}<br>val add5 = addCurried(5)<br>val r = add5(10) // r = 15</code></p>
+      </div>
+      <p>We broke the <code>myAdd()</code> function into two smaller functions, each with one argument. The outer function takes in one of the arguments (<code>x</code>) and simply returns another function. That other function takes in the other argument (<code>y</code>) and does what the original <code>myAdd()</code> function would've done. Since the outer function returns a function, we can create new functions, like <code>add5()</code>.</p>
+      <div class="ln-box">
+        <h3>Closure</h3>
+        <p>When we return from a function, everything in that function's scope gets destroyed. So it's interesting to note here that even when <code>addCurried()</code> returned, <code>add5()</code> still had access to the `5`, which was passed through <code>x</code>. Theoretically, <code>x</code> looks like it should've been inaccessible after <code>addCurried()</code> returned. But it isn't. A closure is a function that can access a variable that is defined outside of its scope, even after the outer function has returned.</p>
+      </div>
+      <p>Let's look at a more complicated, but more practical, example. Suppose we had our own filter function that filtered a list based on a custom function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun myFilter(l: List&lt;Int&gt;, f: (Int) -> Boolean): List&lt;Int&gt; = l.filter(f)</code></p>
+      </div>
+      <p>Time to curry!</p>
+      <div class="ln-flex-center">
+        <p><code>fun filterCurried(f: (Int) -> Boolean): (List&lt;Int&gt;) -> List&lt;Int&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;return fun(l: List&lt;Int&gt;): List&lt;Int&gt; = l.filter(f)<br>}<br>val isEven = { n: Int -> n % 2 == 0 }<br>val filterEven = filterCurried(isEven)<br>println(filterEven(listOf(1, 2, 3, 4, 5, 6)) // prints [2, 4, 6]</code></p>
+      </div>
+      <p>With this example, we can see a more useful reason to use currying. Imagine if we wanted to create <code>filterEven()</code> and <code>filterOdd()</code> but without currying.</p>
+      <div class="ln-flex-center">
+        <p><code>fun filterEven(l: List&lt;Int&gt;): List&lt;Int&gt; = l.filter{it % 2 == 0}<br>fun filterOdd(l: List&lt;Int&gt;): List&lt;Int&gt; = l.filter{it % 2 == 1}</code></p>
+      </div>
+      <p>Notice how they're almost exactly the same. It seems like wasted repetition to create two similarly-defined functions this way.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
