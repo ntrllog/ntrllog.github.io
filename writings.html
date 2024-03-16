@@ -249,12 +249,12 @@
             <h4 class="title">`0.999...=1`</h4>
             <h6 class="date">August 13, 2023</h6>
             <p>My favorite reason why `0.999...=1` (thanks to this <a href="https://www.youtube.com/watch?v=TINfzxSnnIE" target="_blank">video</a>) is the fact that there's no number in between `0.999...` and `1`.</p>
-            <p>Consider the numbers between `1` and `2`. There is `1.5`. And `1.55`. And `1.555`. And `1.55583`. And `1.555583724728482824209248`. And so on. The point is there are infinitely many numbers between `1` and `2`.</p>
+            <p>Consider the numbers between `1` and `2`. There is `1.5`. And `1.55`. And `1.555`. And `1.55583`. And `1.555583724728482824209248`. And so on. The point is, there are infinitely many numbers between `1` and `2`.</p>
             <p>Now, tell me, what number is between `0.999...` and `1`? If you can't think of any number, then it must be the case that `0.999...` and `1` are the same number.</p>
             <p>A few days ago, I came across this <a href="https://www.reddit.com/r/NoStupidQuestions/comments/15n5v4v/my_unemployed_boyfriend_claims_he_has_a_simple" target="_blank">Reddit post</a> about a proof that claims that `0.999...!=1`. It goes something like this:</p>
             <div class="collapse" id="collapseOhNineEqualsOne">
               <p>`0.999...=1-lim_(n->oo)(1-1/n)=1-(lim_(n->oo)1-lim_(n->oo)1/n)=1-(1-0)=1-1=0`</p>
-              <p>So `0.999...=1=0`?!* 🤯</p>
+              <p>So `0.999...=0`?! 🤯</p>
               <p>Obviously, the mistake is stating that `0.999...=1-lim_(n->oo)(1-1/n)`. (Well, duh! 🙄)</p>
               <p>The intent was to capture the idea that `0.999...` is `1` subtracted by a little tiny bit. An infinitesimally small bit. But if we want to fix the proof, we have to be a bit more precise.</p>
               <p>`0.999...` is `1` subtracted by `0.000...001`. We can represent `0.000...001` using a fraction. But first, let's look at some other numbers we're more familiar with:</p>
@@ -267,7 +267,6 @@
               <p>So if `0.000...001` has infinitely many `0`s before the `1`, then its fraction form must be `1` divided by `10` raised to an infinitely large power. Mathematically, this is `lim_(n->oo)1/10^n`.</p>
               <p>"`0.999...` is `1` subtracted by `0.000...001`" can now be restated as "`0.999...` is `1` subtracted by `lim_(n->oo)1/10^n`."</p>
               <p>The proof should have started by stating `0.999...=1-lim_(n->oo)1/10^n`. Completing the proof, `0.999...=1-lim_(n->oo)1/10^n=1-0=1`.</p>
-              <p>*I originally wrote this with just the exclamation mark. Funnily enough, treating the exclamation mark as a factorial makes the statement true.</p>
             </div>
             <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOhNineEqualsOne" aria-expanded="false" aria-controls="collapseOhNineEqualsOne"><span>Read more</span><span class="hidden">Read less</span></button>
           </div>
