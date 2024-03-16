@@ -35,6 +35,7 @@
         <li><a class="dropdown-item" href="#whyfp">Why Functional Programming?</a></li>
         <li><a class="dropdown-item" href="#tailrecursion">Tail Recursion</a></li>
         <li><a class="dropdown-item" href="#currying">Currying</a></li>
+        <li><a class="dropdown-item" href="#polymorphic">Polymorphic Functions</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -88,11 +89,12 @@
         <p><code>var counter = 0<br>fun incrementCounter() {<br>&nbsp;&nbsp;&nbsp;&nbsp;++counter<br>&nbsp;&nbsp;&nbsp;&nbsp;println(counter)<br>}</code></p>
       </div>
       <h2 id="dataimmutability">Data Immutability</h2>
-      <p>In functional programming, data are not allowed to be changed once it is created. So something as simple (and seemingly essential) as a loop is not allowed. Consider this loop:</p>
+      <p>In functional programming, data are not allowed to be changed* once it is created. So something as simple (and seemingly essential) as a loop is not allowed. Consider this loop:</p>
       <div class="ln-flex-center">
         <p><code>for (num in numbers) {<br>&nbsp;&nbsp;&nbsp;&nbsp;squaredNums += listOf(num * num)<br>}</code></p>
       </div>
       <p><code>num</code> and <code>squaredNums</code> are being changed on every iteration of the loop, and data are not allowed to be changed!</p>
+      <p>*Changed means reassigned to a different value.</p>
       <p>Instead of loops, recursion is used.</p>
       <p>In the context of lists, if we want a different list (e.g., one of the elements need to be changed or removed), then we need to create a new list instead of modifying the original list.</p>
       <div class="ln-flex-center">
@@ -120,6 +122,7 @@
       <p>This modification pushes the result of each multiplication forward (in the <code>accumulator</code>) so that it doesn't need to be stored.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/fp/tail_recursion_1.png">
+        <p>(lol there's no animation here.)</p>
       </div>
       <p>Notice now that the recursive call <em>is</em> the last thing that is performed in the stack and that no memory needs to be allocated to store anything — this is tail recursion! Capable compilers are able to take advantage of this and remove the previous stack on each recursive call — after all, there's no important information being stored in the previous stack (this is tail-call elimination/optimization!)</p>
       <div class="ln-center">
@@ -161,7 +164,15 @@
       </div>
       <p>The outer function calls the inner function with an initial value for the accumulator:</p>
       <div class="ln-flex-center">
-        <p><code>fun myReverse(s: String): String {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(x: String, acc: String): String =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (x.length == 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(x.dropLast(1), acc + x[x.length-1])<br>&nbsp;&nbsp;&nbsp;&nbsp;helper(s, "")<br>}</code></p>
+        <p><code>fun myReverse(s: String): String {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(x: String, acc: String): String =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (x.length == 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(x.dropLast(1), acc + x[x.length-1])<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(s, "")<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <h2>A Different Way To Recurse</h2>
+        <p>Now, I don't know about you, but when I learned about recursion, there was always some argument that would get smaller with each recursive call. For example, in the example above, the string being passed to the recursive helper function is getting smaller by one character each time until it is empty. I never really realized that this is not the only way to do things recursively.</p>
+        <p>If working with strings or lists, then instead of making the string or list smaller in each recursive call, we can just pass an increasing (or decreasing) index instead. 🤯</p>
+        <div class="ln-flex-center">
+          <p><code>fun myReverse(s: String): String {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(n: Int, acc: String): String =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n &lt; 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(n-1, acc + s[n])<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(s.length-1, "")<br>}</code></p>
+        </div>
       </div>
       <h2 id="currying">Currying</h2>
       <p>Currying is taking a function with multiple arguments and breaking it up into mutiple functions, each with one argument.</p>
@@ -192,6 +203,25 @@
         <p><code>fun filterEven(l: List&lt;Int&gt;): List&lt;Int&gt; = l.filter{it % 2 == 0}<br>fun filterOdd(l: List&lt;Int&gt;): List&lt;Int&gt; = l.filter{it % 2 == 1}</code></p>
       </div>
       <p>Notice how they're almost exactly the same. It seems like wasted repetition to create two similarly-defined functions this way.</p>
+      <h2 id="polymorphic">Polymorphic Functions</h2>
+      <p>Consider this function that searches for a string in a list of strings:</p>
+      <div class="ln-flex-center">
+        <p><code>fun findFirst(l: List&lt;String&gt;, key: String): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(n: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;when {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n &gt;= l.size -&gt; -1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l.get(n) == key -&gt; n<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; helper(n+1)<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(0)<br>}</code></p>
+      </div>
+      <p>This is a monomorphic function because it operates only on one type of data, namely strings.</p>
+      <p>What if we wanted to search for an integer in a list of integers?</p>
+      <div class="ln-flex-center">
+        <p><code>fun findFirst(l: List&lt;Int&gt;, key: Int): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(n: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;when {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n &gt;= l.size -&gt; -1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l.get(n) == key -&gt; n<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; helper(n+1)<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(0)<br>}</code></p>
+      </div>
+      <p>With the exception of the parameter types, the code is exactly the same. Of course, it seems like a waste to create two separate functions that do the exact same thing, just with different types.</p>
+      <p>Polymorphic functions are functions that operate on any type that it is given.</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; findFirst(l: List&lt;A&gt;, key: A): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(n: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;when {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n &gt;= l.size -&gt; -1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l.get(n) == key -&gt; n<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; helper(n+1)<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(0)<br>}</code></p>
+      </div>
+      <p>This function will work for strings, ints, doubles, anything really.</p>
+      <div class="ln-box">
+        <p>This type of polymorphism is called parametric polymorphism. Polymorphism in object-oriented programming is subtype polymorphism.</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
