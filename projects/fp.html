@@ -36,6 +36,7 @@
         <li><a class="dropdown-item" href="#tailrecursion">Tail Recursion</a></li>
         <li><a class="dropdown-item" href="#currying">Currying</a></li>
         <li><a class="dropdown-item" href="#polymorphic">Polymorphic Functions</a></li>
+        <li><a class="dropdown-item" href="#generics">Generics</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -222,6 +223,121 @@
       <div class="ln-box">
         <p>This type of polymorphism is called parametric polymorphism. Polymorphism in object-oriented programming is subtype polymorphism.</p>
       </div>
+      <div class="ln-box">
+        <h3>Predicate Functions</h3>
+        <p>A predicate function is a pure function that returns either true or false. These are typically used as custom compare functions. For example, here is a predicate function (written as a lambda expression) that returns true if the input to the function contains the letter l:</p>
+        <div class="ln-flex-center">
+          <p><code>{ it.contains('l') }</code></p>
+        </div>
+        <p>So instead of being restricted to whatever condition is inside the when statement, we can pass our own compare function:</p>
+        <div class="ln-flex-center">
+          <p><code>fun &lt;A&gt; findFirst(l: List&lt;A&gt;, f: (A) -&gt; Boolean): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(n: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;when {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n &gt;= l.size -&gt; -1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f(l.get(n)) -&gt; n<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; helper(n+1)<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(0)<br>}</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>val i: Int = findFirst(l, { it.contains('l') })</code></p>
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>Polymorphic functions are also called generic functions because the types are being abstracted.</p>
+      </div>
+      <div class="ln-box">
+        <p>Quicksort is a sorting algorithm that starts with a pivot element, sorts the sublist that is "less than" the pivot element, sorts the sublist that is "greater than" the pivot element, and then combines them together to get a sorted list. Typically, the pivot is chosen randomly, but here we'll use the first element of the (sub)list(s) as the pivot.</p>
+      </div>
+      <p>Here's a pretty cool example of quicksort with generic types and a predicate function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; quicksort(l: List&lt;A&gt;, f: (x: A, y: A) -&gt; Int): List&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (l.size &lt;= 1) l<br>&nbsp;&nbsp;&nbsp;&nbsp;else quicksort(l.drop(1).filter{ f(it, l.get(0)) &lt; 0 }, f) + l.get(0) + quicksort(l.drop(1).filter{ f(it, l.get(0)) &gt;= 0 }, f)</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val l1 = listOf(41, 89, -10, 54, 16, 543, 4)<br>&nbsp;&nbsp;&nbsp;&nbsp;val l2 = listOf("pizza", "taco", "cheeseburger", "french fries", "popcorn", "pie")<br>&nbsp;&nbsp;&nbsp;&nbsp;println(quicksort(l1, {x, y -&gt; if(x &lt; y) -1 else if(x == y) 0 else 1 }))<br>&nbsp;&nbsp;&nbsp;&nbsp;println(quicksort(l2, {x, y -&gt; if(x.length &lt; y.length) -1 else if( x.length == y.length) 0 else 1}))<br>}</code></p>
+      </div>
+      <p>As convenient as it looks, we don't always want polymorphic functions to accept any type. To show why, here's a simple example:</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; oneHalf(value: A): Double = value.toDouble() / 2.0</code></p>
+      </div>
+      <p>Obviously, this only works with number-like types; so if we pass in a string, things will go wrong. To prevent this, we can restrict the types that can be used as type arguments:</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A: Number&gt; oneHalf(value: A): Double = value.toDouble() / 2.0</code></p>
+      </div>
+      <p>This says that we can pass in any type for <code>A</code> as long as it is a Number type.</p>
+      <p>A more practical example would be writing one compare function that works for multiple types, including custom classes:</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A: Comparable&lt;A&gt;&gt; max(first: A, second: A): A = if (first.compareTo(second)) first else second</code></p>
+      </div>
+      <p>Here, we can pass in any type for <code>A</code> as long as it is Comparable.</p>
+      <h2 id="generics">Generics</h2>
+      <p>This naturally leads us to the concept of subtypes and supertypes. Suppose we have two types, `A` and `B`. Type `B` is a subtype of type `A` if you can use type `B` whenever type `A` is required. For example, Int is a subtype of Number; whenever the code expects a Number, we can pass an Int because technically, an Int is a Number.</p>
+      <div class="ln-box">
+        <p>This is the same as the concept of extending/implementing in object-oriented programming.</p>
+      </div>
+      <p>Now, there is this concept of a true subtype, which means that we can replace the supertype with the subtype without causing any errors. This means that:</p>
+      <ul>
+        <li>A subtype must accept all argument types that the supertype can accept</li>
+        <li>A subtype must not return a result type that the supertype won't return</li>
+      </ul>
+      <p>(When I say subtype, I mean its functions.)</p>
+      <p>(The following illustrations are adapted from <a href="https://typealias.com/guides/illustrated-guide-covariance-contravariance/" target="_blank">https://typealias.com/guides/illustrated-guide-covariance-contravariance/</a>. The information on covariance and contravariance is also from that website.)</p>
+      <p>For example, suppose we had a supertype with a function that takes in a shape and returns a color. It only accepts one square or one circle and returns only green or blue.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/subtype.png">
+      </div>
+      <p>In order for a type to be a true subtype of the supertype, we have to be able to replace the supertype with the subtype without causing errors. The first rule says that "a subtype must accept all argument types that the supertype can accept". Let's see what happens if we don't follow that rule, i.e., the subtype <em>does not</em> accept all argument types that the supertype can accept.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/subtype_2.png">
+      </div>
+      <p>In this case, the subtype only accepts circles. The supertype accepted squares, and the function call in main was expecting the code to work with passing in a square. But when we replaced the supertype with the subtype, the code broke. So the subtype is not a true subtype.</p>
+      <p>Let's look at the second rule: "a subtype must not return a result type that the supertype won't return". Again, we'll see what happens when we don't follow that rule, i.e., the subtype <em>does</em> return a type that the supertype doesn't return.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/subtype_3.png">
+      </div>
+      <p>This time, the subtype can also return orange. The supertype only returned green or blue, and the function call in main was expecting only green or blue, not orange! So the subtype is not a true subtype.</p>
+      <p>Now, this doesn't mean that if we want to create true subtypes, we have to create carbon copies of the supertype. (If this was the case, there wouldn't really be a point in creating subtypes in the first place.) Subtypes can be a little bit more flexible and still be a true subtype.</p>
+      <h3>Contravariance</h3>
+      <p>Let's change the first rule from "a subtype must accept all argument types that the supertype can accept" to "a subtype must accept <em>at least</em> the argument types that the supertype can accept". Under this new rule, the subtype still technically accepts "all" the argument types that the supertype can accept, just a little bit more.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/contravariance.png">
+      </div>
+      <p>And this is fine. Remember that the definition of a true subtype is that we can replace the supertype without causing any errors. As far as main is concerned, it is still interacting with the supertype, so main will continue to pass only squares and circles.</p>
+      <p>This is called contravariance because as the type gets more specific ("narrower"), the type of arguments that can be accepted get more general ("expands"). They go in opposite directions, hence the "contra".</p>
+      <h3>Covariance</h3>
+      <p>Let's change the second rule from "a subtype must not return a result type that the supertype won't return" to "a subtype must return <em>at most</em> the same result types that the supertype returns". Under this new rule, the subtype can choose to exclude something the supertype returns.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/covariance.png">
+      </div>
+      <p>Again, this is fine because main is expecting either green or blue.</p>
+      <p>This is called covariance because as the type gets more specific ("narrower"), the return types also get narrower. They go in the same direction, hence the "co".</p>
+      <h3>New Rules!</h3>
+      <p>So now the two rules for a subtype to be a true subtype are:</p>
+      <ul>
+        <li>A subtype must accept at least the argument types that the supertype can accept</li>
+        <li>A subtype must return at most the same result types that the supertype returns</li>
+      </ul>
+      <h3>Variance</h3>
+      <p>Variance is, at a very basic level, looking at if something is covariant or contravariant (or invariant, which we'll see right now).</p>
+      <p>Since a String is a subtype of Any, is a MutableList of Strings a subtype of a MutableList of Anys?</p>
+      <div class="ln-flex-center">
+        <p><code>fun add42ToList(list: MutableList&lt;Any&gt;) {<br>&nbsp;&nbsp;&nbsp;&nbsp;list.add(42)<br>}</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val strings = mutableListOf("abc")<br>&nbsp;&nbsp;&nbsp;&nbsp;add42ToList(strings)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(strings.maxBy{ it.length })<br>}</code></p>
+      </div>
+      <p>This doesn't compile, but if it did, there would be a runtime error when calling the length method on an Int. Since we can't replace a MutableList of Anys with a MutableList of Strings, a MutableList of Strings is <em>not</em> a subtype of a MutableList of Anys.</p>
+      <p>In fact, MutableList is invariant on the type parameter. That is, for any two different types `A` and `B`, <code>MutableList&lt;A&gt;</code> isn't a subtype or a supertype of <code>MutableList&lt;B&gt;</code>.</p>
+      <h3>Generic Variance</h3>
+      <p>Suppose we have a generic class <code>Group&lt;T&gt;</code>. If `A` is a subtype of `B` and <code>Group&lt;A&gt;</code> is a subtype of <code>Group&lt;B&gt;</code>, then the Group class is covariant. The subtyping is preserved, hence the "co". On the other hand, if `A` is a subtype of `B` and <code>Group&lt;B&gt;</code> is a subtype of <code>Group&lt;A&gt;</code>, then the Group class is contravariant. The subtyping is reversed, hence the "contra".</p>
+      <p>Now let's suppose that Group has two functions: insert() and fetch(). (Let's also suppose it's an interface instead of a class just so it compiles.)</p>
+      <div class="ln-flex-center">
+        <p><code>interface Group&lt;T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: T): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): T<br>}</code></p>
+      </div>
+      <p>Let's say we have two classes: an Animal class and a Dog class, where Dog is a subtype of Animal. If we want to make the Group class covariant, then <code>Group&lt;Dog&gt;</code> should be a subtype of <code>Group&lt;Animal&gt;</code>. Let's see what's involved in making that happen.</p>
+      <div class="ln-flex-center">
+        <p><pre>Group&lt;Animal&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Animal): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Animal<br>}<br>Group&lt;Dog&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Dog): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Dog<br>}</pre></p>
+      </div>
+      <p>The way things are right now, <code>Group&lt;Dog&gt;</code> is not a subtype of <code>Group&lt;Animal&gt;</code> because <code>Group&lt;Dog&gt;</code> does not accept at least the same argument types that <code>Group&lt;Animal&gt;</code> accepts. For example, we could pass in a Cat to <code>Group&lt;Animal&gt;</code>'s insert() function, but we can't pass a Cat to <code>Group&lt;Dog&gt;</code>'s insert() function. This means that in order to make <code>Group&lt;Dog&gt;</code> a subtype of <code>Group&lt;Animal&gt;</code>, <code>Group&lt;Dog&gt;</code>'s insert() function should accept an Animal:</p>
+      <div class="ln-flex-center">
+        <p><pre>Group&lt;Animal&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Animal): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Animal<br>}<br>Group&lt;Dog&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Animal): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Dog<br>}</pre></p>
+      </div>
+      <p><code>Group&lt;Dog&gt;</code> already returns at most the same result types that <code>Group&lt;Animal&gt;</code> returns, so that rule is not being broken.</p>
+      <h3>Kotlin Variance Annotation</h3>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
