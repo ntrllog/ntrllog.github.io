@@ -275,7 +275,7 @@
         <li>A subtype must not return a result type that the supertype won't return</li>
       </ul>
       <p>(When I say subtype, I mean its functions.)</p>
-      <p>(The following illustrations are adapted from <a href="https://typealias.com/guides/illustrated-guide-covariance-contravariance/" target="_blank">https://typealias.com/guides/illustrated-guide-covariance-contravariance/</a>. The information on covariance and contravariance is also from that website.)</p>
+      <p>(The following illustrations are adapted from <a href="https://typealias.com/guides/illustrated-guide-covariance-contravariance/" target="_blank">https://typealias.com/guides/illustrated-guide-covariance-contravariance/</a>. Most of the information in this section is also from that website.)</p>
       <p>For example, suppose we had a supertype with a function that takes in a shape and returns a color. It only accepts one square or one circle and returns only green or blue.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/fp/subtype.png">
@@ -322,22 +322,69 @@
       </div>
       <p>This doesn't compile, but if it did, there would be a runtime error when calling the length method on an Int. Since we can't replace a MutableList of Anys with a MutableList of Strings, a MutableList of Strings is <em>not</em> a subtype of a MutableList of Anys.</p>
       <p>In fact, MutableList is invariant on the type parameter. That is, for any two different types `A` and `B`, <code>MutableList&lt;A&gt;</code> isn't a subtype or a supertype of <code>MutableList&lt;B&gt;</code>.</p>
-      <h3>Generic Variance</h3>
-      <p>Suppose we have a generic class <code>Group&lt;T&gt;</code>. If `A` is a subtype of `B` and <code>Group&lt;A&gt;</code> is a subtype of <code>Group&lt;B&gt;</code>, then the Group class is covariant. The subtyping is preserved, hence the "co". On the other hand, if `A` is a subtype of `B` and <code>Group&lt;B&gt;</code> is a subtype of <code>Group&lt;A&gt;</code>, then the Group class is contravariant. The subtyping is reversed, hence the "contra".</p>
+      <h3>Generic Variance (Covariance)</h3>
+      <p>Suppose we have a generic class <code>Group&lt;T&gt;</code>. If `A` is a subtype of `B` and <code>Group&lt;A&gt;</code> is a subtype of <code>Group&lt;B&gt;</code>, then the Group class is covariant. The subtyping is preserved, hence the "co".</p>
       <p>Now let's suppose that Group has two functions: insert() and fetch(). (Let's also suppose it's an interface instead of a class just so it compiles.)</p>
       <div class="ln-flex-center">
         <p><code>interface Group&lt;T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: T): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): T<br>}</code></p>
       </div>
-      <p>Let's say we have two classes: an Animal class and a Dog class, where Dog is a subtype of Animal. If we want to make the Group class covariant, then <code>Group&lt;Dog&gt;</code> should be a subtype of <code>Group&lt;Animal&gt;</code>. Let's see what's involved in making that happen.</p>
+      <p>Let's say we have two classes: an Animal class and a Dog class, where Dog is a subtype of Animal. If we want to make the Group class covariant, then <code>Group&lt;Dog&gt;</code> should be a subtype of <code>Group&lt;Animal&gt;</code>. Let's see what we have so far and see if it's possible.</p>
       <div class="ln-flex-center">
         <p><pre>Group&lt;Animal&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Animal): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Animal<br>}<br>Group&lt;Dog&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Dog): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Dog<br>}</pre></p>
       </div>
-      <p>The way things are right now, <code>Group&lt;Dog&gt;</code> is not a subtype of <code>Group&lt;Animal&gt;</code> because <code>Group&lt;Dog&gt;</code> does not accept at least the same argument types that <code>Group&lt;Animal&gt;</code> accepts. For example, we could pass in a Cat to <code>Group&lt;Animal&gt;</code>'s insert() function, but we can't pass a Cat to <code>Group&lt;Dog&gt;</code>'s insert() function. This means that in order to make <code>Group&lt;Dog&gt;</code> a subtype of <code>Group&lt;Animal&gt;</code>, <code>Group&lt;Dog&gt;</code>'s insert() function should accept an Animal:</p>
+      <p>The way things are right now, <code>Group&lt;Dog&gt;</code> is not a subtype of <code>Group&lt;Animal&gt;</code> because <code>Group&lt;Dog&gt;</code> does not accept at least the same argument types that <code>Group&lt;Animal&gt;</code> accepts. For example, we could pass in a Cat to <code>Group&lt;Animal&gt;</code>'s insert() function, but we can't pass a Cat to <code>Group&lt;Dog&gt;</code>'s insert() function.</p>
+      <p>Note that <code>Group&lt;Dog&gt;</code> already returns at most the same result types that <code>Group&lt;Animal&gt;</code> returns, so that rule is not being broken.</p>
+      <h3>Kotlin Variance Annotation (out)</h3>
+      <p>For now, let's remove the insert() function so that the first rule is not broken.</p>
       <div class="ln-flex-center">
-        <p><pre>Group&lt;Animal&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Animal): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Animal<br>}<br>Group&lt;Dog&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Animal): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Dog<br>}</pre></p>
+        <p><code>interface Group&lt;T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): T<br>}</code></p>
       </div>
-      <p><code>Group&lt;Dog&gt;</code> already returns at most the same result types that <code>Group&lt;Animal&gt;</code> returns, so that rule is not being broken.</p>
-      <h3>Kotlin Variance Annotation</h3>
+      <div class="ln-flex-center">
+        <p><pre>Group&lt;Animal&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Animal<br>}<br>Group&lt;Dog&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Dog<br>}</pre></p>
+      </div>
+      <p>Since both subtyping rules are not being broken anymore, <code>Group&lt;Dog&gt;</code> <em>is</em> a subtype of <code>Group&lt;Animal&gt;</code>. To tell Kotlin that we want to treat <code>Group&lt;Dog&gt;</code> as a subtype of <code>Group&lt;Animal&gt;</code>, we use the <code>out</code> annotation:</p>
+      <div class="ln-flex-center">
+        <p><code>interface Group&lt;out T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): T<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>It's called "out" because the type is used only as an output.</p>
+      </div>
+      <div class="ln-box">
+        <p>If we were to add the insert() function back, we would get a compile-time error: "Type parameter T is declared as 'out' but occurs in 'in' position in type T".</p>
+        <div class="ln-flex-center">
+          <p><code>interface Group&lt;out T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: T): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): T<br>}</code></p>
+        </div>
+        <p>And as we just saw, this is because this violates the first subtype rule about accepting at least all of the supertype's arguments.</p>
+      </div>
+      <h3>Generic Variance (Contravariance)</h3>
+      <p>On the other hand, if `A` is a subtype of `B` and <code>Group&lt;B&gt;</code> is a subtype of <code>Group&lt;A&gt;</code>, then the Group class is contravariant. The subtyping is reversed, hence the "contra".</p>
+      <p>If we want to make the Group class contravariant, then <code>Group&lt;Animal&gt;</code> should be a subtype of <code>Group&lt;Dog&gt;</code>. Let's see what we have so far and see if it's possible.</p>
+      <div class="ln-flex-center">
+        <p><pre>Group&lt;Dog&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Dog): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Dog<br>}<br>Group&lt;Animal&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Animal): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Animal<br>}</pre></p>
+      </div>
+      <p>Well, <code>Group&lt;Animal&gt;</code> does return at least the same argument types as <code>Group&lt;Dog&gt;</code> does, so that rule is fine. However, <code>Group&lt;Animal&gt;</code> can return more types than <code>Group&lt;Dog&gt;</code> can.</p>
+      <h3>Kotlin Variance Annotation (in)</h3>
+      <p>Similarly to before, let's remove the fetch() function so that the second subtyping rule is not broken.</p>
+      <div class="ln-flex-center">
+        <p><code>interface Group&lt;T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: T): Unit<br>}</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><pre>Group&lt;Dog&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Dog): Unit<br>}<br>Group&lt;Animal&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Animal): Unit<br>}</pre></p>
+      </div>
+      <p>Now both subtyping rules are not being broken anymore, so <code>Group&lt;Animal&gt;</code> <em>is</em> a subtype of <code>Group&lt;Dog&gt;</code>. To tell Kotlin that we want to treat <code>Group&lt;Animal&gt;</code> as a subtype of <code>Group&lt;Dog&gt;</code>, we use the <code>in</code> annotation:</p>
+      <div class="ln-flex-center">
+        <p><code>interface Group&lt;in T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: T): Unit<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>It's called "in" because the type is used only as an input.</p>
+      </div>
+      <div class="ln-box">
+        <p>If we were to add the fetch() function back, we would get a compile-time error: "Type parameter T is declared as 'in' but occurs in 'out' position in type T".</p>
+        <div class="ln-flex-center">
+          <p><code>interface Group&lt;in T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: T): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): T<br>}</code></p>
+        </div>
+        <p>And as we just saw, this is because this violates the second subtype rule about returning at most all of the supertype's arguments.</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
