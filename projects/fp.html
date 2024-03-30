@@ -266,15 +266,12 @@
       <p>Here, we can pass in any type for <code>A</code> as long as it is Comparable.</p>
       <h2 id="generics">Generics</h2>
       <p>This naturally leads us to the concept of subtypes and supertypes. Suppose we have two types, `A` and `B`. Type `B` is a subtype of type `A` if you can use type `B` whenever type `A` is required. For example, Int is a subtype of Number; whenever the code expects a Number, we can pass an Int because technically, an Int is a Number.</p>
-      <div class="ln-box">
-        <p>This is the same as the concept of extending/implementing in object-oriented programming.</p>
-      </div>
-      <p>Now, there is this concept of a true subtype, which means that we can replace the supertype with the subtype without causing any errors. This means that:</p>
+      <p>To be a little more precise, in order for a type to be a true subtype (i.e., in order to fit the actual definition of what it means to be a subtype), we must be able to replace the supertype with the subtype without causing any errors. This means that:</p>
       <ul>
         <li>A subtype must accept all argument types that the supertype can accept</li>
         <li>A subtype must not return a result type that the supertype won't return</li>
       </ul>
-      <p>(When I say subtype, I mean its functions.)</p>
+      <p>(When I say subtype and supertype here, I mean their functions.)</p>
       <p>(The following illustrations are adapted from <a href="https://typealias.com/guides/illustrated-guide-covariance-contravariance/" target="_blank">https://typealias.com/guides/illustrated-guide-covariance-contravariance/</a>. Most of the information in this section is also from that website.)</p>
       <p>For example, suppose we had a supertype with a function that takes in a shape and returns a color. It only accepts one square or one circle and returns only green or blue.</p>
       <div class="ln-center">
