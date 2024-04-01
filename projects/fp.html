@@ -352,6 +352,7 @@
           <p><code>interface Group&lt;out T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: T): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): T<br>}</code></p>
         </div>
         <p>And as we just saw, this is because this violates the first subtype rule about accepting at least all of the supertype's arguments.</p>
+        <p>(Note that adding the <code>out</code> modifier prevents us from creating any functions that take the type as a parameter, and therefore, breaking the above rule.)</p>
       </div>
       <h3>Generic Variance (Contravariance)</h3>
       <p>On the other hand, if `A` is a subtype of `B` and <code>Group&lt;B&gt;</code> is a subtype of <code>Group&lt;A&gt;</code>, then the Group class is contravariant. The subtyping is reversed, hence the "contra".</p>
@@ -359,7 +360,7 @@
       <div class="ln-flex-center">
         <p><pre>Group&lt;Dog&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Dog): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Dog<br>}<br>Group&lt;Animal&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: Animal): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): Animal<br>}</pre></p>
       </div>
-      <p>Well, <code>Group&lt;Animal&gt;</code> does return at least the same argument types as <code>Group&lt;Dog&gt;</code> does, so that rule is fine. However, <code>Group&lt;Animal&gt;</code> can return more types than <code>Group&lt;Dog&gt;</code> can.</p>
+      <p>Well, <code>Group&lt;Animal&gt;</code> does accept at least the same argument types as <code>Group&lt;Dog&gt;</code> does, so that rule is fine. However, <code>Group&lt;Animal&gt;</code> can return more types than <code>Group&lt;Dog&gt;</code> can. So the second rule is being broken!</p>
       <h3>Kotlin Variance Annotation (in)</h3>
       <p>Similarly to before, let's remove the fetch() function so that the second subtyping rule is not broken.</p>
       <div class="ln-flex-center">
@@ -381,6 +382,45 @@
           <p><code>interface Group&lt;in T&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun insert(item: T): Unit<br>&nbsp;&nbsp;&nbsp;&nbsp;fun fetch(): T<br>}</code></p>
         </div>
         <p>And as we just saw, this is because this violates the second subtype rule about returning at most all of the supertype's arguments.</p>
+        <p>(Note that adding the <code>in</code> modifier prevents us from creating any functions that return the type, and therefore, breaking the above rule.)</p>
+      </div>
+      <div class="ln-box">
+        <h3>Another Example With Squares</h3>
+        <h4>Out</h4>
+        <p>Suppose we had a Square class that can hold an item and return it:</p>
+        <div class="ln-flex-center">
+          <p><code>class Square&lt;out T&gt;(private val item: T) {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun getItem(): T = item<br>}</code></p>
+        </div>
+        <p>Let's look at what we are allowed to do with this Square. This first line is nothing special; we can assign a <code>Square&lt;Int&gt;</code> to a variable of type <code>Square&lt;Int&gt;</code>:</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val intSquare: Square&lt;Int&gt; = Square(1)<br>}</code></p>
+        </div>
+        <p>The next line is where it starts to get interesting. We can assign a <code>Square&lt;Int&gt;</code> to a variable of type <code>Square&lt;Number&gt;</code>:</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val intSquare: Square&lt;Int&gt; = Square(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;val numSquare: Square&lt;Number&gt; = intSquare<br>}</code></p>
+        </div>
+        <p>This is okay because the Square class is covariant (because of the <code>out</code> modifier); so <code>Square&lt;Int&gt;</code> is a subtype of <code>Square&lt;Number&gt;</code>.</p>
+        <p><code>Square&lt;Number&gt;</code> can also call <code>getItem()</code> without any errors because the subtype (<code>Square&lt;Int&gt;</code>) does not return any values that the supertype (<code>Square&lt;Number&gt;</code>) doesn't return.</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val intSquare: Square&lt;Int&gt; = Square(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;val numSquare: Square&lt;Number&gt; = intSquare<br>&nbsp;&nbsp;&nbsp;&nbsp;println(numSquare.getItem())<br>}</code></p>
+        </div>
+        <h4>In</h4>
+        <p>Suppose we had a different Square class that can hold an item and compare it with another item:</p>
+        <div class="ln-flex-center">
+          <p><code>class Square&lt;in T&gt;(private val item: T) {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun compareValues(otherItem: T): Boolean = item == otherItem<br>}</code></p>
+        </div>
+        <p>Similar to what we did above, we can assign a <code>Square&lt;Number&gt;</code> to a variable of type <code>Square&lt;Int&gt;</code> because <code>Square&lt;Number&gt;</code> is a subtype of <code>Square&lt;Int&gt;</code> (because of the <code>in</code> modifier):</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val numSquare: Square&lt;Number&gt; = Square(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;val intSquare: Square&lt;Int&gt; = numSquare<br>}</code></p>
+        </div>
+        <p>For the same reason, we can also assign a <code>Square&lt;Number&gt;</code> to a variable of type <code>Square&lt;Double&gt;</code>:</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val numSquare: Square&lt;Number&gt; = Square(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;val intSquare: Square&lt;Int&gt; = numSquare<br>&nbsp;&nbsp;&nbsp;&nbsp;val doubleSquare: Square&lt;Double&gt; = numSquare<br>}</code></p>
+        </div>
+        <p>And <code>Square&lt;Double&gt;</code> can call <code>compareValues()</code> because the subtype (<code>Square&lt;Number&gt;</code>) does accept at least the same argument types that the supertype (<code>Square&lt;Double&gt;</code>) does.</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val numSquare: Square&lt;Number&gt; = Square(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;val intSquare: Square&lt;Int&gt; = numSquare<br>&nbsp;&nbsp;&nbsp;&nbsp;val doubleSquare: Square&lt;Double&gt; = numSquare<br>&nbsp;&nbsp;&nbsp;&nbsp;println(doubleSquare.compareValues(2.2))<br>}</code></p>
+        </div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
