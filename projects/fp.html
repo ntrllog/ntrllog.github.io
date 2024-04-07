@@ -37,6 +37,8 @@
         <li><a class="dropdown-item" href="#currying">Currying</a></li>
         <li><a class="dropdown-item" href="#polymorphic">Polymorphic Functions</a></li>
         <li><a class="dropdown-item" href="#generics">Generics</a></li>
+        <li><a class="dropdown-item" href="#abstractdatatypes">Abstract Data Types</a></li>
+        <li><a class="dropdown-item" href="#functionaldatastructures">Functional Data Structures</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -422,6 +424,126 @@
           <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val numSquare: Square&lt;Number&gt; = Square(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;val intSquare: Square&lt;Int&gt; = numSquare<br>&nbsp;&nbsp;&nbsp;&nbsp;val doubleSquare: Square&lt;Double&gt; = numSquare<br>&nbsp;&nbsp;&nbsp;&nbsp;println(doubleSquare.compareValues(2.2))<br>}</code></p>
         </div>
       </div>
+      <h2 id="abstractdatatypes">Abstract Data Types</h2>
+      <p>An abstract data type is a basic (abstract) description of a data structure. It specifies the type of data stored, the operations supported, and the types of parameters of the operations. Most importantly, an ADT specifies what each operation does, but not how the operation does it.</p>
+      <p>For example, a list is an abstract data type. We can say that the list holds Ints and that the operations we can perform on a list are to insert into and delete from the list. However, we are not specifying how the values of the list are stored, and we are not specifying how the insert and delete operations are implemented.</p>
+      <p>On the other hand, a linked list is a data structure. Each element in the list is a node that contains a value and a pointer to the next node (we're specifying how the values of the list are stored). Insertion and deletion of elements are performed by following each node's next pointer to traverse the linked list until the desired node is reached (we're specifying how the operations are implemented).</p>
+      <div class="ln-box">
+        <p>The set of behaviors supported by the ADT is referred to as its public interface.</p>
+      </div>
+      <h2 id="functionaldatastructures">Functional Data Structures</h2>
+      <p>Suppose we wanted to design an interface to compute expressions like `(1+2)+4`.</p>
+      <div class="ln-flex-center">
+        <p><code>interface Expr<br>class Num(val value: Int): Expr<br>class Sum(val left: Expr, val right: Expr): Expr</code></p>
+      </div>
+      <p>And to use this to represent `(1+2)+4`, it would look like this:</p>
+      <div class="ln-flex-center">
+        <p><code>Sum(Sum(Num(1), Num(2)), Num(4))</code></p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/expr.png">
+      </div>
+      <p>To actually evaluate the result of the expression, we can write a function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun eval(e: Expr): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;when(e) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Num -> e.value<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Sum -> eval(e.right) + eval(e.left)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -> throw IllegalArgumentException("Unknown expression")<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+      </div>
+      <p>And to call the function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;println(eval(Sum(Sum(Num(1), Num(2)), Num(4))))<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>We need to have the <code>else</code> part in the <code>when</code> expression because if new subclasses of <code>Expr</code> are created, the <code>when</code> expression needs to know how to handle those.</p>
+        <p>However, we may not want other people to create new subclasses of <code>Expr</code> (and typing that <code>else</code> part can be a little annoying). In Kotlin, we can create a sealed class so that only the classes that are compiled with <code>Expr</code> can be subclasses. We do this by adding <code>sealed</code> in front of the class/interface.</p>
+        <div class="ln-flex-center">
+          <p><code>sealed interface Expr<br>class Num(val value: Int): Expr<br>class Sum(val left: Expr, val right: Expr): Expr<br><br>fun eval(e: Expr): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;when(e) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Num -> e.value<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Sum -> eval(e.right) + eval(e.left)<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+        </div>
+      </div>
+      <p>Recall that in functional programming, data is not modified. This means that functional data structures must be immutable. So we can't use arrays, (imperative) linked lists, etc.</p>
+      <p>Notice in the <code>Expr</code> example, when evaluating the result of the expression, we never changed any values. We sorta "passed it up the chain".</p>
+      <p>In principle, if we want to perform insert or delete operations on functional data structures, we make a new copy based on the inputs but with the desired changes, leaving the inputs unmodified.</p>
+      <h3>Singly Linked List</h3>
+      <p>Linked lists are a common functional data structure because</p>
+      <ul>
+        <li>they're persistent</li>
+        <li>prepending (producing a new list) is `O(1)`</li>
+        <li>building an `n`-element list is `O(n)`</li>
+      </ul>
+      <div class="ln-box">
+        <p>We can see why by comparing it to an array list, both the mutable and immutable versions.</p>
+        <p>For the mutable array list:</p>
+        <ul>
+          <li>prepending is `O(n)` because everything has to be shifted over</li>
+          <li>while appending is usually `O(1)`, it can be `O(n)` if the array list is full (we have to create a bigger array list to add the new element)
+            <ul>
+              <li>in the worst case, it's `O(n^2)` (think about starting with an array list of size `1` and appending)</li>
+            </ul>
+          </li>
+        </ul>
+        <p>For the immutable array list:</p>
+        <ul>
+          <li>a new array has to be created for each insert/delete operation, so building the list is `O(n^2)`</li>
+        </ul>
+      </div>
+      <p>Here's how a functional singly linked list could be implemented:</p>
+      <div class="ln-flex-center">
+        <p><code>sealed class MyList&lt;out A&gt;<br>object MyNil: MyList&lt;Nothing&gt;()<br>data class MyCons&lt;out A&gt;(val head: A, val tail: MyList&lt;A&gt;): MyList&lt;A&gt;()</code></p>
+      </div>
+      <p>The object and the data class represent the two possibilities that a list can be. The <code>MyNil</code> object represents an empty list and <code>MyCons</code> represents a non-empty list. (Cons is short for "construct".) If there is only one item in the list, the tail is <code>MyNil</code>.</p>
+      <div class="ln-box">
+        <p>In Kotlin, <code>Nothing</code> is a subtype of every type. So by using the <code>out</code> annotation, <code>MyList&lt;Nothing&gt;</code> is a subtype of lists of any other types.</p>
+      </div>
+      <p>This is what it looks like to create a list:</p>
+      <div class="ln-flex-center">
+        <p><code>val l: MyList&lt;Int&gt; = MyCons(1, MyCons(2, MyCons(3, MyNil)))</code></p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/cons.png">
+      </div>
+      <p>It is a little bit complicated to create lists this way. We can make it easier by creating a function similar to Kotlin's <code>listOf()</code> function.</p>
+      <div class="ln-flex-center">
+        <p><code>sealed class MyList&lt;out A&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;companion object {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fun &lt;A&gt; of(vararg aa: A): MyList&lt;A&gt; {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val tail = aa.sliceArray(1 until aa.size)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return if (aa.isEmpty()) MyNil else MyCons(aa[0], of(*tail))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val l = MyList.of(1, 4, 22, -30, 1)<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>A companion object is a singleton object whose properties and functions are not tied to an instance of the class. This means that we can call a companion object's functions without having to create an instance of the class first. Basically, think of <code>static</code> in Java.</p>
+        <p><code>vararg</code> specifies that the parameter will be an array*, where the number of elements can vary depending on how many arguments are passed. This makes the <code>of()</code> function a variadic function, meaning that it can accept zero or more arguments.</p>
+        <p>The <code>*</code> in <code>MyCons(aa[0], of(*tail))</code> is the "spread operator", which passes the contents of an array as an argument to a function.</p>
+        <p>*Wait a minute, didn't I say arrays weren't allowed in functional programming? In this case, the array isn't being changed (only consumed) so no data is being modified.</p>
+      </div>
+      <p>In addition (😏), we can define functions to compute the sum (😏) and product of all the elements in our list.</p>
+      <div class="ln-flex-center">
+        <p><code>fun sum(ints: MyList&lt;Int&gt;): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (ints) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; 0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt; ints.head + sum(ints.tail)<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun product(doubles: MyList&lt;Double&gt;): Double =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (doubles) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; 1.0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (doubles.head == 0.0) 0.0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else doubles.head * product(doubles.tail)<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val ints = MyList.of(1, 4, 22, -30, 1)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(MyList.sum(ints))<br>&nbsp;&nbsp;&nbsp;&nbsp;val doubles = MyList.of(1.0, 4.0, 22.0, -30.0, 1.0)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(MyList.product(doubles))<br>}</code></p>
+      </div>
+      <h3>Data Sharing</h3>
+      <p>Now for the million-dollar question: since <code>MyList</code> is a functional data structure, how do we add and remove elements from <code>MyList</code>?</p>
+      <p>Let's say we wanted to add an element to the front of a list. In this case, we return a new list with the element we want to add as the head and the existing list as the tail:</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; prepend(l: MyList&lt;A&gt;, e: A): MyList&lt;A&gt; = MyCons(e, l)</code></p>
+      </div>
+      <p>If we want to remove an element from the front of a list, we return the list's tail:</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; premove(l: MyList&lt;A&gt;): MyList&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (l) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt; l.tail<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; MyNil<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>To insert and remove at any index:</p>
+        <div class="ln-flex-center">
+          <p><code>fun &lt;A&gt; insertAt(l: MyList&lt;A&gt;, index: Int, e: A): MyList&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (l) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (index == 0) MyCons(e, l)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else MyCons(l.head, insertAt(l.tail, index - 1, e))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; throw IndexOutOfBoundsException("Index out of bounds")<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>fun &lt;A&gt; removeAt(l: MyList&lt;A&gt;, index: Int): MyList&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (l) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (index == 0) l.tail<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else MyCons(l.head, removeAt(l.tail, index - 1))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; throw IndexOutOfBoundsException("Index out of bounds")<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+        </div>
+        <p>Basically, we recursively traverse the list until we reach the desired index.</p>
+      </div>
+      <p>A (perhaps) subtle thing to note here is that we're not actually creating new lists and copying over the values from the existing list to the new list; We're reusing the reference to the existing list. This is called data sharing.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
