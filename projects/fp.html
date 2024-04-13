@@ -481,7 +481,7 @@
         </ul>
         <p>For the immutable array list:</p>
         <ul>
-          <li>a new array has to be created for each insert/delete operation, so building the list is `O(n^2)`</li>
+          <li>a new array has to be created for each insert/delete operation, so building a new list is `O(n)` and doing this for `n` operations makes it `O(n^2)`</li>
         </ul>
       </div>
       <p>Here's how a functional singly linked list could be implemented:</p>
@@ -536,10 +536,10 @@
       <div class="ln-box">
         <p>To insert and remove at any index:</p>
         <div class="ln-flex-center">
-          <p><code>fun &lt;A&gt; insertAt(l: MyList&lt;A&gt;, index: Int, e: A): MyList&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (l) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (index == 0) MyCons(e, l)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else MyCons(l.head, insertAt(l.tail, index - 1, e))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; throw IndexOutOfBoundsException("Index out of bounds")<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+          <p><code>fun &lt;A&gt; insertAt(l: MyList&lt;A&gt;, index: Int, e: A): MyList&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (l) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (index == 0) MyCons(e, l)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else MyCons(l.head, insertAt(l.tail, index - 1, e))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; MyNil<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
         </div>
         <div class="ln-flex-center">
-          <p><code>fun &lt;A&gt; removeAt(l: MyList&lt;A&gt;, index: Int): MyList&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (l) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (index == 0) l.tail<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else MyCons(l.head, removeAt(l.tail, index - 1))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; throw IndexOutOfBoundsException("Index out of bounds")<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+          <p><code>fun &lt;A&gt; removeAt(l: MyList&lt;A&gt;, index: Int): MyList&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (l) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (index == 0) l.tail<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else MyCons(l.head, removeAt(l.tail, index - 1))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; MyNil<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
         </div>
         <p>Basically, we recursively traverse the list until we reach the desired index.</p>
       </div>
