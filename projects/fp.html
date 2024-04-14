@@ -39,6 +39,7 @@
         <li><a class="dropdown-item" href="#generics">Generics</a></li>
         <li><a class="dropdown-item" href="#abstractdatatypes">Abstract Data Types</a></li>
         <li><a class="dropdown-item" href="#functionaldatastructures">Functional Data Structures</a></li>
+        <li><a class="dropdown-item" href="#errorhandling">Error Handling</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -544,6 +545,76 @@
         <p>Basically, we recursively traverse the list until we reach the desired index.</p>
       </div>
       <p>A (perhaps) subtle thing to note here is that we're not actually creating new lists and copying over the values from the existing list to the new list; We're reusing the reference to the existing list. This is called data sharing.</p>
+      <h2 id="errorhandling">Error Handling</h2>
+      <div class="ln-box">
+        <p>A quick note about semantics. An error is a problem that is caused by something out of the application's control. Examples are out-of-memory errors and stack overflows. An exception is an event that an application can catch. These are the errors from try/catch blocks.</p>
+        <p>This section is really going over "exceptions", not "errors". But I'll use them interchangeably.</p>
+      </div>
+      <p>As mentioned in the "Side Effects" section, throwing an exception is not functional programming. This is because throwing an exception interrupts the normal flow of the program, so now whatever was in charge of running the application has to change what it was expecting (normal execution) and deal with it.</p>
+      <h3>Exceptions Break Referential Transparency</h3>
+      <p>Recall that referential transparency is the ability to replace an expression with a constant value if the expression will always evaluate to the same value.</p>
+      <p>Throwing exceptions break referential transparency. Consider this function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun idkWhatThisDoes(): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;val y: Int = throw Exception("boom")<br>&nbsp;&nbsp;&nbsp;&nbsp;return try {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val x = 42 + 5<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x + y<br>&nbsp;&nbsp;&nbsp;&nbsp;} catch (e: Exception) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;43<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</code></p>
+      </div>
+      <p>If we call this function, we will get an error message at runtime: 'Exception in thread "main" java.lang.Exception: boom'.</p>
+      <p>If this function was referentially transparent, we should be able to replace <code>y</code> with its value without changing the result of the function call.</p>
+      <div class="ln-flex-center">
+        <p><code>fun idkWhatThisDoes(): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;return try {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val x = 42 + 5<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x + (throw Exception("boom")) as Int<br>&nbsp;&nbsp;&nbsp;&nbsp;} catch (e: Exception) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;43<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</code></p>
+      </div>
+      <p>However, if we call this function, the exception will be caught and `43` will be printed out.</p>
+      <div class="ln-box">
+        <p>The meaning/value of a referentially transparent expression does not depend on context and can be reasoned about locally. While the meaning/value of a non-referentially transparent expression is context dependent and needs more global reasoning.</p>
+        <p>For example, the meaning of the expression <code>throw Exception("boom")</code> takes on different meanings depending on which <code>try</code> block it's nested inside.</p>
+      </div>
+      <div class="ln-box">
+        <p>Note that this does not mean that try/catch blocks cannot be used in functional programming. We can still use try/catch blocks; We just can't throw exceptions.</p>
+      </div>
+      <h3>Dealing with Exceptions</h3>
+      <p>Exceptions can't be avoided, but if they can't be thrown, then how do we deal with them?</p>
+      <p>Consider this function where we might want to handle the exception of dividing by `0`:</p>
+      <div class="ln-flex-center">
+        <p><code>fun mean(xs: List&lt;Double&gt;): Double =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (xs.isEmpty()) throw ArithmeticException("cannot get mean of empty list")<br>&nbsp;&nbsp;&nbsp;&nbsp;else xs.sum() / xs.size</code></p>
+      </div>
+      <div class="ln-box">
+        <p>This mean function is a partial function. That is, it doesn't always produce an output for any input values. In this case, it doesn't return a value for an empty list.</p>
+      </div>
+      <h4>Approach 1: Sentinel Value</h4>
+      <p>Instead of throwing the exception, we can return some dummy value, like null, `-1`, or <code>Double.NaN</code>.</p>
+      <div class="ln-flex-center">
+        <p><code>fun mean(xs: List&lt;Double&gt;): Double =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (xs.isEmpty()) Double.NaN<br>&nbsp;&nbsp;&nbsp;&nbsp;else xs.sum() / xs.size</code></p>
+      </div>
+      <h4>Drawbacks of Using a Sentinel Value</h4>
+      <p>The caller may forget to check if the sentinel value was returned and treat it as a normal value, resulting in logic errors.</p>
+      <p>If using polymorphic code, there may not be a sentinel value of the correct type for certain output types. For example, if the function is taking in a list of <code>A</code>s, we can't invent a value of type <code>A</code>.</p>
+      <h4>Approach 2: Supplied Default Value</h4>
+      <p>Instead of us deciding what to return, we can pass the decision over to the caller.</p>
+      <div class="ln-flex-center">
+        <p><code>fun mean(xs: List&lt;Double&gt;, onEmpty: Double): Double =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (xs.isEmpty()) onEmpty<br>&nbsp;&nbsp;&nbsp;&nbsp;else xs.sum() / xs.size</code></p>
+      </div>
+      <h4>Approach 3: New Classes (Preferred Approach)</h4>
+      <p>Instead of returning predefined values, we can create our own values to represent errors (and successes).</p>
+      <h5>Option</h5>
+      <div class="ln-flex-center">
+        <p><code>sealed class Option&lt;out A&gt;<br>data class Some&lt;out A&gt;(val get: A): Option&lt;A&gt;()<br>object None: Option&lt;Nothing&gt;()</code></p>
+      </div>
+      <p>When a function is defined for an input, a <code>Some</code> object is returned. When a function is undefined for an input, the <code>None</code> object is returned.</p>
+      <p>Applying this to our mean function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun mean(xs: List&lt;Double&gt;): Option&lt;Double&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (xs.isEmpty()) None<br>&nbsp;&nbsp;&nbsp;&nbsp;else Some(xs.sum() / xs.size)</code></p>
+      </div>
+      <h5>Drawbacks of Using Option</h5>
+      <p>An <code>Option</code> doesn't tell us anything about what went wrong or why the error occurred.</p>
+      <h5>Either</h5>
+      <div class="ln-flex-center">
+        <p><code>sealed class Either&lt;out E, out A&gt;<br>data class Left&lt;out E&gt;(val value: E): Either&lt;E, Nothing&gt;()<br>data class Right&lt;out A&gt;(val value: A): Either&lt;Nothing, A&gt;()</code></p>
+      </div>
+      <p>For successful function calls, we return a <code>Right</code> object (because it's right!). For errors, we return a <code>Left</code> object (because it's not right!).</p>
+      <p>The <code>Either</code> data type has two values. The left (type <code>E</code>) is the value representing an error and the right (type <code>A</code>) is the value representing the result of a function.</p>
+      <p>Applying this to our mean function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun mean(xs: List&lt;Double&gt;): Either&lt;String, Double&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (xs.isEmpty()) Left("cannot get mean of empty list")<br>&nbsp;&nbsp;&nbsp;&nbsp;else Right(xs.sum() / xs.size)</code></p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
