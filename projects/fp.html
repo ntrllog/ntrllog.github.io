@@ -40,6 +40,7 @@
         <li><a class="dropdown-item" href="#abstractdatatypes">Abstract Data Types</a></li>
         <li><a class="dropdown-item" href="#functionaldatastructures">Functional Data Structures</a></li>
         <li><a class="dropdown-item" href="#errorhandling">Error Handling</a></li>
+        <li><a class="dropdown-item" href="#strictnessnlaziness">Strictness and Laziness</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -615,6 +616,60 @@
       <div class="ln-flex-center">
         <p><code>fun mean(xs: List&lt;Double&gt;): Either&lt;String, Double&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (xs.isEmpty()) Left("cannot get mean of empty list")<br>&nbsp;&nbsp;&nbsp;&nbsp;else Right(xs.sum() / xs.size)</code></p>
       </div>
+      <h2 id="strictnessnlaziness">Strictness and Laziness</h2>
+      <p>Strict evaluation means that expressions are evaluated and bound to variables when they are defined. Lazy evaluation means that expressions are evaluated only when they are used. Note that this means a variable can be assigned an expression, but that expression may not necessarily be evaluated. I promise this makes more sense with examples.</p>
+      <p>Stepping away from Kotlin for just a second, consider this line of code in some language:</p>
+      <div class="ln-flex-center">
+        <p><code>print length([2+1, 3*2, 1/0, 5-4])</code></p>
+      </div>
+      <p>Under strict evaluation, this results in an error because the <code>1/0</code> part will be evaluated right away. But under lazy evaluation, this line of code will print `4` since the values of the elements in the list aren't needed for the <code>length()</code> function.</p>
+      <p>In fact, we're more familiar with lazy evaluation than we might think. The short-circuiting logic in the <code>&&</code> and <code>||</code> operators are examples of lazy evaluation.</p>
+      <div class="ln-flex-center">
+        <p><code>if(3 == 4 && a &lt; b)  // a &lt; b is not evaluated<br>if(3 == 3 || a &lt; b) // a &lt; b is not evaluated</code></p>
+      </div>
+      <div class="ln-box">
+        <p>As we can see above, the <code>if</code> control construct can be non-strict.</p>
+        <p>The <code>if/else</code> statement is a little more interesting. The <code>if</code> part is strict since it will always evaluate the condition to know which branch to take. But as a whole, the two branches are non-strict since only one branch will ever be evaluated.</p>
+      </div>
+      <h3>Lazy Behavior With Functions</h3>
+      <p>Functions can be non-strict where they accept arguments without evaluating them. This is done by having the functions take functions (rather than values) as arguments and calling the functions only when needed.</p>
+      <p>This is an example of a non-strict function:</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; lazyIf(cond: Boolean, onTrue: () -&gt; A, onFalse: () -&gt; A): A =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (cond) onTrue() else onFalse()</code></p>
+      </div>
+      <p>To verify that this is actually a non-strict function, we can take advantage of print statements:</p>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;var a = 21<br>&nbsp;&nbsp;&nbsp;&nbsp;val y = lazyIf((a &lt; 22), { println("a") }, { println("b") })<br>&nbsp;&nbsp;&nbsp;&nbsp;a = 22<br>&nbsp;&nbsp;&nbsp;&nbsp;val z = lazyIf((a &lt; 22), { println("a") }, { println("b") })<br>}</code></p>
+      </div>
+      <p>What is printed is <code>a</code> and <code>b</code> (each only once). If this wasn't a non-strict function, then each of <code>a</code> and <code>b</code> would've been printed twice since the arguments would have been evaluated right away.</p>
+      <div class="ln-box">
+        <p>The unevaluated form of an expression is called a "thunk". More precisely, a thunk is a function wrapper around the expression we want to delay the evaluation of.</p>
+      </div>
+      <h3>Lazy Behavior With Ranges</h3>
+      <p>Consider this code:</p>
+      <div class="ln-flex-center">
+        <p><code>val r: LongRange = 1..1000000000000</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;println(r)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(r.take(5))<br>&nbsp;&nbsp;&nbsp;&nbsp;println(r.take(5000000))<br>}</code></p>
+      </div>
+      <p>The output of the first <code>println()</code> is `1...1000000000000`. The output of the second <code>println()</code> is `[1, 2, 3, 4, 5]`. But the third <code>println()</code> fails because there should not be enough memory to store `5,000,000` numbers.</p>
+      <p>Notice that there was not enough memory for `5,000,000` numbers, but running <code>val r: LongRange = 1..1000000000000</code> was fine. This shows that the range isn't evaluated right away; only when it's used.</p>
+      <h3>Lazy Initialization in Kotlin</h3>
+      <p>Lazy initialization is the tactic of delaying the creation of an object, calculation of a value, or execution of an expensive process until the first time it is needed. Kotlin has a built-in function called <code>lazy</code> to accomplish this.</p>
+      <p>First, we'll look at greedy initialization.</p>
+      <div class="ln-flex-center">
+        <p><code>fun maybeTwice(b: Boolean, i: () -&gt; Int) = if (b) i() + i() else 0</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val x = maybeTwice(true, { println("hi"); 1 + 41 })<br>}</code></p>
+      </div>
+      <p>Here, we're passing in a function that prints "hi" and evaluates to `42`. <code>maybeTwice()</code> takes in that function and calls it twice, which means that "hi" will be printed twice.</p>
+      <p>Calling the function twice should result in the same thing. So why should we spend time running the function a second time if we already know its value? This is where <code>lazy</code> comes in.</p>
+      <div class="ln-flex-center">
+        <p><code>fun maybeTwiceLazy(b: Boolean, i: () -&gt; Int) {<br>&nbsp;&nbsp;&nbsp;&nbsp;val j: Int by lazy(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;if (b) j + j else 0<br>}</code></p>
+      </div>
+      <p>The first time <code>j</code> is referenced, it calls the function <code>i()</code>. The value of <code>j</code> is then cached so that when <code>j</code> is called the second time, it refers to the cached value instead of running <code>i()</code> again. And we can verify this with the same <code>main()</code> code above to see that "hi" is printed only once.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
