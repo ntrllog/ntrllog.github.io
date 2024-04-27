@@ -670,6 +670,136 @@
         <p><code>fun maybeTwiceLazy(b: Boolean, i: () -&gt; Int) {<br>&nbsp;&nbsp;&nbsp;&nbsp;val j: Int by lazy(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;if (b) j + j else 0<br>}</code></p>
       </div>
       <p>The first time <code>j</code> is referenced, it calls the function <code>i()</code>. The value of <code>j</code> is then cached so that when <code>j</code> is called the second time, it refers to the cached value instead of running <code>i()</code> again. And we can verify this with the same <code>main()</code> code above to see that "hi" is printed only once.</p>
+      <h3>Lazy Lists</h3>
+      <p>From here, we'll continue by looking at a problem and building up the pieces towards a solution.</p>
+      <p>Consider this line of code:</p>
+      <div class="ln-flex-center">
+        <p><code>listOf(1, 2, 3, 4).map{ it + 10 }.filter{ it % 2 == 0 }.map{ it * 3 }</code></p>
+      </div>
+      <p>We start with a list of `[1,2,3,4]`, add `10` to each number, get only the even numbers, and multiply those even numbers by `3`. Under the hood, multiple lists are being created at each step.</p>
+      <ol>
+        <li><code>map{ it + 10 }</code> creates an intermediate list (`[11,12,13,14]`)</code></li>
+        <li><code>filter{ it % 2 == 0 }</code> creates an intermediate list (`[12,14]`)</code></li>
+        <li><code>map{ it * 3 }</code> creates the final list (`[36,42]`)</code></li>
+      </ol>
+      <p>The problem with this is that it's inefficient to create intermediate lists that are used only as inputs to the next step and never used again. We can run into memory issues if the intermediate lists are very large.</p>
+      <p>We can avoid this problem of creating temporary data structures by using laziness to combine sequences of transformations into a single pass.</p>
+      <div class="ln-box">
+        <p>Imagine that we had a deck of cards and we were asked (by a magician I guess) to remove all the odd-numbered cards and then flip over all the queens. Naturally, we'd go through the deck one card at a time and check if the current card is odd or a queen. That way, we'd only need to go through the deck once.</p>
+        <p>It would be inefficient to go through the deck and pick out all the odd numbers first, then go through what's left of the deck and flip over all the queens. This is what's happening with the code above.</p>
+      </div>
+      <h3>Stream</h3>
+      <p>We'll create a <code>Stream</code> to store the elements in a way that is convenient to perform transformations on them.</p>
+      <div class="ln-flex-center">
+        <p><code>sealed class Stream&lt;out A&gt;<br>data class Cons&lt;out A&gt; (<br>&nbsp;&nbsp;&nbsp;&nbsp;val head: () -&gt; A,<br>&nbsp;&nbsp;&nbsp;&nbsp;val tail: () -&gt; Stream&lt;A&gt;<br>): Stream&lt;A&gt;()<br>object Empty: Stream&lt;Nothing&gt;()</code></p>
+      </div>
+      <div class="ln-box">
+        <p>This is very similar to the implemention of a singly linked list (see the "Singly Linked List" section). The only difference is that the <code>Cons</code> in <code>MyList</code> takes input parameters that are already evaluated, while the <code>Cons</code> in <code>Stream</code> takes input parameters that are thunks instead of strict values.</p>
+      </div>
+      <p>Since the head is a function, we need a way to evaluate the function when we need its value. We'll do this with an extension function called <code>headOption()</code>:</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; Stream&lt;A&gt;.headOption(): Option&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (this) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Empty -&gt; None<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Cons -&gt; Some(head())<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>Recall that back in the "Dealing with Exceptions" section, we created an <code>Option</code> class to represent errors and successes. Here is the implementation again:</p>
+        <div class="ln-flex-center">
+          <p><code>sealed class Option&lt;out A&gt;<br>data class Some&lt;out A&gt;(val get: A): Option&lt;A&gt;()<br>object None: Option&lt;Nothing&gt;()</code></p>
+        </div>
+        <p>Here, we'll add an extension function called <code>getOrElse()</code> that tries to get the value of an <code>Option</code>, or the user-provided default value if there is no value.</p>
+        <div class="ln-flex-center">
+          <p><code>fun &lt;A&gt; Option&lt;A&gt;.getOrElse(default: () -&gt; A): A =<br>&nbsp;&nbsp;&nbsp;&nbsp;when(this) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Some -&gt; this.get<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is None -&gt; default()<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+        </div>
+        <p>We're using an <code>Option</code> to handle the case of returning the head of an empty list.</p>
+      </div>
+      <p>And we'll need a way to create a <code>Stream</code> with elements:</p>
+      <div class="ln-flex-center">
+        <p><code>sealed class Stream&lt;out A&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;companion object {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fun &lt;A&gt; of(vararg xs: A): Stream&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (xs.isEmpty()) empty()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else cons({ xs[0] }, { of(*xs.sliceArray(1 until xs.size)) })<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fun &lt;A&gt; empty(): Stream&lt;A&gt; = Empty<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fun &lt;A&gt; cons(hd: () -&gt; A, tl: () -&gt; Stream&lt;A&gt;): Stream&lt;A&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val head: A by lazy(hd)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val tail: Stream&lt;A&gt; by lazy(tl)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Cons({ head }, { tail })<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <p><code>{ xs[0] }</code> is shorthand for creating a function that takes no arguments and returns <code>xs[0]</code>.</p>
+      </div>
+      <p>Here's an example of creating a <code>Stream</code>:</p>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val s1 = Empty<br>&nbsp;&nbsp;&nbsp;&nbsp;println(s1)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(s1.headOption().getOrElse({"No Value Found"}))<br>&nbsp;&nbsp;&nbsp;&nbsp;val s2 = Stream.of(1, 2, 3, 4, 5)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(s2)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(s2.headOption().getOrElse({"No Value Found"}))<br>}</code></p>
+      </div>
+      <p>(Note: this won't work in the Kotlin playground.) And this is the output:</p>
+      <div class="ln-flex-center">
+        <p><code>Empty@12edcd21<br>No Value Found<br>Cons(head=Function0&lt;A&gt;, tail=Function0&lt;Stream&lt;? extends A&gt;&gt;)<br>1</code></p>
+      </div>
+      <div class="ln-box">
+        <p>We can write a function to check if an element exists in a <code>Stream</code>.</p>
+        <div class="ln-flex-center">
+          <p><code>fun exists(p: (A) -&gt; Boolean): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (this) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Cons -&gt; p(this.head()) || this.tail().exists(p)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; false<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val x = Stream.of("a", "b", "c", "d")<br>&nbsp;&nbsp;&nbsp;&nbsp;println(x.exists{ it == "a" })<br>&nbsp;&nbsp;&nbsp;&nbsp;println(x.exists{ it == "e" })<br>}</code></p>
+        </div>
+        <p>One thing to note here is that if the function being passed to <code>exists()</code> returns true for an element, then any elements after it are never evaluated. #laziness</p>
+      </div>
+      <div class="ln-box">
+        <p>Kotlin's <code>fold()</code> function takes in two parameters: 1) an initial value for an accumulator and 2) a function that is applied to each element in the list.</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val x = listOf(1, 2, 3, 4, 5)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(x.fold(0, {acc: Int, i: Int -&gt; acc + i }))<br>}</code></p>
+        </div>
+      </div>
+      <p>Now this is where everything starts to come together. Recall that the problem we were trying to solve was to not create intermediate lists for code like this:</p>
+      <div class="ln-flex-center">
+        <p><code>listOf(1, 2, 3, 4).map{ it + 10 }.filter{ it % 2 == 0 }.map{ it * 3 }</code></p>
+      </div>
+      <p>Referring back to the card analogy, what we would like to do is to look at the list one element at a time, perform all those transformations on that element, and add the result to the final list. We can do this by building off of the idea behind Kotlin's <code>fold()</code> function.</p>
+      <p>We'll need a custom fold-like function that works with our <code>Stream</code>.</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;B&gt; foldRight(z: () -&gt; B, f: (A, () -&gt B) -&gt; B): B =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (this) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Cons -&gt; f(this.head()) { this.tail().foldRight(z, f) }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Empty -&gt; z()<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>There is another generic parameter <code>B</code> so that the return type does not need to be the same as the type of the items in the <code>Stream</code>.</p>
+      </div>
+      <p><code>z()</code> acts as the accumulator and <code>f()</code> is the function that is applied to each element in the <code>Stream</code>.</p>
+      <div class="ln-box">
+        <p>Here's an example of using <code>foldRight()</code> to find the sum of a <code>Stream</code> of Ints:</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val z: Stream&lt;Int&gt; = Stream.of(1, 2, 3, 2, 4, 6)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(z.foldRight({ 0 }, { a, b -&gt; a + b() }))<br>}</code></p>
+        </div>
+        <p>Here's an example of using <code>foldRight()</code> to implement an exists function:</p>
+        <div class="ln-flex-center">
+          <p><code>fun existsUsingFoldRight(p: (A) -&gt; Boolean): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;foldRight({ false }, { a, b -&gt; p(a) || b() })</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val x = Stream.of(1, 2, 3, 4, 5)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(x.existsUsingFoldRight{ it == 3 })<br>}</code></p>
+        </div>
+      </div>
+      <p>Now, instead of using Kotlin's <code>filter()</code> and <code>map()</code>, we can use <code>foldRight()</code> to write our own versions of filter and map that work with our <code>Stream</code>.</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A, B&gt; Stream&lt;A&gt;.map(f: (A) -&gt; B): Stream&lt;B&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;this.foldRight(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ Stream.empty&lt;B&gt;() },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ h, t -&gt; Stream.cons({ f(h) }, t) }<br>&nbsp;&nbsp;&nbsp;&nbsp;)</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; Stream&lt;A&gt;.filter(f: (A) -&gt; Boolean): Stream&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;this.foldRight(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ Stream.empty&lt;A&gt;() },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ h, t -&gt; if (f(h)) Stream.cons({ h }, t) else t() }<br>&nbsp;&nbsp;&nbsp;&nbsp;)</code></p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="">
+      </div>
+      <div class="ln-box">
+        <p>To make a <code>Stream</code> easier to see, we'll create a function that converts a <code>Stream</code> to a list:</p>
+        <div class="ln-flex-center">
+          <p><code>fun &lt;A&gt; examineStream(s: Stream&lt;A&gt;): List&lt;A&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(s: Stream&lt;A&gt;, acc: List&lt;A&gt;): List&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;when (s) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Empty -&gt; acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Cons -&gt; helper(s.tail(), acc + listOf(s.head()))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return helper(s, emptyList&lt;A&gt;())<br>}</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val x = Stream.of(1, 2, 3, 4, 5)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(examineStream(x.map{ it + 3 }))<br>&nbsp;&nbsp;&nbsp;&nbsp;println(examineStream(x.filter{ it &gt; 3 }))<br>}</code></p>
+        </div>
+      </div>
+      <p>With these versions of filter and map, we have now solved the problem of creating temporary lists! Let's look at the steps involved for</p>
+      <div class="ln-flex-center">
+        <p><code>Stream.of(1, 2, 3, 4).map{ it + 10 }.filter{ it % 2 == 0 }.map{ it * 3 }</code></p>
+      </div>
+      <ol>
+        <li><code>Stream.of(1, 2, 3, 4).map{ it + 10 }.filter{ it % 2 == 0 }.map{ it * 3 }</code></li>
+        <li><code>Cons({ 11 }, { Stream.of(2, 3, 4).map{ it + 10 } }).filter{ it % 2 == 0 }.map{ it * 3 }</code></li>
+        <li><code>Stream.of(2, 3, 4).map{ it + 10 }.filter{ it % 2 == 0 }.map{ it * 3 }</code></li>
+        <li><code>Cons({ 12 }, { Stream.of(3, 4).map{ it + 10 } }).filter{ it % 2 == 0 }.map{ it * 3 }</code></li>
+        <li><code>Cons({ 12 }, { Stream.of(3, 4).map{ it + 10 }.filter{ it % 2 == 0} }).map{ it * 3 }</code></li>
+        <li><code>Cons({ 36 }, { Stream.of(3, 4).map{ it + 10 }.filter{ it % 2 == 0}.map{ it * 3 } })</code></li>
+      </ol>
+      <p>This is what (I believe) it actually looks like at the end. We only applied all the transformations on the first element, and if it didn't make it through all of them, then we moved on to the next element until that element completed all the transformations. The transformations aren't applied to the rest of the elements until they need to be (e.g., when <code>examineStream()</code> is calling <code>s.tail()</code>).</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
