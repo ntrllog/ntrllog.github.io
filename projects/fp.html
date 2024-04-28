@@ -41,6 +41,8 @@
         <li><a class="dropdown-item" href="#functionaldatastructures">Functional Data Structures</a></li>
         <li><a class="dropdown-item" href="#errorhandling">Error Handling</a></li>
         <li><a class="dropdown-item" href="#strictnessnlaziness">Strictness and Laziness</a></li>
+        <li><a class="dropdown-item" href="#corecursion">Corecursion</a></li>
+        <li><a class="dropdown-item" href="#memoization">Memoization</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -800,6 +802,104 @@
         <li><code>Cons({ 36 }, { Stream.of(3, 4).map{ it + 10 }.filter{ it % 2 == 0}.map{ it * 3 } })</code></li>
       </ol>
       <p>This is what (I believe) it actually looks like at the end. We only applied all the transformations on the first element, and if it didn't make it through all of them, then we moved on to the next element until that element completed all the transformations. The transformations aren't applied to the rest of the elements until they need to be (e.g., when <code>examineStream()</code> is calling <code>s.tail()</code>).</p>
+      <h2 id="corecursion">Corecursion</h2>
+      <p>Corecursion is kinda the opposite of recursion in a way. It uses recursion to generate data instead of, well, whatever you decide to use recursion for. It may seem weird, but there's no base case or termination condition in corecursion. This allows us to create infinite data structures that aren't actually infinite.</p>
+      <div class="ln-flex-center">
+        <p><code>fun ones(): Stream&lt;Int&gt; = Stream.cons({ 1 }, { ones() })</code></p>
+      </div>
+      <div class="ln-box">
+        <p>We can define a function to take `n` elements from an infinite <code>Stream</code>.</p>
+        <div class="ln-flex-center">
+          <p><code>fun &lt;A&gt; Stream&lt;A&gt;.take(n: Int): Stream&lt;A&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun helper(xs: Stream&lt;A&gt;, n: Int): Stream&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;when(xs) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Empty -&gt; Stream.empty()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Cons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n == 0) Stream.empty()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else Stream.cons(xs.head, { helper(xs.tail(), n-1) })<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return helper(this, n)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;println(examineStream(ones().take(100)))<br>}</code></p>
+        </div>
+      </div>
+      <p>We can have something a little more useful than an infinite <code>Stream</code> of just `1`s.</p>
+      <div class="ln-flex-center">
+        <p><code>fun countUp(n: Int): Stream&lt;Int&gt; = Stream.cons({ n }, { countUp(n+1) })</code></p>
+      </div>
+      <h2 id="memoization">Memoization</h2>
+      <p>Let's look at the classic example of calculating the Fibonacci numbers.</p>
+      <div class="ln-box">
+        <p>The Fibonacci numbers are defined by:</p>
+        <div class="ln-center">
+          <p>`F_0=0`, `F_1=1`</p>
+          <p>`F_n=F_(n-1)+F_(n-2)`</p>
+        </div>
+        <p>The first `11` Fibonacci numbers are:</p>
+        <table class="table table-bordered ln-center">
+          <tr>
+            <td>`F_0`</td>
+            <td>`F_1`</td>
+            <td>`F_2`</td>
+            <td>`F_3`</td>
+            <td>`F_4`</td>
+            <td>`F_5`</td>
+            <td>`F_6`</td>
+            <td>`F_7`</td>
+            <td>`F_8`</td>
+            <td>`F_9`</td>
+            <td>`F_10`</td>
+          </tr>
+          <tr>
+            <td>`0`</td>
+            <td>`1`</td>
+            <td>`1`</td>
+            <td>`2`</td>
+            <td>`3`</td>
+            <td>`5`</td>
+            <td>`8`</td>
+            <td>`13`</td>
+            <td>`21`</td>
+            <td>`34`</td>
+            <td>`55`</td>
+          </tr>
+        </table>
+      </div>
+      <p>If we were to do this in code, it would look like this:</p>
+      <div class="ln-flex-center">
+        <p><code>fun naiveFibs(n: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (n &lt; 0) -1<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (n == 0) 0<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (n == 1) 1<br>&nbsp;&nbsp;&nbsp;&nbsp;else naiveFibs(n-2) + naiveFibs(n-1)</code></p>
+      </div>
+      <p>As can be inferrred from the name, this way of calculating the Fibonacci numbers is very inefficient. Consider the example of calculating the `5^(th)` Fibonacci number.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/fp/fibonacci.png">
+      </div>
+      <p>Look at how many of the calculations are repeated. Not only is it wasteful, it's actually time-consuming. Instead of recalculating the same values for which we already the answer, we can store them so that we can reuse them when we need to — this is memoization! We actually saw this in action in the "Lazy Initialization in Kotlin" section with Kotlin's <code>lazy</code> function.</p>
+      <p>We'll use our <code>Stream</code> to generate an infinite sequence of Fibonacci numbers.</p>
+      <div class="ln-box">
+        <p>While <code>Cons</code> objects (in a <code>Stream</code>) are evaluated only when forced, there's still a problem in that they are evaluated as many times as they are forced. Suppose we had some time-consuming function called <code>expensive()</code>.</p>
+        <div class="ln-flex-center">
+          <p><code>val x = Cons({ expensive(y) }, { tl })<br>val h1 = x.headOption()<br>val h2 = x.headOption()</code></p>
+        </div>
+        <p><code>expensive(y)</code> will be evaluated multiple times. To solve this, we'll use memoization to cache the value of a <code>Cons</code> once they are forced.</p>
+      </div>
+      <p>To utilize laziness, we'll define a smart constructor, which is a function for constructing a data type that has a slightly different signature than the real constructor.</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; cons(hd: () -&gt; A, tl: () -&gt; Stream&lt;A&gt;): Stream&lt;A&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;val head: A by lazy(hd)<br>&nbsp;&nbsp;&nbsp;&nbsp;val tail: Stream&lt;A&gt; by lazy(tl)<br>&nbsp;&nbsp;&nbsp;&nbsp;return Cons({ head }, { tail })<br>}</code></p>
+      </div>
+      <p>This ensures that the thunk will only be called once when forced for the first time. Subsequent forces will return the cached values from using <code>lazy</code>.</p>
+      <div class="ln-box">
+        <p>By convention, smart constructors are in the companion object of the base class. Their names are also the lowercase version of the corresponding data structure.</p>
+      </div>
+      <p>So this is how we would generate Fibonacci numbers without recalculating old Fibonacci numbers:</p>
+      <div class="ln-flex-center">
+        <p><code>fun fibsInfinity(): Stream&lt;Int&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun helper(curr: Int, nxt: Int): Stream&lt;Int&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stream.cons({ curr }, { helper(nxt, curr + nxt) })<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(0, 1)<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>To get the `n^(th)` Fibonacci number, we can drop the first `n-1` elements of the <code>Stream</code>. We'll need a drop function for this:</p>
+        <div class="ln-flex-center">
+          <p><code>fun &lt;A&gt; Stream&lt;A&gt;.drop(n: Int): Stream&lt;A&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(xs: Stream&lt;A&gt;, n: Int): Stream&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;when (xs) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Empty -&gt; Stream.empty()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Cons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n == 0) xs<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(xs.tail(), n-1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(this, n)<br>}</code></p>
+        </div>
+      </div>
+      <p>So here's the improved version of calculating Fibonacci numbers:</p>
+      <div class="ln-flex-center">
+        <p><code>fun lazyFibs(n: Int): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;val f = fibsInfinity().drop(n)<br>&nbsp;&nbsp;&nbsp;&nbsp;if (f is Cons) return f.head()<br>&nbsp;&nbsp;&nbsp;&nbsp;else return -1<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>The <code>naiveFibs()</code> function we defined earlier is `O(2^n)` while this <code>lazyFibs()</code> is `O(n)`.</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
