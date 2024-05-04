@@ -43,6 +43,7 @@
         <li><a class="dropdown-item" href="#strictnessnlaziness">Strictness and Laziness</a></li>
         <li><a class="dropdown-item" href="#corecursion">Corecursion</a></li>
         <li><a class="dropdown-item" href="#memoization">Memoization</a></li>
+        <li><a class="dropdown-item" href="#functionalstate">Functional State</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -900,6 +901,121 @@
       <div class="ln-box">
         <p>The <code>naiveFibs()</code> function we defined earlier is `O(2^n)` while this <code>lazyFibs()</code> is `O(n)`.</p>
       </div>
+      <h2 id="functionalstate">Functional State</h2>
+      <p>Program state refers to the values of the variables, data structures, and other information (e.g., the address of next line to execute, the status of I/O operations) that describe the current state of the program at a specific point in time. In functional programming, changes to program state are undesirable.</p>
+      <p>So to manipulate program state in a functional way, we view the program state as a transition or action that can be passed around. This keeps the state contained and localized.</p>
+      <h3>Generating Random Numbers</h3>
+      <p>We'll look at how to pass around state by looking at random number generation.</p>
+      <div class="ln-box">
+        <p>In programming, it's not really possible to generate numbers that are completely random. This is because deterministic algorithms are used to generate them. And these algorithms typically rely on an initial value, called a "seed". With this seed value, the entire "random" sequence of numbers can be reproduced.</p>
+        <p>For example, a fairly simple algorithm to generate pseudorandom numbers could look like this:</p>
+        <ol>
+          <li>Start with a seed</li>
+          <li>Multiply the seed by a constant</li>
+          <li>Add another constant</li>
+          <li>Take the result modulo the upper bound
+            <ul>
+              <li>the upper bound is the highest possible number that we want to generate</li>
+            </ul>
+          </li>
+          <li>Take the result and use it as the new seed</li>
+          <li>Repeat steps `2-4` to generate a sequence of numbers</li>
+        </ol>
+        <p>So this section is really looking at generating pseudorandom numbers with a pseudorandom number generator (PNRG).</p>
+      </div>
+      <p>If we wanted to generate random numbers in Kotlin, we would do something like this:</p>
+      <div class="ln-flex-center">
+        <p><code>val rng = kotlin.random.Random<br>println(rng.nextInt(10))<br>println(rng.nextInt(10))<br>println(rng.nextInt(10))</code></p>
+      </div>
+      <p>As we expect, `3` numbers will be printed. Also as we expect, if we run these lines again, then `3` potentially different numbers will be generated. Since calling the same function with the same inputs produces different outputs, <code>nextInt()</code> is not referentially transparent. While we don't know exactly how <code>nextInt()</code> is implemented, we can see that there is some sort of state mutation happening.</p>
+      <div class="ln-box">
+        <p>Why does this matter? Let's say we're writing a function that simulates the rolling of a six-sided die, i.e., the function should return a value between `1` and `6`, inclusive.</p>
+        <div class="ln-flex-center">
+          <p><code>fun rollDie(): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;val rng = kotlin.random.Random<br>&nbsp;&nbsp;&nbsp;&nbsp;return rng.nextInt(6)<br>}</code></p>
+        </div>
+        <p>There is an off-by-one error since <code>nextInt(6)</code> returns a number between `0` and `5`, inclusive. However, if we test this function, then `5` out of `6` times, it will look like it's working as intended.</p>
+      </div>
+      <p>Let's see how we can generate random numbers in a functional manner.</p>
+      <div class="ln-flex-center">
+        <p><code>interface RNG {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun nextInt(): Pair&lt;Int, RNG&gt;<br>}</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>data class SimpleRNG(val seed: Long): RNG {<br>&nbsp;&nbsp;&nbsp;&nbsp;override fun nextInt(): Pair&lt;Int, RNG&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val newSeed = (seed * 0x5DEECE66DL + 0xBL) and 0xFFFFFFFFFFFFL<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val nextRNG = SimpleRNG(newSeed)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val n = (newSeed ushr 16).toInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return n to nextRNG<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <p><code>ushr</code> is a bitwise shift operator.</p>
+        <p><code>to</code> is used to create a <code>Pair</code>. So <code>n to nextRNG</code> is equivalent to <code>Pair(n, nextRNG)</code>.</p>
+      </div>
+      <p>Forget about the details of the algorithm. The important thing to note is that our new <code>nextInt()</code> function is returning two things here: a random number and a random number generator.</p>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val rng1: RNG = SimpleRNG(1001)<br>&nbsp;&nbsp;&nbsp;&nbsp;val (n1, rng2) = rng1.nextInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;println(n1)<br>&nbsp;&nbsp;&nbsp;&nbsp;val (n2, rng3) = rng2.nextInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;println(n2)<br>&nbsp;&nbsp;&nbsp;&nbsp;val (n3, rng4) = rng2.nextInt() // rng2 is intentional<br>&nbsp;&nbsp;&nbsp;&nbsp;println(n3)<br>}</code></p>
+      </div>
+      <p>If we run these lines multiple times, we'll get the same `3` numbers every time.</p>
+      <p>So what exactly did we do to make this possible? We made the state change explicity known by asking for a seed and returning the new state instead of implicitly mutating the original state.</p>
+      <h3>Stateful APIs</h3>
+      <p>Stateful APIs are interfaces in which the next state depends on the previous state. (Here, stateful means that we're creating a new state and using that to do stuff.) Our <code>RNG</code> is an example of a stateful API, and we'll look at how to extend it.</p>
+      <p>Let's say we wanted to write a function that generates a pair of random numbers using <code>nextInt()</code>.</p>
+      <div class="ln-flex-center">
+        <p><code>fun randomPair(rng: RNG): Pair&lt;Pair&lt;Int, Int&gt;, RNG&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;val (i1, rng2) = rng.nextInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;val (i2, rng3) = rng2.nextInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;return (i1 to i2) to rng3<br>}</code></p>
+      </div>
+      <p>By returning <code>rng3</code>, we're allowing the caller to generate more random numbers if they need to.</p>
+      <div class="ln-box">
+        <p>Write a function that uses <code>RNG.nextInt()</code> to generate a random integer between `0` and <code>Int.MAX_VALUE</code> (inclusive). Each negative value must be mapped to a distinct nonnegative value. Make sure to handle the corner case when <code>nextInt()</code> returns <code>Int.MIN_VALUE</code>, which doesn't have a nonnegative counterpart. (The range of an integer is `-2,147,483,648` to `2,147,483,647`, inclusive.)</p>
+        <div class="collapse ln-box" id="functional_rng_q1">
+          <div class="ln-flex-center">
+            <p><code>fun nonNegativeInt(rng: RNG): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;val (i1, rng2) = rng.nextInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;return if (i1 &lt; 0) -(i1 + 1) else i1<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#functional_rng_q1" aria-expanded="false" aria-controls="functional_rng_q1">Answer</button>
+        <p>Write a new version of the function that returns a <code>Pair&lt;Int, RNG&gt;</code> with the new <code>RNG</code> created when you used the old <code>RNG</code>.</p>
+        <div class="collapse ln-box" id="functional_rng_q2">
+          <div class="ln-flex-center">
+            <p><code>fun nonNegativeInt(rng: RNG): Pair&lt;Int, RNG&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;val (i1, rng2) = rng.nextInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;return (if (i1 &lt; 0) -(i1 + 1) else i1) to rng2<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#functional_rng_q2" aria-expanded="false" aria-controls="functional_rng_q2">Answer</button>
+      </div>
+      <div class="ln-box">
+        <p>Write a function that takes an <code>Int</code> count and an <code>RNG</code> and generates a <code>List</code> of random <code>Int</code>s in a <code>Pair</code> with the <code>RNG</code> created when the last random <code>Int</code> was generated.</p>
+        <div class="collapse ln-box" id="functional_rng_q3">
+          <div class="ln-flex-center">
+            <p><code>fun ints(count: Int, rng: RNG): Pair&lt;List&lt;Int&gt;, RNG&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (count &gt; 0) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val (i, r1) = rng.nextInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val (xs, r2) = ints(count-1, r1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listOf(i) + xs to r2<br>&nbsp;&nbsp;&nbsp;&nbsp;} else emptyList&lt;Int&gt;() to rng</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#functional_rng_q3" aria-expanded="false" aria-controls="functional_rng_q3">Answer</button>
+      </div>
+      <p>There's a common pattern (which can be seen in the exercises above) where functions that need to return a value and a state return them as a <code>Pair</code>. These functions have a type of the form <code>(RNG) -&gt; Pair&lt;A, RNG&gt;</code> for some type <code>A</code>. Functions of this type are called "state actions" or "state transitions" because they transform states from one call to the next.</p>
+      <div class="ln-box">
+        <p><code>(RNG) -&gt; Pair&lt;A, RNG&gt;</code> can be a bit cumbersome to read and type. In Kotlin, we can declare a type alias to make it simpler:</p>
+        <div class="ln-flex-center">
+          <p><code>typealias Rand&lt;A&gt; = (RNG) -&gt; Pair&lt;A, RNG&gt;</code></p>
+        </div>
+        <p>Here's an example of how it would be used:</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val rng = SimpleRNG(92422)<br>&nbsp;&nbsp;&nbsp;&nbsp;val intR: Rand&lt;Int&gt; = { r -&gt; r.nextInt() }<br>&nbsp;&nbsp;&nbsp;&nbsp;val (n, rng2) = intR(rng)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(n)<br>}</code></p>
+        </div>
+      </div>
+      <h3>Combinators</h3>
+      <p>State actions can be combined using combinators, which are higher-order functions that combine or transform functions in some way to produce new functions.</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A, B&gt; map(s: Rand&lt;A&gt;, f: (A) -&gt; B): Rand&lt;B&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;{ rng -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val (a, rng2) = s(rng)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f(a) to rng2<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+      </div>
+      <p><code>map</code> is a combinator that takes an <code>RNG</code> function (passed in as <code>s</code>) and applies <code>f</code> to the random number that is generated by <code>s</code>. Here's an example using it:</p>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val rng = SimpleRNG(942)<br>&nbsp;&nbsp;&nbsp;&nbsp;val doubleR: Rand&lt;Double&gt; = map(::nonNegativeInt) { i -&gt; i / (Int.MAX_VALUE.toDouble() + 1) }<br>&nbsp;&nbsp;&nbsp;&nbsp;val (d, _) = doubleR(rng)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(d)<br>}</code></p>
+      </div>
+      <p>So we're taking the random integer generated by <code>nonNegativeInt</code> and dividing it by <code>(Int.MAX_VALUE.toDouble() + 1)</code>.</p>
+      <p>Now here's something that's a little more complicated. We can take two state actions and apply a binary function to them:</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A, B, C&gt; map2(ra: Rand&lt;A&gt;, rb: Rand&lt;B&gt;, f: (A, B) -&gt; C): Rand&lt;C&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;{ r1: RNG -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val (a, r2) = ra(r1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val (b, r3) = rb(r2)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f(a, b) to r3<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A, B&gt; both(ra: Rand&lt;A&gt;, rb: Rand&lt;B&gt;): Rand&lt;Pair&lt;A, B&gt;&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;map2(ra, rb) { a, b -&gt; a to b }</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val rng = SimpleRNG(942)<br>&nbsp;&nbsp;&nbsp;&nbsp;val intR: Rand&lt;Int&gt; = { rng -&gt; rng.nextInt() }<br>&nbsp;&nbsp;&nbsp;&nbsp;val doubleR: Rand&lt;Double&gt; = map(::nonNegativeInt) { i -&gt; i / (Int.MAX_VALUE.toDouble() + 1) }<br>&nbsp;&nbsp;&nbsp;&nbsp;val intDoubleR: Rand&lt;Pair&lt;Int, Double&gt;&gt; = both(intR, doubleR)<br>&nbsp;&nbsp;&nbsp;&nbsp;val (p, _) = intDoubleR(rng)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(p)<br>}</code></p>
+      </div>
+      <p>So we're taking the random numbers generated by <code>intR</code> (passed as <code>ra</code>)and <code>doubleR</code> (passed as <code>rb</code>) and creating a <code>Pair</code> with them (using the lambda <code>{ a, b -> a to b }</code>).</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
