@@ -175,6 +175,90 @@
           </div>
         </div>
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q15" aria-expanded="false" aria-controls="kotlin_basics_q15">Answer</button>
+        <p>Write code that declares two nullable <code>String</code> values, sets one to "Godzilla" and the other to null. Then, for each one, if it is not null, print the upper case version (use the <code>String</code> method <code>uppercase()</code>), but if it is null, print the <code>String</code> "nothing to print!". Do this in two different ways: once using if/else and once using both the safe call operator and the Elvis operator.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q16">
+          <div class="ln-flex-center">
+            <p><code>val s1: String = "Godzilla"<br>val s2: String? = null<br>for (s in listOf(s1, s2)) {<br>&nbsp;&nbsp;&nbsp;&nbsp;if (s != null) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println(s.uppercase())<br>&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println("nothing to print!")<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;println(s?.uppercase() ?: "nothing to print!")<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q16" aria-expanded="false" aria-controls="kotlin_basics_q16">Answer</button>
+        <p>Write a function called <code>isLong()</code> that takes one argument whose type is <code>Any</code> and returns whether or not the value is a <code>Long</code>.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q17">
+          <div class="ln-flex-center">
+            <p><code>fun isLong(a: Any): Boolean = a is Long</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q17" aria-expanded="false" aria-controls="kotlin_basics_q17">Answer</button>
+        <p>Use <code>as</code> once in a way that will correctly cast from <code>Any</code> to a specific type, and once in a way that will throw an exception.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q18">
+          <div class="ln-flex-center">
+            <p><code>val s1: Any = "hi"<br>val s2: Any = 43<br>val s3: String = s1 as String<br>val s4: String = s2 as String</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q18" aria-expanded="false" aria-controls="kotlin_basics_q18">Answer</button>
+        <p>Let's say we have this color <code>Enum</code>:</p>
+        <div class="ln-flex-center">
+          <p><code>enum class Color {<br>&nbsp;&nbsp;&nbsp;&nbsp;RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET<br>}</code></p>
+        </div>
+        <p>Create a <code>Monster</code> data class. A monster has a name, height, and favorite color. The class should also have a property called <code>isNamedGodzilla</code>, with an accessor that will return true if the monster is named Godzilla, else false. The class should also have a <code>heightRatio()</code> function, which takes another <code>Monster</code> as a parameter and returns the ratio of the instance monster's height to that of the parameter <code>Monster</code>.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q19">
+          <div class="ln-flex-center">
+            <p><code>data class Monster(val name: String, val height: Double, val favColor: Color) {<br>&nbsp;&nbsp;&nbsp;&nbsp;val isNamedGodzilla: Boolean<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get() {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return name == "Godzilla"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;fun heightRatio(m: Monster): Double = this.height / m.height<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q19" aria-expanded="false" aria-controls="kotlin_basics_q19">Answer</button>
+        <p>Write a recursive linear search function that takes a <code>String</code> and a <code>Char</code> and returns true if the <code>String</code> contains the <code>Char</code>. The base cases are that a) the length of the <code>String</code> is `0` or b) the first character in the <code>String</code> is the character we are searching for.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q20">
+          <div class="ln-flex-center">
+            <p><code>fun linSearch(s: String, c: Char): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (s.length == 0) false<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (s[0] == c) true<br>&nbsp;&nbsp;&nbsp;&nbsp;else linSearch(s.drop(1), c)</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q20" aria-expanded="false" aria-controls="kotlin_basics_q20">Answer</button>
+        <p>Modify the linear search function so that both the <code>String</code> and the <code>Char</code> are nullable.  If either is null, return false.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q21">
+          <div class="ln-flex-center">
+            <p><code>fun linSearch(s: String?, c: Char?): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (s == null || c == null) false<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (s.length == 0) false<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (s[0] == c) true<br>&nbsp;&nbsp;&nbsp;&nbsp;else linSearch(s.drop(1), c)</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q21" aria-expanded="false" aria-controls="kotlin_basics_q21">Answer</button>
+        <p>Write code that creates a list of nullable Strings.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q22">
+          <div class="ln-flex-center">
+            <p><code>val l: List&lt;String?&gt; = listOf("hey", null, "hi", null)</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q22" aria-expanded="false" aria-controls="kotlin_basics_q22">Answer</button>
+        <p>Write the function <code>divIntSafe(a: Int, b:Int)</code>. This function should take two <code>Int</code>s, convert them to <code>Double</code>s, divide the first by the second, and return the result.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q23">
+          <div class="ln-flex-center">
+            <p><code>fun divIntSafe(a: Int, b: Int): Double = a.toDouble() / b.toDouble()</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q23" aria-expanded="false" aria-controls="kotlin_basics_q23">Answer</button>
+        <p>Write code that creates a list of the inverses of the Ints from `1` to `10`. Do this in two ways: using a lambda expression as the initializer expression and using <code>divIntSafe()</code> as the initializer expression.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q24">
+          <div class="ln-flex-center">
+            <p><code>val l1: List&lt;Double&gt; = List&lt;Double&gt;(10){1/(it + 1).toDouble()}</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>val l2: List&lt;Double&gt; = List&lt;Double&gt;(10){divIntSafe(1, it+1)}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q24" aria-expanded="false" aria-controls="kotlin_basics_q24">Answer</button>
+        <p>Write code that declares a nullable <code>Int</code> (give it a value), then declares a nullable <code>Double</code> and uses the safe call operator to set its value to null if the nullable <code>Int</code> was null, else to the result of casting the <code>Int</code> to a <code>Double</code>.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q25">
+          <div class="ln-flex-center">
+            <p><code>val n: Int? = null<br>val d: Double? = n?.toDouble()</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q25" aria-expanded="false" aria-controls="kotlin_basics_q25">Answer</button>
+        <p>Write code that declares a nullable <code>Int</code> (give it a value), then declares a nullable <code>Double</code> and uses the safe call operator and the Elvis operator to set its value to `0.0` if the nullable <code>Int</code> was null, else to the result of casting the <code>Int</code> to a <code>Double</code>.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q26">
+          <div class="ln-flex-center">
+            <p><code>val n: Int? = null<br>val d: Double? = n?.toDouble() ?: 0.0</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q26" aria-expanded="false" aria-controls="kotlin_basics_q26">Answer</button>
       </div>
       <h2 id="purefuncs">Pure Functions</h2>
       <p>A pure function is a function that:</p>
