@@ -30,6 +30,7 @@
     <div class="dropdown ln-fixed-right">
       <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
       <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#kotlinbasics">Kotlin Basics</a></li>
         <li><a class="dropdown-item" href="#purefuncs">Pure Functions</a></li>
         <li><a class="dropdown-item" href="#dataimmutability">Data Immutability</a></li>
         <li><a class="dropdown-item" href="#whyfp">Why Functional Programming?</a></li>
@@ -53,6 +54,128 @@
       <p>Shortcut to this page: <a href="fp.html">ntrllog.netlify.app/fp</a></p>
       <p>Notes provided by Professor John Hurley</p>
       <p>(all code examples are done in Kotlin with expression bodies when possible)</p>
+      <div class="ln-box">
+        <h2 id="kotlinbasics">Kotlin Basics</h2>
+        <p>Write code that uses recursion to calculate the sum of all integers from `1` to `n`, and print the result.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q1">
+          <div class="ln-flex-center">
+            <p><code>fun summation(n: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (n == 1) 1<br>&nbsp;&nbsp;&nbsp;&nbsp;else n + summation(n-1)</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;println(summation(4))<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q1" aria-expanded="false" aria-controls="kotlin_basics_q1">Answer</button>
+        <p>Write an <code>isPyth(a,b,c)</code> function with an expression body that takes three <code>Double</code>s as arguments and returns true if they are a Pythagorean triple, otherwise returns false. Use <code>Math.pow(base, exponent)</code>, where both <code>base</code> and <code>exponent</code> are <code>Double</code>s. <code>Double</code> has an <code>equals()</code> method; use that, not <code>==</code>.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q2">
+          <div class="ln-flex-center">
+            <p><code>fun isPyth(a: Double, b: Double, c: Double): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;(Math.pow(a, 2.0) + Math.pow(b, 2.0)).equals(Math.pow(c, 2.0))</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q2" aria-expanded="false" aria-controls="kotlin_basics_q2">Answer</button>
+        <p>Write a palindrome check function. Use this algorithm:</p>
+        <ul>
+          <li>if the length of the string is less than `2`, return true</li>
+          <li>else if the first and last characters are not equal, return false</li>
+          <li>else return the result of a recursive call with the substring from the second character (the one at index `1`) to the second to last character</li>
+        </ul>
+        <div class="collapse ln-box" id="kotlin_basics_q3">
+          <div class="ln-flex-center">
+            <p><code>fun isPalindrome(s: String): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (s.length &lt; 2) true<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (s[0] != s[s.length-1]) false<br>&nbsp;&nbsp;&nbsp;&nbsp;else isPalindrome(s.substring(1, s.length-1))</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q3" aria-expanded="false" aria-controls="kotlin_basics_q3">Answer</button>
+        <p>Write a function <code>getArea()</code> which takes a <code>Double</code> radius and returns the area of a circle with the given radius (<code>Math.PI</code> times radius ^ `2`).</p>
+        <div class="collapse ln-box" id="kotlin_basics_q4">
+          <div class="ln-flex-center">
+            <p><code>fun getArea(r: Double): Double = Math.PI * r * r</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q4" aria-expanded="false" aria-controls="kotlin_basics_q4">Answer</button>
+        <p>Write a recursive function that takes an <code>Int</code> `n` and returns a list of the areas of circles for each radius from `n` to `1` (in decreasing order.) Get the areas by calling the area function above. Then rewrite the recursive function so that the areas appear in increasing order.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q5">
+          <div class="ln-flex-center">
+            <p><code>fun getAreasDec(n: Int): List&lt;Double&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (n == 0) listOf()<br>&nbsp;&nbsp;&nbsp;&nbsp;else listOf(getArea(n.toDouble())) + getAreasDec(n-1)</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>fun getAreasInc(n: Int): List&lt;Double&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (n == 0) listOf()<br>&nbsp;&nbsp;&nbsp;&nbsp;else getAreasInc(n-1) + listOf(getArea(n.toDouble()))</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q5" aria-expanded="false" aria-controls="kotlin_basics_q5">Answer</button>
+        <p>Create a list that uses the <code>getArea()</code> function as an initializer and contains the areas of circles with each integer from `1` to `25` as the radius.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q6">
+          <div class="ln-flex-center">
+            <p><code>val l = List&lt;Double&gt;(25){i -> getArea((i+1).toDouble())}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q6" aria-expanded="false" aria-controls="kotlin_basics_q6">Answer</button>
+        <p>Create a list of <code>Int</code>s from `1` to `25`. Then use <code>map()</code> with the list and the <code>getArea()</code> function to create a list of the areas of circles with each of the <code>Int</code>s as the radius.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q7">
+          <div class="ln-flex-center">
+            <p><code>val l: List&lt;Int&gt; = (1..25).toList()<br>val m: List&lt;Double&gt; = l.map{getArea(it.toDouble())}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q7" aria-expanded="false" aria-controls="kotlin_basics_q7">Answer</button>
+        <p>Using an initializer expression, create a list of the <code>Int</code>s from `0` to `25`, and another of the squares of the <code>Int</code>s from `0` to `25`. Then zip the two lists and print the result.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q8">
+          <div class="ln-flex-center">
+            <p><code>val l1 = List&lt;Int&gt;(26){it}<br>val l2 = List&lt;Int&gt;(26){it * it}<br>val l3 = l1.zip(l2)<br>println(l3)</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q8" aria-expanded="false" aria-controls="kotlin_basics_q8">Answer</button>
+        <p>Write a recursive function that takes a list of <code>Pair</code>s in which each value may be of any type, and returns a list of the first elements from each pair.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q9">
+          <div class="ln-flex-center">
+            <p><code>fun firstOf(l: List&lt;Pair&lt;Any, Any&gt;&gt;): List&lt;Any&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) listOf()<br>&nbsp;&nbsp;&nbsp;&nbsp;else listOf(l[0].first) + firstOf(l.drop(1))</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q9" aria-expanded="false" aria-controls="kotlin_basics_q9">Answer</button>
+        <p>Write one line of code that uses <code>filter()</code> and <code>zip()</code> to take two lists of <code>String</code>s and zip only those pairs in which each <code>String</code> is longer than four characters.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q10">
+          <div class="ln-flex-center">
+            <p><code>val l = l1.zip(l2).filter{it.first.length &gt; 4 && it.second.length &gt; 4}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q10" aria-expanded="false" aria-controls="kotlin_basics_q10">Answer</button>
+        <p>Use <code>filter()</code> to create a list of <code>String</code>s that consists only of <code>String</code>s that contain the character 'r'.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q11">
+          <div class="ln-flex-center">
+            <p><code>val r = l.filter{"r" in it}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q11" aria-expanded="false" aria-controls="kotlin_basics_q11">Answer</button>
+        <p>Write a recursive function called <code>myZip</code> that takes two lists of type <code>Any</code> and returns a <code>List</code> of <code>Pair</code>s in which each value may be any type. The pairs consist of corresponding elements in the two lists (the first element of the first list and the first element of the second list, etc). The base case should be that either (or both) of the original lists has length `1`, so that, if the lists have different length, the zipping stops when one of the lists runs out of values.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q12">
+          <div class="ln-flex-center">
+            <p><code>fun myZip(l1: List&lt;Any&gt;, l2: List&lt;Any&gt;): List&lt;Pair&lt;Any, Any&gt;&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (l1.size == 1 || l2.size == 1) listOf(Pair&lt;Any, Any&gt;(l1[0], l2[0]))<br>&nbsp;&nbsp;&nbsp;&nbsp;else listOf(Pair&lt;Any, Any&gt;(l1[0], l2[0])) + myZip(l1.drop(1), l2.drop(1))</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q12" aria-expanded="false" aria-controls="kotlin_basics_q12">Answer</button>
+        <p>Write a function <code>lengthGreaterThan()</code> that takes a <code>String</code> `s` and an <code>Int</code> `n` and returns true if the <code>String</code> is at least `n` characters long. Then revise the function so that it can accept null values. If it receives null as the parameter, it should return false.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q13">
+          <div class="ln-flex-center">
+            <p><code>fun lengthGreaterThan(s: String, n: Int): Boolean = s.length >= n</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>fun lengthGreaterThanVer2(s: String?, n: Int?): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (s == null || n == null) false<br>&nbsp;&nbsp;&nbsp;&nbsp;else s.length >= n</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q13" aria-expanded="false" aria-controls="kotlin_basics_q13">Answer</button>
+        <p>Write a recursive function <code>myFilter()</code> that takes a list of nullable <code>String</code>s and an <code>Int</code> and returns a list of just the <code>String</code>s from the original list that satisfies the above condition.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q14">
+          <div class="ln-flex-center">
+            <p><code>fun myFilter(l: List&lt;String?&gt;, n: Int): List&lt;String?&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) listOf()<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (lengthGreaterThanVer2(l[0], n)) listOf(l[0]) + myFilter(l.drop(1), n)<br>&nbsp;&nbsp;&nbsp;&nbsp;else myFilter(l.drop(1), n)</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q14" aria-expanded="false" aria-controls="kotlin_basics_q14">Answer</button>
+        <p>Get the same result above by using <code>filter()</code>.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q15">
+          <div class="ln-flex-center">
+            <p><code>l.filter{lengthGreaterThanVer2(it, n)}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q15" aria-expanded="false" aria-controls="kotlin_basics_q15">Answer</button>
+      </div>
       <h2 id="purefuncs">Pure Functions</h2>
       <p>A pure function is a function that:</p>
       <ul>
