@@ -45,6 +45,7 @@
         <li><a class="dropdown-item" href="#corecursion">Corecursion</a></li>
         <li><a class="dropdown-item" href="#memoization">Memoization</a></li>
         <li><a class="dropdown-item" href="#functionalstate">Functional State</a></li>
+        <li><a class="dropdown-item" href="#monoids">Monoids</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -259,6 +260,37 @@
           </div>
         </div>
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q26" aria-expanded="false" aria-controls="kotlin_basics_q26">Answer</button>
+        <p>Consider this <code>apply()</code> method:</p>
+        <div class="ln-flex-center">
+          <p><code>fun apply(s: String, f: (String) -&gt; String): String = f(s)</code></p>
+        </div>
+        <p>Use a lambda expression in a call to <code>apply()</code>. Then write some function and use it in a call to <code>apply()</code>.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q27">
+          <div class="ln-flex-center">
+            <p><code>val s1 = apply("hey", { it + "z" })</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>fun prependA(s: String): String = "a" + s</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>val s2 = apply("hey", ::prependA)</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q27" aria-expanded="false" aria-controls="kotlin_basics_q27">Answer</button>
+        <p>Write code that divides `1` by `7` and prints the result to `5` decimal places.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q28">
+          <div class="ln-flex-center">
+            <p><code>"%.5f".format(1.0/7.0)</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q28" aria-expanded="false" aria-controls="kotlin_basics_q28">Answer</button>
+        <p>Write a function <code>printInt()</code> that can accept an input parameter of <code>Any</code> type and return an <code>Int</code> using the <code>when</code> construct.</p>
+        <div class="collapse ln-box" id="kotlin_basics_q29">
+          <div class="ln-flex-center">
+            <p><code>fun printInt(a: Any): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (a) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Int -&gt; a<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Double -&gt; a.toInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is String -&gt; a.length<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is IntArray -&gt; a.sum()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; -1<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#kotlin_basics_q29" aria-expanded="false" aria-controls="kotlin_basics_q29">Answer</button>
       </div>
       <h2 id="purefuncs">Pure Functions</h2>
       <p>A pure function is a function that:</p>
@@ -382,6 +414,70 @@
         <p><code>fun myReverse(s: String): String {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(x: String, acc: String): String =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (x.length == 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(x.dropLast(1), acc + x[x.length-1])<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(s, "")<br>}</code></p>
       </div>
       <div class="ln-box">
+        <h3>Tail Recursion Practice Problems</h3>
+        <p>Write a recursive harmonic number (`1/1 + ... + 1/n`) function using a tail-recursive helper function.</p>
+        <div class="collapse ln-box" id="tail_recursion_q1">
+          <div class="ln-flex-center">
+            <p><code>fun harm(n: Int): Double {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(n: Int, acc: Double): Double =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n == 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(n-1, acc + 1.0/n)<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(n, 0.0)<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#tail_recursion_q1" aria-expanded="false" aria-controls="tail_recursion_q1">Answer</button>
+        <p>Consider this <code>appAllTR()</code> function:</p>
+        <div class="ln-flex-center">
+          <p><code>fun appAllTR(l: List&lt;String&gt;, f: (String) -&gt; String): List&lt;String&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l: List&lt;String&gt;, f: (String) -&gt; String, acc: List&lt;String&gt;): List&lt;String&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l.drop(1), f, acc + listOf(f(l.get(0))))<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(l, f, emptyList&lt;String&gt;())<br>}</code></p>
+        </div>
+        <p>Change the <code>appAllTR()</code> function so that it takes a list of <code>Int</code>s and a function from <code>Int</code> to <code>Int</code> and returns a list of <code>Int</code>s.  Write an <code>abs()</code> function that takes an <code>Int</code> and returns its absolute value (if `n` is less than zero, return `-n`, otherwise return `n`). Test <code>appAllTR()</code> with the <code>abs()</code> function as an argument, then with a lambda expression that has the same logic.</p>
+        <div class="collapse ln-box" id="tail_recursion_q2">
+          <div class="ln-flex-center">
+            <p><code>fun appAllTR(l: List&lt;Int&gt;, f: (Int) -&gt; Int): List&lt;Int&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l: List&lt;Int&gt;, f: (Int) -&gt; Int, acc: List&lt;Int&gt;): List&lt;Int&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l.drop(1), f, acc + listOf(f(l.get(0))))<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(l, f, emptyList&lt;Int&gt;())<br>}</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>fun abs(n: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (n &lt; 0) -n<br>&nbsp;&nbsp;&nbsp;&nbsp;else n</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>val x = appAllTR(l, ::abs)<br>val y = appAllTR(l, { if (it &lt; 0) -it else it })</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#tail_recursion_q2" aria-expanded="false" aria-controls="tail_recursion_q2">Answer</button>
+        <p>Write the function <code>myStringFilter()</code>, which takes a list of <code>String</code>s and a function `f` from <code>String</code> to <code>Boolean</code> and returns a list the contains just those of <code>String</code>s in the original list for which `f` is true. Use a tail recursive helper function. Call it with a lambda expression (for example, one that evaluates to true if the length of the <code>String</code> is greater than `4`) as the function.</p>
+        <div class="collapse ln-box" id="tail_recursion_q3">
+          <div class="ln-flex-center">
+            <p><code>fun myStringFilter(l: List&lt;String&gt;, f: (String) -&gt; Boolean): List&lt;String&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l: List&lt;String&gt;, f: (String) -&gt; Boolean, acc: List&lt;String&gt;): List&lt;String&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (f(l[0])) helper(l.drop(1), f, acc + listOf(l[0]))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l.drop(1), f, acc)<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(l, f, emptyList&lt;String&gt;())<br>}</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>val x = myStringFilter(l, { it.length &gt; 4 })</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#tail_recursion_q3" aria-expanded="false" aria-controls="tail_recursion_q3">Answer</button>
+        <p>Change <code>myStringFilter()</code> so that it takes a list of nullable <code>String</code>s and returns a list of <code>String</code>s. Any nullable <code>String</code> that is null should not be included in the returned list. Call it with a lambda expression (for example, one that evaluates to true if the length of the String is greater than 4) as the function.</p>
+        <div class="collapse ln-box" id="tail_recursion_q4">
+          <div class="ln-flex-center">
+            <p><code>fun myStringFilter(l: List&lt;String?&gt;, f: (String?) -&gt; Boolean): List&lt;String?&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l: List&lt;String?&gt;, f: (String?) -&gt; Boolean, acc: List&lt;String?&gt;): List&lt;String?&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (l[0] == null || f(l[0]) == false) helper(l.drop(1), f, acc)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l.drop(1), f, acc + listOf(l[0]))<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(l, f, emptyList&lt;String?&gt;())<br>}</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>val x = myStringFilter(l, { it?.length ?: 0 &gt; 4 })</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#tail_recursion_q4" aria-expanded="false" aria-controls="tail_recursion_q4">Answer</button>
+        <p>Write and the function <code>applyToTwoLists()</code>, which takes two lists of <code>Double</code>s and a function `f` from <code>Double</code> to <code>Double</code> and returns a list of <code>Double</code>s that consists of the results of applying the function to each pair of corresponding values from the two lists (that is, <code>f(list1.get(0), list2.get(0))</code>, then <code>f(list1.get(1), list2.get(1))</code>, etc.) Use a tail-recursive helper function.</p>
+        <div class="collapse ln-box" id="tail_recursion_q5">
+          <div class="ln-flex-center">
+            <p><code>fun applyToTwoLists(l1: List&lt;Double&gt;, l2: List&lt;Double&gt;, f: (Double, Double) -&gt; Double): List&lt;Double&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l1: List&lt;Double&gt;, l2: List&lt;Double&gt;, f: (Double, Double) -&gt; Double, acc: List&lt;Double&gt;): List&lt;Double&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l1.isEmpty() || l2.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l1.drop(1), l2.drop(1), f, acc + listOf(f(l1[0], l2[0])))<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(l1, l2, f, emptyList&lt;Double&gt;())<br>}</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>val x = applyToTwoLists(l1, l2, { x: Double, y: Double -&gt; x + y })</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#tail_recursion_q5" aria-expanded="false" aria-controls="tail_recursion_q5">Answer</button>
+        <p>Write and test the function <code>myZip()</code>, which takes a <code>List&lt;String&gt;</code> and a <code>List&lt;Int&gt;</code> and zips them, returning a <code>List&lt;Pair&lt;String, Int&gt;&gt;</code>. Don't call Kotlin's built in <code>zip()</code> function! Use a tail-recursive helper function.</p>
+        <div class="collapse ln-box" id="tail_recursion_q6">
+          <div class="ln-flex-center">
+            <p><code>fun myZip(l1: List&lt;String&gt;, l2: List&lt;Int&gt;): List&lt;Pair&lt;String, Int&gt;&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l1: List&lt;String&gt;, l2: List&lt;Int&gt;, acc: List&lt;Pair&lt;String, Int&gt;&gt;): List&lt;Pair&lt;String, Int&gt;&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l1.isEmpty() || l2.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l1.drop(1), l2.drop(1), acc + listOf(Pair&lt;String, Int&gt;(l1[0], l2[0])))<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(l1, l2, emptyList&lt;Pair&lt;String, Int&gt;&gt;())<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#tail_recursion_q6" aria-expanded="false" aria-controls="tail_recursion_q6">Answer</button>
+      </div>
+      <div class="ln-box">
         <h2>A Different Way To Recurse</h2>
         <p>Now, I don't know about you, but when I learned about recursion, there was always some argument that would get smaller with each recursive call. For example, in the example above, the string being passed to the recursive helper function is getting smaller by one character each time until it is empty. I never really realized that this is not the only way to do things recursively.</p>
         <p>If working with strings or lists, then instead of making the string or list smaller in each recursive call, we can just pass an increasing (or decreasing) index instead. 🤯</p>
@@ -472,12 +568,109 @@
       <div class="ln-flex-center">
         <p><code>fun &lt;A: Number&gt; oneHalf(value: A): Double = value.toDouble() / 2.0</code></p>
       </div>
-      <p>This says that we can pass in any type for <code>A</code> as long as it is a Number type.</p>
+      <p>This says that we can pass in any type for <code>A</code> as long as it is a <code>Number</code> type.</p>
       <p>A more practical example would be writing one compare function that works for multiple types, including custom classes:</p>
       <div class="ln-flex-center">
         <p><code>fun &lt;A: Comparable&lt;A&gt;&gt; max(first: A, second: A): A = if (first.compareTo(second)) first else second</code></p>
       </div>
-      <p>Here, we can pass in any type for <code>A</code> as long as it is Comparable.</p>
+      <p>Here, we can pass in any type for <code>A</code> as long as it is <code>Comparable</code>.</p>
+      <div class="ln-box">
+        <h2>Higher-Order Functions Practice Problems</h2>
+        <p>Write a higher-order function (idk, call it <code>myF()</code>) that takes two arguments and returns a <code>String</code>. The first argument is a <code>String</code> and the second is a function that takes a <code>Char</code> and returns a <code>Boolean</code>. Your function should return a <code>String</code> containing those of the characters in the original <code>String</code> for which the function returns true.  Use a tail-recursive helper function. Test the function with several different lambdas (for example, one that returns true if the <code>Char</code> is not 'l' and then one that returns true if the <code>Char</code> is later in lexicographic order than 'f').</p>
+        <div class="collapse ln-box" id="higher_order_q1">
+          <div class="ln-flex-center">
+            <p><code>fun myF(s: String, f: (Char) -> Boolean): String {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(n: Int, acc: String): String =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;when {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n &gt;= s.length -&gt; acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f(s[n]) -&gt; helper(n+1, acc + s[n])<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; helper(n+1, acc)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(0, "")<br>}</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>val x = myF("hello", { it != 'l' })<br>val y = myF("hey", { it &gt; 'f' })</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q1" aria-expanded="false" aria-controls="higher_order_q1">Answer</button>
+        <p>Consider this <code>Employee</code> class and this list of <code>Employee</code>s:</p>
+        <div class="ln-flex-center">
+          <p><code>data class Employee(val name: String, val wage: Double, val hours: Double)</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>val l: List&lt;Employee&gt; = listOf(Employee("Bob", 34.33, 42.0), Employee ("Cathy", 27.33, 15.25), Employee("Carlos", 46.99, 38.75), Employee("Tomas", 49.66, 28.45), Employee("Xavier", 34.56, 11.5))</code></p>
+        </div>
+        <p>Write one line of code that uses <code>filter()</code>, <code>sortedBy()</code>, and <code>map()</code> to show the names and hours worked of those <code>Employee</code>s who earn more than `$30` per hour, sorted by employee name. The output should be: [Bob worked `42.0` hours, Carlos worked `38.75` hours, Tomas worked `28.45` hours, Xavier worked `11.5` hours]</p>
+        <div class="collapse ln-box" id="higher_order_q2">
+          <div class="ln-flex-center">
+            <p><code>l.filter{it.wage &gt; 30.0}.sortedBy{it.name}.map{"${it.name} worked ${it.hours} hours"}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q2" aria-expanded="false" aria-controls="higher_order_q2">Answer</button>
+        <p>Write a function called <code>calcBracket()</code> that calculates an employee's tax withholding bracket this way: if the employee's hourly wage is under `15` (in dollars per hour), the withholding bracket is `0`; if the wage is at least `$15` but under `$25`, the bracket is `.15` (that is, `15%`); if the wage is at least `$25` but less than `$35`, the bracket is `.25`; if the wage is at least `$35`, the bracket is `.35`.  Return the bracket. (This is not really how tax brackets work, but it's good enough for this exercise!)</p>
+        <div class="collapse ln-box" id="higher_order_q3">
+          <div class="ln-flex-center">
+            <p><code>fun calcBracket(wage: Double): Double =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (wage &lt; 15.0) 0.0<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (wage &lt; 25.0) 0.15<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (wage &lt; 35.0) 0.25<br>&nbsp;&nbsp;&nbsp;&nbsp;else 0.35</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q3" aria-expanded="false" aria-controls="higher_order_q3">Answer</button>
+        <p>Write a <code>payroll()</code> function that takes a list of <code>Employee</code>s and `f`, a function from <code>Double</code> to <code>Double</code> that returns a list of <code>Pair</code>s in which each <code>Pair</code> contains a <code>String</code> and a <code>Double</code>. For each <code>Employee</code> in the list, return a <code>Pair</code> with that employee's name and their paycheck amount. Calculate the paycheck amount this way: multiply the employee's wage by their hours worked, and multiply the result by `1 - text(their tax withholding bracket)` (for example, if the wage is `$20` and hours worked are `30`, do this: `20 * 30 * (1 - .15)`. Use Kotlin's <code>map()</code> function. (Don't call <code>calcBracket()</code> in this function; It is intended to be passed in through `f`.)</p>
+        <div class="collapse ln-box" id="higher_order_q4">
+          <div class="ln-flex-center">
+            <p><code>fun payroll(l: List&lt;Employee&gt;, f: (Double) -&gt; Double): List&lt;Pair&lt;String, Double&gt;&gt;=<br>&nbsp;&nbsp;&nbsp;&nbsp;l.map{ Pair(it.name, (it.wage * it.hours) * (1 - f(it.wage))) }</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q4" aria-expanded="false" aria-controls="higher_order_q4">Answer</button>
+        <p>Call <code>payroll()</code> by passing in <code>calcBracket()</code>. Then use a lambda to calculate the withholding bracket and send the lambda to the <code>payroll()</code> function.</p>
+        <div class="collapse ln-box" id="higher_order_q5">
+          <div class="ln-flex-center">
+            <p><code>payroll(l, ::calcBracket)</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>payroll(l, {<br>&nbsp;&nbsp;&nbsp;&nbsp;when {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; it &lt; 15.0 -&gt; 0.0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; it &lt; 25.0 -&gt; 0.15<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; it &lt; 35.0 -&gt; 0.25<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else -&gt; 0.35<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>})</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q5" aria-expanded="false" aria-controls="higher_order_q5">Answer</button>
+        <p>Write a function called <code>raise()</code> which takes a list of <code>Employee</code>s and a <code>Double</code> and returns a list of <code>Employee</code>s like the original but with each having received a raise, with the <code>Double</code> representing the percentage raise. For example, if an employee's wage was `$20` per hour and the <code>Double</code> is `.15` (that is, `15%`), their new wage will be `$23` per hour. Don't change the <code>Employee</code>s; create and return a list of new <code>Employee</code> objects with the new wages. Use Kotlin's <code>map()</code> function.</p>
+        <div class="collapse ln-box" id="higher_order_q6">
+          <div class="ln-flex-center">
+            <p><code>fun raise(l: List&lt;Employee&gt;, d: Double): List&lt;Employee&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;l.map{ Employee(it.name, it.wage + (it.wage * d), it.hours) }</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q6" aria-expanded="false" aria-controls="higher_order_q6">Answer</button>
+        <p>Write a function called <code>formatPaycheck()</code> that takes a <code>Pair&lt;String, Double&gt;</code> and returns a <code>String</code>. <code>formatPaycheck()</code> should use the two parts of the <code>Pair</code> to put together and return a <code>String</code> like this, with the paycheck amount shown to two digits past the decimal point: Pay to the order of Cathy `$359.47`</p>
+        <div class="collapse ln-box" id="higher_order_q7">
+          <div class="ln-flex-center">
+            <p><code>fun formatPaycheck(p: Pair&lt;String, Double&gt;): String = "Pay to the order of %s $%.2f".format(p.first, p.second)</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q7" aria-expanded="false" aria-controls="higher_order_q7">Answer</button>
+        <p>Use <code>raise()</code> to raise all the employees' pay by `15%`. Then use <code>map()</code> with the <code>payroll()</code> and <code>formatPaycheck()</code> functions to get a list of the paychecks in the format shown above. Print the result. The output should look like this: [Pay to the order of Bob `$1077.79`, Pay to the order of Cathy `$359.47`, Pay to the order of Carlos `$1361.09`, Pay to the order of Tomas `$1056.09`, Pay to the order of Xavier `$297.09`]</p>
+        <div class="collapse ln-box" id="higher_order_q8">
+          <div class="ln-flex-center">
+            <p><code>println(payroll(raise(l, 0.15), ::calcBracket).map{formatPaycheck(it)})</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q8" aria-expanded="false" aria-controls="higher_order_q8">Answer</button>
+        <p>Consider this <code>Employee</code> class and this list of <code>Employee</code>s:</p>
+        <div class="ln-flex-center">
+          <p><code>data class Employee(val id: Int, val name: String, val wage: Double, val hours: Double)</code></p>
+        </div>
+        <p>Write a function <code>fireEmployee()</code>, which takes a list of <code>Employee</code>s and an id number and returns a list that consists of all the original employees without any that have that id. Use <code>filter()</code>.</p>
+        <div class="collapse ln-box" id="higher_order_q9">
+          <div class="ln-flex-center">
+            <p><code>fun fireEmployee(l: List&lt;Employee&gt;, id: Int): List&lt;Employee&gt; = l.filter{ it.id != id }</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q9" aria-expanded="false" aria-controls="higher_order_q9">Answer</button>
+        <p>Revise the function <code>fireEmployee()</code> to take a list of <code>Employee</code>s and a function `f` and return a list that consists of all the original employees that don't satisfy `f`. Pass `f` to <code>filter()</code>.</p>
+        <div class="collapse ln-box" id="higher_order_q10">
+          <div class="ln-flex-center">
+            <p><code>fun fireEmployee(l: List&lt;Employee&gt;, f: (Employee) -&gt Boolean): List&lt;Employee&gt; = l.filter{ !f(it) }</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q10" aria-expanded="false" aria-controls="higher_order_q10">Answer</button>
+        <p>Revise the function <code>fireEmployee()</code> to use a tail-recursive helper function instead of <code>filter()</code>.</p>
+        <div class="collapse ln-box" id="higher_order_q11">
+          <div class="ln-flex-center">
+            <p><code>fun fireEmployee(l: List&lt;Employee&gt;, f: (Employee) -&gt Boolean): List&lt;Employee&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(n: Int, acc: List&lt;Employee&gt;): List&lt;Employee&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;when {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n &gt;= l.size -&gt; acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;!f(l[n]) -&gt; helper(n+1, acc + listOf(l[n]))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; helper(n+1, acc)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(0, emptyList())<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q11" aria-expanded="false" aria-controls="higher_order_q11">Answer</button>
+      </div>
       <h2 id="generics">Generics</h2>
       <p>This naturally leads us to the concept of subtypes and supertypes. Suppose we have two types, `A` and `B`. Type `B` is a subtype of type `A` if you can use type `B` whenever type `A` is required. For example, Int is a subtype of Number; whenever the code expects a Number, we can pass an Int because technically, an Int is a Number.</p>
       <p>To be a little more precise, in order for a type to be a true subtype (i.e., in order to fit the actual definition of what it means to be a subtype), we must be able to replace the supertype with the subtype without causing any errors. This means that:</p>
@@ -756,6 +949,30 @@
         <p>Basically, we recursively traverse the list until we reach the desired index.</p>
       </div>
       <p>A (perhaps) subtle thing to note here is that we're not actually creating new lists and copying over the values from the existing list to the new list; We're reusing the reference to the existing list. This is called data sharing.</p>
+      <div class="ln-box">
+        <h2>Functional Data Structures Practice Problems</h2>
+        <p>Write a <code>modifyListHead()</code> method to get a new list that is identical to the old list except with a different first element. This function accepts an input list and an input variable, and returns a list where the head of the input list has been replaced with the input variable. For example, calling <code>modifyListHead(exList, 10)</code> where <code>exList = (1,2,3,4,5)</code> would return <code>(10,2,3,4,5)</code>.</p>
+        <div class="collapse ln-box" id="functional_data_structures_q1">
+          <div class="ln-flex-center">
+            <p><code>fun &lt;A&gt; modifyListHead(l: MyList&lt;A&gt;, v: A): MyList&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (l) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt; MyCons(v, l.tail)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; MyNil<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#functional_data_structures_q1" aria-expanded="false" aria-controls="functional_data_structures_q1">Answer</button>
+        <p>Write a <code>dropFromList()</code> method to get a new list with the first `n` elements from the list. This function accepts an input list and a value for `n`, and returns a list with the first `n` elements dropped. For example, calling <code>dropFromList(exList,2)</code> where <code>exList = (1, 7, 3, 42, 11)</code> would return <code>(3,42,11)</code>.</p>
+        <div class="collapse ln-box" id="functional_data_structures_q2">
+          <div class="ln-flex-center">
+            <p><code>fun &lt;A&gt; dropFromList(l: MyList&lt;A&gt;, n: Int): MyList&lt;A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (l) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyCons -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n == 0) l<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else dropFromList(l.tail, n-1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is MyNil -&gt; MyNil<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#functional_data_structures_q2" aria-expanded="false" aria-controls="functional_data_structures_q2">Answer</button>
+        <p>Write a <code>sumTwoLists()</code> method that accepts two lists of <code>Int</code>s and adds corresponding elements of each list, continuing until the shorter list is exhausted. This function accepts two input lists and returns their sum as illustrated: for two input lists `(1,2,3)` and `(4,5,6)`, this function returns `(5,7,9)`.</p>
+        <div class="collapse ln-box" id="functional_data_structures_q3">
+          <div class="ln-flex-center">
+            <p><code>fun sumTwoLists(l1: MyList&lt;Int&gt;, l2: MyList&lt;Int&gt;): MyList&lt;Int&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (l1 is MyNil || l2 is MyNil) MyNil<br>&nbsp;&nbsp;&nbsp;&nbsp;else if (l1 is MyCons &amp;&amp; l2 is MyCons) MyCons(l1.head + l2.head, sumTwoLists(l1.tail, l2.tail))<br>&nbsp;&nbsp;&nbsp;&nbsp;else MyNil</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#functional_data_structures_q3" aria-expanded="false" aria-controls="functional_data_structures_q3">Answer</button>
+      </div>
       <h2 id="errorhandling">Error Handling</h2>
       <div class="ln-box">
         <p>A quick note about semantics. An error is a problem that is caused by something out of the application's control. Examples are out-of-memory errors and stack overflows. An exception is an event that an application can catch. These are the errors from try/catch blocks.</p>
@@ -826,6 +1043,37 @@
       <div class="ln-flex-center">
         <p><code>fun mean(xs: List&lt;Double&gt;): Either&lt;String, Double&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (xs.isEmpty()) Left("cannot get mean of empty list")<br>&nbsp;&nbsp;&nbsp;&nbsp;else Right(xs.sum() / xs.size)</code></p>
       </div>
+      <div class="ln-box">
+        <h2>Error Handling Practice Problems</h2>
+        <p>Write the function <code>productE()</code>, which takes a list of <code>Int</code>s and, if the list is not empty, returns its product <code>(list[0] * list[1] ...* list[n-1])</code>, otherwise returns a <code>String</code>, such as "error: trying to find product of an empty list!". Use <code>Either</code> and calculate the product using a tail-recursive inner helper function. The tail-recursive function can just return an <code>Int</code>, as long as the base case is that the length of the list is `1`.</p>
+        <div class="collapse ln-box" id="error_handling_q1">
+          <div class="ln-flex-center">
+            <p><code>fun productE(l: List&lt;Int&gt;): Either&lt;String, Int&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l: List&lt;Int&gt;, acc: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.size == 1) l[0] * acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l.drop(1), l[0] * acc)<br>&nbsp;&nbsp;&nbsp;&nbsp;return (<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.size == 0) Left("error: trying to find product of an empty list!")<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else Right(helper(l, 1))<br>&nbsp;&nbsp;&nbsp;&nbsp;)<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#error_handling_q1" aria-expanded="false" aria-controls="error_handling_q1">Answer</button>
+        <p>Write a data class <code>Person</code> with a <code>name</code> and <code>age</code> field as <code>String</code> and <code>Int</code>, respectively. Write a freestanding <code>createPerson()</code> function that accepts <code>name</code> and <code>age</code> values as arguments. If the age is &lt; `0`, <code>createPerson()</code> returns an error message using <code>Either</code> stating that the age is invalid. Otherwise, it returns an instance of <code>Person</code> with the user-specified name and age.</p>
+        <div class="collapse ln-box" id="error_handling_q2">
+          <div class="ln-flex-center">
+            <p><code>data class Person(val name: String, val age: Int)<br>fun createPerson(name: String, age: Int): Either&lt;String, Person&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (age &lt; 0) Left("invalid age")<br>&nbsp;&nbsp;&nbsp;&nbsp;else Right(Person(name, age))</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#error_handling_q2" aria-expanded="false" aria-controls="error_handling_q2">Answer</button>
+        <p>Write the function <code>safeGetByIndex()</code>, which takes a <code>List&lt;A&gt;</code> and an <code>Int</code> `n`. If `n` is a valid index in the list, the function returns list[`n`]. Otherwise, it returns an error message like "Invalid index!".</p>
+        <div class="collapse ln-box" id="error_handling_q3">
+          <div class="ln-flex-center">
+            <p><code>fun &lt;A&gt; safeGetByIndex(l: List&lt;A&gt;, n: Int): Either&lt;String, A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;if (n &lt; 0 || n &gt;= l.size) Left("Invalid index!")<br>&nbsp;&nbsp;&nbsp;&nbsp;else Right(l[n])</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#error_handling_q3" aria-expanded="false" aria-controls="error_handling_q3">Answer</button>
+        <p>Write another version of <code>safeGetByIndex()</code> that uses a try/catch. If no exception occurs, return list[`n`]. Otherwise return the error message from the exception.</p>
+        <div class="collapse ln-box" id="error_handling_q4">
+          <div class="ln-flex-center">
+            <p><code>fun &lt;A&gt; safeGetByIndex(l: List&lt;A&gt;, n: Int): Either&lt;Exception, A&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;try {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right(l[n])<br>&nbsp;&nbsp;&nbsp;&nbsp;} catch (e: Exception) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left(e)<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#error_handling_q4" aria-expanded="false" aria-controls="error_handling_q4">Answer</button>
+      </div>
       <h2 id="strictnessnlaziness">Strictness and Laziness</h2>
       <p>Strict evaluation means that expressions are evaluated and bound to variables when they are defined. Lazy evaluation means that expressions are evaluated only when they are used. Note that this means a variable can be assigned an expression, but that expression may not necessarily be evaluated. I promise this makes more sense with examples.</p>
       <p>Stepping away from Kotlin for just a second, consider this line of code in some language:</p>
@@ -880,6 +1128,34 @@
         <p><code>fun maybeTwiceLazy(b: Boolean, i: () -&gt; Int) {<br>&nbsp;&nbsp;&nbsp;&nbsp;val j: Int by lazy(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;if (b) j + j else 0<br>}</code></p>
       </div>
       <p>The first time <code>j</code> is referenced, it calls the function <code>i()</code>. The value of <code>j</code> is then cached so that when <code>j</code> is called the second time, it refers to the cached value instead of running <code>i()</code> again. And we can verify this with the same <code>main()</code> code above to see that "hi" is printed only once.</p>
+      <div class="ln-box">
+        <h2>Laziness Practice Problems</h2>
+        <p>Write a <code>lazyCalculator()</code> function that accepts input parameters:</p>
+        <ul>
+          <li>Two numbers <code>a</code> and <code>b</code></li>
+          <li>A boolean condition</li>
+          <li>A function, <code>doFirst</code>, that does a computation specified by a caller</li>
+          <li>A function, <code>doSecond</code>, that does a computation specified by a caller</li>
+        </ul>
+        <p>If the condition is true, <code>doFirst()</code> is called, otherwise <code>doSecond()</code> is called. <code>doFirst()</code> and <code>doSecond()</code> are not to be evaluated unless they are called, i.e., they should be lazy evaluated. As one example, <code>doFirst()</code> can be the sum of the two numbers and <code>doSecond()</code> can be the difference of the two numbers.</p>
+        <div class="collapse ln-box" id="laziness_q1">
+          <div class="ln-flex-center">
+            <p><code>fun lazyCalculator(a: Int, b: Int, cond: Boolean, doFirst: (Int, Int) -&gt; Int, doSecond: (Int, Int) -&gt; Int): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;val x: Int by lazy({ doFirst(a, b) })<br>&nbsp;&nbsp;&nbsp;&nbsp;val y: Int by lazy({ doSecond(a, b) })<br>&nbsp;&nbsp;&nbsp;&nbsp;return if (cond) x else y<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#laziness_q1" aria-expanded="false" aria-controls="laziness_q1">Answer</button>
+        <p>Consider this code, which crashes with a divide by zero error as soon as you build the list:</p>
+        <div class="ln-flex-center">
+          <p><code>fun divide(n1: Int, n2: Int): Int = n1/n2<br>fun multiply(n1: Int, n2: Int): Int = n1*n2<br>fun expo(n1: Int, n2: Int): Int = Math.pow(n1.toDouble(), n2.toDouble()).toInt()<br>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val n1: Int = 7<br>&nbsp;&nbsp;&nbsp;&nbsp;val n2: Int = 0<br>&nbsp;&nbsp;&nbsp;&nbsp;val l1 = listOf(multiply(n1, n2), divide(n1, n2), expo(n1, n2))<br>}</code></p>
+        </div>
+        <p>Create a <code>List</code> with these same operations, but without evaluating them. Hint: if you print the list, you will see something like this: [() -&gt; kotlin.Int, () -&gt; kotlin.Int, () -&gt; kotlin.Int]</p>
+        <div class="collapse ln-box" id="laziness_q2">
+          <div class="ln-flex-center">
+            <p><code>val l1 = listOf({ multiply(n1, n2) }, { divide(n1, n2) }, { expo(n1, n2) })</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#laziness_q2" aria-expanded="false" aria-controls="laziness_q2">Answer</button>
+      </div>
       <h3>Lazy Lists</h3>
       <p>From here, we'll continue by looking at a problem and building up the pieces towards a solution.</p>
       <p>Consider this line of code:</p>
@@ -1010,6 +1286,15 @@
         <li><code>Cons({ 36 }, { Stream.of(3, 4).map{ it + 10 }.filter{ it % 2 == 0}.map{ it * 3 } })</code></li>
       </ol>
       <p>This is what (I believe) it actually looks like at the end. We only applied all the transformations on the first element, and if it didn't make it through all of them, then we moved on to the next element until that element completed all the transformations. The transformations aren't applied to the rest of the elements until they need to be (e.g., when <code>examineStream()</code> is calling <code>s.tail()</code>).</p>
+      <div class="ln-box">
+        <p>Write an instance method for <code>Stream</code> that recursively calculates the length of the <code>Stream</code>.</p>
+        <div class="collapse ln-box" id="stream_q1">
+          <div class="ln-flex-center">
+            <p><code>fun length(): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;when (this) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Empty -&gt; 0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is Cons -&gt; 1 + tail().length()<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#stream_q1" aria-expanded="false" aria-controls="stream_q1">Answer</button>
+      </div>
       <h2 id="corecursion">Corecursion</h2>
       <p>Corecursion is kinda the opposite of recursion in a way. It uses recursion to generate data instead of, well, whatever you decide to use recursion for. It may seem weird, but there's no base case or termination condition in corecursion. This allows us to create infinite data structures that aren't actually infinite.</p>
       <div class="ln-flex-center">
@@ -1223,6 +1508,7 @@
         <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val rng = SimpleRNG(942)<br>&nbsp;&nbsp;&nbsp;&nbsp;val intR: Rand&lt;Int&gt; = { rng -&gt; rng.nextInt() }<br>&nbsp;&nbsp;&nbsp;&nbsp;val doubleR: Rand&lt;Double&gt; = map(::nonNegativeInt) { i -&gt; i / (Int.MAX_VALUE.toDouble() + 1) }<br>&nbsp;&nbsp;&nbsp;&nbsp;val intDoubleR: Rand&lt;Pair&lt;Int, Double&gt;&gt; = both(intR, doubleR)<br>&nbsp;&nbsp;&nbsp;&nbsp;val (p, _) = intDoubleR(rng)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(p)<br>}</code></p>
       </div>
       <p>So we're taking the random numbers generated by <code>intR</code> (passed as <code>ra</code>)and <code>doubleR</code> (passed as <code>rb</code>) and creating a <code>Pair</code> with them (using the lambda <code>{ a, b -> a to b }</code>).</p>
+      <h2 id="monoids">Monoids</h2>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
