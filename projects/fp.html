@@ -476,6 +476,13 @@
           </div>
         </div>
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#tail_recursion_q6" aria-expanded="false" aria-controls="tail_recursion_q6">Answer</button>
+        <p>Write a function <code>countCharOccs(s:String, c: Char): Int</code> that uses a tail-recursive inner function to find and return the number of occurrences of the <code>Char</code> in the <code>String</code>.</p>
+        <div class="collapse ln-box" id="tail_recursion_q7">
+          <div class="ln-flex-center">
+            <p><code>fun countCharOcc(s: String, c: Char): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(s: String, c: Char, acc: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (s.length == 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (s[0] == c) helper(s.drop(1), c, acc+1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(s.drop(1), c, acc)<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(s, c, 0)<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#tail_recursion_q7" aria-expanded="false" aria-controls="tail_recursion_q7">Answer</button>
       </div>
       <div class="ln-box">
         <h2>A Different Way To Recurse</h2>
@@ -670,6 +677,13 @@
           </div>
         </div>
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q11" aria-expanded="false" aria-controls="higher_order_q11">Answer</button>
+        <p>Write a function <code>myF()</code> that takes a <code>String</code> and a function <code>(Char) -&gt; Boolean</code> and uses a tail-recursive inner function to find and return the number of <code>Char</code>s in the <code>String</code> for which the function returned true.</p>
+        <div class="collapse ln-box" id="higher_order_q12">
+          <div class="ln-flex-center">
+            <p><code>fun myF(s: String, f: (Char) -&gt; Boolean): Int {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(s: String, f: (Char) -&gt; Boolean, acc: Int): Int =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (s.length == 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (f(s[0])) helper(s.drop(1), f, acc+1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(s.drop(1), f, acc)<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(s, f, 0)<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#higher_order_q12" aria-expanded="false" aria-controls="higher_order_q12">Answer</button>
       </div>
       <h2 id="generics">Generics</h2>
       <p>This naturally leads us to the concept of subtypes and supertypes. Suppose we have two types, `A` and `B`. Type `B` is a subtype of type `A` if you can use type `B` whenever type `A` is required. For example, Int is a subtype of Number; whenever the code expects a Number, we can pass an Int because technically, an Int is a Number.</p>
@@ -1223,7 +1237,7 @@
         <p>One thing to note here is that if the function being passed to <code>exists()</code> returns true for an element, then any elements after it are never evaluated. #laziness</p>
       </div>
       <div class="ln-box">
-        <p>Kotlin's <code>fold()</code> function takes in two parameters: 1) an initial value for an accumulator and 2) a function that is applied to each element in the list.</p>
+        <p>Kotlin's <code>fold()</code> function reduces a collection to a single value by applying an operation to each element in the collection. It takes in two parameters: 1) an initial value for an accumulator and 2) a function that is applied to each element in the list.</p>
         <div class="ln-flex-center">
           <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val x = listOf(1, 2, 3, 4, 5)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(x.fold(0, {acc: Int, i: Int -&gt; acc + i }))<br>}</code></p>
         </div>
@@ -1452,6 +1466,7 @@
       </div>
       <p>By returning <code>rng3</code>, we're allowing the caller to generate more random numbers if they need to.</p>
       <div class="ln-box">
+        <h3>Functional State Practice Problems</h3>
         <p>Write a function that uses <code>RNG.nextInt()</code> to generate a random integer between `0` and <code>Int.MAX_VALUE</code> (inclusive). Each negative value must be mapped to a distinct nonnegative value. Make sure to handle the corner case when <code>nextInt()</code> returns <code>Int.MIN_VALUE</code>, which doesn't have a nonnegative counterpart. (The range of an integer is `-2,147,483,648` to `2,147,483,647`, inclusive.)</p>
         <div class="collapse ln-box" id="functional_rng_q1">
           <div class="ln-flex-center">
@@ -1466,8 +1481,6 @@
           </div>
         </div>
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#functional_rng_q2" aria-expanded="false" aria-controls="functional_rng_q2">Answer</button>
-      </div>
-      <div class="ln-box">
         <p>Write a function that takes an <code>Int</code> count and an <code>RNG</code> and generates a <code>List</code> of random <code>Int</code>s in a <code>Pair</code> with the <code>RNG</code> created when the last random <code>Int</code> was generated.</p>
         <div class="collapse ln-box" id="functional_rng_q3">
           <div class="ln-flex-center">
@@ -1475,6 +1488,17 @@
           </div>
         </div>
         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#functional_rng_q3" aria-expanded="false" aria-controls="functional_rng_q3">Answer</button>
+        <p>This function maps integers (from a random number generator) to capital letters:</p>
+        <div class="ln-flex-center">
+          <p><code>fun randChar(rng: RNG): Pair&lt;Char, RNG&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;val (i1, newRng) = rng.nextInt()<br>&nbsp;&nbsp;&nbsp;&nbsp;val i = if (i1 &lt; 0) -(i1 + 1) else i1<br>&nbsp;&nbsp;&nbsp;&nbsp;val rC = i % 26 + 65<br>&nbsp;&nbsp;&nbsp;&nbsp;return rC.toChar() to newRng<br>}</code></p>
+        </div>
+        <p>Write a function <code>myF()</code> that takes an <code>RNG</code> and an <code>Int</code> called <code>count</code> and returns a <code>Pair&lt;String, RNG&gt;</code>, where the <code>String</code> is a series of random capital letters whose length is <code>count</code>, and <code>RNG</code> is the last random number generator created in the series.</p>
+        <div class="collapse ln-box" id="functional_rng_q4">
+          <div class="ln-flex-center">
+            <p><code>fun myF(rng: RNG, count: Int): Pair&lt;String, RNG&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(rng: RNG, count: Int, acc: Pair&lt;String, RNG&gt;): Pair&lt;String, RNG&gt; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (count == 0) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val (c, newRng) = randChar(rng)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;helper(newRng, count-1, acc.first+c to newRng)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(rng, count, "" to rng)<br>}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#functional_rng_q4" aria-expanded="false" aria-controls="functional_rng_q4">Answer</button>
       </div>
       <p>There's a common pattern (which can be seen in the exercises above) where functions that need to return a value and a state return them as a <code>Pair</code>. These functions have a type of the form <code>(RNG) -&gt; Pair&lt;A, RNG&gt;</code> for some type <code>A</code>. Functions of this type are called "state actions" or "state transitions" because they transform states from one call to the next.</p>
       <div class="ln-box">
@@ -1509,6 +1533,95 @@
       </div>
       <p>So we're taking the random numbers generated by <code>intR</code> (passed as <code>ra</code>)and <code>doubleR</code> (passed as <code>rb</code>) and creating a <code>Pair</code> with them (using the lambda <code>{ a, b -> a to b }</code>).</p>
       <h2 id="monoids">Monoids</h2>
+      <p>No, it's not some infectious disease. In math (specifically, abstract algebra), a monoid is a set that has an associative binary operation and an identity element.</p>
+      <div class="ln-box">
+        <p>Recall that an operation is associative if we can group the elements in any way and still get the same result. For example, addition is associative because `(a+b)+c=a+(b+c)`.</p>
+      </div>
+      <div class="ln-box">
+        <p>An identity element is hard to explain in a grammatically correct sentence. Here are some examples instead:</p>
+        <p>For addition, the identity element is `0` because `a+0=a`.</p>
+        <p>For multiplication, the identity element is `1` because `a*1=a`.</p>
+        <p>Basically, when we perform the operation with a value and the identity element, the result is the value.</p>
+      </div>
+      <p>In programming, a monoid is a type with an associative binary operation and an identity element. We can create a monoid with the string concatenation operator. String concatenation is associative and the identity element is the empty string.</p>
+      <div class="ln-box">
+        <p>We can't create monoids with subtraction and division because those operations aren't associative. For subtraction, `(1-2)-3 != 1-(2-3)`. For division, `(6//2)//2 != 6//(2//2)`.</p>
+        <p>We can create a monoid with truth values and logical and (&amp;). &amp; is associative and the identity element is true.</p>
+      </div>
+      <p>We can express a monoid in Kotlin as an interface:</p>
+      <div class="ln-flex-center">
+        <p><code>interface Monoid&lt;A&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;fun combine(a1: A, a2: A): A<br>&nbsp;&nbsp;&nbsp;&nbsp;val nil: A<br>}</code></p>
+      </div>
+      <p>And create a monoid by implementing it:</p>
+      <div class="ln-flex-center">
+        <p><code>val stringMonoid = object: Monoid&lt;String&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;override fun combine(a1: String, a2: String): String = a1 + a2<br>&nbsp;&nbsp;&nbsp;&nbsp;override val nil: String = ""<br>}<br>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;println(stringMonoid.combine("h", "ello"))<br>&nbsp;&nbsp;&nbsp;&nbsp;println(stringMonoid.combine("hello", stringMonoid.nil))<br>}</code></p>
+      </div>
+      <div class="ln-box">
+        <p>A subtle thing to note here is that we're implementing an interface with an object instead of a class.</p>
+      </div>
+      <p>Here's another way with a monoid instance:</p>
+      <div class="ln-flex-center">
+        <p><code>fun intAddition(): Monoid&lt;Int&gt; = object: Monoid&lt;Int&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;override fun combine(a1: Int, a2: Int): Int = a1 + a2<br>&nbsp;&nbsp;&nbsp;&nbsp;override val nil: Int = 0<br>}<br>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val add = intAddition()::combine<br>&nbsp;&nbsp;&nbsp;&nbsp;println(add(4,5))<br>&nbsp;&nbsp;&nbsp;&nbsp;println(add(1, add(2, add(3, 4))))<br>&nbsp;&nbsp;&nbsp;&nbsp;println(add(add(1, 2), add(3, 4)))<br>&nbsp;&nbsp;&nbsp;&nbsp;println(add(add(add(1, 2), 3), 4))<br>}</code></p>
+      </div>
+      <p>So what are monoids used for anyway? From the lecture slides:</p>
+      <ul>
+        <li>A monoid can be used as an abstraction</li>
+        <li>We can write generic code, assuming only the capabilities provided by the fact that the abstraction is a monoid</li>
+      </ul>
+      <p>Whatever that means.</p>
+      <p>It turns out that monoids are helpful for things like combining data structures and aggregating results. Monoids make it possible to do those things in a parallel manner, which we're about to see.</p>
+      <h3>Lists and Monoids</h3>
+      <div class="ln-box">
+        <p>Not relevant to this section, but list concatenation forms a monoid.</p>
+        <div class="ln-flex-center">
+          <p><code>fun &lt;A&gt; listMonoid(): Monoid&lt;List&lt;A&gt;&gt; = object: Monoid&lt;List&lt;A&gt;&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;override fun combine(a1: List&lt;A&gt;, a2: List&lt;A&gt;): List&lt;A&gt; = a1 + a2<br>&nbsp;&nbsp;&nbsp;&nbsp;override val nil: List&lt;A&gt; = emptyList()<br>}</code></p>
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>This is from the "Stream" section, but I'll include it here again.</p>
+        <p>Kotlin's <code>fold()</code> function reduces a collection to a single value by applying an operation to each element in the collection. It takes in two parameters: 1) an initial value for an accumulator and 2) a function that is applied to each element in the list.</p>
+        <div class="ln-flex-center">
+          <p><code>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val x = listOf(1, 2, 3, 4, 5)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(x.fold(0, {acc: Int, i: Int -&gt; acc + i }))<br>}</code></p>
+        </div>
+      </div>
+      <p><code>foldLeft()</code> and <code>foldRight()</code> are custom implementations of <code>fold()</code> that we can define if we want to iterate over the collection in a certain order. <code>foldLeft()</code> starts at the beginning and iterates to the end (left to right), while <code>foldRight()</code> starts at the end and iterates backwards to the beginning (right to left).</p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; List&lt;A&gt;.foldLeft(initial: A, operation: (acc: A, A) -&gt; A): A {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l: List&lt;A&gt;, acc: A): A =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l.drop(1), operation(acc, l[0]))<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(this, initial)<br>}<br>fun &lt;A&gt; List&lt;A&gt;.foldRight(initial: A, operation: (acc: A, A) -&gt; A): A {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l: List&lt;A&gt;, acc: A): A =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l.dropLast(1), operation(acc, l[l.size-1]))<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(this, initial)<br>}</code></p>
+      </div>
+      <p>If we call <code>foldLeft()</code> and <code>foldRight()</code> with a monoid, then we should get the same result for both functions (since the operation is associative).</p>
+      <div class="ln-flex-center">
+        <p><code>val myIntMonoid = intAddition()<br>fun main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;val l = listOf(1, 2, 3, 4, 5)<br>&nbsp;&nbsp;&nbsp;&nbsp;println(l.foldLeft(myIntMonoid.nil, myIntMonoid::combine))<br>&nbsp;&nbsp;&nbsp;&nbsp;println(l.foldRight(myIntMonoid.nil, myIntMonoid::combine))<br>}</code></p>
+      </div>
+      <p>The problem with <code>foldLeft()</code> and <code>foldRight()</code> is that they aren't efficient when the lists are very large (they iterate one element at a time). <strong>We can solve this by taking advantage of the fact that the operator in a monoid is associative, meaning that we can start from anywhere, combine the results in any way, and still get the same result as if we iterated one element at a time.</strong></p>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; List&lt;A&gt;.splitAt(n: Int): Pair&lt;List&lt;A&gt;, List&lt;A&gt;&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;val mid: Int = (n+1)/2<br>&nbsp;&nbsp;&nbsp;&nbsp;val s1: List&lt;A&gt; = this.take(mid)<br>&nbsp;&nbsp;&nbsp;&nbsp;val s2: List&lt;A&gt; = this.drop(mid)<br>&nbsp;&nbsp;&nbsp;&nbsp;return s1 to s2<br>}</code></p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>fun &lt;A&gt; List&lt;A&gt;.balancedFold(initial: A, operation: (acc: A, A) -&gt; A): A =<br>&nbsp;&nbsp;&nbsp;&nbsp;when {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.isEmpty() -&gt; initial<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.size == 1 -&gt; operation(initial, this[0])<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val (left, right) = this.splitAt(this.size / 2)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;operation(left.balancedFold(initial, operation), right.balancedFold(initial, operation))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+      </div>
+      <div class="ln-box">
+        <h3>Monoids Practice Problems</h3>
+        <p>XOR (exclusive OR) is a binary operation which is true if exactly one of the operands (which are <code>Boolean</code>s or boolean expressions) is true (inclusive OR is true if at least one of the operands is true). Kotlin has an xor operator: <code>a.xor(b)</code>.</p>
+        <p>Write an XOR monoid instance (a singleton) with an identity element and a combine() function. In addition, write <code>xorFoldLeft()</code>, <code>xorFoldRight()</code>, and <code>xorBalancedFold()</code> with these function headers:</p>
+        <p><code>fun xorFoldLeft(l: List&lt;Boolean&gt;, initial: Boolean): Boolean</code></p>
+        <p><code>fun xorFoldRight(l: List&lt;Boolean&gt;, initial: Boolean): Boolean</code></p>
+        <p><code>fun xorBalancedFold(l: List&lt;Boolean&gt;, initial: Boolean): Boolean</code></p>
+        <div class="collapse ln-box" id="monoids_q1">
+          <div class="ln-flex-center">
+            <p><code>fun xorMonoid(): Monoid&lt;Boolean&gt; = object: Monoid&lt;Boolean&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;override fun combine(a1: Boolean, a2: Boolean): Boolean = a1.xor(a2)<br>&nbsp;&nbsp;&nbsp;&nbsp;override val nil: Boolean = false<br>}</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>fun xorFoldLeft(l: List&lt;Boolean&gt;, initial: Boolean): Boolean {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l: List&lt;Boolean&gt;, acc: Boolean): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l.drop(1), xorMonoid().combine(l[0], acc))<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(l, initial)<br>}</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>fun xorFoldRight(l: List&lt;Boolean&gt;, initial: Boolean): Boolean {<br>&nbsp;&nbsp;&nbsp;&nbsp;tailrec fun helper(l: List&lt;Boolean&gt;, acc: Boolean): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (l.isEmpty()) acc<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else helper(l.dropLast(1), xorMonoid().combine(l[l.size-1], acc))<br>&nbsp;&nbsp;&nbsp;&nbsp;return helper(l, initial)<br>}</code></p>
+          </div>
+          <div class="ln-flex-center">
+            <p><code>fun xorBalancedFold(l: List&lt;Boolean&gt;, initial: Boolean): Boolean =<br>&nbsp;&nbsp;&nbsp;&nbsp;when {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l.isEmpty() -&gt; initial<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l.size == 1 -&gt; xorMonoid().combine(l[0], initial)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else -&gt; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val (left, right) = l.splitAt(l.size / 2)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xorMonoid().combine(xorBalancedFold(left, xorMonoid().nil), xorBalancedFold(right, xorMonoid().nil))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}</code></p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#monoids_q1" aria-expanded="false" aria-controls="monoids_q1">Answer</button>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
