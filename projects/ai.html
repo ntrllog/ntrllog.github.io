@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+                          _   _
+     _  _    _     _  _  | | | |   __     ____
+    | |/ \  | |_  | |/_| | | | |  /  \   /    \
+    | |   | |  _| |  /   | | | | | || | |  ||  |
+    | |   | | |_  | |    | | | | | || | |  ||  |
+    |_|   | |___| |_|    |_| |_|  \__/   \____/|
+                                               |
+                                          ____/
+    -->
+    <title>ntrllog | Artificial Intelligence</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
+    <link href="../css/content.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="dropdown ln-fixed-right">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#whatisit">What is AI?</a></li>
+        <li><a class="dropdown-item" href="#agentsandenvironments">Agents and Environments</a></li>
+        <li><a class="dropdown-item" href="#goodbot">Good Behavior: The Concept of Rationality</a></li>
+        <li><a class="dropdown-item" href="#environments">The Nature of Environments</a></li>
+        <li><a class="dropdown-item" href="#agentstructure">The Structure of Agents</a></li>
+        <li><a class="dropdown-item" href="#problemsolvingagents">Problem-Solving Agents</a></li>
+        <li><a class="dropdown-item" href="#exampleproblems">Example Problems</a></li>
+        <li><a class="dropdown-item" href="#searchalgorithms">Search Algorithms</a></li>
+        <li><a class="dropdown-item" href="#uninformedsearchstrategies">Uninformed Search Strategies</a></li>
+      </ul>
+    </div>
+    <div class="container ln-line-height">
+      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+      <h1>Artificial Intelligence</h1>
+      <hr>
+      <p>Shortcut to this page: <a href="ai.html">ntrllog.netlify.app/ai</a></p>
+      <p>Info provided by <a href="https://aima.cs.berkeley.edu" target="_blank">Artificial Intelligence: A Modern Approach</a></p>
+      <h2 id="whatisit">What is AI?</h2>
+      <p>Well, it kinda depends on what we think makes a machine "intelligent". Is it the ability for the machine to act like a human? Or is it the ability for the machine to always do the mathematically-optimal thing (<b>rationality</b>)? And is intelligence a way of thinking or a way of behaving? These are the four main dimensions that researchers are using to think about AI.</p>
+      <h3>Acting humanly: The Turing test approach</h3>
+      <p>Let's say we ask a question to a computer and some people and get back their responses. If we can't tell whether the responses came from a person or from a computer, then the computer passes the <b>Turing test</b>.</p>
+      <div class="ln-box">
+        <p>In order to pass the Turing test, a computer would need:</p>
+        <ul>
+          <li><b>natural language processing</b>: communicate in a human language</li>
+          <li><b>knowledge representation</b>: store what it knows or hears</li>
+          <li><b>automated reasoning</b>: answer questions and draw new conclusions</li>
+          <li><b>machine learning</b>: adapt to new circumstances and detect and extrapolate patterns</li>
+        </ul>
+        <p>There's also a <b>total Turing test</b>, which tests if a computer can <em>physically</em> behave like a human. To pass the total test, a computer would also need:</p>
+        <ul>
+          <li><b>computer vision</b> and speech recognition</li>
+          <li><b>robotics</b>: manipulate objects and move around</li>
+        </ul>
+      </div>
+      <h3>Thinking humanly: The cognitive modeling approach</h3>
+      <p>While the Turing test is just focused on the computer's results, some people are more interested in the computer's process. When performing a task, does a computer go through the same thought process as a human would?</p>
+      <div class="ln-box">
+        <p>If the input-output behavior matches human behavior, then that could give us some insight into how our brains work.</p>
+      </div>
+      <div class="ln-box">
+        <p>We can learn about how humans think by:</p>
+        <ul>
+          <li><b>introspection</b>: thinking about our thoughts as they go by</li>
+          <li><b>psychological experiments</b>: observing a person in action</li>
+          <li><b>brain imaging</b>: observing the brain in action</li>
+        </ul>
+        <p><b>Cognitive science</b> combines computer models and experimental techniques from psychology to study the human mind.</p>
+      </div>
+      <h3>Thinking rationally: The "laws of thought" approach</h3>
+      <p>The world of <b>logic</b> is pretty much, "if these statements are true, then this has to be true". If we give a computer some assumptions, can it reason its way to a correct conclusion?</p>
+      <div class="ln-box">
+        <p>In things like chess and math, all the rules are known, so it's relatively easy to make logical choices and statements. But in the real world, there's a lot of uncertainty. Interestingly, the theory of <b>probability</b> allows for rigorous reasoning with uncertain information. With this, we can use raw perceptual information to understand how the world works and make predictions.</p>
+      </div>
+      <h3>Acting rationally: The rational agent approach</h3>
+      <p>A computer agent is defined to be something that can operate autonomously, perceive their environment, persist over a prolonged time period, adapt to change, and create and pursue goals. A <b>rational agent</b> acts to achieve the best outcome.</p>
+      <p>There's a subtle distinction between "thinking" rationally and "acting" rationally. Thinking rationally is about making correct inferences. (What's implied here is that there is some (slow) deliberate reasoning process involved.) But it's possible to act rationally without having to make inferences. For example, recoiling from a hot stove, which is more of a reflex action than something you come to a conclusion about.</p>
+      <div class="ln-box">
+        <p>The rational agent approach is how most researchers approach studying AI. This is because rationality (as opposed to humanity) is easier to approach scientifically, and the rational agent approach kinda encapsulates all the other approaches. For example, in order to act rationally, a computer needs the skills that is required for it to act like a human.</p>
+      </div>
+      <p>So AI is the science of making machines act rationally, a.k.a. <b>doing the right thing</b>. The "right" thing is specified by us to the agent as an objective that it should complete. This way of thinking about AI is considered the <b>standard model</b>.</p>
+      <h3>Beneficial machines</h3>
+      <p>But the problem with the standard model is that it only works when the objective is fully specified. In the real world, it's hard to specify a goal that is complete and correct. For example, if the primary goal of a self-driving car is safety, then, of course, it's safest to just not leave the house at all, but that's not helpful; there needs to be some tradeoff. Inherently, there is a <b>value alignment problem</b>: the values put into the machine must be aligned with our values. That is, the machine's job shouldn't be to just complete its objective; it should also consider the costs, consequences, and benefits that would affect us.</p>
+      <h2 id="agentsandenvironments">Agents and Environments</h2>
+      <p>A little more formally, an <b>agent</b> perceives its <b>environment</b> through <b>sensors</b> and acts upon that environment through <b>actuators</b>. Its <b>percept sequence</b> is the complete history of everything it has ever perceived. The agent looks at its percept sequence (and its built-in knowledge) to determine what action to take.</p>
+      <div class="ln-box">
+        <p>Mathematically, an agent's behavior is defined by an <b>agent function</b>, which maps a percept sequence to an action.</p>
+      </div>
+      <p>Let's take a look at a robotic vacuum cleaner. Suppose the floor is divided into two squares `A` and `B`, and that the vacuum cleaner is on square `A`. We can create a table that (theoretically) lists all the percept sequences and the actions that (we think) should be taken for each one.</p>
+      <table class="table">
+        <tr>
+          <th>Percept sequence</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Square `A` is clean</td>
+          <td>Move right</td>
+        </tr>
+        <tr>
+          <td>Square `A` is dirty</td>
+          <td>Clean</td>
+        </tr>
+        <tr>
+          <td>Square `B` is clean</td>
+          <td>Move left</td>
+        </tr>
+        <tr>
+          <td>Square `B` is dirty</td>
+          <td>Clean</td>
+        </tr>
+        <tr>
+          <td>Square `A` is clean, Square `A` is clean</td>
+          <td>Move right</td>
+        </tr>
+        <tr>
+          <td>Square `A` is clean, Square `A` is dirty</td>
+          <td>Clean</td>
+        </tr>
+        <tr>
+          <td>`vdots`</td>
+          <td>`vdots`</td>
+        </tr>
+        <tr>
+          <td>Square `A` is clean, Square `A` is clean, Square `A` is clean</td>
+          <td>Move right</td>
+        </tr>
+        <tr>
+          <td>Square `A` is clean, Square `A` is clean, Square `A` is dirty</td>
+          <td>Clean</td>
+        </tr>
+        <tr>
+          <td>`vdots`</td>
+          <td>`vdots`</td>
+        </tr>
+      </table>
+      <p>In this very simplified scenario, it's pretty easy to see what the right actions should be. But in general, it's a bit harder to know what the correct action should be.</p>
+      <h2 id="goodbot">Good Behavior: The Concept of Rationality</h2>
+      <p>So how can we know what the "right" action should be? How do we know that an action is "right"?</p>
+      <h3>Performance Measures</h3>
+      <p>Generally, we assess how good an agent is by the consequences of its actions (<b>consequentialism</b>). If the resulting environment is desirable, then the agent is good. (good bot)</p>
+      <p>A <b>performance measure</b> is a way to evaluate the agent's behavior in an environment. We have to be a little bit thoughtful about how we come up with a performance measure though. For the vacuum cleaner, it might sound like a good idea to measure performance by how much dirt is cleaned up in an eight-hour shift. The problem with this is that a rational agent would maximize performance by repeatedly cleaning up the dirt and dumping it on the floor. A better performance measure would be to reward the agent for a clean floor. For example, we could give it one point for each clean square, incentivizing it to maximize the number of points (and thus the number of clean squares).</p>
+      <p>As we can see, it's better to come up with performance measures based on what we want to be achieved in the environment, rather than what we think the agent should do.</p>
+      <h3>Rationality</h3>
+      <p>Formally, for each possible percept sequence, a rational agent should use the evidence provided by the percept sequence and its built-in knowledge to select an action that maximizes its performance measure (<b>definition of a rational agent</b>). We can assess whether an agent is rational by looking at four things:</p>
+      <ul>
+        <li>the performance measure that defines success</li>
+        <li>the agent's prior knowledge of the environment</li>
+        <li>the actions that the agent can perform</li>
+        <li>the agent's percept sequence to date</li>
+      </ul>
+      <p>For our vacuum cleaner:</p>
+      <ul>
+        <li>the performance measure awards one point for each clean square</li>
+        <li>the "geography" of the environment is known (but not the dirt distribution)</li>
+        <li>the actions are moving right, moving left, and cleaning</li>
+        <li>the agent's percept sequence consists of what square it's at and whether it's clean</li>
+      </ul>
+      <p>Under these circumstances, we can expect our vacuum cleaner to do at least as well as any other agent.</p>
+      <div class="ln-box">
+        <p>Suppose that we change the performance measure to deduct one point for each movement. Once all the squares are clean, the vacuum cleaner will just keep moving back and forth (we never defined "stopping" as an action). Then it would be irrational.</p>
+      </div>
+      <h3>Omniscience, learning, and autonomy</h3>
+      <p>One thing that's been sorta glossed over is that the agent doesn't know what will <em>actually</em> happen if it performs an action, i.e., it's not omniscient. So it's more correct to say that a rational agent tries to maximize <em>expected</em> performance.</p>
+      <p>In order to be able to maximize expected performance, the agent needs to be able to <b>gather information</b> and <b>learn</b>.</p>
+      <div class="ln-box">
+        <p>Crossing a street when it's empty is rational. It's expected that you'll reach the other side. But if you get hit by a car because you didn't look before crossing... well... then that's not rational.</p>
+      </div>
+      <p>If an agent only relies on its built-in knowledge, then it lacks <b>autonomy</b>. In order to be autonomous, the agent should build on its existing knowledge by learning. By being able to learn, a rational agent can be expected to succeed in a variety of environments.</p>
+      <h2 id="environments">The Nature of Environments</h2>
+      <p>A <b>task environment</b> is the problem that we are trying to solve by using a rational agent.</p>
+      <h3>Specifying the task environment</h3>
+      <p>We can specify a task environment by specifying the performance measure, the environment, and the agent's actuators and sensors (<b>PEAS</b>). Yes, these are the four things we listed out when defining how an agent can be rational. The vacuum cleaner example was fairly simple though, so we can look at something more complicated, like an automated taxi.</p>
+      <ul>
+        <li><b>performance measure</b>: correct destination, minimize fuel consumption, minimize time/cost, minimize impact on other drivers, maximize passenger safety and comfort, maximize profits</li>
+        <li><b>environment</b>: roads, traffic, obstacles, police, pedestrians, passengers, weather</li>
+        <li><b>actuators</b>: steering, accelerator, brake, signal, horn, display screen, speech</li>
+        <li><b>sensors</b>: cameras, speedometer, GPS, accelerometer, radar, microphone, touchscreen</li>
+      </ul>
+      <h3>Properties of task environments</h3>
+      <p>A task environment can be <b>fully observable</b> or <b>partially observable</b>. If the agent's sensors give it access to the complete state of the environment, then the task environment is fully observable. Noisy and inaccurate sensors would make it partially observable. Or maybe the capability simply isn't available. For example, a vacuum with a local sensor can't tell whether there is dirt in other squares and an automated taxi can't know what other drivers are thinking. Basically, if the agent has to make a guess, then the environment is partially observable.</p>
+      <div class="ln-box">
+        <p>An environment can also be <b>unobservable</b> if the agent has no sensors.</p>
+      </div>
+      <p>A task environment can be <b>single-agent</b> or <b>multiagent</b>. This one's pretty self-explanatory.</p>
+      <div class="ln-box">
+        <p>Though there is a small subtlety. Does an automated taxi have to view another car as another agent or can it think of it as just another "object"? The answer depends on whether the "object's" performance measure is affected by the automated taxi. If it is, then it must be viewed as an agent.</p>
+      </div>
+      <div class="ln-box">
+        <p>A multiagent environment can be <b>competitive</b> or <b>cooperative</b>. In a competitive environment, maximizing/improving one agent's performance measure minimizes/worsens another agent's performance measure. In a cooperative environment, all agents' performance measures can be maximized.</p>
+      </div>
+      <p>A task environment can be <b>deterministic</b> or <b>nondeterministic</b>. If the next state of the environment is completely determined by the current state and the agent's action, then it is deterministic. If something unpredictable can happen, then it is nondeterministic. For example, driving is nondeterministic because traffic cannot be predicted exactly. But if you want to argue that traffic is predictable, then some more reasons that driving is nondeterministic are that the tires may blow out unexpectedly or that the engine may seize up unexpectedly.</p>
+      <div class="ln-box">
+        <p>A <b>stochastic</b> environment is a nondeterministic environment that deals with probabilities. "There's a `25%` chance of rain" is stochastic, while "There's a chance of rain" is nondeterministic.</p>
+      </div>
+      <p>A task environment can be <b>episodic</b> or <b>sequential</b>. Classifying images is episodic because classifying the current image doesn't depend on the decisions for past images nor does it affect the decisions of future images. Chess and driving are sequential because the available moves depend on past moves, and the next move affects future moves.</p>
+      <p>A task environment can be <b>static</b> or <b>dynamic</b>. A static environment doesn't change while the agent is deciding on its next action, whereas a dynamic one does. Driving is dynamic because the other cars are always moving. Chess is static. As time passes, if the environment doesn't change, but the agent's performance score does, then the environment is <b>semidynamic</b>. Timed chess is semidynamic.</p>
+      <p>A task environment can be <b>discrete</b> or <b>continuous</b>. This refers to the state of the environment, the way time is handled, and the percepts and actions of the agent. Chess has a finite number of distinct states, percepts, and actions, which means it is discrete. Whereas in driving, speed and location range over continuous values.</p>
+      <p>A task environment can be <b>known</b> or <b>unknown</b>. (Well, strictly speaking, not really.) This is not referring to the environment itself, but to the agent's knowledge about the rules of its environment. In a known environment, the outcomes (or outcome probabilities) for all actions are given.</p>
+      <div class="ln-box">
+        <p>Known vs unknown is not the same as fully vs partially observable. A known environment can be partially observable, like solitaire, where we know the rules, but we can't see the cards that are turned over. An unknown environment can be fully observable, like a new video game, where the screen shows the entire game state, but we don't know what the buttons do yet until we try them.</p>
+      </div>
+      <div class="ln-box">
+        <p>The hardest case is partially observable, multiagent, nondeterministic, sequential, dynamic, continuous, and unknown. Driving is all of these, except the environment is known.</p>
+      </div>
+      <h2 id="agentstructure">The Structure of Agents</h2>
+      <p>Now we get to go over the more technical aspects of how agents work.</p>
+      <p>Recall that an agent function maps percept sequences to actions. An <b>agent program</b> is code that implements the agent function. This program runs on some sort of computing device with sensors and actuators, referred to as the <b>agent architecture</b>.</p>
+      <div class="ln-center">
+        <p>agent = architecture + program</p>
+      </div>
+      <p>In general, the architecture makes the percepts from the sensors available to the program, runs the program, and sends the program's action choices to the actuators.</p>
+      <h3>Agent programs</h3>
+      <p>A simple way to design agent programs is to have them take the current percept as input and return an action. Here is some sample pseudocode for an agent program:</p>
+      <div class="ln-flex-center">
+        <p><code>function TABLE-DRIVEN-AGENT(percept)<br>&nbsp;&nbsp;append percept to the end of percepts<br>&nbsp;&nbsp;action = LOOKUP(percepts, table)<br>&nbsp;&nbsp;return action</code></p>
+      </div>
+      <div class="ln-center">
+        <p><code>percepts</code>: a sequence, initially empty</p>
+        <p><code>table</code>: a table of actions, indexed by percept sequences, initially fully specified</p>
+      </div>
+      <div class="ln-box">
+        <p>The table is the same table that we drew out for the vacuum cleaner (in the "Agents and Environments" section). Using a table to list out all the percepts and actions is a way to represent the agent function, but it is typically not practical to build such a table because it must contain every possible percept sequence.</p>
+        <p>Let `P` be the set of possible percepts and let `T` be the total number of percepts the agent will receive.</p>
+        <p>If the agent receives `1` percept, then there are `|P|` possible percepts that it could be.</p>
+        <p>If the agent receives `2` percepts, then there are `|P|^2` possible percepts that they could be.</p>
+        <p>If the agent receives `3` percepts, then there are `|P|^3` possible percepts that they could be.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/ai/table_entries.png">
+          <p>Suppose each shape is a percept. For each percept at `t=1`, there are `|P|` percepts at `t=2` that could be paired with that percept. So `|P|*|P|=|P|^2` total percepts.</p>
+          <p>Extending that reasoning, for each of the `|P|^2` percept pairs at `t=1,2`, there are `|P|` percepts at `t=3` that could be paired with that percept pair. So `|P|^2*|P|=|P|^3` total percepts.</p>
+        </div>
+        <p>In general, there are `sum_(t=1)^T |P|^t` possible percept sequences, meaning that the table will have this many entries. An hour's worth of visual input from a single camera can result in at least `10^(600,000,000,000)` percept sequences. Even for chess, there are at least `10^(150)` percept sequences.</p>
+        <p>So yeah, building such a table is not really possible.</p>
+      </div>
+      <p>Theoretically though, <code>TABLE-DRIVEN-AGENT</code> does do what we want, which is to implement the agent function. The challenge is to write programs that do this without using a table.</p>
+      <div class="ln-box">
+        <p>Before the 1970s, people were apparently using huge tables of square roots to do their math. Now there are calculators that run a five-line program implementing Newton's method to calculate square roots.</p>
+        <p>Can AI do this for general intelligent behavior?</p>
+      </div>
+      <h3>Simple reflex agents</h3>
+      <p>This is the simplest kind of agent. A <b>simple reflex agent</b> select actions based only on the current percept; it ignores the rest of the percept history. Here's an agent program that implements the agent function for our vacuum:</p>
+      <div class="ln-flex-center">
+        <p><code>function REFLEX-VACUUM-AGENT([location, status])<br>&nbsp;&nbsp;if status == Dirty then return Clean<br>&nbsp;&nbsp;else if location == A then return Move right<br>&nbsp;&nbsp;else if location == B then return Move left</code></p>
+      </div>
+      <div class="ln-box">
+        <p>Note that since the agent is ignoring the percept history, there are only `4` total possible percepts (not `4^T`) at all times. Square `A` is clean, square `A` is dirty, square `B` is clean, and square `B` is dirty.</p>
+      </div>
+      <p>Simple reflex behaviors can be modeled as "if-then" statements. If the car in front is braking, then initiate braking. Because of their structure, they are called <b>condition-action rules</b> (or <b>situation-action rules</b> or <b>if-then rules</b>).</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/simple_reflex_agent.png">
+      </div>
+      <p><code>REFLEX-VACUUM-AGENT</code> is specific to the world of just two squares. Here's a more general and flexible way of writing agent programs:</p>
+      <div class="ln-flex-center">
+        <p><code>function SIMPLE-REFLEX-AGENT(percept)<br>&nbsp;&nbsp;state = INTERPRET-INPUT(percept)<br>&nbsp;&nbsp;rule = RULE-MATCH(state, rules)<br>&nbsp;&nbsp;action = rule.ACTION<br>&nbsp;&nbsp;return action</code></p>
+      </div>
+      <div class="ln-center">
+        <p><code>rules</code>: a set of condition-action rules</p>
+      </div>
+      <p>This approach involves designing a general-purpose interpreter that can convert a percept to a state. Then we provide the rules for specific states.</p>
+      <p>While simple reflex agents are, well, simple, they only work well in fully observable environments. The state of the environment has to be easily identifiable, otherwise the wrong rule and action will be applied. For example, it may be hard for the agent to tell if a car is braking or if it's just the taillights that are on.</p>
+      <p>For our vacuum example, suppose the vacuum didn't have a location sensor. Then it won't know which square it's on. If it starts at square `A` and chooses to move left, it will fail forever (and likewise if it starts at square `B` and chooses to move right).</p>
+      <p>Infinite loops like these often happen in partially observable environments and can be avoided by having the agent <b>randomize</b> its actions. Randomization can be rational in some multiagent environments, but it is usually not rational in single-agent environments.</p>
+      <h3>Model-based reflex agents</h3>
+      <p>To deal with partial observability, the agent can keep track of the part of the world it can't see now. In order to do this, the agent needs to maintain some sort of <b>internal state</b> that depends on the percept history. For a car changing lanes, the agent needs to keep track of where the other cars are if it can't see them all at once.</p>
+      <p>In order to update its internal state, the agent needs to know "how the world works". When the agent turns the steering wheel clockwise, the car turns to the right (effect of agent action). When it's raining, the car's camera can get wet (how the world evolves independent of agent's actions). This is a <b>transition model</b> of the world.</p>
+      <p>The agent also needs to know how to interpret the information it gets from its percepts to understand the current state of the world. When the car in front of the agent brakes, there will be several red regions in the forward-facing camera image. When the camera gets wet, there will be droplet-shaped objects in the image. This knowledge is called a <b>sensor model</b>.</p>
+      <p>A <b>model-based agent</b> uses the transition model and sensor model to keep track of the state of the world.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/model_based_reflex_agent.png">
+      </div>
+      <div class="ln-box">
+        <p>"What the world is like now" is really the agent's best guess.</p>
+      </div>
+      <div class="ln-flex-center">
+        <p><code>function MODEL-BASED-REFLEX-AGENT(percept)<br>&nbsp;&nbsp;state = UPDATE-STATE(state, action, percept, transition_model, sensor_model)<br>&nbsp;&nbsp;rule = RULE-MATCH(state, rules)<br>&nbsp;&nbsp;action = rule.ACTION<br>&nbsp;&nbsp;return action</code></p>
+      </div>
+      <div class="ln-center">
+        <p><code>state</code>: the agent's current conception of the world state</p>
+        <p><code>transition_model</code>: a description of how the next state depends on the current state and action</p>
+        <p><code>sensor_model</code>: a description of how the current world state is reflected in the agent's percepts</p>
+        <p><code>rules</code>: a set of condition-action rules</p>
+        <p><code>action</code>: the agent's most recent action, initially none</p>
+      </div>
+      <h3>Goal-based agents</h3>
+      <p>Sometimes, having information about the current state of the environment is not enough to decide what to do. For example, knowing that there's a fork in the road is not enough; the agent needs to know whether it should go left or right. The correct decision depends on the <b>goal</b>.</p>
+      <p>Goal-based decision making is different from following condition-action rules because it involves thinking about the future. A reflex agent brakes when it sees brake lights because that's specified in the rules. But a goal-based agent brakes when it sees brake lights because that's how it thinks it will avoid hitting other cars.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/goal_based_agent.png">
+      </div>
+      <div class="ln-box">
+        <p>Goal-based agents are also more flexible than reflex agents. If we want a goal-based agent to drive to a different destination, then we just have to update the goal. But if we want a reflex agent to go to a different destination, we have to update all the rules so that they l to the new destination.</p>
+      </div>
+      <h3>Utility-based agents</h3>
+      <p>While achieving the goal is what we want the agent to do, there are many different actions that can be taken to get there. And those different actions can affect how "happy" or "unhappy" the agent will be. This level of "happiness" is referred to as <b>utility</b>.</p>
+      <div class="ln-box">
+        <p>For example, a quicker/safer/more reliable/cheaper route makes the agent "happier" because it optimizes its performance measure.</p>
+      </div>
+      <div class="ln-box">
+        <p>A <b>utility function</b> maps environment states to a desirability score. If there are conflicting goals (e.g., speed and safety), the utility function specifies the appropriate tradeoff.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/utility_based_agent.png">
+      </div>
+      <div class="ln-box">
+        <p>An agent won't know exactly how "happy" it will be if it takes an action. So it's more correct to say that a rational utility-based agent chooses the action that maximizes <b>expected utility</b> (as opposed to just utility).</p>
+      </div>
+      <h3>Learning agents</h3>
+      <p>The preferred way to build agents (model-based, goal-based, utility-based, etc.) is to build them as a learning agent and then teach them.</p>
+      <p>A learning agent can be divided into four conceptual components: the learning element, the performance element, the critic, and the problem generator. The <b>learning element</b> is responsible for making improvements. The <b>performance element</b> is responsible for selecting actions. The <b>critic</b> provides feedback on how the agent is doing and determines how the performance element should be modified to do better.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/learning_agent.png">
+      </div>
+      <p>The <b>problem generator</b> is responsible for suggesting actions that will lead to new and informative experiences. This allows the agent to explore some suboptimal actions in the short run that may become much better actions in the long run.</p>
+      <div class="ln-box">
+        <p>The performance standard can be seen as a mapping from a percept to a <b>reward</b> or <b>penalty</b>. This allows the critic to learn what is good and bad.</p>
+        <p>The performance standard is a fixed external thing that is not a part of the agent.</p>
+      </div>
+      <h2 id="problemsolvingagents">Problem-Solving Agents</h2>
+      <div class="ln-box">
+        <p>We'll assume that the environments are episodic, single agent, fully observable, deterministic, static, discrete, and known.</p>
+      </div>
+      <p>If the agent doesn't know what the correct action to take should be, it should do some problem solving:</p>
+      <ol>
+        <li><b>Goal formulation</b>: figure out what the goal is to limit the number of actions that need to be considered</li>
+        <li><b>Problem formulation</b>: describe the states and actions (come up with an abstract model of the world)</li>
+        <li><b>Search</b>: try different sequences of actions to find one (the <b>solution</b>) that achieves the goal</li>
+        <li><b>Execution</b>: just do it</li>
+      </ol>
+      <div class="ln-box">
+        <p>In a fully observable, deterministic, known environment, the solution to any problem is a fixed sequence of actions. For example, traveling from one place to another.</p>
+        <p>In a partially observable or nondeterministic environment, a solution would be a branching strategy (if/else) that recommends different future actions depending on what percepts the agent sees. For example, the agent might come across a sign that says the road is closed, so it would need a backup plan.</p>
+      </div>
+      <h3>Search problems and solutions</h3>
+      <p>Formally, a <b>search</b> problem can be defined by specifying:</p>
+      <ul>
+        <li>the <b>state space</b>: the set of possible states that the environment can be in</li>
+        <li>the <b>initial state</b> that the agent starts in</li>
+        <li>a set of one or more <b>goal states</b></li>
+        <li>the <b>actions</b> available to the agent</li>
+        <li>a <b>transition model</b> that describes what each action does</li>
+        <li>an <b>action cost function</b> that describes the cost of performing an action
+          <ul>
+            <li>the cost should reflect the agent's performance measure, such as distance, time, or monetary cost</li>
+          </ul>
+        </li>
+      </ul>
+      <p>A sequence of actions forms a <b>path</b>, and a <b>solution</b> is a path from the initial state to a goal state. The cost of a path is the sum of the costs of each action on that path, so an <b>optimal solution</b> is the path with the lowest cost among all solutions. Everything can be represented as a <b>graph</b> where the vertices are the states and the edges are the actions.</p>
+      <h2 id="exampleproblems">Example Problems</h3>
+      <h3>Standardized problems</h3>
+      <p>A <b>grid world</b> problem is an array of cells where agents can move from cell to cell and each cell can contain objects. Our little vacuum example is an example of a grid world problem.</p>
+      <ul>
+        <li><b>states</b>: there are `8` different states depending on which objects are in which cells
+          <ul>
+            <li>for each of the two cells, it can contain the vacuum or not and it can contain dirt or not (`2*2*2=8`)</li>
+          </ul>
+        </li>
+        <li><b>initial state</b>: any state can be chosen as the initial state</li>
+        <li><b>actions</b>: move left, move right, clean</li>
+        <li><b>transition model</b>: cleaning removes dirt from the agent's cell and move left/right are self-explanatory</li>
+        <li><b>goal states</b>: all the states where every cell is clean
+          <ul>
+            <li>both cells are clean and the vacuum ends up in the left cell</li>
+            <li>both cells are clean and the vacuum ends up in the right cell</li>
+          </ul>
+        </li>
+        <li><b>action cost</b>: each action costs `1`</li>
+      </ul>
+      <div class="ln-box">
+        <p>This one's interesting. Donald Knuth conjectured that a sequence of square root, floor, and factorial operations can be applied to the number `4` to reach any positive integer. For example, we can reach `5` by applying eight operations:</p>
+        <div class="ln-center">
+          <p>`lfloorsqrt(sqrt(sqrt(sqrt(sqrt((4!)!)))))rfloor=5`</p>
+        </div>
+        <ul>
+          <li><b>states</b>: positive real numbers</li>
+          <li><b>initial state</b>: `4`</li>
+          <li><b>actions</b>: apply square root, floor, or factorial operation</li>
+          <li><b>transition model</b>: the effect of applying the operations are mathematically defined</li>
+          <li><b>goal state</b>: the desired positive integer</li>
+          <li><b>action cost</b>: each action costs `1`</li>
+        </ul>
+      </div>
+      <h3>Real-world problems</h3>
+      <p>A common type of real-world problem is the <b>route-finding problem</b> (finding an optimal path from point A to point B). For example, airline travel:</p>
+      <ul>
+        <li><b>states</b>: location and current time</li>
+        <li><b>initial state</b>: our home airport</li>
+        <li><b>actions</b>: take any flight from the current location</li>
+        <li><b>transition model</b>: the flight's destination will become our new current location and the flight's arrival time will become our new current time</li>
+        <li><b>goal state</b>: our destination
+          <ul>
+            <li>the goal can also be "arrive at the destination on a nonstop flight"</li>
+          </ul>
+        </li>
+        <li><b>action cost</b>: combination of monetary cost, waiting time, flight time, seat quality, time of day, type of airplane, frequent-flyer reward points, etc.</li>
+      </ul>
+      <div class="ln-box">
+        <p><b>Touring problems</b> is an extension of the route-finding problem where multiple locations must be visited instead of just one destination. The <b>traveling salesperson problem</b> is a popular example.</p>
+      </div>
+      <h2 id="searchalgorithms">Search Algorithms</h2>
+      <p>Search problems can be represented as a <b>search tree</b>, where a <b>node</b> represents a state and the edges represent the actions. For Knuth's conjecture:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/search_tree.png">
+        <p>The purple nodes are nodes that have been expanded. The green nodes are nodes that are on the frontier, i.e., they have not been expanded yet.</p>
+      </div>
+      <p>When we're at a node, we can <b>expand</b> the node to consider the available states that are possible (<b>generate</b> nodes). The nodes that have not been expanded yet make up the <b>frontier</b> of the search tree.</p>
+      <h3>Best-first search</h3>
+      <p>So how do we decide which path to take? A good general approach is to perform <b>best-first search</b>. In this type of search, we define an <b>evaluation function</b>, which, in a sense, is a measure of how close we are to reaching the goal state. When we apply the evaluation function to each frontier node, the node with the minimum value of the evaluation function should be the next node to go to.</p>
+      <div class="ln-box">
+        <p>One example of an evaluation function for Knuth's conjecture could be</p>
+        <div class="ln-center">
+          <p>`f(n) = abs(n-G)`</p>
+        </div>
+        <p>where `n` is the current node and `G` is the goal. This evaluation function is measuring the distance between where we are and where we want to be, so it makes sense to choose the node that minimizes this distance. Unfortunately, this isn't a very helpful evaluation function to use because it would tell us to keep applying the floor operation.</p>
+      </div>
+      <h3>Search data structures</h3>
+      <p>We can implement a node by storing:</p>
+      <ul>
+        <li>state: the state of the node</li>
+        <li>parent: the node that generated this node</li>
+        <li>action: the action that was applied to the parent to generate this node</li>
+        <li>path-cost: the total cost of the path from the initial state to this node</li>
+      </ul>
+      <p>We can store the frontier using a <b>queue</b>. A queue is good because it provides us with the operations to check if a frontier is empty, take the top node from the frontier, look at the top node of the frontier, and add a node to the frontier.</p>
+      <div class="ln-box">
+        <div class="ln-flex-center">
+          <p><code>function BEST-FIRST-SEARCH(problem, f)<br>&nbsp;&nbsp;node = NODE(STATE = problem.INITIAL)<br>&nbsp;&nbsp;frontier = priority queue ordered by f<br>&nbsp;&nbsp;reached = a lookup table<br>&nbsp;&nbsp;while not IS-EMPTY(frontier) do<br>&nbsp;&nbsp;&nbsp;&nbsp;node = POP(frontier)<br>&nbsp;&nbsp;&nbsp;&nbsp;if problem.IS-GOAL(node.STATE) then return node<br>&nbsp;&nbsp;&nbsp;&nbsp;for each child in EXPAND(problem, node) do<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s = child.STATE<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if s is not in reached or child.PATH-COST &lt; reached[s].PATH-COST then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reached[s] = child<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add child to frontier<br>&nbsp;&nbsp;return failure</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function EXPAND(problem, node)<br>&nbsp;&nbsp;s = node.STATE<br>&nbsp;&nbsp;for each action in problem.ACTIONS do<br>&nbsp;&nbsp;&nbsp;&nbsp;s' = problem.RESULT(s, action)<br>&nbsp;&nbsp;&nbsp;&nbsp;cost = node.PATH-COST + problem.ACTION-COST(s, action, s')<br>&nbsp;&nbsp;&nbsp;&nbsp;yield NODE(STATE = s', PARENT = node, ACTION = action, PATH-COST = cost)</code></p>
+        </div>
+      </div>
+      <h3>Redundant paths</h3>
+      <p>As we traversing the tree, it's possible to get stuck in a <b>cycle</b> (<b>loopy path</b>), i.e., go around in circles through <b>repeated states</b>. Here's an example of a cycle:</p>
+      <div class="ln-center">
+        <p>`4 ubrace(rarr)_(text(factorial)) 24 ubrace(rarr)_(text(square root)) 4.9 ubrace(rarr)_(text(floor)) 4`</p>
+      </div>
+      <p>A cycle is a type of <b>redundant path</b>, which is a path that has more steps than necessary. Here's an example of a redundant path:</p>
+      <div class="ln-center">
+        <p>`4 ubrace(rarr)_(text(floor)) 4 ubrace(rarr)_(text(square root)) 2`</p>
+        <p>(This is redundant because we could've just gone to `2` directly without needing the first floor operation.)</p>
+      </div>
+      <p>There are three ways to handle the possibility of running into redundant paths. The preferred way is to keep track of all the states we've been to. That way, if we see it again, then we know not to go that way. (The best-first search pseudocode does this.)</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/kansas.png">
+      </div>
+      <p>The bad part about doing this is that there might not be enough memory to keep track of all this info. So we can check for cycles instead of redundant paths. We can do this by following the chain of parent pointers ("going up the tree") to see if the state at the end has appeared earlier in the path.</p>
+      <p>Or we can choose to not even worry about choosing redundant paths if it's rare or impossible to have them. From this point on, we'll use <b>graph search</b> for search algorithms that check redundant paths and <b>tree-like search</b> for ones that don't.</p>
+      <h2 id="uninformedsearchstrategies">Uninformed Search Strategies</h2>
+      <p>The uninformed means that as the agent is performing the search algorithm, it doesn't know how close the current state is to the goal.</p>
+      <h3>Breadth-first search</h3>
+      <p>In breadth-first search, all the nodes on the same level are expanded first before going further down the path. This is generally a good strategy to consider when all the actions have the same cost.</p>
+      <div class="ln-box">
+        <p>Breadth-first search can be implemented as a call to <code>BEST-FIRST-SEARCH</code> where the evaluation function is the depth of the node, i.e., the number of actions it takes to reach the node.</p>
+      </div>
+      <div class="ln-box">
+        <p>There are several optimizations we can take advantage of when using breadth-first search. Using a first-in-first-out (FIFO) queue is faster than using a priority queue because the nodes that get added to a FIFO queue will already be in the correct order (so there's no need to perform a sort, which we would need to do with a priority queue).</p>
+        <p>Best-first search waits until the node is popped off the queue before checking if it's a solution (<b>late goal test</b>). But with breadth-first search, we can check if a node is a solution as soon as it's generated (<b>early goal test</b>). This is because traversing breadth first explores all the possible paths above the generated node, guaranteeing that we've found the shortest path to it. (Think about it like this: because we're traversing breadth first, we can't say, "Would we have found a shorter way here if we had gone on that path instead?" because we already checked that path.)</p>
+        <p>Because of this, breadth-first search is cost-optimal for problems where all actions have the same cost.</p>
+      </div>
+      <div class="ln-box">
+        <div class="ln-flex-center">
+          <p><code>function BREADTH-FIRST-SEARCH(problem)<br>&nbsp;&nbsp;node = NODE(problem.INITIAL)<br>&nbsp;&nbsp;if problem.IS-GOAL(node.STATE) then return node<br>&nbsp;&nbsp;frontier = a FIFO queue<br>&nbsp;&nbsp;reached = {problem.INITIAL}<br>&nbsp;&nbsp;while not IS-EMPTY(frontier) do<br>&nbsp;&nbsp;&nbsp;&nbsp;node = POP(frontier)<br>&nbsp;&nbsp;&nbsp;&nbsp;for each child in EXPAND(problem, node) do<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s = child.STATE<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if problem.IS-GOAL(s) then return child<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if s is not in reached then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add s to reached<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add child to frontier<br>&nbsp;&nbsp;return failure</code></p>
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>Let `d` represent the depth of the search tree. Suppose each node generates `b` child nodes.</p>
+        <p>The root node generates `b` nodes. Each of those `b` nodes generates `b` nodes (total `b^2` nodes). And each of the `b^2` nodes generates `b` nodes (total `b^3` nodes). So the total number of nodes generated is</p>
+        <div class="ln-center">
+          <p>`1+b+b^2+b^3+...+b^d=O(b^d)`</p>
+        </div>
+        <p>Time and space complexity are exponential, which is bad.</p>
+      </div>
+      <h3>Dijkstra's algorithm or uniform-cost search</h3>
+      <p>If actions have different costs, then <b>uniform-cost search</b> is a better consideration. The main idea behind this is that the least-cost paths are explored first. (I go into more step-by-step detail about how Dijkstra's algorithm works in my Computer Networking resource.)</p>
+      <div class="ln-box">
+        <p>Uniform-cost search can be implemented as a call to <code>BEST-FIRST-SEARCH</code> where the evaluation function is the cost of the path from the root to the current node.</p>
+      </div>
+      <div class="ln-box">
+        <p>The worst-case time and space complexity is `O(b^(1+lfloorC^**//epsilonrfloor))` where `C^**` is the cost of the optimal solution and `epsilon` is a lower bound on the cost of all actions.</p>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
