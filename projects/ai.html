@@ -39,6 +39,7 @@
         <li><a class="dropdown-item" href="#exampleproblems">Example Problems</a></li>
         <li><a class="dropdown-item" href="#searchalgorithms">Search Algorithms</a></li>
         <li><a class="dropdown-item" href="#uninformedsearchstrategies">Uninformed Search Strategies</a></li>
+        <li><a class="dropdown-item" href="#informedsearchstrategies">Informed (Heuristic) Search Strategies</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -460,7 +461,10 @@
       <h2 id="uninformedsearchstrategies">Uninformed Search Strategies</h2>
       <p>The uninformed means that as the agent is performing the search algorithm, it doesn't know how close the current state is to the goal.</p>
       <h3>Breadth-first search</h3>
-      <p>In breadth-first search, all the nodes on the same level are expanded first before going further down the path. This is generally a good strategy to consider when all the actions have the same cost.</p>
+      <p>In breadth-first search, all the nodes on the same level are expanded first before going further down any paths. This is generally a good strategy to consider when all the actions have the same cost.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/breadth_first_search.gif">
+      </div>
       <div class="ln-box">
         <p>Breadth-first search can be implemented as a call to <code>BEST-FIRST-SEARCH</code> where the evaluation function is the depth of the node, i.e., the number of actions it takes to reach the node.</p>
       </div>
@@ -480,7 +484,7 @@
         <div class="ln-center">
           <p>`1+b+b^2+b^3+...+b^d=O(b^d)`</p>
         </div>
-        <p>Time and space complexity are exponential, which is bad.</p>
+        <p>Time and space complexity are exponential, which is bad. (All the generated nodes have to remain in memory.)</p>
       </div>
       <h3>Dijkstra's algorithm or uniform-cost search</h3>
       <p>If actions have different costs, then <b>uniform-cost search</b> is a better consideration. The main idea behind this is that the least-cost paths are explored first. (I go into more step-by-step detail about how Dijkstra's algorithm works in my Computer Networking resource.)</p>
@@ -489,6 +493,265 @@
       </div>
       <div class="ln-box">
         <p>The worst-case time and space complexity is `O(b^(1+lfloorC^**//epsilonrfloor))` where `C^**` is the cost of the optimal solution and `epsilon` is a lower bound on the cost of all actions.</p>
+      </div>
+      <h3>Depth-first search and the problem of memory</h3>
+      <p>In <b>depth-first search</b>, the deepest node in the frontier is expanded first. Basically, one path at a time is picked and followed until it ends. So if a goal state is found, then that path is chosen as the solution. This also means that the path chosen may not be the cheapest path available. (What if we had gone down that path instead?)</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/depth_first_search.gif">
+      </div>
+      <div class="ln-box">
+        <p>So why should this algorithm even be considered? It's because depth-first search doesn't require a lot of memory. There's no need for a reached table and the frontier is very small.</p>
+        <p>The frontier of breadth-first search can be thought of as the surface of an expanding sphere while the frontier of depth-first search can be thought of as the radius of that sphere.</p>
+        <p>The memory complexity is `O(bm)` where `b` is the branching factor (number of nodes on a branch) and `m` is the maximum depth of the tree. Whenever we expand a node, we add `b` generated children to the frontier. Then we move to one of the children, generate its `b` children, and add them to the frontier. And so on until the bottom. This happens `m` times. So at the bottom, there are `m` groups of `b` children in the frontier.</p>
+      </div>
+      <div class="ln-box">
+        <p>Depth-first search can be implemented as a call to <code>BEST-FIRST-SEARCH</code> where the evaluation function is the negative of the depth.</p>
+      </div>
+      <h3>Depth-limited and iterative deepening search</h3>
+      <p>Another problem with depth-first search is that it can keep going down one path infinitely. To prevent this, we can decide to stop going down a path once we reach a certain point. This is <b>depth-limited search</b>.</p>
+      <div class="ln-box">
+        <p>The time complexity is `O(b^l)` and the space complexity is `O(bl)` for the same reasons as depth-first search.</p>
+      </div>
+      <p>But how far is too far? If we stop too early, we may not find a solution and if we choose to stop very late, it will take a long time. <b>Iterative deepening search</b> keeps trying different stopping points until a solution is found or until no solution is found (if this is the case, then we have gone deep enough to the point where all paths can be fully explored).</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/iterative_deepening_search.gif">
+      </div>
+      <div class="ln-box">
+        <p>It may seem a bit repetitive (or wasteful) to keep generating the top-level nodes. For example, `B` and `C` are generated `3` times at limits `1`, `2`, and `3`. However, this isn't really that big of an issue since the majority of the nodes are at the bottom, and those are only generated a few times compared to the top-level nodes.</p>
+        <p>In general, the nodes at the bottom level are generated once, those on the next-to-bottom level are generated twice, ..., and the children of the root are generated `d` times. So the total number of nodes generated is</p>
+        <div class="ln-center">
+          <p>`(d)b^1+(d-1)b^2+(d-2)b^3+...+b^d=O(b^d)`</p>
+        </div>
+        <p>So the time complexity is `O(b^d)` when there's a solution (and `O(b^m)` when there isn't).</p>
+      </div>
+      <div class="ln-box">
+        <p>The memory complexity is `O(bd)` when there is a solution and `O(bm)` when there isn't (for finite state spaces).</p>
+      </div>
+      <div class="ln-box">
+        <div class="ln-flex-center">
+          <p><code>function DEPTH-LIMITED-SEARCH(problem, l)<br>&nbsp;&nbsp;frontier = a LIFO queue<br>&nbsp;&nbsp;result = failure<br>&nbsp;&nbsp;while not IS-EMPTY(frontier) do<br>&nbsp;&nbsp;&nbsp;&nbsp;node = POP(frontier)<br>&nbsp;&nbsp;&nbsp;&nbsp;if problem.IS-GOAL(node.STATE) then return node<br>&nbsp;&nbsp;&nbsp;&nbsp;if DEPTH(node) &gt; l then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = cutoff<br>&nbsp;&nbsp;&nbsp;&nbsp;else if not IS-CYCLE(node) do<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for each child in EXPAND(problem, node) do<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add child to frontier<br>&nbsp;&nbsp;return result</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function ITERATIVE-DEEPENING-SEARCH(problem)<br>&nbsp;&nbsp;for depth = 0 to infinity do<br>&nbsp;&nbsp;&nbsp;&nbsp;result = DEPTH-LIMITED-SEARCH(problem, depth)<br>&nbsp;&nbsp;&nbsp;&nbsp;if result != cutoff then return result</code></p>
+        </div>
+        <p><code>cutoff</code> is a string used to denote that there might be a solution at a deeper level than `l`.</p>
+      </div>
+      <p>Iterative deepening is the preferred uninformed search method when the search state space is larger than can fit in memory and the depth of the solution is not known.</p>
+      <h3>Bidirectional search</h3>
+      <p>So far, all the algorithms started at the initial state and moved towards a goal state. But what we can also do is start from the initial state <em>and</em> the goal state(s) and hope that we meet somewhere in the middle. This is <b>bidirectional search</b>.</p>
+      <p>We need to keep track of two frontiers and two tables of reached states. There is a solution when the two frontiers meet.</p>
+      <div class="ln-box">
+        <p>Even though we have to keep track of two frontiers, each frontier is only half the size of the whole tree. So the time and space complexity is `O(b^(d//2))`, which is less than `O(b^d)`.</p>
+      </div>
+      <div class="ln-box">
+        <div class="ln-flex-center">
+          <p><code>function BIBF-SEARCH(problem_F, f_F, problem_B, f_B)<br>&nbsp;&nbsp;node_F = NODE(problem_F.INITIAL)<br>&nbsp;&nbsp;node_B = NODE(problem_B.INITIAL)<br>&nbsp;&nbsp;frontier_F = a priority queue ordered by f_F<br>&nbsp;&nbsp;frontier_B = a priority queue ordered by f_B<br>&nbsp;&nbsp;reached_F = a lookup table<br>&nbsp;&nbsp;reached_B = a lookup table<br>&nbsp;&nbsp;solution = failure<br>&nbsp;&nbsp;while not TERMINATED(solution, frontier_F, frontier_B) do<br>&nbsp;&nbsp;&nbsp;&nbsp;if f_F(TOP(frontier_F)) &lt; f_B(TOP(frontier_B)) then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;solution = PROCEED(F, problem_F, frontier_F, reached_F, reached_B, solution)<br>&nbsp;&nbsp;&nbsp;&nbsp;else solution = PROCEED(B, problem_B, frontier_B, reached_B, reached_F, solution)<br>&nbsp;&nbsp;return solution</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function PROCEED(dir, problem, frontier, reached, reached_2, solution)<br>&nbsp;&nbsp;node = POP(frontier)<br>&nbsp;&nbsp;for each child in EXPAND(problem, node) do<br>&nbsp;&nbsp;&nbsp;&nbsp;s = child.STATE<br>&nbsp;&nbsp;&nbsp;&nbsp;if s not in reached or PATH-COST(child) &lt; PATH-COST(reached[s]) then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reached[s] = child<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add child to frontier<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if s is in reached_2 then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;solution_2 = JOIN-NODES(dir, child, reached_2[s])<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if PATH-COST(solution_2) &lt; PATH-COST(solution) then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;solution = solution_2<br>&nbsp;&nbsp;return solution</code></p>
+        </div>
+        <p><code>TERMINATED</code> determines when to stop looking for solutions and <code>JOIN-NODES</code> joins the two paths.</p>
+      </div>
+      <div class="ln-box">
+        <h3>Comparing uninformed search algorithms</h3>
+        <p>An algorithm is <b>complete</b> if either a solution is guaranteed to be found if it exists or a failure is reported when it doesn't exist.</p>
+        <table class="table">
+          <tr>
+            <th>Criterion</th>
+            <th>Breadth-First</th>
+            <th>Uniform-Cost</th>
+            <th>Depth-First</th>
+            <th>Depth-Limited</th>
+            <th>Iterative Deepening</th>
+            <th>Bidirectional</th>
+          </tr>
+          <tr>
+            <td>Complete?</td>
+            <td>Yes<sup>*</sup></td>
+            <td>Yes<sup>*†</sup></td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes<sup>*</sup></td>
+            <td>Yes<sup>*§</sup></td>
+          </tr>
+          <tr>
+            <td>Optimal cost?</td>
+            <td>Yes<sup>‡</sup></td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes<sup>‡</sup></td>
+            <td>Yes<sup>‡§</sup></td>
+          </tr>
+          <tr>
+            <td>Time</td>
+            <td>`O(b^d)`</td>
+            <td>`O(b^(1+lfloorC^**//epsilonrfloor))`</td>
+            <td>`O(b^m)`</td>
+            <td>`O(b^l)`</td>
+            <td>`O(b^d)`</td>
+            <td>`O(b^(d//2))`</td>
+          </tr>
+          <tr>
+            <td>Space</td>
+            <td>`O(b^d)`</td>
+            <td>`O(b^(1+lfloorC^**//epsilonrfloor))`</td>
+            <td>`O(bm)`</td>
+            <td>`O(bl)`</td>
+            <td>`O(bd)`</td>
+            <td>`O(b^(d//2))`</td>
+          </tr>
+        </table>
+        <p>`b` is the branching factor. `m` is the maximum depth of the search tree. `d` is the depth of the shallowest solution, or is `m` when there is no solution. `l` is the depth limit.</p>
+        <p><sup>*</sup>if `b` is finite</p>
+        <p><sup>†</sup>if all action costs are `ge epsilon gt 0`</p>
+        <p><sup>‡</sup>if all action costs are identical</p>
+        <p><sup>§</sup>if both directions are breadth-first or uniform-cost</p>
+      </div>
+      <h2 id="informedsearchstrategies">Informed (Heuristic) Search Strategies</h2>
+      <p>Informed means that information is provided about how close the current state is to a goal state.</p>
+      <div class="ln-box">
+        <p>The information is referred to as "hints", which are given by a <b>heuristic function</b>, denoted as `h(n)`.</p>
+        <div class="ln-center">
+          <p>`h(n)=` estimated cost of the cheapest path from the state at node `n` to a goal state</p>
+        </div>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/map.png">
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <table class="table">
+            <tr>
+              <th>City</th>
+              <th>Straight-line distance to B</th>
+            </tr>
+            <tr>
+              <td>A</td>
+              <td>366</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>160</td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>242</td>
+            </tr>
+            <tr>
+              <td>E</td>
+              <td>161</td>
+            </tr>
+            <tr>
+              <td>F</td>
+              <td>176</td>
+            </tr>
+            <tr>
+              <td>G</td>
+              <td>77</td>
+            </tr>
+            <tr>
+              <td>H</td>
+              <td>151</td>
+            </tr>
+            <tr>
+              <td>I</td>
+              <td>226</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>244</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-sm">
+          <table class="table">
+            <tr>
+              <th>City</th>
+              <th>Straight-line distance to B</th>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>241</td>
+            </tr>
+            <tr>
+              <td>N</td>
+              <td>234</td>
+            </tr>
+            <tr>
+              <td>O</td>
+              <td>380</td>
+            </tr>
+            <tr>
+              <td>P</td>
+              <td>100</td>
+            </tr>
+            <tr>
+              <td>R</td>
+              <td>193</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>253</td>
+            </tr>
+            <tr>
+              <td>T</td>
+              <td>329</td>
+            </tr>
+            <tr>
+              <td>U</td>
+              <td>80</td>
+            </tr>
+            <tr>
+              <td>V</td>
+              <td>199</td>
+            </tr>
+            <tr>
+              <td>Z</td>
+              <td>374</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <p>We'll be using these for the next couple of sections. The map uses straight lines, but it's just a map. The roads aren't necessarily straight lines.</p>
+      <h3>Greedy best-first search</h3>
+      <p>If we know how close each node is to a goal, then it makes sense to choose the node that seems closest to the goal.</p>
+      <div class="ln-box">
+        <p>We expand first the node with the lowest `h(n)` value.</p>
+      </div>
+      <p>Let's say we're starting at `A` and we want to go to `B`. If we use the <b>straight-line distance</b> heuristic, then we get the path `A ubrace(rarr)_(140) S ubrace(rarr)_(99) F ubrace(rarr)_(211) B`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/greedy_best_first_search.gif">
+        <p>The numbers are the straight-line distances from that node to `B`.</p>
+      </div>
+      <p>The cost of that path is `450`, but that's not the path with the least cost. The path `A ubrace(rarr)_(140) S ubrace(rarr)_(80) R ubrace(rarr)_(97) P ubrace(rarr)_(101) B` has a lower cost with `418`. Being greedy isn't always the best choice.</p>
+      <h3>A* search</h3>
+      <p>The reason greedy best-first search failed is because it didn't take into consideration the cost of going to each node -- it only looked at how far away each node was to the destination. <b>A* search</b> looks at both the cost to get to each node and the estimated cost from each node to the destination.</p>
+      <div class="ln-box">
+        <p>A* search can be implemented as a call to <code>BEST-FIRST-SEARCH</code> where the evaluation function is `g(n)+h(n)`. `g(n)` is the cost from the initial state to node `n`, and `h(n)` is the estimated cost of the shortest path from `n` to a goal state.</p>
+        <p>`f(n)=` estimated cost of the best path that continues from `n` to a goal</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid" src="../pictures/ai/a_star_search.gif">
+      </div>
+      <p>Notice that `B` is found when expanding `F`, but since there's a lower cost available to consider, we don't accept the `F rarr B` path as a solution yet.</p>
+      <div class="ln-box">
+        <p>Whether A* is cost-optimal depends on the heuristic. If the heuristic is <b>admissible</b>, then A* is cost-optimal. Admissible means that the heuristic never overestimates the cost to reach a goal.</p>
+        <p>We can show A* is cost-optimal with an admissible heuristic by using a proof by contradiction.</p>
+        <p>Let `C^**` be the cost of the optimal path. Suppose for the sake of contradiction that the algorithm returns a path with cost `C gt C^**`. This means that there is some node `n` that is on the optimal path and is unexpanded (if we had expanded it, we would've found the optimal path and returned `C^**` instead).</p>
+        <p>Let `g^(ast)(n)` be the cost of the optimal path from the start to `n`, and let `h^(ast)(n)` be the cost of the optimal path from `n` to the nearest goal.</p>
+        <div class="ln-center">
+          <p>`f(n) gt C^**` (otherwise `n` would've been expanded)</p>
+          <p>`f(n) = g(n)+h(n)` (by definition)</p>
+          <p>`f(n) = g^(ast)(n)+h(n)` (because `n` is on the optimal path)</p>
+          <p>`f(n) le g^(ast)(n)+h^(ast)(n)` (because of admissibility, `h(n) le h^(ast)(n)`)</p>
+          <p>`f(n) le C^**` (by definition, `C^(ast)=g^(ast)(n)+h^(ast)(n)`)</p>
+        </div>
+        <p>The first and last lines form a contradiction. So it must be the case that the algorithm returns a path with cost `C le C^**`, i.e., A* is cost-optimal.</p>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
