@@ -739,6 +739,7 @@
         <img class="img-fluid" src="../pictures/ai/a_star_search.gif">
       </div>
       <p>Notice that `B` is found when expanding `F`, but since there's a lower cost available to consider, we don't accept the `F rarr B` path as a solution yet.</p>
+      <p>A* is efficient because it <b>prunes</b> away nodes that are not necessary for finding an optimal solution. Here, `T` and `Z` are pruned away, but would've been expanded in uniform-cost or breadth-first search.</p>
       <div class="ln-box">
         <p>Whether A* is cost-optimal depends on the heuristic. If the heuristic is <b>admissible</b>, then A* is cost-optimal. Admissible means that the heuristic never overestimates the cost to reach a goal.</p>
         <p>We can show A* is cost-optimal with an admissible heuristic by using a proof by contradiction.</p>
@@ -753,6 +754,22 @@
         </div>
         <p>The first and last lines form a contradiction. So it must be the case that the algorithm returns a path with cost `C le C^**`, i.e., A* is cost-optimal.</p>
       </div>
+      <h3>Memory-bounded search</h3>
+      <p><b>Beam search</b> keeps only `k` nodes with the best `f`-scores in the frontier. This means that we may be excluding cost-optimal paths, but it's the price to pay to limit the number of expanded nodes. And for many problems, it can find near-optimal solutions.</p>
+      <p><b>Iterative-deepening A* search</b> (IDA*) is a commonly used algorithm for problems with limited memory. Where iterative deepening search uses depth as the cutoff, iterative-deepening A* search uses `f`-cost as the cutoff. Specifically, the cutoff value is the smallest `f`-cost of any node that exceeded the cutoff on the previous iteration.</p>
+      <p>Once the cutoff is reached, IDA* starts over from the beginning. <b>Recursive best-first search</b> (RBFS) also uses `f`-values to determine how far down a path it should go, but once the cutoff is reached, it steps back and takes another path (the one with the second-lowest `f`-value) instead of starting over.</p>
+      <div class="ln-box">
+        <div class="ln-flex-center">
+          <p><code>function RECURSIVE-BEST-FIRST-SEARCH(problem)<br>&nbsp;&nbsp;solution, fvalue = RBFS(problem, NODE(problem.INITIAL), infinity)<br>&nbsp;&nbsp;return solution</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function RBFS(problem, node, f_limit)<br>&nbsp;&nbsp;if problem.IS-GOAL(node.STATE) then return node<br>&nbsp;&nbsp;successors = LIST(EXPAND(node))<br>&nbsp;&nbsp;if successors is empty then return failure, infinity<br>&nbsp;&nbsp;for each s in successors do<br>&nbsp;&nbsp;&nbsp;&nbsp;s.f = max(s.PATH-COST + h(s), node.f)<br>&nbsp;&nbsp;while true do<br>&nbsp;&nbsp;&nbsp;&nbsp;best = the node in successors with the lowest f-value<br>&nbsp;&nbsp;&nbsp;&nbsp;if best.f &gt; f_limit then return failure, best.f<br>&nbsp;&nbsp;&nbsp;&nbsp;alternative = the second lowest f-value among successors<br>&nbsp;&nbsp;&nbsp;&nbsp;result, best.f = RBFS(problem, best, min(f_limit, alternative))<br>&nbsp;&nbsp;&nbsp;&nbsp;if result != failure then return result, best_f</code></p>
+        </div>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid" src="../pictures/ai/rbfs.gif">
+      </div>
+      <p>Notice that when `P` is the successor with the lowest `f`-value, `P`'s `f`-value is higher than <code>f_limit</code>. So as we go back up to consider the alternative path, we update `R`'s `f`-value so we can check later if it's worth reexpanding `R`. The same thing happens for `F`.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
