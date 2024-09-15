@@ -41,6 +41,9 @@
         <li><a class="dropdown-item" href="#uninformedsearchstrategies">Uninformed Search Strategies</a></li>
         <li><a class="dropdown-item" href="#informedsearchstrategies">Informed (Heuristic) Search Strategies</a></li>
         <li><a class="dropdown-item" href="#heuristicfunctions">Heuristic Functions</a></li>
+        <li><a class="dropdown-item" href="#localsearch">Local Search and Optimization Problems</a></li>
+        <li><a class="dropdown-item" href="#localsearchincontinuousspaces">Local Search in Continuous Spaces</a></li>
+        <li><a class="dropdown-item" href="#nondeterministicsearch">Search with Nondeterministic Actions</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -48,7 +51,7 @@
       <h1>Artificial Intelligence</h1>
       <hr>
       <p>Shortcut to this page: <a href="ai.html">ntrllog.netlify.app/ai</a></p>
-      <p>Info provided by <a href="https://aima.cs.berkeley.edu" target="_blank">Artificial Intelligence: A Modern Approach</a></p>
+      <p>Info provided by <a href="https://aima.cs.berkeley.edu" target="_blank">Artificial Intelligence: A Modern Approach</a> and Professor Francisco Guzman (CSULA)</p>
       <h2 id="whatisit">What is AI?</h2>
       <p>Well, it kinda depends on what we think makes a machine "intelligent". Is it the ability for the machine to act like a human? Or is it the ability for the machine to always do the mathematically-optimal thing (<b>rationality</b>)? And is intelligence a way of thinking or a way of behaving? These are the four main dimensions that researchers are using to think about AI.</p>
       <h3>Acting humanly: The Turing test approach</h3>
@@ -233,7 +236,7 @@
         <p><code>table</code>: a table of actions, indexed by percept sequences, initially fully specified</p>
       </div>
       <div class="ln-box">
-        <p>The table is the same table that we drew out for the vacuum cleaner (in the "Agents and Environments" section). Using a table to list out all the percepts and actions is a way to represent the agent function, but it is typically not practical to build such a table because it must contain every possible percept sequence.</p>
+        <p>The <code>table</code> is the same table that we drew out for the vacuum cleaner (in the "Agents and Environments" section). Using a table to list out all the percepts and actions is a way to represent the agent function, but it is typically not practical to build such a table because it must contain every possible percept sequence. Here's why.</p>
         <p>Let `P` be the set of possible percepts and let `T` be the total number of percepts the agent will receive.</p>
         <p>If the agent receives `1` percept, then there are `|P|` possible percepts that it could be.</p>
         <p>If the agent receives `2` percepts, then there are `|P|^2` possible percepts that they could be.</p>
@@ -329,10 +332,10 @@
         <p>The performance standard can be seen as a mapping from a percept to a <b>reward</b> or <b>penalty</b>. This allows the critic to learn what is good and bad.</p>
         <p>The performance standard is a fixed external thing that is not a part of the agent.</p>
       </div>
+      <hr>
+      <p>For now, we'll assume that the environments are episodic, single agent, fully observable, deterministic, static, discrete, and known.</p>
+      <hr>
       <h2 id="problemsolvingagents">Problem-Solving Agents</h2>
-      <div class="ln-box">
-        <p>We'll assume that the environments are episodic, single agent, fully observable, deterministic, static, discrete, and known.</p>
-      </div>
       <p>If the agent doesn't know what the correct action to take should be, it should do some problem solving:</p>
       <ol>
         <li><b>Goal formulation</b>: figure out what the goal is to limit the number of actions that need to be considered</li>
@@ -359,7 +362,7 @@
         </li>
       </ul>
       <p>A sequence of actions forms a <b>path</b>, and a <b>solution</b> is a path from the initial state to a goal state. The cost of a path is the sum of the costs of each action on that path, so an <b>optimal solution</b> is the path with the lowest cost among all solutions. Everything can be represented as a <b>graph</b> where the vertices are the states and the edges are the actions.</p>
-      <h2 id="exampleproblems">Example Problems</h3>
+      <h2 id="exampleproblems">Example Problems</h2>
       <h3>Standardized problems</h3>
       <p>A <b>grid world</b> problem is an array of cells where agents can move from cell to cell and each cell can contain objects. Our little vacuum example is an example of a grid world problem.</p>
       <ul>
@@ -489,13 +492,15 @@
       </div>
       <h3>Dijkstra's algorithm or uniform-cost search</h3>
       <p>If actions have different costs, then <b>uniform-cost search</b> is a better consideration. The main idea behind this is that the least-cost paths are explored first. (I go into more step-by-step detail about how Dijkstra's algorithm works in my Computer Networking resource.)</p>
+      <p>Uniform-cost search will always find the optimal solution, but the main problem with it is that it's inefficient. It will expand a lot of nodes.</p>
       <div class="ln-box">
         <p>Uniform-cost search can be implemented as a call to <code>BEST-FIRST-SEARCH</code> where the evaluation function is the cost of the path from the root to the current node.</p>
       </div>
       <div class="ln-box">
         <p>The worst-case time and space complexity is `O(b^(1+lfloorC^**//epsilonrfloor))` where `C^**` is the cost of the optimal solution and `epsilon` is a lower bound on the cost of all actions.</p>
+        <p>Since costs are positive (`gt 0`), going down one path by one node may be "deeper" than going down another path by one node, so we can't use the same `d` notation for depth. So `C^(**)/epsilon` is an upper bound on how deep the solution is, i.e., the max number of actions that are taken to reach the solution.</p>
       </div>
-      <h3>Depth-first search and the problem of memory</h3>
+      <h3>Depth-first search</h3>
       <p>In <b>depth-first search</b>, the deepest node in the frontier is expanded first. Basically, one path at a time is picked and followed until it ends. So if a goal state is found, then that path is chosen as the solution. This also means that the path chosen may not be the cheapest path available. (What if we had gone down that path instead?)</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/ai/depth_first_search.gif">
@@ -618,132 +623,43 @@
         </div>
       </div>
       <div class="ln-center">
-        <img class="img-fluid ln-image-small" src="../pictures/ai/map.png">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/maze.png">
       </div>
-      <div class="row">
-        <div class="col-sm">
-          <table class="table">
-            <tr>
-              <th>City</th>
-              <th>Straight-line distance to B</th>
-            </tr>
-            <tr>
-              <td>A</td>
-              <td>366</td>
-            </tr>
-            <tr>
-              <td>B</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>C</td>
-              <td>160</td>
-            </tr>
-            <tr>
-              <td>D</td>
-              <td>242</td>
-            </tr>
-            <tr>
-              <td>E</td>
-              <td>161</td>
-            </tr>
-            <tr>
-              <td>F</td>
-              <td>176</td>
-            </tr>
-            <tr>
-              <td>G</td>
-              <td>77</td>
-            </tr>
-            <tr>
-              <td>H</td>
-              <td>151</td>
-            </tr>
-            <tr>
-              <td>I</td>
-              <td>226</td>
-            </tr>
-            <tr>
-              <td>L</td>
-              <td>244</td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-sm">
-          <table class="table">
-            <tr>
-              <th>City</th>
-              <th>Straight-line distance to B</th>
-            </tr>
-            <tr>
-              <td>M</td>
-              <td>241</td>
-            </tr>
-            <tr>
-              <td>N</td>
-              <td>234</td>
-            </tr>
-            <tr>
-              <td>O</td>
-              <td>380</td>
-            </tr>
-            <tr>
-              <td>P</td>
-              <td>100</td>
-            </tr>
-            <tr>
-              <td>R</td>
-              <td>193</td>
-            </tr>
-            <tr>
-              <td>S</td>
-              <td>253</td>
-            </tr>
-            <tr>
-              <td>T</td>
-              <td>329</td>
-            </tr>
-            <tr>
-              <td>U</td>
-              <td>80</td>
-            </tr>
-            <tr>
-              <td>V</td>
-              <td>199</td>
-            </tr>
-            <tr>
-              <td>Z</td>
-              <td>374</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <p>We'll be using these for the next couple of sections. The map uses straight lines, but it's just a map. The roads aren't necessarily straight lines.</p>
+      <p>For the next few algorithms, we'll be using this maze, where the goal is to find the shortest path from `S` to `G`. The number in each square is the number of squares it is away from the goal (ignoring walls). That is the heuristic we'll be using.</p>
       <h3>Greedy best-first search</h3>
-      <p>If we know how close each node is to a goal, then it makes sense to choose the node that seems closest to the goal.</p>
+      <p>If we know how close each node is to a goal, then it seems to makes sense to choose the node that seems closest to the goal.</p>
       <div class="ln-box">
         <p>We expand first the node with the lowest `h(n)` value.</p>
       </div>
-      <p>Let's say we're starting at `A` and we want to go to `B`. If we use the <b>straight-line distance</b> heuristic, then we get the path `A ubrace(rarr)_(140) S ubrace(rarr)_(99) F ubrace(rarr)_(211) B`.</p>
       <div class="ln-center">
-        <img class="img-fluid ln-image-small" src="../pictures/ai/greedy_best_first_search.gif">
-        <p>The numbers are the straight-line distances from that node to `B`.</p>
+        <img class="img-fluid ln-image-small" src="../pictures/ai/greedy_search_1.png">
       </div>
-      <p>The cost of that path is `450`, but that's not the path with the least cost. The path `A ubrace(rarr)_(140) S ubrace(rarr)_(80) R ubrace(rarr)_(97) P ubrace(rarr)_(101) B` has a lower cost with `418`. Being greedy isn't always the best choice.</p>
+      <p>Since we're being greedy, we'll move to the square that looks like it's `11` squares away from the goal instead of the square that looks like it's `13` squares away from the goal.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/greedy_search_2.png">
+      </div>
+      <p>Now obviously, this is not the optimal path. But being greedy is not always a good thing.</p>
       <h3>A* search</h3>
-      <p>The reason greedy best-first search failed is because it didn't take into consideration the cost of going to each node -- it only looked at how far away each node was to the destination. <b>A* search</b> looks at both the cost to get to each node and the estimated cost from each node to the destination.</p>
+      <p>The reason greedy best-first search failed is because it didn't take into consideration the cost of going to each node -- it only looked at how far away each node was to the destination. Intuitively, if it takes a long time to get to a destination that is close to your goal, is it really worth going to that destination? <b>A* search</b> looks at both the cost to get to each node and the estimated cost from each node to the destination.</p>
       <div class="ln-box">
         <p>A* search can be implemented as a call to <code>BEST-FIRST-SEARCH</code> where the evaluation function is `g(n)+h(n)`. `g(n)` is the cost from the initial state to node `n`, and `h(n)` is the estimated cost of the shortest path from `n` to a goal state.</p>
         <p>`f(n)=` estimated cost of the best path that continues from `n` to a goal</p>
       </div>
       <div class="ln-center">
-        <img class="img-fluid" src="../pictures/ai/a_star_search.gif">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/a_star_search_1.png">
       </div>
-      <p>Notice that `B` is found when expanding `F`, but since there's a lower cost available to consider, we don't accept the `F rarr B` path as a solution yet.</p>
-      <p>A* is efficient because it <b>prunes</b> away nodes that are not necessary for finding an optimal solution. Here, `T` and `Z` are pruned away, but would've been expanded in uniform-cost or breadth-first search.</p>
+      <p>Now, the numbers in each square represent the cost of going to that square plus the estimated distance to the goal, i.e., the number of squares it is away from the goal (ignoring walls).</p>
+      <p>Just like in greedy search, we'll be going up again. But don't worry, things will be different this time.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/a_star_search_2.png">
+      </div>
+      <p>At this point, we see that it's no longer worth continuing on this path because there is a cheaper option (`19`) at the fork. So we'll start going that way instead.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/a_star_search_3.png">
+      </div>
+      <p>Even though we wasted some time going down the longer path, we still found the optimal solution.</p>
       <div class="ln-box">
         <p>Whether A* is cost-optimal depends on the heuristic. If the heuristic is <b>admissible</b>, then A* is cost-optimal. Admissible means that the heuristic never overestimates the cost to reach a goal, i.e., the estimated cost to reach the goal is `le` the actual cost to reach the goal. Admissible heuristics are referred to as being optimistic.</p>
-        <p>The straight-line distance heuristic is an admissible heuristic because a straight line is the shortest distance between any two points (this is a fundamental principle in geometry).</p>
       </div>
       <div class="ln-box">
         <p>We can show A* is cost-optimal with an admissible heuristic by using a proof by contradiction.</p>
@@ -768,10 +684,18 @@
           <img class="img-fluid ln-image-small" src="../pictures/ai/consistent_heuristic.png">
         </div>
         <p>Consistency is a form of the <b>triangle inequality</b>, which says that a side of a triangle can't be longer than the sum of the other two sides.</p>
-        <p>The straight-line distance heuristic is also consistent because it satisifes this triangle inequality.</p>
       </div>
       <div class="ln-box">
-        <p>As we go down a path, the `g` costs should be increasing because action costs are always positive. For our traveling from `A` to `B` example, the closer we get to `B`, the farther we get from `A`. So the distance from `A` to our current position should always be increasing as we keep moving. The `g` costs are (strictly) <b>monotonic</b>.</p>
+        <p>Here's an example of how things can be not optimal if the heuristic is not admissible/consistent.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/ai/not_admissible.png">
+        </div>
+        <p>When we're starting at `S`, we can either choose to go to `A` or to `G` directly. Since the estimated cost of `A rarr G` is `6`, it looks more expensive to go to `A` first, so we go to `G` directly instead (`f(A)=1+6=7 gt f(G)=5+0=5`).</p>
+        <p>However, `S rarr G` is not the optimal path! `S rarr G` costs `5` while `S rarr A rarr G` costs `4`.</p>
+        <p>This happened because we overestimated the distance from `A` to `G`.</p>
+      </div>
+      <div class="ln-box">
+        <p>As we go down a path, the `g` costs should be increasing because action costs are always positive. For our maze example, the closer we get to `G`, the farther we get from `S`. So the distance from `S` to our current position should always be increasing as we keep moving. The `g` costs are (strictly) <b>monotonic</b>.</p>
         <p>So does this mean that `f=g+h` will also monotonically increase? As we move from `n` to `n'`, the cost goes from `g(n)+h(n)` to `g(n)+c(n,a,n')+h(n')`. Canceling out the `g(n)`, we see that the path's cost will be monotonically increasing if and only if `h(n) le c(n,a,n')+h(n')`, i.e., if and only if the heuristic is consistent.</p>
         <p>So if A* search is using a consistent heuristic, then:</p>
         <ul>
@@ -796,7 +720,7 @@
       </div>
       <h3>Satisficing search: Inadmissible heuristics and weighted A*</h3>
       <p>Even though A* is complete, cost-optimal, and optimally efficient, the one big problem with A* is that it expands a lot of nodes, which takes time and uses up space. We can expand fewer nodes by using an <b>inadmissible heuristic</b>, which may overestimate the estimated cost to the goal. Intuitively, if the estimated costs of some of the nodes are higher, then there will be fewer nodes that look favorable to expand. Of course, if we overestimate, then there's a chance we might miss an optimal path, but this is the price to pay for expanding fewer nodes. We might end up with suboptimal, but "good enough" solutions (<b>satisficing</b> solutions).</p>
-      <p>Inadmissible heuristics are potentially more accurate. Let's think about our straight-line distance heuristic. The path between two cities is almost never a straight line, so the length of the actual path will be greater than the length of the straight line. Meaning that overestimating the straight-line distance by a little bit will make it closer to the length of the actual path.</p>
+      <p>Inadmissible heuristics are potentially more accurate. Consider a heuristic that uses a straight-line distance to estimate the distance of a road between two cities. The path between two cities is almost never a straight line, so the length of the actual path will be greater than the length of the straight line. Meaning that overestimating the straight-line distance by a little bit will make it closer to the length of the actual path.</p>
       <p>We don't actually need an inadmissible heuristic to take advantage of the faster speed and lower memory usage. We can simulate an inadmissible heuristic by adding some weight to the heuristic.</p>
       <div class="ln-box ln-center">
         <p>`f(n)=g(n)+W*h(n)`</p>
@@ -843,11 +767,6 @@
           <p><code>function RBFS(problem, node, f_limit)<br>&nbsp;&nbsp;if problem.IS-GOAL(node.STATE) then return node<br>&nbsp;&nbsp;successors = LIST(EXPAND(node))<br>&nbsp;&nbsp;if successors is empty then return failure, infinity<br>&nbsp;&nbsp;for each s in successors do<br>&nbsp;&nbsp;&nbsp;&nbsp;s.f = max(s.PATH-COST + h(s), node.f)<br>&nbsp;&nbsp;while true do<br>&nbsp;&nbsp;&nbsp;&nbsp;best = the node in successors with the lowest f-value<br>&nbsp;&nbsp;&nbsp;&nbsp;if best.f &gt; f_limit then return failure, best.f<br>&nbsp;&nbsp;&nbsp;&nbsp;alternative = the second lowest f-value among successors<br>&nbsp;&nbsp;&nbsp;&nbsp;result, best.f = RBFS(problem, best, min(f_limit, alternative))<br>&nbsp;&nbsp;&nbsp;&nbsp;if result != failure then return result, best_f</code></p>
         </div>
       </div>
-      <div class="ln-center">
-        <img class="img-fluid" src="../pictures/ai/rbfs.gif">
-      </div>
-      <p>Notice that when `P` is the successor with the lowest `f`-value, `P`'s `f`-value is higher than <code>f_limit</code>. So as we go back up to consider the alternative path, we update `R`'s `f`-value so we can check later if it's worth reexpanding `R`. (The same thing happens for `F`.) The `f`-value that is used as replacement is called the <b>backed-up value</b>, and it's the best `f`-value of the node's children.</p>
-      <p>RBFS looks similar to A* search in that it looks for the lowest `f`-value. The difference is that RBFS only looks at the `f`-values of the current node's successors while A* search looks at all the nodes in the frontier.</p>
       <h3>Bidirectional heuristic search</h3>
       <p>Bidirectional search is sometimes more efficient than unidirectional search, sometimes not. If we're using a very good heuristic, then A* search will perform well and adding bidirectional search won't add any more value. If we're using an average heuristic, bidirectional search tends to expand fewer nodes. If we're using a bad heuristic, then both directional and unidirectional search will be equally bad.</p>
       <div class="ln-box">
@@ -876,6 +795,130 @@
           <li>if `2g(n) lt g(n)+h(n)`, then `f_2(n)=g(n)+h(n) gt 2g(n) gt C^(**)`</li>
         </ul>
         <p>So `f_2(n) gt C^(**)` for nodes with `g(n) gt C^(**)/2`. But nodes on optimal paths will have `f_2(n) le C^(**)`, so those will be expanded first.</p>
+      </div>
+      <div class="ln-box">
+        <p>Here's another example of greedy search, A* search, and RBFS from the textbook.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/ai/map.png">
+        </div>
+        <p>The map uses straight lines, but it's just a drawing. The roads aren't necessarily straight lines.</p>
+        <div class="row">
+          <div class="col-sm">
+            <table class="table">
+              <tr>
+                <th>City</th>
+                <th>Straight-line distance to B</th>
+              </tr>
+              <tr>
+                <td>A</td>
+                <td>366</td>
+              </tr>
+              <tr>
+                <td>B</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>C</td>
+                <td>160</td>
+              </tr>
+              <tr>
+                <td>D</td>
+                <td>242</td>
+              </tr>
+              <tr>
+                <td>E</td>
+                <td>161</td>
+              </tr>
+              <tr>
+                <td>F</td>
+                <td>176</td>
+              </tr>
+              <tr>
+                <td>G</td>
+                <td>77</td>
+              </tr>
+              <tr>
+                <td>H</td>
+                <td>151</td>
+              </tr>
+              <tr>
+                <td>I</td>
+                <td>226</td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td>244</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-sm">
+            <table class="table">
+              <tr>
+                <th>City</th>
+                <th>Straight-line distance to B</th>
+              </tr>
+              <tr>
+                <td>M</td>
+                <td>241</td>
+              </tr>
+              <tr>
+                <td>N</td>
+                <td>234</td>
+              </tr>
+              <tr>
+                <td>O</td>
+                <td>380</td>
+              </tr>
+              <tr>
+                <td>P</td>
+                <td>100</td>
+              </tr>
+              <tr>
+                <td>R</td>
+                <td>193</td>
+              </tr>
+              <tr>
+                <td>S</td>
+                <td>253</td>
+              </tr>
+              <tr>
+                <td>T</td>
+                <td>329</td>
+              </tr>
+              <tr>
+                <td>U</td>
+                <td>80</td>
+              </tr>
+              <tr>
+                <td>V</td>
+                <td>199</td>
+              </tr>
+              <tr>
+                <td>Z</td>
+                <td>374</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <h3>Greedy best-first search</h3>
+        <p>Let's say we're starting at `A` and we want to go to `B`. If we use the <b>straight-line distance</b> heuristic, then we get the path `A ubrace(rarr)_(140) S ubrace(rarr)_(99) F ubrace(rarr)_(211) B`.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/ai/greedy_best_first_search.gif">
+          <p>The numbers are the straight-line distances from that node to `B`.</p>
+        </div>
+        <p>The cost of that path is `450`, but that's not the path with the least cost. The path `A ubrace(rarr)_(140) S ubrace(rarr)_(80) R ubrace(rarr)_(97) P ubrace(rarr)_(101) B` has a lower cost with `418`.</p>
+        <h3>A* Search</h3>
+        <div class="ln-center">
+          <img class="img-fluid" src="../pictures/ai/a_star_search.gif">
+        </div>
+        <p>Notice that `B` is found when expanding `F`, but since there's a lower cost available to consider, we don't accept the `F rarr B` path as a solution yet.</p>
+        <p>A* is efficient because it <b>prunes</b> away nodes that are not necessary for finding an optimal solution. Here, `T` and `Z` are pruned away, but would've been expanded in uniform-cost or breadth-first search.</p>
+        <h3>Recursive best-first search</h3>
+        <div class="ln-center">
+          <img class="img-fluid" src="../pictures/ai/rbfs.gif">
+        </div>
+        <p>Notice that when `P` is the successor with the lowest `f`-value, `P`'s `f`-value is higher than <code>f_limit</code>. So as we go back up to consider the alternative path, we update `R`'s `f`-value so we can check later if it's worth reexpanding `R`. (The same thing happens for `F`.) The `f`-value that is used as replacement is called the <b>backed-up value</b>, and it's the best `f`-value of the node's children.</p>
+        <p>RBFS looks similar to A* search in that it looks for the lowest `f`-value. The difference is that RBFS only looks at the `f`-values of the current node's successors while A* search looks at all the nodes in the frontier.</p>
       </div>
       <h2 id="heuristicfunctions">Heuristic Functions</h2>
       <p>Here, we'll look at how the accuracy of a heuristic affects search performance and how we can come up with heuristics in the first place. We'll use the 8-puzzle as our main example. The 8-puzzle is a `3xx3` sliding-tile puzzle with `8` tiles and `1` blank space. We move tiles horizontally and vertically into the blank space until the goal state is reached (each move has a cost of `1`).</p>
@@ -994,6 +1037,151 @@
         </div>
         <p>Machine learning would be used to figure out the best values for the constants.</p>
       </div>
+      <hr>
+      <p>Earlier, we assumed that the environments are episodic, single agent, fully observable, deterministic, static, discrete, and known. Now we'll start relaxing these constraints to get closer to the real world.</p>
+      <hr>
+      <h2 id="localsearch">Local Search and Optimization Problems</h2>
+      <p>There are some search problems where we only care about what a goal state looks like (and we don't care what the path looks like). For example, the 8-queens problem is to find a valid placement of 8 queens such that no queens are attacking each other. Once we know what a solution looks like, it's trivial to reconstruct the steps to get there.</p>
+      <p><b>Local search</b> algorithms work without keeping track of the paths or the states that have been reached. This means that they don't explore the whole search space systematically, i.e., they are not complete and may not find a solution. However, they use very little memory and can find reasonable solutions in problems with large or infinite state spaces.</p>
+      <p>Local search also works for <b>optimization problems</b>, where the goal is to find the best state according to some <b>objective function</b>. The objective function represents what we're trying to maximize/minimize.</p>
+      <h3>Hill-climbing search</h3>
+      <p>Let's take a look at a sample <b>state-space landscape</b>.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/state_space_landscape.png">
+      </div>
+      <p>One goal might be to find the highest peak, which is the <b>global maximum</b>. This process is called <b>hill climbing</b>.</p>
+      <div class="ln-box">
+        <p>If the goal is to find the lowest valley (<b>global minimum</b>), then the process is called <b>gradient descent</b>.</p>
+      </div>
+      <p>The hill climbing search algorithm is pretty simple. It keeps moving forward until the next state it finds has a smaller value than the value of the current state.</p>
+      <div class="ln-box">
+        <div class="ln-flex-center">
+          <p><code>function HILL-CLIMBING(problem)<br>&nbsp;&nbsp;current = problem.INITIAL<br>&nbsp;&nbsp;while true do<br>&nbsp;&nbsp;&nbsp;&nbsp;neighbor = a highest-valued successor state of current<br>&nbsp;&nbsp;&nbsp;&nbsp;if VALUE(neighbor) &leq; VALUE(current) then return current<br>&nbsp;&nbsp;&nbsp;&nbsp;current = neighbor</code></p>
+        </div>
+        <p>This particular version of hill climbing is <b>steepest-ascent hill climbing</b> because it heads in the direction of the steepest ascent.</p>
+      </div>
+      <div class="ln-box">
+        <p>Hill climbing is sometimes also called <b>greedy local search</b> because it gets a good neighbor state without thinking ahead about where to go next.</p>
+      </div>
+      <p>There are some situations where the hill climbing algorithm can get stuck before finding a solution. One situation is when a <b>local maximum</b> is reached. In this situation, every possible move results in a worser state.</p>
+      <p>Another situation is when a <b>plateau</b> is reached. A plateau can be a flat local maximum or a <b>shoulder</b>, where there is an uphill exit. In this situation, every possible move doesn't result in a better state (except if the plateau is a shoulder and we're right at the edge of the uphill exit).</p>
+      <p>One way to get unstuck is to allow <b>sideways moves</b>, i.e., to allow the algorithm to keep moving as long as the next state isn't worse. The idea is to hope that the plateau is a shoulder. This won't work if the plateau is a local maximum though, in which case we really are stuck.</p>
+      <p>Another way (kinda) is to just start over, but from a different starting point. This is <b>random-restart hill climbing</b>.</p>
+      <div class="ln-box">
+        <p>Interestingly, random-restart hill climbing is complete with probability `1` because it will eventually generate a goal state as the initial state.</p>
+      </div>
+      <div class="ln-box">
+        <p><b>Stochastic hill climbing</b> chooses a random uphill move instead of the steepest uphill move.</p>
+        <p><b>First-choice hill climbing</b> generates successors randomly until one of them is better than the current state.</p>
+      </div>
+      <h3>Simulated annealing</h3>
+      <div class="ln-box">
+        <p>Annealing is the process of hardening metals and glass by heating them to a high temperature and then gradually cooling them.</p>
+      </div>
+      <p>Sometimes, it's necessary to make worse moves that put us in a temporarily worse state so that we can get to a better position.</p>
+      <div class="ln-box">
+        <div class="ln-flex-center">
+          <p><code>function SIMULATED_ANNEALING(problem, schedule)<br>&nbsp;&nbsp;current = problem.INITIAL<br>&nbsp;&nbsp;for t = 1 to infinity do<br>&nbsp;&nbsp;&nbsp;&nbsp;T = schedule(t)<br>&nbsp;&nbsp;&nbsp;&nbsp;if T = 0 then return current<br>&nbsp;&nbsp;&nbsp;&nbsp;next = a randomly selected successor of current<br>&nbsp;&nbsp;&nbsp;&nbsp;&Delta;E = VALUE(current) - VALUE(next)<br>&nbsp;&nbsp;&nbsp;&nbsp;if &Delta;E &gt; 0 then current = next<br>&nbsp;&nbsp;&nbsp;&nbsp;else current = next only with probability</code> `e^(-DeltaE//T)`</p>
+        </div>
+        <p><code>T</code> represents the "temperature", corresponding to the temperature described in annealing.</p>
+      </div>
+      <p>In the simulated-annealing algorithm, we pick moves randomly instead of picking the best move. If the move puts us in a better situation, then we'll accept it. But if the move puts us in a worse position, then we'll consider it, depending on how bad of a move it is (measured by `DeltaE`). And as time goes on, we'll be less accepting of bad moves.</p>
+      <div class="ln-box">
+        <p>It's called simulated annealing because the algorithm starts with a high "temperature", meaning that there's a high level of randomness in exploring the search space. As time goes on, the "temperature" gets lower, reducing the random moves.</p>
+      </div>
+      <h3>Local beam search</h3>
+      <p><b>Local beam search</b> starts with `k` randomly generated states, generates all their successors (if one of them is a goal, then we're done), selects the best `k` successors, and repeats.</p>
+      <div class="ln-box">
+        <p>Local beam search kinda looks like running `k` random-restart searches in parallel. However, it actually isn't. All random-restart searches are independent of each other, while each local beam search thread passes information to each other.</p>
+      </div>
+      <h3>Evolutionary algorithms</h3>
+      <p><b>Evolutionary algorithms</b> are based on the ideas of natural selection in biology. There is a population of individuals (states), and the fittest (highest valued) individuals produce offspring (successor states). And just like in real life, the successor states contain properties of the parent states that produced them.</p>
+      <p>The process of combining the parent states to produce successor states is called <b>recombination</b>. One common way of implementing this is to split each parent at a <b>crossover point</b> and use the four resulting pieces to form two children.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/evolutionary_algorithm.png">
+        <p>The numbers in the fitness function are sample fitness scores assigned by the fitness function to each state. The fitness scores are then converted to a probability.</p>
+      </div>
+      <p>Below is an example of how an evolutionary algorithm can be used for the 8-queens problem. We can encode each queen's positions as a number from `1-8`.</p>
+      <div class="ln-center">
+        <div class="row">
+          <div class="col-sm">
+            <img class="img-fluid" src="../pictures/ai/evolutionary_algorithm_chess_1.png">
+            <p>`327|52411`</p>
+          </div>
+          <div class="col-sm">
+            <img class="img-fluid" src="../pictures/ai/evolutionary_algorithm_chess_2.png">
+            <p>`247|48552`</p>
+          </div>
+          <div class="col-sm">
+            <img class="img-fluid" src="../pictures/ai/evolutionary_algorithm_chess_3.png">
+            <p>`327|48552`</p>
+          </div>
+        </div>
+        <p>If we use nonattacking queens as the fitness function, then the sample fitness scores are the number of nonattacking pairs of queens.</p>
+      </div>
+      <h2 id="localsearchincontinuousspaces">Local Search in Continuous Spaces</h2>
+      <p>Most real-world problems take place in a continuous environment, not in a discrete one like the examples we've seen so far. A continuous environment can have a continuous action space (e.g., a robotic arm moving anywhere between `0` and `180` degrees), a continuous state space (e.g., the current position of a robot in a room), or both.</p>
+      <div class="ln-box">
+        <p>A continuous action space has an infinite branching factor, so most of the algorithms we've seen so far won't work (except for first-choice hill climbing and simulated annealing).</p>
+      </div>
+      <p>One way to deal with a continuous state space is to <b>discretize</b> it.</p>
+      <p>For example, suppose we want to place three new airports in an area such that each city is as close as possible to its nearest airport. The state space is defined by the coordinates of the three airports: `(x_1, y_1),(x_2, y_2),(x_3, y_3)`. To discretize this, we could predefine fixed points on a grid and only allow the airports to be at those fixed points.</p>
+      <p>One way to deal with a continuous action space is to choose successor states randomly by moving in a random direction by a small amount. As we move, we look at how the value of the objective function changes to see if we're going in the right direction. This is <b>empirical gradient</b> search.</p>
+      <div class="ln-box">
+        <p>Steepest-ascent hill climbing can be seen as a specific case of empirical gradient search when the state space is discretized.</p>
+      </div>
+      <div class="ln-box">
+        <p>The objective function for any particular state is</p>
+        <div class="ln-center">
+          <p>`f(x_1, y_1, x_2, y_2, x_3, y_3) = sum_(i=1)^3sum_(c in C_i)(x_i-x_c)^2+(y_i-y_c)^2`</p>
+        </div>
+        <p>Note that this objective function is only correct locally, not globally. As the location of an airport moves, the closest cities to that airport change and have to be recomputed.</p>
+      </div>
+      <div class="ln-box">
+        <p>As in the example above, the objective function can often be expressed in a math equation. This means that we can use calculus to find the steepest ascent rather than moving randomly to try and find it.</p>
+        <p>For the above objective function, the gradient is calculated by</p>
+        <div class="ln-center">
+          <p>`grad f = ((del f)/(del x_1),(del f)/(del y_1),(del f)/(del x_2),(del f)/(del y_2),(del f)/(del x_3),(del f)/(del y_3))`</p>
+        </div>
+      </div>
+      <h2 id="nondeterministicsearch">Search with Nondeterministic Actions</h2>
+      <p>Now we'll look at partially observable and nondeterministic environments. When the environment is partially observable, the agent doesn't know for sure what state it's in. When the environment is nondeterministic, the agent doesn't know for sure what state it will end up in after performing an action. So the agent will be thinking something like, "I'm either in state `s_1` or `s_3`, and if I do action `a` I'll end up in state `s_2`, `s_4`, or `s_5`. The states that the agent believes are possible are called <b>belief states</b>.</p>
+      <p>Instead of a sequence of states, the solution to a problem is a <b>conditional plan</b> that specifies what to do depending on the situation.</p>
+      <h3>The erratic vacuum world</h3>
+      <p>We're going back to our vacuum world! But this time, our vacuum is a little unpredictable. When it cleans a dirty square, it can sometimes clean an adjacent square as well. If it cleans a clean square, it can sometimes deposit dirt on it.</p>
+      <h3>AND-OR search trees</h3>
+      <div class="ln-center">
+        <img class="img-fluid" src="../pictures/ai/and_or_search_tree.png">
+        <p>Yes, the red oval is our vacuum cleaner. The states are labeled from `1-8`.</p>
+      </div>
+      <p>Notice that there's no single sequence of actions that can solve the problem. But this conditional plan does:</p>
+      <div class="ln-center">
+        <p>[Clean, if State == 5 then [Right, Clean] else []]</p>
+      </div>
+      <p>As the name suggests, an AND-OR search tree has OR nodes and AND nodes. <b>OR nodes</b> (represented as rectangles in the example above) are thought of as, "at this node, I can do this <em>or</em> that". <b>AND nodes</b> (represented as circles) are thought of as, "at this node, this <em>and</em> this can happen".</p>
+      <div class="ln-box">
+        <div class="ln-flex-center">
+          <p><code>function AND-OR-SEARCH(problem)<br>&nbsp;&nbsp;return OR-SEARCH(problem, problem.INITIAL, [])</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function OR-SEARCH(problem, state, path)<br>&nbsp;&nbsp;if problem.IS-GOAL(state) then return empty plan<br>&nbsp;&nbsp;if IS-CYCLE(path) return faliure<br>&nbsp;&nbsp;for each action in problem.ACTIONS(state) do<br>&nbsp;&nbsp;&nbsp;&nbsp;plan = AND-SEARCH(problem, RESULTS(state, action), [state] + path)<br>&nbsp;&nbsp;&nbsp;&nbsp;if plan != failure then return [action] + plan<br>&nbsp;&nbsp;return failure</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function AND-SEARCH(problem, states, path)<br>&nbsp;&nbsp;for each s_i in states do<br>&nbsp;&nbsp;&nbsp;&nbsp;plan_i = OR-SEARCH(problem, s_i, path)<br>&nbsp;&nbsp;&nbsp;&nbsp;if plan_i == failure then return failure<br>&nbsp;&nbsp;return [if s_1 then plan_1 else if s_2 then plan_2 else ...if s_n-1 then plan_n-1 else plan_n]</code></p>
+        </div>
+        <p>This is a recursive, depth-first algorithm for AND-OR graph search.</p>
+        <p>One thing to note is that we're returning failure when there's a cycle. This doesn't mean that a cycle implies no solution. It means that if there is a solution, it should exist on a path before the cycle, so there's no point in continuing to explore this path.</p>
+      </div>
+      <h3>Try, try again</h3>
+      <p>Forget our erratic vacuum for a moment. Let's go back to our normal vacuum, but this time, the floor is slippery. So sometimes, when the vacuum tries to move, it stays in place instead.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/cyclic_search_tree.png">
+      </div>
+      <p>Here, if we're in state `5` and the vacuum moves right, it can either move right or stay in place. If it stays in place, we still want it to move right. So the solution here is to keep moving right until it works.</p>
+      <div class="ln-center">
+        <p>[Clean, while State == 5 do Right, Clean]</p>
+      </div>
+      <p>This is a cyclic plan that happens to also be a solution, i.e., a <b>cyclic solution</b>.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
