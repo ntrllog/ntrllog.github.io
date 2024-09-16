@@ -1257,15 +1257,56 @@
         <p>transition model: `text(Results)(b,a) = {b_o : b_o = text(Update)(text(Predict)(b,a), o) and o in text(Possible-Percepts)(text(Predict)(b,a))}`</p>
       </div>
       <h3>Solving partially observable problems</h3>
-      <p>Because the current belief state can yield multiple belief states as the next possible states, we can treat the multiple belief states as the result of a nondeterministic action and, therefore, use the AND-OR search algorithm. As a result, the solution is a conditional plan. For example, [Clean, Right, if state == 6 then Clean else []] is a solution to the search tree below.</p>
+      <p>Because the current belief state can yield multiple belief states as the next possible states, we can treat the multiple belief states as if they were the result of a nondeterministic action and, therefore, use the AND-OR search algorithm. As a result, the solution is a conditional plan. For example, [Clean, Right, if state == 6 then Clean else []] is a solution to the search tree below.</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/ai/and_or_partially_observable.png">
         <p>Remember that the transition model returns one belief state per possible percept.</p>
       </div>
       <h2 id="onlinesearch">Online Search Agents and Unknown Environments</h2>
-      <p>In this context, online isn't referring to the Internet. An <b>online search</b> agent makes an action, observes the environment, and computes the next action. As opposed to an <b>offline search</b> agent that computes a complete solution first before taking any action. Everything we've seen so far has been offline search algorithms.</p>
+      <p>In this context, online isn't referring to the Internet. An <b>online search</b> agent makes an action, observes the environment, and computes the next action. As opposed to an <b>offline search</b> agent that computes a complete solution first before taking any action. Mostly everything we've seen so far has been offline search algorithms.</p>
       <p>Online search is good for (semi-)dynamic environments where the agent can't sit around doing nothing for too long. It's also good for nondeterministic environments because it allows the agent to focus on the percepts that it actually receives rather than the percepts that it can receive.</p>
       <p>On the flip side, more planning reduces the chances of things going wrong.</p>
+      <hr>
+        <p>We'll briefly return to deterministic and fully observable environments here.</p>
+      <hr>
+      <h3>Online search problems</h3>
+      <p>The agent only knows the actions that are available in the current state, the cost of going to the next state (once the next available states have been computed), and whether or not the current state is a goal state. The agent cannot know the result of going to another state until it's in that state. The agent might have access to a heuristic function.</p>
+      <p>An online algorithm can only generate successors for the state that it's currently in. On the other hand, offline algorithms, such as A* search, can expand a node in one part of the space and then immediately expand a node in a distant part of the space.</p>
+      <p>Online explorers are vulnerable to <b>dead ends</b>, which are states from which no goal state is reachable. Dead ends are a result of <b>irreversible</b> actions, i.e., actions that prevent returning to the previous state.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/dead_end.png">
+      </div>
+      <p>An environment with no dead ends is <b>safely explorable</b>, which means that a goal state is reachable from every reachable state. Any environment with only reversible actions are safely explorable.</p>
+      <div class="ln-box">
+        <div class="ln-flex-center">
+          <p><code>function ONLINE-DFS-AGENT(problem, s')<br>&nbsp;&nbsp;if problem.IS-GOAL(s') then return stop<br>&nbsp;&nbsp;if s' is a new state (not in untried) then untried[s'] = problem.ACTIONS(s')<br>&nbsp;&nbsp;if s is not null then <br>&nbsp;&nbsp;&nbsp;&nbsp;result[s,a] = s'<br>&nbsp;&nbsp;&nbsp;&nbsp;add s to the front of unbacktracked[s']<br>&nbsp;&nbsp;if untried[s'] is empty then<br>&nbsp;&nbsp;&nbsp;&nbsp;if unbacktracked[s'] is empty then return stop<br>&nbsp;&nbsp;&nbsp;&nbsp;else a = an action b such that result[s',b] = POP(unbacktracked[s'])<br>&nbsp;&nbsp;else a = POP(untried[s'])<br>&nbsp;&nbsp;s = s'<br>&nbsp;&nbsp;return a</code></p>
+        </div>
+        <p><code>result</code>: a table mapping `(s,a)` to `s'`</p>
+        <p><code>untried</code>: a table mapping `s` to a list of untried actions</p>
+        <p><code>unbacktracked</code>: a table mapping `s` to a list of states never backtracked to</p>
+      </div>
+      <h3>Online local search</h3>
+      <p>Since hill-climbing search just keeps the current state in memory, it's actually already an online search algorithm. It's not a very good one though because it can result in agents getting stuck at a local maximum. And random-restart hill climbing is not an option to get unstuck because the agent can't teleport to a new start state.</p>
+      <p>A <b>random walk</b> can be used to explore an environment. The agent selects an action at random and performs it.</p>
+      <div class="ln-box">
+        <p>Random walks are complete when the space is finite and safely explorable.</p>
+      </div>
+      <p>Instead of telling the agent to do random things, we can have the agent learn about its environment as it explores it. One way to do this is to store a "current best estimate" of the cost to reach the goal from each state that has been visited.</p>
+      <div class="ln-box">
+        <p>The current best estimate, denoted as `H(s)`, starts out being just the heuristic `h(s)`, but it gets updated as the agent learns more.</p>
+      </div>
+      <p>Consider this sample state space. `(a),(b),(c),(d),(e)` are five iterations of an algorithm called learning real-time A* (<b>LRTA*</b>) search that implements this current best estimate idea. If we look at `(a)`, we see that the agent is currently stuck in a local minimum.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/lrta_star.png">
+        <p>Each state is labeled the current estimated cost to reach a goal (`H(s)`). Every action costs `1`.</p>
+        <p>The orange state is the agent's current location. The double-circled states are states that have had their cost estimates updated.</p>
+      </div>
+      <p>At `(a)`, there are two actions: move left or move right. The estimated cost to reach a goal if we move left is `1+9=10` and the estimated cost to reach a goal if we move right is `1+2=3`. So we move right. Importantly, we also update the previous state's estimated cost with the lowest one (`3` vs `10`).</p>
+      <p>At `(b)`, the estimated cost to the goal if we move left is `1+3=4` and the estimated cost to the goal if we move right is `1+4=5`. We move left and update the previous state's estimated cost (`4` vs `5`).</p>
+      <p>We can eventually see that we get unstuck (and "flatten out" the local minimum in the process).</p>
+      <div class="ln-box">
+        <p>LRTA* is complete when the environment is finite and safely explorable. However, unlike A*, it is not complete if the state space is infinite.</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
