@@ -44,6 +44,8 @@
         <li><a class="dropdown-item" href="#localsearch">Local Search and Optimization Problems</a></li>
         <li><a class="dropdown-item" href="#localsearchincontinuousspaces">Local Search in Continuous Spaces</a></li>
         <li><a class="dropdown-item" href="#nondeterministicsearch">Search with Nondeterministic Actions</a></li>
+        <li><a class="dropdown-item" href="#partiallyobservablesearch">Search in Partially Observable Environments</a></li>
+        <li><a class="dropdown-item" href="#onlinesearch">Online Search Agents and Unknown Environments</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1145,7 +1147,7 @@
         </div>
       </div>
       <h2 id="nondeterministicsearch">Search with Nondeterministic Actions</h2>
-      <p>Now we'll look at partially observable and nondeterministic environments. When the environment is partially observable, the agent doesn't know for sure what state it's in. When the environment is nondeterministic, the agent doesn't know for sure what state it will end up in after performing an action. So the agent will be thinking something like, "I'm either in state `s_1` or `s_3`, and if I do action `a` I'll end up in state `s_2`, `s_4`, or `s_5`. The states that the agent believes are possible are called <b>belief states</b>.</p>
+      <p>Now, we'll look at nondeterministic environments. When the environment is nondeterministic, the agent doesn't know for sure what state it will end up in after performing an action. So the agent will be thinking something like, "If I do action `a` I'll end up in state `s_2`, `s_4`, or `s_5`. The states that the agent believes are possible are called <b>belief states</b>.</p>
       <p>Instead of a sequence of states, the solution to a problem is a <b>conditional plan</b> that specifies what to do depending on the situation.</p>
       <h3>The erratic vacuum world</h3>
       <p>We're going back to our vacuum world! But this time, our vacuum is a little unpredictable. When it cleans a dirty square, it can sometimes clean an adjacent square as well. If it cleans a clean square, it can sometimes deposit dirt on it.</p>
@@ -1170,7 +1172,7 @@
           <p><code>function AND-SEARCH(problem, states, path)<br>&nbsp;&nbsp;for each s_i in states do<br>&nbsp;&nbsp;&nbsp;&nbsp;plan_i = OR-SEARCH(problem, s_i, path)<br>&nbsp;&nbsp;&nbsp;&nbsp;if plan_i == failure then return failure<br>&nbsp;&nbsp;return [if s_1 then plan_1 else if s_2 then plan_2 else ...if s_n-1 then plan_n-1 else plan_n]</code></p>
         </div>
         <p>This is a recursive, depth-first algorithm for AND-OR graph search.</p>
-        <p>One thing to note is that we're returning failure when there's a cycle. This doesn't mean that a cycle implies no solution. It means that if there is a solution, it should exist on a path before the cycle, so there's no point in continuing to explore this path.</p>
+        <p>One thing to note is that we're returning failure when there's a cycle. This doesn't mean that a cycle implies no solution. It means that if there is a solution, it should exist on a path before the cycle, so there's no point in continuing to explore this path. This also ensures that the algorithm doesn't run infinitely.</p>
       </div>
       <h3>Try, try again</h3>
       <p>Forget our erratic vacuum for a moment. Let's go back to our normal vacuum, but this time, the floor is slippery. So sometimes, when the vacuum tries to move, it stays in place instead.</p>
@@ -1182,6 +1184,88 @@
         <p>[Clean, while State == 5 do Right, Clean]</p>
       </div>
       <p>This is a cyclic plan that happens to also be a solution, i.e., a <b>cyclic solution</b>.</p>
+      <h2 id="partiallyobservablesearch">Search in Partially Observable Environments</h2>
+      <p>Now, we'll look at what happens when the environment is partially observable. When the environment is partially observable, the agent doesn't know for sure what state it's in. So the agent will be thinking something like, "I'm either in state `s_1` or `s_3`".</p>
+      <h3>Searching with no observation</h3>
+      <p>If the agent has no sensors at all, then the problem that the agent is trying to solve is called a <b>sensorless problem</b>. It might seem impossible for an agent to be able to do anything without sensors, but, in fact, there are sensorless solutions that are common and useful because they don't rely on sensors working properly.</p>
+      <p>So let's go back to when the vacuum was working normally. Except, the vacuum now has no sensors, so it doesn't know its own location or which squares have dirt (including the square it's currently on). But let's say the vacuum knows what all the possible states look like.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/vacuum_states.png">
+      </div>
+      <p>When it starts out, the vacuum's initial belief state is `{1, 2, 3, 4, 5, 6, 7, 8}`. No matter what state it's in, if the vacuum moves right, then it will be in one of the states `{2, 4, 6, 8}`. After cleaning, it will be in `{4,8}`. Then after moving left and cleaning, it will be in state `7`. So no matter what state the vacuum starts in, we can <b>coerce</b> the world into state `7` with [Right, Clean, Left, Clean].</p>
+      <p>The solution to a sensorless problem is a sequence of actions, not a conditional plan. This is because the agent can't sense anything, and thus, can't tell when it needs to go with another plan.</p>
+      <p>So the solutions can be found by using the informed and uninformed search algorithms from before. We just have to search in the space of belief states instead of physical states.</p>
+      <div class="ln-box">
+        <p>In belief-state space, the problem is fully observable because combining all the information about what states the agent could be in provides the agent with a complete picture of the environment.</p>
+      </div>
+      <p>If we transform a physical problem `P` (with `text(Actions)_P`, `text(Result)_P`) into a belief-state problem, we have:</p>
+      <ul>
+        <li>states: every possible subset of physical states
+          <ul>
+            <li>if `P` has `N` states, then the belief-state problem has `2^N` belief states
+              <ul>
+                <li>note that this is not saying that a belief state has `2^N` physical states</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>initial state: usually, the belief state consisting of all states in `P`</li>
+        <li>goal test: all states in the current belief state must be a goal state</li>
+        <li>action cost: to simplify things, we'll assume the cost of an action is the same in all states</li>
+      </ul>
+      <p>Defining the actions is a little more involved. A belief state can have multiple physical states, so there can be multiple actions available from each state. Inherently, there can be some actions that are possible in some of the states but not others. If illegal actions don't have an effect on the environment, then we can combine all the actions from each state and say that those are the available actions for the current belief state. Otherwise, we can find the actions that are common in all the states and say that those are the available actions.</p>
+      <p>For example, in our vacuum world, let's say the belief state is `{s_1, s_2}`. All the possible actions from both states are to move left, move right, and clean. However, it's not really useful for a vacuum in `s_1` to move left. We've been assuming that if the vacuum can't move in a certain direction, it just stays still. So in this case, it's okay to combine all the actions and say that the available actions for `{s_1,s_2}` are to move left, move right, and clean.</p>
+      <p>On the other hand, if the vacuum can fall off the edge, then we don't want it to move left if it's in `s_1`. Likewise, we don't want it to move right if it's in `s_2`. The only action in common from all states is to clean, so the available actions for the belief state in this case would be to just clean.</p>
+      <div class="ln-box">
+        <p>`text(Actions)(b)=uuu_(s in b) text(Actions)_P(s)` or `text(Actions)(b)=nnn_(s in b) text(Actions)_P(s)` depending on which makes sense.</p>
+      </div>
+      <p>Defining the transition model is also a little more involved depending on whether the actions are deterministic or not. For deterministic actions, there is one result state for each of the states in the belief state. For nondeterministic actions, it's the combination of all the possible result states for each of the states.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/transition_model_deterministic.png">
+        <p>The transition model for moving right in the normal vacuum world.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/transition_model_nondeterministic.png">
+        <p>The transition model for moving right in the slippery vacuum world.</p>
+      </div>
+      <div class="ln-box">
+        <p>deterministic: `b' = text(Result)(b,a)={s' : s' = text(Result)_P(s,a) and s in b}`</p>
+        <p>nondeterministic: `b' = text(Result)(b,a)={s' : s' in text(Results)_P(s,a) and s in b} = uuu_(s in b)text(Results)_P(s,a)`</p>
+      </div>
+      <p>By transforming a physical problem into a belief-state problem with these definitions, we can use the informed and uninformed search algorithms to find a solution. The operative word being "can". As mentioned earlier, there are a total of `2^N` possible belief states to search through. Furthermore, a belief state can have up to `N` states, so it can be hard to store multiple belief states in memory.</p>
+      <p>An alternative is to use <b>incremental belief-state search</b> algorithms. For example, if the initial belief state is `{1,2,3,4,5,6,7,8}`, we can start by finding a solution for state `1` and see if it works for every other state. If it doesn't, then we go back to state `1`, find another solution, and repeat until the solution works for all `8` states.</p>
+      <h3>Searching in partially observable environments</h3>
+      <p>Now we'll upgrade our vacuum to have local sensors that can tell it which square it's on and whether it's clean or dirty. Suppose the vacuum gets the information [L, Dirty] from its sensors. From this, the vacuum can either be in state `1` or state `3`. So it's belief state will be `{1,3}`.</p>
+      <p>The transition model between belief states can be seen as a three-stage process:</p>
+      <ul>
+        <li><b>prediction</b> stage: see what states are possible from performing on action on the current belief state</li>
+        <li><b>possible percepts</b> stage: see what percepts are possible from each of the states</li>
+        <li><b>update</b> stage: compute the belief states that are possible based on the possible percepts</li>
+      </ul>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/transition_model_deterministic_partially_observable.png">
+        <p>The transition model for moving right in the normal (local sensing) vacuum world.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/transition_model_nondeterministic_partially_observable.png">
+        <p>The transition model for moving right in the slippery (local sensing) vacuum world.</p>
+      </div>
+      <div class="ln-box">
+        <p>prediction stage: `hat b = text(Result)(b,a)` (the `text(Result)` function can also be called `text(Predict)`)</p>
+        <p>possible percepts stage: `text(Possible-Percepts)(hat b) = {o : o = text(Percept)(s) and s in hat b}`</p>
+        <p>update stage: `text(Update)(hat b,o) = {s : o = text(Percept)(s) and s in hat b}`</p>
+        <p>transition model: `text(Results)(b,a) = {b_o : b_o = text(Update)(text(Predict)(b,a), o) and o in text(Possible-Percepts)(text(Predict)(b,a))}`</p>
+      </div>
+      <h3>Solving partially observable problems</h3>
+      <p>Because the current belief state can yield multiple belief states as the next possible states, we can treat the multiple belief states as the result of a nondeterministic action and, therefore, use the AND-OR search algorithm. As a result, the solution is a conditional plan. For example, [Clean, Right, if state == 6 then Clean else []] is a solution to the search tree below.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/and_or_partially_observable.png">
+        <p>Remember that the transition model returns one belief state per possible percept.</p>
+      </div>
+      <h2 id="onlinesearch">Online Search Agents and Unknown Environments</h2>
+      <p>In this context, online isn't referring to the Internet. An <b>online search</b> agent makes an action, observes the environment, and computes the next action. As opposed to an <b>offline search</b> agent that computes a complete solution first before taking any action. Everything we've seen so far has been offline search algorithms.</p>
+      <p>Online search is good for (semi-)dynamic environments where the agent can't sit around doing nothing for too long. It's also good for nondeterministic environments because it allows the agent to focus on the percepts that it actually receives rather than the percepts that it can receive.</p>
+      <p>On the flip side, more planning reduces the chances of things going wrong.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
