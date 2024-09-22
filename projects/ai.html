@@ -46,6 +46,9 @@
         <li><a class="dropdown-item" href="#nondeterministicsearch">Search with Nondeterministic Actions</a></li>
         <li><a class="dropdown-item" href="#partiallyobservablesearch">Search in Partially Observable Environments</a></li>
         <li><a class="dropdown-item" href="#onlinesearch">Online Search Agents and Unknown Environments</a></li>
+        <li><a class="dropdown-item" href="#gametheory">Game Theory</a></li>
+        <li><a class="dropdown-item" href="#optimaldecisionsingames">Optimal Decisions in Games</a></li>
+        <li><a class="dropdown-item" href="#heuristicalphabetasearch">Heuristic Alpha-Beta Tree Search</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -307,7 +310,7 @@
         <img class="img-fluid ln-image-small" src="../pictures/ai/goal_based_agent.png">
       </div>
       <div class="ln-box">
-        <p>Goal-based agents are also more flexible than reflex agents. If we want a goal-based agent to drive to a different destination, then we just have to update the goal. But if we want a reflex agent to go to a different destination, we have to update all the rules so that they l to the new destination.</p>
+        <p>Goal-based agents are also more flexible than reflex agents. If we want a goal-based agent to drive to a different destination, then we just have to update the goal. But if we want a reflex agent to go to a different destination, we have to update all the rules so that they go to the new destination.</p>
       </div>
       <h3>Utility-based agents</h3>
       <p>While achieving the goal is what we want the agent to do, there are many different actions that can be taken to get there. And those different actions can affect how "happy" or "unhappy" the agent will be. This level of "happiness" is referred to as <b>utility</b>.</p>
@@ -1039,6 +1042,35 @@
         </div>
         <p>Machine learning would be used to figure out the best values for the constants.</p>
       </div>
+      <div class="ln-box">
+        <h3>Summary of Chapter 3</h3>
+        <ul>
+          <li>A well-defined search problem consists of five parts: the <b>initial state</b>, a set of <b>actions</b>, a <b>transition model</b> that describes the results of those actions, a set of <b>goal states</b>, and an <b>action cost function</b>.</li>
+          <li>The environment of the problem is represented by a <b>state space graph</b>. A <b>path</b> through the state space from the initial state to a goal state is a <b>solution</b>.</li>
+          <li><b>Uninformed search</b> methods have access only to the problem definition. Algorithms build a search tree to find a solution but differ based on which node they expand first.
+            <ul>
+              <li><b>Best-first search</b> expands the node with the lowest value given by an <b>evaluation function</b>.</li>
+              <li><b>Breadth-first search</b> expands the shallowest nodes first. It is complete, optimal for unit action costs, but has exponential space complexity.</li>
+              <li><b>Uniform-cost search</b> expands the node with the lowest path cost, `g(n)`, and is optimal for general action costs.</li>
+              <li><b>Depth-first search</b> expands the deepest unexpanded node first. It is neither complete nor optimal, but has linear space complexity. <b>Depth-limited search</b> adds a depth bound.</li>
+              <li><b>Iterative deepening search</b> calls depth-first search with increasing depth limits until a goal is found. It is complete when full cycle checking is done, optimal for unit action costs, has exponential time complexity, and has linear space complexity.</li>
+              <li><b>Bidirectional search</b> expands two frontiers, one around the initial state and one around the goal, stopping when the two frontiers meet.</li>
+            </ul>
+          </li>
+          <li><b>Informed search</b> methods have access to a <b>heuristic</b> function `h(n)` that estimates the cost of a solution from `n`.
+            <ul>
+              <li><b>Greedy best-first search</b> expands the node with the lowest value of `h(n)`. It is not optimal but is often efficient.</li>
+              <li><b>A* search</b> expands the node with the lowest value of `f(n)=g(n)+h(n)`. It is complete and optimal (if `h(n)` is admissible), but uses up a lot of space.</li>
+              <li><b>IDA*</b> (iterative deepening A* search) is an iterative deepening version of A* that addresses the space complexity issue.</li>
+              <li><b>RBFS</b> (recursive best-first search) is a robust, optimal search algorithm that uses limited amounts of memory.</li>
+              <li><b>Beam search</b> puts a limit on the size of the frontier. This makes it incomplete and suboptimal, but it often finds reasonably good solutions and is generally faster than complete searches.</li>
+              <li><b>Weighted A* search</b> expands fewer nodes but sacrifices optimality.</li>
+            </ul>
+          </li>
+          <li>The performance of heuristic search algorithms depends on the quality of the heuristic function.</li>
+          <li>Good heuristics can be obtained by relaxing the problem definition, by storing precomputed solution costs for subproblems in a pattern database, by defining landmarks, or by learning from experience.</li>
+        </ul>
+      </div>
       <hr>
       <p>Earlier, we assumed that the environments are episodic, single agent, fully observable, deterministic, static, discrete, and known. Now we'll start relaxing these constraints to get closer to the real world.</p>
       <hr>
@@ -1307,6 +1339,186 @@
       <div class="ln-box">
         <p>LRTA* is complete when the environment is finite and safely explorable. However, unlike A*, it is not complete if the state space is infinite.</p>
       </div>
+      <div class="ln-box">
+        <h3>Summary of Chapter 4</h3>
+        <ul>
+          <li>Local search methods such as <b>hill climbing</b> keep only a small number of states in memory. They have been applied to optimization problems, where the idea is to find a high-scoring state without worrying about the path to that state.</li>
+          <li><b>Simulated annealing</b> is a stochastic local search algorithm that returns optimal solutions when given an appropriate cooling schedule.</li>
+          <li>Local search methods also apply to problems in continuous spaces. For some problems that can be represented mathematically, we can use calculus to find where the gradient is zero (to find the maximum/minimum). For other problems, we can use the empirical gradient instead, which measures the difference in fitness between two nearby points.</li>
+          <li>An <b>evolutionary algorithm</b> is a stochastic hill-climbing search in which a population of states generates new states through <b>mutation</b> and <b>crossover</b>, which combines pairs of states.</li>
+          <li>In <b>nondeterministic</b> environments, agents can apply AND-OR search to generate <b>contingent</b> plans that reach the goal regardless of what happens during execution.</li>
+          <li>When the environment is partially observable, the <b>belief state</b> represents the set of possible states that the agent might be in.</li>
+          <li>Standard search algorithms can be used to solve <b>sensorless problems</b>.</li>
+          <li>Belief AND-OR search can solve partially observable problems.</li>
+          <li><b>Exploration problems</b> arise when the agent has no idea about the states and actions of its environment. For safely explorable environments, <b>online search</b> agents can build a map and find a goal if one exists.</li>
+          <li>Updating heuristic estimates from experience is an effective way to escape from local minima.</li>
+        </ul>
+      </div>
+      <hr>
+      <p>Now, we'll look at multi-agent environments. In particular, <b>competitive environments</b> where two or more agents have conflicting goals. Problems in these environments are called <b>adversarial search</b> problems.</p>
+      <hr>
+      <h2 id="gametheory">Game Theory</h2>
+      <p>Apparently, chess, Go, and poker are popular games to study in the AI community.</p>
+      <h3>Two-player zero-sum games</h3>
+      <p>Game theorists call these types of games deterministic, two-player, turn-taking, <b>perfect information</b>, <b>zero-sum games</b>. "Perfect information" means "fully observable" and "zero-sum" means that what is good for one player is just as bad for the other. A <b>move</b> is an "action" and a <b>position</b> is a "state".</p>
+      <p>A game can be formally defined by specifying:</p>
+      <ul>
+        <li>the <b>initial state</b>, which describes how the game is set up at the start
+          <ul>
+            <li>`S_0`</li>
+          </ul>
+        </li>
+        <li>the player whose turn it is to move in state `s`
+          <ul>
+            <li>`text(TO-MOVE)(s)`</li>
+          </ul>
+        </li>
+        <li>the set of legal moves in state `s`
+          <ul>
+            <li>`text(ACTIONS)(s)`</li>
+          </ul>
+        </li>
+        <li>the <b>transition model</b>, which defines the state resulting from taking action `a` in state `s`
+          <ul>
+            <li>`text(RESULT)(s,a)`</li>
+          </ul>
+        </li>
+        <li>a <b>terminal test</b>, which is true when the game is over
+          <ul>
+            <li>states where the game has ended are called <b>terminal states</b></li>
+            <li>`text(IS-TERMINAL)(s)`</li>
+          </ul>
+        </li>
+        <li>a <b>utility function</b>, which assigns numerical values to the outcome of the game
+          <ul>
+            <li>in chess, a win is `1`, a loss is `0`, and a draw is `1/2`</li>
+            <li>`text(UTILITY)(s,p)`</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="ln-box">
+        <p>Chess is considered a "zero-sum" game even though the sum of the outcomes is `1`. However, if we imagine that each player "paid `1/2`" to play, then the winner wins `1/2` and the loser loses `1/2`.</p>
+      </div>
+      <p>Instead of using a <b>search tree</b> like the one we saw earlier, we'll be using a <b>game tree</b>, which takes into account that there are multiple players. And speaking of players, we'll be calling our two players MAX and MIN.</p>
+      <p>Here's an example of a (partial) game tree for tic-tac-toe:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/game_tree.png">
+      </div>
+      <h2 id="optimaldecisionsingames">Optimal Decisions in Games</h2>
+      <p>Since each player is responding to each other's moves, the strategy for both players is a conditional plan (if that player does this, I'll do this).</p>
+      <div class="ln-box">
+        <p>In games that have a binary outcome (e.g., win or lose), we could use AND-OR search to generate the conditional plan. For games with multiple outcomes, we need something a little more general.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/two_ply_game_tree_1.png">
+      </div>
+      <p>Consider the simple game above where MAX is trying to reach one of the bottom-row nodes with the highest value and MIN is trying to have MAX end up at the node with the lowest value (depending on MAX's first move). MAX moves first and gets to pick a path `a_1`, `a_2`, or `a_3`. Then it is MIN's turn to decide which bottom-row node MAX ends up at.</p>
+      <p>For example, MAX might want to reach the node with `14`, so MAX will choose `a_3`. At this point, MIN has three options `d_1`, `d_2`, `d_3`. Since MIN wants MAX to have the lowest score possible, MIN will choose `d_3`, so MAX will end up with a score of `2`.</p>
+      <p>That strategy didn't really go so well for MAX, so let's look at another one. This time, MAX wants `12`, so MAX will choose `a_1`. MIN will then choose `b_1` so that MAX ends up with `3`, the lowest out of the three choices.</p>
+      <p>We can see that `3` is the highest score MAX can hope to get if MIN plays optimally. And if you took the time to verify that, then you'll notice that you played the game backwards (starting from the bottom and moving up) to check.</p>
+      <p>This is essentially the idea behind the <b>minimax search</b> algorithm.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/two_ply_game_tree_2.png">
+        <p>`B` has a minimax value of `3` because if MAX chooses `a_1`, the highest score MAX can get is `3` if MIN plays optimally.</p>
+      </div>
+      <p>Each node is assigned a <b>minimax value</b> that represents how "good" that position/move is for a player, assuming the other player plays optimally. In this game, MAX wants to choose the node with the maximum minimax value and MIN wants to choose the node with the minimum minimax value.</p>
+      <p>The minimax value of the terminal nodes are just the values defined by the game's `text(UTILITY)` function (the score we get when the game ends). Then the minimax values are propagated up the game tree using the same reasoning we used to analyze the game above.</p>
+      <div class="ln-box">
+        <h3>The minimax search algorithm</h3>
+        <p>This is a recursive search algorithm that goes all the way down to the leaves and then <b>backs up</b> the minimax values up the tree as the recursion unwinds.</p>
+        <div class="ln-flex-center">
+          <p><code>function MINIMAX-SEARCH(game, state)<br>&nbsp;&nbsp;player = game.TO-MOVE(state)<br>&nbsp;&nbsp;value, move = MAX-VALUE(game, state)<br>&nbsp;&nbsp;return move</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function MAX-VALUE(game, state)<br>&nbsp;&nbsp;if game.IS-TERMINAL(state) then return game.UTILITY(state, player), null<br>&nbsp;&nbsp;v = -infinity<br>&nbsp;&nbsp;for each a in game.ACTIONS(state) do<br>&nbsp;&nbsp;&nbsp;&nbsp;v2, a2 = MIN-VALUE(game, game.RESULT(state, a))<br>&nbsp;&nbsp;&nbsp;&nbsp;if v2 &gt; v then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v, move = v2, a<br>&nbsp;&nbsp;return v, move</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function MIN-VALUE(game, state)<br>&nbsp;&nbsp;if game.IS-TERMINAL(state) then return game.UTILITY(state, player), null<br>&nbsp;&nbsp;v = infinity<br>&nbsp;&nbsp;for each a in game.ACTIONS(state) do<br>&nbsp;&nbsp;&nbsp;&nbsp;v2, a2 = MAX-VALUE(game, game.RESULT(state, a))<br>&nbsp;&nbsp;&nbsp;&nbsp;if v2 &lt; v then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v, move = v2, a<br>&nbsp;&nbsp;return v, move</code></p>
+        </div>
+        <p>Let `m` be the maximum depth of the tree and assume there are `b` legal moves at each point.</p>
+        <p>The time complexity of minimax search is `O(b^m)` and the space complexity is `O(bm)` (the reasoning for the space complexity is the same as the reasoning for the space complexity of depth-first search; this is a depth-first algorithm after all).</p>
+      </div>
+      <h3>Optimal decisions in multiplayer games</h3>
+      <p>To create game trees for games with more than two players, we assign a group of values (one value for each player) to each node. Consider a game (similar to the one before) where all players are trying to get to the node that will give them (individually) the highest score possible.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/three_ply_game_tree_1.png">
+      </div>
+      <p>Let's say we have three players `A`, `B`, and `C`. So each node will have a group of minimax values `(a,b,c)` where `a` is the minimax value for `A`, `b` is the minimax value for `B`, and `c` is the minimax value for `C`. `A` is trying to get to the node with the highest `a` value, `B` is trying to get to the node with the highest `b` value, and `C` is trying to get to the node with the highest `c` value.</p>
+      <p>Suppose `A` wants to get to the node `(7,4,1)`, so `A` moves left. At this point, `B` would also want to get to the node `(7,4,1)`, so `B` moves right. From the remaining options, `C` wants to get to the node `(6,1,2)`, so `C` moves left. So the final score for all three players is `A:6`, `B:1`, `C:2`.</p>
+      <p>This is the game tree assuming everyone plays optimally:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/three_ply_game_tree_2.png">
+        <p>`A`'s best move is left since the minimax value of the left node `(1)` is greater than the minimax value of the right node `(0)`.</p>
+      </div>
+      <p>Again, the terminal nodes have their minimax values defined by the game's `text(UTILITY)` function, and the values are passed up the tree depending on which player's turn it is.</p>
+      <h3>Alpha-Beta Pruning</h3>
+      <p>We can actually sometimes deduce the minimax value of a node without having to fully expand it. This means that we can optimize the algorithm by not examining all the nodes. If we can deduce that it is not optimal for a player to go down a certain path, we can skip it, which resultingly <b>prunes</b> the tree.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/alpha_beta_pruning_1.png">
+      </div>
+      <p>Suppose we're running the algorithm and we've already discovered the minimax value of `B`. And now when we're calculating the minimax value of `C`, we find that its first child has a value of `2`. We don't need to look at the minimax values of the other two children because the minimax value of `C` will be at most `2`. If the other two children have minimax values higher than `2`, then MIN will move to the node with minimax value `2`. If the other two children have minimax values lower than `2`, then MIN will move to those nodes, making MAX's score even lower. No matter what those two children of `C` are, it's not in MAX's best interest to move to `C` because moving to `B` is a better option.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/alpha_beta_pruning_2.png">
+      </div>
+      <p>We do however, need to explore all of `D`'s children though. The minimax values of the first two children are `14` and `5`, both of which are higher than `3`, so MAX would still want to go down this path. It's not until we look at the last child that we can determine that this path is not optimal for MAX.</p>
+      <div class="ln-box ln-center">
+        <p>`text(MINIMAX)(text(root)) = max(min(3,12,8),min(2,x,y),min(14,5,2))`</p>
+        <p>`= max(3,min(2,x,y),2)`</p>
+        <p>`= max(3,z,2)` where `z = min(2,x,y) le 2`</p>
+        <p>`=3`</p>
+      </div>
+      <div class="ln-box">
+        <p>It is called <b>alpha-beta pruning</b> because `alpha` and `beta` are used as bounds to determine whether a part of the tree can be pruned. `alpha` is the highest minimax value found so far and `beta` is the lowest minimax value found so far.</p>
+        <div class="ln-flex-center">
+          <p><code>function ALPHA-BETA-SEARCH(game, state)<br>&nbsp;&nbsp;player = game.TO-MOVE(state)<br>&nbsp;&nbsp;value, move = MAX-VALUE(game, state, -infinity, infinity)<br>&nbsp;&nbsp;return move</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function MAX-VALUE(game, state, &alpha;, &beta;)<br>&nbsp;&nbsp;if game.IS-TERMINAL(state) then return game.UTILITY(state, player), null<br>&nbsp;&nbsp;v = -infinity<br>&nbsp;&nbsp;for each a in game.ACTIONS(state) do<br>&nbsp;&nbsp;&nbsp;&nbsp;v2, a2 = MIN-VALUE(game, game.RESULT(state, a), &alpha;, &beta;)<br>&nbsp;&nbsp;&nbsp;&nbsp;if v2 &gt; v then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v, move = v2, a<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&alpha; = MAX(&alpha;, v)<br>&nbsp;&nbsp;&nbsp;&nbsp;if v &ge; &beta; then return v, move<br>&nbsp;&nbsp;return v, move</code></p>
+        </div>
+        <div class="ln-flex-center">
+          <p><code>function MIN-VALUE(game, state, &alpha;, &beta;)<br>&nbsp;&nbsp;if game.IS-TERMINAL(state) then return game.UTILITY(state, player), null<br>&nbsp;&nbsp;v = infinity<br>&nbsp;&nbsp;for each a in game.ACTIONS(state) do<br>&nbsp;&nbsp;&nbsp;&nbsp;v2, a2 = MAX-VALUE(game, game.RESULT(state, a), &alpha;, &beta;)<br>&nbsp;&nbsp;&nbsp;&nbsp;if v2 &lt; v then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v, move = v2, a<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&beta; = MIN(&beta;, v)<br>&nbsp;&nbsp;&nbsp;&nbsp;if v &le; &alpha; then return v, move<br>&nbsp;&nbsp;return v, move</code></p>
+        </div>
+        <p>Notice that <code>if v &le; &alpha; then return v, move</code> is the reasoning we used to stop exploring `C`. `alpha` is `3` (the highest value we've seen so far) and `v` is `2`. Since `2 le 3`, we're gonna return `2`, i.e., we're assigning the minimax value of `C` to `2`.</p>
+      </div>
+      <h3>Move ordering</h3>
+      <p>Notice that if the last child of `D` (the one with minimax value `2`) had been generated first, then we could've pruned `D`'s other children. This means that, if possible, we should try to examine successors that allow us to prune the tree.</p>
+      <p>A move that prunes a tree when examined is called a <b>killer move</b>. Examining those moves first is called the killer move heuristic. It's not examining the node and then finding out that it prunes the tree; it's knowing ahead of time that examining that node will prune the tree. This information comes from past experience. Maybe we have a collection of winning moves and we find a move at our current state in that collection.</p>
+      <div class="ln-box">
+        <p>In the best case, alpha-beta would only need to examine `O(b^(m//2))` nodes, compared to minimax's best case of `O(b^m)`. When we prune a tree, we're kinda removing half of it.</p>
+      </div>
+      <h2 id="heuristicalphabetasearch">Heuristic Alpha-Beta Tree Search</h2>
+      <p>Even with alpha-beta pruning and good move ordering, there are still too many states to explore for games like chess. One way to deal with this is to use a <b>Type A strategy</b>, which considers all possible moves until a certain depth. Then it uses a heuristic function to estimate the utility of the rest of the states.</p>
+      <p>There's a <b>cutoff test</b> to determine when to stop searching and start estimating. This effectively treats nonterminal nodes as if they were terminal nodes.</p>
+      <h3>Evaluation functions</h3>
+      <p>A heuristic evaluation function gives us an estimate of a state's expected utility.</p>
+      <div class="ln-box">
+        <p>`text(EVAL)(s,p)=text(UTILITY)(s,p)` for terminal states.</p>
+        <p>`text(UTILITY)(text(loss),p) le text(EVAL)(s,p) le text(UTILITY)(text(win),p)` for nonterminal states.</p>
+      </div>
+      <p>Evaluation functions work by calculating various <b>features</b> of the state. The information from those features is used to assign a numerical value to that state. A good evaluation function should not take too long to compute (obviously). More importantly, the evaluation function should be strongly correlated with the actual chances of winning.</p>
+      <p>For example, one feature we could use is the number of pieces that each player (white vs black) has remaining. If there's a move that results in white having more pieces, then that state should have a high evaluation function value for white.</p>
+      <p>Of course, simply having more pieces doesn't necessarily mean it's better. It depends on what types of pieces they are. For example, a queen is much more valuable than having eight pawns and no queen. We take things like this into account by adding weight to certain features that are more important than other features.</p>
+      <div class="ln-box">
+        <p>Mathematically, this kind of evaluation function is called a <b>weighted linear function</b>.</p>
+        <div class="ln-center">
+          <p>`text(EVAL)(s) = w_1f_1(s)+w_2f_2(s)+...+w_nf_n(s)`</p>
+          <p>where each `f_i` is a feature, such as "number of white bishops"</p>
+        </div>
+        <p>However, using a linear function only works when the features are independent of each other, which isn't the case in chess. Bishops are generally worth more when there are fewer pieces in the game, i.e., number of bishops and number of pieces remaining are not independent.</p>
+      </div>
+      <h3>Cutting off search</h3>
+      <div class="ln-box">
+        <p>To implement this, we can modify <code>ALPHA-BETA-SEARCH</code> by replacing</p>
+        <div class="ln-center">
+          <p><code>if game.IS-TERMINAL(state) then return game.UTILITY(state, player), null</code></p>
+        </div>
+        <p>with</p>
+        <div class="ln-center">
+          <p><code>if game.IS-CUTOFF(state, depth) then return game.EVAL(state, player), null</code></p>
+        </div>
+      </div>
+      <p>Using an evaluation function that just counts the number of pieces is very simple and can lead to errors. For example, suppose the algorithm stops at the cutoff and finds a state where black has more pieces than white, so black moves to that state. But then white moves to capture black's queen! If the algorithm had been able to look ahead, then it would've known that it was not a favorable position after all.</p>
+      <p>Positions where a pending move can wildly swing the evaluation are called nonquiescent positions. The evaluation function should be used only for <b>quiescent</b> positions, and search should continue until quiescent positions are reached.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
