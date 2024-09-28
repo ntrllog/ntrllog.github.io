@@ -1115,7 +1115,7 @@
       <p>Sometimes, it's necessary to make worse moves that put us in a temporarily worse state so that we can get to a better position.</p>
       <div class="ln-box">
         <div class="ln-flex-center">
-          <p><code>function SIMULATED_ANNEALING(problem, schedule)<br>&nbsp;&nbsp;current = problem.INITIAL<br>&nbsp;&nbsp;for t = 1 to infinity do<br>&nbsp;&nbsp;&nbsp;&nbsp;T = schedule(t)<br>&nbsp;&nbsp;&nbsp;&nbsp;if T = 0 then return current<br>&nbsp;&nbsp;&nbsp;&nbsp;next = a randomly selected successor of current<br>&nbsp;&nbsp;&nbsp;&nbsp;&Delta;E = VALUE(current) - VALUE(next)<br>&nbsp;&nbsp;&nbsp;&nbsp;if &Delta;E &gt; 0 then current = next<br>&nbsp;&nbsp;&nbsp;&nbsp;else current = next only with probability</code> `e^(-DeltaE//T)`</p>
+          <p><code>function SIMULATED-ANNEALING(problem, schedule)<br>&nbsp;&nbsp;current = problem.INITIAL<br>&nbsp;&nbsp;for t = 1 to infinity do<br>&nbsp;&nbsp;&nbsp;&nbsp;T = schedule(t)<br>&nbsp;&nbsp;&nbsp;&nbsp;if T = 0 then return current<br>&nbsp;&nbsp;&nbsp;&nbsp;next = a randomly selected successor of current<br>&nbsp;&nbsp;&nbsp;&nbsp;&Delta;E = VALUE(current) - VALUE(next)<br>&nbsp;&nbsp;&nbsp;&nbsp;if &Delta;E &gt; 0 then current = next<br>&nbsp;&nbsp;&nbsp;&nbsp;else current = next only with probability</code> `e^(-DeltaE//T)`</p>
         </div>
         <p><code>T</code> represents the "temperature", corresponding to the temperature described in annealing.</p>
       </div>
@@ -1488,6 +1488,10 @@
       </div>
       <h2 id="heuristicalphabetasearch">Heuristic Alpha-Beta Tree Search</h2>
       <p>Even with alpha-beta pruning and good move ordering, there are still too many states to explore for games like chess. One way to deal with this is to use a <b>Type A strategy</b>, which considers all possible moves until a certain depth. Then it uses a heuristic function to estimate the utility of the rest of the states.</p>
+      <div class="ln-box">
+        <p>A Type A strategy searches a wide but shallow part of the tree. Because of this, a Type A strategy is not good for games with large branching factors, like Go.</p>
+        <p>A <b>Type B strategy</b> ignores moves that look bad and only searches moves that look promising. This results in searching a deep but narrow part of the tree.</p>
+      </div>
       <p>There's a <b>cutoff test</b> to determine when to stop searching and start estimating. This effectively treats nonterminal nodes as if they were terminal nodes.</p>
       <h3>Evaluation functions</h3>
       <p>A heuristic evaluation function gives us an estimate of a state's expected utility.</p>
@@ -1519,6 +1523,12 @@
       </div>
       <p>Using an evaluation function that just counts the number of pieces is very simple and can lead to errors. For example, suppose the algorithm stops at the cutoff and finds a state where black has more pieces than white, so black moves to that state. But then white moves to capture black's queen! If the algorithm had been able to look ahead, then it would've known that it was not a favorable position after all.</p>
       <p>Positions where a pending move can wildly swing the evaluation are called nonquiescent positions. The evaluation function should be used only for <b>quiescent</b> positions, and search should continue until quiescent positions are reached.</p>
+      <h3>Forward pruning</h3>
+      <p>Alpha-beta pruning prunes parts of the tree that were for sure bad moves. <b>Forward pruning</b> prunes parts of the tree that look like they have bad moves.</p>
+      <div class="ln-box">
+        <p>Forward pruning is a Type B strategy.</p>
+      </div>
+      <p>One way to implement forward pruning is to use <b>beam search</b>, which considers a "beam" of `n` moves. Of course, there's a chance that we miss the the best move by doing this.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
