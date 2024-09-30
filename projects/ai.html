@@ -1508,6 +1508,19 @@
       <h2 id="localsearchcsp">Local Search for CSPs</h2>
       <p>The local search algorithms we saw before can be used to solve CSPS. The idea is to assign a value to every variable at the beginning, even if they're inconsistent. Then we randomly choose a variable that is violating one or more constraints and change its value to something that violates fewer constraints.</p>
       <p>The <b>min-conflicts</b> heuristic chooses the value that results in the minimum number of violated constraints with other variables.</p>
+      <div class="ln-box">
+        <h3>Summary of Chapter 6</h3>
+        <ul>
+          <li><b>Constraint satisfaction problems</b> (CSPs) represent a state with a set of variable/value pairs and represent the conditions for a solution by a set of constraints on the variables.</li>
+          <li><b>Inference</b> techniques use the constraints to rule out certain variable assignments. Some of the inference techniques are node, arc, path, and `k`-consistency.</li>
+          <li><b>Backtracking search</b> is a form of depth-first search that is commonly used to solve CSPs.</li>
+          <li>The <b>minimum-remaining-values</b> and <b>degree</b> heuristics are domain-independent methods for deciding which variable to choose next in a backtracking search.</li>
+          <li>The <b>least-constraining-value</b> heuristic helps in deciding which value to try first for a variable.</li>
+          <li><b>Conflict-directed backjumping</b> backtracks directly to the source of the problem.</li>
+          <li><b>Constraint learning</b> records the conflicts as they are encountered during search in order to avoid the same conflict later on.</li>
+          <li>Local search using the <b>min-conflicts</b> heuristic is good.</li>
+        </ul>
+      </div>
       <hr>
       <p>Now, we'll look at multi-agent environments. In particular, <b>competitive environments</b> where two or more agents have conflicting goals. Problems in these environments are called <b>adversarial search</b> problems.</p>
       <hr>
