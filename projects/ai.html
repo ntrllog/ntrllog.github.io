@@ -49,6 +49,7 @@
         <li><a class="dropdown-item" href="#constraintsatisfaction">Constraint Satisfaction Problems</a></li>
         <li><a class="dropdown-item" href="#constraintpropagation">Constraint Propagation: Inference in CSPs</a></li>
         <li><a class="dropdown-item" href="#backtrackingsearch">Backtracking Search for CSPs</a></li>
+        <li><a class="dropdown-item" href="#localsearchcsp">Local Search for CSPs</a></li>
         <li><a class="dropdown-item" href="#gametheory">Game Theory</a></li>
         <li><a class="dropdown-item" href="#optimaldecisionsingames">Optimal Decisions in Games</a></li>
         <li><a class="dropdown-item" href="#heuristicalphabetasearch">Heuristic Alpha-Beta Tree Search</a></li>
@@ -1459,7 +1460,54 @@
           <p><code>function BACKTRACK(csp, assignment)<br>&nbsp;&nbsp;if assignment is complete then return assignment<br>&nbsp;&nbsp;var = SELECT-UNASSIGNED-VARIABLE(csp, assignment)<br>&nbsp;&nbsp;for each value in ORDER-DOMAIN-VALUES(csp, var, assignment) do<br>&nbsp;&nbsp;&nbsp;&nbsp;if value is consistent with assignment then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add {var = value} to assignment<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inferences = INFERENCE(csp, var, assignment)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if inferences != failure then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add inferences to csp<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = BACKTRACK(csp, assignment)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if result != failure then return result<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove inferences from csp<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove {var = value} from assignment<br>&nbsp;&nbsp;return failure</code></p>
         </div>
         <p><code>INFERENCE()</code> is a function that checks for consistency. <code>ORDER-DOMAIN-VALUES()</code> is a function that sorts the values in a way that we think is optimal.</p>
+        <p>This algorithm repeatedly chooses an unassigned variable and recursively tries all values in the domain of that variable. If a solution isn't found, the algorithm backtracks and tries again with different values.</p>
       </div>
+      <div class="ln-box">
+        <p>For a CSP with `n` variables, each with a domain size of `d`, the search tree would have a depth of `n`.</p>
+        <p>At the top level, there are `n` nodes and each of them will have `d` children, so the branching factor is `nd` for the first level. At the second level, there are `n-1` nodes and each of them will have `d` children, so the branching factor is `(n-1)d` for the second level. This continues until the bottom where there is `1` node and `d` children.</p>
+        <p>So the tree has `n!d^n` leaves.</p>
+        <p>However, CSPs are <b>commutative</b>, meaning that the order that we assign the variables doesn't matter. For example</p>
+        <div class="ln-center">
+          <p>`{H=text(red),J=text(green),K=text(blue),L=text(red),M=text(green),N=text(red),P=text(blue)}`</p>
+        </div>
+        <p>is the same as</p>
+        <div class="ln-center">
+          <p>`{L=text(red),M=text(green),P=text(blue),H=text(red),J=text(green),N=text(red),K=text(blue)}`.</p>
+        </div>
+        <p>Since the order of the `n` variables doesn't matter for distinguishing solutions, we can divide by `n!` to remove repeated paths, resulting in the tree actually being `O(d^n)`.</p>
+      </div>
+      <h3>Variable and value ordering</h3>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/map_coloring_2.png">
+      </div>
+      <p>Going back to our map, let's say we arbitrarily start at `H` and arbitrarily choose red for it. Then we arbitrarily choose green for `J`. From these two decisions, we can see that `K` is now forced to be blue. This in turn, forces `L`, `M`, and `N` to be red, green, and red respectively.</p>
+      <p>If we had instead decided to pick a color for `L` before looking at `K`, we would not have had it this easy. In fact, if we had decided `L` to be blue, there would have been no valid value for `K` and we would have had to start over.</p>
+      <p>This highlights that when deciding which unassigned variable to look at next, we should look at the variable with the fewest valid values. This strategy is the <b>minimum-remaining-values</b> (MRV) heuristic. It is also called the "fail-first" heuristic because it picks a variable that is most likely to cause a failure, which allows the tree to be pruned. In our example, picking blue for `L` caused a failure, so all the possible map configurations where `L` is blue (and `H` is red and `J` is green) can be pruned away.</p>
+      <p>But notice how we were still making arbitrary decisions for the first two moves. The MRV heuristic isn't really helpful in the beginning because all the variables have the same number of valid values. So another heuristic that helps us pick a variable at the start is the <b>degree heuristic</b>. It selects the variable that is involved in the most constraints with other unassigned variables. In our map, `K` has a constraint with `5` other variables (i.e. it has degree `5`), so it should be picked first. It just so happens that starting with `K` guarantees that a solution will be found right away.</p>
+      <p>So we have heuristics for deciding which variable to look at first, but there is one more choice to think about and that is which value to assign first. Let's say we picked `H` to be red and `J` to be green, and we decided to look at `L` (despite knowing that looking at `K` first was better). We know that picking blue for `L` is not a good idea since it leaves no choices available for `K`, so we choose red instead.</p>
+      <p>Instead of picking a value that will cause a failure, we want to pick a value that will work. More specifically, we want to pick a value that will rule out the fewest choices for the neighboring variables, giving them as much flexibility as possible. This is the <b>least-constraining-value</b> heuristic.</p>
+      <div class="ln-box">
+        <p>Variable selection should be fail-first and value selection should be fail-last. This is because starting at the most restrictive variable reduces the number of times we have to backtrack. (If we know a variable is going to cause failures, it doesn't make sense to start somewhere else and keep hitting that failure. It's better to just prevent that failure in the first place.) Value selection should be fail-last because we want to find a solution as soon as possible.</p>
+      </div>
+      <h3>Interleaving search and inference</h3>
+      <p>As we saw before, inference (using AC-3) can reduce the size of a variable's domain before the search starts. But we can do this during the search as well by doing <b>forward checking</b>. Whenever a value is assigned to a variable, we look at the other variables involved in a constraint with this variable and remove inconsistent values from their domains.</p>
+      <p>By assigning red to `H`, we can look forward and remove red from `J`'s and `K`'s domains.</p>
+      <h3>Intelligent backtracking: Looking backward</h3>
+      <p>Whenever an inconsistency is found, the backtracking algorithm goes up one level to the previous variable and tries a different value. This is called <b>chronological backtracking</b> because the most recent decision point is revisited.</p>
+      <p>This is simple, but it can be a little inefficient.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/map_coloring_3.png">
+      </div>
+      <p>Let's say we started with `L` red, `M` green, `N` blue, and `P` red in that order. Now we see that there is no valid color for `K`, so we backtrack and consider a different value for `P`. Unfortunately, we can see that choosing a different value for `P` won't change anything since `P` wasn't causing the problem; we would have to backtrack one more level to `N`. But the algorithm will be inefficient and try different values of `P` until none of them work and <em>then</em> backtrack to `N`.</p>
+      <p>Since the set `{L=text(red),M=text(green),N=text(blue)}` was responsible for `K` not having any valid values, we call this set the <b>conflict set</b> for `K`. If we keep track of this set, we can <b>backjump</b> to the most recent assignment in the conflict set, which would be `N` in this case.</p>
+      <div class="ln-box">
+        <p>Forward checking prevents inconsistent situations from being reached in the first place. Doing both forward checking (or any consistency checking in general) and backjumping is redundant.</p>
+      </div>
+      <h3>Constraint learning</h3>
+      <p>If we reach an inconsistency, we can remember what the conflict set was that led to the inconsistency so we don't run into it again. This set is aptly called a <b>no-good</b>.</p>
+      <h2 id="localsearchcsp">Local Search for CSPs</h2>
+      <p>The local search algorithms we saw before can be used to solve CSPS. The idea is to assign a value to every variable at the beginning, even if they're inconsistent. Then we randomly choose a variable that is violating one or more constraints and change its value to something that violates fewer constraints.</p>
+      <p>The <b>min-conflicts</b> heuristic chooses the value that results in the minimum number of violated constraints with other variables.</p>
       <hr>
       <p>Now, we'll look at multi-agent environments. In particular, <b>competitive environments</b> where two or more agents have conflicting goals. Problems in these environments are called <b>adversarial search</b> problems.</p>
       <hr>
