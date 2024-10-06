@@ -55,6 +55,7 @@
         <li><a class="dropdown-item" href="#heuristicalphabetasearch">Heuristic Alpha-Beta Tree Search</a></li>
         <li><a class="dropdown-item" href="#montecarlosearch">Monte Carlo Tree Search</a></li>
         <li><a class="dropdown-item" href="#stochasticgames">Stochastic Games</a></li>
+        <li><a class="dropdown-item" href="#partiallyobservablegames">Partially Observable Games</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1768,6 +1769,47 @@
       <p>Since we don't know for sure that a chance node will be reached, they don't have definite minimax values. Instead, each chance node has an <b>expectiminimax value</b>, which is the sum of the minimax values of each action weighted by the probability of that action (this is the <b>expected value</b> of the chance node).</p>
       <div class="ln-box">
         <p>The expectiminimax value of a non-chance node is its minimax value.</p>
+      </div>
+      <h3>Evaluation functions for games of chance</h3>
+      <p>Recall that in heuristic alpha-beta search, we kept searching until a certain point, then used a heuristic function to estimate the rest of the minimax values. For stochastic games, we can do the same, but we need a slightly different heuristic function.</p>
+      <p>Let's go back to the game where MAX is trying to reach the node with the highest value and MIN is trying to have MAX end up at the node with the lowest value. Suppose we have this game tree:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/stochastic_game_tree_1.png">
+        <p>The left chance node's expectiminimax value is `2*0.9+3*0.1=2.1`.</p>
+      </div>
+      <p>We can see that the left chance node has a higher expectiminimax value, so MAX should go left (move `a_1`). We can also see that this is the optimal move for MAX since moving right means that there is a `90%` chance that MIN will be able to go to the node with `1`.</p>
+      <p>But let's look at what happens if the heuristic function had assigned different values to each of the nodes at the cutoff point.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/stochastic_game_tree_2.png">
+      </div>
+      <p>Now, the right chance node has a higher expectiminimax value, so MAX will go right (move `a_2`). But we can see that this is not the optimal choice because there is a `90%` chance that MIN will be able to go to the node with `1`.</p>
+      <p>From this, we can see that the heuristic function must also take into account the probabilities when calculating the utility. (I might go into more detail on this? Let's see where the class goes.)</p>
+      <h2 id="partiallyobservablegames">Partially Observable Games</h2>
+      <h3>Kriegspiel: Partially observable chess</h3>
+      <p><b>Kriegspiel</b> is an interesting version of chess where each player has their own board, and each player's board has only their own pieces. Each player proposes a move and a referee (who can see both players' boards) tells them if the move is legal or illegal. If the move is illegal, that player keeps proposing moves until a legal one is found. If the move is legal, the referee announces captures, checks, and mates if any of those happened.</p>
+      <p>Using belief states helps here. In the context of games, a <b>belief state</b> is the set of all board states that are logically possible based on the moves that have happened so far. With this, we can use the AND-OR search algorithm we saw before.</p>
+      <div class="ln-box">
+        <p>Instead of branches for each possible move the opponent might make, we have branches for every possible percept sequence that might be received.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/kriegspiel.png">
+        <p>(I'm including a picture from the textbook because this is too complicated to draw myself. 😅)</p>
+      </div>
+      <div class="ln-box">
+        <p>While it's important to move pieces to the right places, playing optimally can be predictable, giving the opponent information. Sometimes, making random moves is optimal because it introduces an element of unpredictability that the opponent may not be prepared for.</p>
+      </div>
+      <div class="ln-box">
+        <h3>Summary of Chapter 5</h3>
+        <ul>
+          <li>A game can be defined by the <b>initial state</b> (how the board is set up), the legal <b>actions</b> in each state, the <b>result</b> of each action, a <b>terminal test</b> (which says when the game is over), and a <b>utility function</b> that applies to terminal states to say who won and what the final score is.</li>
+          <li>In two-player, discrete, deterministic, turn-taking zero-sum games with <b>perfect information</b>, the <b>minimax</b> algorithm can select optimal moves by a depth-first enumeration of the game tree.</li>
+          <li>The <b>alpha-beta</b> search algorithm computes the same optimal move as minimax, but achieves much greater efficiency by eliminating subtrees that are provably irrelevant.</li>
+          <li>Usually, it is not possible to consider the whole game tree (even with alpha-beta), so we need to cut the search off at some point and apply a heuristic <b>evaluation function</b> that estimates the utility of a state.</li>
+          <li>An alternative called <b>Monte Carlo tree search</b> (MCTS) evaluates states not by applying a heuristic function, but by playing out the game all the way to the end and using the rules of the game to see who won. Since the moves during the <b>playout</b> may not have been optimal moves, the process is repeated multiple times and the evaluation is the average of the results.</li>
+          <li>Many game programs precompute tables of best moves in the opening and endgame so that they can look up a move rather than search for one.</li>
+          <li>Games of chance can be handled by <b>expectiminimax</b>, an extension to the minimax algorithm that evaluates a <b>chance node</b> by taking the average utility of all its children, weighted by the probability of each child.</li>
+          <li>In games of <b>imperfect information</b>, like poker, optimal play requires reasoning about the current and future <b>belief states</b> of each player. A simple approximation can be obtained by averaging the value of an action over each possible configuration of missing information.</li>
+        </ul>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
