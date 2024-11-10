@@ -56,6 +56,11 @@
         <li><a class="dropdown-item" href="#montecarlosearch">Monte Carlo Tree Search</a></li>
         <li><a class="dropdown-item" href="#stochasticgames">Stochastic Games</a></li>
         <li><a class="dropdown-item" href="#partiallyobservablegames">Partially Observable Games</a></li>
+        <li><a class="dropdown-item" href="#knowledgebasedagents">Knowledge-Based Agents</a></li>
+        <li><a class="dropdown-item" href="#thewumpusworld">The Wumpus World</a></li>
+        <li><a class="dropdown-item" href="#logic">Logic</a></li>
+        <li><a class="dropdown-item" href="#propositionallogic">Propositional Logic: A Very Simple Logic</a></li>
+        <li><a class="dropdown-item" href="#propositionaltheoremproving">Propositional Theorem Proving</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -65,7 +70,7 @@
       <p>Shortcut to this page: <a href="ai.html">ntrllog.netlify.app/ai</a></p>
       <p>Info provided by <a href="https://aima.cs.berkeley.edu" target="_blank">Artificial Intelligence: A Modern Approach</a> and Professor Francisco Guzman (CSULA)</p>
       <h2 id="whatisit">What is AI?</h2>
-      <p>Well, it kinda depends on what we think makes a machine "intelligent". Is it the ability for the machine to act like a human? Or is it the ability for the machine to always do the mathematically-optimal thing (<b>rationality</b>)? And is intelligence a way of thinking or a way of behaving? These are the four main dimensions that researchers are using to think about AI.</p>
+      <p>Well, it kinda depends on what we think makes a machine "intelligent". Is it the ability for the machine to act like a human? Or is it the ability for the machine to always do the mathematically-optimal thing? And is intelligence a way of thinking or a way of behaving? These are the four main dimensions that researchers are using to think about AI.</p>
       <h3>Acting humanly: The Turing test approach</h3>
       <p>Let's say we ask a question to a computer and some people and get back their responses. If we can't tell whether the responses came from a person or from a computer, then the computer passes the <b>Turing test</b>.</p>
       <div class="ln-box">
@@ -267,7 +272,7 @@
         <p>Can AI do this for general intelligent behavior?</p>
       </div>
       <h3>Simple reflex agents</h3>
-      <p>This is the simplest kind of agent. A <b>simple reflex agent</b> select actions based only on the current percept; it ignores the rest of the percept history. Here's an agent program that implements the agent function for our vacuum:</p>
+      <p>This is the simplest kind of agent. A <b>simple reflex agent</b> selects actions based only on the current percept; it ignores the rest of the percept history. Here's an agent program that implements the agent function for our vacuum:</p>
       <div class="ln-flex-center">
         <p><code>function REFLEX-VACUUM-AGENT([location, status])<br>&nbsp;&nbsp;if status == Dirty then return Clean<br>&nbsp;&nbsp;else if location == A then return Move right<br>&nbsp;&nbsp;else if location == B then return Move left</code></p>
       </div>
@@ -988,7 +993,8 @@
       <p>Let's consider another simplified version where the tiles can still only move `1` square but, now, in any direction, even if the square is occupied. Notice that `h_2` would give the exact length of the shortest solution.</p>
       <p>These simplified versions, where there are fewer restrictions on the actions, are <b>relaxed problems</b>. The state-space graph of a relaxed problem is a supergraph of the original state space because the removal of restrictions allows for more possible states, resulting in more edges being added. This means that an optimal solution in the original problem is also an optimal solution in the relaxed problem. But the relaxed problem may have better solutions (this happens when the added edges provide shortcuts).</p>
       <p>That last part is how we can come up with heuristics. The cost of an optimal solution to a relaxed problem is an admissible heuristic for the original problem. (Also, if the heuristic is an exact cost for the relaxed problem, it must obey the triangle inequality, making it consistent.)</p>
-      <p>So how can we come up with relaxed problems systematically? Let's describe the 8-puzzle actions as follows: a tile can move from square `X` to square `Y` if `X` is adjacent to `Y` and `Y` is blank. From this, we can generate three relaxed problems simply by removing one or both of the conditions:</p>
+      <p>So how can we come up with relaxed problems systematically?</p>
+      <p>Let's describe the 8-puzzle actions as follows: a tile can move from square `X` to square `Y` if `X` is adjacent to `Y` and `Y` is blank. From this, we can generate three relaxed problems simply by removing one or both of the conditions:</p>
       <ul>
         <li>A tile can move from square `X` to square `Y` if `X` is adjacent to `Y`</li>
         <li>A tile can move from square `X` to square `Y` if `Y` is blank</li>
@@ -1809,6 +1815,470 @@
           <li>Many game programs precompute tables of best moves in the opening and endgame so that they can look up a move rather than search for one.</li>
           <li>Games of chance can be handled by <b>expectiminimax</b>, an extension to the minimax algorithm that evaluates a <b>chance node</b> by taking the average utility of all its children, weighted by the probability of each child.</li>
           <li>In games of <b>imperfect information</b>, like poker, optimal play requires reasoning about the current and future <b>belief states</b> of each player. A simple approximation can be obtained by averaging the value of an action over each possible configuration of missing information.</li>
+        </ul>
+      </div>
+      <h2 id="knowledgebasedagents">Knowledge-Based Agents</h2>
+      <p>So far, all we've seen are problem-solving agents. As powerful as they are, they aren't able to reason or adapt to new information.</p>
+      <p>Knowledge-based agents are able to use <b>logic</b> to make decisions. They have a <b>knowledge base</b> of <b>sentences</b>, which are the facts that are known by the agent. They use the sentences in their knowledge base to come up with new sentences (conclusions). This process is called <b>inference</b>.</p>
+      <h2 id="thewumpusworld">The Wumpus World</h2>
+      <p>Here, we'll go over an example of how a knowledge-based agent works.</p>
+      <p>The wumpus world is a cave with a monster (wumpus), a pile of gold, and a bunch of bottomless pits. The goal of the agent is to find the gold while avoiding the pits and the wumpus. The wumpus can be killed with an arrow, but the agent has only one arrow to use.</p>
+      <div class="ln-box">
+        <p>The wumpus world is partially observable, single-agent, deterministic, sequential, static, and discrete.</p>
+        <p>PEAS description:</p>
+        <ul>
+          <li>Performance measure: `+1000` for escaping with the gold, `-1000` for falling into a pit or being eaten by the wumpus, `-1` for each action taken, `-10` for using an arrow</li>
+          <li>Environment: A `n xx n` grid of rooms. The locations of the gold and the wumpus are chosen randomly. Each square (other than the start) can be a pit with some probability (say `0.2`)</li>
+          <li>Actuators: the agent can move forward, turn left, turn right, grab the gold, shoot an arrow, and climb out of the cave</li>
+          <li>Sensors: the agent can perceive a stench (from the wumpus), a breeze (from a pit), a glitter (from the gold), a bump (when walking into a wall), and a scream (when the wumpus is killed)
+            <ul>
+              <li>the stench and a breeze are detected when the agent is on a square next to a wumpus or a pit</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <p>Let's say our agent (denoted as `A`) starts in the lower-left corner. It doesn't detect a stench or a breeze so the two squares next to it are safe.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_world_1.png">
+      </div>
+      <p>After moving right, the agent detects a breeze. The breeze could be coming from the square above or from the right. (Bear with me here, the agent can't lick its finger to see which direction the breeze is blowing.) There is only one square that is for sure safe, so the agent decides to go back and move there.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_world_2.png">
+      </div>
+      <p>Here, the agent detects a stench. Theoretically, the stench could be coming from the square above <em>or</em> from the right. But since the agent didn't detect a stench in the previous state (image above), it knows the wumpus can't be in the square to the right.</p>
+      <p>Also, since the agent is not detecting a breeze, that means the square to the right is not a pit.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_world_3.png">
+      </div>
+      <p>Avoiding the wumpus, the agent finds the gold!</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_world_4.png">
+      </div>
+      <h2 id="logic">Logic</h2>
+      <p>In order for a knowledge-based agent to be able to reason and make inferences, it needs to understand logic.</p>
+      <p>A sentence has a <b>truth</b> value, i.e., it can either be true or false. Its truth value depends on the world (<b>model</b>) it's in.</p>
+      <div class="ln-box">
+        <p>The sentence `x+y=4` is true in a world where `x=2,y=2` and false in a world where `x=1,y=1`.</p>
+      </div>
+      <p>If a sentence `alpha` is true in model `m`, then `m` <b>satisfies</b> `alpha` (or `m` <b>is a model of</b> `alpha`).</p>
+      <p>The truth value of a sentence can depend on the truth value of another one. We say that a sentence can follow logically from another sentence.</p>
+      <div class="ln-box">
+        <p>The sentence `x=0` entails the sentence `xy=0`, i.e., the sentence `xy=0` follows logically from `x=0`.</p>
+      </div>
+      <div class="ln-box">
+        <p>`alpha` entails `beta` is denoted as `alpha |== beta`.</p>
+        <p>The formal definition of entailment is: `alpha |== beta` if and only if, in every model in which `alpha` is true, `beta` is also true.</p>
+        <div class="ln-center">
+          <p>`alpha |== beta iff M(alpha) sube M(beta)`</p>
+          <p>(`M(alpha)` is the set of models where `alpha` is true.)</p>
+        </div>
+      </div>
+      <p>Let's see how this can be applied to the wumpus world. Suppose the agent is at `[2,1]` (the second step when it detected a breeze).</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_world_2.png">
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_entailment_1.png">
+      </div>
+      <p>`KB` is the agent's knowledge base. There are three possible models based on the knowledge that it feels a breeze on its current square (either the pit is in the square above, to the right, or both).</p>
+      <p>Let `alpha_1` be the sentence, "There is no pit in `[1,2]`." There are four possible models based on this sentence.</p>
+      <p>Notice that in every model in which `KB` is true, `alpha_1` is also true. That is, if you pick any model in `KB` and say "There is no pit in `[1,2]`", the sentence is true. This means that `KB` entails `alpha_1`, and the agent can conclude that there is no pit in `[1,2]`.</p>
+      <p>Now let `alpha_2` be the sentence, "There is no pit in `[2,2]`."</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_entailment_2.png">
+      </div>
+      <p>There are some models in `KB` where if we say "There is no pit in `[2,2]`", the sentence is false. So `KB` does not entail `alpha_2`, meaning that the agent cannot conclude that there is no pit in `[2,2]`.</p>
+      <p>Whether you realized it or not, we were running an algorithm to check entailment. The inference algorithm is called <b>model checking</b>.</p>
+      <p>An inference algorithm is <b>sound</b> or <b>truth-preserving</b> if it derives only entailed sentences. That is, the results of running the algorithm are all sentences that follow logically. An unsound algorithm makes things up.</p>
+      <div class="ln-box">
+        <p>If it's provable, it's true.</p>
+      </div>
+      <p>An inference algorithm is <b>complete</b> if it can derive any sentence that is entailed. That is, all sentences that follow logically can be derived using the algorithm.</p>
+      <div class="ln-box">
+        <p>If it's true, it's provable.</p>
+      </div>
+      <h2 id="propositionallogic">Propositional Logic: A Very Simple Logic</h2>
+      <h3>Syntax</h3>
+      <p>A <b>proposition</b> is a sentence (that can be true or false). We use a symbol (typically a letter) to represent a proposition. For example, `W_(1,3)` can be the symbol for "there is a wumpus at `[1,3]`" and `P_(3,1)` can be the symbol for "there is a pit at `[3,1]`."</p>
+      <p>We can use <b>logical connectives</b> to turn sentences into <b>complex sentences</b>. The most common connectives are</p>
+      <ul>
+        <li>`not` (not). `not W_(1,3)` (the <b>negation</b> of `W_(1,3)`) means "there is no wumpus at `[1,3]`."</li>
+        <li>`^^` (and). `W_(1,3) ^^ P_(3,1)` means "there is a wumpus at `[1,3]` and there is a pit at `[3,1]`."
+          <ul>
+            <li>a sentence of this form is called a <b>conjunction</b></li>
+          </ul>
+        </li>
+        <li>`vv` (or). `W_(1,3) vv P_(3,1)` means "there is a wumpus at `[1,3]` or there is a pit at `[3,1]`."
+          <ul>
+            <li>a sentence of this form is called a <b>disjunction</b></li>
+          </ul>
+        </li>
+        <li>`implies` (implies). `W_(1,3) implies not W_(2,2)` means "if there is a wumpus at `[1,3]`, then there is no wumpus at `[2,2]`."
+          <ul>
+            <li>a sentence of this form is called an <b>implication</b></li>
+          </ul>
+        </li>
+        <li>`iff` (if and only if). `W_(1,3) iff not W_(2,2)` means "there is a wumpus at `[1,3]` if and only if there is no wumpus at `[2,2]`."
+          <ul>
+            <li>a sentence of this form is called a <b>biconditional</b></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="ln-box">
+        <p>An <b>atomic sentence</b> is a sentence without any connectives; it's just a single symbol.</p>
+        <p>A <b>literal</b> is an atomic sentence.</p>
+        <p><b>Complementary literals</b> are literals where one is the negation of the other.</p>
+      </div>
+      <div class="ln-box">
+        <p>A <b>clause</b> is a disjunction of literals.</p>
+      </div>
+      <h3>Semantics</h3>
+      <p>The semantics of propositional logic defines the rules for determining the truth of a sentence. Here's a <b>truth table</b> that defines the connectives:</p>
+      <table class="table">
+        <tr>
+          <td>`P`</td>
+          <td class="border-end">`Q`</td>
+          <td>`not P`</td>
+          <td>`P^^Q`</td>
+          <td>`PvvQ`</td>
+          <td>`P implies Q`</td>
+          <td>`P iff Q`</td>
+        </tr>
+        <tr>
+          <td>false</td>
+          <td class="border-end">false</td>
+          <td>true</td>
+          <td>false</td>
+          <td>false</td>
+          <td>true</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>false</td>
+          <td class="border-end">true</td>
+          <td>true</td>
+          <td>false</td>
+          <td>true</td>
+          <td>true</td>
+          <td>false</td>
+        </tr>
+        <tr>
+          <td>true</td>
+          <td class="border-end">false</td>
+          <td>false</td>
+          <td>false</td>
+          <td>true</td>
+          <td>false</td>
+          <td>false</td>
+        </tr>
+        <tr>
+          <td>true</td>
+          <td class="border-end">true</td>
+          <td>false</td>
+          <td>true</td>
+          <td>true</td>
+          <td>true</td>
+          <td>true</td>
+        </tr>
+      </table>
+      <h3>A simple knowledge base</h3>
+      <p>Using all of this, we can build a knowledge base for the wumpus world. For the symbols, we have:</p>
+      <ul>
+        <li>`P_(x,y)` is true if there is a pit in `[x,y]`</li>
+        <li>`W_(x,y)` is true if there is a wumpus in `[x,y]`</li>
+        <li>`B_(x,y)` is true if there is a breeze in `[x,y]`</li>
+        <li>`S_(x,y)` is true if there is a stench in `[x,y]`</li>
+        <li>`L_(x,y)` is true if the agent is in `[x,y]`</li>
+      </ul>
+      <p>With these symbols, we can create sentences that describe what the agent saw (and knows) in the wumpus world. (Each sentence will be labeled with `R_i`. The `R_i`s themselves are not symbols.)</p>
+      <ul>
+        <li>There is no pit in `[1,1]`
+          <ul>
+            <li>`R_1`: `not P_(1,1)`</li>
+          </ul>
+        </li>
+        <li>A square is breezy if and only if there is a pit in a neighboring square
+          <ul>
+            <li>`R_2`: `B_(1,1) iff (P_(1,2) vv P_(2,1))`</li>
+            <li>`R_3`: `B_(2,1) iff (P_(1,1) vv P_(2,2) vv P_(3,1))`</li>
+          </ul>
+        </li>
+        <li>There is no breeze in `[1,1]`
+          <ul>
+            <li>`R_4`: `not B_(1,1)`</li>
+          </ul>
+        </li>
+        <li>There is a breeze in `[2,1]`
+          <ul>
+            <li>`R_5`: `B_(2,1)`</li>
+          </ul>
+        </li>
+      </ul>
+      <h3>A simple inference procedure</h3>
+      <p>We can now perform the model-checking algorithm a little more formally. The relevant symbols are `B_(1,1),B_(2,1),P_(1,1),P_(1,2),P_(2,1),P_(2,2),P_(3,1)`. A model is an assignment of true or false to each symbol.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_entailment_1.png">
+      </div>
+      <div class="ln-box">
+        <p>Notice that in all the models in `KB`, statements `R_1,R_2,R_3,R_4,R_5` are all true. `KB` is true if `R_1` through `R_5` are true because those statements make up the knowledge base.</p>
+        <p>In fact, a systematic way to generate all the models in the knowledge base is to consider all the possible assignments to each symbol that make `R_1` through `R_5` true.</p>
+      </div>
+      <p>For example, here are the assignments for each of the three models in `KB` from top to bottom:</p>
+      <ul>
+        <li>`B_(1,1)=F,B_(2,1)=T,P_(1,1)=F,P_(1,2)=F,P_(2,1)=F,P_(2,2)=F,P_(3,1)=T`</li>
+        <li>`B_(1,1)=F,B_(2,1)=T,P_(1,1)=F,P_(1,2)=F,P_(2,1)=F,P_(2,2)=T,P_(3,1)=F`</li>
+        <li>`B_(1,1)=F,B_(2,1)=T,P_(1,1)=F,P_(1,2)=F,P_(2,1)=F,P_(2,2)=T,P_(3,1)=T`</li>
+      </ul>
+      <p>Can `not P_(1,2)` (there is no pit in `[1,2]`) be derived from `KB`? Well, in all three models, `P_(1,2)` is false, meaning there is no pit in `[1,2]`. So yes, `not P_(1,2)` is entailed by `KB`.</p>
+      <h2 id="propositionaltheoremproving">Propositional Theorem Proving</h2>
+      <p>If there are a lot of models in the knowledge base, then it's not efficient to check each model to determine entailment.</p>
+      <p><b>Theorem proving</b> is a method of deriving a sentence by applying the rules of inference to the sentences in the knowledge base.</p>
+      <div class="ln-box">
+        <p>Two sentences are <b>logically equivalent</b> if they are true in the same set of models. This is denoted as `alpha -= beta`.</p>
+        <p>Two sentences are logically equivalent if and only if each of them entails the other:</p>
+        <div class="ln-center">
+          <p>`alpha -= beta` if and only if `alpha |== beta` and `beta |== alpha`</p>
+        </div>
+        <p>The <b>deduction theorem</b> says `alpha |== beta` if and only if the sentence `alpha implies beta` is true in <em>all</em>* models. This means we can decide if `alpha |== beta` by checking that `alpha implies beta` is true in every model.</p>
+        <p>*A sentence that is true in all models is <b>valid</b>. Valid sentences are also called <b>tautologies</b>. `P vv not P` is an example.</p>
+      </div>
+      <div class="ln-box">
+        <p>It might seem that `-=` and `iff` are the same. The subtle difference between them is that `-=` is used to make claims about sentences while `iff` is used to make sentences.</p>
+      </div>
+      <div class="ln-box">
+        <p>A sentence is <b>satisfiable</b> if it is true in at least one model.</p>
+      </div>
+      <div class="ln-box">
+        <p>One way of proving `alpha |== beta` is to show that `(alpha ^^ not beta)` is unsatisfiable.</p>
+      </div>
+      <h3>Inference and proofs</h3>
+      <p>To derive a sentence, we have to apply <b>inference rules</b> to come up with a <b>proof</b>.</p>
+      <p><b>Modus Ponens</b> is a rule that says if we have the sentence `alpha implies beta` and we know `alpha` is true, then we can conclude `beta` is true.</p>
+      <div class="ln-center">
+        <p>`(alpha implies beta, alpha)/beta`</p>
+        <p>this notation means that the stuff on the top is true, and using that, we can conclude the stuff on the bottom</p>
+      </div>
+      <div class="ln-box">
+        <p>If there is a breeze, then there is a pit nearby. There is a breeze.</p>
+        <p>Therefore, there is a pit nearby.</p>
+      </div>
+      <p><b>And-Elimination</b> is a rule that says if we have a conjunction that is true, then both of the individual sentences by themselves are true.</p>
+      <div class="ln-center">
+        <p>`(alpha ^^ beta)/alpha`</p>
+      </div>
+      <div class="ln-box">
+        <p>There is a wumpus ahead and the wumpus is alive.</p>
+        <p>There is a wumpus ahead.</p>
+      </div>
+      <div class="ln-box">
+        <p>Here are some logical equivalences (these can also be thought of as inference rules):</p>
+        <div class="ln-center">
+          <table class="table">
+            <tr>
+              <td>`(alpha ^^ beta) -= (beta ^^ alpha)`</td>
+              <td>commutativity of `^^`</td>
+            </tr>
+            <tr>
+              <td>`(alpha vv beta) -= (beta vv alpha)`</td>
+              <td>commutativity of `vv`</td>
+            </tr>
+            <tr>
+              <td>`((alpha ^^ beta) ^^ gamma) -= (alpha ^^ (beta ^^ gamma))`</td>
+              <td>associativity of `^^`</td>
+            </tr>
+            <tr>
+              <td>`((alpha vv beta) vv gamma) -= (alpha vv (beta vv gamma))`</td>
+              <td>associativity of `vv`</td>
+            </tr>
+            <tr>
+              <td>`not(not alpha) -= alpha`</td>
+              <td>double-negation elimination</td>
+            </tr>
+            <tr>
+              <td>`(alpha implies beta) -= (not beta implies not alpha)`</td>
+              <td>contraposition</td>
+            </tr>
+            <tr>
+              <td>`(alpha implies beta) -= (not alpha vv beta)`</td>
+              <td>implication elimination</td>
+            </tr>
+            <tr>
+              <td>`(alpha iff beta) -= ((alpha implies beta) ^^ (beta implies alpha))`</td>
+              <td>biconditional elimination</td>
+            </tr>
+            <tr>
+              <td>`not (alpha ^^ beta) -= (not alpha vv not beta)`</td>
+              <td>De Morgan's Law</td>
+            </tr>
+            <tr>
+              <td>`not (alpha vv beta) -= (not alpha ^^ not beta)`</td>
+              <td>De Morgan's Law</td>
+            </tr>
+            <tr>
+              <td>`(alpha ^^ (beta vv gamma)) -= ((alpha ^^ beta) vv (alpha ^^ gamma))`</td>
+              <td>distributivity of `^^` over `vv`</td>
+            </tr>
+            <tr>
+              <td>`(alpha vv (beta ^^ gamma)) -= ((alpha vv beta) ^^ (alpha vv gamma))`</td>
+              <td>distributivity of `vv` over `^^`</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <p>With these inference rules, we can prove a sentence is true without having to check each model in the knowledge base. Let's see how we can prove `not P_(1,2)` using these rules.</p>
+      <p>We have these sentences in our knowledge base:</p>
+      <ul>
+        <li>`R_1`: `not P_(1,1)`</li>
+        <li>`R_2`: `B_(1,1) iff (P_(1,2) vv P_(2,1))`</li>
+        <li>`R_3`: `B_(2,1) iff (P_(1,1) vv P_(2,2) vv P_(3,1))`</li>
+        <li>`R_4`: `not B_(1,1)`</li>
+        <li>`R_5`: `B_(2,1)`</li>
+      </ul>
+      <p>The only sentence that involves `P_(1,2)` is `R_2`, so we'll start there.</p>
+      <p>Apply biconditional elimination to `R_2` to get</p>
+      <div class="ln-center">
+        <p>`R_6`: `(B_(1,1) implies (P_(1,2) vv P_(2,1))) ^^ ((P_(1,2) vv P_(2,1)) implies B_(1,1))`</p>
+      </div>
+      <p>Apply And-Elimination to `R_6` to get</p>
+      <div class="ln-center">
+        <p>`R_7`: `((P_(1,2) vv P_(2,1)) implies B_(1,1))`</p>
+      </div>
+      <p>Use the logical equivalence for contrapositives to get</p>
+      <div class="ln-center">
+        <p>`R_8`: `(not B_(1,1) implies not (P_(1,2) vv P_(2,1)))`</p>
+      </div>
+      <p>Apply Modus Ponens with `R_8` and `R_4` to get</p>
+      <div class="ln-center">
+        <p>`R_9`: `not (P_(1,2) vv P_(2,1))`</p>
+      </div>
+      <p>Apply De Morgan's rule to get</p>
+      <div class="ln-center">
+        <p>`R_10`: `not P_(1,2) ^^  not P_(2,1)`</p>
+      </div>
+      <p>Apply And-Elimination to `R_10` to get</p>
+      <div class="ln-center">
+        <p>`R_11`: `not P_(1,2)`</p>
+      </div>
+      <h3>Proof by resolution</h3>
+      <p><b>Resolution</b> is another inference rule. It can be loosely thought of as a "cancellation", like in math. Let's say we have two sentences `alpha vv beta` and `not alpha`. Then the `alpha` and `not alpha` "cancel out" (the technical term is "resolves with") and we can conclude `beta`.</p>
+      <div class="ln-box">
+        <p>There is a pit or a wumpus ahead. There is no pit ahead.</p>
+        <p>There is a wumpus ahead.</p>
+      </div>
+      <p>Let's see how we can use resolution to prove that there is a pit in `[3,1]`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_world_3.png">
+      </div>
+      <p>We'll add some more sentences to the knowledge base:</p>
+      <ul>
+        <li>`R_12`: `not B_(1,2)`</li>
+        <li>`R_13`: `B_(1,2) iff (P_(1,1) vv P_(2,2) vv P_(1,3))`</li>
+      </ul>
+      <p>Using the exact same rules in the proof above, we can derive</p>
+      <ul>
+        <li>`R_14`: `not P_(2,2)`</li>
+        <li>`R_15`: `not P_(1,3)`</li>
+      </ul>
+      <p>We can use biconditional elimination and And-Elimination  on `R_3` (which is `B_(2,1) iff (P_(1,1) vv P_(2,2) vv P_(3,1))`) to get</p>
+      <div class="ln-center">
+        <p>`B_(2,1) implies (P_(1,1) vv P_(2,2) vv P_(3,1))`</p>
+      </div>
+      <p>Then we can use Modus Ponens with `R_5` (which is `B_(2,1)`) to get</p>
+      <div class="ln-center">
+        <p>`R_16`: `P_(1,1) vv P_(2,2) vv P_(3,1)`</p>
+      </div>
+      <p>Now we can use our new resolution rule. We have `not P_(1,1)` (from `R_1`), which resolves with the `P_(1,1)` in `R_16` to get</p>
+      <div class="ln-center">
+        <p>`R_17`: `P_(2,2) vv P_(3,1)`</p>
+      </div>
+      <p>We also have `not P_(2,2)` (from `R_14`), which resolves with the `P_(2,2)` in `R_17` to get</p>
+      <div class="ln-center">
+        <p>`R_18`: `P_(3,1)`</p>
+      </div>
+      <h4>Conjunctive normal form</h4>
+      <p>The resolution rule only works for clauses (disjunctions of literals) though. So how is this helpful for sentences that aren't clauses? Well, it turns out that every sentence is logically equivalent to a conjunction of clauses. That is, any sentence can be converted into a combination of clauses.</p>
+      <p>A sentence that is a conjunction of clauses is in <b>conjunctive normal form</b> or <b>CNF</b>.</p>
+      <p>Let's look at how to convert `B_(1,1) iff (P_(1,2) vv P_(2,1))` into CNF.</p>
+      <div class="ln-center">
+        <p>Biconditional elimination:</p>
+        <p>`(B_(1,1) implies (P_(1,2) vv P_(2,1)) ^^ ((P_(1,2) vv P_(2,1)) implies B_(1,1))`</p>
+      </div>
+      <div class="ln-center">
+        <p>Implication elimination:</p>
+        <p>`(not B_(1,1) vv P_(1,2) vv P_(2,1)) ^^ (not (P_(1,2) vv P_(2,1)) vv B_(1,1))`</p>
+      </div>
+      <div class="ln-center">
+        <p>De Morgan's rule*:</p>
+        <p>`(not B_(1,1) vv P_(1,2) vv P_(2,1)) ^^ ((not P_(1,2) ^^ not P_(2,1)) vv B_(1,1))`</p>
+      </div>
+      <div class="ln-center">
+        <p>Distributivity of `vv` over `^^`<sup>†</sup>:</p>
+        <p>`(not B_(1,1) vv P_(1,2) vv P_(2,1)) ^^ (not P_(1,2) vv B_(1,1)) ^^ (not P_(2,1) vv B_(1,1))`</p>
+      </div>
+      <div class="ln-box">
+        <p>*CNF requires `not` to appear only in literals, so we need to keep going here.</p>
+        <p><sup>†</sup>Each clause joined by an `^^` needs to be a literal or a disjunction, so we need to keep going here.</p>
+      </div>
+      <div class="ln-box">
+        <p>Why is it important that any sentence can be turned into a conjunction of clauses? It's because resolution leads to a complete inference procedure for all of propositional logic. A resolution-based theorem prover can, for any sentences `alpha` and `beta`, decide whether `alpha |== beta`.</p>
+      </div>
+      <h4>A resolution algorithm</h4>
+      <p>Resolution algorithms are based on the idea of proving a contradiction. Recall that proving `KB |== alpha` is the same as proving `(KB ^^ not alpha)` is unsatisfiable. So if we assume `(KB ^^ not alpha)` is true and arrive at a contradiction, then `KB |== alpha`.</p>
+      <div class="ln-flex-center">
+        <p><code>function PL-RESOLUTION(KB, &alpha;)<br>&nbsp;&nbsp;clauses = the set of clauses in the CNF representation of KB &and; ¬&alpha;<br>&nbsp;&nbsp;new = {}<br>&nbsp;&nbsp;while true do<br>&nbsp;&nbsp;&nbsp;&nbsp;for each pair of clauses C_i, C_j in clauses do<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resolvents = PL-RESOLVE(C_i, C_j)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if resolvents contains the empty clause then return true<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new = new &cup; resolvents<br>&nbsp;&nbsp;&nbsp;&nbsp;if new &sube; clauses then return false<br>&nbsp;&nbsp;&nbsp;&nbsp;clauses = clauses &cup; new</code></p>
+      </div>
+      <div class="ln-center">
+        <p><code>KB</code>: a sentence in the knowledge base</p>
+        <p><code>&alpha;</code>: the sentence we're trying to prove</p>
+      </div>
+      <p>First, `(KB ^^ not alpha)` is converted into CNF. Then the resolution rule is applied to the resulting clauses. Each pair that contains complementary literals is resolved to produce a new clause, which is added to <code>new</code>.</p>
+      <p>This keeps going until one of two things happens:</p>
+      <ul>
+        <li>there are no new clauses that can be added, which means `KB` does not entail `alpha`</li>
+        <li>two clauses resolve to yield the empty clause, which means `KB` does entail `alpha`
+          <ul>
+            <li>if the empty clause is yielded, then there is a contradiction</li>
+          </ul>
+        </li>
+      </ul>
+      <p>Let's go back to the first step in the wumpus world and look at this algorithm in action. The agent is in `[1,1]` and there is no breeze. How do we use resolution to prove there is no pit in `[1,2]`?</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai/wumpus_world_1.png">
+      </div>
+      <p>The relevant knowledge base is</p>
+      <div class="ln-center">
+        <p>`KB=R_2 ^^ R_4 = (B_(1,1) iff (P_(1,2) vv P_(2,1)) ^^ not B_(1,1))`</p>
+      </div>
+      <p>and `alpha` is</p>
+      <div class="ln-center">
+        <p>`alpha = not P_(1,2)`</p>
+      </div>
+      <p>When we convert `(KB ^^ not alpha)` into CNF, we get</p>
+      <div class="ln-center">
+        <p>`(not B_(1,1) vv P_(1,2) vv P_(2,1)) ^^ (not P_(1,2) vv B_(1,1)) ^^ (not P_(2,1) vv B_(1,1)) ^^ not B_(1,1) ^^ P_(1,2)`</p>
+      </div>
+      <p>This gives us five clauses. For each pair of clauses, we apply resolution to get new clauses. For example,</p>
+      <div class="ln-center">
+        <p>`not P_(2,1) vv B_(1,1)` with `not B_(1,1) vv P_(1,2) vv P_(2,1)` results in `P_(1,2) vv P_(2,1) vv not P_(2,1)`.</p>
+        <p>`not P_(1,2) vv B_(1,1)` with `not B_(1,1)` results in `not P_(1,2)`.</p>
+      </div>
+      <p>We can see that if we were to continue, we would eventually apply the resolution rule to `P_(1,2)` and `not P_(1,2)` to get the empty clause. This means that `alpha = not P_(1,2)` is proven.</p>
+      <div class="ln-box">
+        <h3>Summary of Chapter 7</h3>
+        <ul>
+          <li>Intelligent agents need knowledge about the world in order to reach good decisions.</li>
+          <li>Knowledge is contained in agents in the form of <b>sentences</b> in a <b>knowledge representation language</b> that are stored in a <b>knowledge base</b>.</li>
+          <li>A knowledge-based agent is composed of a knowledge base and an inference mechanism. It operates by storing sentences about the world in its knowledge base, using the inference mechanism to infer new sentences, and using these sentences to decide what action to take.</li>
+          <li>A representation language is defined by its <b>syntax</b>, which specifies the structure of sentences, and its <b>semantics</b>, which defines the <b>truth</b> of each sentence in each <b>possible world</b> or <b>model</b>.</li>
+          <li>The relationship of <b>entailment</b> between sentences is crucial to our understanding of reasoning. A sentence `alpha` entails another sentence `beta` if `beta` is true in all worlds where `alpha` is true. Equivalent definitions include the <b>validity</b> of the sentence `alpha implies beta` and the <b>unsatisfiability</b> of the sentence `alpha ^^ not beta`.</li>
+          <li>Inference is the process of deriving new sentences from old ones. <b>Sound</b> inference algorithms derive only sentences that are entailed; <b>complete</b> algorithms derive all sentences that are entailed.</li>
+          <li><b>Propositional logic</b> is a simple language consisting of <b>proposition symbols</b> and <b>logical connectives</b>. It can handle propositions that are known to be true, known to be false, or completely unknown.</li>
+          <li>The set of possible models, given a fixed propositional vocabulary, is finite, so entailment can be checked by enumerating models. Efficient <b>model-checking</b> inference algorithms for propositional logic include backtracking and local search methods and can often solve large problems quickly.</li>
+          <li><b>Inference rules</b> are patterns of sound inference that can be used to find proofs. The <b>resolution</b> rule yields a complete inference algorithm for knowledge bases that are expressed in <b>conjunctive normal form</b>. <b>Forward chaining</b> and <b>backward chaining</b> are very natural reasoning algorithms for knowledge bases in <b>Horn form</b>.</li>
+          <li><b>Local search</b> methods such as `text(WALKSAT)` can be used to find solutions. Such algorithms are sound but not complete.</li>
+          <li>Logical <b>state estimation</b> involves maintaining a logical sentence that describes the set of possible states consistent with the observation history. Each update step requires inference using the transition model of the environment, which is built from <b>successor-state axioms</b> that specify how each <b>fluent</b> changes.</li>
+          <li>Decisions within a logical agent can be made by SAT solving: finding possible models specifying future action sequences that reach the goal. This approach works only for fully observable or sensorless environments.</li>
+          <li>Propositional logic does not scale to environments of unbounded size because it lacks the expressive power to deal concisely with time, space, and universal patterns of relationships among objects.</li>
         </ul>
       </div>
     </div>
