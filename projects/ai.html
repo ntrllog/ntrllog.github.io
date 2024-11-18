@@ -61,6 +61,11 @@
         <li><a class="dropdown-item" href="#logic">Logic</a></li>
         <li><a class="dropdown-item" href="#propositionallogic">Propositional Logic: A Very Simple Logic</a></li>
         <li><a class="dropdown-item" href="#propositionaltheoremproving">Propositional Theorem Proving</a></li>
+        <li><a class="dropdown-item" href="#firstorderlogic">First-Order Logic</a></li>
+        <li><a class="dropdown-item" href="#syntaxandsemanticsoffirstorderlogic">Syntax and Semantics of First-Order Logic</a></li>
+        <li><a class="dropdown-item" href="#usingfirstorderlogic">Using First-Order Logic</a></li>
+        <li><a class="dropdown-item" href="#inferenceinfirstorderlogic">Propositional vs. First-Order Inference</a></li>
+        <li><a class="dropdown-item" href="#resolution">Resolution</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -2196,7 +2201,7 @@
         <p>`R_18`: `P_(3,1)`</p>
       </div>
       <h4>Conjunctive normal form</h4>
-      <p>The resolution rule only works for clauses (disjunctions of literals) though. So how is this helpful for sentences that aren't clauses? Well, it turns out that every sentence is logically equivalent to a conjunction of clauses. That is, any sentence can be converted into a combination of clauses.</p>
+      <p>The resolution rule only works for clauses (a.k.a. disjunctions of literals) though. So how is this helpful for sentences that aren't clauses? Well, it turns out that every sentence is logically equivalent to a conjunction of clauses. That is, any sentence can be converted into a combination of clauses.</p>
       <p>A sentence that is a conjunction of clauses is in <b>conjunctive normal form</b> or <b>CNF</b>.</p>
       <p>Let's look at how to convert `B_(1,1) iff (P_(1,2) vv P_(2,1))` into CNF.</p>
       <div class="ln-center">
@@ -2263,6 +2268,69 @@
         <p>`not P_(1,2) vv B_(1,1)` with `not B_(1,1)` results in `not P_(1,2)`.</p>
       </div>
       <p>We can see that if we were to continue, we would eventually apply the resolution rule to `P_(1,2)` and `not P_(1,2)` to get the empty clause. This means that `alpha = not P_(1,2)` is proven.</p>
+      <h3>Horn clauses and definite clauses</h3>
+      <p>A <b>definite clause</b> is a disjunction of literals where exactly one of them is positive. For example, `alpha vv not beta vv not gamma` is a definite clause.</p>
+      <div class="ln-box">
+        <p>A <b>Horn clause</b> is a disjunction of literals where at most one of them is positive.</p>
+      </div>
+      <p>So what's the point of definite clauses? It turns out that having a knowledge base of definite clauses allows us to use another set of inference algorithms called <b>forward-chaining</b> and <b>backward-chaining</b>.</p>
+      <h3>Forward and backward chaining</h3>
+      <p>Suppose we had the implication `(alpha ^^ beta) implies gamma`. Forward chaining says that if we know `alpha` and `beta` are true, then we can add `gamma` to the knowledge base, i.e., we can conclude that `gamma` is true. (Forward chaining is essentially an implementation of Modus Ponens.)</p>
+      <p>Let's say we had these statements in the knowledge base:</p>
+      <div class="ln-center">
+        <p>`A`</p>
+        <p>`B`</p>
+        <p>`A ^^ B implies L`</p>
+        <p>`A ^^ P implies L`</p>
+        <p>`B ^^ L implies M`</p>
+        <p>`L ^^ M implies P`</p>
+        <p>`P implies Q`</p>
+      </div>
+      <p>and let's say we wanted to prove that `Q` is true.</p>
+      <p>With forward chaining, we start with the facts that we know are true (which are `A` and `B` in this case) and see if we can reach the goal.</p>
+      <ol>
+        <li>`A` and `B` give us `L`</li>
+        <li>`B` and `L` give us `M`</li>
+        <li>`L` and `M` give us `P`</li>
+        <li>`P` gives us `Q`</li>
+      </ol>
+      <p>Backward chaining is kind of the same thing, just with a different mindset. With backward chaining, we start with what we want to prove (`Q` in this case) and see if we have enough information to prove it.</p>
+      <ol>
+        <li>If we want to prove `Q`, we need to show `P` is true.</li>
+        <li>In order to show `P` is true, we need to show `L` and `M` are true.</li>
+        <li>In order to show `M` is true, we need to show `B` and `L` are true.
+          <ul>
+            <li>Well, we already have `B`, so we just need `L`.</li>
+          </ul>
+        </li>
+        <li>In order to show `L` is true, we need to show `A` and `B` are true.
+          <ul>
+            <li>Well, we already have `A` and `B`, so we can get `L`.</li>
+          </ul>
+        </li>
+        <li>Now that we have `B` and `L`, we can get `M`.</li>
+        <li>Now that we have `L` and `M`, we can get `P`.</li>
+        <li>Now that we have `P`, we can get `Q`.</li>
+      </ol>
+      <p>But wait, forward chaining and backward chaining are algorithms for implications. What do they have to do with definite clauses?</p>
+      <p>Definite clauses can be converted into implications. Recall implication elimination:</p>
+      <div class="ln-center">
+        <p>`(alpha implies beta) -= (not alpha vv beta)`</p>
+      </div>
+      <p>We can use this (in the other direction) to convert definite clauses into implications.</p>
+      <div class="ln-box">
+        <p>How about definite clauses with more than two literals, like `not alpha vv not beta vv gamma`?</p>
+        <p>Loosely, the conversion process can be thought of as "the negative literal goes before the implication (with the `not` removed) and the positive literal goes after the implication". Applying this, we get:</p>
+        <div class="ln-center">
+          <p>`alpha implies gamma`</p>
+          <p>`beta implies gamma`</p>
+        </div>
+        <p>If we think about it*, we can conclude that both `alpha` <em>and</em> `beta` implies `gamma`.</p>
+        <div class="ln-center">
+          <p>`alpha ^^ beta implies gamma`</p>
+        </div>
+        <p>*For peace of mind, we can create a truth table for `((alpha implies gamma) ^^ (beta implies gamma)) implies ((alpha ^^ beta) implies gamma)` and it should be true in every row.</p>
+      </div>
       <div class="ln-box">
         <h3>Summary of Chapter 7</h3>
         <ul>
@@ -2281,6 +2349,193 @@
           <li>Propositional logic does not scale to environments of unbounded size because it lacks the expressive power to deal concisely with time, space, and universal patterns of relationships among objects.</li>
         </ul>
       </div>
+      <h2 id="firstorderlogic">First-Order Logic</h2>
+      <p>As much as we can do with propositional logic, there are some limitations to it. The biggest limitation is that we need a lot of propositions to represent some basic ideas.</p>
+      <p>For example, to represent the idea that there is a breeze next to a pit, we use</p>
+      <div class="ln-center">
+        <p>`B_(1,1) iff (P_(1,2) vv P_(2,1))`</p>
+        <p>`B_(2,1) iff (P_(1,1) vv P_(3,1) vv P_(2,2))`</p>
+        <p>`B_(3,1) iff (P_(2,1) vv P_(3,2) vv P_(4,1))`</p>
+        <p>`vdots`</p>
+        <p>and so on for every square</p>
+      </div>
+      <p>To represent the idea that there is exactly one wumpus, we use</p>
+      <div class="ln-center">
+        <p>`W_(1,1) vv W_(1,2) vv W_(1,3) vv ...`</p>
+        <p>(there is at least one wumpus)</p>
+      </div>
+      <p>and</p>
+      <div class="ln-center">
+        <p>`not W_(1,1) vv not W_(1,2)`</p>
+        <p>`not W_(1,1) vv not W_(1,3)`</p>
+        <p>`not W_(1,1) vv not W_(1,4)`</p>
+        <p>`vdots`</p>
+        <p>(there is at most one wumpus)</p>
+      </div>
+      <p>First-order logic solves this problem by dealing with <b>objects</b> and <b>relations</b> instead of propositions. For the wumpus world, objects would be things like squares, pits, and wumpuses. Relations would be <b>properties</b> or descriptions of those objects, like "is breezy", "is adjacent to", and "shoots".</p>
+      <div class="ln-box">
+        <p>Some relations can be thought of as <b>functions</b>.</p>
+      </div>
+      <h2 id="syntaxandsemanticsoffirstorderlogic">Syntax and Semantics of First-Order Logic</h2>
+      <h3>Symbols and interpretations</h3>
+      <p><b>Constant symbols</b> are used to represent objects and <b>predicate symbols</b> are used to represent relations. Some examples of constant symbols are `text(Wumpus)`, `text(Square)`, and `text(Agent)`. Some examples of predicate symbols are `text(Breezy)` (for "is breezy"), `text(Pit)` (for "is a pit"), and `text(Adjacent)` (for "is adjacent to").</p>
+      <h3>Atomic sentences</h3>
+      <p>We combine constant symbols and predicate symbols to form <b>atomic sentences</b>.</p>
+      <p>`text(Alive(Wumpus))` is a sentence that stands for "The wumpus is alive", and this sentence can be either true or false.</p>
+      <h3>Complex sentences</h3>
+      <p>We can use the same connectives we saw in propositional logic here as well. For example, `not text(Alive(Wumpus)) implies not text(HasArrow(Agent))`.</p>
+      <h3>Quantifiers</h3>
+      <p>Now that we have the concept of objects, we can make general statements about a whole collection of objects (instead of enumerating each object one by one like we did earlier) using <b>quantifiers</b>.</p>
+      <h4>Universal quantification</h4>
+      <p>The <b>universal quantifier</b> `AA` is pronounced "for all". A sentence using this quantifier looks like</p>
+      <div class="ln-center">
+        <p>`AA x` `text(Breezy)(x) implies text(Pit)(x)`</p>
+        <p>"For all objects `x`, if `x` is breezy, then `x` is a pit."</p>
+        <p>[This sentence is not true in our wumpus world since the neighboring squares (not the pit itself) are breezy.]
+      </div>
+      <p>The `x` is a <b>variable</b>.</p>
+      <h4>Existential quantification</h4>
+      <p>The <b>existential quantifier</b> `EE` is pronounced "there exists".</p>
+      <div class="ln-center">
+        <p>`EE x` `text(Pit)(x)`</p>
+        <p>"There exists an object `x` such that `x` is a pit."</p>
+      </div>
+      <h2 id="usingfirstorderlogic">Using First-Order Logic</h2>
+      <h3>The wumpus world</h3>
+      <p>The agent can perceive a stench (from the wumpus), a breeze (from a pit), a glitter (from the gold), a bump (when walking into a wall), and a scream (when the wumpus is killed). An example of a percept sentence then could look like</p>
+      <div class="ln-center">
+        <p>`text(Percept)([text(Stench), text(Breeze), text(Glitter), text(None), text(None)], 4)`</p>
+        <p>(The `4` refers to the time at which the percept was perceived by the agent.)</p>
+      </div>
+      <p>To transform the percept into a fact about the wumpus world, we can do things like</p>
+      <div class="ln-center">
+        <p>`AA t,s,g,w,c` `text(Percept)([s, text(Breeze), g, w, c], t) implies text(Breeze(t))`</p>
+        <p>For all objects `t,s,g,w,c`, if a breeze was perceived at time `t`, then there is a breeze at time `t`.</p>
+        <p>`AA t,s,b,w,c` `text(Percept)([s, b, text(None), w, c], t) implies not text(Glitter(t))`</p>
+        <p>For all objects `t,s,b,w,c`, if no glitter was perceived at time `t`, then there is no glitter at time `t`.</p>
+      </div>
+      <p>We can implement simple reflex behavior with</p>
+      <div class="ln-center">
+        <p>`AA t` `text(Glitter)(t) implies text(BestAction)(text(Grab), t)`</p>
+        <p>If there is a glitter at time `t`, then the best action is to grab (the gold) at time `t`.</p>
+      </div>
+      <p>We can describe the environment concisely with</p>
+      <div class="ln-center">
+        <p>`AA x,y,a,b` `text(Adjacent)text(()[x,y], [a,b]text()) iff (x = a ^^ (y = b - 1 vv y = b + 1)) vv (y = b ^^ (x = a -1 vv x = a + 1))`</p>
+        <p>A square at position `(x,y)` is adjacent to a square at position `(a,b)` if and only if the square is above/below it or to the left/right of it.</p>
+        <p>`text(Wumpus)`</p>
+        <p>There is a wumpus.</p>
+      </div>
+      <p>If we have a function `text(At)(x,s,t)` to mean object `x` is at square `s` at time `t`, then we can say things like</p>
+      <div class="ln-center">
+        <p>`AA s,t` `text(At)(text(Agent), s, t) ^^ Breeze(t) implies Breezy(s)`</p>
+        <p>If the agent detects a breeze on square `s` at time `t`, then square `s` is breezy.</p>
+        <p>`AA s` `text(Breezy)(s) iff EE r` `text(Adjacent)(r,s) ^^ text(Pit)(r)`</p>
+        <p>A square is breezy if and only if there exists a pit next to it.</p>
+      </div>
+      <div class="ln-box">
+        <h3>Summary of Chapter 8</h3>
+        <ul>
+          <li>Knowledge representation languages should be declarative, compositional, expressive, context independent, and unambiguous.</li>
+          <li>Logics differ in their <b>ontological commitments</b> and <b>epistemological commitments</b>. While propositional logic commits only to the existence of facts, first-order logic commits to the existence of objects and relations and thereby gains expressive power, appropriate for domains such as the wumpus world and electronic circuits.</li>
+          <li>Both propositional logic and first-order logic share a difficulty in representing vague propositions. This difficulty limits their applicability in domains that require personal judgments, like politics or cuisine.</li>
+          <li>The syntax of first-order logic builds on that of propositional logic. It adds terms to represent objects, and has universal and existential quantifiers to construct assertions about all or some of the possible values of the quantified variables.</li>
+          <li>A <b>possible world</b>, or <b>model</b>, for first-order logic includes a set of objects and an <b>interpretation</b> that maps constant symbols to objects, predicate symbols to relations among objects, and function symbols to functions on objects.</li>
+          <li>An atomic sentence is true only when the relation named by the predicate holds between the objects named by the terms. <b>Extended interpretations</b>, which map quantifier variables to objects in the model, define the truth of quantified sentences.</li>
+          <li>Developing a knowledge base in first-order logic requires a careful process of analyzing the domain, choosing a vocabulary, and encoding the axioms required to support the desired inferences.</li>
+        </ul>
+      </div>
+      <h2 id="inferenceinfirstorderlogic">Propositional vs. First-Order Inference</h2>
+      <p>So how do we prove statements when these new quantifiers are involved? Well, we can convert sentences in first-order logic into sentences in propositional logic by eliminating the quantifiers.</p>
+      <p>Eliminating universal quantifiers is fairly simple; we just replace the variables with objects. For example, let's say we have the sentence "All greedy kings are evil.":</p>
+      <div class="ln-center">
+        <p>`AA x` `text(King)(x) ^^ text(Greedy)(x) implies text(Evil)(x)`</p>
+      </div>
+      <p>Then we can create new sentences for all people that exist:</p>
+      <div class="ln-center">
+        <p>`text(King)(text(John)) ^^ text(Greedy)(text(John)) implies text(Evil)(text(John))`</p>
+        <p>`text(King)(text(Richard)) ^^ text(Greedy)(text(Richard)) implies text(Evil)(text(Richard))`</p>
+        <p>`vdots`</p>
+      </div>
+      <p>This is <b>Universal Instantiation</b>.</p>
+      <p><b>Existential Instantiation</b> is similar except we replace the variables with a new constant symbol. For example, the sentence</p>
+      <div class="ln-center">
+        <p>`EE x` `text(Crown)(x) ^^ text(OnHead)(x, text(John))`</p>
+      </div>
+      <p>becomes</p>
+      <div class="ln-center">
+        <p>`text(Crown)(C_1) ^^ text(OnHead)(C_1, text(John))`</p>
+      </div>
+      <p>by replacing `x` with `C_1`, where `C_1` is a symbol that represents an object.</p>
+      <div class="ln-box">
+        <p>The new constant symbol is called a <b>Skolem constant</b>.</p>
+      </div>
+      <h3>Reduction to propositional inference</h3>
+      <p>Then we replace predicate symbols (that have no variables) with proposition symbols. So `text(King)(text(John))` becomes something like `text(JohnIsKing)`.</p>
+      <p>This whole process is called <b>propositionalization</b>.</p>
+      <h2 id="forwardchaining">Forward Chaining</h2>
+      <h3>First-order definite clauses</h3>
+      <p>Like we saw before, a definite clause in first-order logic is a disjunction of literals where exactly one of the literals is positive (they can be in the form of an implication after conversion). Existential quantifiers are not allowed, but universal quantifiers are. So `text(King)(x) ^^ text(Greedy)(x) implies text(Evil)(x)` is a definite clause, where the `AA x` is implicit.</p>
+      <p>Let's look at the following problem: The law says that it is a crime for an American to sell weapons to hostile nations. The country Nono, an enemy of America, has some missiles, and all of its missiles were sold to it by Colonel West, who is American. We can use forward chaining to prove that West is a criminal.</p>
+      <p>First we populate the knowledge base with definite clauses. "... it is a crime for an American to sell weapons to hostile nations" becomes</p>
+      <div class="ln-center">
+        <p>`text(American)(x) ^^ text(Weapon)(y) ^^ text(Sells)(x,y,z) ^^ text(Hostile)(z) implies text(Criminal)(x)`</p>
+      </div>
+      <p>"Nono ... has some missles" is `EE x` `text(Owns)(text(Nono), x) ^^ text(Missle)(x)`. Using Existential Instantiation, we get</p>
+      <div class="ln-center">
+        <p>`text(Owns)(text(Nono),M_1) ^^ text(Missle)(M_1)`</p>
+      </div>
+      <p>"All of its missles were sold to it by Colonel West" becomes</p>
+      <div class="ln-center">
+        <p>`text(Missle)(x) ^^ text(Owns)(text(Nono), x) implies text(Sells)(text(West), x, text(Nono))`</p>
+      </div>
+      <p>"West, who is an American" becomes</p>
+      <div class="ln-center">
+        <p>`text(American)(text(West))`</p>
+      </div>
+      <p>"The country Nono, an enemy of America" becomes</p>
+      <div class="ln-center">
+        <p>`text(Enemy)(text(Nono), text(America))`</p>
+      </div>
+      <p>We also need to establish that a missle is a weapon:</p>
+      <div class="ln-center">
+        <p>`text(Missle)(x) implies text(Weapon)(x)`</p>
+      </div>
+      <p>and an enemy of America is hostile:</p>
+      <div class="ln-center">
+        <p>`text(Enemy)(x, text(America)) implies text(Hostile)(x)`</p>
+      </div>
+      <h3>A simple forward-chaining algorithm</h3>
+      <p>To prove that West is a criminal, we need to show `text(American)(text(West)) ^^ text(Weapon)(M_1) ^^ text(Sells)(text(West), M_1, text(Nono)) ^^ text(Hostile)(text(Nono)) implies text(Criminal)(text(West))`.</p>
+      <ul>
+        <li>`text(American)(text(West))` is given</li>
+        <li>`text(Weapon)(M_1)`
+          <ul>
+            <li>`text(Owns)(text(Nono),M_1) ^^ text(Missle)(M_1)` gives us `text(Missle)(M_1)`</li>
+            <li>`text(Missle)(M_1) implies text(Weapon)(M_1)` gives us `text(Weapon)(M_1)`</li>
+          </ul>
+        </li>
+        <li>`text(Sells)(text(West), M_1, text(Nono))`
+          <ul>
+            <li>`text(Owns)(text(Nono),M_1) ^^ text(Missle)(M_1)` gives us `text(Sells)(text(West), M_1, text(Nono))`</li>
+          </ul>
+        </li>
+        <li>`text(Hostile)(text(Nono))`
+          <ul>
+            <li>`text(Enemy)(text(Nono), text(America))` and `text(Enemy)(x, text(America)) implies text(Hostile)(x)` give us `text(Hostile)(text(Nono))`</li>
+          </ul>
+        </li>
+      </ul>
+      <p>Now that we have shown the four premises are true, we can use forward chaining to get `text(Criminal)(text(West))`.</p>
+      <h2 id="resolution">Resolution</h2>
+      <h3>Conjunctive normal form for first-order logic</h3>
+      <p>Like we saw before, a sentence in <b>conjunctive normal form</b> (CNF) is a conjunction of clauses (recall that a clause is a disjunction of literals). The literals can contain variables, which are assumed to be universally quantified.</p>
+      <p>The sentence `AA x,y,z` `text(American)(x) ^^ text(Weapon)(y) ^^ text(Sells)(x,y,z) ^^ text(Hostile)(z) implies text(Criminal)(x)` becomes</p>
+      <div class="ln-center">
+        <p>`not text(American)(x) vv not text(Weapon)(y) vv not text(Sells)(x,y,z) vv not text(Hostile)(z) vv text(Criminal)(x)`</p>
+      </div>
+      <p>Every sentence of first-order logic can be converted into a CNF sentence.</p>
+      <p>Converting a sentence to CNF is similar to the propositional case; we just need to handle the quantifiers and the variables.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
