@@ -80,6 +80,10 @@ h2 {
   color: white;
 }
 
+.ln-dark-right-border {
+  border-right: 1px solid black;
+}
+
 @media (min-width:801px) {
   .ln-image-small {
     width: 50%;
