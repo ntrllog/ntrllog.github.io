@@ -53,15 +53,15 @@ h2 {
 }
 
 .ln-green {
-  color: green;
+  color: green !important;
 }
 
 .ln-orange {
-  color: orange;
+  color: orange !important;
 }
 
 .ln-light-blue {
-  color: #03d1ff;
+  color: #03d1ff !important;
 }
 
 .ln-line-height {
@@ -69,19 +69,43 @@ h2 {
 }
 
 .ln-purple {
-  color: purple;
+  color: purple !important;
 }
 
 .ln-red {
-  color: red;
+  color: red !important;
+}
+
+.ln-blue {
+  color: blue !important;
 }
 
 .ln-white {
-  color: white;
+  color: white !important;
 }
 
 .ln-dark-right-border {
   border-right: 1px solid black;
+}
+
+.ln-bg-orange {
+  background-color: orange !important;
+}
+
+.ln-bg-gray {
+  background-color: gray !important;
+}
+
+.ln-bg-green {
+  background-color: green !important;
+}
+
+.ln-bg-yellow {
+  background-color: yellow !important;
+}
+
+.ln-bg-blue {
+  background-color: blue !important;
 }
 
 @media (min-width:801px) {

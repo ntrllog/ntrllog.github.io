@@ -20,50 +20,50 @@
     <title>ntrllog | Machine Learning</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
-    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/content.css" rel="stylesheet">
   </head>
   <body>
-    <div class="dropdown">
-      <button onclick="showMenu()" class="dropbtn">ToC</button>
-      <div class="dropdown-content" id="dropDownMenu">
-        <a class="dropdown-item" href="#knn">KNN</a>
-        <a class="dropdown-item" href="#decisiontree">Decision Tree</a>
-        <a class="dropdown-item" href="#linearregression">Linear Regression</a>
-        <a class="dropdown-item" href="#gradientdescent">Gradient Descent</a>
-        <a class="dropdown-item" href="#logisticregression">Logistic Regression</a>
-        <a class="dropdown-item" href="#polynomialregression">Polynomial Regression</a>
-        <a class="dropdown-item" href="#randomforest">Random Forest</a>
-        <a class="dropdown-item" href="#kmeans">K-Means Clustering</a>
-        <a class="dropdown-item" href="#ann">Artificial Neural Networks</a>
-        <a class="dropdown-item" href="#backpropagation">Backpropagation</a>
-        <a class="dropdown-item" href="#deeplearning">Deep Learning</a>
-        <a class="dropdown-item" href="#cnn">Convolutional Neural Networks</a>
-        <a class="dropdown-item" href="#svm">Support Vector Machine</a>
-        <a class="dropdown-item" href="#appendix">Appendix</a>
-        <a class="dropdown-item" href="#aaccuracy">A1) Accuracy: Is It Accurate?</a>
-        <a class="dropdown-item" href="#amodelevaluation">A2) Model Evaluation</a>
-        <a class="dropdown-item" href="#acrossvalidation">A3) Cross Validation</a>
-        <a class="dropdown-item" href="#anormalization">A4) Normalization</a>
-        <a class="dropdown-item" href="#afeatureselection">A5) Feature Selection</a>
-        <a class="dropdown-item" href="#afeatureextraction">A6) Feature Extraction</a>
-        <a class="dropdown-item" href="#apca">A6.1) Principal Component Analysis</a>
-        <a class="dropdown-item" href="#aoverfitting">A7) Overfitting</a>
-        <a class="dropdown-item" href="#adimensionalityreduction">A7.1) Dimensionality Reduction</a>
-        <a class="dropdown-item" href="#aregularization">A7.2) Regularization</a>
-        <a class="dropdown-item" href="#abiasandvariance">A8) Bias and Variance</a>
-        <a class="dropdown-item" href="#aensemblelearning">A9) Ensemble Learning</a>
-        <a class="dropdown-item" href="#abootstrapping">A9.1) Bootstrapping</a>
-        <a class="dropdown-item" href="#aunsupervisedlearning">A10) Unsupervised Learning</a>
-        <a class="dropdown-item" href="#abigdata">A11) Big Data</a>
-        <a class="dropdown-item" href="#amapreduce">A11.3) MapReduce</a>
-        <a class="dropdown-item" href="#agradientdescent">A11.4) Gradient Descent</a>
+    <div class="dropdown ln-fixed-right">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#knn">KNN</a></li>
+        <li><a class="dropdown-item" href="#decisiontree">Decision Tree</a></li>
+        <li><a class="dropdown-item" href="#linearregression">Linear Regression</a></li>
+        <li><a class="dropdown-item" href="#gradientdescent">Gradient Descent</a></li>
+        <li><a class="dropdown-item" href="#logisticregression">Logistic Regression</a></li>
+        <li><a class="dropdown-item" href="#polynomialregression">Polynomial Regression</a></li>
+        <li><a class="dropdown-item" href="#randomforest">Random Forest</a></li>
+        <li><a class="dropdown-item" href="#kmeans">K-Means Clustering</a></li>
+        <li><a class="dropdown-item" href="#ann">Artificial Neural Networks</a></li>
+        <li><a class="dropdown-item" href="#backpropagation">Backpropagation</a></li>
+        <li><a class="dropdown-item" href="#deeplearning">Deep Learning</a></li>
+        <li><a class="dropdown-item" href="#cnn">Convolutional Neural Networks</a></li>
+        <li><a class="dropdown-item" href="#svm">Support Vector Machine</a></li>
+        <li><a class="dropdown-item" href="#appendix">Appendix</a></li>
+        <li><a class="dropdown-item" href="#aaccuracy">A1) Accuracy: Is It Accurate?</a></li>
+        <li><a class="dropdown-item" href="#amodelevaluation">A2) Model Evaluation</a></li>
+        <li><a class="dropdown-item" href="#acrossvalidation">A3) Cross Validation</a></li>
+        <li><a class="dropdown-item" href="#anormalization">A4) Normalization</a></li>
+        <li><a class="dropdown-item" href="#afeatureselection">A5) Feature Selection</a></li>
+        <li><a class="dropdown-item" href="#afeatureextraction">A6) Feature Extraction</a></li>
+        <li><a class="dropdown-item" href="#apca">A6.1) Principal Component Analysis</a></li>
+        <li><a class="dropdown-item" href="#aoverfitting">A7) Overfitting</a></li>
+        <li><a class="dropdown-item" href="#adimensionalityreduction">A7.1) Dimensionality Reduction</a></li>
+        <li><a class="dropdown-item" href="#aregularization">A7.2) Regularization</a></li>
+        <li><a class="dropdown-item" href="#abiasandvariance">A8) Bias and Variance</a></li>
+        <li><a class="dropdown-item" href="#aensemblelearning">A9) Ensemble Learning</a></li>
+        <li><a class="dropdown-item" href="#abootstrapping">A9.1) Bootstrapping</a></li>
+        <li><a class="dropdown-item" href="#aunsupervisedlearning">A10) Unsupervised Learning</a></li>
+        <li><a class="dropdown-item" href="#abigdata">A11) Big Data</a></li>
+        <li><a class="dropdown-item" href="#amapreduce">A11.3) MapReduce</a></li>
+        <li><a class="dropdown-item" href="#agradientdescent">A11.4) Gradient Descent</a></li>
       </div>
     </div>
-    <div class="container line-height">
+    <div class="container ln-line-height">
       <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
       <h1>Machine Learning</h1>
       <hr>
@@ -75,7 +75,7 @@
       <p>Let's say we took the time to scour a <a href="https://www.timeanddate.com/weather/usa/los-angeles/historic" target="_blank">website</a> and collect some weather data for Los Angeles.</p>
       <div class="row">
         <div class="col-sm">
-          <table>
+          <table class="table table-bordered ln-center">
             <tr>
               <td>Humidity (%)</td>
               <td>Temperature (&deg;F)</td>
@@ -134,7 +134,7 @@
           </table>
         </div>
         <div class="col-sm">
-          <table>
+          <table class="table table-bordered ln-center">
             <tr>
               <td>Humidity (%)</td>
               <td>Temperature (&deg;F)</td>
@@ -198,7 +198,7 @@
       <div id="knnweather2"></div>
       <p>The temperature and humidity that the person gave us is plotted in green. Since it seems to be in red territory, we can guess that it was sunny on that day. &#128526;</p>
       <p>This is the basic idea behind KNN classification. For any point that we are trying to figure out, we look at the points that are closest to it (neighbors) to see what it is similar to. We assume that data points for a particular result share the same characteristics. For example, sunny days tend to have high temperatures and low humidity while rainy days tend to have low temperatures and high humidity.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/knn_comic.png">
       </div>
       <h3>This letter is short for the word "okay". What is K?</h3>
@@ -222,12 +222,12 @@
       <h3>Euclidean Distance</h3>
       <p>So far, we have just been looking at the graph to see which points were neighbors to a given point. But computers can't "see" graphs, so they need to actually calculate the distance between each pair of points to see which of them has the shortest distance. (The points with the shortest distance to the given point are its neighbors.)</p>
       <p>The formula for calculating the distance between 2 points `(x_1,y_1), (x_2,y_2)` is</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`sqrt((x_1-x_2)^2+(y_1-y_2)^2)`</p>
         <img class="img-fluid" src="../pictures/ml/knn_distance.png">
       </div>
       <p>So to find the nearest neighbor of a given point, the computer has to calculate the distance between it and all the other points in the dataset. Then it sorts the distances to find the top `k` shortest distances. From this point of view, using a small number of neighbors makes things faster because there are less distances to calculate and sort.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Advantages of using a large `k`:</p>
         <ul>
           <li>ignores the effect of outliers</li>
@@ -242,7 +242,7 @@
       <h4>Normalization</h4>
       <p>A subtle thing to note about the weather data is that the scale of the units (percentage and degrees) was roughly similar. They both can theoretically range from 0-100. This is a good thing because there are some side effects of using units that aren't on a similar scale as each other.</p>
       <p>To highlight this, we take a look at another dataset, which is completely made-up.</p>
-      <table>
+      <table class="table ln-center">
         <tr>
           <td>Size (square feet)</td>
           <td>Number of Bedrooms</td>
@@ -275,13 +275,13 @@
         </tr>
       </table>
       <p>The size of a house and the number of bedrooms it has are on completely different scales, with size in the thousands and number of bedrooms ranging from 1-5. So when we calculate distances between points, the number of bedrooms has a negligible impact on the distance. Consider this distance:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`sqrt((3000-4000)^2+(1-2)^2)`</p>
         <p>`= sqrt((-1000)^2+(-1)^2)`</p>
         <p>`= sqrt(1,000,000+1)`</p>
       </div>
       <p>and this distance:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`sqrt((3000-7000)^2+(1-5)^2)`</p>
         <p>`= sqrt((-4000)^2+(-4)^2)`</p>
         <p>`= sqrt(16,000,000+16)`</p>
@@ -289,7 +289,7 @@
       <p>1,000,000 and 16,000,000 are really big numbers, so there's not much of a difference if we add 1 or 16 to them. This means that the effect of considering the number of bedrooms is practically negligible (we would get pretty much the same answer even if we didn't include the number of bedrooms in the calculation). It's like a millionaire finding a 20-dollar bill on the ground.</p>
       <p>If the number of bedrooms is practically negligible, then KNN will — effectively — just look at the size of the house to predict whether or not it will be sold, which isn't what we want because we know the number of bedrooms should also have a significant impact. (&#127925; Why you got a 12 car garage? &#127925;) To prevent this, we can normalize the data so that the units are on the same scale.</p>
       <p>One way to normalize data is to make the units on a scale from 0 to 1. We can do this by dividing each data point by the max value for that feature. In the housing dataset, the max size of a house is 7000 and the max number of bedrooms is 5, so we divide each size by 7000 and each number of bedrooms by 5.</p>
-      <table>
+      <table class="table ln-center">
         <tr>
           <td>Size (square feet) [normalized]</td>
           <td>Number of Bedrooms [normalized]</td>
@@ -322,20 +322,20 @@
         </tr>
       </table>
       <p>The two distances calculated previously now become:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`sqrt((0.4-0.6)^2+(0.2-0.4)^2)`</p>
         <p>`= sqrt((-0.2)^2+(-0.2)^2)`</p>
         <p>`= sqrt(0.04+0.04)`</p>
       </div>
       <p>and:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`sqrt((0.4-1)^2+(0.2-1)^2)`</p>
         <p>`= sqrt((-0.6)^2+(-0.8)^2)`</p>
         <p>`= sqrt(0.36+0.64)`</p>
       </div>
       <p>Now the number of bedrooms has an impact on the distance.</p>
       <h3>Advantages and Disadvantages of KNN</h3>
-      <div class="box">
+      <div class="ln-box">
         <p>Advantages of KNN:</p>
         <ul>
           <li>simple and requires low computational complexity
@@ -366,16 +366,16 @@
       <div id="decisiontreetitanic3"></div>
       <p>This time, there's not really a clear pattern. There's neither an increasing nor decreasing trend as we move between levels, i.e., the chance of survival for those travelling with 3 family members looks about the same as the chance of survival for those travelling with 2 or 1 family members. So looking at the number of family members someone was travelling with doesn't give us a good idea of survival chance.</p>
       <p>So some useful features we found are age, gender, and passenger class, all of which we could use to predict whether someone survived or not. This could be represented using a tree, where first we check gender, then passenger class, then age.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/decision_tree.png" title="I am Groot!">
       </div>
       <p>Many things with this tree are arbitrary. Like which features to check and in what order. And what age to use as a threshold (e.g., 4). This tree is based on the manual visual analysis we did earlier, but how do we do this systematically (so that we can create a tree for any dataset) and reliably (so that the tree is actually able to predict correct results)?</p>
       <p>First, we have to find out which features are important and which ones aren't. But what does "important" mean? In this case, a feature is important if it provides a good amount of information. For example, age, gender, and passenger class are important because they are all able to tell us whether a passenger survived. The number of family members is not important because it told us nothing about survival chance. But does age give us more information than gender? Or does gender give us more information than passenger class? We need a way to measure information.</p>
       <h3>Information Theory</h3>
       <p>There are two important concepts about information. The first is: <strong>the amount of information about an event has an inverse relationship to the probability of that event happening</strong>. This means that events that are likely to happen don't surprise us while events that don't happen often give us a lot of information. For example, "the sun will rise in the morning" doesn't give us a lot of information because we already know this will happen. However, "an eclipse will occur tomorrow" is news to us because it doesn't happen that often.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>For an event `x`, the concept can be represented mathematically as
-        <div class="math">
+        <div class="ln-center">
           <p>`I(x) prop 1/(p(x))`</p>
         </div>
         <p>where `I(x)` represents the amount of information of `x` and `p(x)` is the probability of `x` happening.</p>
@@ -384,11 +384,11 @@
       <p>For example, there is a `1/2` chance of flipping a coin and getting heads and there is a `1/2` chance of flipping a coin and getting tails. So the probability of getting a head on the first flip and then a tail on the second flip is `1/2*1/2=1/4`. Getting a head and getting a tail are two independent events because the result of the coin flip does not depend on what happened in the past flips.</p>
       <p>Let's say a coin is flipped twice, but we don't know the results of the two flips. If we ask about the first flip, then we get `1` piece of information. If we ask about the second flip, then we get another `1` piece of information. So then we would have `1+1=2` pieces of information.</p>
       <p>Let `p_1` be the probability of one (independent) event happening and `p_2` be the probability of another (independent) event happening. Let `I` be a function that represents the amount of information learned from an event happening. Then the information from these two events happening (`I(p_1 cdot p_2)`) is the sum of their information (`I(p_1)+I(p_2)`).</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`I(p_1 cdot p_2)=I(p_1)+I(p_2)`</p>
       </div>
       <p>So if there was a way to measure information, then it would have to turn products into sums. Luckily, the log function does just that.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Log properties:</p>
         <ul>
           <li>`log(x cdot y) = log(x) + log(y)`</li>
@@ -401,31 +401,31 @@
         </ul>
       </div>
       <p>So a function that measures the information of an event should calculate the log of the probability of that event. Also, the amount of information about an event has an inverse relationship to the probability of that event happening (the first concept). Both of these lead to the formulation of the information function:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`I(x)=log(1/(p(x)))=-log(p(x))`</p>
       </div>
       <h3>Entropy: "What is it?"</h3>
       <p>There's a term for the amount of information we don't know. Entropy. It measures the amount of "uncertainty" of an event. That is, if an event occurred, how certain can we be that we will know the results of that event? If we're not really sure what the outcome will be, then there is high entropy. If we're certain enough to bet money on the outcome, then there is low entropy.</p>
       <p>Another interpretation of entropy is that it represents expected information. When an event has occurred, then we "expect" to receive some information from the result. This is why the formula for entropy (denoted as `H`) is the expected value (denoted as `E`) of the information:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = E(I(X)) = sum_(x in chi) p(x) cdot I(x)`</p>
         <p>`= -sum_(x in chi)p(x)log(p(x))`</p>
         <p>where `chi` represents all the possible outcomes for event `X`</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Typically entropy uses log base 2, in which case the unit of measurement is 'bits' (8 bits = 1 byte). When the entropy is measured in bits, the interpretation is that it takes that many bits to inform someone of the outcome. For example, an entropy of 0 means that no bits are required to convey information (because the probability of that event happening was 1 so we didn't need to make space to store that information). An entropy of 1 means that 1 bit is required to convey the outcome. In the case of a coin flip, heads can be encoded as 1 and tails can be encoded as 0. Either result would require 1 bit to store it.</p>
         <p>1 is the maximum value for entropy though I have yet to have an explanation why.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>If we have a fair coin (probability of heads is `1/2` and probability of tails is `1/2`) and an unfair coin (e.g., probability of heads is `7/10` and probability of tails is `3/10`), which coin is more predictable? Obviously, the unfair coin is more predictable since it is more likely to land on heads. We can prove this by calculating entropy.</p>
         <p>There are only two possible outcomes for flipping a coin and the probabilities of those outcomes are both `1/2` for the fair coin. So the entropy of flipping a fair coin is</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`-sum_(x in X)p(x)log_2(p(x))`</p>
           <p>`= -(0.5log_2(0.5)+0.5log_2(0.5))`</p>
           <p>`= 1`</p>
         </div>
         <p>The entropy of flipping the unfair coin is</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`-sum_(x in X)p(x)log_2(p(x))`</p>
           <p>`= -(0.7log_2(0.7)+0.3log_2(0.3))`</p>
           <p>`~~ 0.88`</p>
@@ -441,7 +441,7 @@
       <p>This means that when deciding which features to put at the top of the decision tree (i.e., which features to check first), we should look for features that reduce entropy the most. If you were playing 20 questions, would you rather ask a question that provided you with more information or no information?</p>
       <h3>Feature Finding</h3>
       <p>Splitting the data by certain features can reduce entropy. The idea is that there is a certain amount of entropy before splitting the data, and after splitting the data, the entropy is lower. Some features will reduce the entropy more than others. To see this calculation in action, let's revisit the weather, but this time look at a different dataset.</p>
-      <table>
+      <table class="table ln-center">
         <tr>
           <td>Temperature</td>
           <td>Humidity</td>
@@ -493,29 +493,29 @@
       </table>
       <p>There are `7` samples, `4` of them are sunny and `3` of them are rainy. So the probability of a day being sunny is `4/7` and the probability of a day being rainy is `3/7`.</p>
       <p>Calculating the entropy, we get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
         <p>`= -((4/7)log_2(4/7)+(3/7)log_2(3/7))`</p>
         <p>`~~ 0.98`</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Splitting the data on a feature means dividing the data into subsets based on that feature. For example, splitting the data on wind means putting all the windy data in one group and putting all the non-windy data in another group. This allows us to see how much of an impact that feature has on the result. So if we find out that the probability of a sunny day is high in the windy group and low in the non-windy group, then that means wind has an impact on whether a day is sunny or not. If the probability is pretty much the same in both groups, then that means wind does not affect whether a day is sunny or not.</p>
       </div>
       <h4>&#127925; It's gettin' windy here &#127925;</h4>
       <p>Now let's try splitting the data on wind. There are `4` windy days with `1` of them being sunny and `3` of them being rainy. So if a day is windy, then the probability of that day being sunny is `1/4` and the probability of that day being rainy is `3/4`. Calculating the entropy for windy days, we get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
         <p>`= -((1/4)log_2(1/4)+(3/4)log_2(3/4))`</p>
         <p>`~~ 0.81`</p>
       </div>
       <p>There are `3` non-windy days with `2` of them being sunny and `1` of them being rainy. So if a day is not windy, the probability of that day being sunny is `2/3` and the probability of that day being rainy is `1/3`. Calculating the entropy for non-windy days, we get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
         <p>`= -((2/3)log_2(2/3)+(1/3)log_2(1/3))`</p>
         <p>`~~ 0.91`</p>
       </div>
       <p>We have two entropies for each of the values of the wind feature. Getting their weighted average will give us the average entropy after splitting the data on wind.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`E(H(X)) = sum_(x in chi)p(x)H(x)`</p>
         <p>`= (4/7)(0.81)+(3/7)(0.91)`</p>
         <p>`~~ 0.85`</p>
@@ -523,28 +523,28 @@
       <p>So we went from an entropy of 0.98 to an entropy of 0.85 after splitting that data on wind. It's a slight decrease, but not by much. If we think about it, wind level generally doesn't tell us whether a day will be sunny or rainy.</p>
       <h4>&#127925; It's gettin' humid here &#127925;</h4>
       <p>Now let's try splitting the data on humidity. There are `3` high humid days with `0` of them being sunny and `3` of them being rainy. So if a day has high humidity, then the probability of that day being sunny is `0/3=0` and the probability of that day being rainy is `3/3=1`. Calculating the entropy for high humid days, we get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
         <p>`= -((0)log_2(0)+(1)log_2(1))`</p>
         <p>`= 0`</p>
       </div>
       <p>At first glance, this may seem surprising. But looking at the dataset, every day with high humidity was rainy. So, according to this dataset, if a day has high humidity, it will always rain, so there is no uncertainty, hence the 0.</p>
       <p>There are `2` mild humid days with `1` of them being sunny and `1` of them being rainy. So if a day has mild humidity, the probability of that day being sunny is `1/2` and the probability of that day being rainy is `1/2`. Calculating the entropy for mild humid days, we get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
         <p>`= -((1/2)log_2(1/2)+(1/2)log_2(1/2))`</p>
         <p>`= 1`</p>
       </div>
       <p>Again, looking at the dataset, there was 1 mild humid sunny day and 1 mild humid rainy day. So if a day is mild humid, it can be either sunny or rainy. Maximum uncertainty.</p>
       <p>There are `2` low humid days with `2` of them being sunny and `0` of them being rainy. So if a day has low humidity, the probability of that day being sunny is `2/2=1` and the probability of that day being rainy is `0/2=0`. Calculating the entropy for low humid days, we get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
         <p>`= -((1)log_2(1)+(0)log_2(0))`</p>
         <p>`= 0`</p>
       </div>
       <p>Each time the day was low humid, it was sunny. So no uncertainty.</p>
       <p>We have three entropies for each of the values of the humidity feature. Getting their weighted average will give us the average entropy after splitting the data on humidity.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`E(H(X)) = sum_(x in chi)p(x)H(x)`</p>
         <p>`= (3/7)(0)+(2/7)(1)+(2/7)(0)`</p>
         <p>`~~ 0.28`</p>
@@ -552,25 +552,25 @@
       <p>This was actually a big decrease in entropy (from 0.98 to 0.28). This means that splitting the data on humidity reduces uncertainty by a lot, i.e., humidity gives us a lot of information about whether a day will sunny or rainy. We saw this with real data back in the KNN section.</p>
       <h4>&#127925; It's gettin' hot in here &#127925;</h4>
       <p>Now let's try splitting the data on temperature. There are `3` high temperature days with `2` of them being sunny and `1` of them being rainy. So if a day has high temperature, then the probability of that day being sunny is `2/3` and the probability of that day being rainy is `1/3`. Calculating the entropy for high temperature days, we get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
         <p>`= -((2/3)log_2(2/3)+(1/3)log_2(1/3))`</p>
         <p>`~~ 0.91`</p>
       </div>
       <p>There are `2` mild temperature days with `1` of them being sunny and `1` of them being rainy. So if a day has mild temperature, the probability of that day being sunny is `1/2` and the probability of that day being rainy is `1/2`. Calculating the entropy for mild temperature days, we get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
         <p>`= -((1/2)log_2(1/2)+(1/2)log_2(1/2))`</p>
         <p>`= 1`</p>
       </div>
       <p>There are `2` low temperature days with `0` of them being sunny and `2` of them being rainy. So if a day has low temperature, the probability of that day being sunny is `0/2=0` and the probability of that day being rainy is `2/2=1`. Calculating the entropy for low temperature days, we get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`H(X) = -sum_(x in chi)p(x)log_2(p(x))`</p>
         <p>`= -((0)log_2(0)+(1)log_2(1))`</p>
         <p>`= 0`</p>
       </div>
       <p>We have three entropies for each of the values of the temperature feature. Getting their weighted average will give us the average entropy after splitting the data on temperature.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`E(H(X)) = sum_(x in chi)p(x)H(x)`</p>
         <p>`= (3/7)(0.91)+(2/7)(1)+(2/7)(0)`</p>
         <p>`~~ 0.67`</p>
@@ -578,12 +578,12 @@
       <p>There was a big decrease (0.98 to 0.67), but not as big as the decrease from humidity. So temperature gives us a decent amount of information, but not as much as humidity. Which makes sense in real life because cold temperatures doesn't necessarily mean it's raining.</p>
       <h3>Top of the Tree</h3>
       <p>Humidity reduced entropy the most, so if we were building a decision tree to predict weather, the first feature to check would be humidity.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/decision_tree_2.png">
       </div>
       <p>Temperature had the second most entropy reduction, but that doesn't mean it should be the next feature to check after humidity. That's because the calculation was entropy reduction from the <em>starting entropy</em> (0.98). After splitting the data, we're no longer working with the original dataset (because we've split the data). So if we were to continue building the tree after mild humidity, the new starting entropy would be 1 (calculated previously when it was gettin' humid in here) and we would be looking to see which feature (temperature or wind) would reduce that entropy value more. The same would have to be done for low and high humidity. In this case, the entropy for low and high humidity are both 0, so there's no reduction possible (which means based on this feature alone, we are able to tell whether a day is rainy or sunny). But theoretically, the branches below the second level of the tree could be different. For example, for low humidity, the best feature to check next might be temperature, but for mild humidity, the best feature to check next might be wind.</p>
       <h3>ID3 Algorithm</h3>
-      <div class="box">
+      <div class="ln-box">
         <p>This is an algorithm to systematically build a decision tree. It's basically what we did above.</p>
         <ol>
           <li>Calculate entropy after splitting the data on every feature</li>
@@ -600,7 +600,7 @@
       <h3>Viewer Discretization Is Advised</h3>
       <p>One thing that should be noted is that all the values for each feature were categorical values. They weren't numerical. For example, temperature was low, mild, high instead of 60, 75, 91. This is important because a decision tree shouldn't have branches for each numerical value. If the temperature is 90, then check this. If the temperature is 89, then check this. If the temperature is 88 ....</p>
       <p>Let's say instead of low, mild, high for temperature, we had actual numerical values.</p>
-      <table>
+      <table class="table ln-center">
         <tr>
           <td>Temperature</td>
           <td>Humidity</td>
@@ -651,7 +651,7 @@
         </tr>
       </table>
       <p>Instead of building a decision tree for this dataset, we would want to first discretize the numerical values (i.e., convert the numbers into categories). Sorting the values first would help a lot.</p>
-      <table>
+      <table class="table ln-center">
         <tr>
           <td>Temperature</td>
           <td>Humidity</td>
@@ -704,7 +704,7 @@
       <p>Now we need to define intervals/thresholds for what low, mild, and high temperatures are. Generally, the way to find the best threshold is to try every possible split to see which one minimizes entropy. However, there can sometimes be some more efficient ways to find the thresholds.</p>
       <p>Looking at just temperature and label, we can notice that all days with temperature 89 and above are sunny and all days with temperature 61 and below are rainy. So we can decide that if a temperature is above 80, then it is considered high and if a temperature is below 65, then it is considered low.</p>
       <h3>Advantages and Disadvantages of Decision Tree</h3>
-      <div class="box">
+      <div class="ln-box">
         <p>Advantages of Decision Tree:</p>
         <ul>
           <li>easily interpretable by a human
@@ -735,9 +735,9 @@
           </li>
         </ul>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>*Let's bring back the tree:</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/decision_tree.png" title="I am Groot!">
         </div>
         <p>Will a 7-year old girl survive? Based on the tree, she will survive no matter what passenger class she is in. So even if there was no data for her passenger class, the tree could still (theoretically) make a prediction.</p>
@@ -756,7 +756,7 @@
       <p>`b` is the y-intercept and it controls where the line is placed.</p>
       <div id="linearregression4"></div>
       <p>From here on, we will rename some stuff so that the equation of the line is</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`y=ax+b`</p>
         <p>`darr`</p>
         <p>`h_theta(x)=theta_0+theta_1x`</p>
@@ -766,23 +766,23 @@
       <p>So which line best fits the data?</p>
       <p>To create a line that will best fit the data points, we need to find values for `theta_0`, `theta_1` that will rotate and position the line so that it is as close as possible to <em>all</em> the data points.</p>
       <p>More formally, the line needs to minimize the differences between the actual data points and our predictions. In other words, we want to minimize the error between all of the actual values and all of our predicted values.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/lr_error.png">
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>We are not minimizing error like what is shown below because we are only interested in minimizing error in the `y`-direction (not in the `x`- and `y`-direction). This is because the `y`-axis is the target value (what we are trying to predict).</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/lr_not_error.png">
         </div>
       </div>
       <p>So the idea is that for every line that we can draw, there is going to be some error for each data point. We can add up all those errors to get the total error for that line. So each line we can draw will have a total error. The line with the smallest total error is the best line.</p>
       <p>Mathematically, we can define a cost function `J` that represents the total error:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`J(theta_0,theta_1)=1/(2m)sum_(i=1)^m(h_theta(x^((i)))-y^((i)))^2`</p>
         <p>for `m` data points</p>
         <p>(this is actually the total average error but it doesn't change things since it's still measuring amount of error)</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <ul>
           <li>Why is there a power of `2`?
             <ul>
@@ -805,45 +805,45 @@
       <p>If we can find `theta_0`, `theta_1` such that `J(theta_0,theta_1)` is minimized (i.e., the total error is as small as possible), then we have found the values that will allow us to create the line `h_theta(x)=theta_0+theta_1x` that best fits the data.</p>
       <h3 id="gradientdescent">Gradient Descent</h3>
       <p>It turns out that the graph of the cost function is bowl shaped.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/lr_cost_fn_graph.png">
         <p>(image from <a href="https://www.youtube.com/watch?v=GtSf2T6Co80" target="_blank">Andrew Ng</a>)</p>
       </div>
       <p>Since the cost function represents total (average) error, the bottommost point of the graph is where the total (average) error is smallest.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/lr_cost_fn_graph2.png">
       </div>
       <p>Whatever `theta_0` and `theta_1` are at that point are the values that create the line `h_theta(x)=theta_0+theta_1x` that best fits the data.</p>
       <p>To find the minimum of `J(theta_0,theta_1)`, we have to perform gradient descent. The idea of gradient descent is that we start at a random point and take small steps towards the lowest point of the graph until we reach it.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/lr_gd.png">
       </div>
       <p>So if we start at the dark blue point, the path it might take to get to the bottommost point might look like the above. And if we start at a different point, it could take a different path and reach a different point.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>A gradient is the vector version of slope. Its magnitude is the slope (scalar value).</p>
         <p>Mathematically, we find the vector that points in the most negative direction and take a step in that direction.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/lr_gd2.png">
         </div>
         <p>This is called the negative gradient, which points in the direction of the greatest rate of reduction. Taking a step in this direction is the fastest way in which the function decreases.</p>
         <p>The gradient is a generalization of the concept of the derivative for functions of several variables.</p>
       </div>
       <p>Since the cost function is bowl shaped, there is only one minimum (the global minimum) so starting gradient descent at any point will always result in ending up at the same point (the minimum).</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Starting at a random point `(theta_0, theta_1)`, taking a step means updating `theta_0` and `theta_1` by doing:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`theta_j = theta_j - alphadel/(deltheta_j)J(theta_0, theta_1)`</p>
           <p>for `j=0,1`</p>
         </div>
         <p>Programmatically, there are two ways to implement this. The first way is to take both steps simultaneously:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`text(temp)0 = theta_0 - alphadel/(deltheta_0)J(theta_0, theta_1)`</p>
           <p>`text(temp)1 = theta_1 - alphadel/(deltheta_1)J(theta_0, theta_1)`</p>
           <p>`theta_0 = text(temp)0`</p>
           <p>`theta_1 = text(temp)1`</p>
         </div>
         <p>The second way is to take one step at a time:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`text(temp)0 = theta_0 - alphadel/(deltheta_0)J(theta_0, theta_1)`</p>
           <p>`theta_0 = text(temp)0`</p>
           <p>`text(temp)1 = theta_1 - alphadel/(deltheta_1)J(theta_0, theta_1)`</p>
@@ -851,35 +851,35 @@
         </div>
         <p>The first way is more efficient because it steps in the direction of `theta_0` and `theta_1` at the same time while the second way takes one step in `theta_0`, then in `theta_1`.</p>
         <p>This is what it looks like from a 2D perspective.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/lr_gd_2d.gif">
         </div>
         <p>Gradient descent starts from a random point and keeps moving down until it reaches the bottom. The bottom is where the slope is zero, so gradient descent will naturally stop (note how `theta_j`'s updated value is dependent on the slope). Each step naturally gets smaller as it moves further down because the slope gets smaller as it moves down (note how `theta_j`'s updated value is dependent on the slope).</p>
         <p>`alpha` is called the learning rate, which controls how big of a step to take. Choosing a value that's too small will take a long time.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/lr_gd_2d.png">
           <p>(no animation)</p>
         </div>
         <p>Choosing a value that's too big may result in overstepping the minimum. (And in some cases, it may diverge.)</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/lr_gd_2d_2.gif">
         </div>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>So far we have the equation of a line that best fits the data:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`h_theta(x)=theta_0+theta_1x`</p>
         </div>
         <p>the cost function that represents the total (average) error of a line:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`J(theta_0,theta_1)=1/(2m)sum_(i=1)^m(h_theta(x^((i)))-y^((i)))^2`</p>
         </div>
         <p>and the formula for gradient descent:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`theta_j=theta_j-alphadel/(deltheta_j)J(theta_0,theta_1)`</p>
         </div>
         <p>After plugging everything in we get:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`theta_j=theta_j-alphadel/(deltheta_j)J(theta_0,theta_1)`</p>
           <p>`=theta_j-alphadel/(deltheta_j)1/(2m)sum_(i=1)^m(h_theta(x^((i)))-y^((i)))^2`</p>
           <p>`=theta_j-alphadel/(deltheta_j)1/(2m)sum_(i=1)^m(theta_0+theta_1x^((i))-y^((i)))^2`</p>
@@ -892,7 +892,7 @@
       <p>All of this is only for one feature though (that's why it's a line). To do linear regression with more than one feature, we need to extend the idea to higher dimensions.</p>
       <h3>Multiple Features</h3>
       <p>Let's say we had two features to look at: square footage and number of bedrooms.</p>
-      <table>
+      <table class="table ln-center">
         <tr>
           <td>size in square feet</td>
           <td>number of bedrooms</td>
@@ -920,52 +920,52 @@
         </tr>
       </table>
       <p>If we were to graph this, it would be in 3D.</p>
-      <div class="box">
+      <div class="ln-box">
         <div id="linearregression6"></div>
       </div>
       <p>So the equation we would be looking for is:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`h_theta(bb x)=theta_0+theta_1x_1+theta_2x_2`</p>
         <p>where `x_1` and `x_2` represent square footage and number of bedrooms</p>
       </div>
       <p>Instead of looking for the best <em>line</em> that fits the data, we would be looking for the best <em>plane</em> that fits the data.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/lr_gd3.png">
       </div>
       <p>As we work with more features, the object that best fits the data increases in dimensionality.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>For `n` features, the equation of the object that best fits the data would be:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`h_theta(bb x)=theta_0+theta_1x_1+theta_2x_2+...+theta_nx_n`</p>
         </div>
         <p>We could define `bb x` to be a vector that contains the values for each feature:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`bb x=[[x_0],[x_1],[vdots],[x_n]]`</p>
           <p>and `x_0=1`</p>
         </div>
         <p>and define `theta` to be a vector:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`bb theta=[[theta_0],[theta_1],[vdots],[theta_n]]`</p>
         </div>
         <p>so that the generalizable equation that best fits the data would be:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`h_theta(bb x)=bb theta^Tbb x`</p>
         </div>
         <p>The cost function is mostly the same:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`J(bb theta)=J(theta_0,theta_1,...,theta_n)=1/(2m)sum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))^2`</p>
         </div>
         <p>and so is gradient descent:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
         </div>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Notation: `bb x` (bold `x`) and `bb theta` (bold `theta`) are vectors.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>If the data isn't normalized, then gradient descent could take a long time. For example, if `theta_1` represented number of bedrooms and `theta_2` represented square footage, then the (contour) graph of the cost function could look like this:</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/lr_gd4.png">
         </div>
         <p>Normalizing would make the (contour) graph of the cost function more circular.</p>
@@ -979,15 +979,15 @@
       <p>However, since the output can only be 0 (not malignant) or 1 (malignant), the values on the line below `y=0` and above `y=1` are not relevant. For example, if the tumor size is 14, the output is 2. But what does 2 mean? In this simple example, we're assuming that large tumors are malignant, so we would want a size 14 tumor to output to 1 somehow. So we need something other than a straight line for this.</p>
       <h3>Sigmoid Function</h3>
       <p>Fortunately, there is a function called the sigmoid function that takes in any input and outputs a value between 0 and 1.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`g(z)=1/(1+e^(-z))`</p>
       </div>
       <div id="logisticregression3"></div>
-      <div class="box">
+      <div class="ln-box">
         <p>As `z` moves towards `oo`, the function approaches `1` (since `e^(-z)` approaches `0`). As `z` moves towards `-oo`, the function approaches `0` (since `e^(-z)` approaches `oo`).</p>
       </div>
       <p>We can apply the sigmoid function to our line to effectively transform our line to a curve.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`h_theta(bb x)=bb theta^T bb x`</p>
         <p>`g(z)=1/(1+e^(-z))`</p>
         <p>`implies`</p>
@@ -996,45 +996,45 @@
       <p>This is what the graph looks like when we apply the sigmoid function to the line that best fit the tumor data:</p>
       <div id="logisticregression4"></div>
       <p>(It looks like a straight line, but I promise it's "sigmoidy".)</p>
-      <div class="box">
+      <div class="ln-box">
         <p>The line that best fit the tumor data was `h_theta(x)=1/6x-1/3`. Applying the sigmoid function to that line, we get:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`g(1/6x-1/3)=1/(1+e^(-(1/6x-1/3)))`</p>
         </div>
       </div>
       <p>So after applying the sigmoid function to `h_theta`, the new `h_theta` will only output values between 0 and 1. The values should be interpreted as probabilities that inputs will have an output of 1 (e.g., `h_theta(x)=0.7` means that `x` has a 70% chance of being 1). Since we're building a classifier, we should define a threshold to convert those probabilities into categories. For example, if an input has a probability greater than 0.5, then we can classify it as 1.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>The threshold doesn't have to be fixed at 0.5. It can change depending on the situation. If we're predicting earthquakes, we want to minimize false alarms, so the threshold should be pretty high (e.g., greater than 0.8). We can reduce the threshold to make the model more sensitive or increase the threshold to make it less sensitive.</p>
       </div>
       <h3>All of This for Nothing?!</h3>
       <p>This process of training a linear regression model, applying the sigmoid function to it, and then discretizing the output is generally not a good idea though as it can lead to poor results since the line that best fits the data (and thus the curve generated from that line) won't generally fit the data well to begin with.</p>
       <p>So instead of turning a line into a curve, we should just make a good curve. The setup is still the same:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`h_theta(x)=g(bb theta^T bb x)=1/(1+e^(-bb theta^T bb x))`</p>
         <p>where `bb theta=[[theta_0],[theta_1],[vdots],[theta_n]]` and `bb x=[[x_0],[x_1],[vdots],[x_n]]`</p>
       </div>
       <p>To make the curve, we need to find the values of `bb theta`. And just like in linear regression, to find the values of `bb theta`, we need gradient descent!</p>
       <h3>A New Cost Function</h3>
       <p>We also need a new cost function. The cost function from before was:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`J(bb theta)=J(theta_0,theta_1,...,theta_n)=1/(2m)sum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))^2`</p>
       </div>
       <p>Before, `h_theta(bb x^((i)))` was linear, so the cost function was a convex bowl. Now, `h_theta(bb x^((i)))` is not linear anymore since we're applying the sigmoid function to it. As a result, the cost function looks something like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/logistic_regression_cost_fn.png" title="Rubin's vase probably fell down around here somewhere">
       </div>
       <p>It is not guaranteed that starting at any point will converge to the global minimum (it might hit one of the other local minimums instead). This is why we need a new cost function, which actually turns out to be:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`J(bb theta)=J(theta_0,theta_1,...,theta_n)=-1/msum_(i=1)^m[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
       </div>
       <p>Gradient descent stays the same:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Why does this cost function work?</p>
         <p>Let's suppose for a single data point, `y=1`. Then the cost function will be:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`-[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
           <p>`=-[1*logh_theta(bb x^((i)))+(1-1)log(1-h_theta(bb x^((i))))]`</p>
           <p>`=-logh_theta(bb x^((i)))`</p>
@@ -1043,7 +1043,7 @@
         <div id="logisticregression5"></div>
         <p>If we also predicted 1 (i.e., `h_theta(bb x^((i)))=1`), then the cost/error is 0 (i.e., `J(bb theta)=0`). But if we predicted 0, then the cost/error is infinite.</p>
         <p>Now let's suppose for a single data point, `y=0`. Then the cost function will be:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`-[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
           <p>`=-[0*logh_theta(bb x^((i)))+(1-0)log(1-h_theta(bb x^((i))))]`</p>
           <p>`=-log(1-h_theta(bb x^((i))))`</p>
@@ -1054,44 +1054,44 @@
       </div>
       <h2 id="polynomialregression">Polynomial Regression</h2>
       <p>Sometimes using a line isn't the best fit for the data.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/pr.png">
       </div>
       <p>In this case, using a quadratic model would fit the data better.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/pr_2.png">
       </div>
       <p>The same can happen for classification.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/pr_3.png">
       </div>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/pr_4.png">
       </div>
       <p>This is usually the case because the output does not always have a linear relationship with the features.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Some examples:</p>
         <p>Linear regression with one feature:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`h_theta(x)=theta_0+theta_1x`</p>
         </div>
         <p>Polynomial regression with one feature and order `2`:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`h_theta(x)=theta_0+theta_1x+theta_2x^2`</p>
         </div>
         <p>Logistic regression with two features:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`h_theta(x)=g(theta_0+theta_1x_1+theta_2x_2)`</p>
         </div>
         <p>Polynomial classifier with two features and order `2`:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`h_theta(x)=g(theta_0+theta_1x_1+theta_2x_2+theta_3x_1^2+theta_4x_2^2+theta_5x_1x_2)`</p>
         </div>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Increasing the order of the model essentially involves adding a new feature to the dataset. If we have a feature `x`, we could multiply each value by itself and put the results in a new column to have `x^2`.</p>
         <p>Training a polynomial model is no different than training a linear model. This is because we can encode a polynomial equation as a linear equation. For example, if we have `h_theta(x)=theta_0+theta_1x+theta_2x^2`, we can let `x_2=x^2` so that the new equation becomes:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`h_theta(x)=theta_0+theta_1x+theta_2x_2`</p>
         </div>
       </div>
@@ -1106,15 +1106,13 @@
         <div class="col-sm">
           <img class="img-fluid" src="../pictures/ml/random_forest.png">
         </div>
-      </div>
-      <div class="row">
         <div class="col-sm">
           <img class="img-fluid" src="../pictures/ml/decision_tree.png">
         </div>
       </div>
       <p>If we predict the fate of an adult female with a 2nd class ticket, the top/left tree would predict that the person did not survive. However, the bottom/right tree would predict that the person did survive. If I wasn't lazy enough to make a third three, the majority of the results would determine the final prediction of the random forest.</p>
       <h3>Advantages of Random Forest</h3>
-      <div class="box">
+      <div class="ln-box">
         <ul>
           <li>one of the most accurate classification algorithms</li>
           <li>very robust to noise and overfitting</li>
@@ -1125,19 +1123,19 @@
       <h2 id="kmeans">K-Means Clustering</h2>
       <p>Up to this point, all the datasets we've been looking at have been labeled, i.e., each sample in the training dataset had a classification (e.g., rainy/sunny, survived/not survived) or a value (e.g., price). In some situations, the dataset will be unlabeled (see "<a href="#aunsupervisedlearning">A10) Unsupervised Learning</a>" for more background), so it would be more helpful to put similar samples together in groups to see what we can learn from the groupings.</p>
       <p>Let's say we had some unlabeled data plotted:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/kmeans_1.png">
       </div>
       <p>To start, we pick 2 random points (centroids) and group all the points that are closest to that point:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/kmeans_2.png">
       </div>
       <p>Then we find the center of those points for each group and make them the new centroids. Then we repeat the process until things no longer change.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/kmeans.gif">
       </div>
       <p>So now we've divided the data into 2 clusters.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>K-Means Clustering algorithm:</p>
         <ol>
           <li>Set `K` random points as initial centroids</li>
@@ -1154,17 +1152,17 @@
       </div>
       <p>Picking random points as the starting centroid can make the process of clustering too long if the random points happened to be far away from the data points. So the data points themselves are usually chosen as the initial centroids to make sure they are close to the data.</p>
       <p>If we are lucky, then the results will be good:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/kmeans_2.gif">
       </div>
       <p>But if we are unlucky, then the results will be bad:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/kmeans_3.gif">
       </div>
       <p>So picking random points can lead to random results. The best way to deal with this is to repeat the whole thing several times and select the best clustering results. But what does "best" mean?</p>
       <h3>Another Cost Function</h3>
       <p>In this case, "best" means that the total average distance from each data point to its cluster centroid is minimized. Each point should be pretty close to its cluster centroid. We can define the cost function to be:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`J=1/msum_(i=1)^m||x^((i))-mu_(c^((i)))||^2`</p>
         <p>where `mu_(c^((i)))` is the cluster centroid for `x^((i))`</p>
       </div>
@@ -1178,35 +1176,35 @@
       <p>In the orange case, there is not much reduction in error after 3 clusters, so we can apply the elbow rule and say 3 clusters is ideal.</p>
       <h2 id="ann">Artificial Neural Networks</h2>
       <p>Since we're training machines to learn from data, why not model them based on the best learning tool around? The human brain. Our brains are able to learn so many different things and respond to so many different inputs that it may seem impossible to try to replicate such a sophisticated system. Do we have to come up with different algorithms for each single thing the human body is capable of doing? After all, seeing an object and hearing sounds are completely different actions from each other, so why would a model that knows how to "see" necessarily know how to "hear"? Well, it turns out that only one general algorithm can be used to learn many different things.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>In the 90s, some experiments were done on rats where scientists disconnected the nerves from the rats' ears to their auditory cortex (the part of the brain responsible for processing audio signals) and connected the nerves from their eyes to their auditory cortex instead. (So the part of the brain that "listens" no longer received sounds, but received light instead.) For the first few days, the rats couldn't see or hear anything. But over time, the rats started reacting to light, which meant that the auditory cortex had learned to see. The same results occurred for the somatosensory cortex (the part of the brain responsible for processing things we feel physically) which had also learned to see. This suggested that there is a general structure to the brain that can process different types of data and that learning was more about what type of data is provided.</p>
       </div>
       <p>The way we try to mimic the brain is to try to simulate a neuron (nerve cell) and expand upon that to build a network of neurons. A neuron receives input through dendrites, processes the input in the nucleus, and transmits its output through axon terminals, which are connected to other neurons' dendrites. So the output of one neuron is the input to another neuron.</p>
       <p>Artificially, it looks something like:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/nn_unit.png">
       </div>
       <p>`x_1`, `x_2`, `x_3` are the inputs to the neuron, which are passed to the model along with the weights `w_1`, `w_2`, `w_3`. The model calculates the linear combination of the inputs (`w_1x_1+w_2x_2+w_3x_3`) and passes it to the activation function `f`, which generates some output `y`. (So `y=f(w_1x_1+w_2x_2+w_3x_3)`.)</p>
       <p>In addition to the weighted inputs, we can add another input that repesents bias.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/nn_unit_2.png">
       </div>
       <p>For simplicity, a generic `a` can be used to represent the activation function and the bias can be excluded visually (but included when training):</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/nn_unit_3.png">
       </div>
       <p>So that represents one neuron. A neural network consists of layers of neurons.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/nn.png">
       </div>
       <p>The input layer (also referred to as layer 0) receives and transfers the inputs without doing any computations on them. The last layer is called the output layer. All the layers in between are called the hidden layers. (In this example, there is only one hidden layer.) The connections from one node to another node are weighted connections, where the weight is represented by `w`. The notation reads:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`w_(ij)^((l))`</p>
         <p>where `i` is the node it's going to, `j` is the node it's coming from, and `l` is the layer it's going to.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>If we were to write out mathematically the value of each node, it would look like this:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`a_1^((1))=g(w_(10)^((1))b^((1))+w_(11)^((1))x_1+w_(12)^((1))x_2+w_(13)^((1))x_3)`</p>
           <p>`a_2^((1))=g(w_(20)^((1))b^((1))+w_(21)^((1))x_1+w_(22)^((1))x_2+w_(23)^((1))x_3)`</p>
           <p>`a_3^((1))=g(w_(30)^((1))b^((1))+w_(31)^((1))x_1+w_(32)^((1))x_2+w_(33)^((1))x_3)`</p>
@@ -1214,20 +1212,20 @@
           <p>assuming `g` is the activation function</p>
         </div>
         <p>And this is just a network with 1 hidden layer. It gets messy quickly, so representing things using vectors keeps things compact.</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`bb a^((1))=[[a_1^((1))],[a_2^((1))],[a_3^((1))]]`</p>
           <p>`bb W^((1))=[[w_(10)^((1)),w_(11)^((1)),w_(12)^((1)),w_(13)^((1))],[w_(20)^((1)),w_(21)^((1)),w_(22)^((1)),w_(23)^((1))],[w_(30)^((1)),w_(31)^((1)),w_(32)^((1)),w_(33)^((1))]]`</p>
           <p>`bb x=[[b],[x_1],[x_2],[x_3]]`</p>
         </div>
         <p>So now the value of each node looks like this:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`bb a^((1))=g(bb W^((1))bb x)`</p>
           <p>`y=bb a^((2))=g(bb W^((2))bb a^((1)))`</p>
         </div>
         <p>
       </div>
       <p>A neural network with one node in the output layer will output just one thing (e.g., rainy or sunny). But a network can have multiple nodes in the output layer.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/nn_multiclass.png">
       </div>
       <p>This means the network will have multiple outputs. If we give a picture of a tree as input, the outputs can be whether the picture is of a tree or not, where the tree is, and the size of the tree. Or the outputs can be probabilities. If we have four possible types of outputs (e.g., cat, dog, horse, bird), each output can be the probability that it is each of those classes. So an output of `[[0.6],[0.4],[0],[0]]` would mean that there is a 60% chance that the image is of a cat and 40% chance that it is a dog.</p>
@@ -1235,21 +1233,21 @@
       <p>The activation function should be nonlinear. (I believe using a linear function would be like making a line out of a line, i.e., there is no effect.) The simplest function to use is a step function.</p>
       <p>Some popular choices include the logistic sigmoid function (yes, the same one back in logistic regression), the rectified linear unit (ReLU) function:</p>
       <div id="nn1"></div>
-      <div class="math">
+      <div class="ln-center">
         <p>`RELU(x) = {(0 if x lt 0),(x if x >= 0):}`</p>
       </div>
       <p>and Softplus, which is the smooth approximation of ReLU:</p>
       <div id="nn2"></div>
-      <div class="math">
+      <div class="ln-center">
         <p>`text(Softplus)(x) = log(1+e^x)`</p>
       </div>
       <h3>Building Logical Operators</h3>
-      <div class="box">
+      <div class="ln-box">
         <p>As a reminder, here's the sigmoid function:</p>
         <div id="nn3"></div>
         <p>Using this as the activation function (represented by `g`), we can simulate all of the binary operators, like logical not, and, or, nor, xor, etc.</p>
         <p>The negation (logical not) operator outputs 1 for an input of 0 and outputs 0 for an input of 1. We can simulate the negation operator with the following neural network:</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_not.png">
           <p>So `y=g(10-20x_1)`.</p>
         </div>
@@ -1258,7 +1256,7 @@
           <li>If `x_1=0`, then the output is `y=g(10-20*0)=g(10-0)=g(10)=1`.</li>
         </ul>
         <p>The logical and operator takes in two inputs. If both of them are 1, then the output is 1. If at least one of the inputs is 0, then the output is 0.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_and.png">
           <p>So `y=g(20x_1+20x_2-30)`.</p>
         </div>
@@ -1269,7 +1267,7 @@
           <li>If `x_1=0` and `x_2=0`, then the output is `y=g(20*0+20*0-30)=g(0-30)=g(-30)=0`.</li>
         </ul>
         <p>The logical or operator takes in two inputs. If both of them are 0, then the output is 0. If at least one of the inputs is 1, then the output is 1.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_or.png">
           <p>So `y=g(20x_1+20x_2-10)`.</p>
         </div>
@@ -1280,7 +1278,7 @@
           <li>If `x_1=0` and `x_2=0`, then the output is `y=g(20*0+20*0-10)=g(0-10)=g(-10)=0`.</li>
         </ul>
         <p>The logical nand (not and) operator takes in two inputs. If both of them are 1, then the output is 0. If at least one of the inputs is 0, then the output is 1.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_nand.png">
           <p>So `y=g(-20x_1-20x_2+30)`.</p>
         </div>
@@ -1291,7 +1289,7 @@
           <li>If `x_1=0` and `x_2=0`, then the output is `y=g(-20*0-20*0+30)=g(0+30)=g(30)=1`.</li>
         </ul>
         <p>The logical nor (not or) operator takes in two inputs. If both of them are 0, then the output is 1. If at least one of the inputs is 1, then the output is 0.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_nor.png">
           <p>So `y=g(-20x_1-20x_2+10)`.</p>
         </div>
@@ -1302,13 +1300,13 @@
           <li>If `x_1=0` and `x_2=0`, then the output is `y=g(-20*0-20*0+10)=g(0+10)=g(10)=1`.</li>
         </ul>
         <p>Being able to simulate logical operators can come in handy for some classification problems. Consider this dataset:</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_xnor_classification.png">
           <p>where we can interpret red being 1 and blue being 0.</p>
         </div>
         <p>It would be impossible to use a linear model to perform classification. It's possible to use a higher-order model, but it is much cleaner to use a logical operator in this case. Notice that when both inputs are the same number, then the output is 1. When both inputs are different numbers, then the output is 0. This is actually how the xnor (exclusive not or) operator works.</p>
         <p>So `y=x_1text( XNOR )x_2`, which is equivalent to `(x_1text( AND )x_2)text( OR )(x_1text( NOR )x_2)`. We have the neural networks to simulate and, or, and nor already, so we can combine them to simulate xnor.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_xnor.png">
         </div>
         <ul>
@@ -1321,20 +1319,20 @@
       <h3>The Cost Function Is Back!</h3>
       <p>When a neural network is trained, it tries to find the best structure. This means it tries to find the best weights to use to connect each of the nodes. To determine what is "best", we need to bring back the cost function that represents the error and minimize the function.</p>
       <p>The cost function for neural networks turns out to be very similar to the cost function for logistic regression. This is because neural networks can be seen as an advanced version of logistic regression.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/nn.png">
       </div>
       <p>If we look at just the output layer of a neural network, we can see that it receives some inputs multiplied by some weights. Using the sigmoid function as the activation function, this is the same as logistic regression where the inputs are the features and the weights are the `theta`s.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>The inputs to logistic regression are the features themselves, while the inputs to the output layer of a neural network are the outputs from the previous layers, which aren't equal to the features at that point. In fact, the inputs to the output layer are new "features" that the neural network created to best learn and represent the data. So the hidden layers of a neural network can be seen as a feature learning process.</p>
         <p>It's kind of like seeing a person with our eyes. The raw light that first reaches our eyes is like the input layer. Then as the light signals move through our brain, it processes them so that we see the silhouette of a person. Then they move on to the next layer so that we see a face. Then they move on to the final layer so that we recognize that the face belongs to our friend (or enemy if you roll that way).</p>
       </div>
       <p>The cost function for logistic regression is:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`J(bb theta)=-1/msum_(i=1)^m[y^((i))logh_theta(bb x^((i)))+(1-y^((i)))log(1-h_theta(bb x^((i))))]`</p>
       </div>
       <p>The cost function for neural networks is:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`J(bb W)=-1/msum_(i=1)^msum_(k=1)^K[y_k^((i))logh_W(bb x^((i)))_k+(1-y_k^((i)))log(1-h_W(bb x^((i))))_k]`</p>
         <p>where `y^((i))` is the actual label for the `i^(th)` sample,</p>
         <p>`h_W(x^((i)))` is the predicted label for the `i^(th)` sample,</p>
@@ -1342,109 +1340,109 @@
         <p>`K` is the number of outputs</p>
       </div>
       <p>Overfitting can happen if the network is too complex. So we can add a regularization term to the cost function so that the weights are minimized as well:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`lambda/(2m)sum_(l=1)^(L-1)sum_(i=1)^(s_l)sum_(j=1)^(s_l+1)(w_(ij)^((l)))^2`</p>
       </div>
       <p>The result is usually that some of the weights get minimized to zero, which removes a connection between nodes. So a neural network could end up looking like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/nn_regularization.png">
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>A neural network that is overfit is like a brain that overthinks. Having too many connections between neurons results in the brain being less effective and efficient, so the brain also does regularization to make it simpler. This is called <a href="https://en.wikipedia.org/wiki/Synaptic_pruning" target="_blank">synaptic pruning</a>.</p>
       </div>
       <h3 id="backpropagation">Backpropagation: I put my inputs, flip it and reverse it</h3>
       <p>When building a neural network, we decide how many layers and nodes per layer to use. The part that gets learned by the machine is what weights to use. Backpropagation is a systematic way to train a neural network so it can learn the weights.</p>
       <p>In the beginning, we start with random weights. One training sample is used as input and the generated output (denoted as `o`) is compared with the actual output (denoted as `y`). Using the cost function, the error is calculated between the generated output and the actual output, and this error is propagated backwards through the network to update the weights. And then this process is repeated for all training samples.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>For simplicity, we can assume that the cost function is `J=1/2(y-o)^2`. Also, we can assume that the activation function being used is the sigmoid function: `g(z)=1/(1+e^(-z))`. Then the gradient error would be</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`delta=(partialJ)/(partialz)=(y-o)o(1-o)`</p>
           <p>(the `o(1-o)` term comes from the <a href="https://hausetutorials.netlify.app/posts/2019-12-01-neural-networks-deriving-the-sigmoid-derivative/" target="_blank">derivative of the sigmoid function</a>)</p>
         </div>
         <p>Then we use that gradient error to update the weights:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`w_(ij)^((l))(text(new))=w_(ij)^((l))(text(old))+alphadeltaa_i^((l-1))`</p>
           <p>where `alpha` is the learning rate*</p>
         </div>
         <p>All of this was just for the output layer. To calculate the gradient error for the hidden layers, we use a different equation:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`delta_i^((l-1))=[sumw_(ji)^((l))delta_j^((l))]a_i^((l-1))(1-a_i^((l-1)))`</p>
         </div>
         <p>And to update the weights:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`w_(ij)^((l))(text(new))=w_(ij)^((l))(text(old))+alphadelta_i^((l))a_i^((l-1))`</p>
         </div>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>*this learning rate is similar to the learning rate in gradient descent. In fact, backpropagation is a sort of different version of gradient descent (much like the output layer is a different version of logistic regression).</p>
         <p>In gradient descent, we had this:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`theta_j = theta_j - alphadel/(deltheta_j)J(theta_0, theta_1)`</p>
         </div>
         <p>where that formula was used to take steps towards the minimum of the cost function `J`.</p>
         <p>In backpropagation, we have this:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`w_(ij)^((l))(text(new))=w_(ij)^((l))(text(old))+alphadelta_i^((l))a_i^((l-1))`</p>
         </div>
         <p>It looks similar to taking steps, except we're tuning the weights. It's more like baking/cooking where we're adjusting how much of each ingredient is being added. We nudge the weights in the direction that minimizes error, so that's why we use the gradient error to update the weights.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Backpropagation can be seen as an implementation of the chain rule for derivatives. We can view each layer of a neural network as a function:</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_chain_rule.png">
         </div>
         <p>So the output would be:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`o=f(g(h(x)))`</p>
         </div>
         <p>Since we used random weights, there will be some error. For simplicity, let's use `(o-y)^2` to calculate error. If we want to minimize this error, then we take the derivative of it, which turns out to be:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`2(o-y)o'`</p>
         </div>
         <p>This means that in order to minimize error, we have to calculate the derivative of the output `o`. Since `o=f(g(h(x)))`, the derivative of `o` (by the chain rule) is:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`f'(g(h(x)))cdotg'(h(x))cdoth'(x)`</p>
         </div>
         <p>Well it turns out that when we calculate the gradient error and backpropagate it to the previous layers, it is similar to computing the derivative above.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>This is an example of backpropagation in action. We will use the sigmoid function `g(z)=1/(1+e^(-z))` as the activation function and use the learning rate `alpha=1`. Suppose we had this neural network with these weights: (biases excluded for simplicity)</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_backpropagation.png">
         </div>
         <p>For the training sample, suppose we have `x_1=0.35`, `x_2=0.9`, and `y=0.5`. Then</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`a_1^((1))=g(w_(11)^((1))x_1+w_(12)^((1))x_2)=g(0.1cdot0.35+0.8cdot0.9)~~0.68`</p>
           <p>`a_2^((1))=g(w_(21)^((1))x_1+w_(22)^((1))x_2)=g(0.6cdot0.9+0.4cdot0.35)~~0.6637`</p>
           <p>`o=a_1^((2))=g(w_(11)^((2))a_1^((1))+w_(12)^((2))a_2^((1)))=g(0.3cdot0.68+0.9cdot0.6637)~~0.69`</p>
         </div>
         <p>There is some error in the generated output (0.69) since the actual output should be 0.5. We calculate the gradient error to get:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`delta=(y-o)o(1-o)=(0.5-0.69)cdot0.69cdot(1-0.69)=-0.0406`</p>
         </div>
         <p>Now we backpropagate the error to the second layer. We update the weights using the gradient error:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`w_(11)^((2))(text(new))=w_(11)^((2))+alphadeltaa_1^((1))=0.3+1cdot-0.0406cdot0.68=0.272392`</p>
           <p>`w_(12)^((2))(text(new))=w_(12)^((2))+alphadeltaa_2^((1))=0.9+1cdot-0.0406cdot0.6637=0.87305`</p>
         </div>
         <p>and calculate the gradient error to use for the next (previous? 🤔) layer:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`delta_1^((1))=[w_(11)^((2))delta]a_1^((1))(1-a_1^((1)))=[0.3cdot-0.0406]cdot0.68cdot(1-0.68)=-0.00265`</p>
           <p>`delta_2^((1))=[w_(12)^((2))delta]a_2^((1))(1-a_2^((1)))=[0.9cdot-0.0406]cdot0.6637cdot(1-0.6637)=-0.00815`</p>
         </div>
         <p>So now the neural network looks like this:</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_backpropagation_2.png">
         </div>
         <p>Now we backpropagate to the first layer:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`w_(11)^((1))(text(new))=w_(11)^((1))+alphadelta_1^((1))x_1=0.1+1cdot-0.00265cdot0.35=0.099`</p>
           <p>`w_(12)^((1))(text(new))=w_(12)^((1))+alphadelta_1^((1))x_2=0.8+1cdot-0.00265cdot0.9=0.7976`</p>
           <p>`w_(21)^((1))(text(new))=w_(21)^((1))+alphadelta_2^((1))x_1=0.4+1cdot-0.00815cdot0.35=0.3971`</p>
           <p>`w_(22)^((1))(text(new))=w_(22)^((1))+alphadelta_2^((1))x_2=0.6+1cdot-0.00815cdot0.9=0.5926`</p>
         </div>
         <p>So the neural network finally looks like this:</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/nn_backpropagation_3.png">
         </div>
         <p>Notice how `delta_1^((1))` and `delta_2^((1))` are smaller than `delta`. The further we backpropagate, the smaller the `delta`s become, which results in the weights staying pretty much the same. This effect is called the "vanishing gradient".</p>
@@ -1458,7 +1456,7 @@
       <p>The `delta`s are determined by the activation function, so using a different activation function could help. The sigmoid function is not that great of a function to use because it returns a value between 0 and 1. Multiplying a weight by a number between 0 and 1 isn't going to change it much. A better function to use is ReLU, since it returns a value greater than 1.</p>
       <h5>Restricted Boltzmann Machines</h5>
       <p>Another way to solve the vanishing gradient problem is to use a different type of structure that isn't so wide and deep. RBM only uses two layers, but they are bidirectional, meaning they pass their inputs and outputs back and forth to each other. The first layer is the "visible layer" and the second layer is the "hidden layer".</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/rbm.png">
       </div>
       <p>The inputs are passed through the layers, which will produce some output. The output is then fed backwards through the network to try and reproduce the original input as close as possible. After repeating this process several times, the network will learn what the best weights are to represent the input data.</p>
@@ -1468,7 +1466,7 @@
       <h4>Deep Autoencoder</h4>
       <p>#dimensionalityreduction</p>
       <p>We can combine RBMs to get a DBN. We can also combine DBNs to get a deep autoencoder. A deep autoencoder is an unsupervised deep neural network that is useful for extracting the most important part of data. It is made up of two DBNs: one used for encoding data and the other used for decoding data. The encoding network learns the best way to compress the input and the decoding network is used to reconstruct the data. Minimizing the difference between the original input data and the reconstruction results in a network that knows how to compress the data in the best way without significant data loss.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/deep_autoencoder.png">
       </div>
       <h4 id="cnn">Convolutional Neural Networks</h4>
@@ -1477,7 +1475,7 @@
       <h5>Edge Detection</h5>
       <p>In order to identify objects in images, we need to be able to detect edges. Convolution is a process that allows us to do this. In convolution, a filter (a.k.a. kernel) is applied to each pixel of the image. Applying the filter puts a weight on each pixel, and these weights are used to determine whether there is an edge at that pixel or not.</p>
       <p>Let's suppose we have this image:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>1</td>
           <td>1</td>
@@ -1515,43 +1513,43 @@
         </tr>
       </table>
       <p>and this filter:</p>
-      <table class="bg-orange">
+      <table class="table table-bordered ln-center">
         <tr>
-          <td>1</td>
-          <td>0</td>
-          <td>1</td>
+          <td class="ln-bg-orange">1</td>
+          <td class="ln-bg-orange">0</td>
+          <td class="ln-bg-orange">1</td>
         </tr>
         <tr>
-          <td>0</td>
-          <td>1</td>
-          <td>0</td>
+          <td class="ln-bg-orange">0</td>
+          <td class="ln-bg-orange">1</td>
+          <td class="ln-bg-orange">0</td>
         </tr>
         <tr>
-          <td>1</td>
-          <td>0</td>
-          <td>1</td>
+          <td class="ln-bg-orange">1</td>
+          <td class="ln-bg-orange">0</td>
+          <td class="ln-bg-orange">1</td>
         </tr>
       </table>
       <p>In the first step of convolution, we start with the top-left pixels. Applying the filter means multiplying each pixel by the corresponding square in the filter:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
-          <td class="bg-orange">1*1</td>
-          <td class="bg-orange">1*0</td>
-          <td class="bg-orange">1*1</td>
+          <td class="ln-bg-orange">1*1</td>
+          <td class="ln-bg-orange">1*0</td>
+          <td class="ln-bg-orange">1*1</td>
           <td>0</td>
           <td>0</td>
         </tr>
         <tr>
-          <td class="bg-orange">0*0</td>
-          <td class="bg-orange">1*1</td>
-          <td class="bg-orange">1*0</td>
+          <td class="ln-bg-orange">0*0</td>
+          <td class="ln-bg-orange">1*1</td>
+          <td class="ln-bg-orange">1*0</td>
           <td>1</td>
           <td>0</td>
         </tr>
         <tr>
-          <td class="bg-orange">0*1</td>
-          <td class="bg-orange">0*0</td>
-          <td class="bg-orange">1*1</td>
+          <td class="ln-bg-orange">0*1</td>
+          <td class="ln-bg-orange">0*0</td>
+          <td class="ln-bg-orange">1*1</td>
           <td>1</td>
           <td>1</td>
         </tr>
@@ -1571,10 +1569,10 @@
         </tr>
       </table>
       <p>And then adding the products together:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`1xx1+1xx0+1xx1+0xx0+1xx1+1xx0+0xx1+0xx0+1xx1=4`</p>
       </div>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>4</td>
           <td></td>
@@ -1592,26 +1590,26 @@
         </tr>
       </table>
       <p>Then we move the filter over to the next set of pixels and repeat the same process:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>1</td>
-          <td class="bg-orange">1*1</td>
-          <td class="bg-orange">1*0</td>
-          <td class="bg-orange">0*1</td>
+          <td class="ln-bg-orange">1*1</td>
+          <td class="ln-bg-orange">1*0</td>
+          <td class="ln-bg-orange">0*1</td>
           <td>0</td>
         </tr>
         <tr>
           <td>0</td>
-          <td class="bg-orange">1*0</td>
-          <td class="bg-orange">1*1</td>
-          <td class="bg-orange">1*0</td>
+          <td class="ln-bg-orange">1*0</td>
+          <td class="ln-bg-orange">1*1</td>
+          <td class="ln-bg-orange">1*0</td>
           <td>0</td>
         </tr>
         <tr>
           <td>0</td>
-          <td class="bg-orange">0*1</td>
-          <td class="bg-orange">1*0</td>
-          <td class="bg-orange">1*1</td>
+          <td class="ln-bg-orange">0*1</td>
+          <td class="ln-bg-orange">1*0</td>
+          <td class="ln-bg-orange">1*1</td>
           <td>1</td>
         </tr>
         <tr>
@@ -1629,10 +1627,10 @@
           <td>0</td>
         </tr>
       </table>
-      <div class="math">
+      <div class="ln-center">
         <p>`1xx1+1xx0+0xx1+1xx0+1xx1+1xx0+0xx1+1xx0+1xx1=3`</p>
       </div>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>4</td>
           <td>3</td>
@@ -1650,7 +1648,7 @@
         </tr>
       </table>
       <p>After applying the filter to the whole image, we get the convolved image:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>4</td>
           <td>3</td>
@@ -1668,151 +1666,151 @@
         </tr>
       </table>
       <p>The example above was just some random filter, but using a specific filter allows us to detect edges. Consider this black and white image which has an edge right down the middle:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
       </table>
       <p>And this filter:</p>
-      <table class="bg-green">
+      <table class="table table-bordered ln-center">
         <tr>
-          <td>1</td>
-          <td>0</td>
-          <td>-1</td>
+          <td class="ln-bg-green">1</td>
+          <td class="ln-bg-green">0</td>
+          <td class="ln-bg-green">-1</td>
         </tr>
         <tr>
-          <td>1</td>
-          <td>0</td>
-          <td>-1</td>
+          <td class="ln-bg-green">1</td>
+          <td class="ln-bg-green">0</td>
+          <td class="ln-bg-green">-1</td>
         </tr>
         <tr>
-          <td>1</td>
-          <td>0</td>
-          <td>-1</td>
+          <td class="ln-bg-green">1</td>
+          <td class="ln-bg-green">0</td>
+          <td class="ln-bg-green">-1</td>
         </tr>
       </table>
       <p>For the first step of convolution:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
-          <td class="bg-green">5*1</td>
-          <td class="bg-green">5*0</td>
-          <td class="bg-green">5*-1</td>
+          <td class="ln-bg-green">5*1</td>
+          <td class="ln-bg-green">5*0</td>
+          <td class="ln-bg-green">5*-1</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
-          <td class="bg-green">5*1</td>
-          <td class="bg-green">5*0</td>
-          <td class="bg-green">5*-1</td>
+          <td class="ln-bg-green">5*1</td>
+          <td class="ln-bg-green">5*0</td>
+          <td class="ln-bg-green">5*-1</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
-          <td class="bg-green">5*1</td>
-          <td class="bg-green">5*0</td>
-          <td class="bg-green">5*-1</td>
+          <td class="ln-bg-green">5*1</td>
+          <td class="ln-bg-green">5*0</td>
+          <td class="ln-bg-green">5*-1</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>5</td>
-          <td>5</td>
-          <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
       </table>
       <p>The result is:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>0</td>
           <td></td>
@@ -1847,7 +1845,7 @@
         </tr>
       </table>
       <p>The second step of convolution will be the same since the pixel values are the exact same.</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>0</td>
           <td>0</td>
@@ -1882,70 +1880,70 @@
         </tr>
       </table>
       <p>For the third step of convolution:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>5</td>
           <td>5</td>
-          <td class="bg-green">5*1</td>
-          <td class="bg-green">5*0</td>
-          <td class="bg-green">0*-1</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-green">5*1</td>
+          <td class="ln-bg-green">5*0</td>
+          <td class="ln-bg-green">0*-1</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
-          <td class="bg-green">5*1</td>
-          <td class="bg-green">5*0</td>
-          <td class="bg-green">0*-1</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-green">5*1</td>
+          <td class="ln-bg-green">5*0</td>
+          <td class="ln-bg-green">0*-1</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
-          <td class="bg-green">5*1</td>
-          <td class="bg-green">5*0</td>
-          <td class="bg-green">0*-1</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>5</td>
-          <td>5</td>
-          <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-green">5*1</td>
+          <td class="ln-bg-green">5*0</td>
+          <td class="ln-bg-green">0*-1</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
         <tr>
           <td>5</td>
           <td>5</td>
           <td>5</td>
           <td>5</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
-          <td class="bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td>5</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
+          <td class="ln-bg-gray">0</td>
         </tr>
       </table>
       <p>The result is:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>0</td>
           <td>0</td>
@@ -1980,7 +1978,7 @@
         </tr>
       </table>
       <p>In the end, we will have this result:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>0</td>
           <td>0</td>
@@ -2015,229 +2013,229 @@
         </tr>
       </table>
       <p>Notice how the nonzero values are right down the middle, exactly where the edge was at in the original image.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>There are many different types of filters that can detect different types of edges. Here are a few:</p>
-        <table class="bg-green">
+        <table class="table table-bordered ln-center">
           <tr>
-            <td>1</td>
-            <td>0</td>
-            <td>-1</td>
+            <td class="ln-bg-green">1</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">-1</td>
           </tr>
           <tr>
-            <td>1</td>
-            <td>0</td>
-            <td>-1</td>
+            <td class="ln-bg-green">1</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">-1</td>
           </tr>
           <tr>
-            <td>1</td>
-            <td>0</td>
-            <td>-1</td>
+            <td class="ln-bg-green">1</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">-1</td>
           </tr>
         </table>
         <p>Vertical Edge Filter</p>
-        <table class="bg-green">
+        <table class="table table-bordered ln-center">
           <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
+            <td class="ln-bg-green">1</td>
+            <td class="ln-bg-green">1</td>
+            <td class="ln-bg-green">1</td>
           </tr>
           <tr>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">0</td>
           </tr>
           <tr>
-            <td>-1</td>
-            <td>-1</td>
-            <td>-1</td>
+            <td class="ln-bg-green">-1</td>
+            <td class="ln-bg-green">-1</td>
+            <td class="ln-bg-green">-1</td>
           </tr>
         </table>
         <p>Horizontal Edge Filter</p>
-        <table class="bg-green">
+        <table class="table table-bordered ln-center ln-bg-green">
           <tr>
-            <td>0</td>
-            <td>1</td>
-            <td>0</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">1</td>
+            <td class="ln-bg-green">0</td>
           </tr>
           <tr>
-            <td>1</td>
-            <td>0</td>
-            <td>-1</td>
+            <td class="ln-bg-green">1</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">-1</td>
           </tr>
           <tr>
-            <td>0</td>
-            <td>-1</td>
-            <td>0</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">-1</td>
+            <td class="ln-bg-green">0</td>
           </tr>
         </table>
         <p>Diagonal Edge Filter (top right to bottom left)</p>
-        <table class="bg-green">
+        <table class="table table-bordered ln-center">
           <tr>
-            <td>0</td>
-            <td>1</td>
-            <td>0</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">1</td>
+            <td class="ln-bg-green">0</td>
           </tr>
           <tr>
-            <td>-1</td>
-            <td>0</td>
-            <td>1</td>
+            <td class="ln-bg-green">-1</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">1</td>
           </tr>
           <tr>
-            <td>0</td>
-            <td>-1</td>
-            <td>0</td>
+            <td class="ln-bg-green">0</td>
+            <td class="ln-bg-green">-1</td>
+            <td class="ln-bg-green">0</td>
           </tr>
         </table>
         <p>Diagonal Edge Filter (top left to bottom right)</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>We don't manually choose which filters to apply. We let the neural network learn what the most important edges are and it will automatically come up with the best set of filters to detect those edges. The values for the filters can be thought of as weights of a neural network that are learned.</p>
       </div>
       <p>Notice that the output of convolution is a smaller image. In fact, after convolution, the size of the result will be</p>
-      <div class="math">
+      <div class="ln-center">
         <p>(size of original image) - (size of filter) + 1</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Going back to the black and white edge example, the original image was `6xx8`. The filter was `3xx3`. So the result is `(6-3+1)xx(8-3+1)=4xx6`.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>The examples so far have been simplified to use only one color channel. For color images there will be three channels, so the filter will also have three channels (each layer of the filter will be applied to each color layer). For example, a 6 x 6 color image will have dimensions `6xx6xx3`. A 3 x 3 filter applied to that image will have dimensions `3xx3xx3`. However, the result of applying the filter is 2D, not 3D. This can be confirmed with the math. The dimensions of the result will be `(6-3+1)xx(6-3+1)xx(3-3+1)=4xx4xx1=4xx4`.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/cnn.png">
         </div>
       </div>
       <p>This size reduction presents several problems. Applying convolution too many times will shrink the image to the point where it is too small to work with. Also, there will naturally be more focus on the middle pixels and less focus on the edge pixels.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Back to the black and white edge example again, the top-left corner pixel is only used in one round of convolution:</p>
-        <table>
+        <table class="table table-bordered ln-center">
           <tr>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
             <td>5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
           <tr>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
             <td>5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
           <tr>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
             <td>5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>5</td>
-            <td>5</td>
-            <td>5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
           <tr>
             <td>5</td>
             <td>5</td>
             <td>5</td>
             <td>5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
           <tr>
             <td>5</td>
             <td>5</td>
             <td>5</td>
             <td>5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
         </table>
         <p>But the pixel in red is used in four different rounds of convolution:</p>
-        <table>
+        <table class="table table-bordered ln-center">
           <tr>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
           <tr>
-            <td class="bg-green">5</td>
-            <td class="red bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-red ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
           <tr>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
           <tr>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-green">5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>5</td>
-            <td>5</td>
-            <td>5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-green">5</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
           <tr>
             <td>5</td>
             <td>5</td>
             <td>5</td>
             <td>5</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
-            <td class="bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
+            <td class="ln-bg-gray">0</td>
           </tr>
         </table>
         <p>So the pixel in red has more influence than the edge pixel does.</p>
       </div>
       <p>To fix both these problems, the original image can be modified by zero padding, which is adding zeros (essentially white space) to the border of the image:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td>0</td>
           <td>0</td>
@@ -2300,12 +2298,12 @@
         </tr>
       </table>
       <p>An image that was originally 4 x 6 is now 6 x 8. Applying a 3 x 3 filter to the zero-padded image will result in a 4 x 6 image, which is the same size as the original image. Also, the edge pixels move more toward the center, so they get used in more rounds of convolution.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>If we want to preserve the original size of the image, the size of the padding to use is `(text(size of filter)-1)/2`. In the above example, the size of the filter was `3`. So `(3-1)/2=1` row of padding was needed.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Several filters are always used to detect different edges.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/cnn_2.png">
         </div>
         <p>The `2` in the `4xx4xx2` comes from using 2 filters.</p>
@@ -2313,60 +2311,60 @@
       <h5>Pooling</h5>
       <p>#dimensionalityreduction</p>
       <p>Pooling is used for dimensionality reduction. In the case of images, it compresses an image while keeping most of the important information. Pooling is also called subsampling. One type of pooling is 2 x 2 max pooling, which keeps the maximum pixel value in each 2 x 2 block of the image.</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
-          <td class="bg-green">1</td>
-          <td class="bg-green">3</td>
-          <td class="bg-yellow">2</td>
-          <td class="bg-yellow">9</td>
+          <td class="ln-bg-green">1</td>
+          <td class="ln-bg-green">3</td>
+          <td class="ln-bg-yellow">2</td>
+          <td class="ln-bg-yellow">9</td>
         </tr>
         <tr>
-          <td class="bg-green">0</td>
-          <td class="bg-green">5</td>
-          <td class="bg-yellow">3</td>
-          <td class="bg-yellow">1</td>
+          <td class="ln-bg-green">0</td>
+          <td class="ln-bg-green">5</td>
+          <td class="ln-bg-yellow">3</td>
+          <td class="ln-bg-yellow">1</td>
         </tr>
         <tr>
-          <td class="bg-orange">0</td>
-          <td class="bg-orange">1</td>
-          <td class="bg-blue">7</td>
-          <td class="bg-blue">8</td>
+          <td class="ln-bg-orange">0</td>
+          <td class="ln-bg-orange">1</td>
+          <td class="ln-white ln-bg-blue">7</td>
+          <td class="ln-white ln-bg-blue">8</td>
         </tr>
         <tr>
-          <td class="bg-orange">0</td>
-          <td class="bg-orange">3</td>
-          <td class="bg-blue">11</td>
-          <td class="bg-blue">2</td>
+          <td class="ln-bg-orange">0</td>
+          <td class="ln-bg-orange">3</td>
+          <td class="ln-white ln-bg-blue">11</td>
+          <td class="ln-white ln-bg-blue">2</td>
         </tr>
       </table>
       <p>For the above, the result of max pooling is:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
-          <td class="bg-green">5</td>
-          <td class="bg-yellow">9</td>
+          <td class="ln-bg-green">5</td>
+          <td class="ln-bg-yellow">9</td>
         </tr>
         <tr>
-          <td class="bg-orange">3</td>
-          <td class="bg-blue">11</td>
+          <td class="ln-bg-orange">3</td>
+          <td class="ln-white ln-bg-blue">11</td>
         </tr>
       </table>
-      <div class="box">
+      <div class="ln-box">
         <p>Pooling is applied to each channel individually. So if the input is 6 x 6 x 10 (10 filters were applied), then applying 3 x 3 pooling will produce an output of 2 x 2 x 10.</p>
       </div>
       <h5>CNNs Are Like Onions</h5>
       <p>One layer of a CNN consists of 3 components: a convolutional layer, a nonlinear layer, and a pooling layer.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/cnn_3.png">
         <p>I'm going to borrow this picture from my professor since it is late and too complicated to draw on my own.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>The ReLU layer is used for "nonlinearity". I'm not sure what that means exactly though.</p>
       </div>
       <p>Each layer gets increasingly complex in the patterns they detect. The first few layers look for very simple patterns, like edges. The middle layers combine those simple patterns to find more complex patterns, like eyes or noses. The last few layers combine the previous patterns to find high-level patterns, like a face. We don't tell the network what patterns to look for; it learns by itself what patterns to look for.</p>
       <h5>LeNet-5</h5>
       <p>LeNet-5 is a classic CNN first proposed by Yann LeCun.</p>
-      <div class="box">
-        <div class="math">
+      <div class="ln-box">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/cnn_4.png">
           <p>Again, borrowing another picture from my professor.</p>
         </div>
@@ -2375,99 +2373,99 @@
       </div>
       <h2 id="svm">Support Vector Machine</h2>
       <p>Let's suppose we had some data like below and we wanted to build the best classifier. There are infinitely many classifiers that would work (some examples shown below). Which one would be the best?</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm.png">
       </div>
       <p>It may seem like the black line is the best classifier since it is in the middle. And in fact, it is, but to frame this a little more formally, let's take a look at the data point that is closest to the classifier and measure its distance to the classifier.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_2.png">
       </div>
       <p>If we take that distance and double it on the other side, we create an area around the classifier where there are no data points inside. This "safe zone" is referred to as the margin. So we can say that the black line is the best classifier because it has the widest margin.</p>
       <p>If we do this for the pink line, we see that the margin is very narrow:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_3.png">
       </div>
       <p>It is not good to have data points very close to the classifier because that means that there is some uncertainty about which class it belongs to.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Each data point can be represented as a vector. The vectors closest to the classifier determine how wide the margin will be. This is why it is called a "support vector" machine.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Since the dataset only has two features, the classifier is a line. With three features, the classifier would be a plane. With more features, the classifier would be a "hyperplane".</p>
       </div>
       <p>So the best classifier is the one that has the widest margin. How do we go about building it? (To keep things simple, we will just stay in the 2D world.)</p>
       <h3>Lining Them Up (Again)</h3>
       <p>We can represent a line using this equation:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`w_1x_1+w_2x_2+b=0`</p>
         <p>where `x_1` and `x_2` represent the features</p>
       </div>
       <p>Storing the weights in a vector `bb w=[[w_1],[w_2]]` and the features in another vector `bb x=[[x_1],[x_2]]`, we get a vectorized representation of a line:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`bb w^T bb x+b=0`</p>
       </div>
       <p>Let's say we have some arbitrary line whose equation is `-3x_1+2x_2+4=0`.</p>
       <div id="svm1"></div>
       <p>Any points on the line when plugged into the equation will be equal to zero. Any points above the line will be positive and any points below the line will be negative.</p>
       <div id="svm2"></div>
-      <div class="box math">
-        <p class="red">`-3(4)+2(4)+4=-12+8+4=0`</p>
-        <p class="orange">`-3(6)+2(3)+4=-18+6+4=-8<0`</p>
-        <p class="green">`-3(2)+2(5)+4=-6+10+4=8>0`</p>
+      <div class="ln-box ln-center">
+        <p class="ln-red">`-3(4)+2(4)+4=-12+8+4=0`</p>
+        <p class="ln-orange">`-3(6)+2(3)+4=-18+6+4=-8<0`</p>
+        <p class="ln-green">`-3(2)+2(5)+4=-6+10+4=8>0`</p>
       </div>
       <p>This is true for any line. So how can we use this fact to build a classifier?</p>
       <h3>Maximizing the Margin</h3>
       <p>We want to find a line such that all the samples that should be above the line are positive when plugged into the equation of the line. And all the samples that should be below the line are negative when plugged into the equation of the line.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_4.png">
       </div>
       <p>Let's say we draw some random line. If it satisifes the aforementioned requirements, then it is a working classifier. But we can do better.</p>
       <p>Let's say we draw some random line that satisifes the requirements. In addition, let's draw two more lines — one on each side of the classifier — that are parallel and equidistant to the classifier.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_5.png">
       </div>
       <p>This forms the margin. So now we can be a little bit stricter and say that our classifier is working (and better) if all the data samples above the margin are positive and all the data samples below the margin are negative. Mathematically,</p>
-      <div class="math">
-        <p class="red">`bb w^T bb x+b>=1`</p>
-        <p class="blue">`bb w^T bb x+b<=-1`</p>
+      <div class="ln-center">
+        <p class="ln-red">`bb w^T bb x+b>=1`</p>
+        <p class="ln-blue">`bb w^T bb x+b<=-1`</p>
       </div>
       <p>But we can do better. Those two lines that we drew? What if we drew them such that the margin was as wide as possible?</p>
-      <div class="box">
+      <div class="ln-box">
         <p>The margin is the distance between the two lines `bb w^T bb x+b=1` and `bb w^T bb x+b=-1`. It is also equal to `2/(||bb w||)`, which will be proved here.</p>
         <p>First, it is necessary to show that the vector `bb w` is normal to the hyperplane (in this case, the hyperplane is `bb w^T bb x+b=0`). In order for a vector to be normal to the hyperplane, the dot product of that vector with another vector on the hyperplane must be equal to zero. So let's get a vector on the hyperplane and take the dot product.</p>
         <p>Let `bb x_1` and `bb x_2` be vectors pointing to points on the hyperplane. `bb x_1` and `bb x_2` are not necessarily on the hyperplane, but `bb x_1 - bb x_2` is on the hyperplane. I'm sure there's some mathematical proof for this, but here's some visual intuition instead.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/svm_margin_proof.png">
           <img class="img-fluid" src="../pictures/ml/svm_margin_proof_2.png">
           <p>(this is what it would look like for the 3D case)</p>
         </div>
         <p>If we take the dot product of `bb w` and `bb x_1-bb x_2`, which is equivalent to `bb w^T (bb x_1-bb x_2)`, we get:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`bb w^T (bb x_1-bb x_2)=bb w^T bb x_1 - bb w^T bb x_2 = -b - (-b) = -b + b = 0`</p>
           <p>(`bb w^T bb x_1=bb w^T bb x_2=-b` since `bb w^T bb x+b=0`)</p>
         </div>
         <p>So `bb w` is in fact normal to the hyperplane.</p>
         <p>Now let's suppose we have the two lines `bb w^T bb x+b=1` and `bb w^T bb x+b=-1`. Let's pick two points, one on each line, and call them `x_+` and `x_-`. If we draw vectors to those points and subtract them, then we get the distance between `bb w^T bb x+b=1` and `bb w^T bb x+b=-1`. Well, almost.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/svm_margin_proof_3.png">
         </div>
         <p>The actual distance between `bb w^T bb x+b=1` and `bb w^T bb x+b=-1` is `M` as shown below:</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/svm_margin_proof_4.png">
         </div>
         <p>The vector `bb x_+ - bb x_-` is pointing in a different direction than the direction of the distance. If we could figure out how much to rotate `x_+ - x_-` by, then we could get them pointing in the same direction. Now we can use the fact that `bb w` is normal to the hyperplane. Since `bb w` is normal to the hyperplane, it is pointing in the same direction as the distance.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/svm_margin_proof_5.png">
         </div>
         <p>So if we rotate `bb x_+ - bb x_-` by some angle `theta`, then `bb x_+ - bb x_-` will be pointing in the same direction as `bb w`. However, if we simply rotate it, then the length of `bb x_+ - bb x_-` will remain larger than `M`. We have to scale down the length at the same time we are rotating it, and we do this by multiplying the length of `bb x_+ - bb x_-` by the amount we are rotating, which is `costheta` (good ol' SOHCAHTOA). So we have</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`M=||bb x_+ - bb x_-||costheta`</p>
         </div>
         <p>It turns out that `costheta` is equal to the dot product of the two vectors divided by the product of their lengths. So:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`costheta=((bb x_+ - bb x_-).bb w)/(||bb w|| cdot ||bb x_+ - bb x_-||)`</p>
         </div>
         <p>Which allows us to simplify:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`M=||bb x_+ - bb x_-||costheta`</p>
           <p>`=||bb x_+ - bb x_-||((bb x_+ - bb x_-).bb w)/(||bb w|| cdot ||bb x_+ - bb x_-||)`</p>
           <p>`=((bb x_+ - bb x_-).bb w)/(||bb w||)`</p>
@@ -2478,88 +2476,88 @@
         <p>*Since `x_+` was a point on the line `bb w^T bb x+b=1`, `bb w^T bb x_+ +b=1`. Similarly for `x_-`.</p>
       </div>
       <p>So now our goal is to correctly classify samples <em>and</em> maximize the margin. In other words, we want to satisfy three conditions:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>maximize `2/||bb w||`</p>
         <p>if the sample is positive (which we will denote as `y=+1`), then it will satisfy `bb w^T bb x + b >= 1`</p>
         <p>if the sample is negative (which we will denote as `y=-1`), then it will satisfy `bb w^T bb x + b <= -1`</p>
       </div>
       <p>Maximizing `2/||bb w||` is the same as minimizing `||bb w||`. This is because maximizing `2/||bb w||` means making the denominator as small as possible. To make it a convex function, we can make it `||bb w||^2`. And let's throw a `1/2` in there to make derivatives simpler. So maximizing `2/||bb w||` is the same as minimizing `1/2||bb w||^2`.</p>
       <p>We can also convert the two equations into one:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`y(bb w^T bb x + b) >= 1`</p>
         <p>(notice that if `y=1` or `y=-1`, then both equations are achieved)</p>
       </div>
       <p>So finally, our goal is to satisify these two conditions:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>minimize `1/2||bb w||^2`</p>
         <p>`y_i(bb w^T bb x_i + b) >= 1`</p>
         <p>for a dataset `{(bb x_1, y_1), (bb x_2, y_2), ..., (bb x_n, y_n)}`</p>
       </div>
       <p>Finding the best line that satisfies those two conditions involves Lagrange multipliers, which I won't talk about here (cuz I have no idea what they are), so the math torture can stop here.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>The TLDR is</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`bb w=sum_(i=1)^n alpha_iy_i bb x_i`</p>
           <p>`b=y_k-bb w^T bb x_k` for any `bb x_k` such that `alpha_k ne 0`</p>
         </div>
         <p>and the classifier is the equation</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`y=text(Sign)(bb w^T bb x + b)`</p>`
         </div>
       </div>
       <h3>Cut Me Some Slack!</h3>
       <p>So far we have been assuming that all the data points are nicely separable. (In fact, the situation with those two conditions for linearly separable data is referred to as "hard margin".) However, it is much more likely for our dataset to have some points mixed with each other.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_6.png">
       </div>
       <p>Finding a classifier that satisifies the condition `y_i(bb w^T bb x_i + b) >= 1` becomes impossible. Can you draw a straight line that puts <em>all</em> the red samples on one side and <em>all</em> the blue samples on the other side? We need a way to keep all our work from before, but also be able to handle non-separable samples. This is referred to as "soft margin".</p>
       <p>We can allow those non-separable samples to be on the wrong side of the line, as long as they are not too far on the other side. This distance will be defined by slack variables (denoted by `xi_i`).</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_7.png">
       </div>
       <p>Of course, some samples will be misclassified, but now those samples will not prevent us from drawing a line that mostly works pretty well. We can't allow the slack variables to be too large though, otherwise everything could be misclassified. So the slack variables need to be minimized as well. The conditions for soft margin become:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>minimize `1/2||bb w||^2+Csumxi_i`</p>
         <p>`y_i(bb w^T bb x_i + b) >= 1-xi_i`</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>`C` is similar to the regularization parameter in gradient descent (See "<a href="#aregularization">A7.2) Regularization</a>") and in neural networks. In a nutshell, having a large value for `C` forces the `xi_i`s to be really small, which means there is little tolerance for misclassification, which means the model will be prone to overfitting. Having a small value for `C` allows the `xi_i`s to be larger, which means there is some tolerance for misclassification, which means the model could be prone to underfitting.</p>
       </div>
       <h3>Multi-class Classification</h3>
       <p>So far we have only been working with two classes (red/blue, positive/negative). It is possible to extend SVM (and other classifiers for that matter) to multi-class situations using a one-vs-all method. We pick one group and treat the other groups as one other group. Then we build a classifier:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_8.png">
       </div>
       <p>We repeat this for all of the classes:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_9.png">
       </div>
       <h3>Nonlinear SVM</h3>
       <p>Like for polynomial regression, what if the data is not linearly separable? Let's take a step back and look at an example in 1D. Suppose we have linearly separable data:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_10.png">
       </div>
       <p>It's pretty easy to separate the data with a classifier right down the middle. Now let's suppose we have data that is not linearly separable.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_11.png">
       </div>
       <p>It turns out we can still use a straight line to neatly separate the data 🤯. We just have to "bend the space".</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_12.png">
       </div>
       <p>By bending the space, we are moving the data into a higher-dimensional space to make it linearly separable. In this example, we are moving the data from 1D to 2D.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_13.png">
       </div>
       <p>In 2D, the two features are `x` and `x^2`.</p>
       <p>Let's see what bending 2D space looks like.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_14.png">
       </div>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/svm_15.png">
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>The function that transforms the data into a higher-dimensional space is denoted as `Phi:x rarr varphi(x)` where `varphi(x)` is the higher-dimensional space. In the 1D `rarr` 2D example, the function `Phi` is defined as `Phi:x rarr [[x],[x^2]]`. In the 2D `rarr` 3D example, the function is `Phi:[[x_1],[x_1]] rarr [[x_1],[x_2],[x_1^2+x_2^2]]`.</p>
       </div>
       <p>So the main idea for non-linear SVMs is to transform the data into a higher-dimensional feature space where the data is linearly separable. However, there are several problems we have to deal with.</p>
@@ -2569,27 +2567,27 @@
         <li>Working in higher dimensions results in higher computational complexity</li>
       </ul>
       <h4>The Kernel Trick</h4>
-      <div class="box">
+      <div class="ln-box">
         <p>The original space is
-        <div class="math">
+        <div class="ln-center">
           <p>`y=text(Sign)(sum_(i=1)^nalpha_iy_i bb x_i^T bb x+b)`</p>
         </div>
         <p>Using `Phi` to transform the data, the new space is
-        <div class="math">
+        <div class="ln-center">
           <p>`y=text(Sign)(sum_(i=1)^nalpha_iy_ivarphi(bb x_i)^Tvarphi(bb x)+b)`</p>
         </div>
         <p>In transforming the data, we calculate the inner product `varphi(bb x_i)^Tvarphi(bb x)`. We don't actually need to know what `varphi(x)` is; we just need to know what `varphi(bb x_i)^Tvarphi(bb x)` is. What this means is that we don't actually need to know what the higher-dimensional space looks like.</p>
         <p>We can define a kernel function `K` such that</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`K(bb x_i, bb x_j)=varphi(bb x_i)^Tvarphi(bb x_j)`</p>
         </div>
         <p>The kernel function performs the inner product in the higher-dimensional space.</p>
         <p>So now the classifier is the equation</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`y=text(Sign)(sum_(i=1)^nalpha_iy_iK(bb x_i, bb x)+b)`</p>
         </div>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Some commonly-used kernel functions:</p>
         <p>Polynomial kernel: `K(bb x_i, bb x_j)=(r+gammabb x_i^T bb x_j)^d`</p>
         <p>Gaussian Radial-Basis Function (RBF): `K(bb x_i, bb x_j)=exp(-(||bb x_i-bb x_j||^2)/(2sigma^2))`</p>
@@ -2606,22 +2604,22 @@
       <p>However, as shown in the section above, accuracy is not always the best metric to use.</p>
       <p>In binary classification, the data has two labels (1/0, true/false, etc.). One of the labels represents an event that is happening (e.g., an email is spam, a patient has cancer, it is raining). This is a positive label. The other label represents an event not happening (e.g., an email is not spam, a patient doesn't have cancer, it is not raining). This is a negative label.</p>
       <p>Suppose we had some positive data (red) and negative data (blue) and a classifier that predicts everything on the left to be positive and everything on the right to be negative.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/model_evaluation_1.png">
       </div>
       <p>On both sides, there are some data that are misclassified. The misclassified ones on the left are negative samples that were predicted to be positive. These are called false positives (false alarms).</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/model_evaluation_2.png">
         <p>false positives</p>
       </div>
       <p>The misclassified ones on the right are positive samples that were predicted to be negative. These are called false negatives.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/model_evaluation_3.png">
         <p>false negatives</p>
       </div>
       <p>And of course, the ones that are correctly classified are called true positives and true negatives.</p>
       <p>This can be succinctly represented in a confusion matrix:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <td colspan="2"></td>
           <td colspan="2">Predicted Label</td>
@@ -2632,7 +2630,7 @@
           <td>Negative</td>
         </tr>
         <tr>
-          <td rowspan="2">Actual Label</td>
+          <td rowspan="2" class="ln-center">Actual Label</td>
           <td>Positive</td>
           <td>TP</td>
           <td>FN</td>
@@ -2644,57 +2642,57 @@
         </tr>
       </table>
       <p>With these new terms, we can define accuracy as:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`text(accuracy)=(TP+TN)/(TP+TN+FP+FN)`</p>
         <p>(number of correct)/(total number of samples)</p>
       </div>
       <p>But as mentioned earlier, we are interested in other metrics besides accuracy.</p>
       <h5>A2.1.1) Sensitivity</h5>
       <p>True positive rate (TPR), aka sensitivity, is the percent of correct predictions for positive samples:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`TPR=(TP)/(TP+FN)`</p>
         <p>(number of correct positives)/(total number of positives)</p>
       </div>
       <p>Sensitivity is a measure of how well a model can detect something is happening.</p>
       <h5>A2.1.2) Specificity</h5>
       <p>True negative rate (TNR), aka specificity, is the percent of correct predictions for negative samples:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`TNR=(TN)/(TN+FP)`</p>
         <p>(number of correct negatives)/(total number of negatives)</p>
       </div>
       <p>Specificity is a measure of how well a model can rule out an event happening.</p>
       <h5>A2.1.3) False Alarm Rate</h5>
       <p>False positive rate (FPR), aka false alarm rate, is the percent of wrong predictions for negative samples:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`FPR=(FP)/(TN+FP)`</p>
         <p>(number of wrong negatives)/(total number of negatives)</p>
       </div>
       <p>It is also defined as:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`FPR=1-text(specificity)`</p>
       </div>
       <h5>A2.1.4) Evaluation</h5>
       <p>Let's go back to our classifier</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/model_evaluation_1.png">
       </div>
       <p>and move it to the right a bit.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/model_evaluation_4.png">
       </div>
       <p>Now, more positive samples will be correctly classified, so sensitivity will increase (the model will be more sensitive). But at the same time, more negative samples will be incorrectly classified, so specificity will decrease. As a result, there will also be more false alarms.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`uarr text(sensitivity)=(TP)/text(all positives)`</p>
         <p>`darr text(specificity)=(TN)/text(all negatives)`</p>
         <p>`uarr text(false alarm rate)=(FP)/text(all negatives)`</p>
       </div>
       <p>In medical applications, it is usually preferred to have more sensitive models. If our model was predicting whether or not a patient cancer, it is important that the model is good at detecting positive samples. It is also very dangerous to have false negatives (i.e., the patient has cancer, but our model predicted no), so having a more sensitive model reduces the number of false negatives. While there will be more false alarms, more tests can be done to see if the patient actually has cancer.</p>
       <p>Now let's move the classifier to the left a bit.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/model_evaluation_5.png">
       </div>
       <p>This time, fewer positive samples will be correctly classified, so it will be less sensitive. And more negative samples will be correctly classified, so specificity will be higher.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`darr text(sensitivity)=(TP)/text(all positives)`</p>
         <p>`uarr text(specificity)=(TN)/text(all negatives)`</p>
         <p>`darr text(false alarm rate)=(FP)/text(all negatives)`</p>
@@ -2702,41 +2700,41 @@
       <p>A less sensitive model is useful in situations where false alarms are very costly, like predicting natural disasters (we don't want to evacuate people when there's no need to).</p>
       <h5>A2.1.5) ROC Curves</h5>
       <p>ROC stands for "receiver operating characteristic". A ROC curve is basically a visual representation of a model's TPR and FPR.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/roc.png">
       </div>
       <p>This is an example of a model's ROC curve. As the model's TPR increases, so does the model's FPR.</p>
       <p>With ROC curves, we can compare different models. Let's say each line represented the ROC curves of three classifiers (e.g., KNN, decision tree, and random forest).</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/roc_2.png">
       </div>
       <p>The model with the blue ROC curve is better because for a fixed FPR, it has the highest TPR.</p>
       <p>Generally, the closer to the top-left corner, the better. In fact, a perfect model (100% accuracy) would have a ROC curve like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/roc_3.png">
       </div>
       <p>When the model has a 100% TPR, it has a 0% FPR.</p>
       <p>The worst case would be like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/roc_4.png">
       </div>
       <p>In this case, the model's TPR is equal to its FPR, which means it is just like random guessing.</p>
       <p>It is possible for a model to perform worse than random guessing (if this happens, you know you done messed up). The ROC curve would look something like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/roc_5.png">
       </div>
       <p>It is also possible for two models to have ROC curves like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/roc_6.png">
       </div>
       <p>Which model would be considered better in this case?</p>
       <p>Another metric that is used to evaluate models (in the context of ROC curves) is Area Under Curve (AUC). It measures how much space is under the curve (the more the better). The AUC of a perfect model would be 1 (100%) and the AUC of the worst case would be 0.5 (50%).</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/roc_7.png">
       </div>
       <h4>A2.2) Regression</h4>
       <p>For regression, root-mean-square error (RMSE) is usually used as the metric for error.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`text(RMSE)=sqrt(1/nsum_(i=1)^n(y_i-hat y_i)^2`</p>
         <p>where `y_i` is the actual value and `hat y_i` is the predicted value</p>
         <p>(the errors are squared so the square root returns it to the original unit)</p>
@@ -2766,12 +2764,12 @@
       <p>Another type of normalization is to make the dataset have zero mean and unit standard deviation (z-score normalization). We can do this by subtracting each data point by the mean and dividing the difference by the standard deviation. (Disclaimer: the rest of this paragraph consists of claims based on my intuition, so I may be wrong.) This means that each data point now represents the number of standard deviations it is from the mean. While each feature can range from different values, all the data points essentially have the same units: distance from the mean. It's like having two sets of measurements, one in inches and one in centimeters, and converting both of them into "number of thumbs".</p>
       <p>No matter which type of normalization is used, normalization should be done only on the training data. This is because testing data is considered "future data", so we theoretically don't have the data yet. The effects of normalizing the whole dataset can be seen below.</p>
       <p>For z-score normalization, we would perform the following on each training data point `x`:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`z=(x-m)/s`</p>
         <p>where `m` and `s` are the mean and standard deviation of the training data</p>
       </div>
       <p>to obtain the normalized value `z`. Then for each testing data point `x'`, we use the same mean and standard deviation obtained from the training data to do the same thing</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`z'=(x'-m)/s`</p>
       </div>
       <p>to obtain the normalized value `z'`.</p>
@@ -2784,82 +2782,82 @@
       <h3 id="afeatureextraction">A6) Feature Extraction</h3>
       <p>Feature extraction transforms the data from a high-dimensional space to a lower-dimensional space by compressing the features. For example, if a dataset has five features, feature extraction will create — let's say — three new uncorrelated features that contain all the information from the original five features.</p>
       <p>Let's look at the 2D `rarr` 1D case. We have two features `x_1` and `x_2`.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/feature_extraction_1.png">
       </div>
       <p>We can compress the two features into one new feature, which we can call `z`, by projecting the data points onto a diagonal line:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/feature_extraction_2.png">
       </div>
       <p>There is some error between the projection and the original data, but notice how the relative positions of the original data points can be represented by the new projection onto `z`, i.e., by looking at only the points on `z`, we can get a general idea of where the original points were. This means we've compressed the information from two features into just one feature. In this case, this is possible because there is some redundancy/correlation between the two features. As `x_1` increases, so does `x_2`, so there is a linear relationship between the two features.</p>
       <p>This is what it looks like for the 3D `rarr` 2D case:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/feature_extraction_3.png">
       </div>
       <h4 id="apca">A6.1) Principal Component Analysis</h4>
       <p>#dimensionalityreduction</p>
       <p>Of course, there are infinitely many projections that can be used, so which one is the best? When we project the data points onto a new line, there is some projection error (indicated in orange):</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/pca_1.png">
       </div>
       <p>The best projection is the one that minimizes this error.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>This is very similar to linear regression, where we draw a line that best fits the data points. The difference between linear regression and PCA is the type of error we want to minimize.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/lr_error.png">
         </div>
         <p>The above is linear regression and the error that is being minimized is the error between the predicted value and the output.</p>
-        <div class="math">
+        <div class="ln-center">
           <img class="img-fluid" src="../pictures/ml/lr_not_error.png">
         </div>
         <p>The above is PCA and the error that is being minimized is the projection error.</p>
       </div>
       <p>To minimize projection error, we fit an n-dimensional ellipsoid to the data. The axes of the ellipsoid are the new features that contain the information from the original features. These new features are called "principal components".</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/pca_2.png">
       </div>
       <p>If an axis is very small, then it can be omitted since there won't be too much variance in that direction, which means there won't be too much information loss if we omit that axis.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/pca_3.png">
       </div>
       <p>This means that PCA works better when the data is more "compressible". Being more compressible means that there is an obvious pattern/trend/redundancy in the data. In the narrower ellipsoid, as `x_1` increases, `x_2` generally increases too. But in the wider ellipsoid, `x_1` increasing doesn't always result in `x_2` increasing.</p>
       <p>Finding the axes of the ellipsoid involves linear algebra.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Matrix multiplication is an operation that transforms the dimensionality of a vector. For example, if we multiply a `3xx1` vector `x` by a `2xx3` matrix `A`, we end up with a `2xx1` vector `y`. We've essentially turned a 3D vector into a 2D vector.</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`Ax=y`</p>
           <p>`[[1,2,-1],[3,-2,4]][[1],[3],[9]]=[[-2],[33]]`</p>
         </div>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Sometimes multiplying a vector by a matrix only changes the vector's length and/or makes it point in the opposite direction. What this means is that multiplying the vector by a matrix is exactly the same as multiplying the vector by a scalar number.</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`Av=lambdav`</p>
         </div>
         <p>All vectors `v` that satisify the equation are called "eigenvectors". All the `lambda`s for each `v` are called "eigenvalues".</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>Covariance is a measure of how similarly two things change together. Let's say we have two variables `a=1` and `b=100`. If we add 15 to `a` and `b` also increases by 15, then `a` and `b` have high covariance. However, if we add 15 to `a` and `b` increases by 100, then `a` and `b` have low covariance.</p>
         <p>A covariance matrix contains the covariance values between all the data points. So it contains the variance of each feature.</p>
       </div>
       <p>It turns out that the best axes for the ellipsoid are the eigenvectors of the covariance matrix of the dataset. So we have to find the covariance matrix and then the eigenvectors of that matrix to get the axes.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Since a covariance matrix is symmetric, the eigenvectors of a covariance matrix are orthonormal. They point in the direction of max variance and the eigenvalues are the measure of variance in that direction.</p>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>To find the eigenvectors of the covariance matrix, decompose (using eigendecomposition) the covariance matrix into the form `C=ULambdaU^T` where `U` is a matrix with `C`'s eigenvectors as columns and `Lambda` is a diagonal matrix with eigenvalues on the main diagonal and `0`s everywhere else.</p>
       </div>
       <p>Once we have the eigenvectors, we can put them in a matrix and multiply it with the original dataset to get the new features.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Suppose we have a dataset with `n` samples and `d` features. Let `X` be an `nxxd` matrix that represents the original data. Let `P` be a `d xx k` matrix where `k lt d` that contains the eigenvectors of the covariance matrix. Then the matrix multiplication of `X` and `P` will result in an `nxxk` matrix `Z` that represents the new features after extraction.</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`Z=XP`</p>
           <p>[new features] = [original data][principal components]</p>
         </div>
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>We have a choice in deciding how many new features we want to generate, the number of which is denoted as `k`. The new features should include most (95%-99%) of the variance in the original data. Since the eigenvalues represent the variance in the direction of their corresponding eigenvectors, we can choose a `k` such that</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`(sum_(i=1)^klambda_i)/(sum_(i=1)^dlambda_i)>95%`</p>
         </div>
       </div>
@@ -2870,43 +2868,43 @@
         <li>the model is too complex (e.g., very high order polynomial or high `k` for KNN)</li>
       </ul>
       <p>These are some examples of overfitting:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/overfitting_1.png">
       </div>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/overfitting_2.png">
       </div>
       <p>When overfitting happens, the model will have a really high accuracy on the training data, but have a low accuracy on the testing data. This is because it is very unlikely that the (testing) data will be distributed in such weird shapes.</p>
       <h4 id="adimensionalityreduction">A7.1) Dimensionality Reduction</h4>
       <p>If there are too many features, then we can reduce the number of features by keeping only the important features (see "<a href="#afeatureselection">A5) Feature Selection</a>"). For example, if there are 20 features, we can keep 3 of them.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`theta_0+theta_1x_1+...+theta_20x_20 rarr theta_0+theta_1x_1+theta_2x_2+theta_3x_3`</p>
       </div>
       <p>Some features may be redundant (e.g., size of house and number of bedrooms) or irrelevant (e.g., number of tiles), so including them increases the complexity of the model for no real benefit.</p>
       <h4 id="aregularization">A7.2) Regularization</h4>
       <p>If we want to keep all the features, we can instead simplify the model by reducing the magnitude/values of `theta_i`. For example:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`theta_0+theta_1x_1+theta_2x_2+theta_3x_3+theta_4x_1^2+theta_5x_2^2+theta_6x_2x_3+theta_7x_2x_3^2`</p>
         <p>`rarr`</p>
         <p>`theta_0+theta_1x_1+theta_2x_2+theta_3x_3+theta_4x_1^2+theta_6x_2x_3`</p>
       </div>
       <p>In the first overfitting example, we could set the `theta`s to zero for any terms of order 3 and order 4 so that it is a quadratic equation, which would fit the data and be a good model. Suppose the equation of the overfitting squiggle was:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`h_theta(x)=theta_0+theta_1x+theta_2x^2+theta_3x^3+theta_4x^4`</p>
       </div>
       <p>We want to set `theta_3` and `theta_4` to zero (or as close to zero as possible). Since we want to minimize these values, we could include them in the cost function so that they are minimized as well.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`J(theta)=1/(2m)sum_(i=1)^m (ubrace(h_theta(x^((i)))-y^((i)))_("error"))^2+ubrace(theta_3^2+theta_4^2)_("regularization")`</p>
       </div>
       <p>By minimizing the cost function, we are minimizing the error while also simultaneously minimizing the values of `theta_3` and `theta_4`.</p>
       <p>More generally, we want to minimize all the `theta`s. The important ones will remain while the unimportant ones will be minimized.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`J(theta)=1/(2m)sum_(i=1)^m (h_theta(x^((i)))-y^((i)))^2+lambdasum_(j=1)^ntheta_j^2`</p>
       </div>
       <p>`lambda` is the regularization parameter that controls the tradeoff between accuracy and simplicity. A higher `lambda` makes the model simpler by adding more penalty for bad values of `theta` (similar to the way squaring the errors adds more penalty). Larger values of `lambda` force the `theta`s to be really really small in order to keep the cost at a minimum. But if `lambda` is too large, then all of the `theta`s will be close to zero, which means the equation will become a straight line (`h_theta=theta_0`) and have low accuracy (underfitting). Lower values of `lambda` make the model more complex, but increases accuracy (if `lambda rarr 0`, then the only thing we're minimizing is error).</p>
-      <div class="box">
+      <div class="ln-box">
         <p>Gradient descent:</p>
-        <div class="math">
+        <div class="ln-center">
           <p>`theta_0=theta_0-alpha1/msum_(i=1)^m(h_theta(x^((i)))-y^((i)))x_0^((i))`</p>
           <p>`theta_j=theta_j(1-alphalambda/m)-alpha1/msum_(i=1)^m(h_theta(x^((i)))-y^((i)))x_j^((i))`</p>
           <p>for `j=1,2,...,n`</p>
@@ -2922,7 +2920,7 @@
       <p>There are several ways to ensure that each base learner is different from each other. Each one could use a different algorithm. Or they could all use the same algorithm but with different parameters (e.g. different values of `k` for KNN) and/or different features and/or different subsets of the dataset (e.g. random forest).</p>
       <h4 id="abootstrapping">A9.1) Bootstrapping</h4>
       <p>Bootstrapping (or bootstrap sampling) generates training subsets by randomly sampling from the training dataset with replacement. For example, from a dataset `S`, three subsets of size 8 can be created like below:</p>
-      <table>
+      <table class="table ln-center">
         <tr>
           <td>Dataset `S`</td>
           <td>`S_1`</td>
@@ -2994,7 +2992,7 @@
       <h5>A9.2.2) Bagging</h4>
       <p>Bagging is an amalgamation of "bootstrap" and "aggregating". Each base learner trains on a different subset of the dataset, where each subset is generated by bootstrapping. After they make their predictions, the final prediction is made based on voting. Basically, bagging = bootstrapping + voting.</p>
       <p>Since many learners are used, bagging is used to reduce variance and deal with overfitting. Typically, bagging is used with high variance algorithms like decision trees and neural networks.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/bagging_overfitting.png">
       </div>
       <p>If we have four overfit base learners (red, blue, cyan, purple), "taking the average" of each base learner produces an ideal fit model (green).</p>
@@ -3008,39 +3006,39 @@
       <p>When all the learners are finished training and making their predictions, weighted voting is used to make the final decision, where more weight is given to the better performing learners.</p>
       <p>Boosting is the opposite of bagging in the sense that boosting is used to increase variance.</p>
       <p>Suppose we have a training dataset with positive (blue) and negative (red) samples. In the first round of training, all samples have equal weights (indicated in these examples by their sizes).</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/boosting_1.png">
       </div>
       <p>Let's say the classifier is a simple line that predicts everything left to be positive and everything right to be negative.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/boosting_2.png">
       </div>
       <p>Some of the positive samples were misclassified, so for the next iteration, the weights of those will be increased. And the weights of the correctly classified samples will be decreased.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/boosting_3.png">
       </div>
       <p>Let's say the second classifier predicts like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/boosting_4.png">
       </div>
       <p>Now the previously misclassified positive samples are now correctly classified, but some of the negative samples are incorrect. So we readjust the weights for the third classifier:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/boosting_5.png">
       </div>
       <p>And suppose it predicts like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/boosting_6.png">
       </div>
       <p>So after three iterations, we have three classifiers that roughly look like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/boosting_7.png">
       </div>
       <p>With the combinination of them achieving perfect accuracy:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/boosting_8.png">
       </div>
       <p>If we have three underfit base learners (red, blue, purple), "combining" all the base learners produces an ideal fit model (green).</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/boosting_underfitting.png">
       </div>
       <h4>A9.3) Why does Ensemble Learning Work?</h4>
@@ -3049,7 +3047,7 @@
       <p>Each classifier alone has a 70% chance of getting it right, but when we combine them, they now have a 78% chance of getting it right.</p>
       <p>Theoretically, using 101 indpendent classifiers achieves a final voting accuracy of 99.9%. So if combining classifiers and using voting increases accuracy, why don't we always use more (and more!) classifiers? Because in reality, the classifiers will never be independent (we assumed the classifiers were independent).</p>
       <h4>A9.4) Advantages and Disadvantages of Ensemble Learning</h4>
-      <div class="box">
+      <div class="ln-box">
         <p>Advantages:</p>
         <ul>
           <li>improves prediction performance and accuracy</li>
@@ -3066,11 +3064,11 @@
       <p>One of the goals of the <a href="https://en.wikipedia.org/wiki/Five-hundred-meter_Aperture_Spherical_Telescope" target="_blank">world's largest radio telescope</a> is to detect alien life. In collecting the data, we wouldn't know which signals are from aliens and which are just whatever is out there since we've never seen alien signals before. This would be an example of anomaly detection, where we want to identify things that do not conform to an expected pattern.</p>
       <p>If we were working with images, we could download hundreds of millions of images, but some of them may or may not be labeled. In this case, it would be way too much work to go through each picture and label them manually (if only there was something that would automatically do this for us!)</p>
       <p>Sometimes, applying an unsupervised algorithm before applying a supervised algorithm can improve prediction results. Let's say we were trying to classify digits and we came across some digits that looked like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/unsupervised_1.png">
       </div>
       <p>To us, it's obvious which ones are the 3s and which one is the 8, but a computer might think that the left 3 and the 8 are more similar to each other since they are only several pixels different from each other. To avoid this, we can categorize the data first like so:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/unsupervised_2.png">
       </div>
       <p>And then apply a supervised algorithm on each category to make classification more accurate.</p>
@@ -3100,12 +3098,12 @@
       <h4>A11.2) Sampling</h4>
       <p>If we have too much data to handle, the easy way out is to only use part of the data, but this isn't ideal because we are throwing away a large part of the data. Let's say we want to randomly sample the dataset anyway. How many samples would be enough?</p>
       <p>We could plot the size of the training dataset against the error (see <a href="https://en.wikipedia.org/wiki/Learning_curve_(machine_learning)" target="_blank">learning curve</a> and <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" target="_blank">bias-variance tradeoff</a>), which might look something like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/sampling_1.png">
       </div>
       <p>The error for the training dataset will always be lower than the error for the testing dataset because the model has already seen the data in the training dataset. Adding more data makes the training data more complex (less generalizable), so the training error will increase as the training dataset size increases. But more data also makes the model more experienced in predicting future data, so the testing error will decrease as the training dataset size increases.</p>
       <p>Sometimes we could get something like this:</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/sampling_2.png">
       </div>
       <p>This suggests that using more data samples won't help, so we could find out how many samples to use based on this.</p>
@@ -3113,22 +3111,22 @@
       <p>MapReduce is a programming model for processing big data with a parallel, distributed algorithm. It involves a map function, which processes the data and generates intermediate data that gets sent to a reduce function that takes in the intermediate data and produces the final output.</p>
       <h5>A11.3.1) Word Counting</h5>
       <p>To see this in action, let's suppose we have millions of documents and we want to find the most common word across all of them. First, we distribute the documents among a bunch of computers to split the work.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/mapreduce_1.png">
       </div>
       <p>Then each computer runs a map function that returns a list of all the words and the number of times each word appears.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/mapreduce_2.png">
       </div>
       <p>Now we need to combine the results from all the documents so we add more computers and each one will be responsible for adding the counts for a single word. (With actual big data, each computer would be responsible for a set of words instead of just one word.) This step is also called shuffling.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/mapreduce_3.png">
       </div>
       <p>Finally, each of these computers runs a reduce function that returns the word count of each word.</p>
-      <div class="math">
+      <div class="ln-center">
         <img class="img-fluid" src="../pictures/ml/mapreduce_4.png">
       </div>
-      <div class="box">
+      <div class="ln-box">
         <p>This is the general format of map and reduce functions.</p>
         <pre>function map(in_key, in_value) {
     return [(out_key, intermediate_value)];
@@ -3167,7 +3165,7 @@
       <p>Suppose we had two databases `R` (with columns `A`, `B`) and `S` (with columns `B`, `C`):</p>
       <div class="row">
         <div class="col-sm">
-          <table>
+          <table class="table table-bordered ln-center">
             <tr>
               <th>`A`</th>
               <th>`B`</th>
@@ -3187,7 +3185,7 @@
           </table>
         </div>
         <div class="col-sm">
-          <table>
+          <table class="table table-bordered ln-center">
             <tr>
               <th>`B`</th>
               <th>`C`</th>
@@ -3212,7 +3210,7 @@
         </div>
       </div>
       <p>If we were to inner join `R` and `S`, the result would be:</p>
-      <table>
+      <table class="table table-bordered ln-center">
         <tr>
           <th>`A`</th>
           <th>`B`</th>
@@ -3240,7 +3238,7 @@
         </tr>
       </table>
       <p>Performing an inner join on two large tables can be very computationally intensive, so MapReduce can be used to parallelize the process. For each table, it can be divided up among several mappers and each mapper would do the following:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`(a,b) rarr (text(key)=b,text(value)=(T,a))`</p>
         <p>where `(a,b)` is a row in the table</p>
         <p>and `T` represents which table the row is from</p>
@@ -3248,14 +3246,14 @@
       <p>So after all the mappers are done, the result is:</p>
       <div class="row">
         <div class="col-sm">
-          <div class="math">
+          <div class="ln-center">
             <p>`(2, (R, 6))`</p>
             <p>`(2, (R, 12))`</p>
             <p>`(5, (R, 7))`</p>
           </div>
         </div>
         <div class="col-sm">
-          <div class="math">
+          <div class="ln-center">
             <p>`(2, (S, 9))`</p>
             <p>`(5, (S, 11))`</p>
             <p>`(5, (S, 3))`</p>
@@ -3264,59 +3262,59 @@
         </div>
       </div>
       <p>And they are shuffled to get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`(2, {(R, 6),(R, 12),(S, 9)})`</p>
         <p>`(5, {(R, 7),(S, 11),(S, 3)})`</p>
         <p>`(9, {(S, 5)})`</p>
       </div>
       <p>Now these shuffled key-value pairs get sent to reducers and each reducer would do the following:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`(b, {(T,a_1),(T,a_2),...,(T',c_1),(T',c_2),...}) rarr (a,b,c)`</p>
         <p>where `a in {a_1,a_2,...}` and `c in {c_1,c_2,...}`</p>
       </div>
       <p>So after all the reducers are done, the result is:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`(6,2,9)`</p>
         <p>`(12,2,9)`</p>
         <p>`(7,5,11)`</p>
         <p>`(7,5,3)`</p>
       </div>
       <p>which is the result of performing an inner join on `R` and `S`.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>`text(tables) ubrace(rarr)_(text(map)) (b,(T,a_i)) ubrace(rarr)_(text(shuffle)) (b,{(T,a_1),(T,a_2),...(T',c_1),(T',c_2)}) ubrace(rarr)_(text(reduce)) (a_i,b,c_j)`</p>
       </div>
       <h5>A11.3.4) Matrix-Vector Multiplication</h5>
       <p>Suppose we had an `mxxn` matrix `M` and an `nxx1` vector `V` where `m=2,n=3`:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`M=[[2,3,6],[6,10,7]]`</p>
         <p>`V=[[5],[9],[2]]`</p>
       </div>
       <p>If we were to multiply `M` with `V`, the result would be an `nxx1` vector:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`[[49],[134]]`</p>
       </div>
       <p>If `M` is very large, then multiplying `M` with `V` can be very computationally intensive, so MapReduce can be used to parallelize the process. `M` is divided up among `n` mappers so that each mapper gets one column of `M`. Each mapper multiplies each element in the column with the corresponding element in `V` and produces the intermediate output:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`((i,j),a_(i,j)) rarr (i,a_(i,j)cdotv_j)`</p>
       </div>
       <p>So after all the mappers are done, the result is:</p>
       <div class="row">
         <div class="col-sm">
-          <div class="math">
+          <div class="ln-center">
             <p>Mapper 1:</p>
             <p>`(1, 2cdot5)`</p>
             <p>`(2, 6cdot5)`</p>
           </div>
         </div>
         <div class="col-sm">
-          <div class="math">
+          <div class="ln-center">
             <p>Mapper 2:</p>
             <p>`(1, 3cdot9)`</p>
             <p>`(2, 10cdot9)`</p>
           </div>
         </div>
         <div class="col-sm">
-          <div class="math">
+          <div class="ln-center">
             <p>Mapper 3:</p>
             <p>`(1, 6cdot2)`</p>
             <p>`(2, 7cdot2)`</p>
@@ -3324,41 +3322,41 @@
         </div>
       </div>
       <p>And they are shuffled to get:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`(1, {2cdot5,3cdot9,6cdot2})`</p>
         <p>`(2, {6cdot5,10cdot9,7cdot2})`</p>
       </div>
       <p>Now these shuffled key-value pairs get sent to `m` reducers and each reducer adds all the values together. So after all the reducers are done, the result is:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>Reducer 1: `(1, 49)`</p>
         <p>Reducer 2: `(2, 134)`</p>
       </div>
       <p>which is the result of multiplying `M` by `V`.</p>
-      <div class="box">
+      <div class="ln-box">
         <p>`text(rows of matrix) ubrace(rarr)_(text(map)) (i,a_(i,j)cdotv_j) ubrace(rarr)_(text(shuffle)) (i,{a_(1,1)cdotv_1,a_(1,2)cdotv_2,...}) ubrace(rarr)_(text(reduce)) (i,a_(1,1)cdotv_1+a_(1,2)cdotv_2+...)`</p>
       </div>
       <h4 id="agradientdescent">A11.4) Gradient Descent</h4>
       <p>Let's bring back the formula for gradient descent:</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`theta_j=theta_j-alpha1/msum_(i=1)^m(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
       <p>If we had a dataset with 100 million samples, then that means we need to perform a summation over 100 million samples for <em>each</em> iteration of gradient descent, which can take a long time. So we can make some modifications to gradient descent to make it faster.</p>
       <h5>A11.4.1) Stochastic Gradient Descent</h5>
       <p>Instead of waiting for the summation over 100 million samples to finish before taking a step towards the minimum, stochastic gradient descent takes a step after calculating the cost for each data sample.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`theta_j=theta_j-alpha(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
       <p>So it calculates the error for one data sample and takes a step. Then it moves on the next data sample and takes a step. And so on until all the data samples have been used.</p>
       <p>While regular gradient descent (aka batch gradient descent) takes a lot of time to make one good step, stochastic gradient descent takes little time to make one suboptimal step. And even though it's faster, it may never reach the minimum, but it can get close enough.</p>
       <h5>A11.4.2) Mini-Batch Gradient Descent</h5>
       <p>Batch gradient descent uses all the data samples to take a step and stochastic gradient descent uses only one data sample to take a step. Mini-batch gradient descent is something in between these two and uses `b` samples to take a step.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>`theta_j=theta_j-alpha1/bsum_(i=k)^(k+b-1)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
       </div>
       <h5>A11.4.3) MapReduce for Gradient Descent</h5>
       <p>Yep, MapReduce is back. If we really want to use all the data samples with no modifications to gradient descent, then we can use MapReduce.</p>
       <p>Let's say we had a dataset of 400,000 samples. We could distribute them among 4 mappers so that each mapper processes 100,000 samples when calculating the cost. Then a reducer would combine the results and add the costs together to get the overall cost.</p>
-      <div class="math">
+      <div class="ln-center">
         <p>Mapper 1: `text(temp)_j^((1))=sum_(i=1)^(100000)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
         <p>Mapper 2: `text(temp)_j^((2))=sum_(i=100001)^(200000)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
         <p>Mapper 3: `text(temp)_j^((3))=sum_(i=200001)^(300000)(h_theta(bb x^((i)))-y^((i)))cdotx_j^((i))`</p>
@@ -3367,23 +3365,6 @@
       </div>
     </div>
     <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
-    <script>
-      function showMenu() {
-        document.getElementById("dropDownMenu").classList.toggle("show");
-      }
-      window.onclick = function(event) {
-        if (!event.target.matches('.dropbtn')) {
-          var dropdowns = document.getElementsByClassName("dropdown-content");
-          var i;
-          for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-              openDropdown.classList.remove('show');
-            }
-          }
-        }
-      }
-    </script>
     <script>
       // ------------------ KNN ------------------
       Plotly.newPlot('knnweather', [{
@@ -5020,7 +5001,7 @@
       });
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   </body>
 </html>
