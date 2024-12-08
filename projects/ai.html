@@ -65,6 +65,8 @@
         <li><a class="dropdown-item" href="#syntaxandsemanticsoffirstorderlogic">Syntax and Semantics of First-Order Logic</a></li>
         <li><a class="dropdown-item" href="#usingfirstorderlogic">Using First-Order Logic</a></li>
         <li><a class="dropdown-item" href="#inferenceinfirstorderlogic">Propositional vs. First-Order Inference</a></li>
+        <li><a class="dropdown-item" href="#forwardchaining">Forward Chaining</a></li>
+        <li><a class="dropdown-item" href="#unification">Unification and First-Order Inference</a></li>
         <li><a class="dropdown-item" href="#resolution">Resolution</a></li>
       </ul>
     </div>
@@ -2472,10 +2474,11 @@
       </div>
       <h3>Reduction to propositional inference</h3>
       <p>Then we replace predicate symbols (that have no variables) with proposition symbols. So `text(King)(text(John))` becomes something like `text(JohnIsKing)`.</p>
-      <p>This whole process is called <b>propositionalization</b>.</p>
+      <p>This whole process is called <b>propositionalization</b>. After this is done, everything should be in propositional logic, so we can use the same techniques we used earlier to prove stuff.</p>
       <h2 id="forwardchaining">Forward Chaining</h2>
+      <p>If we have a knowledge base of definite clauses, we can also use forward chaining.</p>
       <h3>First-order definite clauses</h3>
-      <p>Like we saw before, a definite clause in first-order logic is a disjunction of literals where exactly one of the literals is positive (they can be in the form of an implication after conversion). Existential quantifiers are not allowed, but universal quantifiers are. So `text(King)(x) ^^ text(Greedy)(x) implies text(Evil)(x)` is a definite clause, where the `AA x` is implicit.</p>
+      <p>Like we saw before, a definite clause in first-order logic is a disjunction of literals where exactly one of the literals is positive (they can be in the form of an implication after conversion). In first-order logic, existential quantifiers are not allowed, but universal quantifiers are. So `text(King)(x) ^^ text(Greedy)(x) implies text(Evil)(x)` is a definite clause, where the `AA x` is implicit.</p>
       <p>Let's look at the following problem: The law says that it is a crime for an American to sell weapons to hostile nations. The country Nono, an enemy of America, has some missiles, and all of its missiles were sold to it by Colonel West, who is American. We can use forward chaining to prove that West is a criminal.</p>
       <p>First we populate the knowledge base with definite clauses. "... it is a crime for an American to sell weapons to hostile nations" becomes</p>
       <div class="ln-center">
@@ -2527,15 +2530,215 @@
         </li>
       </ul>
       <p>Now that we have shown the four premises are true, we can use forward chaining to get `text(Criminal)(text(West))`.</p>
+      <h2 id="unification">Unification and First-Order Inference</h2>
+      <h3>Unification</h3>
+      <p>Some sentences that are different can become identical with the right variable substitutions. This process of finding a valid substitution to make different sentences identical is <b>unification</b>.</p>
+      <ul>
+        <li>`text(Knows)(text(John),x)` and `text(Knows)(text(John),text(Jane))`
+          <ul>
+            <li>substitute `x` with `text(Jane)`</li>
+          </ul>
+        </li>
+        <li>`text(Knows)(text(John),x)` and `text(Knows)(y,text(Bill))`
+          <ul>
+            <li>substitute `x` with `text(Bill)` and `y` with `text(John)`</li>
+          </ul>
+        </li>
+        <li>`text(Knows)(text(John),x)` and `text(Knows)(y,text(Mother(y)))`
+          <ul>
+            <li>substitute `x` with `text(Mother)(text(John))` and `y` with `text(John)`</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="ln-box">
+        <p>The set of substitutions that should be made is called a <b>unifier</b>.</p>
+      </div>
       <h2 id="resolution">Resolution</h2>
       <h3>Conjunctive normal form for first-order logic</h3>
-      <p>Like we saw before, a sentence in <b>conjunctive normal form</b> (CNF) is a conjunction of clauses (recall that a clause is a disjunction of literals). The literals can contain variables, which are assumed to be universally quantified.</p>
+      <p>Like we saw before, a sentence in <b>conjunctive normal form</b> (CNF) is a conjunction of clauses (recall that a clause is a disjunction of literals). In first-order logic, the literals can contain variables, which are assumed to be universally quantified.</p>
       <p>The sentence `AA x,y,z` `text(American)(x) ^^ text(Weapon)(y) ^^ text(Sells)(x,y,z) ^^ text(Hostile)(z) implies text(Criminal)(x)` becomes</p>
       <div class="ln-center">
         <p>`not text(American)(x) vv not text(Weapon)(y) vv not text(Sells)(x,y,z) vv not text(Hostile)(z) vv text(Criminal)(x)`</p>
       </div>
-      <p>Every sentence of first-order logic can be converted into a CNF sentence.</p>
-      <p>Converting a sentence to CNF is similar to the propositional case; we just need to handle the quantifiers and the variables.</p>
+      <p>Every sentence of first-order logic can be converted into a CNF sentence. The conversion process is similar to the propositional case; we just need to handle the quantifiers and the variables.</p>
+      <p>Let's look at the steps to convert the sentence "Everyone who loves all animals is loved by someone".</p>
+      <div class="ln-center">
+        <p>`AA x` `[AA y` `text(Animal)(y) implies text(Loves)(x,y)] implies [EE y` `text(Loves)(y,x)]`</p>
+      </div>
+      <ul>
+        <li>Eliminate implications (replace `P implies Q` with `not P vv Q`)
+          <ul>
+            <li>`AA x` `not[AA y` `text(Animal)(y) implies text(Loves)(x,y)] vv [EE y` `text(Loves)(y,x)]`</li>
+            <li>`AA x` `not[AA y` `not text(Animal)(y) vv text(Loves)(x,y)] vv [EE y` `text(Loves)(y,x)]`</li>
+          </ul>
+        </li>
+        <li>Move `not` inwards (replace `not AA x` `p` with `EE x` `not p` and `not EE x` `p` with `AA x` `not p`)
+          <ul>
+            <li>`AA x` `[EE y` `not (not text(Animal)(y) vv text(Loves)(x,y))] vv [EE y` `text(Loves)(y,x)]`</li>
+            <li>`AA x` `[EE y` `not not text(Animal)(y) ^^ not text(Loves)(x,y)] vv [EE y` `text(Loves)(y,x)]`</li>
+            <li>`AA x` `[EE y` `text(Animal)(y) ^^ not text(Loves)(x,y)] vv [EE y` `text(Loves)(y,x)]`</li>
+          </ul>
+        </li>
+        <li>Standardize variables (replace variable names that are used multiple times but in different contexts)
+          <ul>
+            <li>`AA x` `[EE y` `text(Animal)(y) ^^ not text(Loves)(x,y)] vv [EE z` `text(Loves)(z,x)]`</li>
+          </ul>
+        </li>
+        <li><b>Skolemize</b>: remove existential quantifiers by replacing the variables with a constant symbol or a <b>Skolem function</b>
+          <ul>
+            <li>`AA x` `[text(Animal)(F(x)) ^^ not text(Loves)(x, F(x))] vv text(Loves)(G(x),x)`
+              <ul>
+                <li>`F` and `G` are Skolem functions whose values depend on the universally quantified variable `x`</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>Drop universal quantifiers
+          <ul>
+            <li>`[text(Animal)(F(x)) ^^ not text(Loves)(x,F(x))] vv text(Loves)(G(x),x)`</li>
+          </ul>
+        </li>
+        <li>Distribute `vv` over `^^`
+          <ul>
+            <li>`[text(Animal)(F(x)) vv text(Loves)(G(x),x)] ^^ [not text(Loves)(x,F(x)) vv text(Loves)(G(x),x)]`</li>
+          </ul>
+        </li>
+      </ul>
+      <h3>The resolution inference rule</h3>
+      <p>Two clauses can be resolved if they have complementary literals. In propositional logic, literals are complementary if one is the negation of the other. In first-order logic, literals are complementary if one unifies with the negation of the other.</p>
+      <p>For example, `[text(Animal)(F(x)) vv text(Loves)(G(x),x)]` and `[not text(Loves)(u,v) vv not text(Kills)(u,v)]` can be resolved to produce</p>
+      <div class="ln-center">
+        <p>`[text(Animal)(F(x)) vv not text(Kills)(G(x),x)]`</p>
+      </div>
+      <h3>Example proofs</h3>
+      <p>The resolution algorithm is the same in first-order logic: prove `KB |== alpha` by proving that `KB ^^ not alpha` is unsatisfiable (by deriving the empty clause).</p>
+      <h4>West is not in Paris</h4>
+      <p>First, we'll look at how resolution is used to prove West is a criminal. These are the sentences in the knowledge base converted into CNF:</p>
+      <div class="ln-center">
+        <p>`not text(American)(x) vv not text(Weapon)(y) vv not text(Sells)(x,y,z) vv not text(Hostile)(z) vv text(Criminal)(x)`</p>
+        <p>`not text(Missle)(x) vv not text(Owns)(text(Nono), x) vv text(Sells)(text(West),x,text(Nono))`</p>
+        <p>`not text(Enemy)(x, text(America)) vv text(Hostile)(x)`</p>
+        <p>`not text(Missle)(x) vv text(Weapon)(x)`</p>
+        <p>`text(Owns)(text(Nono),M_1)`</p>
+        <p>`text(American)(text(West))`</p>
+        <p>`text(Missle)(M_1)`</p>
+        <p>`text(Enemy)(text(Nono),text(America))`</p>
+      </div>
+      <p>And we'll also assume `not text(Criminal)(text(West))` for the sake of contradiction.</p>
+      <p>With the substitution `{x=text(West)}`, `not text(Criminal)(text(West))` unifies with `not text(American)(x) vv not text(Weapon)(y) vv not text(Sells)(x,y,z) vv not text(Hostile)(z) vv text(Criminal)(x)` to produce</p>
+      <div class="ln-center">
+        <p>`not text(American)(text(West)) vv not text(Weapon)(y) vv not text(Sells)(text(West),y,z) vv not text(Hostile)(z)`</p>
+      </div>
+      <p>`text(American)(text(West))` unifies with `not text(American)(text(West)) vv not text(Weapon)(y) vv not text(Sells)(text(West),y,z) vv not text(Hostile)(z)` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Weapon)(y) vv not text(Sells)(text(West),y,z) vv not text(Hostile)(z)`</p>
+      </div>
+      <p>With the substitution `{x=y}`, `not text(Missle)(x) vv text(Weapon)(x)` unifies with `not text(Weapon)(y) vv not text(Sells)(text(West),y,z) vv not text(Hostile)(z)` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Missle)(y) vv not text(Sells)(text(West),y,z) vv not text(Hostile)(z)`</p>
+      </div>
+      <p>With the substitution `{y=M_1}`, `text(Missle)(M_1)` unifies with `not text(Missle)(y) vv not text(Sells)(text(West),M_1,z) vv not text(Hostile)(z)` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Sells)(text(West),M_1,z) vv not text(Hostile)(z)`</p>
+      </div>
+      <p>With the substitution `{x=M_1,z=text(Nono)}`, `not text(Missle)(x) vv not text(Owns)(text(Nono), x) vv text(Sells)(text(West),x,text(Nono))` unifies with `not text(Sells)(text(West),M_1,z) vv not text(Hostile)(z)` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Missle)(M_1) vv not text(Owns)(text(Nono), M_1) vv not text(Hostile)(text(Nono))`</p>
+      </div>
+      <p>`text(Missle)(M_1)` unifies with `not text(Missle)(M_1) vv not text(Owns)(text(Nono), M_1) vv not text(Hostile)(text(Nono))` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Owns)(text(Nono), M_1) vv not text(Hostile)(text(Nono))`</p>
+      </div>
+      <p>`text(Owns)(text(Nono),M_1)` unifies with `not text(Owns)(text(Nono), M_1) vv not text(Hostile)(text(Nono))` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Hostile)(text(Nono))`</p>
+      </div>
+      <p>With the substitution `{x=text(Nono)}`, `not text(Enemy)(x, text(America)) vv text(Hostile)(x)` unifies with `not text(Hostile)(text(Nono))` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Enemy)(text(Nono), text(America))`</p>
+      </div>
+      <p>And finally, `text(Enemy)(text(Nono),text(America))` unifies with `not text(Enemy)(text(Nono), text(America))` to produce the empty clause, proving that there is a contradiction.</p>
+      <h4>Curiosity killed the cat</h4>
+      <p>Next, we'll look at another problem with Skolemization.</p>
+      <div class="ln-center">
+        <p>Everyone who loves all animals is loved by someone.</p>
+        <p>`AA x` `[AA y` `text(Animal)(y) implies text(Loves)(x,y)] implies [EE y` `text(Loves)(y,x)]`</p>
+      </div>
+      <div class="ln-center">
+        <p>Anyone who kills an animal is loved by no one.</p>
+        <p>`AA x` `[EE z` `text(Animal)(z) ^^ text(Kills)(x,z)] implies [AA y` `not text(Loves)(y,x)]`</p>
+      </div>
+      <div class="ln-center">
+        <p>Jack loves all animals.</p>
+        <p>`AA x` `text(Animal)(x) implies text(Loves)(text(Jack),x)`</p>
+      </div>
+      <div class="ln-center">
+        <p>Either Jack or Curiosity killed the cat, who is named Tuna.</p>
+        <p>`text(Kills)(text(Jack),text(Tuna)) vv text(Kills)(text(Curiosity),text(Tuna))`</p>
+        <p>`text(Cat)(text(Tuna))`</p>
+        <p>`AA x` `text(Cat)(x) implies text(Animal)(x)`</p>
+      </div>
+      <p>Did Curiosity kill the cat? We're pretty sure they did, so we'll prove it by assuming the contrary (they didn't kill the cat) and arrive at a contradiction.</p>
+      <div class="ln-center">
+        <p>`not text(Kills)(text(Curiosity),text(Tuna))`</p>
+      </div>
+      <p>All those sentences converted into CNF are:</p>
+      <div class="ln-center">
+        <p>`text(Animal)(F(x)) vv text(Loves)(G(x),x)`</p>
+        <p>`not text(Loves)(x,F(x)) vv text(Loves)(G(x),x)`</p>
+        <p>`not text(Loves)(y,x) vv not text(Animal)(z) vv not text(Kills)(x,z)`</p>
+        <p>`not text(Animal)(x) vv text(Loves)(text(Jack),x)`</p>
+        <p>`text(Kills)(text(Jack),text(Tuna)) vv text(Kills)(text(Curiosity),text(Tuna))`</p>
+        <p>`text(Cat)(text(Tuna))`</p>
+        <p>`not text(Cat)(x) vv text(Animal)(x)`</p>
+        <p>`not text(Kills)(text(Curiosity), text(Tuna))`</p>
+      </div>
+      <p>With the substitution `{x=text(Cat)}`, `text(Cat)(text(Tuna))` unifies with `not text(Cat)(x) vv text(Animal)(x)` to produce</p>
+      <div class="ln-center">
+        <p>`text(Animal)(text(Tuna))`</p>
+      </div>
+      <p>`text(Kills)(text(Jack),text(Tuna)) vv text(Kills)(text(Curiosity),text(Tuna))` unifies with `not text(Kills)(text(Curiosity), text(Tuna))` to produce</p>
+      <div class="ln-center">
+        <p>`text(Kills)(text(Jack),text(Tuna))`</p>
+      </div>
+      <p>With the substitution `{z=text(Tuna)}`, `text(Animal)(text(Tuna))` unifies with `not text(Loves)(y,x) vv not text(Animal)(z) vv not text(Kills)(x,z)` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Loves)(y,x) vv not text(Kills)(x,text(Tuna))`</p>
+      </div>
+      <p>With the substitution `{x=text(Jack),y=F(text(Jack))}` (and standardizing the variables so that `x` gets renamed to `y` in the second clause), `not text(Loves)(x,F(x)) vv text(Loves)(G(x),x)` unifies with `not text(Animal)(x) vv text(Loves)(text(Jack),x)` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Animal)(F(text(Jack))) vv text(Loves)(G(text(Jack)),text(Jack))`</p>
+      </div>
+      <p>With the substitution `{x=text(Jack)}`, `not text(Loves)(y,x) vv not text(Kills)(x,text(Tuna))` unifies with `text(Kills)(text(Jack),text(Tuna))` to produce</p>
+      <div class="ln-center">
+        <p>`not text(Loves)(y,text(Jack))`</p>
+      </div>
+      <p>With the substitution `{x=text(Jack)}`, `not text(Animal)(F(text(Jack))) vv text(Loves)(G(text(Jack)),text(Jack))` unifies with `text(Animal)(F(x)) vv text(Loves)(G(x),x)` to produce</p>
+      <div class="ln-center">
+        <p>`text(Loves)(G(text(Jack)),text(Jack))`</p>
+      </div>
+      <p>And finally, with the substitution `{y=G(text(Jack))}`, `not text(Loves)(y,text(Jack))` unifies with `text(Loves)(G(text(Jack)),text(Jack))` to produce the empty clause, proving that there is a contradiction.</p>
+      <div class="ln-box">
+        <p>Suppose Curiosity did not kill Tuna. We know that either Jack or Curiosity did; thus Jack must have. Now, Tuna is a cat and cats are animals, so Tuna is an animal. Because anyone who kills an animal is loved by no one, we know that no one loves Jack. On the other hand, Jack loves all animals, so someone loves him; so we have a contradiction. Therefore, Curiosity killed the cat.</p>
+      </div>
+      <div class="ln-box">
+        <p>Instead of asking a specific question like "Did Curiosity kill the cat?", we usually want to answer more general questions, like "Who killed the cat?" In this case, the goal becomes `EE w` `text(Kills)(w,text(Tuna))`, which is `not text(Kills)(w,text(Tuna))` when negated. In the proof, we would eventually make the substiution `{w=text(Curiosity)}`.</p>
+      </div>
+      <div class="ln-box">
+        <h3>Summary of Chapter 9</h3>
+        <ul>
+          <li>A first approach uses inference rules (<b>universal instantiation</b> and <b>existential instantiation</b>) to <b>propositionalize</b> the inference problem. Typically, this approach is slow, unless the domain is small.</li>
+          <li>The use of <b>unification</b> to identify appropriate substitutions for variables eliminates the instantiation step in first-order proofs, making the process more efficient in many cases.</li>
+          <li>A lifted version of <b>Modus Ponens</b> uses unification to provide a natural and powerful inference rule, <b>generalized Modus Ponens</b>. The <b>forward-chaining</b> and <b>backward-chaining</b> algorithms apply this rule to sets of definite clauses.</li>
+          <li>Generalized Modus Ponens is complete for definite clauses, although the entailment problem is <b>semidecidable</b>. For <b>Datalog</b> knowledge bases consisting of function-free definite clauses, entailment is decidable.</li>
+          <li>Forward chaining is used in <b>deductive databases</b>, where it can be combined with relational database operations. It is also used in <b>production systems</b>, which perform efficient updates with very large rule sets. Forward chaining is complete for Datalog and runs in polynomial time.</li>
+          <li>Backward chaining is used in <b>logic programming systems</b>, which employ sophisticated compiler technology to provide very fast inference. Backward chaining suffers from redundant inferences and infinite loops; these can be alleviated by <b>memoization</b>.</li>
+          <li><b>Prolog</b>, unlike first-order logic, uses a closed world with the unique names assumption and negation as failure. These make Prolog a more practical programming language, but bring it further from pure logic.</li>
+          <li>The generalized <b>resolution</b> inference rule provides a complete proof system for first-order logic, using knowledge bases in conjunctive normal form.</li>
+          <li>Several strategies exist for reducing the search space of a resolution system without compromising completeness. One of the most important issues is dealing with equality; we showed how <b>demodulation</b> and <b>paramodulation</b> can be used.</li>
+          <li>Efficient resolution-based theorem provers have been used to prove interesting mathemetical theorems and to verify and synthesize software and hardware.</li>
+        </ul>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
