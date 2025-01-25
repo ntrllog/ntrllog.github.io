@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+                          _   _
+     _  _    _     _  _  | | | |   __     ____
+    | |/ \  | |_  | |/_| | | | |  /  \   /    \
+    | |   | |  _| |  /   | | | | | || | |  ||  |
+    | |   | | |_  | |    | | | | | || | |  ||  |
+    |_|   | |___| |_|    |_| |_|  \__/   \____/|
+                                               |
+                                          ____/
+    -->
+    <title>ntrllog | Advanced Artificial Intelligence</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
+    <link href="../css/content.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="dropdown ln-fixed-right">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#whatisit">What's the Problem?</a></li>
+      </ul>
+    </div>
+    <div class="container ln-line-height">
+      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+      <h1>Advanced Artificial Intelligence</h1>
+      <hr>
+      <p>Shortcut to this page: <a href="ai2.html">ntrllog.netlify.app/ai2</a></p>
+      <p>Notes provided by Professor Armando Beltran (CSULA)</p>
+      <p>This is an extension of the <a href="ai.html" target="_blank">artificial intelligence</a> and <a href="ml.html" target="_blank">machine learning</a> resources. Well, we’ll see where this goes — I’m writing this as the class goes.</p>
+      <h2 id="whatisit">What's the Problem?</h2>
+      <p>As computer scientists, we aim to develop and use AI to solve problems optimally. But before we look at how AI works, we should start with understanding what types of problems exist and how to define them.</p>
+      <h3>Black Box Model</h3>
+      <p>Some problems can be reduced to a "black box" model. The "black box" model has `3` components: an input, a model (algorithm or function), and an output. If one of the three components is unknown, then that is a problem we can define and solve.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai2/black_box_model.png">
+      </div>
+      <h4>Optimization</h4>
+      <p>If the input is unknown, then we have an optimization problem. As the name implies, optimization problems seek to maximize or minimize a result.</p>
+      <p>For example, we’re traveling and we want to visit a bunch of destinations while minimizing time traveled, i.e., we want an efficient route so that we don’t waste time. The model is a function that calculates the time it takes to go from one destination to another. The output is a number representing the total time traveled (we want to minimize this). The input — which is what we want to solve for — is a route.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai2/optimization_1.png">
+      </div>
+      <p>Another example is the `8`-queens problem. We want to place `8` queens such that no queens are attacking each other. The model is a function that calculates how many queens are attacking each other. The output is the number of queens attacking each other (we want to maximize this). The input — which is what we want to solve for — is a configuration of `8` queens.</p>
+      <h4>Modeling</h4>
+      <p>If the model is unknown, then we have a modeling problem. In these types of problems, we have the inputs and outputs, and we want to know what type of model fits the data.</p>
+      <p>Let’s say we have these inputs and outputs:</p>
+      <div class="ln-center">
+        <table class="table">
+          <tr>
+            <th>x</th>
+            <th>y</th>
+          </tr>
+          <tr>
+            <td>`1`</td>
+            <td>`2`</td>
+          </tr>
+          <tr>
+            <td>`2`</td>
+            <td>`4`</td>
+          </tr>
+          <tr>
+            <td>`3`</td>
+            <td>`6`</td>
+          </tr>
+          <tr>
+            <td>`4`</td>
+            <td>`8`</td>
+          </tr>
+          <tr>
+            <td>`5`</td>
+            <td>`10`</td>
+          </tr>
+        </table>
+      </div>
+      <p>In this case, we can figure out that the model is the function `y = 2x`.</p>
+      <p>A real-world example is voice recognition. We have the inputs (a set of spoken text) and the outputs (a set of written text), and we want to build a model that can match the spoken text to the written text.</p>
+      <div class="ln-box">
+        <p>Modeling problems can be transformed into optimization problems by picking a model that works and then optimizing that model.</p>
+      </div>
+      <h4>Simulation</h4>
+      <p>If the output is unknown, then we have a simulation problem. These types of problems are like exploring "what if" scenarios.</p>
+      <p>For example, predicting the weather is a simulation problem. The inputs are data points for things like humidity and temperature. The model is a function that takes in those data points and returns a weather. "What if it is humid and hot?"</p>
+      <h3>The Search for Answers</h3>
+      <p>Honestly, simulation problems don’t really sound like "problems" at all. All we need to do is run the model on the inputs and get our answer.</p>
+      <p>On the other hand, for optimization and modeling problems, we have to search for something. For optimization problems, we have to <em>find</em> the input that gives us the desired output. For modeling problems, we have to <em>find</em> the model that gives us the desired output for the given inputs.</p>
+      <p>Formally, there is a search space, which is a set of objects of interest, including the desired solution. It can typically be represented as a search tree.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai2/search_space.png">
+      </div>
+      <p>For the time-efficient traveling problem, the search space is a bunch of possible routes and we have to find one that is the most time-efficient. For the voice-recognition problem, the search space is a bunch of models and we have to find one that is the most accurate.</p>
+      <p>Typically, the search space for any problem will be very large, so we need an efficient way to explore the search space for the desired solution. A problem solver does this for us. A good problem solver goes through the search space and finds the optimal path through the search tree to the desired solution.</p>
+      <h3>NP Problems</h3>
+      <p>Some problems are inherently hard for computers to solve. This could be because it takes a really long time and/or a lot of memory is needed to find the solution. The difficulty of a problem can be classified into four categories:</p>
+      <ul>
+        <li>Class P: problems that can be solved in polynomial time</li>
+        <li>Class NP: problems that can be verified in polynomial time
+          <ul>
+            <li>the "N" stands for "nondeterministic"</li>
+          </ul>
+        </li>
+        <li>Class NP-complete: a problem `p` is NP-complete if every other NP problem can be transformed/reduced to `p`
+          <ul>
+            <li>if it turns out that an NP-complete problem can be solved in polynomial time, then all NP problems can be solved in polynomial time</li>
+          </ul>
+        </li>
+        <li>Class NP-hard: problems that are at least as hard as NP-complete problems, but the solution may not be verfiable in polynomial time</li>
+      </ul>
+      <div class="ln-box">
+        <p>These classifications (except for NP-hard) apply to decision problems: problems that have a "yes" or "no" answer. For example, "Is `A rarr B rarr C rarr D` the optimal route?"</p>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
