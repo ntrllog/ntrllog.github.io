@@ -31,6 +31,8 @@
       <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#whatisit">What's the Problem?</a></li>
+        <li><a class="dropdown-item" href="#nqueens">The `N`-Queens Problem</a></li>
+        <li><a class="dropdown-item" href="#evolutionarycomputing">Evolutionary Computing</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -54,6 +56,9 @@
         <img class="img-fluid ln-image-small" src="../pictures/ai2/optimization_1.png">
       </div>
       <p>Another example is the `8`-queens problem. We want to place `8` queens such that no queens are attacking each other. The model is a function that calculates how many queens are attacking each other. The output is the number of queens attacking each other (we want to maximize this). The input — which is what we want to solve for — is a configuration of `8` queens.</p>
+      <h5>Objective Function</h5>
+      <p>As mentioned earlier, optimization problems aim to maximize or minimize a result. That result is calculated by a function, namely an objective function. An objective function is a math expression that quantifies the quality of a potential solution to an optimization problem.</p>
+      <p>In other words, an objective function assigns a numerical value to an input, and that numerical value is a measure of how good that input is as a solution to the problem.</p>
       <h4>Modeling</h4>
       <p>If the model is unknown, then we have a modeling problem. In these types of problems, we have the inputs and outputs, and we want to know what type of model fits the data.</p>
       <p>Let’s say we have these inputs and outputs:</p>
@@ -120,6 +125,142 @@
       </ul>
       <div class="ln-box">
         <p>These classifications (except for NP-hard) apply to decision problems: problems that have a "yes" or "no" answer. For example, "Is `A rarr B rarr C rarr D` the optimal route?"</p>
+      </div>
+      <h2 id="nqueens">The `N`-Queens Problem</h2>
+      <p>The `n`-queens problem is an optimization problem that involves placing `n` queens on a chessboard such that none of the queens are attacking each other. For example, for `n=4`:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/ai2/4_queens.png">
+      </div>
+      <p>To formalize things, we can frame the problem statement as, "Given `n` queens, find a configuration for the queens on an `n xx n` chessboard that maximizes the number of pairs of non-attacking queens."</p>
+      <p>If we label the top-left corner as row `1`, column `1`, then we can represent a board configuration using coordinates. So for the example above, we have</p>
+      <div class="ln-center">
+        <p>`Q = {(2,1), (4,2), (1,3), (3,4)}`</p>
+      </div>
+      <p>The objective function `f` can be represented as</p>
+      <div class="ln-center">
+        <p>`max_Q f(Q) = (n(n-1))/2-A(Q)`</p>
+      </div>
+      <p>where `A(Q)` is the number of pairs of attacking queens for a board configuration `Q`.</p>
+      <div class="ln-box">
+        <p>`A(Q)` is the number of <em>pairs</em> of attacking queens (as opposed to the number of queens being attacked). In this example, there are `4` pairs of attacking queens.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-smaller" src="../pictures/ai2/4_queens_2.png">
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>`(n(n-1))/2` is the number of total possible pairs of queens. If we subtract the number of pairs of attacking queens from that expression, we get the number of pairs of non-attacking queens (which is what we're trying to maximize).</p>
+      </div>
+      <h3>Free Optimization Approach</h3>
+      <p>Now that we have formally defined the problem, we can start to look at how hard this problem is to solve. For optimization problems, the difficulty depends on the size of the search space. The more inputs there are to search through, the harder the problem is.</p>
+      <p>So how many possible board configurations are there? We'll first consider the `n=4` case.</p>
+      <p>For the first queen, there are `16` spaces for where it can be placed. For the second queen, there are `15` spaces. For the third queen, there are `14` spaces. For the last queen, there are `13` spaces. So there are a total of `16*15*14*13=43,680` possible board configurations.</p>
+      <div class="ln-box">
+        <p>In general, there are</p>
+        <div class="ln-center">
+          <p>`(n^2!)/((n^2-n)!)`</p>
+        </div>
+        <p>possible board configurations.</p>
+      </div>
+      <p>For a standard `8xx8` chessboard, there are `1.78 xx 10^(14)` possible board configurations. Yeah, that's a lot to search through.</p>
+      <h3>Constrained Optimization Approach: Row Constraint</h3>
+      <p>Is it possible to make the search space smaller? Well, notice that if more than `1` queen is on the same row, then they're automatically attacking each other.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/ai2/4_queens_3.png">
+      </div>
+      <p>So any board configurations where there is more than `1` queen in the same row can be removed from the search space. We can achieve this by reframing the problem statement as, "Given `n` queens, find a configuration for the queens on an `n xx n` chessboard such that <strong>every row contains exactly one queen</strong> while maximizing the number of pairs of non-attacking queens." We're introducing a constraint on the original problem.</p>
+      <p>Also, instead of using coordinates to represent a board configuration, we can use a vector representation.</p>
+      <div class="ln-box">
+        <div class="ln-center">
+          <p>`Q = [Q_1, Q_2, ..., Q_n]^T`</p>
+        </div>
+        <p>where index `i` represents the row number and `Q_i` is the column number.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/ai2/4_queens.png">
+        <p>`Q = [3, 1, 4, 2]^T`</p>
+      </div>
+      <p>By using a vector, we force all possible board configurations to have exactly `1` queen in every row.</p>
+      <p>Let's see how much the search space has been reduced by with this new constraint. Again, we'll first consider the `n=4` case.</p>
+      <p>The first queen can only be placed in the first row, and in the first row, there are only `4` spaces for it. The second queen can only be placed in the second row, and in the second row, there are only `4` spaces for it. The third queen can only be placed in the third row, and in the third row, there are only `4` spaces for it. The last queen can only be placed in the fourth row, and in the fourth row, there are only `4` spaces for it. So there are a total of `4*4*4*4=256` possible board configurations.</p>
+      <div class="ln-box">
+        <p>In general, there are</p>
+        <div class="ln-center">
+          <p>`n^n`</p>
+        </div>
+        <p>possible board configurations.</p>
+      </div>
+      <p>So we went from `43,680` to `256`, which is pretty good. For the `n=8` case, there are `16,777,216` possible board configurations, which is much less than `1.78 xx 10^(14)`, but still a lot.</p>
+      <h3>Constrained Optimization Approach: Row and Column Constraint</h3>
+      <p>We can apply the same row-constraint reasoning to the columns as well: if there is more than `1` queen on the same column, then they're automatically attacking each other.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/ai2/4_queens_4.png">
+      </div>
+      <p>So any board configurations where there is more than `1` queen in the same row and column can be removed from the search space. We can achieve this by introducing another constraint: "Given `n` queens, find a configuration for the queens on an `n xx n` chessboard such that <strong>every row and column contains exactly one queen</strong> while maximizing the number of pairs of non-attacking queens."</p>
+      <div class="ln-box">
+        <p>Mathematically, for all `1 le i,j le n`, `Q_i != Q_j` and `i != j`.</p>
+      </div>
+      <p>Let's see how much the search space has been reduced by with this new constraint. Again, we'll first consider the `n=4` case.</p>
+      <p>The first queen can only be placed in the first row, and in the first row, there are only `4` spaces for it. The second queen can only be placed in the second row, and in the second row, there are only `3` spaces for it. The third queen can only be placed in the third row, and in the third row, there are only `2` spaces for it. The last queen can only be placed in the fourth row, and in the fourth row, there is only `1` space for it. So there are a total of `4*3*2*1=24` possible board configurations.</p>
+      <div class="ln-box">
+        <p>In general, there are</p>
+        <div class="ln-center">
+          <p>`n!`</p>
+        </div>
+        <p>possible board configurations.</p>
+      </div>
+      <p>For the `n=8` case, there are now only `4032` board configurations in the search space.</p>
+      <div class="ln-box">
+        <p>Introducing constraints on the problem made the `n`-queens problem much easier to solve. However, even with the constraints, it is still a hard problem to solve, especially when `n` gets larger. Here's a table with the size of the search space for each version of the problem.</p>
+        <div class="ln-center">
+          <table class="table">
+            <tr>
+              <th>`n`</th>
+              <th>free optimization</th>
+              <th>`1` queen per row</th>
+              <th>`1` queen per row and column</th>
+            </tr>
+            <tr>
+              <td>`4`</td>
+              <td>`43680`</td>
+              <td>`256`</td>
+              <td>`24`</td>
+            </tr>
+            <tr>
+              <td>`8`</td>
+              <td>`1.78643 xx 10^14`</td>
+              <td>`16777216`</td>
+              <td>`40320`</td>
+            </tr>
+            <tr>
+              <td>`16`</td>
+              <td>`2.10876 xx 10^38`</td>
+              <td>`1.84467 xx 10^19`</td>
+              <td>`2.09228 xx 10^13`</td>
+            </tr>
+            <tr>
+              <td>`32`</td>
+              <td>`1.30932 xx 10^96`</td>
+              <td>`1.4615 xx 10^48`</td>
+              <td>`2.63131 xx 10^35`</td>
+            </tr>
+            <tr>
+              <td>`64`</td>
+              <td>`9.4661 xx 10^230`</td>
+              <td>`3.9402 xx 10^115`</td>
+              <td>`1.26887 xx 10^89`</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>So why are we even looking at the `n`-queens problem in the first place? It looks like a trivial puzzle.</p>
+        <p>Well, it turns out that the `n`-queens problem has practical applications in things like task scheduling and computer resource management.</p>
+      </div>
+      <h2 id="evolutionarycomputing">Evolutionary Computing</h2>
+      <p>Going through each possible board configuration to find a valid one is not practical. It would be better to programmatically generate solutions.</p>
+      <p>One way of doing this is through evolutionary computing. Evolutionary computing is a research area within computer science that draws inspiration from evolution and natural selection.</p>
+      <div class="ln-box">
+        <p>Nature is apparently a good source of inspiration. The best problem solver known in nature is the human brain (basis of neurocomputing) and the evolutionary mechanism that created the human brain (basis of evolutionary computing).</p>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
