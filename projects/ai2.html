@@ -57,7 +57,7 @@
       </div>
       <p>Another example is the `8`-queens problem. We want to place `8` queens such that no queens are attacking each other. The model is a function that calculates how many queens are attacking each other. The output is the number of queens attacking each other (we want to maximize this). The input — which is what we want to solve for — is a configuration of `8` queens.</p>
       <h5>Objective Function</h5>
-      <p>As mentioned earlier, optimization problems aim to maximize or minimize a result. That result is calculated by a function, namely an objective function. An objective function is a math expression that quantifies the quality of a potential solution to an optimization problem.</p>
+      <p>As mentioned earlier, optimization problems aim to maximize or minimize a result. That result is calculated by a function, namely an objective function. An objective function is a math expression that quantifies the quality of a potential solution to an optimization problem. (The quality of a solution is how well it solves the problem.)</p>
       <p>In other words, an objective function assigns a numerical value to an input, and that numerical value is a measure of how good that input is as a solution to the problem.</p>
       <h4>Modeling</h4>
       <p>If the model is unknown, then we have a modeling problem. In these types of problems, we have the inputs and outputs, and we want to know what type of model fits the data.</p>
@@ -262,6 +262,230 @@
       <div class="ln-box">
         <p>Nature is apparently a good source of inspiration. The best problem solver known in nature is the human brain (basis of neurocomputing) and the evolutionary mechanism that created the human brain (basis of evolutionary computing).</p>
       </div>
+      <p>The metaphor here is that the problem is like the environment; a candidate solution is like an individual; and the quality of the candidate solution is like the individual's "fitness" level.</p>
+      <p>The population consists of candidate solutions and the best ones are selected for "reproduction". This produces new solutions (containing the traits from both of the parents), and those new solutions are modified slightly to maintain diversity. And this process repeats.</p>
+      <div class="ln-center">
+        <img class="img-fluid" src="../pictures/ai2/evolutionary_algorithm.png">
+        <p>(image borrowed from my professor)</p>
+      </div>
+      <div class="ln-box">
+        <p>The population is initialized by selecting a random subset of the search space.</p>
+      </div>
+      <p>There are two inherent, competing forces in evolutionary algorithms. The process of recombination (reproduction) and mutation promotes diversity and represents a push towards novelty. The process of selecting the fittest parents or survivors decreases diversity and represents a push towards quality. By going back and forth between these two forces, evolutionary algorithms balance exploration and exploitation to find optimal results.</p>
+      <h3>Evolutionary Algorithm Components: Representation</h3>
+      <p>Recall that earlier we were representing board configurations using coordinates and vectors (permutation encoding). In biological terms, what we were doing was mapping phenotypes (real-world solutions) to genotypes (encoded solutions).</p>
+      <div class="ln-box">
+        <p>A phenotype is the set of observable characteristics of an organism. A genotype is the complete set of genetic material of an organism.</p>
+      </div>
+      <h3>Evolutionary Algorithm Components: Evaluation (Fitness) Function</h3>
+      <p>Once we have encoded representations of the inputs, we can programmatically assess their quality. This is where the objective function we saw earlier comes in. </p>
+      <div class="ln-box">
+        <p>In the phenotype space, the function is called an objective function. In the genotype space, the function is called a fitness function.</p>
+      </div>
+      <p>The fitness function assigns a numerical value (referred to as fitness value) to each phenotype so that the algorithm can know which ones to select for recombination. Typically, the "fittest" individuals have high fitness values, so we seek to maximize fitness.</p>
+      <div class="ln-box">
+        <h3>Evolutionary Algorithm Components: Population</h3>
+        <p>Formally, a population is a multiset of candidate solutions. This means that repeated elements are allowed to exist in the population.</p>
+        <p>A population is considered to be the basic unit of evolution. So a population evolves, not single individuals.</p>
+        <p>Diversity of a population can refer to either fitness diversity or phenotype/genotype diversity.</p>
+      </div>
+      <h3>Evolutionary Algorithm Components: Selection Mechanism</h3>
+      <p>The selection mechanism compares the fitness values of the solutions to decide which ones become parents.</p>
+      <p>Even though the general goal is to push the population towards higher fitness, the selection mechanism is usually probabilistic. Higher-quality solutions are more likely to be selected, but sub-optimal (or even the worst) solutions can still be picked.</p>
+      <div class="ln-box">
+        <p>Even though it might seem like it makes the most sense to just pick the solutions with the highest fitness values, it's sometimes necessary to not do that. Evolutionary algorithms can get stuck in a local maximum, and the only way to get out would be to pick sub-optimal solutions. Biologically, this is referred to as "genetic drift".</p>
+      </div>
+      <p>An example of a selection mechanism is a roulette wheel. Suppose we have three solutions `A, B, C`. `A` has a fitness of `3`; `B` has a fitness of `1`; `C` has a fitness of `2`. We can put them on a roulette wheel like so:</p>
+      <p>This way, `A`, which has the highest fitness value, has the highest chance of being selected.</p>
+      <p>The selection mechanism is also responsible for replacing the elements in the population with survivors.</p>
+      <p>While parent selection is usually probabilistic, survivor selection is usually deterministic. The process can be fitness based (compare the fitness values of the parents + offspring) or age based (replace as many parents as possible with offspring).</p>
+      <h3>Evolutionary Algorithm Components: Recombination</h3>
+      <p>Once the parents are selected, the offspring need to be produced. Recombination is the process of merging information from the parents into the offspring. The choice of what information to merge is random, so it's possible that the offspring can be worse or the same as the parents.</p>
+      <h3>Evolutionary Algorithm Components: Termination</h3>
+      <p>The algorithm has to stop eventually. There are several conditions we can use to determine when to stop:</p>
+      <ul>
+        <li>reaching some desired level of fitness</li>
+        <li>reaching the maximum allowed number of generations</li>
+        <li>reaching some level of diversity</li>
+        <li>reaching some number of generations without fitness improvement</li>
+      </ul>
+      <h3>`8`-Queens Problem</h3>
+      <p>Now we'll look at each evolutionary algorithm component for the `8`-queens problem.</p>
+      <h4>Representation</h4>
+      <p>The phenotype is a board configuration and the genotype is a vector containing a permutation of the numbers from `1` through `8`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/ai2/8_queens.png">
+        <p>`Q = [1, 4, 2, 6, 3, 5, 7, 8]^T`</p>
+      </div>
+      <h4>Fitness Evaluation</h4>
+      <p>The fitness function is</p>
+      <div class="ln-center">
+        <p>`f(Q) = (n(n-1))/2-A(Q)`</p>
+      </div>
+      <p>For the example board configuration above:</p>
+      <div class="ln-center">
+        <p>`f(Q) = (8(7))/2-4 = 24`</p>
+      </div>
+      <h4>Selection</h4>
+      <p>We'll pick `5` parents at random and select the best `2` to undergo crossover. Let's arbitrarily say the best `2` are</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td class="ln-white ln-bg-black">`1`</td>
+          <td class="ln-white ln-bg-black">`3`</td>
+          <td class="ln-white ln-bg-black">`5`</td>
+          <td class="ln-white ln-bg-black">`2`</td>
+          <td class="ln-white ln-bg-black">`6`</td>
+          <td class="ln-white ln-bg-black">`4`</td>
+          <td class="ln-white ln-bg-black">`7`</td>
+          <td class="ln-white ln-bg-black">`8`</td>
+        </tr>
+      </table>
+      <p>and</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td>`8`</td>
+          <td>`7`</td>
+          <td>`6`</td>
+          <td>`5`</td>
+          <td>`4`</td>
+          <td>`3`</td>
+          <td>`2`</td>
+          <td>`1`</td>
+        </tr>
+      </table>
+      <h4>Recombination</h4>
+      <p>We'll combine the parents' information into the new offspring by picking a random crossover point and splitting/combining at that point.</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td class="ln-white ln-bg-black">`1`</td>
+          <td class="ln-white ln-bg-black">`3`</td>
+          <td class="ln-white ln-bg-black ln-pink-right-border">`5`</td>
+          <td class="ln-white ln-bg-black">`2`</td>
+          <td class="ln-white ln-bg-black">`6`</td>
+          <td class="ln-white ln-bg-black">`4`</td>
+          <td class="ln-white ln-bg-black">`7`</td>
+          <td class="ln-white ln-bg-black">`8`</td>
+        </tr>
+      </table>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td>`8`</td>
+          <td>`7`</td>
+          <td class="ln-pink-right-border">`6`</td>
+          <td>`5`</td>
+          <td>`4`</td>
+          <td>`3`</td>
+          <td>`2`</td>
+          <td>`1`</td>
+        </tr>
+      </table>
+      <p>Using the pink line as the crossover point, we get these 2 new offspring:</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td class="ln-white ln-bg-black">`1`</td>
+          <td class="ln-white ln-bg-black">`3`</td>
+          <td class="ln-white ln-bg-black">`5`</td>
+          <td>`4`</td>
+          <td>`2`</td>
+          <td>`8`</td>
+          <td>`7`</td>
+          <td>`6`</td>
+        </tr>
+      </table>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/ai2/8_queens_recombination_1.png">
+      </div>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td>`8`</td>
+          <td>`7`</td>
+          <td>`6`</td>
+          <td class="ln-white ln-bg-black">`2`</td>
+          <td class="ln-white ln-bg-black">`4`</td>
+          <td class="ln-white ln-bg-black">`1`</td>
+          <td class="ln-white ln-bg-black">`3`</td>
+          <td class="ln-white ln-bg-black">`5`</td>
+        </tr>
+      </table>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/ai2/8_queens_recombination_2.png">
+      </div>
+      <p>Importantly, when doing the combining, any repeated values need to be taken care of since we're constrained to exactly `1` queen per row and column.</p>
+      <h4>Mutation</h4>
+      <p>For each of the offspring, we'll choose two random positions and swap them. Here's an example with one of the offspring:</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td>`1`</td>
+          <td>`3`</td>
+          <td class="ln-red">`5`</td>
+          <td>`4`</td>
+          <td>`2`</td>
+          <td>`8`</td>
+          <td class="ln-red">`7`</td>
+          <td>`6`</td>
+        </tr>
+      </table>
+      <p>becomes</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td>`1`</td>
+          <td>`3`</td>
+          <td>`7`</td>
+          <td>`4`</td>
+          <td>`2`</td>
+          <td>`8`</td>
+          <td>`5`</td>
+          <td>`6`</td>
+        </tr>
+      </table>
+      <h4>Summary</h4>
+      <p>Here's one possible set of choices and parameters for an evolutionary algorithm.</p>
+      <table class="table table-bordered">
+        <tr>
+          <td>Representation</td>
+          <td>Permutations</td>
+        </tr>
+        <tr>
+          <td>Recombination</td>
+          <td>"Cut-and-crossfill" crossover</td>
+        </tr>
+        <tr>
+          <td>Recombination probability</td>
+          <td>`100%`</td>
+        </tr>
+        <tr>
+          <td>Mutation</td>
+          <td>Swap</td>
+        </tr>
+        <tr>
+          <td>Mutation probability</td>
+          <td>`100%`</td>
+        </tr>
+        <tr>
+          <td>Parent selection</td>
+          <td>Best `2` out of random `5`</td>
+        </tr>
+        <tr>
+          <td>Survival selection</td>
+          <td>Replace worst</td>
+        </tr>
+        <tr>
+          <td>Population size</td>
+          <td>`100`</td>
+        </tr>
+        <tr>
+          <td>Number of offspring</td>
+          <td>`2`</td>
+        </tr>
+        <tr>
+          <td>Initialization</td>
+          <td>Random</td>
+        </tr>
+        <tr>
+          <td>Termination condition</td>
+          <td>Solution or `10,000` fitness evaluations</td>
+        </tr>
+      </table>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

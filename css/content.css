@@ -88,6 +88,10 @@ h2 {
   border-right: 1px solid black;
 }
 
+.ln-pink-right-border {
+  border-right: 1px solid pink;
+}
+
 .ln-bg-orange {
   background-color: orange !important;
 }
@@ -106,6 +110,10 @@ h2 {
 
 .ln-bg-blue {
   background-color: blue !important;
+}
+
+.ln-bg-black {
+  background-color: black !important;
 }
 
 @media (min-width:801px) {
