@@ -34,6 +34,7 @@
         <li><a class="dropdown-item" href="#nqueens">The `N`-Queens Problem</a></li>
         <li><a class="dropdown-item" href="#evolutionarycomputing">Evolutionary Computing</a></li>
         <li><a class="dropdown-item" href="#variationoperators">Variation Operators</a></li>
+        <li><a class="dropdown-item" href="#selectionoperators">Selection Operators</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -304,6 +305,9 @@
         <p>Even though it might seem like it makes the most sense to just pick the solutions with the highest fitness values, it's sometimes necessary to not do that. Evolutionary algorithms can get stuck in a local maximum, and the only way to get out would be to pick sub-optimal solutions. Biologically, this is referred to as "genetic drift".</p>
       </div>
       <p>An example of a selection mechanism is a roulette wheel. Suppose we have three solutions `A, B, C`. `A` has a fitness of `3`; `B` has a fitness of `1`; `C` has a fitness of `2`. We can put them on a roulette wheel like so:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai2/roulette_wheel.png">
+      </div>
       <p>This way, `A`, which has the highest fitness value, has the highest chance of being selected.</p>
       <p>The selection mechanism is also responsible for replacing the elements in the population with survivors.</p>
       <p>While parent selection is usually probabilistic, survivor selection is usually deterministic. The process can be fitness based (compare the fitness values of the parents + offspring) or age based (replace as many parents as possible with offspring).</p>
@@ -487,7 +491,7 @@
         </tr>
       </table>
       <h2 id="variationoperators">Variation Operators</h2>
-      <p>Variation operators are genetic information manipulators that generate new candidate solutions. Mutation and recombination are typical operations that are used in evolutionary algorithms. Variation operators are necessary for introducing diversity into the population.</p>
+      <p>Variation operators are genetic information manipulators that generate new candidate solutions. Mutation and recombination are the typical variation operators that are used in evolutionary algorithms. Variation operators are necessary for introducing diversity into the population.</p>
       <h3>Binary Representation</h3>
       <p>Suppose that we are encoding our solutions using strings of `1`s and `0`s (the genotype space is the set of strings of binary digits).</p>
       <div class="ln-box">
@@ -1096,11 +1100,307 @@
       </table>
       <p>And we keep repeating this alternating pattern until we're done.</p>
       <div class="ln-box">
+        <h3>Real-Valued/Floating-Point Representation</h3>
+        <p>A solution is represented as a vector `[x_1, x_2, ..., x_k]^T` where each `x_i in RR`.</p>
+        <h4>Uniform Mutation</h4>
+        <p>We could replace each element with a randomly-selected value from some predefined range of values. (This is similar to bit flipping in the binary representation and random resetting in the integer representation.)</p>
+        <p>Uniform mutation is most suitable when the genes encode cardinal attributes, since all values are equally likely to be chosen.</p>
+        <h4>Nonuniform Mutation</h4>
+        <p>The most common method is to add a random delta to each gene, where the delta is taken from a Gaussian distribution.</p>
+        <div class="ln-center">
+          <p>`x_i' = x_i + N(0, sigma)`</p>
+        </div>
+        <p>`sigma` is the standard deviation (also referred to here as the mutation step size) and it controls how big the deltas are.</p>
+        <h4>Discrete Crossover</h4>
+        <p>A simple crossover technique is to take an allele from one of the parents with equal probability.</p>
+        <h4>Intermediate Crossover (Arithmetic Recombination)</h4>
+        <p>Since we're dealing with real numbers, we can create children that are "between" the parents. For two parents `x,y`, we can create a child `z` using</p>
+        <div class="ln-center">
+          <p>`z_i = alpha x_i + (1-alpha) y_i`</p>
+          <p>for `0 le alpha le 1`</p>
+        </div>
+        <p>where `alpha` can be constant, variable, or picked randomly every time.</p>
+        <h5>Single Arithmetic Crossover</h5>
+        <p>We can do this for only one gene:</p>
+        <div class="ln-center">
+          <p>`[x_1, ..., x_(k-1), alpha*y_k+(1-alpha)*x_k,...,x_n]`</p>
+          <p>(exact copy of parent `x` except for the `k^(th)` gene)</p>
+        </div>
+        <h5>Simple Arithmetic Crossover</h5>
+        <p>For several genes:</p>
+        <div class="ln-center">
+          <p>`[x_1, ..., x_k, alpha*y_(k+1)+(1-alpha)*x_(k+1),...,alpha*y_n+(1-alpha)*x_n]`</p>
+          <p>(exact copy of parent `x` except for genes `k+1` to `n`)</p>
+        </div>
+        <h5>Whole Arithmetic Crossover</h5>
+        <p>Or for all the genes:</p>
+        <div class="ln-center">
+          <p>`z=alpha*x+(1-alpha)*y`</p>
+        </div>
+      </div>
+      <div class="ln-box">
         <h3>Crossover vs. Mutation</h3>
         <p>Crossover is explorative and mutation is exploitative.</p>
         <p>Only crossovers can combine information from two parents.</p>
         <p>Only mutation can introduce new information.</p>
         <p>Hitting the optimum usually requires a lucky mutation.</p>
+      </div>
+      <h2 id="selectionoperators">Selection Operators</h2>
+      <p>Selection operators are used for population management. They decide which individuals in the population are selected for mating (parent selection). They also decide which individuals in the population survive and which ones get replaced by offspring (survivor selection).</p>
+      <p>Selection pressure is the intensity with which fitter individuals are favored over worse individuals. A higher selection pressure means that fitter individuals are more favored, and a lower selection pressure means that worse individuals have a higher chance of being selected.</p>
+      <h3>Parent Selection</h3>
+      <h4>Fitness Proportional Selection</h4>
+      <p>For parent selection, it's natural to want to use higher-fitness individuals for mating. But, as mentioned before, using only high-fitness individuals can have problems with getting stuck at local optima.</p>
+      <p>Fitness proportional selection is a probabilistic method that selects individuals for mating by their absolute fitness values. Individuals with a higher fitness have a higher chance of being selected. And since we're looking at absolute fitness values, individuals with much higher fitness have a much higher chance of being selected.</p>
+      <div class="ln-center">
+        <p>`P_(FPS)(i)=f_i/(sum_(j=1)^(mu)f_j)`</p>
+      </div>
+      <p>For example, suppose we have some individuals `x=1, x=2, x=3` with their fitness values given below.</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <th>`x`</th>
+          <th>fitness</th>
+        </tr>
+        <tr>
+          <td>`1`</td>
+          <td>`1`</td>
+        </tr>
+        <tr>
+          <td>`2`</td>
+          <td>`4`</td>
+        </tr>
+        <tr>
+          <td>`3`</td>
+          <td>`9`</td>
+        </tr>
+      </table>
+      <p>We could simulate fitness proportional selection by making copies of each individual based on their fitness values. This way, if we select one copy, the probability that the copy is going to have a high fitness value is high. Individual `x=3` has a `9/14` chance of being selected versus individual `x=1`, which only has a `1/14` chance of being selected.</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td>`1`</td>
+          <td>`2`</td>
+          <td>`2`</td>
+          <td>`2`</td>
+          <td>`2`</td>
+          <td>`3`</td>
+          <td>`3`</td>
+          <td>`3`</td>
+          <td>`3`</td>
+          <td>`3`</td>
+          <td>`3`</td>
+          <td>`3`</td>
+          <td>`3`</td>
+          <td>`3`</td>
+        </tr>
+      </table>
+      <p>One of the disadvantages of using fitness proportional selection is that it could lead to premature convergence. Since higher-fitness individuals have a significantly higher chance of being selected, the population could quickly lose diversity and converge to a single solution.</p>
+      <p>Another disadvantage of fitness proportional selection is that it is highly susceptible to function transposition. Consider the following fitness values and selection probabilities.</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <th>Individual</th>
+          <th>Fitness for `f`</th>
+          <th>Selection probability for `f`</th>
+          <th>Fitness for `f+10`</th>
+          <th>Selection probability for `f+10`</th>
+          <th>Fitness for `f+100`</th>
+          <th>Selection probability for `f+100`</th>
+        </tr>
+        <tr>
+          <td>`A`</td>
+          <td>`1`</td>
+          <td>`0.1`</td>
+          <td>`11`</td>
+          <td>`0.275`</td>
+          <td>`101`</td>
+          <td>`0.326`</td>
+        </tr>
+        <tr>
+          <td>`B`</td>
+          <td>`4`</td>
+          <td>`0.4`</td>
+          <td>`14`</td>
+          <td>`0.35`</td>
+          <td>`104`</td>
+          <td>`0.335`</td>
+        </tr>
+        <tr>
+          <td>`C`</td>
+          <td>`5`</td>
+          <td>`0.5`</td>
+          <td>`15`</td>
+          <td>`0.375`</td>
+          <td>`105`</td>
+          <td>`0.339`</td>
+        </tr>
+        <tr>
+          <td>Sum</td>
+          <td>`10`</td>
+          <td>`1.0`</td>
+          <td>`40`</td>
+          <td>`1.0`</td>
+          <td>`310`</td>
+          <td>`1.0`</td>
+        </tr>
+      </table>
+      <p>We can see the selection probabilities don't stay proportional to the fitness values as we change the fitness values. `C` is `4` points higher than `A`, and in the simple case of `f`, has a much higher chance of being selected. In the case of `f+100`, `C` is still `4` points higher than `A`, but `C` has virtually the same chance of being selected as `A`.</p>
+      <h5>Windowing</h5>
+      <p>One way of dealing with this is to use windowing. Windowing is a method that adjusts the fitness values dynamically to maintain the fitness differentials.</p>
+      <p>Let `beta^t` be the worst fitness in the `t^(th)` generation. We adjust the fitness values every generation by using</p>
+      <div class="ln-center">
+        <p>`f'(i)=f(i)-beta^t`</p>
+      </div>
+      <p>This essentially makes it so that the worst individual has a zero chance of being picked while still allowing high-fitness invidivudals to maintain their high probability.</p>
+      <h5>Sigma Scaling</h5>
+      <p>Sigma scaling adjusts the fitness values by incorporating the population variance. Let `bar f` be the mean of the fitness values, `sigma_f` be the standard deviation, and `c` be some constant value (usually `2`). We adjust the fitness values every generation by using</p>
+      <div class="ln-center">
+        <p>`f'(i)=max(0, f(i)-(bar f - c*sigma_f))`</p>
+      </div>
+      <h4>Rank-based Selection</h4>
+      <p>Of course, we could avoid the problems of fitness proportional selection by using something else entirely. Instead of looking at absolute fitness, we could look at relative fitness.</p>
+      <p>For example, in the earlier example, `x=1` had a `1/14` chance of being selected and `x=3` had a `9/14` chance of being selected. Looking at absolute fitness, `x=3` is `9` times more likely to be selected than `x=1`.</p>
+      <p>If we want to look at relative fitness, let's assign some rank to these individuals, say rank `2` to `x=3`, rank `1` to `x=2`, and rank `0` to `x=1` (so the higher the rank, the higher the fitness). Assigning a rank allows us to know which individual is the fittest without being biased by how much fitter an individual is.</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <th>`x`</th>
+          <th>fitness</th>
+          <th>rank</th>
+        </tr>
+        <tr>
+          <td>`1`</td>
+          <td>`1`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`2`</td>
+          <td>`4`</td>
+          <td>`1`</td>
+        </tr>
+        <tr>
+          <td>`3`</td>
+          <td>`9`</td>
+          <td>`2`</td>
+        </tr>
+      </table>
+      <div class="ln-box">
+        <p>Ranking introduces a sorting overhead, but this is usually negligible compared to the overhead of computing fitness values.</p>
+      </div>
+      <div class="ln-box">
+        <h5>Linear Ranking</h5>
+        <div class="ln-center">
+          <p>`P(i)=(2-s)/mu+(2i(s-1))/(mu(mu-1))`</p>
+        </div>
+        <p>`s` is the selection pressure, and it ranges from `1 lt s le 2`. Using a higher selection pressure favors fitter individuals.</p>
+        <table class="table table-bordered ln-center">
+          <tr>
+            <th>Individual</th>
+            <th>Fitness</th>
+            <th>Rank</th>
+            <th>`P_(FPS)`</th>
+            <th>`P_(LR)` for `s=2`</th>
+            <th>`P_(LR)` for `s=1.5`</th>
+          </tr>
+          <tr>
+            <td>`A`</td>
+            <td>`1`</td>
+            <td>`0`</td>
+            <td>`0.1`</td>
+            <td>`0`</td>
+            <td>`0.167`</td>
+          </tr>
+          <tr>
+            <td>`B`</td>
+            <td>`4`</td>
+            <td>`1`</td>
+            <td>`0.4`</td>
+            <td>`0.33`</td>
+            <td>`0.33`</td>
+          </tr>
+          <tr>
+            <td>`C`</td>
+            <td>`5`</td>
+            <td>`2`</td>
+            <td>`0.5`</td>
+            <td>`0.67`</td>
+            <td>`0.5`</td>
+          </tr>
+          <tr>
+            <td>Sum</td>
+            <td>`10`</td>
+            <td>-</td>
+            <td>`1.0`</td>
+            <td>`1.0`</td>
+            <td>`1.0`</td>
+          </tr>
+        </table>
+        <p>One limitation with linear ranking is that the selection pressure is limited. It can only take on values between `1` and `2`*. So the fittest individual only has at most a `2` times higher chance of being selected.</p>
+        <p>*Having `s gt 2` would lead to negative probabilities for less fit individuals since all the probabilities have to add up to `1`.</p>
+        <h5>Exponential Ranking</h5>
+        <div class="ln-center">
+          <p>`P(i)=(1-e^(-i))/c`</p>
+        </div>
+        <p>where `c` is a normalization constant that ensures the sum of all the probabilities add up to `1`.</p>
+        <p>Exponential ranking is preferred over linear ranking when we want the fittest individuals to have more chances of being selected. This is helpful in situations where it is really costly to compute fitness values, so we only want to spend resources calculating fitness values for individuals that are worth calculating.</p>
+      </div>
+      <h4>Tournament Selection</h4>
+      <p>If the population is very large, then it can be very expensive to keep computing the fitness of the whole population. Instead, we can pick `k` members at random and then select the best individuals from that sample.</p>
+      <p>The probability of selecting an individual `i` is based on several factors:</p>
+      <ul>
+        <li>the rank of `i`</li>
+        <li>`k`, the size of the sample
+          <ul>
+            <li>a higher `k` increases selection pressure</li>
+          </ul>
+        </li>
+        <li>whether individuals are picked with replacement
+          <ul>
+            <li>picking without replacement increases selection pressure</li>
+          </ul>
+        </li>
+        <li>whether the fittest individual always wins (deterministic) or whether they win probabilistically</li>
+      </ul>
+      <h3>Population Management</h3>
+      <p>When the selected parents produce offspring, they have to replace individuals in the population to maintain the population size.</p>
+      <div class="ln-box">
+        <p>We'll use `mu` for the population size and `lambda` for the number of offspring.</p>
+      </div>
+      <h4>Generational Model</h4>
+      <p>In the generational model, the whole population is replaced (assuming two parents produce two children). This results in a faster exploration of the search space. But it is also more likely to remove good traits from the population that are beneficial for producing good solutions.</p>
+      <div class="ln-box">
+        <p>For each generation, `lambda=mu`.</p>
+      </div>
+      <h4>Steady-State Model</h4>
+      <p>In the steady-state model, only some of the population is replaced. The proportion of the population that is replaced is called the generational gap (represented by `lambda/mu`).</p>
+      <div class="ln-box">
+        <p>For each generation, `lambda lt mu`.</p>
+      </div>
+      <h3>Survivor Selection</h3>
+      <p>The selection methods for selecting individuals to be replaced can be age-based or fitness-based. Age-based methods are not interesting, so we'll only look at fitness-based ones.</p>
+      <h4>Elitism</h4>
+      <p>As the name suggests, the fittest individuals remain in the population while less fit individuals are replaced. This ensures that there is always at least one copy of the fittest solution in the population.</p>
+      <h4>GENITOR (Delete Worst)</h4>
+      <p>As the name suggests, the worst members of the population are selected for replacement. To be honest, I still don't understand the difference between elitism and GENITOR.</p>
+      <h4>Round-Robin Tournament</h4>
+      <p>Here, the offspring is merged with the population and they duke it out with each other to see who wins. Each individual is evaluated against `q` other randomly chosen individuals. The individuals with the most wins stay in the population.</p>
+      <div class="ln-box">
+        <p>When `q` is large, the selection pressure is higher since stronger individuals are more likely to survive. `q` is typically `10`.</p>
+      </div>
+      <h4>`(mu,lambda)`-Selection</h4>
+      <p>From what I understand, `mu` parents generate `lambda` offspring, and only the best `mu` children are selected to replace the whole population. (This requires `lambda gt mu`.)</p>
+      <h4>`(mu+lambda)`-Selection</h4>
+      <p>Here, the offspring is merged with the population and the best `mu` individuals survive.</p>
+      <h3>Selection Pressure</h3>
+      <p>As mentioned earlier, the idea behind selection pressure is that fitter individuals are more likely to survive or be chosen as parents.</p>
+      <p>Selection pressure can be quantified by a measure called takeover time (denoted as `tau^(ast)`). Takeover time is the number of generations it takes for the fittest individual to take over the entire population.</p>
+      <p>The general formula for takeover time is</p>
+      <div class="ln-center">
+        <p>`tau^(ast)=ln(lambda)/ln(lambda/mu)`</p>
+      </div>
+      <p>For example, for `mu=15` and `lambda=100`, `tau^(ast)~~2`, which means that in `2` generations, every individual will be the same (the best individual).</p>
+      <div class="ln-box">
+        <p>For fitness proportional selection, the takeover time is</p>
+        <div class="ln-center">
+          <p>`tau^(ast)=lambda ln(lambda)`</p>
+        </div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
