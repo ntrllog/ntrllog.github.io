@@ -71,6 +71,9 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Math</a>
         <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#abc123">ABC123</a></li>
+          <li><a class="dropdown-item" href="#tom_sawyer_and_friends">Tom Sawyer and Friends</a></li>
+          <li><a class="dropdown-item" href="#mean_score">Mean Score</a></li>
           <li><a class="dropdown-item" href="#every_base_is_base_ten">Every Base is Base 10</a></li>
           <li><a class="dropdown-item" href="#ohnine_equals_one">0.999...=1</a></li>
           <li><a class="dropdown-item" href="#rotation_offset_decrypt">Rotation Offset (Decrypting)</a></li>
@@ -144,6 +147,62 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="abc123">.</p>
+          <div class="post">
+            <h4 class="title">ABC123</h4>
+            <h6 class="date">February 23, 2025</h6>
+            <p>If `A A A + ABC + ABB = 1580` and each letter stands for a different digit, what could be the value of `C`?</p>
+            <p>(This question was asked on a survey as part of a Harvard study on the impact of AI tools on learning. It was one of the more difficult questions, so I thought it was interesting enough to write about.)</p>
+            <div class="collapse" id="collapseABC123">
+              <p>Well, it looks like `A+A+A=15`. Or does it?</p>
+              <p>What if `A+B+B ge 10`? Then when we carry the `1`, it would be `1+A+A+A=15`. What if `A+B+B ge 20`? Then when we carry the `2`, it would be `2+A+A+A=15`. What if `A+B+B ge 30`? Then when we carry the `3`, it would be `3+A+A+A=15`.</p>
+              <p>But wait. Is it possible for `A+B+B ge 30`? Is it possible to add `3` single-digit numbers together to get a sum of `30`? No!</p>
+              <p>However, it is possible to add `3` single-digit numbers together to get a number `le 27`. So that means it could be</p>
+              <ul>
+                <li>`A+A+A=15`</li>
+                <li>`1+A+A+A=15`</li>
+                <li>`2+A+A+A=15`</li>
+              </ul>
+              <p>Well, there's no number for `A` that would satisfy the last two equations, so the only thing it could be is `A+A+A=15 implies A=5`.</p>
+              <p>From this, we now have `555+5BC+5BB=1580`.</p>
+              <p>Since we know there's no carryover digit, it must be that `5+B+B=8` (and not `5+B+B=18`). But there's no value of `B` that satisfies `5+B+B=8`. That must mean there's a carryover digit of either `1` or `2`, i.e., it's one of these two:</p>
+              <ul>
+                <li>`1+5+B+B=8`</li>
+                <li>`2+5+B+B=8`</li>
+              </ul>
+              <p>Well, there's no number for `B` that would satisfy the last equation, so the only thing it could be is `1+5+B+B=8 implies B=1`.</p>
+              <p>From this, we now have `555+51C+511=1580`.</p>
+              <p>Since we know there's a carryover digit of `1`, it must be that `5+C+1=10` (and not `5+C+1=20`). So we get `C=4`.</p>
+              <p>For me, the key insight into solving this question was realizing that we can't add up `3` single-digit numbers to get a number `ge 30`, which reduces the number of choices that the carryover digit could be.</p>
+            </div>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseABC123" aria-expanded="false" aria-controls="collapseABC123"><span>Read more</span><span class="hidden">Read less</span></button>
+          </div>
+          <p id="tom_sawyer_and_friends">.</p>
+          <div class="post">
+            <h4 class="title">Tom Sawyer and Friends</h4>
+            <h6 class="date">February 22, 2025</h6>
+            <p>A contractor hires 3 painters to paint a wall. Painter A can finish the wall in `6` hours, Painter B in `9` hours, and Painter C in `18` hours. How long will it take all three painters, working together, to complete the wall?</p>
+            <p>(This question was asked on a survey as part of a Harvard study on the impact of AI tools on learning. It was one of the more difficult questions, so I thought it was interesting enough to write about.)</p>
+            <div class="collapse" id="collapseTomSawyer">
+              <p>We have different hours all over the place. Let's bring everything down to `1` hour and see if all three painters can finish the wall in `1` hour.</p>
+              <p>So in `1` hour, Painter A will finish `1/6` of the wall; Painter B will finish `1/9` of the wall; and Painter C will finish `1/18` of the wall. This means all three painters will finish `1/6+1/9+1/18=1/3` of the wall in `1` hour. Which means they will finish the whole wall in `3` hours.</p>
+              <p>For me, the trick to solving this question was thinking about how much of the wall they would complete in `1` hour. If they ended up finishing the wall in `1` hour, then see how much of the wall they would complete in `30` minutes, and so on. In my words, "normalize everything to a standard base point".</p>
+            </div>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTomSawyer" aria-expanded="false" aria-controls="collapseTomSawyer"><span>Read more</span><span class="hidden">Read less</span></button>
+          </div>
+          <p id="mean_score">.</p>
+          <div class="post">
+            <h4 class="title">Mean Score</h4>
+            <h6 class="date">February 22, 2025</h6>
+            <p>The mean score of `8` players in a basketball game was `14.5` points. If the highest individual score is removed, the mean score of the remaining `7` players becomes `12` points. What was the highest score?</p>
+            <p>(This question was asked on a survey as part of a Harvard study on the impact of AI tools on learning. It was one of the more difficult questions, so I thought it was interesting enough to write about.)</p>
+            <div class="collapse" id="collapseMeanScore">
+              <p>Let's let `h` be the highest score and `s` be the total score of the other `7` players. So what we have is `(h+s)/8=14.5` and `s/7=12`.</p>
+              <p>Well, the second equations gives us `s=84`. Using this in the first equation, we get `(84+h)/8=14.5 implies h=32`.</p>
+              <p>For me, the key insight into solving this question was realizing that the score of the other `7` players can be abstracted into a single quantity. I actually thought of it like this: `(color(red)(s_1+s_2+...+s_7)+s_8)/8=14.5` and `color(red)(s_1+s_2+...+s_7)/7=12`.</p>
+            </div>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMeanScore" aria-expanded="false" aria-controls="collapseMeanScore"><span>Read more</span><span class="hidden">Read less</span></button>
+          </div>
           <p id="every_base_is_base_ten">.</p>
           <div class="post">
             <h4 class="title">Every Base is Base `10`</h4>
