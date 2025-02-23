@@ -31,10 +31,11 @@
       <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#whatisit">What's the Problem?</a></li>
-        <li><a class="dropdown-item" href="#nqueens">The `N`-Queens Problem</a></li>
+        <li><a class="dropdown-item" href="#nqueens">The `n`-Queens Problem</a></li>
         <li><a class="dropdown-item" href="#evolutionarycomputing">Evolutionary Computing</a></li>
         <li><a class="dropdown-item" href="#variationoperators">Variation Operators</a></li>
         <li><a class="dropdown-item" href="#selectionoperators">Selection Operators</a></li>
+        <li><a class="dropdown-item" href="#eavariants">Evolutionary Algorithm Variants</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -42,7 +43,7 @@
       <h1>Advanced Artificial Intelligence</h1>
       <hr>
       <p>Shortcut to this page: <a href="ai2.html">ntrllog.netlify.app/ai2</a></p>
-      <p>Notes provided by Professor Armando Beltran (CSULA)</p>
+      <p>Notes provided by Professor Armando Beltran (CSULA) and <a href="http://www.evolutionarycomputation.org/" target="_blank">Introduction to Evolutionary Computing</a></p>
       <p>This is an extension of the <a href="ai.html" target="_blank">artificial intelligence</a> and <a href="ml.html" target="_blank">machine learning</a> resources. Well, we’ll see where this goes — I’m writing this as the class goes.</p>
       <h2 id="whatisit">What's the Problem?</h2>
       <p>As computer scientists, we aim to develop and use AI to solve problems optimally. But before we look at how AI works, we should start with understanding what types of problems exist and how to define them.</p>
@@ -128,7 +129,7 @@
       <div class="ln-box">
         <p>These classifications (except for NP-hard) apply to decision problems: problems that have a "yes" or "no" answer. For example, "Is `A rarr B rarr C rarr D` the optimal route?"</p>
       </div>
-      <h2 id="nqueens">The `N`-Queens Problem</h2>
+      <h2 id="nqueens">The `n`-Queens Problem</h2>
       <p>The `n`-queens problem is an optimization problem that involves placing `n` queens on a chessboard such that none of the queens are attacking each other. For example, for `n=4`:</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/ai2/4_queens.png">
@@ -321,175 +322,6 @@
         <li>reaching some level of diversity</li>
         <li>reaching some number of generations without fitness improvement</li>
       </ul>
-      <h3>`8`-Queens Problem</h3>
-      <p>Now we'll look at each evolutionary algorithm component for the `8`-queens problem.</p>
-      <h4>Representation</h4>
-      <p>The phenotype is a board configuration and the genotype is a vector containing a permutation of the numbers from `1` through `8`.</p>
-      <div class="ln-center">
-        <img class="img-fluid ln-image-smaller" src="../pictures/ai2/8_queens.png">
-        <p>`Q = [1, 4, 2, 6, 3, 5, 7, 8]^T`</p>
-      </div>
-      <h4>Fitness Evaluation</h4>
-      <p>The fitness function is</p>
-      <div class="ln-center">
-        <p>`f(Q) = (n(n-1))/2-A(Q)`</p>
-      </div>
-      <p>For the example board configuration above:</p>
-      <div class="ln-center">
-        <p>`f(Q) = (8(7))/2-4 = 24`</p>
-      </div>
-      <h4>Selection</h4>
-      <p>We'll pick `5` parents at random and select the best `2` to undergo crossover. Let's arbitrarily say the best `2` are</p>
-      <table class="table table-bordered ln-center">
-        <tr>
-          <td class="ln-white ln-bg-black">`1`</td>
-          <td class="ln-white ln-bg-black">`3`</td>
-          <td class="ln-white ln-bg-black">`5`</td>
-          <td class="ln-white ln-bg-black">`2`</td>
-          <td class="ln-white ln-bg-black">`6`</td>
-          <td class="ln-white ln-bg-black">`4`</td>
-          <td class="ln-white ln-bg-black">`7`</td>
-          <td class="ln-white ln-bg-black">`8`</td>
-        </tr>
-      </table>
-      <p>and</p>
-      <table class="table table-bordered ln-center">
-        <tr>
-          <td class="ln-white ln-bg-gray">`8`</td>
-          <td class="ln-white ln-bg-gray">`7`</td>
-          <td class="ln-white ln-bg-gray">`6`</td>
-          <td class="ln-white ln-bg-gray">`5`</td>
-          <td class="ln-white ln-bg-gray">`4`</td>
-          <td class="ln-white ln-bg-gray">`3`</td>
-          <td class="ln-white ln-bg-gray">`2`</td>
-          <td class="ln-white ln-bg-gray">`1`</td>
-        </tr>
-      </table>
-      <h4>Recombination</h4>
-      <p>We'll combine the parents' information into the new offspring by picking a random crossover point and splitting/combining at that point.</p>
-      <table class="table table-bordered ln-center">
-        <tr>
-          <td class="ln-white ln-bg-black">`1`</td>
-          <td class="ln-white ln-bg-black">`3`</td>
-          <td class="ln-white ln-bg-black ln-red-right-border">`5`</td>
-          <td class="ln-white ln-bg-black">`2`</td>
-          <td class="ln-white ln-bg-black">`6`</td>
-          <td class="ln-white ln-bg-black">`4`</td>
-          <td class="ln-white ln-bg-black">`7`</td>
-          <td class="ln-white ln-bg-black">`8`</td>
-        </tr>
-        <tr>
-          <td class="ln-white ln-bg-gray">`8`</td>
-          <td class="ln-white ln-bg-gray">`7`</td>
-          <td class="ln-white ln-bg-gray ln-red-right-border">`6`</td>
-          <td class="ln-white ln-bg-gray">`5`</td>
-          <td class="ln-white ln-bg-gray">`4`</td>
-          <td class="ln-white ln-bg-gray">`3`</td>
-          <td class="ln-white ln-bg-gray">`2`</td>
-          <td class="ln-white ln-bg-gray">`1`</td>
-        </tr>
-      </table>
-      <p>Using the red line as the crossover point, we get these 2 new offspring:</p>
-      <table class="table table-bordered ln-center">
-        <tr>
-          <td class="ln-white ln-bg-black">`1`</td>
-          <td class="ln-white ln-bg-black">`3`</td>
-          <td class="ln-white ln-bg-black">`5`</td>
-          <td class="ln-white ln-bg-gray">`4`</td>
-          <td class="ln-white ln-bg-gray">`2`</td>
-          <td class="ln-white ln-bg-gray">`8`</td>
-          <td class="ln-white ln-bg-gray">`7`</td>
-          <td class="ln-white ln-bg-gray">`6`</td>
-        </tr>
-      </table>
-      <table class="table table-bordered ln-center">
-        <tr>
-          <td class="ln-white ln-bg-gray">`8`</td>
-          <td class="ln-white ln-bg-gray">`7`</td>
-          <td class="ln-white ln-bg-gray">`6`</td>
-          <td class="ln-white ln-bg-black">`2`</td>
-          <td class="ln-white ln-bg-black">`4`</td>
-          <td class="ln-white ln-bg-black">`1`</td>
-          <td class="ln-white ln-bg-black">`3`</td>
-          <td class="ln-white ln-bg-black">`5`</td>
-        </tr>
-      </table>
-      <p>Importantly, when doing the combining, any repeated values need to be taken care of since we're constrained to exactly `1` queen per row and column (the solution needs to remain a permutation).</p>
-      <h4>Mutation</h4>
-      <p>For each of the offspring, we'll choose two random positions and swap them. Here's an example with one of the offspring:</p>
-      <table class="table table-bordered ln-center">
-        <tr>
-          <td>`1`</td>
-          <td>`3`</td>
-          <td class="ln-red">`5`</td>
-          <td>`4`</td>
-          <td>`2`</td>
-          <td>`8`</td>
-          <td class="ln-red">`7`</td>
-          <td>`6`</td>
-        </tr>
-      </table>
-      <p>becomes</p>
-      <table class="table table-bordered ln-center">
-        <tr>
-          <td>`1`</td>
-          <td>`3`</td>
-          <td>`7`</td>
-          <td>`4`</td>
-          <td>`2`</td>
-          <td>`8`</td>
-          <td>`5`</td>
-          <td>`6`</td>
-        </tr>
-      </table>
-      <h4>Summary</h4>
-      <p>Here's one possible set of choices and parameters for an evolutionary algorithm.</p>
-      <table class="table table-bordered">
-        <tr>
-          <td>Representation</td>
-          <td>Permutations</td>
-        </tr>
-        <tr>
-          <td>Recombination</td>
-          <td>"Cut-and-crossfill" crossover</td>
-        </tr>
-        <tr>
-          <td>Recombination probability</td>
-          <td>`100%`</td>
-        </tr>
-        <tr>
-          <td>Mutation</td>
-          <td>Swap</td>
-        </tr>
-        <tr>
-          <td>Mutation probability</td>
-          <td>`100%`</td>
-        </tr>
-        <tr>
-          <td>Parent selection</td>
-          <td>Best `2` out of random `5`</td>
-        </tr>
-        <tr>
-          <td>Survival selection</td>
-          <td>Replace worst</td>
-        </tr>
-        <tr>
-          <td>Population size</td>
-          <td>`100`</td>
-        </tr>
-        <tr>
-          <td>Number of offspring</td>
-          <td>`2`</td>
-        </tr>
-        <tr>
-          <td>Initialization</td>
-          <td>Random</td>
-        </tr>
-        <tr>
-          <td>Termination condition</td>
-          <td>Solution or `10,000` fitness evaluations</td>
-        </tr>
-      </table>
       <h2 id="variationoperators">Variation Operators</h2>
       <p>Variation operators are genetic information manipulators that generate new candidate solutions. Mutation and recombination are the typical variation operators that are used in evolutionary algorithms. Variation operators are necessary for introducing diversity into the population.</p>
       <h3>Binary Representation</h3>
@@ -504,6 +336,11 @@
       </div>
       <div class="ln-box">
         <p>Using a lower probability preserves high-fitness individuals while using a higher probability encourages exploration (but risks disrupting good solutions). Generally, if we want to optimize overall population fitness, then we use a lower probability. If we want to find a single high-fitness individual, then using a higher probability can be better.</p>
+      </div>
+      <div class="ln-box">
+        <p>There's an interesting problem with using binary. Consider the numbers `6`, `7`, and `8`, which are `0110`, `0111`, and `1000` in binary respectively.</p>
+        <p>It takes only `1` bit flip to go from `0110` to `0111`, but it takes `4` bit flips to go from `0111` to `1000`. As a result, the probability of changing `7` to `8` is much less than the probability of changing `6` to `7`.</p>
+        <p>Gray coding, which is a variation on the binary representation such that consecutive numbers differ in only one bit, helps with this problem.</p>
       </div>
       <h4>`1`-Point Crossover</h4>
       <p>One simple crossover technique we can do is to choose a random point and swap the parents' info at that point to produce the children.</p>
@@ -680,7 +517,7 @@
       <h3>Permutation Representation</h3>
       <p>Some problems, like the `n`-queens problem, require that solutions do not contain repeated values. For these types of problems, the order in which events occur matters a lot, like planning a route or scheduling jobs.</p>
       <h4>Swap Mutation</h4>
-      <p>We saw this with the `8`-queens problem. We can choose `2` alleles and swap them.</p>
+      <p>We can choose `2` alleles and swap them.</p>
       <table class="table table-bordered ln-center">
         <tr>
           <td>`1`</td>
@@ -800,6 +637,9 @@
       </table>
       <div class="ln-box">
         <p>This preserves most of the adjacency information (since it only breaks `2` links) but it is disruptive for the order information.</p>
+      </div>
+      <div class="ln-box">
+        <p>When performing mutations on permutations, we can't consider each gene independently since it might mess up the permutation. So the mutation parameter is the probability that a chromosome undergoes mutation, instead of the probability that each gene undergoes mutation, like in the binary and integer case.</p>
       </div>
       <h4>Partially Mapped Crossover (PMX)</h4>
       <div class="ln-box">
@@ -999,6 +839,9 @@
         </tr>
       </table>
       <p>The second child is produced the same way, just with the parent roles reversed (so the second parent's segment is copied into the second child as the first step).</p>
+      <div class="ln-box">
+        <p>The goal of order crossover is to transmit information about relative order from the second parent.</p>
+      </div>
       <h4>Cycle Crossover</h4>
       <p>For this crossover technique, we copy cycles from the parents into the children. Cycles are found using the same visual method in PMX.</p>
       <p>Cycle 1:</p>
@@ -1100,13 +943,16 @@
       </table>
       <p>And we keep repeating this alternating pattern until we're done.</p>
       <div class="ln-box">
+        <p>The goal of cycle crossover is to transmit information about the absolute position in which elements occur.</p>
+      </div>
+      <div class="ln-box">
         <h3>Real-Valued/Floating-Point Representation</h3>
         <p>A solution is represented as a vector `[x_1, x_2, ..., x_k]^T` where each `x_i in RR`.</p>
         <h4>Uniform Mutation</h4>
         <p>We could replace each element with a randomly-selected value from some predefined range of values. (This is similar to bit flipping in the binary representation and random resetting in the integer representation.)</p>
         <p>Uniform mutation is most suitable when the genes encode cardinal attributes, since all values are equally likely to be chosen.</p>
         <h4>Nonuniform Mutation</h4>
-        <p>The most common method is to add a random delta to each gene, where the delta is taken from a Gaussian distribution.</p>
+        <p>The most common method is to add a random delta to each gene, where the delta is taken from a Gaussian distribution with mean `0` and standard deviation `sigma`.</p>
         <div class="ln-center">
           <p>`x_i' = x_i + N(0, sigma)`</p>
         </div>
@@ -1146,7 +992,7 @@
         <p>Hitting the optimum usually requires a lucky mutation.</p>
       </div>
       <h2 id="selectionoperators">Selection Operators</h2>
-      <p>Selection operators are used for population management. They decide which individuals in the population are selected for mating (parent selection). They also decide which individuals in the population survive and which ones get replaced by offspring (survivor selection).</p>
+      <p>Selection operators are used for population management. They decide which individuals in the population are selected for mating (parent selection) and which individuals in the population survive (survivor selection).</p>
       <p>Selection pressure is the intensity with which fitter individuals are favored over worse individuals. A higher selection pressure means that fitter individuals are more favored, and a lower selection pressure means that worse individuals have a higher chance of being selected.</p>
       <h3>Parent Selection</h3>
       <h4>Fitness Proportional Selection</h4>
@@ -1402,6 +1248,184 @@
           <p>`tau^(ast)=lambda ln(lambda)`</p>
         </div>
       </div>
+      <h2 id="eavariants">Evolutionary Algorithm Variants</h2>
+      <p>As we've seen, there are many choices for which representation, selection operators, and variation operators to use. The set of choices that are used defines an "instance" of an evolutionary algorithm.</p>
+      <p>Historically, many different types of evolutionary algorithms have been developed.</p>
+      <h3>Genetic Algorithms</h3>
+      <p>The genetic algorithm (GA) was developed in the 1960s by Holland in his study of adaptive behavior.</p>
+      <table class="table table-bordered">
+        <tr>
+          <td>Representation</td>
+          <td>Bit-strings</td>
+        </tr>
+        <tr>
+          <td>Recombination</td>
+          <td>1-Point crossover</td>
+        </tr>
+        <tr>
+          <td>Mutation</td>
+          <td>Bit flip</td>
+        </tr>
+        <tr>
+          <td>Parent selection</td>
+          <td>Fitness proportional - implemented by Roulette Wheel</td>
+        </tr>
+        <tr>
+          <td>Survivor selection</td>
+          <td>Generational</td>
+        </tr>
+      </table>
+      <p>The mutation probability is typically low since there is more emphasis on recombination as the preferred way of generating offspring.</p>
+      <p>GA is typically used for straightforward binary representation problems, function optimization, and teaching evolutionary algorithms.</p>
+      <h3>Evolution Strategies</h3>
+      <p>Evolution strategies (ES) were developed in the 1960s by Rechenberg and Schwefel in their study of shape optimization.</p>
+      <table class="table table-bordered">
+        <tr>
+          <td>Representation</td>
+          <td>Real-valued vectors</td>
+        </tr>
+        <tr>
+          <td>Recombination</td>
+          <td>Discrete or intermediary</td>
+        </tr>
+        <tr>
+          <td>Mutation</td>
+          <td>Gaussian perturbation</td>
+        </tr>
+        <tr>
+          <td>Parent selection</td>
+          <td>Uniform random</td>
+        </tr>
+        <tr>
+          <td>Survivor selection</td>
+          <td>Deterministic elitist replacement by `(mu, lambda)` or `(mu+lambda)`</td>
+        </tr>
+        <tr>
+          <td>Specialty</td>
+          <td>Self-adaptation of mutation step sizes</td>
+        </tr>
+      </table>
+      <p>Self-adaptation means that the mutation step size changes from generation to generation. This is implemented by Rechenberg's `1//5` success rule, which scales `sigma` by a factor depending on the success rate of a mutation (whatever that means).</p>
+      <div class="ln-box">
+        <p>Here are some different types of recombination methods. `i` is the index of the gene, `x` and `y` are the parents, and `z` is the child.</p>
+        <table class="table table-bordered ln-center">
+          <tr>
+            <th></th>
+            <th>Two fixed parents</th>
+            <th>Two parents selected for each `i`</th>
+          </tr>
+          <tr>
+            <th>`z_i=(x_i+y_i)/2`</th>
+            <td>local intermediary</td>
+            <td>global intermediary</td>
+          </tr>
+          <tr>
+            <th>`z_i` is `x_i` or `y_i` chosen randomly</th>
+            <td>local discrete</td>
+            <td>global discrete</td>
+          </tr>
+        </table>
+        <p>ESs typically use global recombination.</p>
+      </div>
+      <div class="ln-box">
+        <p>`(mu,lambda)` selection is generally preferred over `(mu+lambda)` selection because `(mu+lambda)` has a tendency to keep bad solutions (and the traits that produce the bad solutions) around for a large number of generations.</p>
+      </div>
+      <p>ESs are typically used for numerical optimization and shape optimization.</p>
+      <h3>Evolutionary Programming</h3>
+      <p>Evolutionary programming (EP) was developed in the 1960s by Fogel et al. in their study of generating artificial intelligence (by attempting to simulate evolution as a learning process).</p>
+      <table class="table table-bordered">
+        <tr>
+          <td>Representation</td>
+          <td>Real-valued vectors</td>
+        </tr>
+        <tr>
+          <td>Recombination</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Mutation</td>
+          <td>Gaussian perturbation</td>
+        </tr>
+        <tr>
+          <td>Parent selection</td>
+          <td>Deterministic (each parent creates one offspring via mutation)</td>
+        </tr>
+        <tr>
+          <td>Survivor selection</td>
+          <td>Probabilistic `(mu+mu)`</td>
+        </tr>
+        <tr>
+          <td>Specialty</td>
+          <td>Self-adaptation of mutation step sizes</td>
+        </tr>
+      </table>
+      <p>The notable thing about EP is that there is no recombination. This is because each individual is seen as a distinct species, so it doesn't make sense theoretically to perform recombination.</p>
+      <div class="ln-box">
+        <p>This has, of course, led to much debate and study on the performance of algorithms with and without recombination.</p>
+      </div>
+      <p>EP is typically used for numerical optimization.</p>
+      <h3>Genetic Programming</h3>
+      <p>Genetic programming (GP) was developed in the 1990s by Koza.</p>
+      <table class="table table-bordered">
+        <tr>
+          <td>Representation</td>
+          <td>Tree structures</td>
+        </tr>
+        <tr>
+          <td>Recombination</td>
+          <td>Exchange of subtrees</td>
+        </tr>
+        <tr>
+          <td>Mutation</td>
+          <td>Random change in trees</td>
+        </tr>
+        <tr>
+          <td>Parent selection</td>
+          <td>Fitness proportional</td>
+        </tr>
+        <tr>
+          <td>Survivor selection</td>
+          <td>Generational replacement</td>
+        </tr>
+      </table>
+      <p>Similarly to GA, the mutation probability is low for GP. In fact, Koza suggested using a mutation rate of `0%`. The idea behind not needing mutation is that recombination already has a large shuffling effect, so it's kind of a mutation operator already.</p>
+      <div class="ln-box">
+        <p>For large population sizes, over-selection is a method that is used for parent selection.</p>
+        <p>The population is ranked by fitness, then split into two groups. One group contains the top `x%` and the other contains the remaining `(100-x)%`. `80%` of the selection operations come from the first group, and the other `20%` come from the other group.</p>
+      </div>
+      <p>GP is typically used for machine learning tasks, like prediction and classification.</p>
+      <h3>Differential Evolution</h3>
+      <p>Differential evolution (DE) was developed in 1995 by Storn and Price.</p>
+      <table class="table table-bordered">
+        <tr>
+          <td>Representation</td>
+          <td>Real-valued vectors</td>
+        </tr>
+        <tr>
+          <td>Recombination</td>
+          <td>Uniform crossover (with crossover probability `C_r`)</td>
+        </tr>
+        <tr>
+          <td>Mutation</td>
+          <td>Differential mutation</td>
+        </tr>
+        <tr>
+          <td>Parent selection</td>
+          <td>Uniform random selection of the `3` necessary vectors</td>
+        </tr>
+        <tr>
+          <td>Survivor selection</td>
+          <td>Deterministic elitist replacement (parent vs. child)</td>
+        </tr>
+      </table>
+      <p>The notable thing about DE is that `3` parents are needed to create a new child. We can see why when we look at how differential mutation works. Basically, the vector difference of two parents is added to another parent to produce the child.</p>
+      <p>Let `x,y,z` be the parents. The scaled vector difference of `y` and `z` is denoted as `p`, the perturbation vector. The child produced is denoted `x'`. `F` is the scaling factor that controls the rate at which the population evolves.</p>
+      <div class="ln-center">
+        <p>`p = F*(y-z)`</p>
+        <p>`x' = x + p`</p>
+      </div>
+      <p>For recombination, uniform crossover is used, meaning that each gene either comes from the first parent or the second parent. But there is a slight difference from the usual uniform crossover; there is a crossover probability `C_r in [0,1]` that decides the probability of picking the gene from the first parent.</p>
+      <p>DE is typically applied to nonlinear and nondifferentiable continuous space functions.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
