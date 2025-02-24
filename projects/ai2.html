@@ -36,6 +36,7 @@
         <li><a class="dropdown-item" href="#variationoperators">Variation Operators</a></li>
         <li><a class="dropdown-item" href="#selectionoperators">Selection Operators</a></li>
         <li><a class="dropdown-item" href="#eavariants">Evolutionary Algorithm Variants</a></li>
+        <li><a class="dropdown-item" href="#parametertuning">Parameters and Parameter Tuning</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1359,10 +1360,11 @@
           <td>Self-adaptation of mutation step sizes</td>
         </tr>
       </table>
-      <p>The notable thing about EP is that there is no recombination. This is because each individual is seen as a distinct species, so it doesn't make sense theoretically to perform recombination.</p>
+      <p>The notable thing about EP is that there is no recombination. This is because each individual is seen as a distinct species, so it doesn't make sense theoretically to perform recombination. This also means that only `1` parent is needed to produce a child, so there's not really a parent selection mechanism.</p>
       <div class="ln-box">
         <p>This has, of course, led to much debate and study on the performance of algorithms with and without recombination.</p>
       </div>
+      <p>Survivor selection is implemented using stochastic round-robin tournaments.</p>
       <p>EP is typically used for numerical optimization.</p>
       <h3>Genetic Programming</h3>
       <p>Genetic programming (GP) was developed in the 1990s by Koza.</p>
@@ -1426,6 +1428,147 @@
       </div>
       <p>For recombination, uniform crossover is used, meaning that each gene either comes from the first parent or the second parent. But there is a slight difference from the usual uniform crossover; there is a crossover probability `C_r in [0,1]` that decides the probability of picking the gene from the first parent.</p>
       <p>DE is typically applied to nonlinear and nondifferentiable continuous space functions.</p>
+      <h2 id="parametertuning">Parameters and Parameter Tuning</h2>
+      <p>Each evolutionary algorithm variant differs in their choices for which operators to use. These choices are the parameters of the algorithm. There are two categories of parameters: symbolic parameters and numeric parameters.</p>
+      <p>Symbolic parameters are the categorical aspects of the algorithm. For example, what type of parent selection should be used? Or what type of recombination should be used?</p>
+      <p>Numeric parameters are the, well, numeric aspects of the algorithm. For example, what should the population size be? Or what should be the mutation probability?</p>
+      <p>Here's an example with three evolutionary algorithm instances `A_1`, `A_2`, and `A_3`.</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <th></th>
+          <th>`A_1`</th>
+          <th>`A_2`</th>
+          <th>`A_3`</th>
+        </tr>
+        <tr>
+          <th colspan="4">symbolic parameters</th>
+        </tr>
+        <tr>
+          <th>representation</th>
+          <td>bitstring</td>
+          <td>bitstring</td>
+          <td>real-valued</td>
+        </tr>
+        <tr>
+          <th>recombination</th>
+          <td>`1`-point</td>
+          <td>`1`-point</td>
+          <td>averaging</td>
+        </tr>
+        <tr>
+          <th>mutation</th>
+          <td>bit-flip</td>
+          <td>bit-flip</td>
+          <td>Gaussian `N(0,sigma)`</td>
+        </tr>
+        <tr>
+          <th>parent selection</th>
+          <td>tournament</td>
+          <td>tournament</td>
+          <td>uniform random</td>
+        </tr>
+        <tr>
+          <th>survivor selection</th>
+          <td>generational</td>
+          <td>generational</td>
+          <td>`(mu,lambda)`</td>
+        </tr>
+        <tr>
+          <th colspan="4">numeric parameters</th>
+        </tr>
+        <tr>
+          <th>`p_m`</th>
+          <td>`0.01`</td>
+          <td>`0.1`</td>
+          <td>`0.05`</td>
+        </tr>
+        <tr>
+          <th>`sigma`</th>
+          <td>n.a.</td>
+          <td>n.a.</td>
+          <td>`0.1`</td>
+        </tr>
+        <tr>
+          <th>`p_c`</th>
+          <td>`0.5`</td>
+          <td>`0.7`</td>
+          <td>`0.7`</td>
+        </tr>
+        <tr>
+          <th>`mu`</th>
+          <td>`100`</td>
+          <td>`100`</td>
+          <td>`10`</td>
+        </tr>
+        <tr>
+          <th>`lambda`</th>
+          <td>equal `mu`</td>
+          <td>equal `mu`</td>
+          <td>`70`</td>
+        </tr>
+        <tr>
+          <th>`k`</th>
+          <td>`2`</td>
+          <td>`4`</td>
+          <td>n.a.</td>
+        </tr>
+      </table>
+      <p>More formally, an evolutionary algorithm instance is a set of symbolic and numeric parameters.</p>
+      <div class="ln-center">
+        <p>`A_i=(S,N)`</p>
+        <p>`S={text(representation), text(recombination), text(mutation), text(parent selection), text(survivor selection)}`</p>
+        <p>`N={p_m, sigma, p_c, mu, lambda, k}`</p>
+      </div>
+      <p>where</p>
+      <ul>
+        <li>`p_m in [0,1]`</li>
+        <li>`sigma in RR^+`</li>
+        <li>`p_c in [0,1]`</li>
+        <li>`mu in NN`</li>
+        <li>`lambda in NN`</li>
+        <li>`k in NN`</li>
+      </ul>
+      <p>For two instances `A_i=(S_i,N_i)` and `A_j=(S_j,N_j)`, they are considered distinct evolutionary algorithms if at least one of the symbolic parameters is different.</p>
+      <div class="ln-center">
+        <p>`A_i ne A_j` if `S_i ne S_j`</p>
+      </div>
+      <p>They are considered variants of each other if they have the same symbolic parameters but different numeric parameters.</p>
+      <div class="ln-center">
+        <p>`A_i ~ A_j` if `S_i = S_j` and `N_i ne N_j`</p>
+      </div>
+      <p>In the above example, `A_1` and `A_2` are variants of each other and `A_1` and `A_3` are distinct algorithms.</p>
+      <h3>Designing Evolutionary Algorithms</h3>
+      <p>Abstractly, there are three layers for an evolutionary algorithm: the design layer, the algorithm layer, and the application layer. The design layer involves choosing the parameters to create the algorithm instance. I think the algorithm layer involves defining what type of evolutionary algorithm it is, like identifying it as a genetic algorithm for example. The application layer involves running the algorithm on a real-world problem.</p>
+      <p>With this, there are essentially two problems to solve: finding a solution to a real-world problem (optimization problem) and finding a set of parameters to design an algorithm to find those solutions (design problem). As a result, there are two types of quality assessments: one at the algorithm layer and one at the application layer.</p>
+      <p>At the algorithm layer, we have utility and testing. Utility is the measure of an EA's performance (e.g., number of fitness evaluations, algorithm runtime). Testing is the process of calculating and comparing utilities.</p>
+      <p>At the application layer, we have fitness and evaluation. Fitness is the measure of a solution's quality. Evaluation is the process of calculating and comparing fitness values.</p>
+      <h3>The Tuning Problem</h3>
+      <p>Parameter tuning refers to deciding what the parameters are before the algorithm is run.</p>
+      <div class="ln-box">
+        <p>Parameter control refers to adjusting the parameters while the algorithm is running. It can be deterministic (e.g., depending on how much time has passed), adaptive (changing based on the feedback from the search results), or self-adaptive (changing based on the quality of the solutions).</p>
+      </div>
+      <p>A tuner is a search algorithm that looks for the best set of parameters. In order to test a tuner's performance, we need a utility function that assigns a performance score to the tuner. Some measures that could be used for utility are mean best fitness and average number of evaluations to a solution.</p>
+      <h4>Tuning by Generate-and-Test</h4>
+      <p>The general flow for tuning is to generate sets of parameters and test each set. Since EAs are stochastic, the testing needs to be repeated several times. (Depending on the type of tuner, the generation of the parameters can happen once.)</p>
+      <div class="ln-box">
+        <p>Utility is defined formally as</p>
+        <div class="ln-center">
+          <p>`U(A_i)=bbb E(M(A_i,P))`</p>
+        </div>
+        <p>where</p>
+        <ul>
+          <li>`A_i` is the EA instance</li>
+          <li>`P` is the problem instance</li>
+          <li>`M(A_i,P))` is the performance metric (e.g., best fitness achieved, convergence speed)</li>
+          <li>`bbb E` is the expected value</li>
+        </ul>
+        <p>Utility is estimated by the testing process.</p>
+        <div class="ln-center">
+          <p>`hat U(A_i)=1/n sum_(j=1)^n M(A_i^((j)),P)`</p>
+        </div>
+        <p>where `n` is the number of runs and `A_i^((j))` is the algorithm used on the `j^(th)` run.</p>
+      </div>
+      <p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
