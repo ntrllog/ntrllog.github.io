@@ -37,6 +37,7 @@
         <li><a class="dropdown-item" href="#selectionoperators">Selection Operators</a></li>
         <li><a class="dropdown-item" href="#eavariants">Evolutionary Algorithm Variants</a></li>
         <li><a class="dropdown-item" href="#parametertuning">Parameters and Parameter Tuning</a></li>
+        <li><a class="dropdown-item" href="#multiobjective">Multiobjective Evolutionary Algorithms</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1549,7 +1550,7 @@
       </div>
       <p>A tuner is a search algorithm that looks for the best set of parameters. In order to test a tuner's performance, we need a utility function that assigns a performance score to the tuner. Some measures that could be used for utility are mean best fitness and average number of evaluations to a solution.</p>
       <h4>Tuning by Generate-and-Test</h4>
-      <p>The general flow for tuning is to generate sets of parameters and test each set. Since EAs are stochastic, the testing needs to be repeated several times. (Depending on the type of tuner, the generation of the parameters can happen once.)</p>
+      <p>The general flow for tuning is to generate sets of parameters and test each set. Since EAs are stochastic, the testing needs to be repeated several times. (Depending on the type of tuner -- iterative or non-iterative -- the generation of the parameters can happen once.)</p>
       <div class="ln-box">
         <p>Utility is defined formally as</p>
         <div class="ln-center">
@@ -1568,7 +1569,72 @@
         </div>
         <p>where `n` is the number of runs and `A_i^((j))` is the algorithm used on the `j^(th)` run.</p>
       </div>
-      <p>
+      <div class="ln-box">
+        <h2 id="multiobjective">Multiobjective Evolutionary Algorithms</h2>
+        <p>So far, we've been dealing with problems where the goal is to optimize only one objective function. But in the real world, most problems have multiple objectives that need to be minimized or maximized. For example, when buying a car, we want to find a nice balance between price and reliability.</p>
+        <p>Formally, the general multiobjective optimization problem (MOP) is defined as finding the decision variable vector</p>
+        <div class="ln-center">
+          <p>`bb x = [x_1, x_2, ..., x_n]^T`</p>
+        </div>
+        <p>that satisfies a set of constraints and optimizes a set of objective functions</p>
+        <div class="ln-center">
+          <p>`bb f(bb x) = [f_1(bb x), f_2(bb x), ..., f_k(bb x)]^T`</p>
+        </div>
+        <h3>Dominance</h3>
+        <p>Suppose we have two objective functions `f_1` and `f_2`, and we want to minimize both of them. `a,b,c,d,e` are solutions.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/ai2/moea_1.png">
+        </div>
+        <p>From this we can see that</p>
+        <ul>
+          <li>`a` is a better solution than `b` and `c`</li>
+          <li>`a` is a worse solution than `e`</li>
+          <li>`a` and `d` are incomparable
+            <ul>
+              <li>`a` is better than `d` in terms of `f_1`, but `d` is better than `a` in terms of `f_2`</li>
+            </ul>
+          </li>
+        </ul>
+        <p>This introduces the concept of dominance. We say that `a` dominates `b` and `c`, and `e` dominates `a`.</p>
+        <p>Formally, a solution `x` dominates a solution `y` if</p>
+        <ul>
+          <li>`x` is better than `y` in at least one objective</li>
+          <li>`x` is not worse than `y` in all other objectives</li>
+        </ul>
+        <p>`x` dominates `y` is written as</p>
+        <div class="ln-center">
+          <p>`x preceq y` for minimization</p>
+          <p>`x succeq y` for maximization</p>
+        </div>
+        <p>This is generally what it looks like for the minimization case:</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/ai2/dominance.png">
+        </div>
+        <h3>Pareto Optimality</h3>
+        <p>It's rare (at least I imagine it is) for there to exist one solution that optimizes all objective functions. More likely, there will be a set of solutions that are all fairly good, but they each have their own benefits and tradeoffs. These are referred to as Pareto optimal solutions.</p>
+        <p>In the example below, the green solutions are the Pareto optimal solutions. They're better than all the other solutions, but each Pareto optimal solution is not definitively better than any other Pareto optimal solution.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/ai2/pareto_optimal.png">
+        </div>
+        <p>Formally, a solution `x` is non-dominated if no solution dominates `x`. A set of non-dominated solutions is the Pareto optimal set. The image (in the context of functions) of the Pareto optimal set is the Pareto optimal front.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/ai2/pareto_optimal_2.png">
+        </div>
+        <p>The set of Pareto optimal solutions is defined as</p>
+        <div class="ln-center">
+          <p>`cc P^(ast) = {x in Omega | not EE x' in Omega text( ) f(x') preceq f(x)}`</p>
+          <p>(there does not exist a solution that dominates a Pareto optimal solution)</p>
+        </div>
+        <p>The Pareto front is defined as</p>
+        <div class="ln-center">
+          <p>`cc P cc F^(ast) = {(f_1(x), ..., f_k(x)) | x in cc P^(ast)}`</p>
+        </div>
+        <h3>Solving Multiobjective Problems</h3>
+        <h4>NSGA II</h4>
+        <p>NSGA stands for Nondominated Sorting Genetic Algorithm. It is an algorithm that can find multiple Pareto optimal solutions in a single simulation run. It works by classifying individuals into layers based on dominance. For individuals that are in the same layer, the solution that is in the lesser crowded region is considered better.</p>
+        <h4>MOEA/D</h4>
+        <p>MOEA/D stands for Multiobjective Evolutionary Algorithm Based on Decomposition. It decomposes the optimization problem into `n` scalar optimization subproblems, which are solved in parallel.</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
