@@ -71,6 +71,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Math</a>
         <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#weightorlift">Weight or Lift</a></li>
           <li><a class="dropdown-item" href="#abc123">ABC123</a></li>
           <li><a class="dropdown-item" href="#tom_sawyer_and_friends">Tom Sawyer and Friends</a></li>
           <li><a class="dropdown-item" href="#mean_score">Mean Score</a></li>
@@ -147,6 +148,27 @@
     <div id="page" class="container">
       <div class="row">
         <div class="col-sm-7">
+          <p id="weightorlift">.</p>
+          <div class="post">
+            <h4 class="title">Weight or Lift</h4>
+            <h6 class="date">March 8, 2025</h6>
+            <p>A few weeks ago (February 19), I participated in my first weightlifting competition. A deadlift competition to be exact. Actually, it wasn't an official competition; just some small fun event hosted by CSULA recreation.</p>
+            <p>Four days before the competition, I decided to see what my max was. Up until that point, I had never tried maxing out on a deadlift (heck, I had never even tried lifting more than 2 plates on each side). Surprisingly, I was able to lift 375 lbs (3 plates + 30 lbs on each side). I was 147 lbs at the time.</p>
+            <p>We were ranked by how much we could lift relative to our bodyweight. Specifically, `text(lbs lifted)/text(bodyweight)`. So this is where the math comes in and things get interesting.</p>
+            <div class="collapse" id="collapseWeightOrLift">
+              <p>To maximize my score, I would need to maximize `text(lbs lifted)/text(bodyweight)`. That meant either lifting more (i.e., increasing the numerator) or losing weight (i.e., decreasing the denominator). So which one is the better option? Or is it the same either way?</p>
+              <p>I never really dug deep into this myself, but I found out the answer (by pure coincidence!) on <a href="https://www.reddit.com/r/askmath/comments/1iyhhgo/in_a_fraction_difference_between_increasing_the/" target="_blank">Reddit</a> a week after the competition.</p>
+              <p>Well, we have to modify my scenario a bit in order for the Reddit answer to be applicable. Suppose I had a choice of either being able to lift `10%` more or decreasing my bodyweight by `10%`. Which is the better option?</p>
+              <p>Generally, increasing something by a percentage `p` means multiplying it by `(1+p)` and decreasing something by a percentage means multiplying it by `(1-p)`. So for my situation, is it better to multiply something by `(1+p)` (increasing the numerator), or is it better to multiply by `1/(1-p)` (decreasing the denominator)?</p>
+              <p>`(1+p) ? 1/(1-p)`</p>
+              <p>`(1+p)(1-p) ? 1/(1-p)*(1-p)`</p>
+              <p>`1-p^2 ? 1`</p>
+              <p>`1-p^2 lt 1`</p>
+              <p>So the answer is that it's better to decrease the denominator.</p>
+              <p>On competition day, I lifted 2.3 times my bodyweight, which put me in fourth place. The winner lifted 3.15 times their bodyweight, so decreasing my bodyweight by a small amount wouldn't have made a difference anyway.</p>
+            </div>
+            <button class="btn btn-light toggle-text" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWeightOrLift" aria-expanded="false" aria-controls="collapseWeightOrLift"><span>Read more</span><span class="hidden">Read less</span></button>
+          </div>
           <p id="abc123">.</p>
           <div class="post">
             <h4 class="title">ABC123</h4>
