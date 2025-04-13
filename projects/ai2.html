@@ -38,6 +38,7 @@
         <li><a class="dropdown-item" href="#eavariants">Evolutionary Algorithm Variants</a></li>
         <li><a class="dropdown-item" href="#parametertuning">Parameters and Parameter Tuning</a></li>
         <li><a class="dropdown-item" href="#multiobjective">Multiobjective Evolutionary Algorithms</a></li>
+        <li><a class="dropdown-item" href="#llm">LLMs</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1635,6 +1636,28 @@
         <h4>MOEA/D</h4>
         <p>MOEA/D stands for Multiobjective Evolutionary Algorithm Based on Decomposition. It decomposes the optimization problem into `n` scalar optimization subproblems, which are solved in parallel.</p>
       </div>
+      <h2 id="llm">LLMs</h2>
+      <p>Generative AI is a type of AI that creates new content based on what it has learned from existing content. One example of a generative model is a large language model (LLM). At its core, LLMs are word predictors, that is, they generate text by predicting what words should be used.</p>
+      <p>For example, suppose we have the sentence, "When I hear rain on my roof, I _ in my kitchen." Using the surrounding words for context, an LLM makes predictions for what word(s) should go in the blank by assigning probabilties to word(s) that the LLM has seen in similar contexts. Some choices could be</p>
+      <ul>
+        <li>cook soup (`9.4%`)</li>
+        <li>warm up a kettle (`5.2%`)</li>
+        <li>nap (`3.6%`)</li>
+        <li>relax (`2.5%`)</li>
+      </ul>
+      <div class="ln-box">
+        <h3>Building an LLM</h3>
+        <p>The first step in creating an LLM is to pretrain it on a large amount of text data. It's like literally feeding it a bunch of words so that it can develop a vocabulary.</p>
+        <p>The second step is to train it on a large amount of text data, except this time, the data is labeled. For example, we could give the LLM a bunch of sentences related to finance so that it learns what types of words are associated with finance. This type of training is called classification fine-tuning. There is another type of training called instruction fine-tuning where we give the LLM instructions (prompts) and sample answers so that it learns how certain questions/commands should be responded to.</p>
+        <p>After the first pretraining step, we end up with a foundation model that already has some basic capabilities, like text completion and typo recognition/correction. The second step is how we get more advanced LLMs.</p>
+      </div>
+      <h3>Embeddings</h3>
+      <p>LLMs don't actually understand words and text. They're like computers; they work with numbers. Words are converted into numbers, which the LLM performs calculations on to produce more numbers, which are converted back into words. The process of converting words into numbers is called embedding.</p>
+      <div class="ln-box">
+        <p>More specifically, words are converted into continuous-valued vectors.</p>
+      </div>
+      <h3>Tokenizing</h3>
+      <p>In order to create word embeddings, the text has to be split into individual tokens. A token can be thought of as an individual word.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
