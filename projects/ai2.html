@@ -46,7 +46,7 @@
       <h1>Advanced Artificial Intelligence</h1>
       <hr>
       <p>Shortcut to this page: <a href="ai2.html">ntrllog.netlify.app/ai2</a></p>
-      <p>Notes provided by Professor Armando Beltran (CSULA) and <a href="http://www.evolutionarycomputation.org/" target="_blank">Introduction to Evolutionary Computing</a></p>
+      <p>Notes provided by Professor Armando Beltran (CSULA), <a href="http://www.evolutionarycomputation.org/" target="_blank">Introduction to Evolutionary Computing</a>, and <a href="https://sebastianraschka.com/books/" target="_blank">Build a Large Language Model (From Scratch)</a></p>
       <p>This is an extension of the <a href="ai.html" target="_blank">artificial intelligence</a> and <a href="ml.html" target="_blank">machine learning</a> resources. Well, we’ll see where this goes — I’m writing this as the class goes.</p>
       <h2 id="whatisit">What's the Problem?</h2>
       <p>As computer scientists, we aim to develop and use AI to solve problems optimally. But before we look at how AI works, we should start with understanding what types of problems exist and how to define them.</p>
@@ -1645,19 +1645,126 @@
         <li>nap (`3.6%`)</li>
         <li>relax (`2.5%`)</li>
       </ul>
+      <p>So how does predicting text relate to generating text? LLMs generate text by repeatedly predicting what word it thinks should come next after its own prediction.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai2/llm.gif">
+      </div>
       <div class="ln-box">
-        <h3>Building an LLM</h3>
+        <p>This is similar to how training is done for the LLM. The current group of words is the input and the target is the next word that comes next.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/ai2/llm_2.gif">
+        </div>
+      </div>
+      <div class="ln-box">
         <p>The first step in creating an LLM is to pretrain it on a large amount of text data. It's like literally feeding it a bunch of words so that it can develop a vocabulary.</p>
         <p>The second step is to train it on a large amount of text data, except this time, the data is labeled. For example, we could give the LLM a bunch of sentences related to finance so that it learns what types of words are associated with finance. This type of training is called classification fine-tuning. There is another type of training called instruction fine-tuning where we give the LLM instructions (prompts) and sample answers so that it learns how certain questions/commands should be responded to.</p>
         <p>After the first pretraining step, we end up with a foundation model that already has some basic capabilities, like text completion and typo recognition/correction. The second step is how we get more advanced LLMs.</p>
       </div>
       <h3>Embeddings</h3>
       <p>LLMs don't actually understand words and text. They're like computers; they work with numbers. Words are converted into numbers, which the LLM performs calculations on to produce more numbers, which are converted back into words. The process of converting words into numbers is called embedding.</p>
+      <p>The basic idea behind embeddings is that words are assigned numerical values based on certain qualities or meanings of the word. So similar words, like words about finance, have similar numerical values.</p>
       <div class="ln-box">
         <p>More specifically, words are converted into continuous-valued vectors.</p>
+        <div class="ln-center">
+          <p>This `rarr [[-2.7], [-2.3], [8.9]]`</p>
+          <p>is `rarr [[-4.7], [-0.5], [6.2]]`</p>
+          <p>an `rarr [[6.2], [5.0], [-4.2]]`</p>
+          <p>example `rarr [[-0.1], [4.3], [-6.2]]`</p>
+        </div>
       </div>
       <h3>Tokenizing</h3>
       <p>In order to create word embeddings, the text has to be split into individual tokens. A token can be thought of as an individual word.</p>
+      <p>For example, the sentence, "This is an example." can be tokenized into four tokens:</p>
+      <div class="ln-center">
+        <p>["This", "is", "an", "example."]</p>
+      </div>
+      <p>So a simple strategy for tokenizing a sentence is to split the sentence on spaces.</p>
+      <div class="ln-box">
+        <p>If we wanted to remove or tokenize punctuation, we could use regular expressions.</p>
+      </div>
+      <p>Once we have our tokens, we convert each token into a token ID. A simple way of doing this is to do</p>
+      <div class="ln-center">
+        <p>This `rarr 0`<br>is `rarr 1`<br>an `rarr 2`<br>example `rarr 3`</p>
+      </div>
+      <div class="ln-box">
+        <p>Let's say we wanted to build an LLM that can recognize phrases from books. To train it, we would give it a bunch of books to read. Programmatically, I suppose we would probably combine all the books into one large text file and feed that to the LLM. In order to know which text belongs to which book, we would need some sort of marker to indicate where one book ends and the next book begins. During the tokenization process, we use a special context token (e.g., &lt;|endoftext|&gt;) to handle this situation. Special context tokens also get converted into token IDs.</p>
+      </div>
+      <div class="ln-box">
+        <p>Another type of special context token is &lt;|unk|&gt; for handling unknown words (unknown to the LLM)</p>
+      </div>
+      <h3>Now, (Back) to Embeddings</h3>
+      <div class="ln-box">
+        <p>For simplicity, I'll continue with the assumption that a token is a word. So I'll use "token" and "word" interchangeably.</p>
+      </div>
+      <p>Each word in the LLM's vocabulary is initially assigned a vector of random values. These vectors form what is called the embedding matrix. A word's embedding vector is obtained by using the token ID to "index" into the embedding matrix.</p>
+      <div class="ln-center">
+        <p>`[[text(This)], [text(is)], [text(an)], [text(example)]] rarr [[-2.7, -2.3, 8.9], [-4.7, -0.5, 6.2], [6.2, 5.0, -4.2], [-0.1, 4.3, -6.2]]`</p>
+      </div>
+      <p>These random values get updated during the training process as the LLM learns more about what each word means.</p>
+      <div class="ln-box">
+        <p>One small thing that is missing so far is that an embedding needs to encode information about the position of a word in a sentence. The two sentences "The dog chased the cat." and "The cat chased the dog." are very different, even though they have the exact same words.</p>
+        <p>There are two ways to inject position information into a word's embedding. We could add the token's exact position (e.g., `2.0` for the second token) to the embedding vector. This is absolute positional embedding. The other way is to include information about distance or relative order between tokens (e.g., "token A is 3 positions after token B"). This is relative positional embedding.</p>
+      </div>
+      <h3>Attention</h3>
+      <p>What are some words that can follow the word "too"? This question is hard to answer because there are a billion options and we don't know what the context is. We can see that in order to predict words, we need to know the information that came before.</p>
+      <p>Now consider the following sentence: "The chicken didn't cross the road because it was too _". What could the next word be? It's easier to narrow down the options, but there are still many options, because it depends on what "it" is referring to. Is "it" referring to the chicken or the road?</p>
+      <p>"The chicken didn't cross the road because it was too tired." In this sentence, "it" is referring to the chicken. We can say that the word 'it' "attends to" the word 'chicken'. "The chicken didn't cross the road because it was too wide." In this sentence, "it" is referring to the road. We can say that the word 'it' "attends to" the word 'road'.</p>
+      <p>This leads into the concept of attention. Attention is the process of updating a word's meaning based on the other words that exist in the context.</p>
+      <div class="ln-box">
+        <p>More specifically, we'll look at self-attention, which is a type of attention mechanism. The "self" is referring to the fact that we're looking at how different parts of the input relates to itself (in this case, how each word in a sentence relates to each other).</p>
+      </div>
+      <p>The idea is that a word's embedding vector gets updated by all of the other embedding vectors. Looking at the words "chicken", "road", "it", and "wide", let's say we wanted to update the embedding vector for "it" using self-attention.</p>
+      <div class="ln-center">
+        <p>it `rarr [[0.4], [0.1], [0.8]]`</p>
+        <p>`darr`</p>
+        <p>how important is the word "chicken" to the word "it"?</p>
+        <p>`darr`</p>
+        <p>it `rarr [[0.5], [0.8], [0.6]]`</p>
+        <p>`darr`</p>
+        <p>how important is the word "road" to the word "it"?</p>
+        <p>`darr`</p>
+        <p>it `rarr [[0.2], [0.5], [0.3]]`</p>
+        <p>`darr`</p>
+        <p>how important is the word "it" to the word "it"?</p>
+        <p>`darr`</p>
+        <p>it `rarr [[0.8], [0.3], [0.1]]`</p>
+        <p>`darr`</p>
+        <p>how important is the word "wide" to the word "it"?</p>
+        <p>`darr`</p>
+        <p>it `rarr [[0.5], [0.9], [0.3]]`</p>
+      </div>
+      <p>The end result is that we have a new embedding vector for the word "it" that captures the relationships between the word "it" and all the other words.</p>
+      <p>The information about how important a word is to another word is measured by an "attention weight". So how do we get this information?</p>
+      <h4>Simple Self-Attention</h4>
+      <p>One way is to calculate the dot product of a word's embedding vector with another word's embedding vector.</p>
+      <div class="ln-box">
+        <p>If two vectors are pointing in the same direction, then their dot product will be large. In the context of word embeddings, if two vectors are pointing in the same direction, then the two words are strongly related to each other.</p>
+        <p>If two vectors are pointing in different directions, then their dot product will be small. In the context of word embeddings, if two vectors are pointing in different directions, then the two words are not really related to each other.</p>
+      </div>
+      <p>The dot product gives us an attention score. Once we have calculated all the attention scores for a word, we normalize them to get attention weights.</p>
+      <div class="ln-box">
+        <p>This process of normalization is needed so we can know how much more important one word is vs. another word.</p>
+        <p>A simple way to normalize the attention scores is to divide by the `1`-norm.</p>
+        <div class="ln-center">
+          <p>`bb alpha = bb omega/norm(bb omega)_1`</p>
+        </div>
+        <p>where `bb omega` is a vector of attention scores and `bb alpha` is the resulting vector of attention weights.</p>
+        <p>The more common way to normalize is to use the softmax function.</p>
+        <div class="ln-center">
+          <p>`alpha_i = e^(omega_i)/(sum_(j=1)^K e^(omega_j))`</p>
+        </div>
+      </div>
+      <p>Going back to the sentence "The chicken didn't cross the road because it was too wide", the process for updating the embedding vector for "it" looks like:</p>
+      <div class="ln-center">
+        <p>`[[0.0], [0.8], [0.5]] * alpha_(8__1) + [[0.2], [0.3], [0.4]] * alpha_(8__2) + ... + [[0.1], [0.2], [0.7]] * alpha_(8__11)`</p>
+        <p>(embedding vector for "The") `xx` (attention weight for the eighth word and the first word)</p>
+        <p>`+`</p>
+        <p>(embedding vector for "chicken") `xx` (attention weight for the eighth word and the second word)</p>
+        <p>`+`</p>
+        <p>`vdots`</p>
+        <p>`+`</p>
+        <p>(embedding vector for "wide") `xx` (attention weight for the eighth word and the eleventh word)</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
