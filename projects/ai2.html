@@ -1733,7 +1733,7 @@
         <p>`darr`</p>
         <p>it `rarr [[0.5], [0.9], [0.3]]`</p>
       </div>
-      <p>The end result is that we have a new embedding vector for the word "it" that captures the relationships between the word "it" and all the other words.</p>
+      <p>The end result is that we have a new embedding vector (referred to as a context vector) for the word "it" that captures the relationships between the word "it" and all the other words.</p>
       <p>The information about how important a word is to another word is measured by an "attention weight". So how do we get this information?</p>
       <h4>Simple Self-Attention</h4>
       <p>One way is to calculate the dot product of a word's embedding vector with another word's embedding vector.</p>
@@ -1764,7 +1764,404 @@
         <p>`vdots`</p>
         <p>`+`</p>
         <p>(embedding vector for "wide") `xx` (attention weight for the eighth word and the eleventh word)</p>
+        <p>`=`</p>
+        <p>(context vector for "it")</p>
       </div>
+      <h4>(Regular) Self-Attention</h4>
+      <p>So that is the simple way to implement self-attention. But the process can be improved so that the attention weights are trainable, i.e., the weights are learned through training.</p>
+      <p>Instead of using the embedding vectors directly to calculate the attention scores, we'll use the embedding vectors along with two trainable weight matrices to produce new vectors for calculating attention scores. The two trainable weight matrices are randomly initialized and we'll call them `W_q` and `W_k`.</p>
+      <p>To calculate the attention score for the word "it" with the word "road":</p>
+      <ol>
+        <li>matrix multiply the embedding vector for "it" with `W_q`
+          <ul>
+            <li>this produces a query vector</li>
+          </ul>
+        </li>
+        <li>matrix multiply the embedding vector for "road" with `W_k`
+          <ul>
+            <li>this produces a key vector</li>
+          </ul>
+        </li>
+        <li>compute the dot product of the query vector and the key vector</li>
+      </ol>
+      <div class="ln-box">
+        <p>The attention weights are obtained by normalizing the attention scores using softmax. Except, instead of taking the softmax of the attention scores, we take the softmax of the attention scores divided by the square root of the dimension of the key vector.</p>
+        <p>This `1/sqrt(d_k)` factor is there to prevent the effects of the vanishing gradient.</p>
+      </div>
+      <p>To get the context vector for the word "it", we use a third randomly-initialized, trainable weight matrix, which we'll call `W_v`.</p>
+      <ol>
+        <li>matrix multiply each word's embedding vector with `W_v`
+          <ul>
+            <li>this produces a value vector for each word</li>
+          </ul>
+        </li>
+        <li>multiply the value vector of each word with its attention weight for "it"</li>
+        <li>take the sum of the vectors</li>
+      </ol>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/ai2/self_attention.png">
+      </div>
+      <div class="ln-box">
+        <p>The idea behind calling them query vectors, key vectors, and value vectors can be loosely thought of as:</p>
+        <p>The word that we are calculating the attention score for is asking the other words if they are related to it (query vector), and the other words are responding (key vector) with how related they are to it (value vector).</p>
+      </div>
+      <div class="ln-box">
+        <p>The three weight matrices `W_q`, `W_k`, and `W_v` are randomly initialized. What makes them trainable is that their values are updated as the LLM learns more about what the words mean and how they're related to each other.</p>
+      </div>
+      <h4>Casual Attention</h4>
+      <p>A fast way to calculate the attention scores for all the words at once is to matrix multiply the word embedding vectors with themselves (in the simple self-attention case) or to matrix multiply the query vectors with the key vectors (in the regular self-attention case).</p>
+      <p>What we end up with is an attention weight matrix that could look something like this:</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td></td>
+          <td>The</td>
+          <td>chicken</td>
+          <td>didn't</td>
+          <td>cross</td>
+          <td>the</td>
+          <td>road</td>
+          <td>because</td>
+          <td>it</td>
+          <td>was</td>
+          <td>too</td>
+          <td>wide</td>
+        </tr>
+        <tr>
+          <td>The</td>
+          <td>`0.06`</td>
+          <td>`0.09`</td>
+          <td>`0.08`</td>
+          <td>`0.10`</td>
+          <td>`0.07`</td>
+          <td>`0.11`</td>
+          <td>`0.10`</td>
+          <td>`0.07`</td>
+          <td>`0.08`</td>
+          <td>`0.12`</td>
+          <td>`0.12`</td>
+        </tr>
+        <tr>
+          <td>chicken</td>
+          <td>`0.11`</td>
+          <td>`0.05`</td>
+          <td>`0.09`</td>
+          <td>`0.08`</td>
+          <td>`0.10`</td>
+          <td>`0.07`</td>
+          <td>`0.09`</td>
+          <td>`0.10`</td>
+          <td>`0.07`</td>
+          <td>`0.12`</td>
+          <td>`0.12`</td>
+        </tr>
+        <tr>
+          <td>didn't</td>
+          <td>`0.08`</td>
+          <td>`0.12`</td>
+          <td>`0.04`</td>
+          <td>`0.13`</td>
+          <td>`0.09`</td>
+          <td>`0.08`</td>
+          <td>`0.07`</td>
+          <td>`0.09`</td>
+          <td>`0.07`</td>
+          <td>`0.11`</td>
+          <td>`0.12`</td>
+        </tr>
+        <tr>
+          <td>cross</td>
+          <td>`0.07`</td>
+          <td>`0.10`</td>
+          <td>`0.12`</td>
+          <td>`0.05`</td>
+          <td>`0.10`</td>
+          <td>`0.11`</td>
+          <td>`0.08`</td>
+          <td>`0.09`</td>
+          <td>`0.07`</td>
+          <td>`0.10`</td>
+          <td>`0.11`</td>
+        </tr>
+        <tr>
+          <td>the</td>
+          <td>`0.09`</td>
+          <td>`0.07`</td>
+          <td>`0.11`</td>
+          <td>`0.09`</td>
+          <td>`0.04`</td>
+          <td>`0.14`</td>
+          <td>`0.07`</td>
+          <td>`0.09`</td>
+          <td>`0.07`</td>
+          <td>`0.11`</td>
+          <td>`0.12`</td>
+        </tr>
+        <tr>
+          <td>road</td>
+          <td>`0.10`</td>
+          <td>`0.07`</td>
+          <td>`0.09`</td>
+          <td>`0.11`</td>
+          <td>`0.12`</td>
+          <td>`0.03`</td>
+          <td>`0.07`</td>
+          <td>`0.08`</td>
+          <td>`0.07`</td>
+          <td>`0.13`</td>
+          <td>`0.13`</td>
+        </tr>
+        <tr>
+          <td>because</td>
+          <td>`0.08`</td>
+          <td>`0.08`</td>
+          <td>`0.11`</td>
+          <td>`0.09`</td>
+          <td>`0.07`</td>
+          <td>`0.09`</td>
+          <td>`0.05`</td>
+          <td>`0.09`</td>
+          <td>`0.09`</td>
+          <td>`0.11`</td>
+          <td>`0.14`</td>
+        </tr>
+        <tr>
+          <td>it</td>
+          <td>`0.07`</td>
+          <td>`0.10`</td>
+          <td>`0.09`</td>
+          <td>`0.07`</td>
+          <td>`0.08`</td>
+          <td>`0.08`</td>
+          <td>`0.12`</td>
+          <td>`0.05`</td>
+          <td>`0.11`</td>
+          <td>`0.10`</td>
+          <td>`0.13`</td>
+        </tr>
+        <tr>
+          <td>was</td>
+          <td>`0.09`</td>
+          <td>`0.07`</td>
+          <td>`0.08`</td>
+          <td>`0.08`</td>
+          <td>`0.07`</td>
+          <td>`0.11`</td>
+          <td>`0.10`</td>
+          <td>`0.08`</td>
+          <td>`0.04`</td>
+          <td>`0.13`</td>
+          <td>`0.15`</td>
+        </tr>
+        <tr>
+          <td>too</td>
+          <td>`0.06`</td>
+          <td>`0.09`</td>
+          <td>`0.09`</td>
+          <td>`0.08`</td>
+          <td>`0.09`</td>
+          <td>`0.13`</td>
+          <td>`0.10`</td>
+          <td>`0.08`</td>
+          <td>`0.07`</td>
+          <td>`0.05`</td>
+          <td>`0.16`</td>
+        </tr>
+        <tr>
+          <td>wide</td>
+          <td>`0.07`</td>
+          <td>`0.08`</td>
+          <td>`0.10`</td>
+          <td>`0.09`</td>
+          <td>`0.08`</td>
+          <td>`0.11`</td>
+          <td>`0.09`</td>
+          <td>`0.09`</td>
+          <td>`0.09`</td>
+          <td>`0.10`</td>
+          <td>`0.10`</td>
+        </tr>
+      </table>
+      <p>The one problem with this is that this gives the LLM too much information. For example, let's say we wanted to predict what word would come after "road". In principle, we would make our prediction using only the words "The", "chicken", "didn't", "cross", and "the", i.e., the words that came before "road". But this attention matrix gives us information about words that come after "road".</p>
+      <p>Ideally, we would like to have something like this:</p>
+      <table class="table table-bordered ln-center">
+        <tr>
+          <td></td>
+          <td>The</td>
+          <td>chicken</td>
+          <td>didn't</td>
+          <td>cross</td>
+          <td>the</td>
+          <td>road</td>
+          <td>because</td>
+          <td>it</td>
+          <td>was</td>
+          <td>too</td>
+          <td>wide</td>
+        </tr>
+        <tr>
+          <td>The</td>
+          <td>`1`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>chicken</td>
+          <td>`0.49`</td>
+          <td>`0.51`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>didn't</td>
+          <td>`0.22`</td>
+          <td>`0.27`</td>
+          <td>`0.51`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>cross</td>
+          <td>`0.18`</td>
+          <td>`0.21`</td>
+          <td>`0.20`</td>
+          <td>`0.41`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>the</td>
+          <td>`0.20`</td>
+          <td>`0.14`</td>
+          <td>`0.21`</td>
+          <td>`0.14`</td>
+          <td>`0.31`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>road</td>
+          <td>`0.15`</td>
+          <td>`0.18`</td>
+          <td>`0.12`</td>
+          <td>`0.12`</td>
+          <td>`0.13`</td>
+          <td>`0.30`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>because</td>
+          <td>`0.11`</td>
+          <td>`0.14`</td>
+          <td>`0.14`</td>
+          <td>`0.12`</td>
+          <td>`0.11`</td>
+          <td>`0.09`</td>
+          <td>`0.29`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>it</td>
+          <td>`0.13`</td>
+          <td>`0.11`</td>
+          <td>`0.09`</td>
+          <td>`0.10`</td>
+          <td>`0.09`</td>
+          <td>`0.08`</td>
+          <td>`0.08`</td>
+          <td>`0.32`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>was</td>
+          <td>`0.08`</td>
+          <td>`0.11`</td>
+          <td>`0.10`</td>
+          <td>`0.09`</td>
+          <td>`0.07`</td>
+          <td>`0.06`</td>
+          <td>`0.09`</td>
+          <td>`0.12`</td>
+          <td>`0.28`</td>
+          <td>`0`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>too</td>
+          <td>`0.07`</td>
+          <td>`0.08`</td>
+          <td>`0.09`</td>
+          <td>`0.08`</td>
+          <td>`0.09`</td>
+          <td>`0.07`</td>
+          <td>`0.07`</td>
+          <td>`0.09`</td>
+          <td>`0.11`</td>
+          <td>`0.25`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>wide</td>
+          <td>`0.05`</td>
+          <td>`0.07`</td>
+          <td>`0.08`</td>
+          <td>`0.09`</td>
+          <td>`0.08`</td>
+          <td>`0.06`</td>
+          <td>`0.08`</td>
+          <td>`0.10`</td>
+          <td>`0.09`</td>
+          <td>`0.10`</td>
+          <td>`0.20`</td>
+        </tr>
+      </table>
+      <p>The future tokens are "masked out" by applying what is called a casual attention mask.</p>
+      <div class="ln-box">
+        <p>An efficient way to achieve this is to set the attention scores above the diagonal to `-oo`, then normalize the matrix using softmax, which will turn the `-oo`s into `0`s (because `e^(-oo)` approaches `0`).</p>
+      </div>
+      <div class="ln-box">
+        <p>To prevent overfitting, a dropout mask can be further applied to the attention matrix. A dropout mask selects random attention weights to be "dropped" (turned into `0`s).</p>
+      </div>
+      <h4>Multi-head Attention</h4>
+      <p>Doing all of this with only one set of weight matrices `W_q`, `W_k`, `W_v` is implementing single-head attention. Doing all of this (in parallel) with multiple sets of weight matrices `W_q`, `W_k`, `W_v` is implementing multi-head attention.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
