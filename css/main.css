@@ -97,3 +97,17 @@ hr {
 .ln-contact-section a {
   margin: 0 23px;
 }
+
+.ln-image-small {
+    width: 75%;
+    height: auto;
+    border-radius: 10%;
+  }
+
+@media (min-width:801px) {
+  .ln-image-small {
+    width: 25%;
+    height: auto;
+    border-radius: 10%;
+  }
+}
