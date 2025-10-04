@@ -33,6 +33,7 @@
         <li><a class="dropdown-item" href="#complexnumbersalgebra">Complex Numbers (Algebraically)</a></li>
         <li><a class="dropdown-item" href="#complexnumbersgeometry">Complex Numbers (Geometrically)</a></li>
         <li><a class="dropdown-item" href="#complexvectorspaces">Complex Vector Spaces</a></li>
+        <li><a class="dropdown-item" href="#classicaltoquantum">Classical to Quantum</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -274,6 +275,207 @@
       <div class="ln-center">
         <p>`[[a_(0,0),a_(0,1)],[a_(1,0),a_(1,1)]]ox[[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]]=[[a_(0,0) cdot [[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]], a_(0,1) cdot [[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]]], [a_(1,0) cdot [[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]], a_(1,1) cdot [[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]]]]`</p>
         <p>`=[[a_(0,0)xxb_(0,0),a_(0,0)xxb_(0,1),a_(0,0)xxb_(0,2),a_(0,1)xxb_(0,0),a_(0,1)xxb_(0,1),a_(0,1)xxb_(0,2)],[a_(0,0)xxb_(1,0),a_(0,0)xxb_(1,1),a_(0,0)xxb_(1,2),a_(0,1)xxb_(1,0),a_(0,1)xxb_(1,1),a_(0,1)xxb_(1,2)],[a_(0,0)xxb_(2,0),a_(0,0)xxb_(2,1),a_(0,0)xxb_(2,2),a_(0,1)xxb_(2,0),a_(0,1)xxb_(2,1),a_(0,1)xxb_(2,2)],[a_(1,0)xxb_(0,0),a_(1,0)xxb_(0,1),a_(1,0)xxb_(0,2),a_(1,1)xxb_(0,0),a_(1,1)xxb_(0,1),a_(1,1)xxb_(0,2)],[a_(1,0)xxb_(1,0),a_(1,0)xxb_(1,1),a_(1,0)xxb_(1,2),a_(1,1)xxb_(1,0),a_(1,1)xxb_(1,1),a_(1,1)xxb_(1,2)],[a_(1,0)xxb_(2,0),a_(1,0)xxb_(2,1),a_(1,0)xxb_(2,2),a_(1,1)xxb_(2,0),a_(1,1)xxb_(2,1),a_(1,1)xxb_(2,2)]]`</p>
+      </div>
+      <h2 id="classicaltoquantum">Classical to Quantum</h2>
+      <p>Now we can finally get to the quantum stuff. A classical system is a world where things can be predicted because things follow the laws of physics that we are familiar with. A quantum system is a world where things can't be predicted because things follow quantum mechanics. You know, the stuff like Schrödinger's cat and Heisenberg's uncertainty principle.</p>
+      <h3>Bits and Qubits</h3>
+      <p>A bit is a unit of information describing a classical system that has only two states (a two-dimensional classical system). Typically these states can be thought of as "on" and "off" or "true" and "false" and are represented by `0` and `1`.</p>
+      <p>We denote the states as `|0:)` and `|1:)`, which can be represented as matrices `[[1],[0]]` and `[[0],[1]]` respectively. (Think of it as having a `1` in the `0^text(th)` index, so that represents the `|0:)` state and having a `1` in the `1^text(st)` index, so that represents the `|1:)` state.)</p>
+      <div class="ln-box">
+        <p>The `|` with the `:)` is called Dirac ket notation.</p>
+      </div>
+      <p>A qubit is a quantum bit. So it is a unit of information describing a two-dimensional quantum system. We can also represent a qubit using a matrix, but instead of just `0`s and `1`s, the entries are complex numbers. So `[[c_0],[c_1]]` where `abs(c_0)^2+abs(c_1)^2=1` represents a qubit.</p>
+      <p>`abs(c_0)^2` is the probability that the qubit is in state `|0:)` and `abs(c_1)^2` is the probability that the qubit is in state `|1:)`. In a sense, a qubit is in both states at the same time until it is measured. Once a qubit is measured, it collapses to become a bit, which at that point, means it is definitively either in state `|0:)` or `|1:)`.</p>
+      <div class="ln-box">
+        <p>Since the bits `|0:)` and `|1:)` are a basis of `CC^2`, any qubit can be written as</p>
+        <div class="ln-center">
+          <p>`[[c_0],[c_1]]=c_0 cdot [[1],[0]]+c_1 cdot [[0],[1]]=c_0``|0:)+c_1``|1:)`</p>
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>In general, an arbitrary state `|psi:)` is a linear combination of states `|x_0:),``|x_1:),...,``|x_(n-1):)` by complex weights `c_0,c_1,...,c_(n-1)`. These weights are called complex amplitudes.</p>
+        <p>Any state can be represented by an element of `CC^n` as</p>
+        <div class="ln-center">
+          <p>`|psi:)``|->[[c_0],[c_1],[vdots],[c_(n-1)]]`</p>
+        </div>
+      </div>
+      <p>Let's consider the complex vector `V=[[5+3i],[6i]]`. We can turn this complex vector into a qubit by normalizing it, that is, dividing each entry by the length of the vector (recall that the sum of the square of the entries has to equal `1` for it to be a qubit).</p>
+      <p>The length of the vector is</p>
+      <div class="ln-center">
+        <p>`abs(V)=sqrt((:V,V:))=sqrt([5-3i,-6i][[5+3i],[6i]])=sqrt(34+36)=sqrt(70)`</p>
+      </div>
+      <p>So the qubit is</p>
+      <div class="ln-center">
+        <p>`V/sqrt(70)=[[(5+3i)/sqrt(70)],[(6i)/sqrt(70)]]=(5+3i)/sqrt(70)``|0:)``+(6i)/sqrt(70)``|1:)`</p>
+      </div>
+      <p>After measuring the qubit, the probability that it is found in state `|0:)` is `34/70` (`abs(c_0)^2`) and the probability that it is found in state `|1:)` is `36/70` (`abs(c_1)^2`).</p>
+      <div class="ln-box">
+        <p>`|psi:)` is a superposition of the states `|x_0:),``|x_1:),...,``|x_(n-1):)`. That is, `|psi:)` represents a qubit as being simultaneously in all `{x_0,x_1,...,x_(n-1)}` states.</p>
+      </div>
+      <p>Suppose we have two qubits `|0:)` and `|1:)`. They can be written as a pair of qubits as `|0:) otimes ``|1:)` or `|0 otimes 1:)`. If we calculate the tensor product, we end up with</p>
+      <div class="ln-center">
+        <p>`[[0],[1],[0],[0]]`</p>
+      </div>
+      <p>The tensor product is implicitly understood, so it can also be denoted as `|01:)`.</p>
+      <div class="ln-box">
+        <p>If we pair up all the possible qubits, we get</p>
+        <div class="ln-center">
+          <p>`|00:)``=[[1],[0],[0],[0]]`</p>
+          <p>`|01:)``=[[0],[1],[0],[0]]`</p>
+          <p>`|10:)``=[[0],[0],[1],[0]]`</p>
+          <p>`|11:)``=[[0],[0],[0],[1]]`</p>
+        </div>
+        <p>Again, the indexes idea works here:</p>
+        <ul>
+          <li>There's a `1` in the `0^text(th)` index so that represents "`0`".</li>
+          <li>There's a `1` in the `1^text(st)` index so that represents "`1`".</li>
+          <li>There's a `1` in the `2^text(nd)` index so that represents "`2`".</li>
+          <li>There's a `1` in the `3^text(rd)` index so that represents "`3`".</li>
+        </ul>
+      </div>
+      <h3>Classical Gates</h3>
+      <p>Gates are operators that manipulate bits. They take in bits as input and outputs one bit. The classical gates are pretty much just the boolean operators. We can represent gates with matrices.</p>
+      <h4>NOT Gate</h4>
+      <p>NOT of `|0:)` equals `|1:)` and NOT of `|1:)` equals `|0:)`. The matrix representation is</p>
+      <div class="ln-center">
+        <p>`[[0,1],[1,0]]`</p>
+      </div>
+      <div class="ln-box">
+        <p>We can confirm that the matrix above is indeed the matrix for the NOT operator.</p>
+        <div class="ln-center">
+          <p>`[[0,1],[1,0]][[1],[0]]=[[0],[1]]`</p>
+          <p>NOT of `|0:)` equals `|1:)`</p>
+          <p>`[[0,1],[1,0]][[0],[1]]=[[1],[0]]`</p>
+          <p>NOT of `|1:)` equals `|0:)`</p>
+        </div>
+      </div>
+      <h4>AND Gate</h4>
+      <p>The matrix representation of the AND gate is</p>
+      <div class="ln-center">
+        <p>`[[1,1,1,0],[0,0,0,1]]`</p>
+      </div>
+      <div class="ln-box">
+        <p>We can confirm that the matrix above is indeed the matrix for the AND operator.</p>
+        <div class="ln-center">
+          <p>`[[1,1,1,0],[0,0,0,1]][[1],[0],[0],[0]]=[[1],[0]]`</p>
+          <p>AND `|00:)` equals `|0:)`</p>
+          <p>`[[1,1,1,0],[0,0,0,1]][[0],[1],[0],[0]]=[[1],[0]]`</p>
+          <p>AND `|01:)` equals `|0:)`</p>
+          <p>`[[1,1,1,0],[0,0,0,1]][[0],[0],[1],[0]]=[[1],[0]]`</p>
+          <p>AND `|10:)` equals `|0:)`</p>
+          <p>`[[1,1,1,0],[0,0,0,1]][[0],[0],[0],[1]]=[[0],[1]]`</p>
+          <p>AND `|11:)` equals `|1:)`</p>
+        </div>
+      </div>
+      <h4>OR Gate</h4>
+      <p>The matrix representation of the OR gate is</p>
+      <div class="ln-center">
+        <p>`[[1,0,0,0],[0,1,1,1]]`</p>
+      </div>
+      <h4>NAND Gate</h4>
+      <p>NAND is "not and". The matrix representation of the NAND gate is (unsurprisingly)</p>
+      <div class="ln-center">
+        <p>`[[0,0,0,1],[1,1,1,0]]`</p>
+      </div>
+      <h4>Sequential Operations</h4>
+      <p>There's another way to derive the matrix for the NAND gate. NAND is the result of performing the AND operation followed by the NOT operation. We can sequentially apply the operations one by one, but we can also multiply their matrices to get the matrix that produces the same result.</p>
+      <div class="ln-center">
+        <p>`NOT *** AND = [[0,1],[1,0]] *** [[1,1,1,0],[0,0,0,1]] = [[0,0,0,1],[1,1,1,0]]`</p>
+      </div>
+      <p>If the input of one operation depends on the output of another operation, then those are sequential operations.</p>
+      <h4>Parallel Operations</h4>
+      <p>If two operations are working with different bits and their inputs and outputs don't depend on each other, then those operations are parallel. With parallel operations, we perform tensor multiplication between them.</p>
+      <p>For example, consider one of DeMorgan's laws:</p>
+      <div class="ln-center">
+        <p>`not(not P ^^ not Q) = P vv Q`</p>
+      </div>
+      <p>The matrix representation of this is</p>
+      <div class="ln-center">
+        <p>`NOT *** AND *** (NOT otimes NOT) = OR`</p>
+      </div>
+      <p>The two NOT operators in `not P ^^ not Q` are acting on different bits, so they are parallel.</p>
+      <p>The outermost NOT operator can only be performed after the AND operator, so they are sequential.</p>
+      <h3>Reversible Gates</h3>
+      <p>In the quantum world, only reversible operations are allowed. Reversible means that you can look at the output and know what the original input was.</p>
+      <p>For example, the NOT operation is reversible because if the output is `|0:)`, we know the input was `|1:)` (and vice versa). The AND operation is not reversible because if the output is `|0:)`, we don't know if the input was `|00:)`, `|01:)`, or `|10:)`.</p>
+      <div class="ln-box">
+        <p>A computer with reversible circuits and programs would (theoretically) not use any energy. Let's see how we get to this conclusion.</p>
+        <p>Erasing information (as opposed to writing information) causes energy loss and heat. Landauer showed this, so this idea has become known as Landauer's principle.</p>
+        <p>Writing information is a reversible process. Imagine there's a blank chalkboard. If we write something and someone else comes in and erases it (i.e. reverses the writing) then the board gets returned to its original state.</p>
+        <p>On the other hand, erasing information is an irreversible process. If there's already writing on the chalkboard and we erase it, someone else coming in would have no idea what was originally written on the chalkboard, i.e., they would not know how to reverse the erasing to bring the chalkboard back to its original state.</p>
+        <p>When we erase the chalkboard, the chalk particles get dispersed into the air, which is analogous to energy being dispersed. So erasing information causes energy loss.</p>
+        <p>So a computer with irreversible circuits uses energy whereas a computer with reversible circuits doesn't.</p>
+      </div>
+      <h4>Controlled-NOT (CNOT) Gate</h4>
+      <p>Another reversible gate is the controlled-NOT gate. It has two inputs and two outputs.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/cnot_gate.png">
+      </div>
+      <p>The top input is called the control bit because it controls what the output will be. The black filled circle indicates that the input to the left of it is the control bit. If the control bit is `|0:)`, then the bottom output stays the same.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/cnot_1.gif">
+        <p>The inputs are `|x:)=``|0:)`, `|y:)=``|0:)` and the outputs are `|x:)=``|0:)`, `|y:)=``|0:)`.</p>
+      </div>
+      <p>If the control bit is `|1:)`, then the bottom output is calculated depending on what type of operation the gate is. In the CNOT gate, the bottom output is the exclusive or of `|x:)` and `|y:)`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/cnot_2.gif">
+        <p>The inputs are `|x:)=``|1:)`, `|y:)=``|0:)` and the outputs are `|x:)=``|1:)`, `|y:)=``|1:)`.</p>
+      </div>
+      <div class="ln-box">
+        <p>The CNOT gate takes `|x,y:)` to `|x,x oplus y:)`.</p>
+      </div>
+      <p>The matrix representation of the CNOT gate is</p>
+      <div class="ln-center">
+        <p>`[[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]]`</p>
+      </div>
+      <div class="ln-box">
+        <p>There's another way to derive and interpret the matrix representation.</p>
+        <div class="ln-center">
+          <p>`{:[00,01,10,11]:}`</p>
+          <p>`{:[00],[01],[10],[11]:}[[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]]`</p>
+          <p>(ignore the bad alignment; idk how to do this with AsciiMath)</p>
+        </div>
+        <p>The numbers to the left of the matrix can be seen as the inputs to the gate. So `00` is `|x:)=``|0:),``|y:)=``|0:)` and `01` is `|x:)=``|0:),``|y:)=``|1:)`. The `1` in the matrix means that whatever column the `1` is in is the output.</p>
+        <p>So for `|x:)=``|1:),``|y:)=``|1:)`, the output is `|x:)=``|1:),``|y:)=``|0:)`, which is consistent with the behavior of the CNOT gate.</p>
+      </div>
+      <p>The CNOT gate is reversible because it can be reversed by itself (meaning that we apply the CNOT operation twice). Here's what that looks like:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/cnot_reversible.gif">
+      </div>
+      <div class="ln-box">
+        <p>Informally, the construction of this gate can be thought of as:</p>
+        <p>The top output of the CNOT gate is just a copy of the top input. The bottom output of the CNOT gate is the top input `oplus` the bottom input.</p>
+        <p>So if we were to attach the CNOT gate again, then the top output is just a copy of the top input. And the bottom output is the top input `oplus` the bottom input (the bottom input is `|x oplus y:)`).</p>
+      </div>
+      <div class="ln-box">
+        <p>`x oplus x` equals `0` and `0 oplus y` equals `y`, so the final output is always `y`.</p>
+      </div>
+      <h4>Toffoli Gate</h4>
+      <p>The Toffoli gate is another reversible gate. It has three inputs and three outputs.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/toffoli.png">
+      </div>
+      <div class="ln-box">
+        <p>This operation takes `|x,y,z:)` to `|x,y,z oplus (x ^^ y):)`.</p>
+      </div>
+      <p>The Toffoli gate is universal, which means that all the other logical gates can be built using copies of the Toffoli gate. The AND gate is obtained with `|z:)=``|0:)`; the output then becomes `|x ^^ y:)`. The NOT gate is obtained with `|x:)=``|1:)`, `|y:)=``|1:)`; the output then becomes `|1 oplus z:)=``|not z:)`.</p>
+      <p>The matrix representation of the Toffoli gate is</p>
+      <div class="ln-center">
+        <p>`{:[000,001,010,011,100,101,110,111]:}`</p>
+        <p>`{:[000],[001],[010],[011],[100],[101],[110],[111]:}[[1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,1,0,0,0],[0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1],[0,0,0,0,0,0,1,0]]`</p>
+      </div>
+      <h4>Fredkin Gate</h4>
+      <p>The Fredkin gate is another reversible gate. It has three inputs and three outputs. For this gate, if `|x:)=``|0:)`, then all the outputs are the same as the input, i.e., `|y':)=``|y:)` and `|z':)=``|z:)`. If `|x:)=``|1:)`, then the outputs are reversed, i.e., `|y':)=``|z:)` and `|z':)=``|y:)`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/fredkin.png">
+      </div>
+      <div class="ln-box">
+        <p>Mathematically, `|0,y,z:) mapsto ``|0,y,z:)` and `|1,y,z:) mapsto ``|1,z,y:)`.</p>
+      </div>
+      <p>The matrix representation of the Fredkin gate is</p>
+      <div class="ln-center">
+        <p>`{:[000,001,010,011,100,101,110,111]:}`</p>
+        <p>`{:[000],[001],[010],[011],[100],[101],[110],[111]:}[[1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,1,0,0,0],[0,0,0,0,0,0,1,0],[0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1]]`</p>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
