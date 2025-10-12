@@ -33,7 +33,8 @@
         <li><a class="dropdown-item" href="#complexnumbersalgebra">Complex Numbers (Algebraically)</a></li>
         <li><a class="dropdown-item" href="#complexnumbersgeometry">Complex Numbers (Geometrically)</a></li>
         <li><a class="dropdown-item" href="#complexvectorspaces">Complex Vector Spaces</a></li>
-        <li><a class="dropdown-item" href="#classicaltoquantum">Classical to Quantum</a></li>
+        <li><a class="dropdown-item" href="#quantumarchitecture">Quantum Architecture</a></li>
+        <li><a class="dropdown-item" href="#quantumtheory">Quantum Theory</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -111,7 +112,7 @@
       <div class="ln-center">
         <p>`+sqrt(a^2+b^2)`</p>
       </div>
-      <p>and is denoted as `abs(c)`.</p>
+      <p>and is denoted as `abs(c)`. It's the "length" of a complex number when thinking about it geometrically.</p>
       <div class="ln-box">
         <p>The modulus is a generalization of the absolute value operation for real numbers.</p>
         <div class="ln-center">
@@ -129,7 +130,7 @@
         <p>The complex plane (where the real numbers sit on the horizontal axis and the imaginary numbers sit on the vertical axis) is also called the Argand plane.</p>
       </div>
       <p>So we can think of complex numbers as vectors on the complex plane.</p>
-      <p>Notice that if we calculate the length of the vector, we get the modulus.</p>
+      <p>Notice that if we calculate the length of the vector, we get the modulus. So the "length" of a complex number `c=a+bi` is `|c|=+sqrt(a^2+b^2)`.</p>
       <h3>Polar Representation</h3>
       <p>To convert a complex number from Cartesian coordinates to polar coordinates, we need `rho` and `theta`:</p>
       <div class="ln-center">
@@ -140,6 +141,17 @@
       <div class="ln-center">
         <p>`a=rho cos(theta)`</p>
         <p>`b=rho sin(theta)`</p>
+      </div>
+      <div class="ln-box">
+        <p>From this, we have that a complex number `c=a+bi` can be written as</p>
+        <div class="ln-center">
+          <p>`c=rhocos(theta)+rhosin(theta)i`</p>
+          <p>`=rho(cos(theta)+isin(theta))`</p>
+        </div>
+        <p>Euler's formula states that `e^(itheta)=cos(theta)+isin(theta)`. Using this, we can rewrite a complex number in exponential form as</p>
+        <div class="ln-center">
+          <p>`c=rhoe^(itheta)`</p>
+        </div>
       </div>
       <h4>Multiplication</h4>
       <p>Let `c_1=(rho_1,theta_1)` and `c_2=(rho_2,theta_2)`.</p>
@@ -261,7 +273,7 @@
       <div class="ln-box">
         <p>`abs(UV)`</p>
         <div class="ln-center">
-          <p>`sqrt((:UV,UV:))`</p>
+          <p>`=sqrt((:UV,UV:))`</p>
           <p>`=sqrt((:V,V:))`</p>
           <p>`=abs(V)`</p>
         </div>
@@ -276,8 +288,8 @@
         <p>`[[a_(0,0),a_(0,1)],[a_(1,0),a_(1,1)]]ox[[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]]=[[a_(0,0) cdot [[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]], a_(0,1) cdot [[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]]], [a_(1,0) cdot [[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]], a_(1,1) cdot [[b_(0,0),b_(0,1),b_(0,2)],[b_(1,0),b_(1,1),b_(1,2)],[b_(2,0),b_(2,1),b_(2,2)]]]]`</p>
         <p>`=[[a_(0,0)xxb_(0,0),a_(0,0)xxb_(0,1),a_(0,0)xxb_(0,2),a_(0,1)xxb_(0,0),a_(0,1)xxb_(0,1),a_(0,1)xxb_(0,2)],[a_(0,0)xxb_(1,0),a_(0,0)xxb_(1,1),a_(0,0)xxb_(1,2),a_(0,1)xxb_(1,0),a_(0,1)xxb_(1,1),a_(0,1)xxb_(1,2)],[a_(0,0)xxb_(2,0),a_(0,0)xxb_(2,1),a_(0,0)xxb_(2,2),a_(0,1)xxb_(2,0),a_(0,1)xxb_(2,1),a_(0,1)xxb_(2,2)],[a_(1,0)xxb_(0,0),a_(1,0)xxb_(0,1),a_(1,0)xxb_(0,2),a_(1,1)xxb_(0,0),a_(1,1)xxb_(0,1),a_(1,1)xxb_(0,2)],[a_(1,0)xxb_(1,0),a_(1,0)xxb_(1,1),a_(1,0)xxb_(1,2),a_(1,1)xxb_(1,0),a_(1,1)xxb_(1,1),a_(1,1)xxb_(1,2)],[a_(1,0)xxb_(2,0),a_(1,0)xxb_(2,1),a_(1,0)xxb_(2,2),a_(1,1)xxb_(2,0),a_(1,1)xxb_(2,1),a_(1,1)xxb_(2,2)]]`</p>
       </div>
-      <h2 id="classicaltoquantum">Classical to Quantum</h2>
-      <p>Now we can finally get to the quantum stuff. A classical system is a world where things can be predicted because things follow the laws of physics that we are familiar with. A quantum system is a world where things can't be predicted because things follow quantum mechanics. You know, the stuff like Schrödinger's cat and Heisenberg's uncertainty principle.</p>
+      <h2 id="quantumarchitecture">Quantum Architecture</h2>
+      <p>Moving away from linear algebra for a bit (heh), we'll look at the components of quantum computers.</p>
       <h3>Bits and Qubits</h3>
       <p>A bit is a unit of information describing a classical system that has only two states (a two-dimensional classical system). Typically these states can be thought of as "on" and "off" or "true" and "false" and are represented by `0` and `1`.</p>
       <p>We denote the states as `|0:)` and `|1:)`, which can be represented as matrices `[[1],[0]]` and `[[0],[1]]` respectively. (Think of it as having a `1` in the `0^text(th)` index, so that represents the `|0:)` state and having a `1` in the `1^text(st)` index, so that represents the `|1:)` state.)</p>
@@ -311,6 +323,10 @@
       <p>After measuring the qubit, the probability that it is found in state `|0:)` is `34/70` (`abs(c_0)^2`) and the probability that it is found in state `|1:)` is `36/70` (`abs(c_1)^2`).</p>
       <div class="ln-box">
         <p>`|psi:)` is a superposition of the states `|x_0:),``|x_1:),...,``|x_(n-1):)`. That is, `|psi:)` represents a qubit as being simultaneously in all `{x_0,x_1,...,x_(n-1)}` states.</p>
+        <p>The probability that a qubit is at point `x_i` is</p>
+        <div class="ln-center">
+          <p>`p(x_i)=abs(c_i)^2/abs(|psi:)^2=abs(c_i)^2/(sum_jabs(c_j)^2)`</p>
+        </div>
       </div>
       <p>Suppose we have two qubits `|0:)` and `|1:)`. They can be written as a pair of qubits as `|0:) otimes ``|1:)` or `|0 otimes 1:)`. If we calculate the tensor product, we end up with</p>
       <div class="ln-center">
@@ -469,6 +485,7 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/quantum/fredkin.png">
       </div>
+      <p>The `xx` represents a swap gate.</p>
       <div class="ln-box">
         <p>Mathematically, `|0,y,z:) mapsto ``|0,y,z:)` and `|1,y,z:) mapsto ``|1,z,y:)`.</p>
       </div>
@@ -476,6 +493,356 @@
       <div class="ln-center">
         <p>`{:[000,001,010,011,100,101,110,111]:}`</p>
         <p>`{:[000],[001],[010],[011],[100],[101],[110],[111]:}[[1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0],[0,0,0,0,1,0,0,0],[0,0,0,0,0,0,1,0],[0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1]]`</p>
+      </div>
+      <h3>Quantum Gates</h3>
+      <p>(The reversible gates are also quantum gates, but idk, we'll have a separate quantum gates section.)</p>
+      <h4>Hadamard Gate</h4>
+      <p>The Hadamard gate is a gate that puts a qubit into a superposition where both states `|0:)` and `|1:)` are equally likely. The matrix representation is</p>
+      <div class="ln-center">
+        <p>`[[1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-1/sqrt(2)]]`</p>
+      </div>
+      <div class="ln-box">
+        <p>This is what it looks like to apply the Hadamard matrix to a qubit in state `|0:)`:</p>
+        <div class="ln-center">
+          <p>`H``|0:)``=[[1/sqrt(2),1/sqrt(2)],[1/sqrt(2),-1/sqrt(2)]][[1],[0]]`</p>
+          <p>`=[[1/sqrt(2)],[1/sqrt(2)]]`</p>
+          <p>`=1/sqrt(2)[[1],[0]]+1/sqrt(2)[[0],[1]]`</p>
+          <p>`=1/sqrt(2)``|0:)``+1/sqrt(2)``|1:)`</p>
+        </div>
+        <p>This means that the qubit has a `(1/sqrt(2))^2=1/2` chance to be in state `|0:)` or `|1:)` when measured.</p>
+      </div>
+      <div class="ln-box">
+        <p>Suppose we're in a two-qubit system `|q_1q_0:)` and both qubits start in state `|0:)`. This is what it looks like to apply the Hadamard gate to `q_0`:</p>
+        <div class="ln-center">
+          <p>`|0:)otimes H``|0:)`</p>
+          <p>`=``|0:)``otimes1/sqrt(2)``|0:)``+1/sqrt(2)``|1:)`</p>
+          <p>`=1/sqrt(2)``|00:)``+1/sqrt(2)``|01:)`</p>
+        </div>
+      </div>
+      <h4>Pauli Matrices</h4>
+      <p>The matrices</p>
+      <div class="ln-center">
+        <p>`X=[[0,1],[1,0]]`</p>
+        <p>`Y=[[0,-i],[i,0]]`</p>
+        <p>`Z=[[1,0],[0,-1]]`</p>
+      </div>
+      <p>are called the Pauli matrices. Apparently, they're used everywhere in quantum computing.</p>
+      <h4>Bloch Sphere</h4>
+      <p>Similar to how a complex number can be visualized as an arrow on a 2D plane, a qubit can be visualized as an arrow in a sphere.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/bloch_1.png">
+      </div>
+      <div class="ln-box">
+        <p>Let `|psi:)=c_0``|0:)+c_1``|1:)` where `abs(c_0)^2+abs(c_1)^2=1` be a qubit.</p>
+        <p>Rewriting it in polar exponential form (using `c_0=r_0e^(iphi_0)` and `c_1=r_1e^(iphi_1)`), we get</p>
+        <div class="ln-center">
+          <p>`|psi:)``=r_0e^(iphi_0)``|0:)``+r_1e^(iphi_1)``|1:)`</p>
+        </div>
+        <p>It turns out that if we multiply a quantum state by a (complex) number, the state doesn't change. So we can multiply both sides by `e^(-iphi_0)` to get</p>
+        <div class="ln-center">
+          <p>`e^(-iphi_0)``|psi:)``=e^(-iphi_0)(``r_0e^(iphi_0)``|0:)``+r_1e^(iphi_1)``|1:))`</p>
+          <p>`=r_0``|0:)``+r_1e^(iphi_1-iphi_0)``|1:)`</p>
+          <p>`=r_0``|0:)``+r_1e^(i(phi_1-phi_0))``|1:)`</p>
+          <p>`=r_0``|0:)``+r_1e^(iphi)``|1:)`</p>
+          <p>(let `phi=(phi_1-phi_0)`)</p>
+        </div>
+        <p>To simplify this further, we'll take a step back for a bit. Since this is a qubit, we have `abs(c_0)^2+abs(c_1)^2=1`. Which means we have</p>
+        <div class="ln-center">
+          <p>`abs(r_0e^(iphi_0))^2+abs(r_1e^(iphi_1))^2=1`</p>
+          <p>`abs(r_0)^2abs(e^(iphi_0))^2+abs(r_1)^2abs(e^(iphi_1))^2=1`</p>
+        </div>
+        <p>Note that `e^(-iphi)` has norm `1`.</p>
+        <div class="ln-box">
+          <p>`e^(-iphi)=cos(phi)+isin(-phi)=cos(phi)-isin(phi)`</p>
+          <p>(Recall that the norm/modulus of a complex number is `sqrt(a^2+b^2)`.)</p>
+          <p>`abs(e^(-iphi))=sqrt(cos^2(phi)+(-sin(phi))^2)=sqrt(cos^2(phi)+sin^2(phi))=sqrt(1)=1`</p>
+        </div>
+        <p>So we end up with</p>
+        <div class="ln-center">
+          <p>`abs(r_0)^2+abs(r_1)^2=1`</p>
+          <p>`r_0^2+r_1^2=1`</p>
+        </div>
+        <p>We can substitute `r_0=cos(theta)` and `r_1=sin(theta)` and go back to simplifying:</p>
+        <div class="ln-center">
+          <p>`|psi:)``=r_0``|0:)``+r_1e^(iphi)``|1:)`</p>
+          <p>`=cos(theta)``|0:)``+e^(iphi)sin(theta)``|1:)`</p>
+        </div>
+        <p>All of this is to show that a qubit can be written in terms of `2` parameters: `phi` and `theta`.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/quantum/bloch_2.png">
+        </div>
+        <p>`0 le phi lt 2pi` and `0 le theta lt pi/2` are enough to cover all possible qubits.</p>
+      </div>
+      <p>The north pole of the Bloch sphere corresponds to `|0:)` and the south pole corresponds to `|1:)`. If the qubit is pointing more north, then it is more likely to collapse to `|0:)` when it is measured.</p>
+      <div class="ln-box">
+        <p>`theta` controls the chance that the qubit collapses to `|0:)` or to `|1:)`.</p>
+      </div>
+      <p>If we rotate the qubit around the `z` axis, we are performing a phase change.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/phase_change.png">
+      </div>
+      <div class="ln-box">
+        <p>`phi` controls the qubit's phase.</p>
+      </div>
+      <div class="ln-box">
+        <p>The `Y` Pauli matrix flips the Bloch sphere `180^@` about the `y` axis.</p>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/quantum/bloch_sphere_y_pauli.png">
+        </div>
+      </div>
+      <h2 id="quantumtheory">Quantum Theory</h2>
+      <p>Now we can really get into the quantum stuff. You know, the stuff like Schrödinger's cat and Heisenberg's uncertainty principle. Well, not these two concepts specifically, but the general ideas behind these concepts, like things not being predictable; things being in two states at the same time; and all that.</p>
+      <h3>Classical Deterministic Systems</h3>
+      <p>(The book uses marbles and vertices, but it's Halloween season as I'm writing this, so mazes and people instead!) Imagine we had a maze with `6` rooms.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/deterministic_system.png">
+      </div>
+      <p>There are currently `6` people in room `0`, `2` people in room `1`, and so on. The arrows point to the next room that everyone will be moving to. So after following the arrows once (which we'll refer to as a "time click"), all `6` people in room `0` will be moving to room `5`, and all `10` people in room `5` will be moving to room `2`, and so on.</p>
+      <p>We can represent this transition as a matrix:</p>
+      <div class="ln-center">
+        <p>`[[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 1, 0, 0, 0, 1],[0, 0, 0, 1, 0, 0],[0, 0, 1, 0, 0, 0],[1, 0, 0, 0, 1, 0]]`</p>
+      </div>
+      <p>(This matrix can be interpreted as: the room indicated by the row index is receiving from the room indicated by the column index. So room `4` (row index `4`) is receiving from room `2` (column index `2`)).</p>
+      <div class="ln-box">
+        <p>In my head, I'm calling this a "transition matrix". It can be officially referred to as the adjacency matrix.</p>
+      </div>
+      <p>If we represent the current state of the maze with the vector `[[6],[2],[1],[5],[3],[10]]`, we can multiply it by the matrix to find out what the next state of the maze will be:</p>
+      <div class="ln-center">
+        <p>`[[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 1, 0, 0, 0, 1],[0, 0, 0, 1, 0, 0],[0, 0, 1, 0, 0, 0],[1, 0, 0, 0, 1, 0]][[6],[2],[1],[5],[3],[10]]=[[0],[0],[12],[5],[1],[9]]`</p>
+      </div>
+      <p>For example, this means that there will be `12` people in room `2`, which we can manually confirm is true.</p>
+      <p>If we want to get the state of the maze after two time clicks, we repeat the process but with the new current state.</p>
+      <div class="ln-center">
+        <p>`[[0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0],[0, 1, 0, 0, 0, 1],[0, 0, 0, 1, 0, 0],[0, 0, 1, 0, 0, 0],[1, 0, 0, 0, 1, 0]][[0],[0],[12],[5],[1],[9]]`</p>
+      </div>
+      <div class="ln-box">
+        <p>Let `M` be the transition matrix. If `X` is the state of the system at time `t`, then `Y` is the state of the system at time `t+1`.</p>
+        <div class="ln-center">
+          <p>`Y[i]=(MX)[i]=sum_(k=0)^5M[i,k]X[k]`</p>
+        </div>
+        <p>In words, this is saying that the number of objects at vertex `i` is equal to the sum of all the objects that are on vertices with edges connecting to vertex `i`.</p>
+      </div>
+      <h3>Probabilistic Systems</h3>
+      <p>Let's consider a different type of maze with `3` rooms and only `1` person.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/probabilistic_system.png">
+      </div>
+      <p>For example, if the person is in room `0`, they have a `1/3` chance of choosing to go to room `1` and a `2/3` chance of choosing to go to room `2`.</p>
+      <div class="ln-center">
+        <p>`[[0,1/6,5/6],[1/3,1/2,1/6],[2/3,1/3,0]]`</p>
+      </div>
+      <div class="ln-box">
+        <p>Notice that each row sums up to `1` and each column sums up to `1`. This is a doubly stochastic matrix.</p>
+      </div>
+      <p>Suppose we came late and we don't know where the person started. Let's say there's a `1/6` chance they're in room `0`, a `1/6` chance they're in room `1`, and a `2/3` chance they're in room `2`, i.e., the current state of the maze can be represented as `[[1/6],[1/6],[2/3]]`.</p>
+      <p>We can find out the probabilities for which room they might be in after one time click by multiplying the transition matrix by the current state:</p>
+      <div class="ln-center">
+        <p>`[[0,1/6,5/6],[1/3,1/2,1/6],[2/3,1/3,0]][[1/6],[1/6],[2/3]]=[[21/36],[9/36],[6/36]]`</p>
+      </div>
+      <p>So after following the arrows once, there's a `21/36` chance the person is in room `0`, a `9/36` chance the person is in room `1`, and a `6/36` chance the person is in room `2`.</p>
+      <div class="ln-box">
+        <p>Just for fun, let's take a look at the tranpose of the transition matrix:</p>
+        <div class="ln-center">
+          <p>`[[0,1/3,2/3],[1/6,1/2,1/3],[5/6,1/6,0]]`</p>
+        </div>
+        <div class="ln-center">
+          <img class="img-fluid ln-image-small" src="../pictures/quantum/probabilistic_system_reversed.png">
+        </div>
+        <p>Notice that this is the same system but with the arrows reversed. It's like going back in time (by one time click) or reversing the footage.</p>
+        <p>The transpose of the transition matrix takes a state from time `t` to `t-1`.</p>
+      </div>
+      <h4>Probabilistic Double-Slit Experiment</h4>
+      <p>(The book uses bullets and targets, but bullets kinda seem like they don't really make sense in this example.) Suppose we're playing a carnival game where we're throwing baseballs through one of two holes. Behind the holes is a mechanism that will then shoot the baseballs at one of three targets. (Assume we're good enough that we always successfully throw the baseballs into a hole, and that the mechanism always hits a target.)</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/double_slit.png">
+        <p>At position `0`, the baseball has a `1/2` chance to go through hole `2`, which then has a `1/3` chance of hitting target `6`.</p>
+      </div>
+      <p>Let's say it takes one time click for a baseball to reach the hole and another time click for the baseball to hit a target. The transition matrix is</p>
+      <div class="ln-center">
+        <p>`[[0,0,0,0,0,0,0,0],[1/2,0,0,0,0,0,0,0],[1/2,0,0,0,0,0,0,0],[0,1/3,0,1,0,0,0,0],[0,1/3,0,0,1,0,0,0],[0,1/3,1/3,0,0,1,0,0],[0,0,1/3,0,0,0,1,0],[0,0,1/3,0,0,0,0,1]]`</p>
+      </div>
+      <p>As we saw earlier in the deterministic maze, we can get the state of the system after two time clicks by calculating the next state twice. Another way to get the state of the system after two time clicks is to instead multiply the transition matrix by itself twice:</p>
+      <div class="ln-center">
+        <p>`[[0,0,0,0,0,0,0,0],[1/2,0,0,0,0,0,0,0],[1/2,0,0,0,0,0,0,0],[0,1/3,0,1,0,0,0,0],[0,1/3,0,0,1,0,0,0],[0,1/3,1/3,0,0,1,0,0],[0,0,1/3,0,0,0,1,0],[0,0,1/3,0,0,0,0,1]][[0,0,0,0,0,0,0,0],[1/2,0,0,0,0,0,0,0],[1/2,0,0,0,0,0,0,0],[0,1/3,0,1,0,0,0,0],[0,1/3,0,0,1,0,0,0],[0,1/3,1/3,0,0,1,0,0],[0,0,1/3,0,0,0,1,0],[0,0,1/3,0,0,0,0,1]]`</p>
+        <p>`=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1/6,1/3,0,1,0,0,0,0],[1/6,1/3,0,0,1,0,0,0],[1/3,1/3,1/3,0,0,1,0,0],[1/6,0,1/3,0,0,0,1,0],[1/6,0,1/3,0,0,0,0,1]]`</p>
+      </div>
+      <p>If the baseball starts at position `0`, then the state of the baseball is `[[1],[0],[0],[0],[0],[0],[0],[0]]`. After two time clicks, the state of the baseball is</p>
+      <div class="ln-center">
+        <p>`[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1/6,1/3,0,1,0,0,0,0],[1/6,1/3,0,0,1,0,0,0],[1/3,1/3,1/3,0,0,1,0,0],[1/6,0,1/3,0,0,0,1,0],[1/6,0,1/3,0,0,0,0,1]][[1],[0],[0],[0],[0],[0],[0],[0]]=[[0],[0],[0],[1/6],[1/6],[1/3],[1/6],[1/6]]`</p>
+      </div>
+      <p>Notice that the probability of the baseball hitting target `5` is `1/3` because there is a `1/6+1/6=1/3` chance of hitting target `5`.</p>
+      <h3>Quantum Systems</h3>
+      <p>The difference between quantum systems and classical probabilistic systems is that quantum systems deal with complex numbers as probabilities while classical probabilistic systems use real numbers as probabilities.</p>
+      <div class="ln-box">
+        <p>Probabilities in quantum systems are calculated as the square of the modulus of the complex number, i.e., `0 le abs(c)^2 le 1`.</p>
+      </div>
+      <p>The fact that complex numbers are used as probabilities is significant because complex probabilities can decrease when added together. Real-numbered probabilities can only increase when added together.</p>
+      <div class="ln-box">
+        <p>For real numbers `0 le p_1,p_2 le 1`, we have that `p_1+p_2gep_1` and `p_1+p_2gep_2`.</p>
+        <p>For complex numbers `c_1,c_2`, it is <b>not necessarily true</b> that `abs(c_1+c_2)^2 ge abs(c_1)^2` and that `abs(c_1+c_2)^2 ge abs(c_2)^2`.</p>
+      </div>
+      <p>For example, if `c_1=5+3i` and `c_2=-3-2i`, then</p>
+      <div class="ln-center">
+        <p>`abs(c_1)^2=(sqrt(5^2+3^2))^2=34`</p>
+        <p>`abs(c_2)^2=(sqrt((-3)^2+(-2)^2))^2=13`</p>
+      </div>
+      <p>but</p>
+      <div class="ln-center">
+        <p>`abs(c_1+c_2)^2=abs(2-i)^2=5`</p>
+      </div>
+      <p>which is less than both `34` and `13`.</p>
+      <p>The fact that complex numbers can cancel each other out when added is referred to as interference.</p>
+      <p>An example of a quantum system could look like this:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/quantum_system.png">
+      </div>
+      <p>for which the corresponding transition matrix is</p>
+      <div class="ln-center">
+        <p>`U=[[1/sqrt(2),1/sqrt(2),0],[(-i)/sqrt(2),i/sqrt(2),0],[0,0,i]]`</p>
+      </div>
+      <div class="ln-box">
+        <p>Notice that this is a unitary matrix, meaning that its inverse is its adjoint.</p>
+        <div class="ln-center">
+          <p>`U***U^†=[[1/sqrt(2),1/sqrt(2),0],[(-i)/sqrt(2),i/sqrt(2),0],[0,0,i]][[1/sqrt(2),i/sqrt(2),0],[1/sqrt(2),-i/sqrt(2),0],[0,0,-i]]=[[1,0,0],[0,1,0],[0,0,1]]=I`</p>
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>Also notice that the modulus squared of all the entries results in a doubly stochastic matrix:</p>
+        <div class="ln-center">
+          <p>`abs(U[i,j])^2=[[1/2,1/2,0],[1/2,1/2,0],[0,0,1]]`</p>
+        </div>
+      </div>
+      <div class="ln-box">
+        <p>Similar to how we saw in the classical system,
+        <ul>
+          <li>the transition matrix `U` takes a state from time `t` to `t+1`</li>
+          <li>the adjoint of the transition matrix `U^†` takes a state from time `t` to `t-1`
+            <ul>
+              <li>for a state `V`, `V mapsto UV mapsto U^†UV=IV=V`</li>
+              <li>if we perform an operation, we can "undo" the operation to get back to the original state before the operation</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h4>Quantum Double-Slit Experiment</h4>
+      <p>Instead of baseballs and targets, we will now look at photons and measuring devices. We will also deal with complex probabilities, but the setup is still the same as the classical one.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/quantum_double_slit.png">
+        <p>Note that `abs(1/sqrt(2))^2=1/2` and `abs((+-1+-i)/sqrt(6))^2=1/3`.</p>
+      </div>
+      <p>The adjacency matrix is</p>
+      <div class="ln-center">
+        <p>`[[0,0,0,0,0,0,0,0],[1/sqrt(2),0,0,0,0,0,0,0],[1/sqrt(2),0,0,0,0,0,0,0],[0,(-1+i)/sqrt(6),0,1,0,0,0,0],[0,(-1-i)/sqrt(6),0,0,1,0,0,0],[0,(1-i)/sqrt(6),(-1+i)/sqrt(6),0,0,1,0,0],[0,0,(-1-i)/sqrt(6),0,0,0,1,0],[0,0,(1-i)/sqrt(6),0,0,0,0,1]]`</p>
+      </div>
+      <p>The modulus squared of the matrix is</p>
+      <div class="ln-center">
+        <p>`[[0,0,0,0,0,0,0,0],[1/2,0,0,0,0,0,0,0],[1/2,0,0,0,0,0,0,0],[0,1/3,0,1,0,0,0,0],[0,1/3,0,0,1,0,0,0],[0,1/3,1/3,0,0,1,0,0],[0,0,1/3,0,0,0,1,0],[0,0,1/3,0,0,0,0,1]]`</p>
+      </div>
+      <p>This is actually the exact same transition matrix as the transition matrix for the baseball game after one time click. (Which, if we think about it, shouldn't be too surprising since the probabilities in both systems are the same.)</p>
+      <p>But let's see what the transition matrix is after two time clicks.</p>
+      <div class="ln-center">
+        <p>`[[0,0,0,0,0,0,0,0],[1/sqrt(2),0,0,0,0,0,0,0],[1/sqrt(2),0,0,0,0,0,0,0],[0,(-1+i)/sqrt(6),0,1,0,0,0,0],[0,(-1-i)/sqrt(6),0,0,1,0,0,0],[0,(1-i)/sqrt(6),(-1+i)/sqrt(6),0,0,1,0,0],[0,0,(-1-i)/sqrt(6),0,0,0,1,0],[0,0,(1-i)/sqrt(6),0,0,0,0,1]][[0,0,0,0,0,0,0,0],[1/sqrt(2),0,0,0,0,0,0,0],[1/sqrt(2),0,0,0,0,0,0,0],[0,(-1+i)/sqrt(6),0,1,0,0,0,0],[0,(-1-i)/sqrt(6),0,0,1,0,0,0],[0,(1-i)/sqrt(6),(-1+i)/sqrt(6),0,0,1,0,0],[0,0,(-1-i)/sqrt(6),0,0,0,1,0],[0,0,(1-i)/sqrt(6),0,0,0,0,1]]`</p>
+        <p>`=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[(-1+i)/sqrt(12),(-1+i)/sqrt(6),0,1,0,0,0,0],[(-1-i)/sqrt(12),(-1-i)/sqrt(6),0,0,1,0,0,0],[0,(1-i)/sqrt(6),(-1+i)/sqrt(6),0,0,1,0,0],[(-1-i)/sqrt(12),0,(-1-i)/sqrt(6),0,0,0,1,0],[(1-i)/sqrt(12),0,(1-i)/sqrt(6),0,0,0,0,1]]`</p>
+      </div>
+      <p>In terms of the modulus squared:</p>
+      <div class="ln-center">
+        <p>`=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1/6,1/3,0,1,0,0,0,0],[1/6,1/3,0,0,1,0,0,0],[0,1/3,1/3,0,0,1,0,0],[1/6,0,1/3,0,0,0,1,0],[1/6,0,1/3,0,0,0,0,1]]`</p>
+      </div>
+      <p>This is actually almost the exact same transition matrix as the transition matrix for the baseball game after two time clicks. The only difference is row index `5`, column index `0`.</p>
+      <p>So what happened here?</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/quantum_double_slit.png">
+      </div>
+      <p>There's a `1/sqrt(2)((1-i)/sqrt(6))+1/sqrt(2)((-1+i)/sqrt(6))=(1-i)/sqrt(12)+(-1+i)/sqrt(12)=0/sqrt(12)=0` chance of hitting measurement device `5`.</p>
+      <p>This is a seemingly strange phenomenon: even though there are two ways for a photon to reach measurement device `5`, there will be no photons measured by device `5`. Interference at its finest!</p>
+      <div class="ln-box">
+        <p>Let the state of a quantum system be given by `X=[[c_0],[c_1],[vdots],[c_(n-1)]]`.</p>
+        <p>It is wrong to say that the probability of a photon being in position `k` is `abs(c_k)^2`. It is correct to say that the photon in state `X` is in all positions `c_0,c_1,...c_(n-1)` simultaneously. (Recall superposition!)</p>
+        <p>The photon passes through both slits simultaneously and cancels itself out when it exits both slits.</p>
+        <p>The probabilities come into play when we perform a measurement, which causes the photon to collapse to position `k` with probability `abs(c_k)^2`.</p>
+      </div>
+      <h3>Spin</h3>
+      <p>Electrons "spin". I think there are infinitely many "directions" it could be spinning, but when we measure an electron, it can only be found spinning "up" or "down".</p>
+      <div class="ln-box">
+        <p>Refer to the Stern-Gerlach experiment.</p>
+      </div>
+      <p>The generic state for the spin is</p>
+      <div class="ln-center">
+        <p>`|psi:)=c_0``|uarr:)+c_1``|darr:)`</p>
+      </div>
+      <h3>State Transitions</h3>
+      <p>Suppose we have a start state `|psi:)``=[[c_0],[c_1],[vdots],[c_(n-1)]]` and an end state `|psi':)``=[[c'_0],[c'_1],[vdots],[c'_(n-1)]]`. How likely is it that the start state will end up in the end state? We can measure this by looking at the transition amplitude. To calculate the transition amplitude, we calculate the inner product.</p>
+      <p>We start by getting the adjoint of the end state. This state is called a bra, and it is denoted as `(:psi'|`.</p>
+      <div class="ln-center">
+        <p>`(:psi'|``=|:psi':)^†=[bar (c'_0), bar (c'_1), ..., bar (c'_(n-1))]`</p>
+      </div>
+      <p>The transition amplitude is then calculated as</p>
+      <div class="ln-center">
+        <p>`(:psi'|psi:)=[bar (c'_0), bar (c'_1), ..., bar (c'_(n-1))][[c_0],[c_1],[vdots],[c_(n-1)]]`</p>
+        <p>`=bar (c'_0)xxc_0+bar (c'_1)xxc_1+...+bar (c'_(n-1))xxc_(n-1)`</p>
+      </div>
+      <div class="ln-box">
+        <p>It is possible for a transition amplitude to be `0`. This means that it is impossible for a state to transition to another state, i.e., the states are orthogonal to each other. For example, if an electron is in spin up before being measured, it will never change to spin down after being measured.</p>
+        <p>This relates to the dot product between two orthogonal vectors being `0`.</p>
+      </div>
+      <div class="ln-box">
+        <p>Let `{``|b_0:)``, ``|b_1:)``, ..., ``|b_(n-1):)``}` be an orthonormal basis representing a maximal list of mutually exclusive end states. We can write a state `|psi:)` in the basis as</p>
+        <div class="ln-center">
+          <p>`|psi:)=c_0``|b_0:)+c_1``|b_1:)+...+c_(n-1)``|b_(n-1):)`</p>
+        </div>
+      </div>
+      <h3>Quantum Entanglement</h3>
+      <p>Consider a two-particle system where the first particle can only be either `x_0` or `x_1` and the second particle can only be either `y_0` or `y_1`.</p>
+      <p>Suppose we have a state</p>
+      <div class="ln-center">
+        <p>`|psi:)=``|x_0:)otimes``|y_1:)+``|x_1:)otimes``|y_1:)`</p>
+      </div>
+      <p>Let's see if we can write `|psi:)` as the tensor product of two states coming from the two subsystems. In other words, let's see if we can rewrite this state as the tensor product of the first particle with the second particle. In math, let's see if we can find `c_0,c_1,c'_0,c'_1` such that `|psi:)=(c_0``|x_0:)+c_1``|x_1:))otimes(c'_0``|y_0:)+c'_1``|y_1:))`.</p>
+      <p>Well, we can rewrite it as</p>
+      <div class="ln-center">
+        <p>`|psi:)=(``|x_0:)+``|x_1:))otimes``|y_1:)`</p>
+      </div>
+      <p>This means that the state `|psi:)=``|x_0:)otimes``|y_1:)+``|x_1:)otimes``|y_1:)` is separable.</p>
+      <div class="ln-box">
+        <p>Suppose `x_0=0` (so `x_1` must be `1`) and `y_1=1`. This gives us the state</p>
+        <div class="ln-center">
+          <p>`|psi:)=``|x_0:)otimes``|y_1:)+``|x_1:)otimes``|y_1:)`</p>
+          <p>`=``|01:)+``|11:)`</p>
+        </div>
+        <p>We can see that if the rightmost particle has value `1`, then the other particle can either be `0` or `1`; we don't know for sure. This is what it means to for a state to be separable: knowing the value of one of the particles does not give us information about the value of the other particle.</p>
+      </div>
+      <p>Let's now consider the state</p>
+      <div class="ln-center">
+        <p>`|psi:)=``|x_0:)otimes``|y_0:)+``|x_1:)otimes``|y_1:)`</p>
+      </div>
+      <p>We can see that it's not possible to rewrite this as a tensor product of `x`s and `y`s. So this state is entangled.</p>
+      <div class="ln-box">
+        <p>Suppose `x_0=0` (so `x_1` must be `1`) and `y_0=0` (so `y_1` must be `1`). This gives us the state</p>
+        <div class="ln-center">
+          <p>`|psi:)=``|x_0:)otimes``|y_0:)+``|x_1:)otimes``|y_1:)`</p>
+          <p>`=``|00:)+``|11:)`</p>
+        </div>
+        <p>We can see that if any of the particles is `0`, then the other particle must be `0`. Likewise, if one of the particles is `1`, then the other particle has to be `1`. This is what it means to for a state to be entangled: knowing the value of one of the particles gives us full information about the value of the other particle.</p>
+      </div>
+      <div class="ln-box">
+        <p>Suppose `|psi:)=``|x_0:)otimes``|y_0:)+``|x_1:)otimes``|y_1:)` can be written as the tensor product of the two subsystems. To make the proof easier to follow, we can rewrite the state as</p>
+        <div class="ln-center">
+          <p>`=1``|x_0:)otimes``|y_0:)+0``|x_0:)otimes``|y_1:)+0``|x_1:)otimes``|y_0:)+1``|x_1:)otimes``|y_1:)`</p>
+        </div>
+        <p>Then we would have</p>
+        <div class="ln-center">
+          <p>`|psi:)=(c_0``|x_0:)+c_1``|x_1:))otimes(c'_0``|y_0:)+c'_1``|y_1:))`</p>
+          <p>`=c_0c'_0``|x_0:)otimes``|y_0:)+c_0c'_1``|x_0:)otimes``|y_1:)+c_1c'_0``|x_1:)otimes``|y_0:)+c_1c'_1``|x_1:)otimes``|y_1:)`</p>
+        </div>
+        <p>Comparing coefficients, we have that</p>
+        <div class="ln-center">
+          <p>`c_0c'_0=1`</p>
+          <p>`c_1c'_1=1`</p>
+          <p>`c_1c'_0=0`</p>
+          <p>`c_0c'_1=0`</p>
+        </div>
+        <p>But there are no values for `c_0,c_1,c'_0,c'_1` that can satisfy all four equations.</p>
+        <p>So `|psi:)` cannot be rewritten as the tensor product of the two subsystems.</p>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
