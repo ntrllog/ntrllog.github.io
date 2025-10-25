@@ -35,6 +35,7 @@
         <li><a class="dropdown-item" href="#complexvectorspaces">Complex Vector Spaces</a></li>
         <li><a class="dropdown-item" href="#quantumarchitecture">Quantum Architecture</a></li>
         <li><a class="dropdown-item" href="#quantumtheory">Quantum Theory</a></li>
+        <li><a class="dropdown-item" href="#quantumalgorithms">Quantum Algorithms</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -451,7 +452,7 @@
           <p>`{:[00],[01],[10],[11]:}[[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]]`</p>
           <p>(ignore the bad alignment; idk how to do this with AsciiMath)</p>
         </div>
-        <p>The numbers to the left of the matrix can be seen as the inputs to the gate. So `00` is `|x:)=``|0:),``|y:)=``|0:)` and `01` is `|x:)=``|0:),``|y:)=``|1:)`. The `1` in the matrix means that whatever column the `1` is in is the output.</p>
+        <p>The numbers at the top of the matrix can be seen as the inputs to the gate, and the numbers to the left of the matrix can be seen as the outputs of the gate. So `00` is `|x:)=``|0:),``|y:)=``|0:)` and `01` is `|x:)=``|0:),``|y:)=``|1:)`. The `1` in the matrix means that whatever row the `1` is in is the output for that column.</p>
         <p>So for `|x:)=``|1:),``|y:)=``|1:)`, the output is `|x:)=``|1:),``|y:)=``|0:)`, which is consistent with the behavior of the CNOT gate.</p>
       </div>
       <p>The CNOT gate is reversible because it can be reversed by itself (meaning that we apply the CNOT operation twice). Here's what that looks like:</p>
@@ -770,6 +771,19 @@
       <div class="ln-center">
         <p>`|psi:)=c_0``|uarr:)+c_1``|darr:)`</p>
       </div>
+      <div class="ln-box">
+        <p>Suppose we have a particle whose spin is described by the ket</p>
+        <div class="ln-center">
+          <p>`|psi:)=(3-4i)``|uarr:)+(7+2i)``|darr:)`</p>
+        </div>
+        <p>The length of the ket is</p>
+        <div class="ln-center">
+          <p>`sqrt(abs(3-4i)^2+abs(7+2i)^2)`</p>
+          <p>`=sqrt(sqrt(3^2+(-4)^2)^2+sqrt(7^2+2^2)^2)`</p>
+          <p>`=sqrt(9+16+49+4)`</p>
+          <p>`=sqrt(78)`</p>
+        </div>
+      </div>
       <h3>State Transitions</h3>
       <p>Suppose we have a start state `|psi:)``=[[c_0],[c_1],[vdots],[c_(n-1)]]` and an end state `|psi':)``=[[c'_0],[c'_1],[vdots],[c'_(n-1)]]`. How likely is it that the start state will end up in the end state? We can measure this by looking at the transition amplitude. To calculate the transition amplitude, we calculate the inner product.</p>
       <p>We start by getting the adjoint of the end state. This state is called a bra, and it is denoted as `(:psi'|`.</p>
@@ -781,6 +795,7 @@
         <p>`(:psi'|psi:)=[bar (c'_0), bar (c'_1), ..., bar (c'_(n-1))][[c_0],[c_1],[vdots],[c_(n-1)]]`</p>
         <p>`=bar (c'_0)xxc_0+bar (c'_1)xxc_1+...+bar (c'_(n-1))xxc_(n-1)`</p>
       </div>
+      <p>Oh, one thing I forgot to mention is that the states should be normalized first before computing the inner product.</p>
       <div class="ln-box">
         <p>It is possible for a transition amplitude to be `0`. This means that it is impossible for a state to transition to another state, i.e., the states are orthogonal to each other. For example, if an electron is in spin up before being measured, it will never change to spin down after being measured.</p>
         <p>This relates to the dot product between two orthogonal vectors being `0`.</p>
@@ -844,6 +859,103 @@
         <p>But there are no values for `c_0,c_1,c'_0,c'_1` that can satisfy all four equations.</p>
         <p>So `|psi:)` cannot be rewritten as the tensor product of the two subsystems.</p>
       </div>
+      <h2 id="quantumalgorithms">Quantum Algorithms</h2>
+      <h3>Deutsch's Algorithm</h3>
+      <p>Consider a function `f:{0,1}mapsto{0,1}`. We say that the function is balanced if `f(0)nef(1)` and constant if `f(0)=f(1)`. Suppose that we wanted to know for any given `f`, if it is balanced or constant.</p>
+      <p>Of course, with classical computers, we can easily see if any function is balanced or constant. We simply evaluate `f(0)` and then `f(1)`. But this requires `f` to be evaluated twice. With quantum computers, we can do better.</p>
+      <p>Suppose we have a function `f` that takes `0` to `1` and `1` to `0`, i.e., `f(0)=1` and `f(1)=0`. We can represent this function as a matrix:</p>
+      <div class="ln-center">
+        <p>`[[0, 1],[1, 0]]`</p>
+        <p>(recall that the column is the input and the row is the output)</p>
+      </div>
+      <p>However, if we want to work in the quantum world, we need to work with unitary matrices. So we need to define a new function `U_f` that encodes `f` as a unitary matrix.</p>
+      <p>One way to do this is with the following quantum gate `U_f`:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_1.png">
+      </div>
+      <div class="ln-box">
+        <p>Note that this gate is unitary.</p>
+        <div class="collapse" id="deutsch_1">
+          <p>If we apply the gate to itself, we end up with</p>
+          <div class="ln-center">
+            <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_1_reversible.png">
+          </div>
+          <p>The output evaluates to<p>
+          <div class="ln-center">
+            <p>`(yoplusf(x))oplusf(x)`</p>
+            <p>`=yoplus(f(x)oplusf(x))`</p>
+            <p>`=yoplus(0)`</p>
+            <p>`=y`</p>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#deutsch_1" aria-expanded="false" aria-controls="deutsch_1">Show Me</button>
+      </div>
+      <p>The corresponding unitary matrix for `U_f` is</p>
+      <div class="ln-center">
+        <p>`{:[00,01,10,11]:}`</p>
+        <p>`{:[00],[01],[10],[11]:}[[0,1,0,0],[1,0,0,0],[0,0,1,0],[0,0,0,1]]`</p>
+      </div>
+      <div class="ln-box">
+        <p>This took me a while to understand, but this matrix isn't directly conveying the fact that `f(0)=1` and `f(1)=0`. That's because this is the matrix for `U_f`, not `f`.</p>
+        <p>It is however, using the fact that `f(0)=1` and `f(1)=0` to determine the output of `U_f`. For example, if `x=0`, then we have `f(x)=1`. If we also have `y=0`, then we have</p>
+        <div class="ln-center">
+          <p>`|x,y:)mapsto``|x,yoplusf(x):)`</p>
+          <p>`|0,0:)mapsto``|0,0oplus1:)`</p>
+          <p>`|0,0:)mapsto``|0,1:)`</p>
+        </div>
+      </div>
+      <h4>Deriving Deutsch's Algorithm: Attempt 1</h4>
+      <p>So we have this new function `U_f` and we want to use it to determine if `f` is balanced or constant (without having to evaluate `f(x)`).</p>
+      <p>Let's, arbitrarily, start both inputs at `|0:)` and try applying the Hadamard gate on the top input:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_2.png">
+      </div>
+      <p>In terms of matrices, this circuit is</p>
+      <div class="ln-center">
+        <p>`U_f``(HotimesI)(``|0:)otimes``|0:))`</p>
+      </div>
+      <p>Applying the Hadamard gate to the top input, we get</p>
+      <div class="ln-center">
+        <p>`=U_f``((``1/sqrt(2)``|0:)``+1/sqrt(2)``|1:))otimes``|0:))`</p>
+        <p>`=U_f``(``1/sqrt(2)``|00:)``+1/sqrt(2)``|10:))`</p>
+      </div>
+      <p>Multiplying with `U_f`, we get</p>
+      <div class="ln-center">
+        <p>`=``1/sqrt(2)``|0,0oplusf(0):)``+1/sqrt(2)``|1,0oplusf(1):)`</p>
+        <p>`=``1/sqrt(2)``|0,f(0):)``+1/sqrt(2)``|1,f(1):)`</p>
+      </div>
+      <p>For our specific function `f` that we defined as `f(0)=1` and `f(1)=0`, we have</p>
+      <div class="ln-center">
+        <p>`=``1/sqrt(2)``|0,1:)``+1/sqrt(2)``|1,0:)`</p>
+      </div>
+      <div class="ln-box">
+        <p>Note that we get the same result by multiplying the matrices:</p>
+        <div class="ln-center">
+          <p><p>`[[0,1,0,0],[1,0,0,0],[0,0,1,0],[0,0,0,1]][[1/sqrt(2)],[0],[1/sqrt(2)],[0]]=[[0],[1/sqrt(2)],[1/sqrt(2)],[0]]`</p>
+        </div>
+      </div>
+      <p>What does this tell us? This means that the top qubit has a `50%` chance of being in state `|0:)` or `|1:)` (and likewise for the bottom qubit). This doesn't really help us determine if `f` is balanced or constant, so on to attempt 2!</p>
+      <h4>Deriving Deutsch's Algorithm: Attempt 2</h4>
+      <p>This time, let's start the bottom qubit at `|1:)` and put it in superposition:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_3.png">
+      </div>
+      <div class="ln-center">
+        <p>`U_f``(IotimesH)(``|x:)otimes``|1:))`</p>
+        <p>`=U_f``(``|x:)``otimes(``1/sqrt(2)``|0:)``-1/sqrt(2)``|1:)))`</p>
+        <p>`=U_f``(``1/sqrt(2)``|x,0:)``-1/sqrt(2)``|x,1:))`</p>
+        <p>`=``1/sqrt(2)``|x,0oplusf(x):)``-1/sqrt(2)``|x,1oplusf(x):)`</p>
+        <p>`=``|x:)``1/sqrt(2)(``|f(x)rangle-``|bar(f(x))``rangle``)`</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/quantum/deutsch_4.png">
+        <p>(I could not get it to render in AsciiMath.)</p>
+      </div>
+      <div class="ln-center">
+        <p>`=(-1)^(f(x))``|x:)``1/sqrt(2)(``|0:)-``|1:))`</p>
+      </div>
+      <p>What this tells us is that the top qubit will be in state `|x:)` and the bottom qubit will be either in state `|0:)` or `|1:)`. Again, this doesn't really help us determine if `f` is balanced or constant, so on to attempt 3!</p>
+      <h4>Deriving Deutsch's Algorithm: Attempt 3</h4>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
