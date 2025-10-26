@@ -43,7 +43,7 @@
       <h1>Quantum Computing</h1>
       <hr>
       <p>Shortcut to this page: <a href="ai2.html">ntrllog.netlify.app/quantum</a></p>
-      <p>Notes provided by Professor Negin Forouzesh (CSULA) and Quantum Computing for Computer Scientists</p>
+      <p>Notes provided by Professor Negin Forouzesh (CSULA) and <a href="https://www.sci.brooklyn.cuny.edu/~noson/qctext.html" target="_blank">Quantum Computing for Computer Scientists</a></p>
       <p>Apparently complex numbers are used a lot in quantum mechanics. So this will start off with some light review of complex numbers and linear algebra.</p>
       <h2 id="complexnumbersalgebra">Complex Numbers (Algebraically)</h2>
       <p>A complex number `c` is an expression `c=a+bi` where `a,b in RR`. `a` is referred to as the real part of `c` and `b` is the imaginary part of `c`.</p>
@@ -956,6 +956,40 @@
       </div>
       <p>What this tells us is that the top qubit will be in state `|x:)` and the bottom qubit will be either in state `|0:)` or `|1:)`. Again, this doesn't really help us determine if `f` is balanced or constant, so on to attempt 3!</p>
       <h4>Deriving Deutsch's Algorithm: Attempt 3</h4>
+      <p>(Spoiler alert: this will be the actual correct algorithm.)</p>
+      <p>Let's put both inputs into a superposition. And add another Hadamard to the top input for good measure (pun not intended).</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_5.png">
+        <p>`(HotimesI)U_f``(HotimesH)``|0,1:)`</p>
+      </div>
+      <p>From the second attempt, we saw that applying the Hadamard and multiplying by `U_f` resulted in</p>
+      <div class="ln-center">
+        <p>`(-1)^(f(x))``|x:)``1/sqrt(2)(``|0:)-``|1:))`</p>
+      </div>
+      <p>So applying the Hadamard to the top qubit gives us</p>
+      <div class="ln-center">
+        <p>`1/sqrt(2)(``(-1)^(f(0))``|0:)``+(-1)^(f(1))``|1:)``otimes(``|0:)-``|1:)))`</p>
+        <p>(I think several steps are being skipped to get to this expression. I have tried doing the math, and it gets too messy and complicated.)</p>
+      </div>
+      <p>We'll take a closer look at `(-1)^(f(0))``|0:)``+(-1)^(f(1))``|1:)`. Notice that for any function `f`, if `f` is constant, then this evaluates to either of</p>
+      <ul>
+        <li>`+1(``|0:)+``|1:))`</p>
+        <li>`-1(``|0:)+``|1:))`</p>
+      </ul>
+      <p>If `f` is balanced, then this evaluates to either of</p>
+      <ul>
+        <li>`+1(``|0:)-``|1:))`</p>
+        <li>`-1(``|0:)-``|1:))`</p>
+      </ul>
+      <p>This can be represented concisely as</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/quantum/deutsch_6.png">
+      </div>
+      <p>We're not done yet; we still have to apply the last Hadamard gate to the top input again. Since the Hadamard gate is reversible, it takes `1/sqrt(2)``(``|0:)+``|1:))` to `|0:)` and `1/sqrt(2)``(``|0:)-``|1:))` to `|1:)`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/quantum/deutsch_7.png">
+      </div>
+      <p>What this tells us is that if `f` is a constant function, then we will see the top qubit get measured to `|0:)`, and if `f` is balanced, then the top qubit will get measured to `|1:)`.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
