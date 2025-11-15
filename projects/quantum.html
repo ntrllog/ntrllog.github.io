@@ -43,7 +43,7 @@
       <h1>Quantum Computing</h1>
       <hr>
       <p>Shortcut to this page: <a href="ai2.html">ntrllog.netlify.app/quantum</a></p>
-      <p>Notes provided by Professor Negin Forouzesh (CSULA) and <a href="https://www.sci.brooklyn.cuny.edu/~noson/qctext.html" target="_blank">Quantum Computing for Computer Scientists</a></p>
+      <p>Notes provided by Professor Negin Forouzesh (CSULA), <a href="https://www.sci.brooklyn.cuny.edu/~noson/qctext.html" target="_blank">Quantum Computing for Computer Scientists</a>, and <a href="https://www.youtube.com/@quantum-soar" target="_blank">Quantum Soar</a></p>
       <p>Apparently complex numbers are used a lot in quantum mechanics. So this will start off with some light review of complex numbers and linear algebra.</p>
       <h2 id="complexnumbersalgebra">Complex Numbers (Algebraically)</h2>
       <p>A complex number `c` is an expression `c=a+bi` where `a,b in RR`. `a` is referred to as the real part of `c` and `b` is the imaginary part of `c`.</p>
@@ -60,8 +60,8 @@
       </div>
       <div class="ln-box">
         <p>This comes from the same idea as FOIL.</p>
-        <p>`c_1xxc_2=(a_1+b_1i)xx(a_2+b_2i)`</p>
         <div class="ln-center">
+          <p>`c_1xxc_2=(a_1+b_1i)xx(a_2+b_2i)`</p>
           <p>`=a_1a_2+a_1b_2i+b_1ia_2+b_1b_2i^2`</p>
           <p>`=a_1a_2+a_1b_2i+b_1ia_2-b_1b_2`</p>
           <p>`=a_1a_2-b_1b_2+a_1b_2i+a_2b_1i`</p>
@@ -513,6 +513,10 @@
         <p>This means that the qubit has a `(1/sqrt(2))^2=1/2` chance to be in state `|0:)` or `|1:)` when measured.</p>
       </div>
       <div class="ln-box">
+        <p>`H``|0:)=``1/sqrt(2)``|0:)``+1/sqrt(2)``|1:)` is also denoted as `|+:)` and `H``|1:)=``1/sqrt(2)``|0:)``-1/sqrt(2)``|1:)` is also denoted as `|- :)`.</p>
+        <p>(Unfortunately, I found this out after already having written a lot of this, so I don't use this notation much.)</p>
+      </div>
+      <div class="ln-box">
         <p>Suppose we're in a two-qubit system `|q_1q_0:)` and both qubits start in state `|0:)`. This is what it looks like to apply the Hadamard gate to `q_0`:</p>
         <div class="ln-center">
           <p>`|0:)otimes H``|0:)`</p>
@@ -873,6 +877,7 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_1.png">
       </div>
+      <p>This is also sometimes referred to as the "oracle".</p>
       <div class="ln-box">
         <p>Note that this gate is unitary.</p>
         <div class="collapse" id="deutsch_1">
@@ -960,36 +965,340 @@
       <p>Let's put both inputs into a superposition. And add another Hadamard to the top input for good measure (pun not intended).</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_5.png">
+      </div>
+      <div class="ln-center">
         <p>`(HotimesI)U_f``(HotimesH)``|0,1:)`</p>
+        <p>`=(HotimesI)U_f``(``1/sqrt(2)``(``|0:)``+``|1:))``otimes1/sqrt(2)``(``|0:)``-``|1:)))`</p>
+        <p>`=(HotimesI)U_f``(``1/2``(``|00:)``-``|01:)``+``|10:)``-``|11:)))`</p>
       </div>
-      <p>From the second attempt, we saw that applying the Hadamard and multiplying by `U_f` resulted in</p>
+      <p>Factoring out `|0:)` and `|1:)`,</p>
       <div class="ln-center">
-        <p>`(-1)^(f(x))``|x:)``1/sqrt(2)(``|0:)-``|1:))`</p>
+        <p>`=(HotimesI)U_f``(``1/2``(``|0:)``(``|0:)-``|1:))``+``|1:)``(``|0:)``-``|1:))))`</p>
       </div>
-      <p>So applying the Hadamard to the top qubit gives us</p>
+      <p>Applying `U_f`,</p>
       <div class="ln-center">
-        <p>`1/sqrt(2)(``(-1)^(f(0))``|0:)``+(-1)^(f(1))``|1:)``otimes(``|0:)-``|1:)))`</p>
-        <p>(I think several steps are being skipped to get to this expression. I have tried doing the math, and it gets too messy and complicated.)</p>
+        <p>`=(HotimesI)``1/2``(``|0:)``((``|0:)-``|1:))oplusf(0))``+``|1:)``((``|0:)``-``|1:))oplusf(1)))`</p>
       </div>
-      <p>We'll take a closer look at `(-1)^(f(0))``|0:)``+(-1)^(f(1))``|1:)`. Notice that for any function `f`, if `f` is constant, then this evaluates to either of</p>
-      <ul>
-        <li>`+1(``|0:)+``|1:))`</p>
-        <li>`-1(``|0:)+``|1:))`</p>
-      </ul>
-      <p>If `f` is balanced, then this evaluates to either of</p>
-      <ul>
-        <li>`+1(``|0:)-``|1:))`</p>
-        <li>`-1(``|0:)-``|1:))`</p>
-      </ul>
-      <p>This can be represented concisely as</p>
+      <p>"Distributing" the `oplusf(0)` and `oplusf(1)`,</p>
       <div class="ln-center">
-        <img class="img-fluid ln-image-smaller" src="../pictures/quantum/deutsch_6.png">
+        <p>`=(HotimesI)``1/2``(``|0:)``(``|0:)oplusf(0)-``|1:)oplusf(0))``+``|1:)``(``|0:)oplusf(1)``-``|1:)oplusf(1)))`</p>
+        <p>`=(HotimesI)``1/2``(``|0:)``(``(-1)^(f(0))(``|0:)-``|1:)))+``|1:)``(``(-1)^(f(1))(``|0:)-``|1:))))`</p>
       </div>
-      <p>We're not done yet; we still have to apply the last Hadamard gate to the top input again. Since the Hadamard gate is reversible, it takes `1/sqrt(2)``(``|0:)+``|1:))` to `|0:)` and `1/sqrt(2)``(``|0:)-``|1:))` to `|1:)`.</p>
+      <p>Factoring out `1/sqrt(2)``(``|0:)-``|1:))`,</p>
       <div class="ln-center">
-        <img class="img-fluid ln-image-smaller" src="../pictures/quantum/deutsch_7.png">
+        <p>`=(HotimesI)``1/sqrt(2)``(``|0:)``(-1)^(f(0))+``|1:)``(-1)^(f(1))``)(``1/sqrt(2)``(``|0:)-``|1:))`</p>
+      </div>
+      <p>Let's take a closer look at `|0:)``(-1)^(f(0))+``|1:)``(-1)^(f(1))`. Note that if `f(0)=f(1)`, then we get</p>
+      <div class="ln-center">
+        <p>`|0:)+``|1:)` if `f(0)=f(1)=0`</p>
+        <p>`-(``|0:)+``|1:))` if `f(0)=f(1)=1`</p>
+      </div>
+      <p>which we can simplify to</p>
+      <div class="ln-center">
+        <p>`+-(``|0:)+``|1:))`</p>
+      </div>
+      <p>Note that if `f(0)!=f(1)`, then we get</p>
+      <div class="ln-center">
+        <p>`|0:)-``|1:)` if `f(0)=0` and `f(1)=1`</p>
+        <p>`-(``|0:)-``|1:))` if `f(0)=1` and `f(1)=0`</p>
+      </div>
+      <p>which we can simplify to</p>
+      <div class="ln-center">
+        <p>`+-(``|0:)-``|1:))`</p>
+      </div>
+      <p>So we have</p>
+      <div class="ln-center">
+        <p>`=(HotimesI)``+-1/sqrt(2)``(``|0:)+``|1:)``)(``1/sqrt(2)``(``|0:)-``|1:))`</p>
+        <p>`=+-``|0:)``(``1/sqrt(2)``(``|0:)-``|1:))`</p>
+        <p>if `f` is constant</p>
+      </div>
+      <p>and</p>
+      <div class="ln-center">
+        <p>`=(HotimesI)``+-1/sqrt(2)``(``|0:)-``|1:)``)(``1/sqrt(2)``(``|0:)-``|1:))`</p>
+        <p>`=+-``|1:)``(``1/sqrt(2)``(``|0:)-``|1:))`</p>
+        <p>if `f` is balanced</p>
       </div>
       <p>What this tells us is that if `f` is a constant function, then we will see the top qubit get measured to `|0:)`, and if `f` is balanced, then the top qubit will get measured to `|1:)`.</p>
+      <h4>We Saved One Computation. So What?</h4>
+      <p>As mentioned earlier, to determine if a function is balanced or constant using classical computers, we need to evaluate `f` twice. But with this quantum algorithm, we only need to perform one measurement. Going from two evaluations to one may not seem like a big deal*, but it gets pretty significant when the problem is scaled, which is what we'll look at next.</p>
+      <p>*To be fair, this problem is very contrived, so one could argue that it's not a big deal to begin with.</p>
+      <div class="ln-box">
+        <h3>Identities</h3>
+        <p>There are some pretty important identities that show up a lot in the analysis of quantum algorithms. Leaving them here for reference.</p>
+        <ul>
+          <li>`|0:)oplusf(a)-``|1:)oplus``f(a)=(-1)^(f(a))``(``|0:)-``|1:))`
+            <ul>
+              <li>(used in attempt 3)</li>
+            </ul>
+          </li>
+          <li>`U_f``|x:)H``|1:)=``(-1)^(f(x))``|x:)H``|1:)`
+            <ul>
+              <li>(derived in attempt 2)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h3>Deutsch-Josza Algorithm</h3>
+      <p>Let's now consider functions from `{0,1}^n` to `{0,1}`. A function `f:{0,1}^n mapsto {0,1}` is constant if all the inputs go to `0` (or all the inputs go to `1`), and balanced if exactly half of the inputs maps to `0` (and the other half maps to `1`).</p>
+      <p>Here's an example of a constant function for `n=3`:</p>
+      <table class="table ln-center">
+        <tr>
+          <th>`x`</th>
+          <th>`f(x)`</th>
+        </tr>
+        <tr>
+          <td>`000`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`001`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`010`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`011`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`100`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`101`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`110`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`111`</td>
+          <td>`0`</td>
+        </tr>
+      </table>
+      <p>Here's an example of a balanced function for `n=3`:</p>
+      <table class="table ln-center">
+        <tr>
+          <th>`x`</th>
+          <th>`f(x)`</th>
+        </tr>
+        <tr>
+          <td>`000`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`001`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`010`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`011`</td>
+          <td>`0`</td>
+        </tr>
+        <tr>
+          <td>`100`</td>
+          <td>`1`</td>
+        </tr>
+        <tr>
+          <td>`101`</td>
+          <td>`1`</td>
+        </tr>
+        <tr>
+          <td>`110`</td>
+          <td>`1`</td>
+        </tr>
+        <tr>
+          <td>`111`</td>
+          <td>`1`</td>
+        </tr>
+      </table>
+      <p>If we want to find out whether a function is constant or balanced using classical computers, we have to evaluate `f` at most `2^(n-1)+1` times. With quantum computers, we only need to perform one measurement.</p>
+      <div class="ln-box">
+        <p>A function with domain `{0,1}^n` has `2^n` inputs. It's possible that we can evaluate half of the inputs `(2^n/2=2^(n-1))` and still not know whether the function is balanced or constant. For example, consider the balanced function above. If we evaluate the top half (`f(000),f(001),f(010),f(011)`), we see that they all evaluate to `0`. We'd need to evaluate `f` for one more input to know for sure whether `f` is constant or balanced. Hence the `2^(n-1)+1` worst case.</p>
+      </div>
+      <p>We'll use the same oracle as before, but with a slight modification.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_josza_1.png">
+      </div>
+      <p>The `/n` means that there are `n` qubits (it's kinda like saying there are `n` of these lines). The bolded `bb x` is a binary string, so `|bbx:)=``|x_0x_1...x_(n-1):)`. For example,</p>
+      <div class="ln-center">
+        <p>`|bb0:)=``|00...0:)=``{:[00000000],[00000001],[00000010],[vdots],[11111110],[11111111]:}[[1],[0],[0],[vdots],[0],[0]]`</p>
+      </div>
+      <p>With this oracle, let's jump straight into the circuit for the Deutsch-Josza algorithm:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_josza_2.png">
+        <p>`(H^(otimesn)otimesI)U_f``(H^(otimesn)otimesH)``|bb0,1:)`</p>
+      </div>
+      <p>`H^(otimesn)` is the tensor product of `n` Hadamard matrices. For example, `H^(otimes3)=HotimesHotimesH`.</p>
+      <div class="ln-center">
+        <p>`(H^(otimesn)otimesI)U_f``(H^(otimesn)otimesH)``|bb0,1:)`</p>
+        <p>`=(H^(otimesn)otimesI)U_f``(``H^(otimesn)``|bb0:)``otimesH``|1:))`</p>
+      </div>
+      <p>It turns out that `H^(otimesn)``|bb0:)` simplifies to a nice expression. We can derive it by looking at the pattern for different values of `n`, starting with `n=2`:</p>
+      <div class="ln-center">
+        <p>`H^(otimes2)``|bb0:)=H``|0:)H``|0:)`</p>
+        <p>`=1/sqrt(2)(``|0:)+``|1:))``1/sqrt(2)(``|0:)+``|1:))`</p>
+        <p>`=1/sqrt(2^2)``(``|00:)+``|01:)+``|10:)+``|11:))`</p>
+        <p>`=1/sqrt(2^2)sum_(bbx in{0,1}^2)``|bbx:)`</p>
+      </div>
+      <p>Now for `n=3`:</p>
+      <div class="ln-center">
+        <p>`H^(otimes3)``|bb0:)=H``|0:)H``|0:)H``|0:)`</p>
+        <p>`=1/sqrt(2)(``|0:)+``|1:))``1/sqrt(2)(``|0:)+``|1:))``1/sqrt(2)(``|0:)+``|1:))`</p>
+        <p>`=1/sqrt(2^3)``(``|000:)+``|001:)+``|010:)+``|011:)+``|100:)+``|101:)+``|110:)+``|111:))`</p>
+        <p>`=1/sqrt(2^3)sum_(bbx in{0,1}^3)``|bbx:)`</p>
+      </div>
+      <p>So the general pattern is</p>
+      <div class="ln-center">
+        <p>`H^(otimesn)``|bb0:)=``1/sqrt(2^n)sum_(bbx in{0,1}^n)``|bbx:)`</p>
+      </div>
+      <p>Going back to our analysis,</p>
+      <div class="ln-center">
+        <p>`(H^(otimesn)otimesI)U_f``(``H^(otimesn)``|bb0:)``otimesH``|1:))`</p>
+        <p>`=(H^(otimesn)otimesI)U_f``(``1/sqrt(2^n)sum_(bbx in{0,1}^n)``|bbx:)otimesH``|1:))`</p>
+        <p>`=(H^(otimesn)otimesI)1/sqrt(2^n)sum_(bbx in{0,1}^n)U_f``|bbx:)H``|1:)`</p>
+      </div>
+      <p>Using the identity we derived previously for `U_f``|x:)H``|1:)`, we get</p>
+      <div class="ln-center">
+        <p>`=(H^(otimesn)otimesI)1/sqrt(2^n)sum_(bbx in{0,1}^n)(-1)^(f(bbx))``|bbx:)H``|1:)`</p>
+        <p>`=1/sqrt(2^n)sum_(bbx in{0,1}^n)(-1)^(f(bbx))H^(otimesn)``|bbx:)otimes(IotimesH``|1:))`</p>
+        <p>`=1/sqrt(2^n)sum_(bbx in{0,1}^n)(-1)^(f(bbx))H^(otimesn)``|bbx:)H``|1:)`</p>
+      </div>
+      <p>For simplifying `H^(otimesn)``|bbx:)`, we can't use `H^(otimesn)``|bb0:)=``1/sqrt(2^n)sum_(bbx in{0,1}^2)``|bbx:)` since this is only for the state with all `0`s.</p>
+      <p>It turns out that for any `x_i`,</p>
+      <div class="ln-center">
+        <p>`H``|x_i:)=``1/sqrt(2)``(``|0:)+``(-1)^(x_i)``|1:))`</p>
+      </div>
+      <div class="ln-box">
+        <p>If `x_i=0`, then we get `H``|0:)=``1/sqrt(2)``(``|0:)+``(-1)^(0)``|1:))=``1/sqrt(2)``(``|0:)+``|1:))`</p>
+        <p>If `x_i=1`, then we get `H``|1:)=``1/sqrt(2)``(``|0:)+``(-1)^(1)``|1:))=``1/sqrt(2)``(``|0:)-``|1:))`</p>
+      </div>
+      <p>Let's see if there's some sort of pattern we can derive. We'll look at `n=3`.</p>
+      <div class="ln-center">
+        <p>`H^(otimes3)``|bbx:)=H``|x_0:)H``|x_1:)H``|x_2:)`</p>
+        <p>`=1/sqrt(2)``(``|0:)+``(-1)^(x_0)``|1:))``1/sqrt(2)``(``|0:)+``(-1)^(x_1)``|1:))``1/sqrt(2)``(``|0:)+``(-1)^(x_2)``|1:))`</p>
+      </div>
+      <p>Taking the tensor product, we get</p>
+      <div class="ln-center">
+        <p>`=1/sqrt(2^3)``(``|000:)+``(-1)^(x_2)``|001:)+``(-1)^(x_1)``|010:)+``(-1)^(x_1)(-1)^(x_2)``|011:)`</p>
+        <p>`+(-1)^(x_0)``|100:)+``(-1)^(x_0)(-1)^(x_2)``|101:)+``(-1)^(x_0)(-1)^(x_1)``|110:)+(-1)^(x_0)(-1)^(x_1)(-1)^(x_2)``|111:)`</p>
+      </div>
+      <p>Simplifying the exponents,</p>
+      <div class="ln-center">
+        <p>`=1/sqrt(2^3)``(``|000:)+``(-1)^(x_2)``|001:)+``(-1)^(x_1)``|010:)+``(-1)^(x_1+x_2)``|011:)`</p>
+        <p>`+(-1)^(x_0)``|100:)+``(-1)^(x_0+x_2)``|101:)+``(-1)^(x_0+x_1)``|110:)+``(-1)^(x_0+x_1+x_2)``|111:)`</p>
+      </div>
+      <p>There's actually an interesting pattern here. Notice that for each term with a `(-1)^(x_i)`, there's a `1` in the `i^(th)` spot. Using this, we can rewrite the exponents as inner products:</p>
+      <div class="ln-center">
+        <p>`=1/sqrt(2^3)``(``|000:)+``(-1)^((:bbx,001:))``|001:)+``(-1)^((:bbx,010:))``|010:)+``(-1)^((:bbx,011:))``|011:)`</p>
+        <p>`+(-1)^((:bbx,100:))``|100:)+``(-1)^((:bbx,101:))``|101:)+``(-1)^((:bbx,110:))``|110:)+``(-1)^((:bbx,111:))``|111:)`</p>
+      </div>
+      <div class="ln-box">
+        <p>Looking at one of the terms as an example,</p>
+        <div class="ln-center">
+          <p>`(:bb x,101:)=x_0*1+x_1*0+x_2*1=x_0+x_2`</p>
+        </div>
+      </div>
+      <p>Which we can then rewrite compactly as</p>
+      <div class="ln-center">
+        <p>`=1/sqrt(2^3)sum_(bbz in {0,1}^3)(-1)^((:bbx,bbz:))``|bbz:)`</p>
+      </div>
+      <p>For general `n` then, we have</p>
+      <div class="ln-center">
+        <p>`H^(otimesn)``|bbx:)=``1/sqrt(2^n)sum_(bbz in {0,1}^n)(-1)^((:bbx,bbz:))``|bbz:)`</p>
+      </div>
+      <p>Now that we have a simplified expression for `H^(otimesn)``|bbx:)`, we can continue our analysis of the algorithm.</p>
+      <div class="ln-center">
+        <p>`1/sqrt(2^n)sum_(bbx in{0,1}^n)(-1)^(f(bbx))H^(otimesn)``|bbx:)H``|1:)`</p>
+        <p>`=1/sqrt(2^n)``(``sum_(bbx in{0,1}^n)(-1)^(f(bbx))H^(otimesn)``|bbx:))H``|1:)`</p>
+        <p>`=1/sqrt(2^n)``(``sum_(bbx in{0,1}^n)(-1)^(f(bbx))1/sqrt(2^n)sum_(bbz in {0,1}^n)(-1)^((:bbx,bbz:))``|bbz:))H``|1:)`</p>
+        <p>`=``(``sum_(bbx in{0,1}^n)1/sqrt(2^n)sum_(bbz in {0,1}^n)1/sqrt(2^n)(-1)^(f(bbx))(-1)^((:bbx,bbz:))``|bbz:))H``|1:)`</p>
+        <p>`=``(``sum_(bbx in{0,1}^n)sum_(bbz in {0,1}^n)1/(2^n)(-1)^(f(bbx)+(:bbx,bbz:))``|bbz:))H``|1:)`</p>
+      </div>
+      <div class="ln-box">
+        <p>Ignoring all the "fluff", the current state is basically `|bbz:)otimesH``|1:)`.</p>
+      </div>
+      <p>It would be helpful to isolate the `f(bbx)`, and we can do this by setting `bbz=bb0`.</p>
+      <div class="ln-center">
+        <p>`(``sum_(bbx in{0,1}^n)1/(2^n)(-1)^(f(bbx)+(:bbx,bb0:))``|bb0:))H``|1:)`</p>
+        <p>`=``(``sum_(bbx in{0,1}^n)1/(2^n)(-1)^(f(bbx)+bb0)``|bb0:))H``|1:)`</p>
+        <p>`=``(``sum_(bbx in{0,1}^n)1/(2^n)(-1)^(f(bbx))``|bb0:))H``|1:)`</p>
+      </div>
+      <p>This is the probability that the top `n` qubits collapse to state `|bb0:)`. And the probability is dependent on `f(bbx)`. If `f(bbx)` is constant at `0`, we have</p>
+      <div class="ln-center">
+        <p>`(``sum_(bbx in{0,1}^n)1/(2^n)(-1)^(0)``|bb0:))H``|1:)`</p>
+        <p>`=(``sum_(bbx in{0,1}^n)1/(2^n)``|bb0:))H``|1:)`</p>
+      </div>
+      <p>Since there are `2^n` strings in `{0,1}^n`, the summation results in</p>
+      <div class="ln-center">
+        <p>`=(``2^(n)/(2^n)``|bb0:))H``|1:)`</p>
+        <p>`=1``|bb0:)H``|1:)`</p>
+      </div>
+      <p>If `f` is constant at `1`, we have</p>
+      <div class="ln-center">
+        <p>`(``sum_(bbx in{0,1}^n)1/(2^n)(-1)^(1)``|bb0:))H``|1:)`</p>
+        <p>`=(``sum_(bbx in{0,1}^n)-1/(2^n)``|bb0:))H``|1:)`</p>
+        <p>`=(``-2^(n)/(2^n)``|bb0:))H``|1:)`</p>
+        <p>`=-1``|bb0:)H``|1:)`</p>
+      </div>
+      <p>So if `f` is constant, the probability that the top `n` qubits collapse to state `|bb0:)` is `1`.</p>
+      <p>If `f` is balanced, then half of the inputs will result in `f(bbx)=0` and the other half will result in `f(bbx)=1`.</p>
+      <div class="ln-center">
+        <p>`(``sum_(bbx in{0,1}^n)1/(2^n)(-1)^(f(bbx))``|bb0:))H``|1:)`</p>
+        <p>`=(1/2^n(-1)^0+1/2^n(-1)^1+1/2^n(-1)^0+...+1/2^n(-1)^1)``|bb0:)H``|1:)`</p>
+      </div>
+      <p>Everything will cancel out with each other and we'll end up with</p>
+      <div class="ln-center">
+        <p>`=0``|bb0:)H``|1:)`</p>
+      </div>
+      <p>So if `f` is balanced, the probability that the top `n` qubits collapse to state `|bb0:)` is `0`.</p>
+      <p>How do we apply these results for the algorithm? If we measure the top `n` qubits and they're in the state `|bb0:)`, then `f` is constant. If they're in any state other than `|bb0:)`, then the function is balanced.</p>
+      <h3>Simon's Algorithm</h3>
+      <p>Moving away from constant and balanced functions, we'll now look at something different.</p>
+      <p>Let's consider a function `f:{0,1}^n mapsto {0,1}^n`. Suppose there exists a binary string `bbc=c_0c_1...c_(n-1)` such that for all strings `bbx,bby in {0,1}^n`, we have `f(bbx)=f(bby)` if and only if `bby=bbxoplusbbc`. The goal of Simon's algorithm is to find out what `bbc` is.</p>
+      <p>Well, okay, what does this problem even mean in the first place? Let's look at an example with `n=2`.</p>
+      <p>Suppose we're given these values in the table below. The rule is that all `bbx` entries that have the same `f(bbx)` values are related to each other.</p>
+      <table class="table ln-center">
+        <tr>
+          <th>`bbx`</th>
+          <th>`f(bbx)`</th>
+        </tr>
+        <tr>
+          <td>`00`</td>
+          <td>`00`</td>
+        </tr>
+        <tr>
+          <td>`01`</td>
+          <td>`11`</td>
+        </tr>
+        <tr>
+          <td>`10`</td>
+          <td>`00`</td>
+        </tr>
+        <tr>
+          <td>`11`</td>
+          <td>`11`</td>
+        </tr>
+      </table>
+      <p>So `00` and `10` are related to each other, and `01` and `11` are related to each other. The way they're related is that `00oplusbbc=10` and `01oplusbbc=11`. The goal is to find out what `bbc` is.</p>
+      <div class="ln-box">
+        <p>In some problem instances, it may be possible that `bbc=0^n`. In this case, none of the `bbx` entries will be related to each other, i.e., all the `bbx` entries will have unique `f(bbx)` values.</p>
+      </div>
+      <p>The oracle we'll be using for Simon's algorithm is</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/simon_1.png">
+      </div>
+      <p>And the circuit for Simon's algorithm is</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/simon_2.png">
+        <p>`(H^(otimesn)otimesI)U_f``(H^(otimesn)otimesI)``|bb0bb0:)`</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
