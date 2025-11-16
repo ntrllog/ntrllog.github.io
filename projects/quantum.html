@@ -864,6 +864,7 @@
         <p>So `|psi:)` cannot be rewritten as the tensor product of the two subsystems.</p>
       </div>
       <h2 id="quantumalgorithms">Quantum Algorithms</h2>
+      <p>For this section, I'll be using a boxed `M` in the diagrams to represent the measurement operator.</p>
       <h3>Deutsch's Algorithm</h3>
       <p>Consider a function `f:{0,1}mapsto{0,1}`. We say that the function is balanced if `f(0)nef(1)` and constant if `f(0)=f(1)`. Suppose that we wanted to know for any given `f`, if it is balanced or constant.</p>
       <p>Of course, with classical computers, we can easily see if any function is balanced or constant. We simply evaluate `f(0)` and then `f(1)`. But this requires `f` to be evaluated twice. With quantum computers, we can do better.</p>
@@ -1259,9 +1260,18 @@
       </div>
       <p>So if `f` is balanced, the probability that the top `n` qubits collapse to state `|bb0:)` is `0`.</p>
       <p>How do we apply these results for the algorithm? If we measure the top `n` qubits and they're in the state `|bb0:)`, then `f` is constant. If they're in any state other than `|bb0:)`, then the function is balanced.</p>
+      <div class="ln-box">
+        <h3>Updated Identities</h3>
+        <ul>
+          <li><p>`|0:)oplusf(a)-``|1:)oplus``f(a)=(-1)^(f(a))``(``|0:)-``|1:))`</p></li>
+          <li><p>`U_f``|x:)H``|1:)=``(-1)^(f(x))``|x:)H``|1:)`</p></li>
+          <li><p>`H^(otimesn)``|bb0:)=``1/sqrt(2^n)sum_(bbx in{0,1}^n)``|bbx:)`</p></li>
+          <li><p>`H^(otimesn)``|bbx:)=``1/sqrt(2^n)sum_(bbz in {0,1}^n)(-1)^((:bbx,bbz:))``|bbz:)`</p></li>
+        </ul>
+      </div>
       <h3>Simon's Algorithm</h3>
       <p>Moving away from constant and balanced functions, we'll now look at something different.</p>
-      <p>Let's consider a function `f:{0,1}^n mapsto {0,1}^n`. Suppose there exists a binary string `bbc=c_0c_1...c_(n-1)` such that for all strings `bbx,bby in {0,1}^n`, we have `f(bbx)=f(bby)` if and only if `bby=bbxoplusbbc`. The goal of Simon's algorithm is to find out what `bbc` is.</p>
+      <p>Let's consider a function `f:{0,1}^n mapsto {0,1}^n`. Suppose there exists a secret binary string `bbc=c_0c_1...c_(n-1)` such that for all strings `bbx,bby in {0,1}^n`, we have `f(bbx)=f(bby)` if and only if `bby=bbxoplusbbc`. The goal of Simon's algorithm is to find out what `bbc` is.</p>
       <p>Well, okay, what does this problem even mean in the first place? Let's look at an example with `n=2`.</p>
       <p>Suppose we're given these values in the table below. The rule is that all `bbx` entries that have the same `f(bbx)` values are related to each other.</p>
       <table class="table ln-center">
@@ -1288,7 +1298,9 @@
       </table>
       <p>So `00` and `10` are related to each other, and `01` and `11` are related to each other. The way they're related is that `00oplusbbc=10` and `01oplusbbc=11`. The goal is to find out what `bbc` is.</p>
       <div class="ln-box">
-        <p>In some problem instances, it may be possible that `bbc=0^n`. In this case, none of the `bbx` entries will be related to each other, i.e., all the `bbx` entries will have unique `f(bbx)` values.</p>
+        <p>In some problem instances, it may be possible that `bbc=0^n`. In these cases, none of the `bbx` entries will be related to each other, i.e., all the `bbx` entries will have unique `f(bbx)` values.</p>
+        <p>This is because `x_0x_1...x_(n-1)oplus00...0=x_0x_1...x_(n-1)`, i.e., it is impossible for a binary string to be `oplus` with `0^n` to get a different binary string.</p>
+        <p>In these cases, `f` would be a one-to-one function. In the other cases where `bbc!=0^n`, `f` would be a two-to-one function.</p>
       </div>
       <p>The oracle we'll be using for Simon's algorithm is</p>
       <div class="ln-center">
@@ -1297,7 +1309,91 @@
       <p>And the circuit for Simon's algorithm is</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/quantum/simon_2.png">
+      </div>
+      <p>Using the last two updated identities really makes things a lot easier here.</p>
+      <div class="ln-center">
         <p>`(H^(otimesn)otimesI)U_f``(H^(otimesn)otimesI)``|bb0bb0:)`</p>
+        <p>`=(H^(otimesn)otimesI)U_f``(``H^(otimesn)``|bb0:)``|bb0:))`</p>
+        <p>`=(H^(otimesn)otimesI)U_f``(``1/sqrt(2^n)sum_(bbx in {0,1}^n)``|bbx:)``|bb0:))`</p>
+        <p>`=(H^(otimesn)otimesI)``1/sqrt(2^n)sum_(bbx in {0,1}^n)``|bbx:)``|bb0oplusf(bbx):)`</p>
+        <p>`=(H^(otimesn)otimesI)``1/sqrt(2^n)sum_(bbx in {0,1}^n)``|bbx:)``|f(bbx):)`</p>
+        <p>`=1/sqrt(2^n)sum_(bbx in {0,1}^n)H^(otimesn)``|bbx:)``|f(bbx):)`</p>
+        <p>`=1/sqrt(2^n)sum_(bbx in {0,1}^n)1/sqrt(2^n)sum_(bbz in {0,1}^n)(-1)^((:bbx,bbz:))``|bbz:)``|f(bbx):)`</p>
+      </div>
+      <p>We're given that `f(bbx)=f(bbxoplusbbc)`. This means that the coefficient for `|bbz:)``|f(bbx):)` and the coefficient for `|bbz:)``|f(bbxoplusbbc):)` should be the same.</p>
+      <div class="ln-center">
+        <p>`(-1)^((:bbx,bbz:))=(-1)^((:bbxoplusbbc,bbz:))`</p>
+        <p>`(-1)^((:bbx,bbz:))=(-1)^((:bbx,bbz:)oplus(:bbc,bbz:))`</p>
+      </div>
+      <p>From this, we can see that the only way that the coefficients will be the same is if `(:bbc,bbz:)=0`. This means that when we measure the top qubits, the only results that are possible are the binary strings such that the inner product of that string with `bbc` is `0`.</p>
+      <p>Let's see Simon's algorithm in action with our `n=2` example.</p>
+      <table class="table ln-center">
+        <tr>
+          <th>`bbx`</th>
+          <th>`f(bbx)`</th>
+        </tr>
+        <tr>
+          <td>`00`</td>
+          <td>`00`</td>
+        </tr>
+        <tr>
+          <td>`01`</td>
+          <td>`11`</td>
+        </tr>
+        <tr>
+          <td>`10`</td>
+          <td>`00`</td>
+        </tr>
+        <tr>
+          <td>`11`</td>
+          <td>`11`</td>
+        </tr>
+      </table>
+      <div class="ln-center">
+        <p>`(H^(otimes2)otimesI)U_f``(H^(otimes2)otimesI)``|bb0bb0:)`</p>
+        <p>`=(H^(otimes2)otimesI)U_f``(``H^(otimes2)``|bb0:)``|bb0:))`</p>
+        <p>`=(H^(otimes2)otimesI)U_f``(``1/sqrt(2^2)sum_(bbx in {0,1}^2)``|bbx:)``|bb0:))`</p>
+        <p>`=(H^(otimes2)otimesI)U_f``(``1/sqrt(4)``(``|00:)otimes``|00:)+``|01:)otimes``|00:)+``|10:)otimes``|00:)+``|11:)otimes``|00:)))`</p>
+        <p>`=(H^(otimes2)otimesI)``1/sqrt(4)``(``|00:)otimes``|00oplusf(00):)+``|01:)otimes``|00oplusf(01):)+``|10:)otimes``|00oplusf(10):)+``|11:)otimes``|00oplusf(11):))`</p>
+        <p>`=(H^(otimes2)otimesI)``1/sqrt(4)``(``|00:)otimes``|f(00):)+``|01:)otimes``|f(01):)+``|10:)otimes``|f(10):)+``|11:)otimes``|f(11):))`</p>
+        <p>`=(H^(otimes2)otimesI)``1/sqrt(4)``(``|00:)otimes``|00:)+``|01:)otimes``|11:)+``|10:)otimes``|00:)+``|11:)otimes``|11:))`</p>
+        <p>`=1/sqrt(4)``(``H^(otimes2)``|00:)otimesI``|00:)+``H^(otimes2)``|01:)otimesI``|11:)+``H^(otimes2)``|10:)otimesI``|00:)+``H^(otimes2)``|11:)otimesI``|11:))`</p>
+        <p>`=1/sqrt(4)``(``1/sqrt(2^2)sum_(bbz in {0,1}^2}(-1)^((:00,bbz:))``|bbz:)otimes``|00:)`</p>
+        <p>`+1/sqrt(2^2)sum_(bbz in {0,1}^2}(-1)^((:01,bbz:))``|bbz:)otimes``|11:)`</p>
+        <p>`+1/sqrt(2^2)sum_(bbz in {0,1}^2}(-1)^((:10,bbz:))``|bbz:)otimes``|00:)`</p>
+        <p>`+1/sqrt(2^2)sum_(bbz in {0,1}^2}(-1)^((:11,bbz:))``|bbz:)otimes``|11:))`</p>
+        <p>`=1/2``(``1/2``(``(-1)^((:00,00:))``|00:)otimes``|00:)+``(-1)^((:00,01:))``|01:)otimes``|00:)+``(-1)^((:00,10:))``|10:)otimes``|00:)+``(-1)^((:00,11:))``|11:)otimes``|00:))`</p>
+        <p>`+1/2``(``(-1)^((:01,00:))``|00:)otimes``|11:)+``(-1)^((:01,01:))``|01:)otimes``|11:)+``(-1)^((:01,10:))``|10:)otimes``|11:)+``(-1)^((:01,11:))``|11:)otimes``|11:))`</p>
+        <p>`+1/2``(``(-1)^((:10,00:))``|00:)otimes``|00:)+``(-1)^((:10,01:))``|01:)otimes``|00:)+``(-1)^((:10,10:))``|10:)otimes``|00:)+``(-1)^((:10,11:))``|11:)otimes``|00:))`</p>
+        <p>`+1/2``(``(-1)^((:11,00:))``|00:)otimes``|11:)+``(-1)^((:11,01:))``|01:)otimes``|11:)+``(-1)^((:11,10:))``|10:)otimes``|11:)+``(-1)^((:11,11:))``|11:)otimes``|11:)))`</p>
+        <p>`=1/2``(``1/2``(``(+1)``|00:)otimes``|00:)+``(+1)``|01:)otimes``|00:)+``(+1)``|10:)otimes``|00:)+``(+1)``|11:)otimes``|00:))`</p>
+        <p>`+1/2``(``(+1)``|00:)otimes``|11:)+``(-1)``|01:)otimes``|11:)+``(+1)``|10:)otimes``|11:)+``(-1)``|11:)otimes``|11:))`</p>
+        <p>`+1/2``(``(+1)``|00:)otimes``|00:)+``(+1)``|01:)otimes``|00:)+``(-1)``|10:)otimes``|00:)+``(-1)``|11:)otimes``|00:))`</p>
+        <p>`+1/2``(``(+1)``|00:)otimes``|11:)+``(-1)``|01:)otimes``|11:)+``(-1)``|10:)otimes``|11:)+``(+1)``|11:)otimes``|11:)))`</p>
+        <p>`=1/8``(``(+2)``|00:)otimes``|00:)+``(+2)``|01:)otimes``|00:)+``(+2)``|00:)otimes``|11:)+``(-2)``|01:)otimes``|11:))`</p>
+        <p>`=1/4``(``|00:)otimes``|00:)+``|01:)otimes``|00:)+``|00:)otimes``|11:)+``|01:)otimes``|11:))`</p>
+      </div>
+      <p>At this point, if we were to measure the top 2 qubits, there is a `50%` chance that they'll collapse to `|00:)` or `|01:)`. (There's a `2/4` chance that the whole system collapses to `|00:)otimes``|00:)` or `|00:)otimes``|11:)`, and a `2/4` chance that the whole system collapses to `|01:)otimes``|00:)` or `|01:)otimes``|11:))`.)</p>
+      <p>Let's arbitrarily say that this time it collapses to `|00:)`. From analyzing the algorithm, we know that `(:00,bbc:)=0`. If we let `bbc=c_1c_2`, then we have</p>
+      <div class="ln-center">
+        <p>`(:00,bbc:)=(:00,c_1c_2:)=0`</p>
+        <p>`0*c_1+0*c_2=0`</p>
+      </div>
+      <p>There isn't enough information to determine what the values of `c_1,c_2` are (since they could both be `0` or `1`). So we need to run the algorithm again to (hopefully) get a different equation after measurement.</p>
+      <p>Let's say that on the second run of the algorithm, the top 2 qubits collapse to `|01:)`. Then we have</p>
+      <div class="ln-center">
+        <p>`(:01,bbc:)=(:01,c_1c_2:)=0`</p>
+        <p>`0*c_1+1*c_2=0`</p>
+      </div>
+      <p>Now we know for sure that `c_2=0`. It's not obvious from looking at these two equations alone, but we do, in fact, also know that `c_1!=0`. This comes from the note earlier in this section about one-to-one and two-to-one functions. This example is dealing with a two-to-one function, so `bbc!=00 implies c_1=1`.</p>
+      <p>So we have figured out that the secret binary string `bbc` is `10`. And we can confirm this.</p>
+      <p>Recall that `00` and `10` were related to each other by `00oplusbbc=10` since `f(00)=f(10)=00`.</p>
+      <div class="ln-center">
+        <p>`00oplus10=10`</p>
+      </div>
+      <p>Recall that `01` and `11` were related to each other by `01oplusbbc=11` since `f(01)=f(11)=11`.</p>
+      <div class="ln-center">
+        <p>`01oplus10=11`</p>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
