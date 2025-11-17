@@ -36,6 +36,10 @@
         <li><a class="dropdown-item" href="#quantumarchitecture">Quantum Architecture</a></li>
         <li><a class="dropdown-item" href="#quantumtheory">Quantum Theory</a></li>
         <li><a class="dropdown-item" href="#quantumalgorithms">Quantum Algorithms</a></li>
+        <li><a class="dropdown-item" href="#deutsch">Deutsch's Algorithm</a></li>
+        <li><a class="dropdown-item" href="#deutschjosza">Deutsch-Josza Algorithm</a></li>
+        <li><a class="dropdown-item" href="#simon">Simon's Algorithm</a></li>
+        <li><a class="dropdown-item" href="#grover">Grover's Algorithm</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -293,7 +297,11 @@
       <p>Moving away from linear algebra for a bit (heh), we'll look at the components of quantum computers.</p>
       <h3>Bits and Qubits</h3>
       <p>A bit is a unit of information describing a classical system that has only two states (a two-dimensional classical system). Typically these states can be thought of as "on" and "off" or "true" and "false" and are represented by `0` and `1`.</p>
-      <p>We denote the states as `|0:)` and `|1:)`, which can be represented as matrices `[[1],[0]]` and `[[0],[1]]` respectively. (Think of it as having a `1` in the `0^text(th)` index, so that represents the `|0:)` state and having a `1` in the `1^text(st)` index, so that represents the `|1:)` state.)</p>
+      <p>We denote the states as `|0:)` and `|1:)`, which can be represented as matrices `[[1],[0]]` and `[[0],[1]]` respectively. We can think of it as having a `1` in the `0^text(th)` index, so that represents the `|0:)` state and having a `1` in the `1^text(st)` index, so that represents the `|1:)` state. This is reflected with the notation</p>
+      <div class="ln-center">
+        <p>`|0:)=``{:[0],[1]:}[[1],[0]]`</p>
+        <p>`|1:)=``{:[0],[1]:}[[0],[1]]`</p>
+      </div>
       <div class="ln-box">
         <p>The `|` with the `:)` is called Dirac ket notation.</p>
       </div>
@@ -865,7 +873,7 @@
       </div>
       <h2 id="quantumalgorithms">Quantum Algorithms</h2>
       <p>For this section, I'll be using a boxed `M` in the diagrams to represent the measurement operator.</p>
-      <h3>Deutsch's Algorithm</h3>
+      <h3 id="deutsch">Deutsch's Algorithm</h3>
       <p>Consider a function `f:{0,1}mapsto{0,1}`. We say that the function is balanced if `f(0)nef(1)` and constant if `f(0)=f(1)`. Suppose that we wanted to know for any given `f`, if it is balanced or constant.</p>
       <p>Of course, with classical computers, we can easily see if any function is balanced or constant. We simply evaluate `f(0)` and then `f(1)`. But this requires `f` to be evaluated twice. With quantum computers, we can do better.</p>
       <p>Suppose we have a function `f` that takes `0` to `1` and `1` to `0`, i.e., `f(0)=1` and `f(1)=0`. We can represent this function as a matrix:</p>
@@ -1039,7 +1047,7 @@
           </li>
         </ul>
       </div>
-      <h3>Deutsch-Josza Algorithm</h3>
+      <h3 id="deutschjosza">Deutsch-Josza Algorithm</h3>
       <p>Let's now consider functions from `{0,1}^n` to `{0,1}`. A function `f:{0,1}^n mapsto {0,1}` is constant if all the inputs go to `0` (or all the inputs go to `1`), and balanced if exactly half of the inputs maps to `0` (and the other half maps to `1`).</p>
       <p>Here's an example of a constant function for `n=3`:</p>
       <table class="table ln-center">
@@ -1269,7 +1277,7 @@
           <li><p>`H^(otimesn)``|bbx:)=``1/sqrt(2^n)sum_(bbz in {0,1}^n)(-1)^((:bbx,bbz:))``|bbz:)`</p></li>
         </ul>
       </div>
-      <h3>Simon's Algorithm</h3>
+      <h3 id="simon">Simon's Algorithm</h3>
       <p>Moving away from constant and balanced functions, we'll now look at something different.</p>
       <p>Let's consider a function `f:{0,1}^n mapsto {0,1}^n`. Suppose there exists a secret binary string `bbc=c_0c_1...c_(n-1)` such that for all strings `bbx,bby in {0,1}^n`, we have `f(bbx)=f(bby)` if and only if `bby=bbxoplusbbc`. The goal of Simon's algorithm is to find out what `bbc` is.</p>
       <p>Well, okay, what does this problem even mean in the first place? Let's look at an example with `n=2`.</p>
@@ -1394,6 +1402,136 @@
       <p>Recall that `01` and `11` were related to each other by `01oplusbbc=11` since `f(01)=f(11)=11`.</p>
       <div class="ln-center">
         <p>`01oplus10=11`</p>
+      </div>
+      <div class="ln-box">
+        <p>If we used a classical computer to solve this problem, it would take `2^n/2+1=2^(n-1)+1` function evaluations in the worst case. The worst case being that we go through half of the strings before finding a pair of related strings.</p>
+        <p>With this algorithm, we only need to run the algorithm `n` times to solve the problem. This is because one run of the algorithm gives us one equation, and we need `n` equations to solve a system of equations with `n` variables.</p>
+      </div>
+      <h3 id="grover">Grover's Algorithm</h3>
+      <p>Grover's algorithm solves the problem of finding one particular element out of a bunch of elements. Suppose we have a function `f:{0,1}^n mapsto {0,1}`. For exactly one of the inputs `bbx_0`, `f(bbx_0)` will return `1`. For all the other inputs, `f` will return `0`. The goal is to find out what that `bbx_0` is.</p>
+      <p>We'll use the same oracle as the one for Deutsch-Josza.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/deutsch_josza_1.png">
+      </div>
+      <div class="ln-box">
+        <p>In the context of this problem, this oracle has the effect of "picking out" the specific binary string `bbx_0` for which `f(bbx_0)=1`. For example, suppose `f(01)=1` and `f(00)=f(10)=f(11)=0`.</p>
+        <p>Looking at `f(00)=f(10)=f(11)=0` first, `U_f` returns the same output as the input.</p>
+        <div class="ln-center">
+          <p>`U_f``|00,0:)=``|00,0oplusf(01):)=``|00,0oplus0:)=``|00,0:)`</p>
+          <p>`U_f``|00,1:)=``|00,1oplusf(01):)=``|00,1oplus0:)=``|00,1:)`</p>
+          <p>`U_f``|10,0:)=``|10,0oplusf(01):)=``|10,0oplus0:)=``|10,0:)`</p>
+          <p>`U_f``|10,1:)=``|10,1oplusf(01):)=``|10,1oplus0:)=``|10,1:)`</p>
+          <p>`U_f``|11,0:)=``|11,0oplusf(01):)=``|11,0oplus0:)=``|11,0:)`</p>
+          <p>`U_f``|11,1:)=``|11,1oplusf(01):)=``|11,1oplus0:)=``|11,1:)`</p>
+        </div>
+        <p>But look at what happens for `f(01)=1`.</p>
+        <div class="ln-center">
+          <p>`U_f``|01,0:)=``|01,0oplusf(00):)=``|01,0oplus1:)=``|01,1:)`</p>
+          <p>`U_f``|01,1:)=``|01,1oplusf(00):)=``|01,1oplus1:)=``|01,0:)`</p>
+        </div>
+        <p>`U_f` flips the bottom qubit.</p>
+      </div>
+      <p>For this section, we'll use `bbx_0=01`.</p>
+      <p>The main idea behind Grover's algorithm is that it progressively increases the chances of the qubits measuring to the correct binary string.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/grover.gif">
+      </div>
+      <p>It does this by using two tricks: phase inversion and inversion about the mean.</p>
+      <h4>Phase Inversion</h4>
+      <p>In order to boost the probability of the correct binary string `bbx_0`, we need to distinguish it from the others. We'll use this circuit to do so:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/phase_inversion.png">
+      </div>
+      <p>This is similar to the circuit in attempt 2 for Deutsch's algorithm, just with `n` qubits and the measurement operator on the top qubits. The result of the circuit is still the same though:</p>
+      <div class="ln-center">
+        <p>`U_f``(IotimesH)(``|bbx:)otimes``|1:))`</p>
+        <p>`=(-1)^(f(bbx))``|bbx:)``1/sqrt(2)(``|0:)-``|1:))`</p>
+        <p>`=-1``|bbx:)H``|1:)` if `bbx=bbx_0`</p>
+        <p>and `+1``|bbx:)H``|1:)` if `bbx!=bbx_0`</p>
+      </div>
+      <p>This essentially just changes the sign of the `|bbx_0:)` state. For example, if `|bbx:)` starts in an equal superposition of all states</p>
+      <div class="ln-center">
+        <p>`{:[00],[01],[10],[11]:}[[1/2],[1/2],[1/2],[1/2]]`</p>
+      </div>
+      <p>then phase inversion will transform `|bbx:)` into</p>
+      <div class="ln-center">
+        <p>`{:[00],[01],[10],[11]:}[[1/2],[-1/2],[1/2],[1/2]]`</p>
+      </div>
+      <p>While changing the sign does distinguish the `|bbx_0:)` state from the other states, the probability of the `|bbx_0:)` state is still the same as the others (recall that the probability is calculated using the norm squared). We need a way to change the probabilities.</p>
+      <h4>Inversion About the Mean/Average</h4>
+      <p>This technique is a not a quantum-specific operation, so we'll first see how it works with just regular numbers.</p>
+      <p>Suppose we have the numbers `53`, `38`, `17`, `23`, and `79`. Their average is `a=42`. We can plot the numbers and their distance away from their average like this</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/inversion_mean.png">
+      </div>
+      <p>To invert these numbers around the average is to move each number in the opposite direction from the average. For example, `53` is `11` units up from the average, so `53` inverted about the mean would be `11` units down from the mean, which is `31`.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/inversion_mean_2.png">
+      </div>
+      <p>This effectively "rotates" the numbers about the mean.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/inversion_mean.gif">
+      </div>
+      <p>The general equation for inversion about the mean is</p>
+      <div class="ln-center">
+        <p>`v'=a+(a-v)`</p>
+        <p>`=-v+2a`</p>
+      </div>
+      <p>where `v` is each element and `a` is the average of all `v` elements.</p>
+      <p>If we want to apply this technique to our quantum states, we turn everything into matrices. The matrix that computes the average of `5` numbers is</p>
+      <div class="ln-center">
+        <p>`A=[[1/5,1/5,1/5,1/5,1/5],[1/5,1/5,1/5,1/5,1/5],[1/5,1/5,1/5,1/5,1/5],[1/5,1/5,1/5,1/5,1/5],[1/5,1/5,1/5,1/5,1/5]]`</p>
+      </div>
+      <p>We can confirm this with our sequence of numbers:</p>
+      <div class="ln-center">
+        <p>`AV=[[1/5,1/5,1/5,1/5,1/5],[1/5,1/5,1/5,1/5,1/5],[1/5,1/5,1/5,1/5,1/5],[1/5,1/5,1/5,1/5,1/5],[1/5,1/5,1/5,1/5,1/5]][[53],[38],[17],[23],[79]]=[[42],[42],[42],[42],[42]]`</p>
+      </div>
+      <p>With the average represented as `AV`, the general equation for inversion about the mean in matrix form is</p>
+      <div class="ln-center">
+        <p>`V'=-V+2AV`</p>
+        <p>`=(-I+2A)V`</p>
+      </div>
+      <p>For our example,</p>
+      <div class="ln-center">
+        <p>`(-I+2A)=[[-1+2/5,2/5,2/5,2/5,2/5],[2/5,-1+2/5,2/5,2/5,2/5],[2/5,2/5,-1+2/5,2/5,2/5],[2/5,2/5,2/5,-1+2/5,2/5],[2/5,2/5,2/5,2/5,-1+2/5]]`</p>
+      </div>
+      <p>And we can confirm that this matrix inverts the numbers about the mean:</p>
+      <div class="ln-center">
+        <p>`(-I+2A)V=[[-1+2/5,2/5,2/5,2/5,2/5],[2/5,-1+2/5,2/5,2/5,2/5],[2/5,2/5,-1+2/5,2/5,2/5],[2/5,2/5,2/5,-1+2/5,2/5],[2/5,2/5,2/5,2/5,-1+2/5]][[53],[38],[17],[23],[79]]=[[31],[46],[67],[61],[5]]`</p>
+      </div>
+      <h4>Back to Grover's Algorithm</h4>
+      <p>Combining phase inversion and inversion about the mean, we can create the circuit for Grover's algorithm:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/quantum/grover_2.png">
+      </div>
+      <p>Let's see how this works with our `bbx_0=01` example. We start with</p>
+      <div class="ln-center">
+        <p>`{:[00],[01],[10],[11]:}[[0],[0],[0],[0]]`</p>
+      </div>
+      <p>After applying the Hadamard gates, we get</p>
+      <div class="ln-center">
+        <p>`{:[00],[01],[10],[11]:}[[1/sqrt(4)],[1/sqrt(4)],[1/sqrt(4)],[1/sqrt(4)]]`</p>
+      </div>
+      <p>After applying phase inversion, we get</p>
+      <div class="ln-center">
+        <p>`{:[00],[01],[10],[11]:}[[1/sqrt(4)],[-1/sqrt(4)],[1/sqrt(4)],[1/sqrt(4)]]`</p>
+      </div>
+      <p>To prepare for inversion about the mean, we calculate the average, which is</p>
+      <div class="ln-center">
+        <p>`a=(color(red)(1/sqrt(4))+color(blue)(-1/sqrt(4))+color(red)(1/sqrt(4))+color(red)(1/sqrt(4)))1/4=1/(2sqrt(4))`</p>
+      </div>
+      <p>and the inversion about the mean, which is</p>
+      <div class="ln-center">
+        <p>`-v+2a=-color(red)(1/sqrt(4))+2(1/(2sqrt(4)))=0`</p>
+        <p>`-v+2a=-(color(blue)(-1/sqrt(4)))+2(1/(2sqrt(4)))=2/sqrt(4)=2/2=1`</p>
+      </div>
+      <p>After applying inversion about the mean, we get</p>
+      <div class="ln-center">
+        <p>`{:[00],[01],[10],[11]:}[[0],[1],[0],[0]]`</p>
+      </div>
+      <div class="ln-box">
+        <p>In this case, we only needed to run Grover's algorithm once to get the answer. But in general, we need to perform phase inversion and inversion about the mean `floor(pi/4sqrt(2^n))` times.</p>
+        <p>This means that Grover's algorithm is `O(sqrt(n))`.</p>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
