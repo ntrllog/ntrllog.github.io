@@ -1549,6 +1549,34 @@
         <p>In this case, we only needed to run Grover's algorithm once to get the answer. But in general, we need to perform phase inversion and inversion about the mean `floor(pi/4sqrt(2^n))` times.</p>
         <p>This means that Grover's algorithm is `O(sqrt(n))`.</p>
       </div>
+      <div class="ln-box">
+        <h3>What Is the Oracle?</h3>
+        <p>There was one concept I struggled to understand when first learning about Grover's algorithm, and I think it's a common misconception. How does Grover's algorithm know which state to boost the probability of? It seems like it knows (or needs to know) what the correct binary string is ahead of time, which defeats the purpose of needing this algorithm in the first place.</p>
+        <p>The answer lies in the construction of the oracle function `U_f`.</p>
+        <p>For all of these problems, we don't know the specific details of how `f` works. We know that `f` returns different outputs for certain binary strings, but we don't know which binary strings result in which outputs.</p>
+        <p>However, there is a way to "distinguish" the binary strings by what `f` would output for them. We do this by constructing our own function `U_f` where the output of `U_f` depends on the value of `f`.</p>
+        <p>The oracle takes in a superposition of states as its input. This means that it is acting on all possible input binary strings at once. The oracle also returns a superposition of states as its output, but some of the states are modified based on the output of `f` for that state.</p>
+        <p>Let's run through part of the analysis of Grover's algorithm with `n=2` to see this concretely. We have</p>
+        <div class="ln-center">
+          <p>`U_f``(``H^(otimes2)``|bb0:)``otimesH``|1:))`</p>
+          <p>`=U_f``(``1/sqrt(2^2)sum_(bbx in{0,1}^2)``|bbx:)otimesH``|1:))`</p>
+          <p>`=U_f``(``1/sqrt(2^2)(``|00:)+``|01:)+``|10:)+``|11:))``otimesH``|1:))`</p>
+        </div>
+        <p>This is what it looks like (for Grover's algorithm) when I say that the oracle takes in a superposition of states as its input.</p>
+        <p>Now let's apply `U_f` to see the output.</p>
+        <div class="ln-center">
+          <p>`U_f``(``1/sqrt(2^2)sum_(bbx in{0,1}^2)``|bbx:)otimesH``|1:))`</p>
+          <p>`=1/sqrt(2^2)sum_(bbx in{0,1}^2)U_f``|bbx:)H``|1:)`</p>
+          <p>`=1/2sum_(bbx in {0,1}^2)(-1)^(f(bbx))``|bbx:)H``|1:)`</p>
+          <p>`=1/2``(``(-1)^(f(00))``|00:)H``|1:)+``(-1)^(f(01))``|01:)H``|1:)+``(-1)^(f(10))``|10:)H``|1:)+``(-1)^(f(11))``|11:)H``|1:))`</p>
+        </div>
+        <p>This is what it looks like (for Grover's algorithm) when I say that the oracle returns a superposition of states as its output. Furthermore, we can see how some of the states are "marked" by `f`. If we're given an `f` that returns `1` for `01` and `0` for everything else, then the state `|01:)` will be the only negative state.</p>
+        <div class="ln-center">
+          <p>`1/2``(``(-1)^0``|00:)H``|1:)+``(-1)^1``|01:)H``|1:)+``(-1)^0``|10:)H``|1:)+``(-1)^0``|11:)H``|1:))`</p>
+          <p>`=1/2``(``|00:)H``|1:)+``(-1)``|01:)H``|1:)+``|10:)H``|1:)+``|11:)H``|1:))`</p>
+        </div>
+        <p>So Grover's algorithm doesn't need to know ahead of time what the correct binary string is. It's just working with all possible states at once and modifying the appropriate state(s) according to the behavior of `f`.</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
