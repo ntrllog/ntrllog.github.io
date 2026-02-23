@@ -862,7 +862,7 @@
       <h4>HTTP/2 Framing</h4>
       <p>The solution is to break each object into small frames and interleave them. That way, each response will contain parts of each object.</p>
       <div class="ln-box">
-        <p>Let's say the base file has `1` large video clip and `8` small objects. Suppose the video clip is broken up into `1000` frames and each of the small objects is broken up into `2` frames. The first response can contain `9` frames: `1` frame from the video and the first frame of each of the small objects. The second reponse can also contain `9` frames: `1` frames from the video and the last frame of each of the small objects. In just `18` frames, all of the small objects will have been sent. If the frames weren't interleaved, the small objects would be sent after `1016` frames.</p>
+        <p>Let's say the base file has `1` large video clip and `8` small objects. Suppose the video clip is broken up into `1000` frames and each of the small objects is broken up into `2` frames. The first response can contain `9` frames: `1` frame from the video and the first frame of each of the small objects. The second response can also contain `9` frames: `1` frame from the video and the last frame of each of the small objects. In just `18` frames, all of the small objects will have been sent. If the frames weren't interleaved, the small objects would be sent after `1016` frames.</p>
         <p>(For some reason, interloven sounds right.)</p>
       </div>
       <h4>Server Pushing</h4>
@@ -1889,7 +1889,7 @@
       </div>
       <div class="ln-box">
         <p>Fast retransmit only occurs when there are `3` <b>duplicate ACKs</b> for a segment. Fast retransmitting on only `1` duplicate ACK is not a good idea.</p>
-        <p>Suppose the sender sends segments `92`, `100`, and `120`, and the receiver gets `90`, `120`, and `100` in that order. Upon receiving segment `90`, the receiver will send an ACK with acknowledgment number `100`. Upon receiving segment `120`, the receiver will send an ACK with acknowledgment number `100`. There is `1` duplicate ACK for `100`, but `100` wasn't lost; it just took longer than the other two segments.</p>
+        <p>Suppose the sender sends segments `92`, `100`, and `120`, and the receiver gets `92`, `120`, and `100` in that order. Upon receiving segment `92`, the receiver will send an ACK with acknowledgment number `100`. Upon receiving segment `120`, the receiver will send an ACK with acknowledgment number `100`. There is `1` duplicate ACK for `100`, but `100` wasn't lost; it just took longer than the other two segments.</p>
         <p>However, receiving `3` duplicate ACKs (or any number of duplicate ACKs for that matter) is not a guarantee that there was packet loss. `3` is just an arbitrarily good balance between waiting enough time and not waiting too long.</p>
       </div>
       <h4>Go-Back-N or Selective Repeat?</h4>
@@ -2019,20 +2019,20 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/networking/slow_start.gif">
       </div>
-      <p>If there is a timeout, then <code>cwnd</code> will be reset to `1` and start doubling again. However, we know that we will eventually get a timeout again by repeating the same process. To prevent this, we keep track of what <code>cwnd</code> was when the timeout occurred and stop slow start before it reaches that point. The "slow start threshold" (denoted as <code>ssthresh</code>) is set to `text(cwnd)/2`, where the value of <code>cwnd</code> is its value when the timeout occurred. So slow start will keep doubling <code>cwnd</code> until its value is equal to <code>ssthresh</code>.</p>
+      <p>If there is a timeout, then <code>cwnd</code> will be reset to `1` and start doubling again. However, we know that we will eventually get a timeout again by repeating the same process. To prevent this, we keep track of what <code>cwnd</code> was when the timeout occurred and stop slow start before it reaches that point. The "slow start threshold" (denoted as <code>ssthresh</code>) is set to half of whatever <code>cwnd</code> was when the timeout occurred. So slow start will keep doubling <code>cwnd</code> until its value is equal to <code>ssthresh</code>.</p>
       <h4>Congestion Avoidance</h4>
       <p>Now the value of <code>cwnd</code> is <code>ssthresh</code>. Since we're at a point where congestion could occur, the sending rate should be increased slowly. So rather than doubling <code>cwnd</code>, it will be increased by just `1` MSS instead. For example, if the MSS is `1000` bytes and <code>cwnd</code> is `10,000` bytes, then one RTT consists of `10` segments. After ACKs have been received for those `10` segments, the <code>cwnd</code> will be `10,000+1000=11,000` bytes.</p>
       <div class="ln-box">
         <p>This is equivalent to increasing <code>cwnd</code> by `text(MSS)/(text(cwnd)/text(MSS))=text(MSS)*(text(MSS)/text(cwnd))` on every ACK. `text(cwnd)/text(MSS)` is the number of segments that can be sent, which in turn, is the number of ACKs that will be received. So increasing <code>cwnd</code> by `text(MSS)/(text(cwnd)/text(MSS))` on every ACK will result in an increase of `1` MSS on all ACKs.</p>
         <p>For the above example, <code>cwnd</code> will be increased by `1000/((10,000)/1000)=100` bytes on every ACK. Since there are `10` ACKs in one RTT, <code>cwnd</code> will be increased by `100*10=1000` bytes `=1` MSS on all ACKs.</p>
       </div>
-      <p>Even though we're increasing the sending rate cautiously, we will still eventually raise it to the point where there's a timeout. When that happens, <code>ssthresh</code> gets updated to the current value of <code>cwnd</code> and <code>cwnd</code> gets reset to `1`. Yeah, the same procedure as in slow start.</p>
+      <p>Even though we're increasing the sending rate cautiously, we will still eventually raise it to the point where there's a timeout. When that happens, <code>ssthresh</code> gets updated to half of whatever <code>cwnd</code> was when the timeout occurred and <code>cwnd</code> gets reset to `1`. Yeah, the same procedure as in slow start.</p>
       <h4>Fast Recovery</h4>
-      <p>So far, we've only seen what happens when congestion is detected by a timeout. As we established earlier, packet loss, and thus congestion, can also be detected by triple duplicate ACKs. This type of congestion is not as bad though, because at least the ACKs were able to make it through. So the sending rate doesn't need to be decreased as much. <code>cwnd</code> is essentially* halved, which is also the updated value for <code>ssthresh</code>.</p>
+      <p>So far, we've only seen what happens when congestion is detected by a timeout. As we established earlier, packet loss, and thus congestion, can also be detected by triple duplicate ACKs. This type of congestion is not as bad though, because at least the ACKs were able to make it through. So the sending rate doesn't need to be decreased as much. <code>cwnd</code> is essentially* halved, and <code>ssthresh</code> gets updated to half of whatever <code>cwnd</code> was when the triple duplicate ACK occurred.</p>
       <div class="ln-box">
-        <p>*Technically, <code>cwnd</code> is halved `+3`. <code>ssthresh</code> is still half of <code>cwnd</code> though (before the `+3`).</p>
+        <p>*Technically, <code>cwnd</code> is halved `+3` (to account for the triple duplicate ACKS). <code>ssthresh</code> is still half of <code>cwnd</code> though (before the `+3`).</p>
       </div>
-      <p>Now <code>cwnd</code> is increased by `1` MSS for every duplicate ACK that caused TCP to enter the fast recovery stage. If the ACK for the missing segment comes, then TCP goes back to congestion avoidance. But if a timeout occurs, then TCP goes back to slow start. Note that <code>cwnd</code> is not changing as new segments are sent and ACK'ed.</p>
+      <p>Now <code>cwnd</code> is increased by `1` MSS for every duplicate ACK that caused TCP to enter the fast recovery stage. If the ACK for the missing segment comes, then TCP goes back to congestion avoidance. But if a timeout occurs, then TCP goes back to slow start. Note that <code>cwnd</code> is not changing as new segments are sent and ACK'ed (it only changes on duplicate ACKs).</p>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/networking/fsm_congestion_control.png">
       </div>
