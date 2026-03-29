@@ -72,6 +72,7 @@
       <hr>
       <p>Shortcut to this page: <a href="networking.html">ntrllog.netlify.app/networking</a></p>
       <p>Info provided by <a href="https://gaia.cs.umass.edu/kurose_ross/index.php" target="_blank">Computer Networking: A Top-Down Approach</a> and Professor Polly Huang</p>
+      <p>Also, a shoutout to Professor Manveen Kaur (CSULA). Although I didn't really update this page much while taking her class, I thought she taught the course well.</p>
       <h2 id="whatisit">What is the Internet?</h2>
       <p>Computers. Laptops. Smartphones. TVs. Watches. And everything else that has the word "smart" in front of it. All of these things that can connect to the Internet are called <b>hosts</b> or <b>end systems</b>. End systems send and receive data through a system of communcation links and packet switches. The data travels through this system as little pieces called packets and they are reassembled when they reach their destination. Packet switches are machines that help transfer these packets. The whole path that a packet takes is called a <b>route</b> or <b>path</b>.</p>
       <div class="ln-box">
@@ -777,7 +778,7 @@
         <p>The original version of HTTP is called HTTP/1.0. Then there was HTTP/1.1 (1997), HTTP/2 (2015), and HTTP/3 (2022).</p>
       </div>
       <h3>Non-Persistent and Persistent Connections</h3>
-      <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for the base HTML file and then each object in the file. In <b>non-persistent connections</b>, the browser opens a TCP connection for one object, then closes the connection after the object is sent. So a TCP connection has to be opened for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. After one object is sent, the connection remains open for some period of time, allowing other objects to be sent using the same connection if needed. HTTP/1.1 and later use persistent connections by default.</p>
+      <p>Each time a browser makes a request for a Web page, the browser actually has to make a request for the base HTML file and then for each object in the file. In <b>non-persistent connections</b>, the browser opens a TCP connection for one object, then closes the connection after the object is sent. So a TCP connection has to be opened for each object. In <b>persistent connections</b>, the browser opens one TCP connection and requests/receives all the objects using that one connection. After one object is sent, the connection remains open for some period of time, allowing other objects to be sent using the same connection if needed. HTTP/1.1 and later use persistent connections by default.</p>
       <h4>HTTP with Non-Persistent Connections</h4>
       <ol>
         <li>Browser starts a TCP connection to the server on port 80</li>
