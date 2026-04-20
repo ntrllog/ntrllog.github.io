@@ -3267,6 +3267,54 @@
         </div>
         <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ip_addressing" aria-expanded="false" aria-controls="ip_addressing">Answer</button>
       </div>
+      <div class="ln-box">
+        <p>Consider a router and three attached subnets A, B, and C. Subnet A can support `24` hosts; Subnet B can support `53` hosts; and Subnet C can support `238` hosts. The subnets share the `23` high-order bits of the address space: 172.19.106.0/23.</p>
+        <p>How many hosts can there be in this address space?</p>
+        <div id="subnet_addressing_1" class="collapse ln-box">
+          <p>The subnet mask is /23, so the last `9` bits can be used for hosts. There are `2^9=512` possible addresses. However, the first and the last (broadcast) address can't be assigned to hosts, so there are `510` addresses available for hosts.</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subnet_addressing_1" aria-expanded="false" aria-controls="subnet_addressing_1">Answer</button>
+        <p>Assign subnet addresses to each of the subnets (A, B, and C) so that the amount of address space assigned is minimal, and at the same time leaving the largest possible contiguous address space available for assignment if a new subnet were to be added. (This requirement just means start with the subnet that has the highest number of hosts and continue in decreasing order.)</p>
+        <p>Hint: it might help to first find the range of possible addresses to help visualize things.</p>
+        <div id="subnet_addressing_2" class="collapse ln-box">
+          <p>(The relevant parts of) 172.19.106.0 in binary is 172.19.01101010.00000000. Since the last `9` bits can be used for hosts, the range of possible addresses is</p>
+          <div class="ln-center">
+            <p>172.19.0110101<u>0.00000000</u> - 172.19.0110101<u>1.11111111</u></p>
+            <p>(`2^9=512` possible addresses)</p>
+          </div>
+          <p>Since C has the highest number of hosts, we'll start with C. We need `2^8=256` addresses to support C's `238` hosts. This means the range of addresses for C is</p>
+          <div class="ln-center">
+            <p>172.19.106.0 - 172.19.106.255</p>
+          </div>
+          <p>So the subnet address of C is 172.19.106.0/24.</p>
+          <p>B has the next highest number of hosts. We need `2^6=64` addresses to support B's `53` hosts. This means the range of addresses for B is</p>
+          <div class="ln-center">
+            <p>172.19.107.0 - 172.19.107.63</u></p>
+          </div>
+          <p>So the subnet address of B is 172.19.107.0/26.</p>
+          <p>Lastly, A. We need `2^5=32` addresses to support A's `24` hosts. This means the range of addresses for A is</p>
+          <div class="ln-center">
+            <p>172.19.107.64 - 172.19.107.95</u></p>
+          </div>
+          <p>So the subnet address of A is 172.19.107.64/27.</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subnet_addressing_2" aria-expanded="false" aria-controls="subnet_addressing_2">Answer</button>
+        <p>What is the broadcast address of subnet A?</p>
+        <div id="subnet_addressing_3" class="collapse ln-box">
+          <p>The broadcast address is the last address in the range, which for A is 172.19.107.95.</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subnet_addressing_3" aria-expanded="false" aria-controls="subnet_addressing_3">Answer</button>
+        <p>What is the starting address of subnet A? ("Starting" means "usable by a host".)</p>
+        <div id="subnet_addressing_4" class="collapse ln-box">
+          <p>Since the first address (172.19.107.64) can't be used, the starting address is 172.19.107.65.</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subnet_addressing_4" aria-expanded="false" aria-controls="subnet_addressing_4">Answer</button>
+        <p>What is the ending address of subnet A? ("Ending" means "usable by a host".)</p>
+        <div id="subnet_addressing_5" class="collapse ln-box">
+          <p>Since the broadcast address (172.19.107.95) can't be used, the ending address is 172.19.107.94.</p>
+        </div>
+        <button class="btn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subnet_addressing_5" aria-expanded="false" aria-controls="subnet_addressing_5">Answer</button>
+      </div>
       <h4>Obtaining a Host Address</h4>
       <p>When an organization gets a block of addresses, it can manually assign addresses to the hosts and routers in the organization (meaning that a system admin would go to each device and configure the settings). But it's better to have that automated so that new hosts joining the network can automatically be assigned an IP address. This is done by using the <b>Dynamic Host Configuration Protocol (DHCP)</b>. DHCP can be configured so that a host gets the same IP address each time it connects to the network, or it can be given a <b>temporary IP address</b> that will be different each time.</p>
       <p>Because everything is done automatically, DHCP is called a <b>plug-and-play</b> or <b>zeroconf</b> (zero-configuration) protocol.</p>
