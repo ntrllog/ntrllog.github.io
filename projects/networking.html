@@ -3333,6 +3333,14 @@
       <div class="ln-box">
         <p>The IP address lease time is typically hours or days, but DHCP has a renew mechanism that allows a client to renew its lease on an IP address.</p>
       </div>
+      <h4>Private IP Addresses</h4>
+      <p>There are certain IP addresses that are reserved for private use:</p>
+      <ul>
+        <li>10.0.0.0 - 10.255.255.255</li>
+        <li>172.16.0.0 - 172.31.255.255</li>
+        <li>192.168.0.0 - 192.168.255.255</li>
+      </ul>
+      <p>This means that these addresses are not routable on the public internet. They're used internally on local networks, and they only have meaning to devices within their network. So you and I can both have a device with an IP address of 192.168.1.192, but we'd be on different networks in that case.</p>
       <h3>Network Address Translation (NAT)</h3>
       <p>Earlier we saw that ISPs divide their address blocks into smaller blocks and distributes them to their customers. But what if some customers have so many devices that need to connect to the Internet? The ISP has already divided its address block and distributed them, so it's not like they can just increase the range of addresses.</p>
       <p>Instead of giving a range of addresses to customers, ISPs can give only one address. Then the organization's network can be set up using fake IP addresses.</p>
