@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+                                      _
+        /\     _             _   _   | |             __    __
+       /  \   | |      /\   | \ | |  | |       /\   |  \  /  |
+      /    \  | |     /  \  |  \| |  | |      /  \  | |\\//| |
+     / ____ \ | |__  / __ \ | |\  |  | |___  / __ \ | | \/ | |
+    /_/    \_\|____|/_/  \_\|_| \_|  |_____|/_/  \_\|_|    |_|
+                          _   _
+     _  _    _     _  _  | | | |   __     ____
+    | |/ \  | |_  | |/_| | | | |  /  \   /    \
+    | |   | |  _| |  /   | | | | | || | |  ||  |
+    | |   | | |_  | |    | | | | | || | |  ||  |
+    |_|   | |___| |_|    |_| |_|  \__/   \____/|
+                                               |
+                                          ____/
+    -->
+    <title>ntrllog | Network Security</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../pictures/favicon.ico"/>
+    <link href="../css/content.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="dropdown ln-fixed-right">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#networkingoverview">Networking Overview</a></li>
+        <li><a class="dropdown-item" href="#scanning">Scanning</a></li>
+      </ul>
+    </div>
+    <div class="container ln-line-height">
+      <a href="projects.html"><i class="fas fa-long-arrow-alt-left fa-2x"></i></a>
+      <h1>Network Security</h1>
+      <hr>
+      <p>Shortcut to this page: <a href="security.html">ntrllog.netlify.app/security</a></p>
+      <p>Info provided by Counter Hack Reloaded (which was published in 2005, so info may be outdated)</p>
+      <p>This is an extension of the <a href="networking.html" target="_blank">computer networking</a> resource. Well, we’ll see where this goes — I’m writing this as the class goes.</p>
+      <h2 id="networkingoverview">Networking Overview</h2>
+      <h3>Firewalls</h3>
+      <p>Firewalls decide what kind of traffic is allowed into and out of a network.</p>
+      <div class="ln-box">
+        <p>Hardware-wise, a firewall isn't anything special; just another computer.</p>
+      </div>
+      <p>The more general term for what a firewall does is "packet filtering". A firewall is a type of packet-filtering device. (A router can also be configured to be a packet-filtering device.)</p>
+      <h4>Traditional Packet Filters</h4>
+      <p>Traditional packet filters look at the headers of a packet to see what type of packet it is, where it came from, and where it's going. Specifically,</p>
+      <ul>
+        <li>Source IP address: does this packet come from somewhere trusted?</li>
+        <li>Destination IP address: is this packet going to a server that should receive this type of traffic?</li>
+        <li>Source port: what type of traffic is this?</li>
+        <li>Destination port: is this packet going to a server that should receive this type of traffic?</li>
+        <li>TCP control bits: what type of traffic is this?</li>
+        <li>Protocol in use: what type of traffic is this?</li>
+        <li>Direction: is this packet going where it should be?</li>
+        <li>Interface: does this packet come from somewhere trusted?</li>
+      </ul>
+      <p>These fields are used to create packet-filtering rules, which are often called Access Control Lists (ACLs).</p>
+      <table class="table">
+        <tr>
+          <th>Action</th>
+          <th>Source Address</th>
+          <th>Destination Address</th>
+          <th>Protocol</th>
+          <th>Source Port</th>
+          <th>Destination Port</th>
+          <th>Control Bit</th>
+        </tr>
+        <tr>
+          <td>Allow</td>
+          <td>Inside Network Address</td>
+          <td>Outside Network Address</td>
+          <td>TCP</td>
+          <td>Any</td>
+          <td>80</td>
+          <td>Any</td>
+        </tr>
+        <tr>
+          <td>Allow</td>
+          <td>Outside Network Address</td>
+          <td>Inside Network Address</td>
+          <td>TCP</td>
+          <td>80</td>
+          <td>&gt; 1023</td>
+          <td>ACK</td>
+        </tr>
+        <tr>
+          <td>Deny</td>
+          <td>All</td>
+          <td>All</td>
+          <td>All</td>
+          <td>All</td>
+          <td>All</td>
+          <td>All</td>
+        </tr>
+      </table>
+      <p>If a packet matches multiple rules, the simplest policy a firewall can adopt is to apply the first rule from the top that matches.</p>
+      <h4>Stateful Packet Filters</h4>
+      <p>The problem with traditional packet filters is that they only look at the packet headers, which provides a very limited view of what the traffic is actually doing.</p>
+      <p>For example, the second rule above allows all TCP traffic to come in as long as the ACK bit is set. Yes, it's expected that outside traffic coming in will have the ACK bit set. But only as responses. What if there are "responses" coming in to our network, but no devices in our network ever made any requests?</p>
+      <p>This is where stateful packet filters come in. They maintain a dynamic state table that keeps track of connections that are made. This allows them to "remember" earlier packets that went through/out and make decisions about later packets.</p>
+      <table class="table">
+        <tr>
+          <th>Source Address</th>
+          <th>Destination Address</th>
+          <th>Source Port</th>
+          <th>Destination Port</th>
+          <th>Timeout (Seconds)</th>
+        </tr>
+        <tr>
+          <td>10.1.1.20</td>
+          <td>10.34.12.11</td>
+          <td>2341</td>
+          <td>80</td>
+          <td>60</td>
+        </tr>
+        <tr>
+          <td>10.1.1.34</td>
+          <td>10.22.11.45</td>
+          <td>32141</td>
+          <td>80</td>
+          <td>40</td>
+        </tr>
+      </table>
+      <p>Notice that with this table, if we see outside traffic coming in with the ACK bit set going to one of these two devices, then we know it's an actual response.</p>
+      <h4>Proxy-Based Firewalls</h4>
+      <p>Instead of looking at individual packets, proxy-based firewalls look at the contents of the packets. In more OSI terms, proxies focus on the application level.</p>
+      <div class="ln-box">
+        <p>(The Firewalk section later mentions this very briefly.)</p>
+        <p>Proxies extract the application data from the packets and rebuild the data into the complete application message. If it looks good, the proxy creates new packets with new headers (containing the same data) and sends them to their destination.</p>
+        <p>In a sense, they pretend to be the application for a second and see what the application would be receiving.</p>
+      </div>
+      <h4>Which Technology Is Better for Firewalling?</h4>
+      <p>Traditional packet filters are fast, but their intelligence is very limited.</p>
+      <p>Stateful packet filters are smarter, but slower.</p>
+      <p>Proxy-based firewalls are the smartest, but they need the most memory and processing power.</p>
+      <p>It can be a good idea to use a combination of these three in a network. For example, a stateful packet filter can sit between the Internet and the DMZ while a proxy-based firewall can sit between the packet filter and the internal network.</p>
+      <div class="ln-box">
+        <p>The DMZ (Demilitarized Zone) is a part of the network that sits outside of the internal network. The purpose of it is to separate the machines that need to be exposed to the Internet from those that don't, where the machines that need to be exposed to the Internet are put in the DMZ. These machines are things like Web servers or DNS servers.</p>
+        <p>The DMZ also acts as a buffer so that if an attacker gets access to a machine in the DMZ, they don't immediately have access to the machines in the internal network.</p>
+      </div>
+      <h2 id="scanning">Scanning</h2>
+      <p>Scanning is a process attackers use to find an opening into the network they are trying to attack.</p>
+      <h3>War Driving</h3>
+      <p>Imagine you're looking for free Wi-Fi, so you drive around looking for networks without that lock symbol. This is kinda what war driving is. In more technical terms, war driving is the process of looking for accessible and unsecured WLANs.</p>
+      <p>A network might have one or more wireless access points that allow devices to connect to that network wirelessly. Attackers target these access points to try to gain entry into a network.</p>
+      <div class="ln-box">
+        <p>From my understanding, an access point can loosely be thought of as a Wi-Fi range extender. The difference is that access points broadcast wired signals straight from the network while range extenders rebroadcast wireless signals.</p>
+        <p>(I'm going to use CSULA as an example with absolutely no knowledge about how the network is actually set up. This is all for the sake of example.)</p>
+        <p>Let's say you connect to CSULA's network by connecting to the Wi-Fi network called "CSULA-SECURE". An access point is what allows you to see "CSULA-SECURE" no matter where you are on campus. Alternatively, an access point can be configured to allow devices to connect to CSULA's network but under a different Wi-Fi network, say "CSULA-EMPLOYEES". In the latter situation, a new WLAN is created.</p>
+        <p>While the password/authentication required to connect to "CSULA-SECURE" may be strong, if the password/authentication required to connect to "CSULA-EMPLOYEES" is weak, then attackers can enter the network through this unsecured WLAN.</p>
+      </div>
+      <p>In that little CSULA example, the Wi-Fi names are referred to as ESSIDs (Extended Service Set Identifiers). They're usually publicly visible so that you can find and connect to them. But some ESSIDs can be hidden. While an ESSID may be hidden, that doesn't mean it's necessarily hard to obtain it.</p>
+      <p>The goal of war driving, from an attacker's perspective, is to find as many of these ESSIDs as possible to increase the chances of finding an unsecured network.</p>
+      <div class="ln-box">
+        <p>The attacker may already have a specific target in mind, or they may just be looking for any vulnerable targets in the area.</p>
+      </div>
+      <h4>Active Scanning - NetStumbler</h4>
+      <p>In the 802.11 (a.k.a. Wi-Fi) protocol, a device can send a probe request message to an access point. A probe request is supposed to include the ESSID so that only the access point(s) with that specified ESSID responds. But access points can be (and often are by default) configured to respond to probe requests that specify "Any" as the ESSID. And under the 802.11 protocol, the response must include the ESSID. So an attacker can just send out a bunch of probe requests with ESSID="Any" to all access points in the area and gather their responses, generating a nice list of ESSIDs.</p>
+      <p>NetStumbler, which is one of the most popular scanning tools, does this probe request stuff. NetStumbler goes even further by collecting a whole slew of information, including encryption method. An attacker using NetStumbler can easily identify networks that are using weak encryption.</p>
+      <h4>Listening for Beacons and Other Traffic - Wellenreiter</h4>
+      <p>So what happens if an access point is configured to ignore probe requests with ESSID="Any"? Well, under the 802.11 protocol, access points periodically send out beacon packets to synchronize their clocks with the devices that are connected. These beacons usually include the ESSID, so an attacker can also capture these beacon packets.</p>
+      <p>This can be done by (loosely speaking) putting the device into rfmon mode, a.k.a. monitor mode, which allows the device to collect all wireless traffic, not just the traffic directed to that device.</p>
+      <p>So what happens if an access point is configured to omit ESSIDs from beacons? Well, any wireless traffic between an access point and all devices connected to it will have the ESSID information, so an attacker can just use rfmon mode to collect wireless traffic and get the ESSID from there.</p>
+      <p>Wellenreiter is a tool that does this rfmon mode stuff. Futhermore, Wellenreiter also listens for ARP and DHCP traffic to determine MAC and IP addresses.</p>
+      <h4>Forcing Deauthentication with ESSID-Jack</h4>
+      <p>Okay, so the ultimate scenario: what if</p>
+      <ul>
+        <li>access points are configured to ignore ESSID="Any" probes</li>
+        <li>ESSIDs are omitted from beacon packets</li>
+        <li>there is no wireless traffic to collect</li>
+      </ul>
+      <p>Well, the attacker can use a tool called ESSID-Jack to force traffic. Before using the tool, the attacker needs to obtain the MAC address of the access point, which can be done by using Wellenreiter to sniff for management/beacon frames, which will have the MAC address.</p>
+      <p>Once the attacker has the MAC address of the access point, they can pretend to be that access point and send a deauthenticate message to the broadcast address, disconnecting all devices connected to that access point. As the devices try to reconnect, they will generate traffic for the attacker to collect.</p>
+      <h4>War-Driving Defenses</h4>
+      <ul>
+        <li>set the ESSID to a value that doesn’t bring unwanted attention to your network</li>
+        <li>configure your access points to ignore probe requests that don’t include the ESSID, and set them up to omit the ESSID from beacon packets</li>
+        <li>require some form of stronger authentication to your access points
+          <ul>
+            <li>WPA and 802.11i</li>
+          </ul>
+        </li>
+        <li>use a VPN to encrypt traffic to/from the network</li>
+        <li>use Wireless Intrusion Detection Systems (IDSs) to look for unusual messages sent by intruding wireless clients (including ESSID-less probe broadcasts and unexpected deauthenticate messages)</li>
+        <li>turn on built-in access point capabilities to detect renegade access points that suddenly show up in your environment</li>
+        <li>turn down the transmit power for access points near your buildings' perimeters</li>
+        <li>use directional antennas to control signal bleed out of the building from these perimeter wireless devices</li>
+        <li>use metal shielding to break up wireless signals at the walls of your environment
+          <ul>
+            <li>wallpaper with a thin layer of embedded copper wires</li>
+            <li>paint with tiny metal fibers</li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Network Mapping</h3>
+      <p>Let's say the attacker found an access point advertising an unsecured WLAN and was able to connect to the network. The next thing an attacker would want to do is to discover other devices connected to the network and build a map of the network.</p>
+      <h4>Sweeping: Finding Live Hosts</h4>
+      <p>One simple way to do this is to ping all possible addresses and see which addresses respond. They send an ICMP Echo Request packet and look for an ICMP Echo Response message. If there is no response, it could mean the address is not being used or the ping/response is being filtered.</p>
+      <p>Many networks block ping messages, so an attacker could send a TCP or UDP packet instead.</p>
+      <h4>Traceroute: What Are the Hops?</h4>
+      <p>After discovering which hosts are alive, attackers would want to know how they are connected to each other (the network structure/topology).</p>
+      <p>They can use traceroute to see how many routers there are from the attacker to any destination.</p>
+      <div class="ln-box">
+        <p>Tracerouting uses the TTL field in the IP header. The TTL is decremented by the maximum of</p>
+        <ul>
+          <li>the number of seconds the router takes to route the packet</li>
+          <li>1</li>
+        </ul>
+        <p>Packets are usually sent in less than a second, so the TTL is usually decremented by 1.</p>
+      </div>
+      <p>If a router decrements the TTL to 0, it will send an ICMP Time Exceeded message, where the source address of the message is the IP address of that router. So if an attacker starts a traceroute with a TTL of 1, it will learn the IP address of the first router. If the attacker starts a traceroute with a TTL of 2, it will also learn the IP address of the second router. And so on.</p>
+      <h4>Cheops-ng</h4>
+      <p>Cheops-ng is network-mapping tool that uses pings and traceroute.</p>
+      <h4>Defenses Against Network Mapping</h4>
+      <p>Pretty much, use firewalls and router packet filtering.</p>
+      <ul>
+        <li>block incoming ICMP messages, except to hosts that you want the public (including attackers) to be able to ping</li>
+        <li>filter ICMP Time Exceeded messages leaving your network to stymie an attacker using traceroute</li>
+      </ul>
+      <h4>Determining Open Ports Using Port Scanners</h4>
+      <p>After knowing the addresses of live systems and gaining a basic understanding of the network topology, an attacker would want to find potential entryways into the systems by finding open ports. In doing this, the attacker can also learn which services are in use. For example, if port 80 is open, then most likely a Web server is running on that machine.</p>
+      <p>A port scanner sends packets to various ports to determine if any service is listening there.</p>
+      <h5>Nmap: A Full-Featured Port-Scanning Tool</h5>
+      <p>Nmap is the most popular port-scanning tool.</p>
+      <h5>The Polite Scan: TCP Connect</h5>
+      <p>TCP Connect scans attempt to complete the three-way handshake with each port. So they send a SYN, wait for the SYN-ACK, and then send an ACK along with FIN to tear down the TCP connection.</p>
+      <p>If a port is closed, the target machine doesn't send the SYN-ACK. Depending on the machine and the network configurations, it could return nothing, a RESET packet, or an ICMP Port Unreachable packet.</p>
+      <p>Connect scans are really easy to detect because completed TCP connections are logged in the system.</p>
+      <h5>A Little Stealthier: TCP SYN Scans</h5>
+      <p>SYN scans only do the first 2 parts of the three-way handshake. They send a SYN and wait for the SYN-ACK. If they get the SYN-ACK, they send a RESET to abort the connection.</p>
+      <p>Same as earlier, if a port is closed, the attacker receives no response, a RESET packet, or an ICMP Port Unreachable packet.</p>
+      <p>Because the TCP connection is never established, there is no evidence of it in the logs. However, routers, firewalls, and other systems can still detect incoming SYN packets.</p>
+      <p>Another advantage of SYN scans is that they are faster because they don't have to wait for the connection to be torn down.</p>
+      <h5>Violating the Protocol Spec: TCP FIN, Xmas Tree, and Null Scans</h5>
+      <p>These scans work by sending packets that are not typical in normal network traffic.</p>
+      <p>FIN scans send packets with the FIN bit set. Xmas Tree scans send packets with the URG, ACK, PSH, RST, SYN, and FIN bits set. And Null scans send packets with no bits set.</p>
+      <p>For all of these scans, if a port is closed, it returns a RESET packet. If the port is open, it sends nothing. If an attacker doesn't receive a response from a port, it doesn't necessarily mean that that port is open; the traffic could've been blocked by a firewall.</p>
+      <h5>Kicking the Ball Past The Goalie: TCP ACK Scans</h5>
+      <p>It may seem like if we want to defend against port scanning, then we would just block all incoming traffic into our network. However, that would prevent us from going on the Internet (how would we get results from the Internet if we blocked all traffic?)</p>
+      <p>So we have to allow some traffic into our network, at the very least, packets with the ACK bit set. It should be pretty obvious what an ACK scan is at this point.</p>
+      <p>Unfortunately for the attackers, different operating systems behave differently in response to ACK packets. For example, some operating systems send a RESET if the port is open, whereas others send it if the port is closed. So an ACK scan isn't really used for finding open ports. It's more for finding out if a machine is running at the target address.</p>
+      <h5>Obscuring the Source: FTP Bounce Scans</h5>
+      <p>The one big problem with all of these scans is that the network can identify where they're coming from by looking at the source IP address of the messages. But there are ways for an attacker to involve another machine so that it looks like the scans are coming from somewhere else.</p>
+      <p>Some FTP servers allow users to connect to them and request that server to send a file to another system. So an attacker would request the FTP server to forward a file to a specific port on the target machine. Depending on the response, the attacker will know whether the port is open or closed. And best of all, for the attacker, the traffic to the port is coming from the FTP server, so the attacker's IP address is not exposed.</p>
+      <div class="ln-box">
+        <p>The firewalls and routers may not see the attacker's IP address, but the FTP server's logs will have it.</p>
+      </div>
+      <h5>Idle Scanning: An Even Better Way to Obscure the Source Address</h5>
+      <p>Okay, so what if there's no FTP server for the attacker to use? If the attacker can find an idle machine -- one that is not sending any/much traffic -- then the attacker can communicate with this machine and analyze the IP ID field of its messages.</p>
+      <div class="ln-box">
+        <p>The IP header has an IP ID field that is used for packet fragmentation. If a packet is too big (recall MTU), it gets broken up into smaller fragments. All those fragments have the same IP ID value so that they can be reassembled correctly at the target destination.</p>
+        <p>Obviously, the IP ID field must be unique, otherwise unrelated packet fragments get combined into one big mess. Most operating systems, notably Windows, just increment the IP ID field by 1 to achieve uniqueness.</p>
+      </div>
+      <ol>
+        <li>The attacker picks a machine that is idle and has a predictable IP ID field.</li>
+        <li>The attacker sends a SYN packet to that machine. This allows the attacker to learn the current value of the machine's IP ID (we'll call it X) when it responds with the SYN-ACK.</li>
+        <li>The attacker sends a SYN packet to the target port and spoofs the source IP address so it looks like the SYN packet is coming from the idle machine.</li>
+        <li>The attacker sends a SYN packet to the idle machine and looks at the IP ID field.</li>
+      </ol>
+      <p>If the IP ID value is X+1, then the port is closed.</p>
+      <div class="ln-box">
+        <p>When the idle machine "sent" the SYN packet to the target port, if the port was closed, it would've sent nothing or a RESET to the idle machine. The idle machine, in response to either of these two situations, didn't send any packets, keeping the IP ID field at X.</p>
+        <p>Then when the attacker sent a SYN packet to the idle machine, the idle machine sent a SYN-ACK to the attacker, incrementing the IP ID field by 1.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/idle_scanning_closed.gif">
+      </div>
+      <p>If the IP ID value is X+2, then the port is most likely open.</p>
+      <div class="ln-box">
+        <p>When the idle machine "sent" the SYN packet to the target port, if the port was listening, it would've sent a SYN-ACK to the idle machine. The idle machine, getting a SYN-ACK for non-existent connection, would've sent a RESET packet, incrementing the IP ID field by 1.</p>
+        <p>Then when the attacker sent a SYN packet to the idle machine, the idle machine sent a SYN-ACK to the attacker, incrementing the IP ID field by 1 again.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/idle_scanning_open.gif">
+      </div>
+      <p>It is not guaranteed to be open because the machine may not be truly idle; it may send a packet in response to something completely unrelated. So an IP ID value of X+2 could falsely report a closed port as open.</p>
+      <h5>Don’t Forget UDP!</h5>
+      <p>UDP scanning is another option, but it's less reliable. Because there's no connection that needs to be established, a UDP port does not need to send anything at all. So no response could either mean the port is closed, the port is open and not sending anything, or the port is open but the packets are getting filtered.</p>
+      <h5>Setting Source Ports for a Successful Scan</h5>
+      <p>To reduce their chances of getting blocked by traffic filtering, attackers can disguise their packets to look like normal traffic. One way to do this is to set the source port of their packets to something that one would reasonably expect traffic from. For example,</p>
+      <ul>
+        <li>a packet with source port 80 looks like it's a response from a Web server</li>
+        <li>a packet with source port 20 looks like it's from an FTP connection</li>
+        <li>a packet with source port 53 looks like it's a DNS response</li>
+      </ul>
+      <h5>Decoys Aren’t Just for Duck Hunters Any More</h5>
+      <p>Attackers can also try to hide their packets by generating decoy packets with fake source addresses. The attacker's actual address must be included along with the fake addresses so that the attacker can get the results from the scan back.</p>
+      <h5>Useful Timing Options</h5>
+      <p>Nmap has different options for how fast or slow packets should be sent. Maybe they want to avoid being detected and will spread out the packets. Or maybe they want to conduct a scan as quickly as possible and send out packets quickly.</p>
+      <ul>
+        <li>Paranoid: Sends one packet approximately every five minutes resulting in a super-slow scan</li>
+        <li>Sneaky: Sends one packet approximately every 15 seconds</li>
+        <li>Polite: Sends one packet approximately every 0.4 seconds</li>
+        <li>Normal: Runs as quickly as possible without missing target ports</li>
+        <li>Aggressive: Waits a maximum of 1.25 seconds for any response</li>
+        <li>Insane: Waits a maximum of 0.3 seconds for any response
+          <ul>
+            <li>This mode will likely report false negatives, listing open ports as closed</li>
+          </ul>
+        </li>
+      </ul>
+      <h4>A Critical Feature: Active Operating System Fingerprinting</h4>
+      <p>Besides finding out which ports are open, the attacker would also want to know what operating system(s) they're dealing with. That way, they can research particular vulnerabilities for that system.</p>
+      <p>They do this by taking advantage of the fact that RFCs do not define how a system should respond to invalid combinations of TCP control bits (recall the FIN, Xmas Tree, and Null Scans). Therefore, different operating systems respond to unexpected flags differently.</p>
+      <p>So this is a list of valid + invalid packets attackers can send:</p>
+      <ul>
+        <li>SYN packet to open port</li>
+        <li>NULL packet to open port</li>
+        <li>SYN|FIN|URG|PSH packet to open port</li>
+        <li>ACK packet to open port</li>
+        <li>SYN packet to closed port</li>
+        <li>ACK packet to closed port</li>
+        <li>FIN|PSH|URG packet to closed port</li>
+        <li>UDP packet to closed port</li>
+      </ul>
+      <div class="ln-box">
+        <p>This is called TCP stack fingerprinting.</p>
+      </div>
+      <p>Another way to help determine the operating system is to analyze the sequence number (similar to idle scanning). Some operating systems have predictable sequence numbers, so an attacker could send SYN packets to open ports and see how the sequence number in the SYN-ACK packets change.</p>
+      <h4>Defenses Against Port Scanning</h4>
+      <ul>
+        <li>close all unused ports</li>
+        <li>periodically check to see which TCP/UDP ports are in use</li>
+        <li>turn off unused services
+          <ul>
+            <li>if the service is started by <code>inetd</code>, you can comment out its line in <code>/etc/inetd.conf</code></li>
+            <li>if the service is started by <code>xinetd</code>, you can delete the file <code>/etc/xinetd.d/[service]</code></li>
+          </ul>
+        </li>
+        <li>scan your systems before an attacker does</li>
+        <li>use stateful packet filters or proxy-based firewalls</li>
+      </ul>
+      <h4>Determining Firewall Filter Rules with Firewalk</h4>
+      <p>I've briefly mentioned that traffic blocked by a firewall can make the results of scans harder to interpret (if there's no response, was the port closed or was the traffic filtered?). So naturally, if attackers can figure out what the filtering rules are, they can further determine which ports are open.</p>
+      <p>Firewalk is a tool that helps determine filtering rules.</p>
+      <h5>How Firewalk Works</h5>
+      <p>The main idea behind Firewalk is that it sends a packet to a machine that is on the other side of the firewall (we'll call it the target machine), and if it receives a response from that machine, then the packet is not being filtered by the firewall. If no response is received, then the packet was likely filtered by the firewall.</p>
+      <p>First, Firewalk determines the number of router hops to the firewall by sending a series of packets with incrementing TTLs (like in traceroute).</p>
+      <p>Once Firewalk knows how many hops it takes to reach the firewall, it will then start sending packets to the target machine on the other side of the firewall. The packets will have a TTL of (number of hops to firewall + 1).</p>
+      <p>If a packet gets through the filter, an ICMP Time Exceeded message will be sent by the machine that is exactly one hop away from the firewall. Or, if the machine that is exactly one hop away from the firewall is the target machine, then it might respond with an ICMP Port Unreachable or even a SYN-ACK. Whatever the response is, if the attacker received <em>something</em>, then they know the firewall allowed their packet through.</p>
+      <div class="ln-box">
+        <p>The TTL is important for Firewalk to work correctly; it can't just send a packet to the target machine with an arbitrary TTL. If the TTL is too small, then the packet won't even reach the firewall.</p>
+      </div>
+      <h5>Firewalk Focuses on Packet Filters, Not Proxies</h5>
+      <p>Firewalk doesn't work against proxy-based firewalls because proxies do not forward packets. Instead, the proxy gets the packet on one side of the gateway and creates a new connection on the other side, wiping the TTL information.</p>
+      <h5>Firewalk Defenses</h5>
+      <ul>
+        <li>make sure your firewall is configured with a minimum set of ports allowed through it</li>
+        <li>use proxy-based firewalls</li>
+      </ul>
+      <h4>What We Have So Far</h4>
+      <table class="table table-bordered">
+        <tr>
+          <th>What the Attacker Knows</th>
+          <th>Tools</th>
+        </tr>
+        <tr>
+          <td>List of address of live hosts on the network</td>
+          <td>Ping and Cheops-ng</td>
+        </tr>
+        <tr>
+          <td>General network topology</td>
+          <td>Traceroute and Cheops-ng</td>
+        </tr>
+        <tr>
+          <td>List of open ports on live hosts</td>
+          <td>Nmap port scan</td>
+        </tr>
+        <tr>
+          <td>Operating system types of live hosts</td>
+          <td>Active OS Fingerprinting</td>
+        </tr>
+        <tr>
+          <td>List of ports open through packet filters on the target network</td>
+          <td>Firewalk</td>
+        </tr>
+      </table>
+      <h4>Vulnerability-Scanning Tools</h4>
+      <p>Now, the attackers have a lot of information, but that information alone isn't enough for attackers to get into target systems. What they need is a vulnerability to exploit.</p>
+      <p>Vulnerability scanners automate the process of connecting to a target system and checking to see if there are any vulnerabilities. They have a database of known vulnerabilities and check to see if any of them are present on the target.</p>
+      <ul>
+        <li>Common configuration errors: Numerous systems have poor configuration settings, leaving various openings for an attacker to gain access</li>
+        <li>Default configuration weaknesses: Out of the box, many systems have very weak security settings, sometimes including default accounts and passwords</li>
+        <li>Well-known system vulnerabilities: New security holes are discovered and published online</li>
+      </ul>
+      <div class="ln-box">
+        <p>For example, if the attacker knows they're dealing with Windows machines, they can check to see if they're misconfigured to allow the attacker to gather a complete list of users.</p>
+      </div>
+      <h5>Nessus: The Most Popular Free Vulnerability Scanner Available Today</h5>
+      <p>Because it's free and supports custom scripts (plug-ins).</p>
+      <p>Nessus is based on a client-server architecture, where the server does all the heavy lifting (vulnerability database, scanning engine) and the client reports the results.</p>
+      <h5>So, What Does an Attacker Do with These Results?</h5>
+      <p>They look for particular exploits based on the vulnerabilities.</p>
+      <h5>Vulnerability-Scanning Defenses</h5>
+      <ul>
+        <li>close all unused ports</li>
+        <li>apply patches to your systems</li>
+        <li>run a vulnerability-scanning tool against your own network on a periodic basis to identify vulnerabilities before an attacker does</li>
+      </ul>
+      <h3>Intrusion Detection System and Intrusion Prevention System Evasion</h3>
+      <p>In case you haven't heard, scanning tools are pretty noisy. Port scanners and vulnerability scanners send (tens/hundreds of) thousands of packets to the target network, and all of this traffic can be detected by IDS and IPS tools.</p>
+      <h4>How Network-Based IDS and IPS Tools Work</h4>
+      <p>Traffic associated with an attack typically looks different from normal traffic. Network-based IDSs and IPSs have a database of attack signatures that they try to match against network traffic. If they think there's an attack going on, they have some way of warning an admin.</p>
+      <h4>How Attackers Can Evade Network-Based IDSs and IPSs</h4>
+      <p>By changing the packet structure or syntax in a way that the IDS or IPS does not expect.</p>
+      <h4>IDS and IPS Evasion at the Network Level</h4>
+      <p>Recall that IP packets can be fragmented and reassembled once they reach the destination.</p>
+      <p>In order to analyze the traffic, IDS/IPS systems need to store the packets in memory/buffers. One thing attackers can do is to send a bunch of fragments, enough to overload their memory/buffers.</p>
+      <h5>The Tiny Fragment Attack</h5>
+      <p>However, something more interesting attackers can do is to send fragments in creative ways. For example, the attacker can split their packet into two fragments so that neither of them look suspicious on their own, but result in a dangerous packet when combined.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/security/tiny_fragment_attack.gif">
+      </div>
+      <h5>The Fragment Overlap Attack</h5>
+      <p>This one is even more interesting. The fragment overlap attack is based on manipulating the fragment-offset field of the IP header. One fragment has the TCP header, and a piece of harmless-looking data that doesn’t trigger the IDS/IPS. The second fragment has an offset value that intentionally causes this second fragment to overlap the first fragment. When the two fragments are combined, a dangerous packet is created.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/security/fragment_overlap_attack.gif">
+      </div>
+      <h5>FragRouter: A Nifty Tool for Conducting Fragmentation Attacks to Evade IDS and IPS Tools</h5>
+      <p>See title.</p>
+      <h4>IDS and IPS Evasion Defenses</h4>
+      <ul>
+        <li>keep the IDS and IPS systems and signatures up to date</li>
+      </ul>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
