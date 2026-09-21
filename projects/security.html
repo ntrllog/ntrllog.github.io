@@ -32,6 +32,7 @@
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#networkingoverview">Networking Overview</a></li>
         <li><a class="dropdown-item" href="#scanning">Scanning</a></li>
+        <li><a class="dropdown-item" href="#cryptography">Cryptography</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -39,7 +40,7 @@
       <h1>Network Security</h1>
       <hr>
       <p>Shortcut to this page: <a href="security.html">ntrllog.netlify.app/security</a></p>
-      <p>Info provided by Counter Hack Reloaded (which was published in 2005, so info may be outdated)</p>
+      <p>Info provided by Counter Hack Reloaded (published in 2005) and Certified Ethical Hacker v9 Study Guide (published in 2016)</p>
       <p>This is an extension of the <a href="networking.html" target="_blank">computer networking</a> resource. Well, we’ll see where this goes — I’m writing this as the class goes.</p>
       <h2 id="networkingoverview">Networking Overview</h2>
       <h3>Firewalls</h3>
@@ -428,6 +429,54 @@
       <ul>
         <li>keep the IDS and IPS systems and signatures up to date</li>
       </ul>
+      <h2>Cryptography</h2>
+      <p>Cryptography is how information is kept secret. It aims to provide the following:</p>
+      <ul>
+        <li>Confidentiality: keeps information secret</li>
+        <li>Integrity: ensures information wasn't changed</li>
+        <li>Authentication: proves someone is who they say they are</li>
+        <li>Nonrepudiation: proves information was/wasn't sent</li>
+      </ul>
+      <h3>Symmetric Cryptography</h3>
+      <p>In symmetric cryptography, the same key is used to encrypt and decrypt information. It's good for encrypting lots of data because it is very fast. But there are issues with using the same key to encrypt + decrypt, and there is no nonrepudiation.</p>
+      <div class="ln-box">
+        <h4>Key Management Issues</h4>
+        <p>Suppose you're sending an encrypted message to me. In order for me to decrypt the message, I would need the key. So you would need to send the key to me, but an attacker can intercept it.</p>
+        <p>Okay, so let's say both of us have already have the key so you don't need to send it to me. What happens if we need to send information to another user? ☝️</p>
+        <p>What happens if we need to change keys? ☝️</p>
+      </div>
+      <div class="ln-box">
+        <h4>No Nonrepudiation</h4>
+        <p>Suppose I receive an encrypted message saying that you'll pay me $1000. The problem for you is that you never sent that message to me. Since we both have the same key, I encrypted that message and sent it to myself, making it look like it was from you.</p>
+      </div>
+      <h3>Asymmetric, or Public Key, Cryptography</h3>
+      <p>Asymmetric cryptography provides key management benefits and nonrepudiation by using a public key and private key system. Each person gets a pair of keys uniquely assigned to them. Either key can be used to encrypt information, but only the other key can be used to decrypt. That is, if the public key is used to encrypt, only the private key can be used to decrypt. And if the private key is used to encrypt, only the public key can be used to decrypt. As their names imply, the public key is visible to the public while the private key is meant to be used only by the owner.</p>
+      <p>Suppose you want to send a secret message to me. You'll do that by finding my public key and using it to encrypt your message. Then I'll use my private key to decrypt the message. There was no need for you to send a key, and even if an attacker intercepted the message, they won't be able to decrypt it without the private key, which only I own.</p>
+      <h4>Digital Signatures</h4>
+      <p>But how do I know the message came from you? You can include your digital signature by using your private key to generate it. Then I can use your public key to verify your signature.</p>
+      <div class="ln-box">
+        <p>A hash function is an algorithm that transforms an input into a hash value. When using a one-way hash function, it's not possible to derive the original message from the hash value.</p>
+        <p>Hashing is used to create and verify digital signatures.</p>
+        <p>To generate a digital signature:</p>
+        <ol>
+          <li>Use a hash function on the message to generate a hash value</li>
+          <li>Use private key to encrypt hash value
+            <ul>
+              <li>this is the digital signature</li>
+            </ul>
+          </li>
+        </ol>
+        <p>To verify a digital signature:</p>
+        <ol>
+          <li>Use public key to decrypt the hash value</li>
+          <li>Use the same hash function on the message to generate a hash value</li>
+          <li>If the two hash values are the same, then the message came from you and was unchanged</li>
+        </ol>
+      </div>
+      <h4>Digital Certificates</h4>
+      <p>What if you never sent a message to me, but I received a message with a digital signature claiming to be yours? In this scenario, suppose an attacker is pretending to be you and puts a public key (the attacker's, not yours) online, advertising that it is "your" public key. Then the attacker uses their private key to create the digital signature and sends it to me. When I use "your" (the attacker's) public key, the signature will verify correctly, and I'll believe the message is yours.</p>
+      <p>Digital certificates prevent this situation from happening.</p>
+      <p>You can register your key pair with a certificate authority (CA). The CA issues you a digital certificate with your public key on it and signs it using the CA's private key. Now, if I want to check that an advertised public key is actually yours, I can use the CA's public key on the digital certificate to see your registered public key and compare what's advertised with what's on the certificate.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
