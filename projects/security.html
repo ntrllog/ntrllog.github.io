@@ -31,6 +31,7 @@
       <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#networkingoverview">Networking Overview</a></li>
+        <li><a class="dropdown-item" href="#reconnaissance">Reconnaissance</a></li>
         <li><a class="dropdown-item" href="#scanning">Scanning</a></li>
         <li><a class="dropdown-item" href="#cryptography">Cryptography</a></li>
       </ul>
@@ -145,6 +146,63 @@
         <p>The DMZ (Demilitarized Zone) is a part of the network that sits outside of the internal network. The purpose of it is to separate the machines that need to be exposed to the Internet from those that don't, where the machines that need to be exposed to the Internet are put in the DMZ. These machines are things like Web servers or DNS servers.</p>
         <p>The DMZ also acts as a buffer so that if an attacker gets access to a machine in the DMZ, they don't immediately have access to the machines in the internal network.</p>
       </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/dual_firewall.png">
+      </div>
+      <h2 id="reconnaissance">Reconnaisance</h2>
+      <p>Reconnaisance is the act of using publicly available information to investigate a target. This includes techniques such as social engineering, physically breaking into a building, digging through trash, and searching online.</p>
+      <h3>Whois Databases: Treasure Chests of Information</h3>
+      <p>Companies have to register their domains and servers with a registration company, a.k.a. registrar. The registrar assigns the company a domain name and enters it into whois and DNS databases so that the company's servers are accessible to the Internet.</p>
+      <h3>DNS</h3>
+      <p>Companies have to register their DNS servers with the registrar, so information about a company's DNS servers are publicly available in whois databases. And DNS servers store IP addresses, domain names, and mail server information. So attackers querying a company's DNS servers can build a list of possible targets to attack, or at the very least, learn more about the company's network infrastructure.</p>
+      <h4>Interrogating DNS Servers</h4>
+      <div class="ln-box">
+        <p>A zone is a collection of DNS records for a particular domain. For example, this could be what a zone for example.com looks like:</p>
+        <table class="table table-bordered">
+          <tr>
+            <td>example.com</td>
+            <td>A</td>
+            <td>203.0.113.09</td>
+          </tr>
+          <tr>
+            <td>www.example.com</td>
+            <td>A</td>
+            <td>203.0.113.09</td>
+          </tr>
+          <tr>
+            <td>mail.example.com</td>
+            <td>A</td>
+            <td>203.0.113.29</td>
+          </tr>
+          <tr>
+            <td>example.com</td>
+            <td>MX</td>
+            <td>mail.example.com</td>
+          </tr>
+        </table>
+      </div>
+      <p>A zone transfer is an operation that asks a DNS server to send all information it has about a specified domain. It was designed to be an operation to update secondary DNS servers, but attackers have found a great use for it. Well, it works if the DNS server has zone transfers enabled.</p>
+      <h4>Defenses From DNS-Based Reconnaissance</h4>
+      <ul>
+        <li>don't include any additional information that don't need to be in DNS servers
+          <ul>
+            <li>only name servers and mail servers need to be in there</li>
+          </ul>
+        </li>
+        <li>configure primary DNS server to only allow zone transfers from secondary DNS server(s)</li>
+        <li>configure secondary DNS server(s) to allow zone transfers from no one</li>
+        <li>configure firewall to allow access to TCP port 53 only from secondary DNS server(s)
+          <ul>
+            <li>Port 53 is used for zone transfers</li>
+          </ul>
+        </li>
+        <li>use a split DNS architecture</li>
+      </ul>
+      <p>A split DNS architecture has an external DNS server and an internal DNS server. The external DNS server only has information about servers that need to be accessible to the Internet. The internal DNS server contains all the information about the internal devices so they can communicate with each other.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/split_dns.png">
+      </div>
+      <p>The internal DNS server never communicates with the Internet. If an internal device needs to resolve a name that is on the Internet, it asks the internal DNS server, which then asks the external DNS server.</p>
       <h2 id="scanning">Scanning</h2>
       <p>Scanning is a process attackers use to find an opening into the network they are trying to attack.</p>
       <h3>War Driving</h3>
@@ -429,7 +487,7 @@
       <ul>
         <li>keep the IDS and IPS systems and signatures up to date</li>
       </ul>
-      <h2>Cryptography</h2>
+      <h2 id="cryptography">Cryptography</h2>
       <p>Cryptography is how information is kept secret. It aims to provide the following:</p>
       <ul>
         <li>Confidentiality: keeps information secret</li>
