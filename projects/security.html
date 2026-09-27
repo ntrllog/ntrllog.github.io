@@ -34,6 +34,7 @@
         <li><a class="dropdown-item" href="#reconnaissance">Reconnaissance</a></li>
         <li><a class="dropdown-item" href="#scanning">Scanning</a></li>
         <li><a class="dropdown-item" href="#cryptography">Cryptography</a></li>
+        <li><a class="dropdown-item" href="#linklayersecurity">Link Layer Security</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -41,7 +42,7 @@
       <h1>Network Security</h1>
       <hr>
       <p>Shortcut to this page: <a href="security.html">ntrllog.netlify.app/security</a></p>
-      <p>Info provided by Counter Hack Reloaded (published in 2005) and Certified Ethical Hacker v9 Study Guide (published in 2016)</p>
+      <p>Info provided by Counter Hack Reloaded (Ed Skoudis, Tom Liston), Network Security Principles and Practices (Saadat Malik), and Certified Ethical Hacker v9 Study Guide (Sean-Philip Oriyano)</p>
       <p>This is an extension of the <a href="networking.html" target="_blank">computer networking</a> resource. Well, we’ll see where this goes — I’m writing this as the class goes.</p>
       <h2 id="networkingoverview">Networking Overview</h2>
       <h3>Firewalls</h3>
@@ -535,6 +536,34 @@
       <p>What if you never sent a message to me, but I received a message with a digital signature claiming to be yours? In this scenario, suppose an attacker is pretending to be you and puts a public key (the attacker's, not yours) online, advertising that it is "your" public key. Then the attacker uses their private key to create the digital signature and sends it to me. When I use "your" (the attacker's) public key, the signature will verify correctly, and I'll believe the message is yours.</p>
       <p>Digital certificates prevent this situation from happening.</p>
       <p>You can register your key pair with a certificate authority (CA). The CA issues you a digital certificate with your public key on it and signs it using the CA's private key. Now, if I want to check that an advertised public key is actually yours, I can use the CA's public key on the digital certificate to see your registered public key and compare what's advertised with what's on the certificate.</p>
+      <h2 id="linklayersecurity">Link Layer Security</h2>
+      <h3>Port Security</h3>
+      <p>A router/switch's port can be configured to only allow certain MAC addresses to connect to the LAN. This mechanism is called port security.</p>
+      <h3>MAC Address Floods and Port Security</h3>
+      <div class="ln-box">
+        <p>This was described in the networking resource as switch poisoning.</p>
+      </div>
+      <div class="ln-box">
+        <p>A CAM (Content Addressable Memory) table is a table in a switch that stores MAC addresses.</p>
+      </div>
+      <p>Recall that when a switch receives a frame and the destination MAC address isn't in its switch table, the switch broadcasts the frame to everyone. An attacker takes advantage of this by sending a bunch of frames with fake source MAC addresses to a switch, filling up its CAM table. So when a legitimate frame arrives at the switch, the frame's destination MAC address won't exist in the CAM table and the switch will broadcast (flood) the frame to everyone.</p>
+      <p>This has two effects. The first is that network traffic increases due to flooding, and this can result in a denial of service (DoS). The second is that the attacker can receive the flooded frames.</p>
+      <h4>Restricting the Number of MAC Addresses a Switch Learns on a Port</h4>
+      <div class="ln-box">
+        <p><code>Console> (enable) set port security 3/2 maximum 20</code></p>
+        <p>This command configures port 2 on module 3 to have a maximum of 20 MAC addresses associated with it.</p>
+        <p>(A module is a group of ports.)</p>
+      </div>
+      <p>Limiting the number of addresses that a switch can learn on a port prevents the switch's CAM table from filling up. Note that the CAM table can still learn entries from other ports, so legitimate traffic continues normally.</p>
+      <h3>IP Permit Lists</h3>
+      <p>A switch's IP permit list is a list of IP addresses that are allowed to send traffic to the switch. The type of traffic (e.g. Telnet, SSH, HTTP, SNMP) can also be specified.</p>
+      <div class="ln-box">
+        <p><code>Console> (enable) set ip permit enable<br>Console> (enable) set ip permit 172.16.0.0 255.255.0.0 telnet<br>Console> (enable) set ip permit 172.20.52.2 255.255.255.255 snmp<br>Console> (enable) set ip permit 172.20.52.3 all</code></p>
+      </div>
+      <h3>Protocol Filtering and Controlling LAN Floods</h3>
+      <p>Broadcast floods can be controlled.</p>
+      <p>One way is with threshold limits can be set for broadcast traffic. For example, a rule can specify that, at any second, if more than 75% of the traffic consists of broadcast traffic, then all additional broadcast traffic will be dropped for that one-second period.</p>
+      <p>Another way is to use protocol filtering to allow only certain protocols to send broadcasts. A protocol group can be defined to have certain protocols and ports associated with that group. Then, broadcast messages from only those protocols will be sent to only those ports.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
