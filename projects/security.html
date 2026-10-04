@@ -564,6 +564,100 @@
       <p>Broadcast floods can be controlled.</p>
       <p>One way is with threshold limits can be set for broadcast traffic. For example, a rule can specify that, at any second, if more than 75% of the traffic consists of broadcast traffic, then all additional broadcast traffic will be dropped for that one-second period.</p>
       <p>Another way is to use protocol filtering to allow only certain protocols to send broadcasts. A protocol group can be defined to have certain protocols and ports associated with that group. Then, broadcast messages from only those protocols will be sent to only those ports.</p>
+      <h3>Private VLANs</h3>
+      <p>A normal VLAN allows all devices connected to the switch to communicate with each other. This means that if a device is compromised, other devices on the same VLAN can be attacked from the compromised device.</p>
+      <p>A private VLAN divides the ports into groups to restrict communication between devices. There are three types of private VLAN ports:</p>
+      <ul>
+        <li>Promiscuous port: a device connected to this port can communicate with all other ports
+          <ul>
+            <li>generally used for communication with the network's router/gateway</li>
+          </ul>
+        </li>
+        <li>Isolated port: a device connected to this port can only communicate with the promiscuous port</li>
+        <li>Community port: a device connected to this port can communicate with the promiscuous port and other community ports</li>
+      </ul>
+      <p>Hosts on isolated ports cannot receive traffic directly from other hosts. All communication is done through the promiscuous port.</p>
+      <h4>ARP Spoofing, Sticky ARP, and Private VLANs</h4>
+      <p>A gratuitous ARP is a message that a device sends to let other machines know its IP address and MAC address. An attacker who has gained access to a compromised device on the LAN can force the machine to send out gratuitous ARPs with addresses that don't belong to the compromised machine. For example, the attacker can spoof the IP address of the network's default gateway in the gratuitous ARPs. This allows the attacker to analyze and/or drop all traffic in the LAN.</p>
+      <p>Private VLANs protect from this type of attack by providing isolation between the ports on the VLAN.</p>
+      <p>A sticky ARP also helps against this type of attack. The sticky ARP feature makes sure that ARP entries learned by the switch cannot be changed. So if an attacker takes over a device and tries to send out gratuitous ARPs with different addresses, the switch won't acknowledge those gratuitous ARPs (because the switch already learned the compromised device's address before it was compromised).</p>
+      <h3>Port Authentication and Access Control Using the IEEE 802.1x Standard</h3>
+      <p>802.1x is the standard that defines how authentication should work for devices connecting to LANs.</p>
+      <h4>802.1x Entities</h4>
+      <ul>
+        <li>Supplicant: the device that is trying to connect to the LAN</li>
+        <li>Authentication server: the device that performs the authentication</li>
+        <li>Authenticator: the middleman that initiates the authentication process and relays messages between the supplicant and the authentication server</li>
+      </ul>
+      <h4>802.1x Communications</h4>
+      <p>All three entities communicate using the Extensible Authentication Protocol (EAP).</p>
+      <h5>EAP</h5>
+      <p>There are four types of EAP messages:</p>
+      <ul>
+        <li>Request</li>
+        <li>Response</li>
+        <li>Success</li>
+        <li>Failure</li>
+      </ul>
+      <p>These four types can be further classified into different types, such as:</p>
+      <ul>
+        <li>Identity</li>
+        <li>Notification</li>
+        <li>NAK</li>
+        <li>MD5-Challenge</li>
+        <li>One-time password</li>
+        <li>Transport-Level Security (TLS)</li>
+      </ul>
+      <p>The identity request message is sent by the authenticator to ask the supplicant for its identity information (such as username). The NAK response message is sent by the supplicant to the authenticator if the authentication mechanism offered by the authenticator is unacceptable to the supplicant.</p>
+      <h5>Using EAP as the Underlying Communications Mechanism in 802.1x</h5>
+      <p>These are the steps for what happens when a supplicant tries to connect to a port:</p>
+      <ol>
+        <li>The authenticator sends the first EAP-Request identity message to the supplicant to ask for the supplicant's identity.</li>
+        <li>The supplicant returns an EAP-Response message containing its identity, such as its username.</li>
+        <li>The authenticator sends this message to the authentication server.</li>
+        <li>The authentication server sends the supplicant an EAP message corresponding to the type of authentication it wants to do.</li>
+        <li>The supplicant responds with
+          <ul>
+            <li>an EAP-Response containing the data the server asked for</li>
+            <li>or an EAP-NAK if the supplicant does not support the requested authentication method
+              <ul>
+                <li>the EAP-NAK contains the supplicant's desired authentication mechanism type</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>EAP messages are sent back and forth until the authentication server sends either an EAP-Success or EAP-Failure message to the supplicant.</li>
+        <li>If the authenticator sees that the server sent an EAP-Success, it opens the port that the supplicant has been using for normal data activity.</li>
+      </ol>
+      <h5>EAPOL and RADIUS</h5>
+      <p>EAPOL stands for EAP Over LANs. It defines how EAP messages are formatted. Similar to how TCP segments are encapsulated with TCP headers and IP datagrams are encapsulated with IP headers, EAP messages are encapsulated with EAPOL headers.</p>
+      <p>EAPOL is used for communication between the supplicant and the authenticator. RADIUS is used for communication between the authenticator and the authentication server.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/802.1x.png">
+      </div>
+      <h4>802.1x Functionality</h4>
+      <ol>
+        <li>The supplicant encapsulates its EAP message in an EAPOL frame and sends it to the authenticator.</li>
+        <li>The authenticator decapsulates the EAP message, repackages it in a RADIUS packet, and sends it to the authentication server.</li>
+        <li>The authentication server sends back a RADIUS packet to the authenticator.</li>
+        <li>The authenticator strips off the RADIUS header, encapsulates the EAP message in an EAPOL frame, and sends it to the supplicant.</li>
+      </ol>
+      <h3>Network Address Translation</h3>
+      <div class="ln-box">
+        <p>Private IP addresses are also called RFC 1918 addresses.</p>
+        <ul>
+          <li>10.0.0.0 - 10.255.255.255</li>
+          <li>172.16.0.0 - 172.31.255.255</li>
+          <li>192.168.0.0 - 192.168.255.255</li>
+        </ul>
+      </div>
+      <p>NAT is the mechanism that changes a packet's IP address to something other than what they originally were. It was primarily a way to reduce IP address consumption, but since it can hide a network's IP address, it also offers some security.</p>
+      <p>In normal NAT, each RFC 1918 address is converted to its own unique routable IP address. There is also Overload NAT, a.k.a. Port Address Translation (PAT), where all RFC 1918 addresses are translated to one routable IP address.</p>
+      <h3>Security Benefits of Network Address Translation</h3>
+      <p>The router that does NAT/PAT has a NAT table that keeps track of the translations. The NAT table only gets populated if a device sends something out to the Internet.</p>
+      <p>Here's where the security of PAT comes in. If some random messages destined for the routable IP address arrived at the router without anyone asking for them, the router would drop those messages because it would not know which device to send them to (there would be no entries in its NAT table because no one asked for those messages).</p>
+      <h3>Disadvantages of Relying on NAT for Security</h3>
+      <p>Since NAT only looks at the port number and nothing else, NAT is not <em>that</em> secure. Basically, NAT is not secure because it doesn't do what stateful or proxy-based firewalls do.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
