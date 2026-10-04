@@ -150,6 +150,58 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/security/dual_firewall.png">
       </div>
+      <h4>PIX Firewall</h4>
+      <div class="ln-box">
+        <p>Cisco's PIX firewall was discontinued in 2013. I'll still refer to it in the present tense though.</p>
+      </div>
+      <p>PIX firewall is a stateful packet filter that runs on its own operating system rather than as an application on top of another OS.</p>
+      <h5>Adaptive Security Algorithm</h5>
+      <p>ASA is the algorithm that PIX uses to examine traffic passing through it and decide what to do with it. It keeps track of:</p>
+      <ul>
+        <li>IP source and destination</li>
+        <li>TCP sequence numbers and flags</li>
+        <li>UDP timers</li>
+      </ul>
+      <h6>TCP</h6>
+      <p>When a host makes a connection request to the Internet, PIX stores the packet's state information (the stuff mentioned above). When a response comes back, PIX checks that the sequence number and source/destination information match what it's expecting. Honestly, nothing special, but I included it for the sake of completeness.</p>
+      <p>What is special however is that PIX does a few things to improve security. PIX proxies the connection until the three-way TCP handshake is complete. If the handshake is not completed within a certain time, the connection is dropped. This way, only legitimate connections are allowed through the PIX.</p>
+      <p>The other thing PIX does to improve security is to randomize the initial sequence number. So PIX stores the delta between the actual sequence number and PIX's randomized sequence number and replaces each packet's sequence number with the correct number so that the calculations are consistent.</p>
+      <h6>UDP</h6>
+      <p>Since there's no state information available to keep track of for UDP, ASA uses a timer to track UDP sessions. The timer is active as long as there is traffic. If there has been no traffic after a certain amount of time, the timer expires and no more traffic is allowed for that session.</p>
+      <h5>Stateful Inspection of Traffic Using the ASA</h5>
+      <ul>
+        <li>Outbound connections are allowed, except the ones denied by ACLs.</li>
+        <li>Inbound connections are denied, except the ones allowed by ACLs.</li>
+        <li>All ICMP packets are denied unless specifically allowed.</li>
+      </ul>
+      <h5>Assigning Varying Security Levels to Interfaces</h5>
+      <p>A PIX firewall can have 2-10 interfaces, and each interface can be assigned a level from 0-100. An interface with level 0 means that the interface is connected to a network that is (assumed to be) not secure. Interfaces with level 0 are typically the ones connected to the Internet. Interfaces sitting on the private network are assigned a level of 100.</p>
+      <p>Traffic can flow freely from a high security level interface to a low one, but from low to high, there needs to be rules defined in the ACLs.</p>
+      <div class="ln-box">
+        <p>Static NAT is also needed to allow traffic from low to high.</p>
+        <p>This is because a NAT table is only populated when the inside network initiates the connection. If a device on the Internet tries to initiate a connection with the inside network, there will not be a NAT entry unless a static one is defined ahead of time.</p>
+      </div>
+      <h5>Failover and Redundancy</h5>
+      <p>Failover means that if a PIX starts to fail for whatever reason, a backup PIX can take over. A failover can be stateful, meaning that the current connection information is transferred to the PIX taking over. The state information is transferred via an Ethernet cable between the two PIXes.</p>
+      <p>So how is a PIX failure detected in the first place? The primary PIX and the secondary PIX periodically send hello packets to each other through a failover cable to see if the other is alive. If two consecutive hello packets are not received within a certain time, testing begins to see which PIX has failed.</p>
+      <div class="ln-box">
+        <p>If a PIX unit suddenly stops getting hello packets, it doesn't necessarily mean the other PIX unit is the failed one. The PIX's own interfaces might be down.</p>
+        <p>An ARP test is a test that a PIX unit does to see if its interfaces are working. The PIX sends ARP requests to machines and sees if it gets responses back.</p>
+      </div>
+      <h5>Alias</h5>
+      <p>Similar to how NAT translates source IP addresses, PIX's alias feature translates destination IP addresses.</p>
+      <p>Suppose a client on the internal network needs to access a web server on the DMZ.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/pix_alias.png">
+      </div>
+      <ol>
+        <li>The client queries the external DNS server for the web server's IP address.</li>
+        <li>The DNS server returns the web server's public IP address.</li>
+        <li>The client tries to connect to the web server using the public IP address.</li>
+        <li>PIX uses alias to translate the packet's destination address to the web server's private IP address.</li>
+      </ol>
+      <h5>Mail Guard</h5>
+      <p>This feature helps prevent attacks on a mail server by only allowing certain SMTP commands (HELO, MAIL, RCPT, DATA, RSET, NOOP, and QUIT) to be sent to the mail server.</p>
       <h2 id="reconnaissance">Reconnaisance</h2>
       <p>Reconnaisance is the act of using publicly available information to investigate a target. This includes techniques such as social engineering, physically breaking into a building, digging through trash, and searching online.</p>
       <h3>Whois Databases: Treasure Chests of Information</h3>
