@@ -31,8 +31,9 @@
       <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">ToC</button>
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#networkingoverview">Networking Overview</a></li>
-        <li><a class="dropdown-item" href="#reconnaissance">Reconnaissance</a></li>
-        <li><a class="dropdown-item" href="#scanning">Scanning</a></li>
+        <li><a class="dropdown-item" href="#reconnaissance">Phase 1: Reconnaissance</a></li>
+        <li><a class="dropdown-item" href="#scanning">Phase 2: Scanning</a></li>
+        <li><a class="dropdown-item" href="#gainingaccessappandos">Phase 3: Gaining Access Using Application and Operating System Attacks</a></li>
         <li><a class="dropdown-item" href="#cryptography">Cryptography</a></li>
         <li><a class="dropdown-item" href="#linklayersecurity">Link Layer Security</a></li>
       </ul>
@@ -202,7 +203,7 @@
       </ol>
       <h5>Mail Guard</h5>
       <p>This feature helps prevent attacks on a mail server by only allowing certain SMTP commands (HELO, MAIL, RCPT, DATA, RSET, NOOP, and QUIT) to be sent to the mail server.</p>
-      <h2 id="reconnaissance">Reconnaisance</h2>
+      <h2 id="reconnaissance">Phase 1: Reconnaisance</h2>
       <p>Reconnaisance is the act of using publicly available information to investigate a target. This includes techniques such as social engineering, physically breaking into a building, digging through trash, and searching online.</p>
       <h3>Whois Databases: Treasure Chests of Information</h3>
       <p>Companies have to register their domains and servers with a registration company, a.k.a. registrar. The registrar assigns the company a domain name and enters it into whois and DNS databases so that the company's servers are accessible to the Internet.</p>
@@ -256,7 +257,7 @@
         <img class="img-fluid ln-image-small" src="../pictures/security/split_dns.png">
       </div>
       <p>The internal DNS server never communicates with the Internet. If an internal device needs to resolve a name that is on the Internet, it asks the internal DNS server, which then asks the external DNS server.</p>
-      <h2 id="scanning">Scanning</h2>
+      <h2 id="scanning">Phase 2: Scanning</h2>
       <p>Scanning is a process attackers use to find an opening into the network they are trying to attack.</p>
       <h3>War Driving</h3>
       <p>Imagine you're looking for free Wi-Fi, so you drive around looking for networks without that lock symbol. This is kinda what war driving is. In more technical terms, war driving is the process of looking for accessible and unsecured WLANs.</p>
@@ -540,6 +541,68 @@
       <ul>
         <li>keep the IDS and IPS systems and signatures up to date</li>
       </ul>
+      <h2 id="gainingaccessappandos">Phase 3: Gaining Access Using Application and Operating System Attacks</h2>
+      <p>After scanning the network and building a list of target systems and their vulnerabilities, it's time for the attacker to attack.</p>
+      <h3>Script Kiddie Exploit Trolling</h3>
+      <p>A script kiddie is someone who runs scripts and tools that other people write, often without knowing what they really do. To gain access to a system, a script kiddie might run a vulnerability scan and then look online for any programs that can perform an exploit for any of the vulnerabilities that showed up in the scan.</p>
+      <h3>Buffer Overflow Exploits</h3>
+      <p>Attackers carry out buffer overflow exploits by sending a bunch of data to a program, more data than the program is expecting. This works when the (developer who wrote the) program doesn't check the size of user input before moving it around in memory.</p>
+      <h4>Stack-Based Buffer Overflow Attacks</h4>
+      <p>Suppose we have this program that asks for user input.</p>
+      <pre><code>void ask_input(const char *field)
+{
+    char myBuffer[50];
+    printf("Enter your %s:\n", field);
+    gets(buffer);
+    return;
+}</code></pre>
+      <p>This is what the stack would look like when that function is called:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/security/stack_buffer_overflow_1.png">
+      </div>
+      <div class="ln-box">
+        <p>The return pointer is where execution goes after the function returns.</p>
+      </div>
+      <p><code>myBuffer</code> can hold 50 bytes. What happens if more than 50 bytes is entered? (For example, let's say a long string of As.)</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/security/stack_buffer_overflow_2.png">
+      </div>
+      <p>The return pointer is now filled with a bunch of As. So when the computer tries to go to the next memory location of 0x41414141..., the program will crash. (41 is A in hexadecimal.)</p>
+      <p>So how can an attacker take advantage of this? The attacker could enter ASCII characters corresponding to machine language code that executes whatever command they want. They would need to enter it in a way such that <code>myBuffer</code> contains the malicious command* and the return pointer is overwritten to point back into <code>myBuffer</code><sup>†</sup>.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/security/stack_buffer_overflow_3.png">
+      </div>
+      <div class="ln-box">
+        <p>*<sup>†</sup>If this sounds complicated, it's because it is. Everything has to be formatted precisely in order for this to work.</p>
+      </div>
+      <p>The most useful command to force the computer to run is to open the command shell, because then the attacker can run any command they want on the shell.</p>
+      <h4>Finding Buffer Overflow Vulnerabilities</h4>
+      <p>How do attackers know a program is susceptible to a stack-based buffer overflow attack, especially if they don't have access to the source code? One way is to analyze the program by using a debugger. A debugger can show the outputs of a CPU's registers, including the value of the return pointer.</p>
+      <p>Suppose the attacker enters a string of As ("AAA...AAA") and sees this when they inspect the return pointer:</p>
+      <div class="ln-center">
+        <p><code>return pointer = AAAA</code></p>
+      </div>
+      <p>Now they need to figure out which part of the string is being injected into the return pointer. So they can try a string like "ABCDEF...XYZABC...". Suppose they see this return pointer:</p>
+      <div class="ln-center">
+        <p><code>return pointer = DEFG</code></p>
+      </div>
+      <p>Next with "ABCDEF1DEF2DEF3...":</p>
+      <div class="ln-center">
+        <p><code>return pointer = DEF8</code></p>
+      </div>
+      <p>Now the attacker knows exactly which location in the string modifies the return pointer.</p>
+      <p>But what value should the return pointer be? That is, how does the attacker know exactly what address their malicious command will be at?</p>
+      <p>Instead of finding that exact address, they can put in a guess and try to force the execution towards their malicious command.</p>
+      <div class="ln-box">
+        <p>A NOP (No Operation) instruction tells the processor to do nothing for a single CPU cycle.</p>
+      </div>
+      <p>Attackers can prepend their malicious command with a bunch of NOPs, creating a NOP sled. If the attacker luckily guesses a memory address that contains a NOP, then execution will go through all the NOPs to eventually run the malicious command.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-smaller" src="../pictures/security/nop_sled.png">
+      </div>
+      <div class="ln-box">
+        <p>The combined NOP sled and machine language code (malicious command) is sometimes called the exploit's <em>egg</em>. The entire package, including the code that alters the return pointer, is formally called an <em>exploit</em>, informally called a <em>sploit</em>.</p>
+      </div>
       <h2 id="cryptography">Cryptography</h2>
       <p>Cryptography is how information is kept secret. It aims to provide the following:</p>
       <ul>
