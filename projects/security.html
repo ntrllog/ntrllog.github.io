@@ -34,8 +34,11 @@
         <li><a class="dropdown-item" href="#reconnaissance">Phase 1: Reconnaissance</a></li>
         <li><a class="dropdown-item" href="#scanning">Phase 2: Scanning</a></li>
         <li><a class="dropdown-item" href="#gainingaccessappandos">Phase 3: Gaining Access Using Application and Operating System Attacks</a></li>
-        <li><a class="dropdown-item" href="#cryptography">Cryptography</a></li>
-        <li><a class="dropdown-item" href="#linklayersecurity">Link Layer Security</a></li>
+        <li><a class="dropdown-item" href="#appendix">Appendix</a></li>
+        <li><a class="dropdown-item" href="#cryptography">A1) Cryptography</a></li>
+        <li><a class="dropdown-item" href="#linklayersecurity">A2) Link Layer Security</a></li>
+        <li><a class="dropdown-item" href="#vpns">A3) VPNs</a></li>
+        <li><a class="dropdown-item" href="#ipsec">A4) IPsec</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -323,11 +326,11 @@
         <p>Tracerouting uses the TTL field in the IP header. The TTL is decremented by the maximum of</p>
         <ul>
           <li>the number of seconds the router takes to route the packet</li>
-          <li>1</li>
+          <li>`1`</li>
         </ul>
-        <p>Packets are usually sent in less than a second, so the TTL is usually decremented by 1.</p>
+        <p>Packets are usually sent in less than a second, so the TTL is usually decremented by `1`.</p>
       </div>
-      <p>If a router decrements the TTL to 0, it will send an ICMP Time Exceeded message, where the source address of the message is the IP address of that router. So if an attacker starts a traceroute with a TTL of 1, it will learn the IP address of the first router. If the attacker starts a traceroute with a TTL of 2, it will also learn the IP address of the second router. And so on.</p>
+      <p>If a router decrements the TTL to `0`, it will send an ICMP Time Exceeded message, where the source address of the message is the IP address of that router. So if an attacker starts a traceroute with a TTL of `1`, it will learn the IP address of the first router. If the attacker starts a traceroute with a TTL of `2`, it will also learn the IP address of the second router. And so on.</p>
       <h4>Cheops-ng</h4>
       <p>Cheops-ng is network-mapping tool that uses pings and traceroute.</p>
       <h4>Defenses Against Network Mapping</h4>
@@ -346,7 +349,7 @@
       <p>If a port is closed, the target machine doesn't send the SYN-ACK. Depending on the machine and the network configurations, it could return nothing, a RESET packet, or an ICMP Port Unreachable packet.</p>
       <p>Connect scans are really easy to detect because completed TCP connections are logged in the system.</p>
       <h5>A Little Stealthier: TCP SYN Scans</h5>
-      <p>SYN scans only do the first 2 parts of the three-way handshake. They send a SYN and wait for the SYN-ACK. If they get the SYN-ACK, they send a RESET to abort the connection.</p>
+      <p>SYN scans only do the first two parts of the three-way handshake. They send a SYN and wait for the SYN-ACK. If they get the SYN-ACK, they send a RESET to abort the connection.</p>
       <p>Same as earlier, if a port is closed, the attacker receives no response, a RESET packet, or an ICMP Port Unreachable packet.</p>
       <p>Because the TCP connection is never established, there is no evidence of it in the logs. However, routers, firewalls, and other systems can still detect incoming SYN packets.</p>
       <p>Another advantage of SYN scans is that they are faster because they don't have to wait for the connection to be torn down.</p>
@@ -372,27 +375,27 @@
       </div>
       <ol>
         <li>The attacker picks a machine that is idle and has a predictable IP ID field.</li>
-        <li>The attacker sends a SYN packet to that machine. This allows the attacker to learn the current value of the machine's IP ID (we'll call it X) when it responds with the SYN-ACK.</li>
+        <li>The attacker sends a SYN packet to that machine. This allows the attacker to learn the current value of the machine's IP ID (we'll call it `X`) when it responds with the SYN-ACK.</li>
         <li>The attacker sends a SYN packet to the target port and spoofs the source IP address so it looks like the SYN packet is coming from the idle machine.</li>
         <li>The attacker sends a SYN packet to the idle machine and looks at the IP ID field.</li>
       </ol>
-      <p>If the IP ID value is X+1, then the port is closed.</p>
+      <p>If the IP ID value is `X+1`, then the port is closed.</p>
       <div class="ln-box">
-        <p>When the idle machine "sent" the SYN packet to the target port, if the port was closed, it would've sent nothing or a RESET to the idle machine. The idle machine, in response to either of these two situations, didn't send any packets, keeping the IP ID field at X.</p>
-        <p>Then when the attacker sent a SYN packet to the idle machine, the idle machine sent a SYN-ACK to the attacker, incrementing the IP ID field by 1.</p>
+        <p>When the idle machine "sent" the SYN packet to the target port, if the port was closed, it would've sent nothing or a RESET to the idle machine. The idle machine, in response to either of these two situations, didn't send any packets, keeping the IP ID field at `X`.</p>
+        <p>Then when the attacker sent a SYN packet to the idle machine, the idle machine sent a SYN-ACK to the attacker, incrementing the IP ID field by `1`.</p>
       </div>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/security/idle_scanning_closed.gif">
       </div>
-      <p>If the IP ID value is X+2, then the port is most likely open.</p>
+      <p>If the IP ID value is `X+2`, then the port is most likely open.</p>
       <div class="ln-box">
-        <p>When the idle machine "sent" the SYN packet to the target port, if the port was listening, it would've sent a SYN-ACK to the idle machine. The idle machine, getting a SYN-ACK for non-existent connection, would've sent a RESET packet, incrementing the IP ID field by 1.</p>
-        <p>Then when the attacker sent a SYN packet to the idle machine, the idle machine sent a SYN-ACK to the attacker, incrementing the IP ID field by 1 again.</p>
+        <p>When the idle machine "sent" the SYN packet to the target port, if the port was listening, it would've sent a SYN-ACK to the idle machine. The idle machine, getting a SYN-ACK for non-existent connection, would've sent a RESET packet, incrementing the IP ID field by `1`.</p>
+        <p>Then when the attacker sent a SYN packet to the idle machine, the idle machine sent a SYN-ACK to the attacker, incrementing the IP ID field by `1` again.</p>
       </div>
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/security/idle_scanning_open.gif">
       </div>
-      <p>It is not guaranteed to be open because the machine may not be truly idle; it may send a packet in response to something completely unrelated. So an IP ID value of X+2 could falsely report a closed port as open.</p>
+      <p>It is not guaranteed to be open because the machine may not be truly idle; it may send a packet in response to something completely unrelated. So an IP ID value of `X+2` could falsely report a closed port as open.</p>
       <h5>Don’t Forget UDP!</h5>
       <p>UDP scanning is another option, but it's less reliable. Because there's no connection that needs to be established, a UDP port does not need to send anything at all. So no response could either mean the port is closed, the port is open and not sending anything, or the port is open but the packets are getting filtered.</p>
       <h5>Setting Source Ports for a Successful Scan</h5>
@@ -455,7 +458,7 @@
       <h5>How Firewalk Works</h5>
       <p>The main idea behind Firewalk is that it sends a packet to a machine that is on the other side of the firewall (we'll call it the target machine), and if it receives a response from that machine, then the packet is not being filtered by the firewall. If no response is received, then the packet was likely filtered by the firewall.</p>
       <p>First, Firewalk determines the number of router hops to the firewall by sending a series of packets with incrementing TTLs (like in traceroute).</p>
-      <p>Once Firewalk knows how many hops it takes to reach the firewall, it will then start sending packets to the target machine on the other side of the firewall. The packets will have a TTL of (number of hops to firewall + 1).</p>
+      <p>Once Firewalk knows how many hops it takes to reach the firewall, it will then start sending packets to the target machine on the other side of the firewall. The packets will have a TTL of (number of hops to firewall + `1`).</p>
       <p>If a packet gets through the filter, an ICMP Time Exceeded message will be sent by the machine that is exactly one hop away from the firewall. Or, if the machine that is exactly one hop away from the firewall is the target machine, then it might respond with an ICMP Port Unreachable or even a SYN-ACK. Whatever the response is, if the attacker received <em>something</em>, then they know the firewall allowed their packet through.</p>
       <div class="ln-box">
         <p>The TTL is important for Firewalk to work correctly; it can't just send a packet to the target machine with an arbitrary TTL. If the TTL is too small, then the packet won't even reach the firewall.</p>
@@ -691,7 +694,8 @@
           </ul>
         </li>
       </ul>
-      <h2 id="cryptography">Cryptography</h2>
+      <h2 id="appendix">Appendix</h2>
+      <h2 id="cryptography">A1) Cryptography</h2>
       <p>Cryptography is how information is kept secret. It aims to provide the following:</p>
       <ul>
         <li>Confidentiality: keeps information secret</li>
@@ -735,11 +739,17 @@
           <li>If the two hash values are the same, then the message came from you and was unchanged</li>
         </ol>
       </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/digital_signature.png">
+      </div>
       <h4>Digital Certificates</h4>
       <p>What if you never sent a message to me, but I received a message with a digital signature claiming to be yours? In this scenario, suppose an attacker is pretending to be you and puts a public key (the attacker's, not yours) online, advertising that it is "your" public key. Then the attacker uses their private key to create the digital signature and sends it to me. When I use "your" (the attacker's) public key, the signature will verify correctly, and I'll believe the message is yours.</p>
       <p>Digital certificates prevent this situation from happening.</p>
       <p>You can register your key pair with a certificate authority (CA). The CA issues you a digital certificate with your public key on it and signs it using the CA's private key. Now, if I want to check that an advertised public key is actually yours, I can use the CA's public key on the digital certificate to see your registered public key and compare what's advertised with what's on the certificate.</p>
-      <h2 id="linklayersecurity">Link Layer Security</h2>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/digital_certificate.png">
+      </div>
+      <h2 id="linklayersecurity">A2) Link Layer Security</h2>
       <h3>Port Security</h3>
       <p>A router/switch's port can be configured to only allow certain MAC addresses to connect to the LAN. This mechanism is called port security.</p>
       <h3>MAC Address Floods and Port Security</h3>
@@ -747,7 +757,7 @@
         <p>This was described in the networking resource as switch poisoning.</p>
       </div>
       <div class="ln-box">
-        <p>A CAM (Content Addressable Memory) table is a table in a switch that stores MAC addresses.</p>
+        <p>A CAM (Content Addressable Memory) table is a table in a switch that stores MAC addresses. Specifically, they store mappings from MAC addresses to ports.</p>
       </div>
       <p>Recall that when a switch receives a frame and the destination MAC address isn't in its switch table, the switch broadcasts the frame to everyone. An attacker takes advantage of this by sending a bunch of frames with fake source MAC addresses to a switch, filling up its CAM table. So when a legitimate frame arrives at the switch, the frame's destination MAC address won't exist in the CAM table and the switch will broadcast (flood) the frame to everyone.</p>
       <p>This has two effects. The first is that network traffic increases due to flooding, and this can result in a denial of service (DoS). The second is that the attacker can receive the flooded frames.</p>
@@ -861,6 +871,202 @@
       <p>Here's where the security of PAT comes in. If some random messages destined for the routable IP address arrived at the router without anyone asking for them, the router would drop those messages because it would not know which device to send them to (there would be no entries in its NAT table because no one asked for those messages).</p>
       <h3>Disadvantages of Relying on NAT for Security</h3>
       <p>Since NAT only looks at the port number and nothing else, NAT is not <em>that</em> secure. Basically, NAT is not secure because it doesn't do what stateful or proxy-based firewalls do.</p>
+      <h2 id="vpn">A3) VPNs</h2>
+      <p>A VPN is simply a connection between two devices or networks that have a public network between them. They're typically used to carry traffic privately over the Internet, so a VPN can be thought of as a tunnel between two devices/networks.</p>
+      <h3>Encrypted VPNs</h3>
+      <p>Most people are familiar with a VPN as a way to have their traffic encrypted (looking at you, NordVPN).</p>
+      <h3>Nonencrypted VPNs</h3>
+      <p>But not all VPNs encrypt traffic. After all, the primary purpose of a VPN is to allow for communication between two devices or networks.</p>
+      <h3>Intranet VPNs</h3>
+      <p>Intranet VPNs connect private networks belonging to the same organization. For example, a remote office connected to headquarters.</p>
+      <h3>Extranet VPNs</h3>
+      <p>Extranet VPNs connect private networks belonging to different organizations.</p>
+      <h2 id="ipsec">A4) IPsec</h2>
+      <p>IPsec stands for IP Security. It is a suite of protocols used to create VPNs.</p>
+      <h3>Types of IPsec VPNs</h3>
+      <h4>LAN-to-LAN IPsec Implementations</h4>
+      <p>An IPsec tunnel that connects two LANs is referred to as... wait for it... a LAN-to-LAN VPN. These are used when users in one private network need to communicate with resources in different private network.</p>
+      <div class="ln-box">
+        <p>They're also called site-to-site VPNs.</p>
+      </div>
+      <h4>Remote-Access Client IPsec Implementations</h4>
+      <p>This is used to connect an individual user to a private network.</p>
+      <h3>Composition of IPsec</h3>
+      <p>IPsec consists of three main protocols:</p>
+      <ul>
+        <li>Internet Key Exchange (IKE)</li>
+        <li>Encapsulating Security Payload (ESP)</li>
+        <li>Authentication Header (AH)</li>
+      </ul>
+      <p>Broadly speaking, IKE is used to establish the rules for how the tunnel will be built and ESP applies those rules to the traffic.</p>
+      <div class="ln-box">
+        <p>Much of AH's functionality is embedded in ESP, so IKE and ESP are the ones that are mostly deployed together.</p>
+      </div>
+      <h3>Introduction to IKE</h3>
+      <div class="ln-box">
+        <p>This section goes over IKEv1. However, IKEv2 is the current implementation of the key-exchange protocol for IPsec VPNs.</p>
+      </div>
+      <p>IKE is responsible for</p>
+      <ul>
+        <li>Negotiating protocol parameters</li>
+        <li>Exchanging public keys</li>
+        <li>Authenticating both sides</li>
+        <li>Managing keys after the exchange</li>
+      </ul>
+      <p>IKE is a two-phase protocol. It first operates in main mode (or aggressive mode), then it switches to quick mode.</p>
+      <p>Roughly speaking, quick mode is used to establish the rules for how the tunnel will be built while main mode is used to establish the rules for how to protect the negotiations in quick mode.</p>
+      <div class="ln-box">
+        <p>Here's an analogy for main mode vs quick mode. Imagine that two business people want to discuss a private deal, but they don't want to discuss it out in public where they can be overheard. So they first establish a secure way to communicate (main mode) and then use that protected communication to talk about the deal (quick mode).</p>
+      </div>
+      <div class="ln-box">
+        <p>A Security Association (SA) is an agreement between two VPN endpoints that defines the security rules and parameters. For example, an SA contains information on what encryption algorithm and what integrity algorithm to use and the keys needed for those algorithms.</p>
+        <p>Main mode establishes the IKE SA (how IKE communication will be protected) and quick mode establishes the IPsec SA (how VPN traffic will be protected).</p>
+      </div>
+      <h3>IPsec Negotiation Using the IKE Protocol</h3>
+      <p>Six messages are exchanged in main mode between two IPsec peers, and three messages are exchanged in quick mode. One peer is an initiator and the other peer is the responder.</p>
+      <h4>Main Mode Using Preshared Key Authentication Followed by Quick Mode Negotiation</h4>
+      <p>In preshared key authentication, each peer is configured with a pair of preshared keys (each key is the same for each peer). These keys are used by the peers to authenticate each other at the end of main mode.</p>
+      <h5>IKE Phase 1 (Main Mode): Preparation for Sending Messages 1 and 2</h5>
+      <p>The first two messages of main mode are for deciding the encryption mechanism, hashing mechanism, authentication mechanism, and Diffie-Hellman exchange mechanism (more on this in a bit) for the IKE SA.</p>
+      <p>Before any messages can be sent, each peer must calculate cookies, which are used as unique identifiers for each peer.</p>
+      <div class="ln-box">
+        <p>The cookie is a pseudo-random number based on the source and destination IP address.</p>
+        <div class="ln-center">
+          <p>`C=md5(text(source IP), text(destination IP), text(random number), text(time), text(date))`</p>
+        </div>
+      </div>
+      <h5>IKE Phase 1 (Main Mode): Sending Message 1</h5>
+      <p>The initiator sends the first message, which has a proposal payload and a transform payload. The transform payload is a set of transforms, where a transform contains the parameters that the initiator wants to use. For example:</p>
+      <ul>
+        <li>Encryption mechanism: DES</li>
+        <li>Hashing mechanism: MD5-HMAC</li>
+        <li>Diffie-Hellman group: 1</li>
+        <li>Authentication mechanism: Preshared</li>
+      </ul>
+      <p>The proposal payload contains the number of transforms there are in this message.</p>
+      <p>The initiator's cookie is also included in the first message.</p>
+      <h5>IKE Phase 1 (Main Mode): Sending Message 2</h5>
+      <p>The responder picks the transform it agrees to use and sends that in the second message. The responder's cookie is also included in the second message.</p>
+      <h5>IKE Phase 1 (Main Mode): Preparation for Sending Messages 3 and 4</h5>
+      <p>This is where the Diffie-Hellman stuff comes in.</p>
+      <div class="ln-box">
+        <h5>Diffie-Hellman Algorithm</h5>
+        <p>A Diffie-Hellman group contains a pair of numbers `p` and `g`. `p` is a large prime number and `g` is called a generator. These numbers are publicly known and standardized, so when the initiator says it wants to use Diffie-Hellman group 1, the responder knows what values of `p` and `g` to use.</p>
+        <p>The initiator has a private secret number, call it `a`, and performs the following operations to get `X_a`:</p>
+        <div class="ln-center">
+          <p>`X_a=g^a mod p`</p>
+        </div>
+        <p>`X_a` is the initiator's DH public value.</p>
+        <p>The responder calculates its DH public value by doing the same thing with its private secret, call it `b`.</p>
+        <div class="ln-center">
+          <p>`X_b=g^b mod p`</p>
+        </div>
+        <p>The initiator will send `X_a` to the responder, and the responder will send `X_b` to the initiator. With these values, they can both generate the same secret number. The initiator will take the responder's `X_b` and perform</p>
+        <div class="ln-center">
+          <p>`(X_b)^a mod p`</p>
+        </div>
+        <p>The responder will take the initiator's `X_a` and perform</p>
+        <div class="ln-center">
+          <p>`(X_a)^b mod p`</p>
+        </div>
+        <p>And they will both be the same number. This is because</p>
+        <div class="ln-center">
+          <p>`(X_a)^b mod p = (g^a mod p)^b mod p = (g^a)^b mod p = g^(ab) mod p`</p>
+          <p>and</p>
+          <p>`(X_b)^a mod p = (g^b mod p)^a mod p = (g^b)^a mod p = g^(ab) mod p`</p>
+        </div>
+        <p>The beauty of this is that the responder and initiator can generate a shared secret key without having to send over their own secret numbers.</p>
+      </div>
+      <p>The responder and initiator also each generate a nonce ("number used once"), which, in this case, is a very large random number.</p>
+      <h5>IKE Phase 1 (Main Mode): Sending Message 3</h5>
+      <p>The initiator sends the third message, which contains a key exchange (KE) payload and a nonce payload. The KE payload has the initiator's DH public value, and the nonce payload has the initiator's nonce.</p>
+      <h5>IKE Phase 1 (Main Mode): Sending Message 4</h5>
+      <p>The responder sends its own DH public value and nonce in the fourth message.</p>
+      <h5>IKE Phase 1 (Main Mode): Preparation for Sending Messages 5 and 6</h5>
+      <p>After receiving each other's DH public values, the initiator and the receiver both calculate the DH shared secret in order to generate three more keys. These keys are called session keys (SKEYS).</p>
+      <ul>
+        <li>SKEYID_d: used to generate keys for the IPsec SA</li>
+        <li>SKEYID_a: used to authenticate subsequent IKE messages</li>
+        <li>SKEYID_e: used to encrypt subsequent IKE messages</li>
+      </ul>
+      <div class="ln-box">
+        <p>Let `N_i,N_r` be the nonces of the initiator and responder respectively. Let `C_i,C_r` be the cookies of the initiator and responder respectively. Let `prf` be a pseudo-random function (based on the negotiated hashing mechanism from message 2). Let `g^(ab)` be the DH shared secret.</p>
+        <div class="ln-center">
+          <p>`text(SKEYID) = prf(text(preshared key), N_i, N_r)`</p>
+          <p>`text(SKEYID_d) = prf(text(SKEYID), g^(ab), C_i, C_r, 0)`</p>
+          <p>`text(SKEYID_a) = prf(text(SKEYID), text(SKEYID_d), g^(ab), C_i, C_r, 1)`</p>
+          <p>`text(SKEYID_e) = prf(text(SKEYID), text(SKEYID_a), g^(ab), C_i, C_r, 2)`</p>
+        </div>
+      </div>
+      <h5>IKE Phase 1 (Main Mode): Sending Message 5</h5>
+      <p>The initiator sends the fifth message, which contains an identity payload and a hash payload. The identity payload contains the initiator's IP address, and the hash payload contains a hash, which acts as a digital signature for authentication. The two payloads are encrypted using SKEYID_e.</p>
+      <div class="ln-box">
+        <div class="ln-center">
+          <p>`text(hash_i)=prf(text(SKEYID),C_i,C_r,text(preshared key),text(message),text(ID_i))`</p>
+        </div>
+      </div>
+      <h5>IKE Phase 1 (Main Mode): Sending Message 6</h5>
+      <p>The responder sends its own identity payload and hash payload in the sixth message.</p>
+      <h5>Completion of IKE Phase 1 (Main Mode) Using Preshared Keys</h5>
+      <p>The initiator and responder authenticate each other by recalculating the hash and comparing it to the one they received in the hash payload. If they're the same, then they have successfully authenticated.</p>
+      <p>At this point, the IKE SA is established and main mode is done.</p>
+      <h5>IKE Phase 2 (Quick Mode): Preparation for Sending Messages 1 and 2</h5>
+      <p>The first two messages of quick mode are for deciding the parameters of the IPsec SA (just like how the first two messages of main mode were for deciding the parameters of the IKE SA).</p>
+      <h5>PFS</h5>
+      <p>PFS stands for Perfect Forward Secrecy. It means generating a new DH secret for the keying material of the IPsec SA. The idea is to protect VPN traffic in case the original DH secret were to get compromised.</p>
+      <div class="ln-box">
+        <p>Let's see what happens if PFS isn't used. Suppose an attacker finds a way to record VPN traffic. And then suppose the attacker somehow discovers the DH secret. The attacker can now decrypt the VPN traffic that they recorded.</p>
+      </div>
+      <h5>IKE Phase 2 (Quick Mode): Sending Message 1</h5>
+      <p>The initiator sends the first message, which has a proposal payload and a transform payload, just like in main mode. Some of the parameters are different though. For example:</p>
+      <ul>
+        <li>Encapsulation: ESP</li>
+        <li>Integrity checking: SHA-HMAC</li>
+        <li>Diffie-Hellman group: 2</li>
+        <li>Mode: Tunnel</li>
+      </ul>
+      <p>The first message also includes the initiator's choice on whether PFS should be used.</p>
+      <h5>IKE Phase 2 (Quick Mode): Sending Message 2</h5>
+      <p>The responder picks the transform it agrees to use and sends that in the second message.</p>
+      <h5>IKE Phase 2 (Quick Mode): Preparation for Sending Message 3</h5>
+      <p>If PFS was agreed to, then the initiator and the responder generate a new DH secret and session keys. Technically, the VPN tunnel is operational at this point.</p>
+      <h5>IKE Phase 2 (Quick Mode): Sending Message 3</h5>
+      <p>The third message is sent by the initiator to verify the liveness of the responder. And that concludes quick mode.</p>
+      <div class="ln-box">
+        <p>In quick mode, the responder sends only one message. So it needs to know whether the initiator got it.</p>
+        <p>In addition, the third message also proves to the responder that the initiator is a valid peer, and not an attacker replaying the first quick mode message. Not having the third message is like an attacker sending SYN packets to leave a bunch of half-open TCP connections running (SYN flooding).</p>
+      </div>
+      <h3>Encryption and Integrity-Checking Mechanisms in IPsec</h3>
+      <p>If ESP was set up as the encapsulation mechanism, then encryption will happen. Both ESP and AH include integrity checking hashes.</p>
+      <h4>Encryption</h4>
+      <div class="ln-box">
+        <p>This section goes over DES, which is an insecure encryption mechanism. It was replaced by AES (Advanced Encryption Standard).</p>
+      </div>
+      <p>DES (Data Encryption Standard) is a symmetric key algorithm. Recall that symmetric means that the same key is used to encrypt and decrypt data.</p>
+      <p>It uses what is called Cipher Block Chaining (CBC), which works by encrypting the data in blocks of 64 bits.</p>
+      <div class="ln-box">
+        <p>Each block of data is XORed with the previous encrypted block. Then the result of that is encrypted.</p>
+        <p>The first 64 bits of data don't have a previous encrypted block to XOR with, so it's XORed with an initialization vector (IV), which is just a random string of bits. </p>
+      </div>
+      <h4>Integrity Checking</h4>
+      <p>HMAC (Message Authentication Codes using Hashing) uses hashing for authentication. Hashing (as opposed to encryption) is a nonreversible function, meaning that it is (nearly) impossible to retrieve the input from the output.</p>
+      <p>ESP and AH calculate a hash on the packet and includes that hash in the packet. When the receiver gets the packet, it calculates the hash on the packet and checks to see if its own calculation matches the hash that was sent in the packet. If they match, the message is authenticated.</p>
+      <h3>Packet Encapsulation in IPsec</h3>
+      <p>Packet encapsulation is the process of encrypting the data and generating the hashes. It's handled by ESP or AH or both.</p>
+      <h4>Tunnel Mode</h4>
+      <p>In tunnel mode, the IP header uses the IP addresses of the VPN endpoints as the source and destination. Tunnel mode is the most used mode in IPsec deployments.</p>
+      <h4>Transport Mode</h4>
+      <p>In transport mode, the IP header uses the IP addresses of the actual devices as the source and destination.</p>
+      <h4>ESP (Encapsulating Security Payload)</h4>
+      <p>ESP is the protocol that defines how to encapsulate the IP packet and how to encrypt and authenticate the data. ESP uses DES for encryption, and the keys for encryption were generated in IKE's quick mode. </p>
+      <h4>AH (Authentication Header)</h4>
+      <p>AH is the protocol that authenticates the data. The difference between ESP and AH is that AH only provides authentication. So all it ensures is that the hash is included in the packet.</p>
+      <h3>IPsec Dead Peer Discovery Mechanism</h3>
+      <p>When a peer wants to disconnect, it normally sends a delete notification to the other peer. However, there are times when the peer can be disconnected because it crashed or because of network issues. For cases like these, there is a dead peer discovery mechanism that detects when a peer is no longer alive.</p>
+      <p>If peer A has data to send to peer B and it hasn't received any data from peer B in a long time, it first sends a notify payload to peer B. If peer B is alive, it sends back its own notify payload. Then peer A sends the data to peer B.</p>
+      <div class="ln-box">
+        <p>The time is configured as a "worry metric".</p>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
