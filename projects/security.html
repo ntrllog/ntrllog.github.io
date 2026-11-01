@@ -34,6 +34,7 @@
         <li><a class="dropdown-item" href="#reconnaissance">Phase 1: Reconnaissance</a></li>
         <li><a class="dropdown-item" href="#scanning">Phase 2: Scanning</a></li>
         <li><a class="dropdown-item" href="#gainingaccessappandos">Phase 3: Gaining Access Using Application and Operating System Attacks</a></li>
+        <li><a class="dropdown-item" href="#gainingaccessnetwork">Phase 3: Gaining Access Using Network Attacks</a></li>
         <li><a class="dropdown-item" href="#appendix">Appendix</a></li>
         <li><a class="dropdown-item" href="#cryptography">A1) Cryptography</a></li>
         <li><a class="dropdown-item" href="#linklayersecurity">A2) Link Layer Security</a></li>
@@ -260,9 +261,22 @@
         <img class="img-fluid ln-image-small" src="../pictures/security/split_dns.png">
       </div>
       <p>The internal DNS server never communicates with the Internet. If an internal device needs to resolve a name that is on the Internet, it asks the internal DNS server, which then asks the external DNS server.</p>
+      <div class="ln-box">
+        <h3>Tools</h3>
+        <ul>
+          <li>social engineering</li>
+          <li>Google</li>
+          <li>whois databases</li>
+          <li>Sam Spade - general-purpose reconnaissance tool (obsolete)
+            <ul>
+              <li>ping, whois lookup, zone transfer, traceroute, web crawler</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
       <h2 id="scanning">Phase 2: Scanning</h2>
       <p>Scanning is a process attackers use to find an opening into the network they are trying to attack.</p>
-      <h3>War Driving</h3>
+      <h3>War Driving: Finding Wireless Access Points</h3>
       <p>Imagine you're looking for free Wi-Fi, so you drive around looking for networks without that lock symbol. This is kinda what war driving is. In more technical terms, war driving is the process of looking for accessible and unsecured WLANs.</p>
       <p>A network might have one or more wireless access points that allow devices to connect to that network wirelessly. Attackers target these access points to try to gain entry into a network.</p>
       <div class="ln-box">
@@ -276,15 +290,15 @@
       <div class="ln-box">
         <p>The attacker may already have a specific target in mind, or they may just be looking for any vulnerable targets in the area.</p>
       </div>
-      <h4>Active Scanning - NetStumbler</h4>
+      <h4>War Driving Method 1: Active Scanning—Sending Probe Packets with NetStumbler</h4>
       <p>In the 802.11 (a.k.a. Wi-Fi) protocol, a device can send a probe request message to an access point. A probe request is supposed to include the ESSID so that only the access point(s) with that specified ESSID responds. But access points can be (and often are by default) configured to respond to probe requests that specify "Any" as the ESSID. And under the 802.11 protocol, the response must include the ESSID. So an attacker can just send out a bunch of probe requests with ESSID="Any" to all access points in the area and gather their responses, generating a nice list of ESSIDs.</p>
       <p>NetStumbler, which is one of the most popular scanning tools, does this probe request stuff. NetStumbler goes even further by collecting a whole slew of information, including encryption method. An attacker using NetStumbler can easily identify networks that are using weak encryption.</p>
-      <h4>Listening for Beacons and Other Traffic - Wellenreiter</h4>
+      <h4>War Driving Method 2: Listening for Beacons and Other Traffic with Wellenreiter</h4>
       <p>So what happens if an access point is configured to ignore probe requests with ESSID="Any"? Well, under the 802.11 protocol, access points periodically send out beacon packets to synchronize their clocks with the devices that are connected. These beacons usually include the ESSID, so an attacker can also capture these beacon packets.</p>
       <p>This can be done by (loosely speaking) putting the device into rfmon mode, a.k.a. monitor mode, which allows the device to collect all wireless traffic, not just the traffic directed to that device.</p>
       <p>So what happens if an access point is configured to omit ESSIDs from beacons? Well, any wireless traffic between an access point and all devices connected to it will have the ESSID information, so an attacker can just use rfmon mode to collect wireless traffic and get the ESSID from there.</p>
       <p>Wellenreiter is a tool that does this rfmon mode stuff. Futhermore, Wellenreiter also listens for ARP and DHCP traffic to determine MAC and IP addresses.</p>
-      <h4>Forcing Deauthentication with ESSID-Jack</h4>
+      <h4>War Driving Method 3: Forcing Deauthentication with ESSID-Jack</h4>
       <p>Okay, so the ultimate scenario: what if</p>
       <ul>
         <li>access points are configured to ignore ESSID="Any" probes</li>
@@ -331,8 +345,6 @@
         <p>Packets are usually sent in less than a second, so the TTL is usually decremented by `1`.</p>
       </div>
       <p>If a router decrements the TTL to `0`, it will send an ICMP Time Exceeded message, where the source address of the message is the IP address of that router. So if an attacker starts a traceroute with a TTL of `1`, it will learn the IP address of the first router. If the attacker starts a traceroute with a TTL of `2`, it will also learn the IP address of the second router. And so on.</p>
-      <h4>Cheops-ng</h4>
-      <p>Cheops-ng is network-mapping tool that uses pings and traceroute.</p>
       <h4>Defenses Against Network Mapping</h4>
       <p>Pretty much, use firewalls and router packet filtering.</p>
       <ul>
@@ -342,8 +354,6 @@
       <h4>Determining Open Ports Using Port Scanners</h4>
       <p>After knowing the addresses of live systems and gaining a basic understanding of the network topology, an attacker would want to find potential entryways into the systems by finding open ports. In doing this, the attacker can also learn which services are in use. For example, if port 80 is open, then most likely a Web server is running on that machine.</p>
       <p>A port scanner sends packets to various ports to determine if any service is listening there.</p>
-      <h5>Nmap: A Full-Featured Port-Scanning Tool</h5>
-      <p>Nmap is the most popular port-scanning tool.</p>
       <h5>The Polite Scan: TCP Connect</h5>
       <p>TCP Connect scans attempt to complete the three-way handshake with each port. So they send a SYN, wait for the SYN-ACK, and then send an ACK along with FIN to tear down the TCP connection.</p>
       <p>If a port is closed, the target machine doesn't send the SYN-ACK. Depending on the machine and the network configurations, it could return nothing, a RESET packet, or an ICMP Port Unreachable packet.</p>
@@ -363,7 +373,7 @@
       <p>Unfortunately for the attackers, different operating systems behave differently in response to ACK packets. For example, some operating systems send a RESET if the port is open, whereas others send it if the port is closed. So an ACK scan isn't really used for finding open ports. It's more for finding out if a machine is running at the target address.</p>
       <h5>Obscuring the Source: FTP Bounce Scans</h5>
       <p>The one big problem with all of these scans is that the network can identify where they're coming from by looking at the source IP address of the messages. But there are ways for an attacker to involve another machine so that it looks like the scans are coming from somewhere else.</p>
-      <p>Some FTP servers allow users to connect to them and request that server to send a file to another system. So an attacker would request the FTP server to forward a file to a specific port on the target machine. Depending on the response, the attacker will know whether the port is open or closed. And best of all, for the attacker, the traffic to the port is coming from the FTP server, so the attacker's IP address is not exposed.</p>
+      <p>Some FTP servers allow users to connect to them and request that server to send a file to another system. So an attacker would request the FTP server to forward a file to a specific port on the target machine. Depending on the response, the attacker will know whether the port is open or closed. And best of all (for the attacker), the traffic to the port is coming from the FTP server, so the attacker's IP address is not exposed.</p>
       <div class="ln-box">
         <p>The firewalls and routers may not see the attacker's IP address, but the FTP server's logs will have it.</p>
       </div>
@@ -408,7 +418,7 @@
       <h5>Decoys Aren’t Just for Duck Hunters Any More</h5>
       <p>Attackers can also try to hide their packets by generating decoy packets with fake source addresses. The attacker's actual address must be included along with the fake addresses so that the attacker can get the results from the scan back.</p>
       <h5>Useful Timing Options</h5>
-      <p>Nmap has different options for how fast or slow packets should be sent. Maybe they want to avoid being detected and will spread out the packets. Or maybe they want to conduct a scan as quickly as possible and send out packets quickly.</p>
+      <p>Nmap (a port scanning tool) has different options for how fast or slow packets should be sent. Maybe they want to avoid being detected and will spread out the packets. Or maybe they want to conduct a scan as quickly as possible and send out packets quickly.</p>
       <ul>
         <li>Paranoid: Sends one packet approximately every five minutes resulting in a super-slow scan</li>
         <li>Sneaky: Sends one packet approximately every 15 seconds</li>
@@ -470,33 +480,6 @@
         <li>make sure your firewall is configured with a minimum set of ports allowed through it</li>
         <li>use proxy-based firewalls</li>
       </ul>
-      <h4>What We Have So Far</h4>
-      <table class="table table-bordered">
-        <tr>
-          <th>What the Attacker Knows</th>
-          <th>Tools</th>
-        </tr>
-        <tr>
-          <td>List of address of live hosts on the network</td>
-          <td>Ping and Cheops-ng</td>
-        </tr>
-        <tr>
-          <td>General network topology</td>
-          <td>Traceroute and Cheops-ng</td>
-        </tr>
-        <tr>
-          <td>List of open ports on live hosts</td>
-          <td>Nmap port scan</td>
-        </tr>
-        <tr>
-          <td>Operating system types of live hosts</td>
-          <td>Active OS Fingerprinting</td>
-        </tr>
-        <tr>
-          <td>List of ports open through packet filters on the target network</td>
-          <td>Firewalk</td>
-        </tr>
-      </table>
       <h4>Vulnerability-Scanning Tools</h4>
       <p>Now, the attackers have a lot of information, but that information alone isn't enough for attackers to get into target systems. What they need is a vulnerability to exploit.</p>
       <p>Vulnerability scanners automate the process of connecting to a target system and checking to see if there are any vulnerabilities. They have a database of known vulnerabilities and check to see if any of them are present on the target.</p>
@@ -508,11 +491,8 @@
       <div class="ln-box">
         <p>For example, if the attacker knows they're dealing with Windows machines, they can check to see if they're misconfigured to allow the attacker to gather a complete list of users.</p>
       </div>
-      <h5>Nessus: The Most Popular Free Vulnerability Scanner Available Today</h5>
-      <p>Because it's free and supports custom scripts (plug-ins).</p>
-      <p>Nessus is based on a client-server architecture, where the server does all the heavy lifting (vulnerability database, scanning engine) and the client reports the results.</p>
       <h5>So, What Does an Attacker Do with These Results?</h5>
-      <p>They look for particular exploits based on the vulnerabilities.</p>
+      <p>After the tool generates a list of discovered vulnerabilities, attackers look for particular exploits based on the vulnerabilities.</p>
       <h5>Vulnerability-Scanning Defenses</h5>
       <ul>
         <li>close all unused ports</li>
@@ -538,12 +518,28 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/security/fragment_overlap_attack.gif">
       </div>
-      <h5>FragRouter: A Nifty Tool for Conducting Fragmentation Attacks to Evade IDS and IPS Tools</h5>
-      <p>See title.</p>
       <h4>IDS and IPS Evasion Defenses</h4>
       <ul>
         <li>keep the IDS and IPS systems and signatures up to date</li>
       </ul>
+      <div class="ln-box">
+        <h3>Tools</h3>
+        <ul>
+          <li>NetStumbler - discovering WLANS using active scanning (obsolete)</li>
+          <li>Wellenreiter - discovering WLANS using monitor mode (obsolete)</li>
+          <li>ESSID-Jack - forcing devices off the WLAN (obsolete)</li>
+          <li>Cheops-ng - network mapping using pings and traceroutes (obsolete)</li>
+          <li>Nmap - port scanning
+            <ul>
+              <li>OS fingerprinting</li>
+            </ul>
+          </li>
+          <li>Firewalk - determining firewall rules (obsolete)</li>
+          <li>Nessus - vulnerability scanner</li>
+          <li>FragRouter - evade IDS by using fragmentation attacks</li>
+          <li>Whisker - evade IDS at application level (obsolete)</li>
+        </ul>
+      </div>
       <h2 id="gainingaccessappandos">Phase 3: Gaining Access Using Application and Operating System Attacks</h2>
       <p>After scanning the network and building a list of target systems and their vulnerabilities, it's time for the attacker to attack.</p>
       <h3>Buffer Overflow Exploits</h3>
@@ -570,11 +566,14 @@
       </div>
       <p>The return pointer is now filled with a bunch of As. So when the computer tries to go to the next memory location of 0x41414141..., the program will crash. (41 is A in hexadecimal.)</p>
       <p>So how can an attacker take advantage of this? The attacker could enter ASCII characters corresponding to machine language code that executes whatever command they want. They would need to enter it in a way such that <code>myBuffer</code> contains the malicious command* and the return pointer is overwritten to point back into <code>myBuffer</code><sup>†</sup>.</p>
+      <div class="ln-box">
+        <p>*<sup>†</sup>If this sounds complicated, it's because it is. Everything has to be formatted precisely in order for this to work.</p>
+      </div>
       <div class="ln-center">
         <img class="img-fluid ln-image-smaller" src="../pictures/security/stack_buffer_overflow_3.png">
       </div>
       <div class="ln-box">
-        <p>*<sup>†</sup>If this sounds complicated, it's because it is. Everything has to be formatted precisely in order for this to work.</p>
+        <p>An stack that has been overwritten is called a smashed stack.</p>
       </div>
       <p>The most useful command to force the computer to run is to open the command shell, because then the attacker can run any command they want on the shell.</p>
       <h4>Finding Buffer Overflow Vulnerabilities</h4>
@@ -624,7 +623,7 @@
       <h3>Password Attacks</h3>
       <p>Passwords are generally stored in a file somewhere on a system. Each password in the file is stored in their encrypted/hashed format so that if an attacker somehow obtained access to the file, the passwords wouldn't be obvious. When a user logs in, the system encrypts/hashes the inputted password and compares it with the encrypted/hashed entry in the password file, granting the user access if they match.</p>
       <h4>Password Guessing Through Login Attacks</h4>
-      <p>Obviously, an attacker can try to guess random passwords to see if they get lucky. But this is slow, because the attacker has to wait for the system to validate it. Also, the system can limit how many attempts are allowed.</p>
+      <p>Obviously, an attacker can try to guess random passwords to see if they get lucky. But this is slow, because the attacker has to wait for the system to validate it. Also, the system may limit how many attempts are allowed.</p>
       <h4>The Art and Science of Password Cracking</h4>
       <p>Instead, an attacker can bypass the system validation completely by obtaining the password file. Then they generate password guesses and encrypt/hash them, comparing them with any entries in the password file to see if there's a match. This is password cracking.</p>
       <p>Generating passwords, encrypting/hashing them, and comparing them against the password file can all be done locally on the attacker's machine. They can guess thousands or tens of thousands of passwords per second.</p>
@@ -694,6 +693,90 @@
           </ul>
         </li>
       </ul>
+      <div class="ln-box">
+        <h3>Tools</h3>
+        <ul>
+          <li>ADMutate - evade IDS detection of buffer overflow attacks (obsolete)</li>
+          <li>Cain and Abel - password cracker (obsolete)</li>
+          <li>John the Ripper - password cracker</li>
+          <li>L0phtCrack - password cracker</li>
+          <li>Achilles - web application manipulation proxy (obsolete)</li>
+        </ul>
+      </div>
+      <h2 id="gainingaccessnetwork">Phase 3: Gaining Access Using Network Attacks</h2>
+      <p>Besides using application or OS attacks, attackers can also use network attacks.</p>
+      <h3>Sniffing</h3>
+      <p>Attackers can use a sniffer to collect all traffic from a LAN. First, they have to gain access to a machine in the LAN (or connect their own machine to the LAN). Then they put the network interface in promiscuous mode. Normally, network interfaces only accept frames that have their MAC address as the destination. But in promiscuous mode, network interfaces accept all frames, regardless of the destination MAC address.</p>
+      <div class="ln-box">
+        <p>An attacker must also have admin privileges to run a sniffer. As we saw earlier, one way to gain access is to use an application or OS attack, such as a buffer overflow attack.</p>
+      </div>
+      <p>One thing an attacker can do with a sniffer is to gather user IDs and passwords from clear-text protocols. Furthermore, if some of those credentials belong to accounts on other machines, they can take over another machine and run a sniffer there. This is called an island-hopping attack.</p>
+      <h4>Sniffing Through a Hub: Passive Sniffing</h4>
+      <div class="ln-box">
+        <p>I believe hubs became obsolete in the early 2000s. But the book was also written in the early 2000s, so here we are.</p>
+      </div>
+      <p>LANs used to be implemented with hubs. A hub forwards all traffic to all machines in the LAN (can you see why hubs are obsolete?). This is perfect for a passive sniffer, which can just naturally receive all the traffic.</p>
+      <h4>Active Sniffing: Sniffing Through a Switch and Other Cool Goodies</h4>
+      <p>LANs today are implemented using switched Ethernet. A switch looks at the destination MAC address of a frame and forwards it to the appropriate interface, meaning that only the intended target receives the traffic. This makes passive sniffers useless.</p>
+      <p>So active scanners have been developed to allow sniffing in a switched environment. These scanners are active because they inject traffic into the LAN to force traffic to be routed to the attacker.</p>
+      <h5>Foiling Switches with Floods</h5>
+      <p>A MAC flood (see <a href="#linklayersecurity">A2) Link Layer Security</a>) can cause a switch to act like a hub. When a switch's CAM table is full, it can start forwarding all traffic to all its interfaces. So an attacker can take advantage of this by flooding the LAN with random spoofed source MAC addresses.</p>
+      <h5>Foiling Switches with Spoofed ARP Messages</h5>
+      <p>If a switch is configured to stop storing new MAC addresses after its CAM table reaches a certain limit, then a MAC flood won't work. What the attacker can do then is to pretend to be the network's default gateway.</p>
+      <p>The attacker does this by sending fake ARP messages. The messages are fake because the attacker puts the default gateway's IP address* as the source address, instead of the attacker's IP address. When the switch receives these messages, it will associate the interface that the messages came from with the default gateway in its ARP table. So now all traffic will be forwarded to the attacker.</p>
+      <div class="ln-box">
+        <p>*The attacker would've learned the IP address of the default gateway from network mapping.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/arpspoof_1.png">
+      </div>
+      <p>But do you see a problem? All the traffic that is now going to the attacker is not going to the Internet. So any clients making requests won't receive any responses. The attacker must configure IP forwarding on their machine so that any traffic it receives gets forwarded to the actual default router.</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/arpspoof_2.png">
+      </div>
+      <h5>Foiling Switches with Port Stealing</h5>
+      <p>If the IP address-to-MAC address mappings are hard-coded into the ARP tables, then ARP spoofing won't work. The attacker can still pretend to be the default gateway; the attacker just has to go one layer lower.</p>
+      <p>The attacker does this by sending fake Ethernet frames. The frames are fake because the attacker puts the default gateway's MAC address* as the source address, instead of the attacker's MAC address.</p>
+      <div class="ln-box">
+        <p>*The attacker can learn the MAC address of the default gateway by sending an ARP request ("who is 192.168.1.1"?) or through passive sniffing for gratuitous ARPs.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/arpspoof_1.png">
+        <p>(This is the exact same picture as the ARP spoofing one!)</p>
+      </div>
+      <p>The same problem from before exists. Except this time, IP forwarding can't be used here. In the author's words, "the packets can’t simply be forwarded back through the switch to the gateway, because the attacker went to a great deal of trouble to convince the switch that the MAC address of the gateway was located on the same physical switch port as the attacker".</p>
+      <p>The attacker gets around this problem by temporarily holding the packets meant for the default gateway and sending ARP requests to the default gateway. When the default gateway responds, the switch receives this response and remaps the MAC address to the correct port in its CAM table. Then the attacker forwards all the packets it was holding, allowing the traffic to go to the Internet.</p>
+      <h5>Sniffing and Spoofing DNS</h5>
+      <p>Recall that the job of DNS is to provide the IP address of a server. So if a user wants to go to chase.com, DNS will provide the IP address of one of Chase's servers so that the user's browser can establish a TCP connection with that server.</p>
+      <p>A DNS spoofing attack works by sending false DNS information to a victim. First, the attacker sniffs the LAN, waiting for the victim to make a DNS query. When the victim makes a DNS query, the attacker sends back a fake DNS response, advertising that chase.com resolves to the attacker's IP address. If the attacker has made a website that looks exactly like Chase's website, the victim will think they are logging in to chase.com, when they are actually entering their email and password to a fake site.</p>
+      <h5>Sniffing HTTPS</h5>
+      <p>HTTPS traffic is encrypted, so even if the attacker can sniff this traffic, the attacker can't decrypt it. Only the browser and the server can decrypt the traffic because the browser and the server established an SSL connection with each other (so only they have the keys to encrypt/decrypt). If the attacker can get the victim's browser to establish an SSL connection with the attacker, then the attacker can decrypt the traffic.</p>
+      <p>The attacker has to convince the victim that they are chase.com. The problem is that if the connection is using HTTPS, the browser expects a digital certificate from chase.com (see <a href="#digitalcertificates">Digital Certificates</a>). The attacker, not being chase.com, can only send the victim a fake certificate. The browser will notice that this is a fake certificate and warn the victim. At this point, the attack can only continue if the victim decides to continue, despite being warned of the fake certificate.</p>
+      <p>If the victim does continue, the attacker has to relay the traffic to chase.com and the responses from chase.com back to the victim, so that the victim doesn't notice anything unusual. The attacker does this by setting up an SSL proxy. The proxy establishes one SSL connection with the victim and another SSL connection with chase.com. So whatever the victim sends to the attacker, the attacker sends to chase.com, and whatever chase.com sends to the attacker, the attacker sends to the victim.</p>
+      <p>Because the attacker is sitting in the middle, this type of attack is called a monkey-in-the-middle (mitm) attack.</p>
+      <div class="ln-box">
+        <p>There are some sites that only allow HSTS (HTTP Strict Transport Security). This means that there is no option to continue if the certificate is invalid. chase.com is one of those sites.</p>
+      </div>
+      <h4>Sniffing Defenses</h4>
+      <ul>
+        <li>use secure, encrypted protocols such as HTTPS and SSH</li>
+        <li>pay attention to warning messages</li>
+        <li>hard-code MAC addresses</li>
+        <li>use static (sticky) ARP tables</li>
+        <li>detect if an interface is running in promiscuous mode</li>
+      </ul>
+      <div class="ln-box">
+        <h3>Tools</h3>
+        <ul>
+          <li>Sniffit - passive LAN sniffing</li>
+          <li>Snort - network IDS that started as a sniffer</li>
+          <li>Dsniff - active sniffer
+            <ul>
+              <li>arpspoof, dnsspoof, webmitm</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
       <h2 id="appendix">Appendix</h2>
       <h2 id="cryptography">A1) Cryptography</h2>
       <p>Cryptography is how information is kept secret. It aims to provide the following:</p>
@@ -742,7 +825,7 @@
       <div class="ln-center">
         <img class="img-fluid ln-image-small" src="../pictures/security/digital_signature.png">
       </div>
-      <h4>Digital Certificates</h4>
+      <h4 id="digitalcertificates">Digital Certificates</h4>
       <p>What if you never sent a message to me, but I received a message with a digital signature claiming to be yours? In this scenario, suppose an attacker is pretending to be you and puts a public key (the attacker's, not yours) online, advertising that it is "your" public key. Then the attacker uses their private key to create the digital signature and sends it to me. When I use "your" (the attacker's) public key, the signature will verify correctly, and I'll believe the message is yours.</p>
       <p>Digital certificates prevent this situation from happening.</p>
       <p>You can register your key pair with a certificate authority (CA). The CA issues you a digital certificate with your public key on it and signs it using the CA's private key. Now, if I want to check that an advertised public key is actually yours, I can use the CA's public key on the digital certificate to see your registered public key and compare what's advertised with what's on the certificate.</p>
