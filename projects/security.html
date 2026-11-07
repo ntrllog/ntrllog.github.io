@@ -35,6 +35,7 @@
         <li><a class="dropdown-item" href="#scanning">Phase 2: Scanning</a></li>
         <li><a class="dropdown-item" href="#gainingaccessappandos">Phase 3: Gaining Access Using Application and Operating System Attacks</a></li>
         <li><a class="dropdown-item" href="#gainingaccessnetwork">Phase 3: Gaining Access Using Network Attacks</a></li>
+        <li><a class="dropdown-item" href="#dosattacks">Phase 3: Denial-of-Service Attacks</a></li>
         <li><a class="dropdown-item" href="#appendix">Appendix</a></li>
         <li><a class="dropdown-item" href="#cryptography">A1) Cryptography</a></li>
         <li><a class="dropdown-item" href="#linklayersecurity">A2) Link Layer Security</a></li>
@@ -765,7 +766,7 @@
         <li>use secure, encrypted protocols such as HTTPS and SSH</li>
         <li>pay attention to warning messages</li>
         <li>hard-code MAC addresses</li>
-        <li>use static (sticky) ARP tables</li>
+        <li>use static (sticky) ARP tables on sensitive networks</li>
         <li>detect if an interface is running in promiscuous mode</li>
       </ul>
       <h3>IP Address Spoofing</h3>
@@ -911,6 +912,145 @@
               <li>file transfer, port scanning, vulnerability scanning, reverse shell</li>
             </ul>
           </li>
+        </ul>
+      </div>
+      <h2 id="dosattacks">Phase 3: Denial-of-Service Attacks</h2>
+      <p>Sometimes, attackers aren't necessarily looking to gain access; sometimes, they just want to bring systems down.</p>
+      <p>DoS attacks generally fall into two categories: stopping a service and resource exhaustion. These could be done locally (the attacker has access to the machine they are targeting) or remotely (the attacker attacks the target machine from their own machine).</p>
+      <h3>Locally Stopping Services</h3>
+      <p>An attacker can simply kill processes on the machine if they have admin access. If not, they can try to crash processes by exploiting vulnerabilities (for example, by inputting large amounts of random data into the application).</p>
+      <p>If they have admin access, they can also change the settings on the machine so that a service is unusable for regular users. For example, an attacker could stop file sharing on a file server to prevent remote users from accessing the files.</p>
+      <div class="ln-box">
+        <p>A logic bomb is a program planted by an attacker to stop or crash a local process after a certain condition is triggered (e.g., elapsed time, activation of other programs).</p>
+      </div>
+      <h4>Defenses from Locally Stopping Services</h4>
+      <ul>
+        <li>keep systems patched</li>
+        <li>carefully assign privileges to users</li>
+        <li>run file-integrity checking programs, which detect when critical files are altered</li>
+      </ul>
+      <h3>Locally Exhausting Resources</h3>
+      <p>An attacker can write a program that eats up system resources. For example, an attacker can fill up the system's process table with a fork bomb. A fork bomb is a program that runs copies of itself; and those copies run copies of themselves, and so on. Eventually, the process table is full and new processes can't be started (or the machine itself will crash).</p>
+      <p>An attacker can also fill up the file system by creating extremely large files to fill up the disk space or by creating a huge number of files.</p>
+      <div class="ln-box">
+        <p>File systems keep track of a file's metadata (e.g., name, size, location) using indexes ("inodes" in Linux). So even if the huge number of files are all empty, the file system's indexes can be exhausted.</p>
+      </div>
+      <p>An attacker can also write a program to send network traffic, consuming the processor and link bandwidth and preventing users from sending traffic or receiving responses.</p>
+      <h4>Defenses from Locally Exhausting Resources</h4>
+      <ul>
+        <li>carefully assign privileges to users</li>
+        <li>have per-user limits on the consumption of file system space, memory, and CPU usage</li>
+        <li>make sure that sensitive systems have adequate resources, including memory, processor speed, and communication link bandwidth</li>
+      </ul>
+      <h3>Remotely Stopping Services</h3>
+      <p>Local attacks are simple, but it's generally hard to gain access to the machine. It's much easier to send packets to it. Malformed packets in particular. The basic idea is to send packets with an unexpected structure, so that the receiving application doesn't know how to respond.</p>
+      <div class="ln-box">
+        <ul>
+          <li>Land attack: sending a packet with the same destination IP address + port as the source IP address + port.</li>
+          <li>Latierra attack: sending multiple Land packets</li>
+          <li>Ping of Death attack: sending oversized packets</li>
+          <li>Jolt2 attack: sending a continuous stream of identical fragments, but none of the fragments have offset 0, so processor capacity is spent holding on to these fragments</li>
+          <li>Teardrop, Newtear, Bonk, Syndrop attack: sending packets with overlapping fragment offset values</li>
+          <li>Winnuke: sending garbage data to an open port on a Windows machine</li>
+        </ul>
+      </div>
+      <p>Another way to stop a service remotely is to prevent it from communicating across the network. For example, an attacker can poison the router's ARP cache to remap the target's IP address to a nonexistent MAC address. That way, all packets going to the target will never make it there, preventing the target from responding.</p>
+      <p>An attacker can also interrupt an ongoing session between two systems by sending a spoofed RESET to terminate the connection. This one's a bit tricker because the attacker would need to know the source and destination IP addresses and ports as well as the sequence number.</p>
+      <div class="ln-box">
+        <p>The attacker doesn't need to know the exact sequence number; they just need to guess a sequence number that fits within the system's current TCP window size. So they can keep on sending packets, increasing the sequence number until it lands within the window size. This attack is TCP RESET spoofing.</p>
+      </div>
+      <h4>Defenses from Remotely Stopping Services</h4>
+      <ul>
+        <li>keep systems patched</li>
+        <li>use an antispoof filter</li>
+        <li>use static ARP tables on sensitive networks</li>
+      </ul>
+      <h3>Remotely Exhausting Resources</h3>
+      <p>This is the most popular technique. It involves the attacker sending a flood of packets to consume all the target's available network capacity.</p>
+      <h4>SYN Flood</h4>
+      <p>In a SYN flood attack, the attacker sends a bunch of SYNs to force the target to maintain half-open connections. By exhausting all of the target's available slots, the target can't accept any new connections from legitimate users.</p>
+      <div class="ln-box">
+        <p>To make sure the target's connection queue gets filled, the attacker needs to use spoofed source addresses that are unresponsive. If the source addresses are responsive, they will send a RESET and tear down the connection, freeing up a slot in the queue.</p>
+      </div>
+      <p>If the target happens to have a very large queue, the attacker can instead focus on consuming the target's network bandwidth by continuously sending SYN packets.</p>
+      <div class="ln-box">
+        <p>This time, the attacker wants to use a spoofed IP address that <em>is</em> responsive because it will send a RESET. With only one packet, the attacker can force three packets (the SYN itself, the SYN-ACK, and the RESET) to be sent.</p>
+      </div>
+      <h5>SYN Flood Defenses</h5>
+      <ul>
+        <li>ensure that you have adequate bandwidth and redundant paths for all of your critical systems</li>
+        <li>have redundant communications links
+          <ul>
+            <li>in order to redirect critical traffic quickly through another path</li>
+          </ul>
+        </li>
+        <li>SYN cookies</li>
+        <li>traffic shapers
+          <ul>
+            <li>limit the number of incoming SYN packets</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="ln-box">
+        <p>I go over SYN cookies in more detail in the networking resource. But basically, SYN cookies hash the source and destination IP addresses and ports and encode them in the sequence number. That way the system can verify legitimate connections through the ACK's sequence number, thus removing the need to maintain a connection queue.</p>
+      </div>
+      <h4>Smurf Attacks</h4>
+      <p>Recall that when a packet gets sent to a network's broadcast IP address, every system on the LAN receives that packet. If the attacker sends an ICMP Echo Request (a ping) to a network's broadcast IP address, then every system on the LAN receives that ping. More importantly, all those systems will send back an ICMP Echo Response. Now, the attacker doesn't want to get flooded with all those responses, so the attacker spoofs the source IP address of the ping using the target's IP address. That way, all the responses flood the target.</p>
+      <div class="ln-box">
+        <p>A Smurf attack is also known as a broadcast attack.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/smurf_attack.png">
+      </div>
+      <p>The network that floods the target with responses is called the Smurf amplifier. A Smurf amplifier is usually just a misconfigured network in the wild.</p>
+      <div class="ln-box">
+        <p>Nmap was one tool available for finding Smurf amplifiers. There also used to be online lists of known Smurf amplifiers.</p>
+      </div>
+      <h5>Smurf Attack Defenses</h5>
+      <ul>
+        <li>make sure that your critical systems have adequate bandwidth and redundant paths</li>
+        <li>filter ICMP messages at your border router</li>
+        <li>prevent your publicly exposed network from accepting packets sent to the network’s broadcast address</li>
+      </ul>
+      <h4>Distributed Denial-of-Service Attacks</h4>
+      <p>A SYN flood can be executed from one machine. A Smurf attack involves multiple machines, depending on how many machines are in the Smurf amplifier network. But a DDoS attack involves as many machines as the attacker can take over. So there's no limit on the number of machines that can be used to launch a DDoS attack.</p>
+      <h5>DDoS Architecture</h5>
+      <p>The machines that the attacker takes over are called zombies. The attacker installs zombie software on them so that the attacker can control them remotely.</p>
+      <h5>TFN2K: A Powerful DDoS Tool</h5>
+      <p>Tribe Flood Network 2000 was a tool that could carry out DDoS attacks. It supported UDP floods, SYN floods, ICMP floods, Smurf attacks, and a mix of all of those.</p>
+      <p>TFN2K used ICMP Echo Replies to communicate with the zombies. This was clever for two reasons. The first was that ICMP Echo Replies are typically allowed into a network, because network admins usually let users ping the outside world. The second was that there is no port number associated with ICMP, so the zombie software didn't have to open a port to receive the ICMP Echo Replies. This prevented it from being detected by port scans.</p>
+      <p>TFN2K also allowed spoofing. Combined with Netcat relays, this made it very difficult to find the attacker.</p>
+      <h5>Obscuring the Source with Reflected DDoS Attacks</h5>
+      <p>Instead of sending packets directly to the target, the zombies can be configured to send spoofed SYN packets to high-bandwidth servers (like Web sites belonging to big companies). Those servers will then send the SYN-ACKS to the target.</p>
+      <h5>Pulsing Zombies: What a Headache</h5>
+      <p>IP address spoofing makes it hard to trace the attack. But tracing back zombies is much easier if they are actively sending traffic. So attackers developed a technique called pulsing zombies, where the zombies alternate from flooding the target to being dormant.</p>
+      <h5>From SYN Floods to HTTP Floods</h5>
+      <p>If you suddenly receive a barrage of SYN packets with no ACKs, it's very easy for you to recognize that it's a SYN attack. However, if you receive a barrage of HTTP/HTTPS requests, it's difficult for you to know whether that traffic is from real users or from an attack. This is why attackers have moved to HTTP floods.</p>
+      <div class="ln-box">
+        <p>The problem (for attackers) with HTTP flood attacks is that attackers can't use IP address spoofing. This is because an HTTP connection requires the three-way TCP handshake to complete. If the attacker uses a spoofed address, the SYN-ACK will go to that spoofed address, which will not send the ACK.</p>
+        <p>If the attacker really wanted to use spoofed addresses, they would have to guess the sequence number of all the SYN-ACKs. Which is infeasible.</p>
+        <p>So attackers conducting HTTP floods accept the risk that it is easier for attacks to be traced back to them.</p>
+      </div>
+      <h5>Distributed Denial-of-Service Defenses</h5>
+      <ul>
+        <li>keep your systems patched</li>
+        <li>exercise safe Internet usage</li>
+        <li>employ egress antispoof filters on your external router or firewall
+          <ul>
+            <li>drop all outgoing traffic from your network that does not have a source IP address found on your network</li>
+          </ul>
+        </li>
+        <li>adequate bandwidth, redundant paths through multiple ISPs, and traffic shaping tools</li>
+        <li>employ IDS tools that can quickly alert you when a DDoS attack starts</li>
+      </ul>
+      <div class="ln-box">
+        <h3>Tools</h3>
+        <ul>
+          <li>Tripwire - file-integrity checking</li>
+          <li>Smurf - broadcast attack tool (obsolete)</li>
+          <li>Fraggle - broadcast attack tool (obsolete)</li>
+          <li>Papasmurf - broadcast attack tool (obsolete)</li>
+          <li>Tribe Flood Network 2000 - DDoS tool (obsolete)</li>
         </ul>
       </div>
       <h2 id="appendix">Appendix</h2>
