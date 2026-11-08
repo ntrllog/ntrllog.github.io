@@ -41,6 +41,7 @@
         <li><a class="dropdown-item" href="#linklayersecurity">A2) Link Layer Security</a></li>
         <li><a class="dropdown-item" href="#vpns">A3) VPNs</a></li>
         <li><a class="dropdown-item" href="#ipsec">A4) IPsec</a></li>
+        <li><a class="dropdown-item" href="#networkaccesscontrol">A5) Network Access Control</a></li>
       </ul>
     </div>
     <div class="container ln-line-height">
@@ -1426,6 +1427,147 @@
       <div class="ln-box">
         <p>The time is configured as a "worry metric".</p>
       </div>
+      <h2 id="networkaccesscontrol">A5) Network Access Control</h2>
+      <h3>AAA</h3>
+      <p>AAA stands for authentication, authorization, and accounting. It's an architecture that defines how security devices (e.g., routers) allow users to connect to the device/network.</p>
+      <h4>Definitions of AAA Components</h4>
+      <ul>
+        <li>Authentication: who's allowed to connect</li>
+        <li>Authorization: what are they allowed to do</li>
+        <li>Accounting: what are they doing</li>
+      </ul>
+      <p>AAA is configured on the router that users need to connect to. Either the router can do all of the AAA functions or it can pass off the work to a dedicated AAA server.</p>
+      <h5>Nomenclature</h5>
+      <div class="ln-box">
+        <p>Having a dedicated AAA server is more common on commercial setups. In a home/local setup, the router would use its local database to perform all of the AAA functions.</p>
+      </div>
+      <div class="ln-center">
+        <img class="img-fluid ln-image-small" src="../pictures/security/aaa_architecture.png">
+      </div>
+      <p>NAS (network access server) is the router on which AAA is configured. If an AAA server is used, it can either use the RADIUS protocol or the TACACS+ protocol. Later on, I'll refer to an AAA server as either a RADIUS server or a TACACS+ server.</p>
+      <h4>An Introduction to Authentication</h4>
+      <p>Authentication is the process of verifying the user's identity. Generally, this involves the user entering a password.</p>
+      <div class="ln-box">
+        <p>Connecting to Wi-Fi using a common password usually does not involve AAA. There's not really a way to distinguish one user from another (note that this is different from distinguishing one device from another). Also, anyone who's connected to the network gets access to the same services (again, difference between user gets access to a service and device gets access to a service).</p>
+        <p>However, connecting to a hotel's Wi-Fi could involve AAA. For example, the hotel could redirect you to a page asking you for your last name and room number in order to connect. That allows the network to identify a user regardless of what device you're using, and the hotel can control what type of network you get to use (basic or premium).</p>
+      </div>
+      <h4>Setting up Authentication</h4>
+      <p>This is for setting up AAA on Cisco routers.</p>
+      <h5>Enabling AAA</h5>
+      <p><code>aaa new-model</code></p>
+      <h5>Setting up a Method List</h5>
+      <p>Method lists are used to specify which methods of authentication are to be used to authenticate a user or device.</p>
+      <p><code>aaa authentication login default radius group</code></p>
+      <p>This is an example of a method list that uses the "radius group" method for the "login" service. Basically, this specifies that if a user tries to log in to this router, it will ask the RADIUS server to do the authentication.</p>
+      <h4>An Introduction to Authorization</h4>
+      <p>Authorization is the process of controlling what the user can do on the network. For example, a user may be allowed to query a database.</p>
+      <p>The services that a user is allowed to use is specified in a user's profile, which the network access server reads from when authorizing a user.</p>
+      <h4>An Introduction to Accounting</h4>
+      <p>Accounting is the process of reporting the activities of users. Accounting messages are exchanged in the form of accounting records between the NAS and the AAA server.</p>
+      <h3>TACACS+</h3>
+      <p>TACACS+ stands for Terminal Access Controller Access-Control System Plus. It is one of the protocols used for communication between the NAS and the AAA server.</p>
+      <h4>Introduction to TACACS+</h4>
+      <p>The TACACS+ protocol defines what the communication looks like between the access server and the TACACS+ server. Here's how the TACACS+ software carries out each part of AAA:</p>
+      <ul>
+        <li>Authentication: supports sending login + password dialogs, challenges + responses, and messages, such as password must be changed</li>
+        <li>Authorization: allows setting autocommands, access control, session duration, protocol support and allows restricting certain commands</li>
+        <li>Accounting: records user identities, start and stop times, executed commands, number of packets, number of bytes</li>
+      </ul>
+      <h4>TACACS+ Communications Architecture</h4>
+      <p>TACACS+ uses TCP on port 49.</p>
+      <h4>TACACS+ Header Format</h4>
+      <p>A TACACS+ packet header contains a type field, which can be <code>TAC_PLUS_AUTHEN</code>, <code>TAC_PLUS_AUTHOR</code>, or <code>TAC_PLUS_ACCT</code>.</p>
+      <p>It also contains fields for session ID and sequence number.</p>
+      <h4>TACACS+ Packet Encryption</h4>
+      <p>TACACS+ encrypts the packet body (the header is not encrypted). Both the NAS and the TACACS+ server use a preshared secret key to encrypt and decrypt.</p>
+      <div class="ln-box">
+        <p>RFC 8907 actually says that the encryption method is too weak to be considered "encryption". So the data actually isn't "encrypted"; it's "obfuscated". Here's how it works:</p>
+        <div class="ln-center">
+          <p><code>MD5_1 = MD5(session_id, key, version, seq_no)</code></p>
+          <p><code>MD5_2 = MD5(session_id, key, version, seq_no, MD5_1)</code></p>
+          <p><code>MD5_3 = MD5(session_id, key, version, seq_no, MD5_2)</code></p>
+          <p>`vdots`</p>
+          <p><code>pseudo_pad = MD5_1 || MD5_2 || MD5_3 ...</code> (truncated to the body length)</p>
+          <p><code>encrypted_body = pseudo_pad XOR body</code></p>
+        </div>
+        <p>Essentially, the header is hashed multiple times (using MD5) and the results are concatenated to produce a pseudo_pad. Then the pseudo_pad is used to obfuscate the data.</p>
+      </div>
+      <h4>Authentication in TACACS+</h4>
+      <p>There are three types of packets used in TACACS+ authentication:</p>
+      <ul>
+        <li>START</li>
+        <li>REPLY</li>
+        <li>CONTINUE</li>
+      </ul>
+      <p>When the NAS receives a connection request from the user, the NAS sends a START message to the TACACS+ server. Then the TACACS+ server sends a REPLY with the result of the authentication.</p>
+      <div class="ln-box">
+        <p>If the REPLY says that the TACACS+ server needs additional data, then the authentication process is not finished. If this happens, the NAS sends a CONTINUE containing the additional data to the TACACS+ server.</p>
+        <p>This happens when MFA (e.g., one-time passcode) is used.</p>
+      </div>
+      <h4>Authorization in TACACS+</h4>
+      <p>There are two types of packets used in TACACS+ authorization:</p>
+      <ul>
+        <li>REQUEST</li>
+        <li>RESPONSE</li>
+      </ul>
+      <p>And there are five types of responses:</p>
+      <ul>
+        <li>FAIL: the services requested by the user are not allowed</li>
+        <li>PASS_ADD: the user is allowed to use the services requested</li>
+        <li>PASS_REPL: the user is allowed to use the services requested, but use the parameters specified by the TACACS+ server</li>
+        <li>ERROR: something went wrong (e.g., mismatched preshared key)</li>
+        <li>FOLLOW: the TACACS+ server wants to offload the authorization work to a different TACACS+ server</li>
+      </ul>
+      <h4>Accounting in TACACS+</h4>
+      <p>There are two types of packets used in TACACS+ accounting:</p>
+      <ul>
+        <li>REQUEST</li>
+        <li>REPLY</li>
+      </ul>
+      <p>A REQUEST contains an accounting record, which contains what the NAS wants the TACACS+ server to log. There are three types of accounting records:</p>
+      <ul>
+        <li>Start: indicates that a service is about to begin</li>
+        <li>Stop: indicates that a service is about to stop (or has stopped)</li>
+        <li>Continue: indicates that a service is still running</li>
+      </ul>
+      <p>The TACACS+ server responds with a REPLY, indicating to the NAS whether the TACACS+ server successfully recorded the accounting record.</p>
+      <h3>RADIUS</h3>
+      <p>RADIUS stands for Remote Authentication Dial-In User Service. It is one of the other protocols used for communication between the NAS and the AAA server.</p>
+      <h4>Introduction to RADIUS</h4>
+      <p>The RADIUS+ protocol defines what the communication looks like between the access server and the RADIUS server.</p>
+      <p>RADIUS servers are responsible for receiving user connection requests, authenticating the user, and then returning all configuration information necessary to deliver service to the user.</p>
+      <h4>RADIUS Communications Architecture</h4>
+      <p>RADIUS uses UDP on port 1812.</p>
+      <h5>RADIUS Packet Format</h5>
+      <p>A RADIUS packet contains an authenticator field, which contains a random number used to authenticate the reply from the RADIUS server and for password encryption.</p>
+      <h5>Password Encryption in RADIUS</h5>
+      <p>Unlike in TACACS+ (which encrypted the body of every packet), all RADIUS packets are sent in cleartext. Only the password sent during authentication is encrypted. Both the NAS and the RADIUS server use a preshared secret key to encrypt and decrypt.</p>
+      <div class="ln-box">
+        <p>The encryption is similar to the method used in TACACS+. Here's how it works:</p>
+        <div class="ln-center">
+          <p><code>Hash_A = MD5(authenticator, key)</code></p>
+          <p><code>encrypted_password = Hash_A XOR password</code></p>
+        </div>
+        <p>Essentially, the header is hashed multiple times (using MD5) and the results are concatenated to produce a pseudo_pad. Then the pseudo_pad is used to obfuscate the data.</p>
+      </div>
+      <h5>Authentication in RADIUS</h5>
+      <p>There are four types of packets used in RADIUS authentication:</p>
+      <ul>
+        <li>Access-Request: username, password (encrypted), NAS IP address + port, type of service the user wants</li>
+        <li>Access-Accept</li>
+        <li>Access-Reject</li>
+        <li>Access-Challenge</li>
+      </ul>
+      <h5>Authorization in RADIUS</h5>
+      <p>RADIUS does authentication and authorization together (while TACACS+ separates authentication and authorization into separate steps). When the RADIUS server returns an Access-Accept message, it also includes a list of services the user is allowed to use.</p>
+      <h5>Accounting in RADIUS</h5>
+      <p>RADIUS accounting works by sending messages at the start and end of sessions that contain information about the session. The messages include when a service was started and ended and how much resources (e.g., time, packets, bytes) was used during a session. They're sent using UDP port 1813.</p>
+      <p>There are two types of packets used in RADIUS accounting:</p>
+      <ul>
+        <li>Accounting-Request</li>
+        <li>Accounting-Response</li>
+      </ul>
+      <p>Like in TACACS+, the Accounting-Request contains what the NAS wants the RADIUS server to log. The RADIUS server responds, indicating to the NAS that the RADIUS server successfully recorded what was in the Accounting-Request. (Unlike in TACACS+, there is no message sent when the RADIUS server fails to record the message.)</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
